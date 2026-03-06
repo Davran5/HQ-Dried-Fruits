@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+
+  --color-earth-900: #3b1c32; /* Deep Aubergine */
+  --color-earth-800: #542746; /* Aubergine */
+  --color-earth-700: #70335c;
+  --color-earth-600: #8c3f73;
+  --color-earth-500: #a84b8a; /* Bright Aubergine */
+  --color-earth-400: #c06ba6;
+  --color-earth-300: #d494c1;
+  --color-earth-200: #e6bedb;
+  --color-earth-100: #f5e6f1; /* Light Aubergine */
+  --color-earth-50: #fcf5fa;
+
+  --color-mint-900: #7c2d12; /* Deep Orange */
+  --color-mint-800: #9a3412;
+  --color-mint-700: #c2410c;
+  --color-mint-600: #ea580c;
+  --color-mint-500: #f97316; /* Light Orange */
+  --color-mint-400: #fb923c;
+  --color-mint-300: #fdba74;
+  --color-mint-200: #fed7aa;
+  --color-mint-100: #ffedd5; /* Soft Orange */
+  --color-mint-50: #fff7ed;
+
+  --color-bg-primary: #fdfbf7; /* Off-white organic background */
+}
+
+@layer utilities {
+  .clip-organic {
+    clip-path: polygon(0% 10%, 10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%);
+  }
+  .clip-organic-top {
+    clip-path: ellipse(150% 100% at 50% 100%);
+  }
+  .clip-organic-bottom {
+    clip-path: ellipse(150% 100% at 50% 0%);
+  }
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-earth-900);
+  -webkit-font-smoothing: antialiased;
+}
