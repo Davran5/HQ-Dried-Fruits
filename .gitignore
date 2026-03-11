@@ -5,4 +5,11 @@ coverage/
 .DS_Store
 *.log
 .env*
-!.env.example
+
+*.db*
+*.sqlite*
+.tmp*
+*.err.log
+server_*.log
+ts-error.log
+typescript-errors.txt
