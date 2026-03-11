@@ -1,20 +1,34 @@
-import dotenv from "dotenv";
-import express, { Request } from "express";
-import Database from "better-sqlite3";
-import pg from "pg";
-import path from "path";
-import { fileURLToPath } from "url";
-import multer from "multer";
-import fs from "fs";
-import sharp from "sharp";
+import pkg from 'pg';
+const { Pool } = pkg;
 
-dotenv.config();
+// This must be at the very top of your file
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dbPath = path.join(__dirname, "hq_dried_fruits.db");
-const uploadsDir = path.join(__dirname, "public", "uploads");
-const distDir = path.join(__dirname, "dist");
+// We wrap the migration in a check to ensure 'db' is ready
+async function migrateTable(tableName: string, schema: any) {
+  try {
+    console.log(`Checking migration for: ${tableName}`);
+
+    // This is the fix for the "$1" error: we add "::text"
+    const res = await db.query(
+      "SELECT column_name FROM information_schema.columns WHERE table_name = $1::text",
+      [tableName.toLowerCase()]
+    );
+
+    // Postgres returns data in 'res.rows'
+    const info = res.rows || [];
+    const existingColumns = new Set(info.map((col: any) => col.column_name));
+
+    // ... rest of your logic
+  } catch (err) {
+    console.error(`Migration failed for ${tableName}:`, err);
+  }
+}
 
 type SeoRecord = {
   metaTitle: string;
