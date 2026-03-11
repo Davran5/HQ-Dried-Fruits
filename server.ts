@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express, { Request } from "express";
 import Database from "better-sqlite3";
+import pg from "pg";
 import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
@@ -397,7 +398,47 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
 });
-const db = new Database(dbPath);
+
+// Database Connection Handling
+const isProd = process.env.NODE_ENV === "production" || !!process.env.DATABASE_URL;
+let db: any;
+let pgPool: pg.Pool | null = null;
+
+if (isProd && process.env.DATABASE_URL) {
+  pgPool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+  });
+
+  // Mock 'better-sqlite3' interface for PG
+  db = {
+    prepare: (query: string) => {
+      // Basic conversion of SQLite syntax to PG
+      const pgQuery = query.replace(/\?/g, (_, i) => `$${i + 1}`).replace(/INSERT OR IGNORE/gi, "INSERT").replace(/id = 1 CHECK \(id = 1\)/gi, "id = 1");
+      return {
+        run: async (...args: any[]) => {
+          await pgPool!.query(pgQuery, args);
+          return { changes: 1 };
+        },
+        get: async (...args: any[]) => {
+          const res = await pgPool!.query(pgQuery, args);
+          return res.rows[0];
+        },
+        all: async (...args: any[]) => {
+          const res = await pgPool!.query(pgQuery, args);
+          return res.rows;
+        }
+      };
+    },
+    exec: async (query: string) => {
+      const pgQuery = query.replace(/INTEGER PRIMARY KEY/gi, "SERIAL PRIMARY KEY").replace(/TEXT PRIMARY KEY/gi, "TEXT PRIMARY KEY").replace(/CHECK \(id = 1\)/gi, "");
+      await pgPool!.query(pgQuery);
+    }
+  };
+} else {
+  db = new Database(dbPath);
+}
+
 const app = express();
 
 app.use(express.json({ limit: "10mb" }));
@@ -978,11 +1019,11 @@ migrateTable("products_page", [
   "quick_contact_subtitle", "telegram_label", "telegram_sublabel", "call_label", "email_label", "quick_phone",
   "quick_email",
 ]);
-  migrateTable("export_page", [
-    "hero_title", "hero_subtitle", "hero_bg_image",
-    "map_section_title", "supply_routes", "logistics_content", "packaging_title", "packaging_methods",
-    "transportation_title", "transportation_methods", "documentation_title", "documentation_content",
-    "quality_title", "technical_specs", "quality_checks", "certifications_gallery",
+migrateTable("export_page", [
+  "hero_title", "hero_subtitle", "hero_bg_image",
+  "map_section_title", "supply_routes", "logistics_content", "packaging_title", "packaging_methods",
+  "transportation_title", "transportation_methods", "documentation_title", "documentation_content",
+  "quality_title", "technical_specs", "quality_checks", "certifications_gallery",
 ]);
 migrateTable("contacts_page", [
   "page_title", "intro_text", "form_destination_email", "contact_form_title", "response_label_prefix",
@@ -1035,18 +1076,18 @@ db.prepare(`
   defaultProductsPage.callLabel, defaultProductsPage.emailLabel, defaultProductsPage.quickPhone, defaultProductsPage.quickEmail,
 );
 
-  db.prepare(`
+db.prepare(`
     INSERT OR IGNORE INTO export_page (
       id, hero_title, hero_subtitle, hero_bg_image, map_section_title, supply_routes, logistics_content, packaging_title, packaging_methods,
       transportation_title, transportation_methods, documentation_title, documentation_content,
       quality_title, technical_specs, quality_checks, certifications_gallery
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
-    1, defaultExportPage.heroTitle, defaultExportPage.heroSubtitle, defaultExportPage.heroBgImage,
-    defaultExportPage.mapSectionTitle, JSON.stringify(defaultExportPage.supplyRoutes), defaultExportPage.logisticsContent,
-    defaultExportPage.packagingTitle, defaultExportPage.packagingMethods, defaultExportPage.transportationTitle,
-    defaultExportPage.transportationMethods, defaultExportPage.documentationTitle, defaultExportPage.documentationContent,
-    defaultExportPage.qualityTitle, defaultExportPage.technicalSpecs, JSON.stringify(defaultExportPage.qualityChecks),
+  1, defaultExportPage.heroTitle, defaultExportPage.heroSubtitle, defaultExportPage.heroBgImage,
+  defaultExportPage.mapSectionTitle, JSON.stringify(defaultExportPage.supplyRoutes), defaultExportPage.logisticsContent,
+  defaultExportPage.packagingTitle, defaultExportPage.packagingMethods, defaultExportPage.transportationTitle,
+  defaultExportPage.transportationMethods, defaultExportPage.documentationTitle, defaultExportPage.documentationContent,
+  defaultExportPage.qualityTitle, defaultExportPage.technicalSpecs, JSON.stringify(defaultExportPage.qualityChecks),
   JSON.stringify(defaultExportPage.certificationsGallery),
 );
 
@@ -1571,9 +1612,9 @@ app.post("/api/pages/:id", (req, res) => {
       return res.json({ success: true });
     }
 
-      if (pageId === "export") {
-        ensureSingletonRow("export_page");
-        db.prepare(`
+    if (pageId === "export") {
+      ensureSingletonRow("export_page");
+      db.prepare(`
           UPDATE export_page SET
             hero_title = ?, hero_subtitle = ?, hero_bg_image = ?,
             map_section_title = ?, supply_routes = ?, logistics_content = ?, packaging_title = ?, packaging_methods = ?,
@@ -1581,10 +1622,10 @@ app.post("/api/pages/:id", (req, res) => {
             quality_title = ?, technical_specs = ?, quality_checks = ?, certifications_gallery = ?
           WHERE id = 1
         `).run(
-          asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage),
-          asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []),
-          asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods),
-          asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle),
+        asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage),
+        asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []),
+        asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods),
+        asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle),
         asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs),
         JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []),
         JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []),
@@ -1689,9 +1730,9 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {
     const uploadedFile = (req as any).file as
       | {
-          originalname: string;
-          buffer: Buffer;
-        }
+        originalname: string;
+        buffer: Buffer;
+      }
       | undefined;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
 
