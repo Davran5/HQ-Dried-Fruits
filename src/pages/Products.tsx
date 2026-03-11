@@ -94,9 +94,12 @@ export function Products() {
   }, []);
 
   const activeProducts = products.filter((product) => product.status === "Active");
-  const orderedProducts = preferredProductOrder
+  const preferredProducts = preferredProductOrder
     .map((id) => activeProducts.find((product) => product.id === id))
     .filter((product): product is Product => Boolean(product));
+  
+  const otherProducts = activeProducts.filter((product) => !preferredProductOrder.includes(product.id));
+  const orderedProducts = [...preferredProducts, ...otherProducts];
 
   useEffect(() => {
     if (products.length === 0) {
