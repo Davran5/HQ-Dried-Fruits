@@ -173,6 +173,26 @@ export function AdminProducts() {
                     className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
                   />
                 </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Fat</label>
+                  <input
+                    required
+                    type="text"
+                    value={formData.nutrition?.fat || ""}
+                    onChange={e => setFormData({ ...formData, nutrition: { ...formData.nutrition, fat: e.target.value } })}
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Carbs</label>
+                  <input
+                    required
+                    type="text"
+                    value={formData.nutrition?.carbs || ""}
+                    onChange={e => setFormData({ ...formData, nutrition: { ...formData.nutrition, carbs: e.target.value } })}
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
+                  />
+                </div>
               </div>
             </div>
           </div>
