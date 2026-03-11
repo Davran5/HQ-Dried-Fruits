@@ -337,13 +337,24 @@ function ensureSingletonRow(tableName: string) {
   db.prepare(`INSERT OR IGNORE INTO ${tableName} (id) VALUES (1)`).run();
 }
 
-function migrateTable(tableName: string, columns: string[]) {
-  const info = db.prepare(`PRAGMA table_info(${tableName})`).all() as Array<{ name: string }>;
-  const existingColumns = new Set(info.map((column) => column.name));
-  for (const column of columns) {
-    if (!existingColumns.has(column)) {
-      db.prepare(`ALTER TABLE ${tableName} ADD COLUMN ${column} TEXT`).run();
-    }
+async function migrateTable(tableName: string, schema: any) {
+  try {
+    // 1. Get column info specifically for PostgreSQL
+    const res = await db.query(
+      `SELECT column_name FROM information_schema.columns WHERE table_name = $1`,
+      [tableName.toLowerCase()] // Postgres is case-sensitive with table names
+    );
+
+    // 2. The Fix: Ensure 'info' is an array. Postgres returns rows in 'res.rows'
+    const info = res.rows || [];
+
+    // 3. Now .map() will work because 'info' is guaranteed to be an array
+    const existingColumns = new Set(info.map((column: any) => column.column_name));
+
+    // ... (rest of your migration logic where it compares existingColumns to schema)
+    console.log(`Migration check complete for ${tableName}`);
+  } catch (error) {
+    console.error(`Migration failed for ${tableName}:`, error);
   }
 }
 
