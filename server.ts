@@ -243,7 +243,7 @@ app.use("/uploads", express.static(uploadsDir));
 
 // --- ASYNC DATABASE HELPERS ---
 async function ensureSingletonRow(tableName: string) {
-  await db.query(`INSERT INTO ${tableName} (id) VALUES (1) ON CONFLICT (id) DO NOTHING`);
+  // Not needed for JSON but kept for API compatibility
 }
 
 async function getGlobalSettings() {
@@ -332,7 +332,6 @@ async function readContentTable(pageId: keyof typeof pageContentTables) {
 }
 
 async function writeContentTable(pageId: keyof typeof pageContentTables, content: Record<string, unknown>) {
-  await ensureSingletonRow(pageContentTables[pageId]);
   await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1`, [JSON.stringify(content)]);
 }
 
@@ -456,23 +455,6 @@ async function initDb() {
   console.log("✅ JSON database initialized");
 }
 
-  // Seeding
-  await db.query(`INSERT INTO global_settings (id, header_logo, site_name, nav_links, cta_text, cta_url, footer_logo, footer_description, footer_lead_text, quick_links, office_address, phone_number, email_address, telegram_url, footer_cta_title, footer_cta_email, footer_copyright_text, ui_labels, google_site_verification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) ON CONFLICT (id) DO NOTHING`, [1, defaultGlobalSettings.headerLogo, defaultGlobalSettings.siteName, JSON.stringify(defaultGlobalSettings.navLinks), defaultGlobalSettings.ctaText, defaultGlobalSettings.ctaUrl, defaultGlobalSettings.footerLogo, defaultGlobalSettings.footerDescription, defaultGlobalSettings.footerLeadText, JSON.stringify(defaultGlobalSettings.quickLinks), defaultGlobalSettings.officeAddress, defaultGlobalSettings.phoneNumber, defaultGlobalSettings.emailAddress, defaultGlobalSettings.telegramUrl, defaultGlobalSettings.footerCtaTitle, defaultGlobalSettings.footerCtaEmail, defaultGlobalSettings.footerCopyrightText, JSON.stringify(defaultGlobalSettings.uiLabels), defaultGlobalSettings.googleSiteVerificationId]);
-  await db.query(`INSERT INTO products_page (id, page_title, page_subtitle, hero_bg_image, ordering_bg_image, ordering_form_title, ordering_form_subtitle, step_one_label, step_two_label, step_three_label, mixed_container_label, volume_options, view_specs_label, step_one_placeholder, step_three_placeholder, next_step_button_label, back_button_label, submit_button_label, submitting_button_label, detail_ui, quick_contact_title, quick_contact_subtitle, telegram_label, telegram_sublabel, call_label, email_label, quick_phone, quick_email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) ON CONFLICT (id) DO NOTHING`, [1, defaultProductsPage.pageTitle, defaultProductsPage.pageSubtitle, defaultProductsPage.heroBgImage, defaultProductsPage.orderingBgImage, defaultProductsPage.orderingFormTitle, defaultProductsPage.orderingFormSubtitle, defaultProductsPage.stepOneLabel, defaultProductsPage.stepTwoLabel, defaultProductsPage.stepThreeLabel, defaultProductsPage.mixedContainerLabel, JSON.stringify(defaultProductsPage.volumeOptions), defaultProductsPage.viewSpecsLabel, defaultProductsPage.stepOnePlaceholder, defaultProductsPage.stepThreePlaceholder, defaultProductsPage.nextStepButtonLabel, defaultProductsPage.backButtonLabel, defaultProductsPage.submitButtonLabel, defaultProductsPage.submittingButtonLabel, JSON.stringify(defaultProductsPage.detailUi), defaultProductsPage.quickContactTitle, defaultProductsPage.quickContactSubtitle, defaultProductsPage.telegramLabel, defaultProductsPage.telegramSublabel, defaultProductsPage.callLabel, defaultProductsPage.emailLabel, defaultProductsPage.quickPhone, defaultProductsPage.quickEmail]);
-  await db.query(`INSERT INTO export_page (id, hero_title, hero_subtitle, hero_bg_image, map_section_title, supply_routes, logistics_content, packaging_title, packaging_methods, transportation_title, transportation_methods, documentation_title, documentation_content, quality_title, technical_specs, quality_checks, certifications_gallery) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) ON CONFLICT (id) DO NOTHING`, [1, defaultExportPage.heroTitle, defaultExportPage.heroSubtitle, defaultExportPage.heroBgImage, defaultExportPage.mapSectionTitle, JSON.stringify(defaultExportPage.supplyRoutes), defaultExportPage.logisticsContent, defaultExportPage.packagingTitle, defaultExportPage.packagingMethods, defaultExportPage.transportationTitle, defaultExportPage.transportationMethods, defaultExportPage.documentationTitle, defaultExportPage.documentationContent, defaultExportPage.qualityTitle, defaultExportPage.technicalSpecs, JSON.stringify(defaultExportPage.qualityChecks), JSON.stringify(defaultExportPage.certificationsGallery)]);
-  await db.query(`INSERT INTO contacts_page (id, page_title, intro_text, form_destination_email, contact_form_title, response_label_prefix, form_name_label, form_company_label, form_email_label, form_message_label, submit_button_label, submitting_button_label, email, phone, office_address, working_hours, map_pin_label, info_email_label, info_phone_label, info_address_label, info_hours_label, social_section_title, telegram_url, instagram_url, whatsapp_url, facebook_url, headquarters_image, google_maps_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) ON CONFLICT (id) DO NOTHING`, [1, defaultContactsPage.pageTitle, defaultContactsPage.introText, defaultContactsPage.formDestinationEmail, defaultContactsPage.contactFormTitle, defaultContactsPage.responseLabelPrefix, defaultContactsPage.formNameLabel, defaultContactsPage.formCompanyLabel, defaultContactsPage.formEmailLabel, defaultContactsPage.formMessageLabel, defaultContactsPage.submitButtonLabel, defaultContactsPage.submittingButtonLabel, defaultContactsPage.emailAddress, defaultContactsPage.phoneNumber, defaultContactsPage.officeAddress, defaultContactsPage.workingHours, defaultContactsPage.mapPinLabel, defaultContactsPage.infoEmailLabel, defaultContactsPage.infoPhoneLabel, defaultContactsPage.infoAddressLabel, defaultContactsPage.infoHoursLabel, defaultContactsPage.socialSectionTitle, defaultContactsPage.telegramUrl, defaultContactsPage.instagramUrl, defaultContactsPage.whatsappUrl, defaultContactsPage.facebookUrl, defaultContactsPage.headquartersImage, defaultContactsPage.googleMapsUrl]);
-  
-  for (const pageId of Object.keys(pageContentTables) as Array<keyof typeof pageContentTables>) {
-    const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
-    await db.query(`INSERT INTO ${pageContentTables[pageId]} (id, content) VALUES (1, $1) ON CONFLICT (id) DO NOTHING`, [JSON.stringify(fallback)]);
-  }
-
-  for (const [pageId, seo] of Object.entries(defaultPageSeo)) {
-    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (page_id) DO NOTHING`, [pageId, seo.metaTitle, seo.metaDescription, seo.slug, seo.ogTitle, seo.imageAlt]);
-  }
-}
-
-
 // --- API ENDPOINTS ---
 app.get("/api/uploads", (_req, res) => {
   try {
@@ -488,7 +470,6 @@ app.get("/api/globals", async (_req, res) => {
 
 app.post("/api/globals", async (req, res) => {
   try {
-    await ensureSingletonRow("global_settings");
     const settings = req.body ?? {};
     await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId)]);
     res.json({ success: true });
@@ -505,7 +486,7 @@ app.post("/api/seo/pages/:id", async (req, res) => {
     const pageId = asString(req.params.id) as PageId;
     if (!(pageId in defaultPageSeo)) return res.status(404).json({ error: "Unknown page id" });
     const nextSeo = await validatePageSeoInput(pageId, req.body ?? {});
-    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT(page_id) DO UPDATE SET meta_title = excluded.meta_title, meta_description = excluded.meta_description, slug = excluded.slug, og_title = excluded.og_title, image_alt = excluded.image_alt`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt]);
+    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt]);
     res.json({ success: true });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to save SEO settings" }); }
 });
@@ -565,17 +546,14 @@ app.post("/api/pages/:id", async (req, res) => {
     const pageId = asString(req.params.id);
     const content = req.body ?? {};
     if (pageId === "products") {
-      await ensureSingletonRow("products_page");
       await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail)]);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await ensureSingletonRow("export_page");
       await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : [])]);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await ensureSingletonRow("contacts_page");
       await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl)]);
       return res.json({ success: true });
     }

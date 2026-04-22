@@ -31986,30 +31986,98 @@ var import_fs = __toESM(require("fs"), 1);
 import_dotenv.default.config();
 var uploadsDir = import_path.default.join(process.cwd(), "public", "uploads");
 var distDir = import_path.default.join(process.cwd(), "dist");
-var sqliteDb;
-var dbFile = "hq_dried_fruits.db";
+var dbFile = "database.json";
+var dbData = {
+  global_settings: [{ id: 1 }],
+  products_page: [{ id: 1 }],
+  export_page: [{ id: 1 }],
+  contacts_page: [{ id: 1 }],
+  products: [],
+  leads: [],
+  page_seo: [],
+  home_page: [{ id: 1 }],
+  about_page: [{ id: 1 }],
+  privacy_page: [{ id: 1 }],
+  terms_page: [{ id: 1 }]
+};
+if (import_fs.default.existsSync(dbFile)) {
+  try {
+    dbData = JSON.parse(import_fs.default.readFileSync(dbFile, "utf8"));
+  } catch (err) {
+    console.error("DB Load Error:", err);
+  }
+}
+var saveDb = () => import_fs.default.writeFileSync(dbFile, JSON.stringify(dbData, null, 2));
 var db = {
   query: async (sql, params = []) => {
-    if (!sqliteDb) throw new Error("Database not initialized");
-    const normalizedSql = sql.replace(/\$\d+/g, "?");
-    try {
-      if (normalizedSql.trim().toUpperCase().startsWith("SELECT")) {
-        const stmt = sqliteDb.prepare(normalizedSql);
-        stmt.bind(params);
-        const rows = [];
-        while (stmt.step()) rows.push(stmt.getAsObject());
-        stmt.free();
-        return { rows, rowCount: rows.length };
-      } else {
-        sqliteDb.run(normalizedSql, params);
-        const data = sqliteDb.export();
-        import_fs.default.writeFileSync(dbFile, Buffer.from(data));
-        return { rows: [], rowCount: 1 };
-      }
-    } catch (err) {
-      console.error("DB Query Error:", err);
-      throw err;
+    const sqlLower = sql.trim().toLowerCase();
+    const tableMatch = sql.match(/from\s+(\w+)|into\s+(\w+)|update\s+(\w+)|delete from\s+(\w+)/i);
+    const tableName = tableMatch ? tableMatch[1] || tableMatch[2] || tableMatch[3] || tableMatch[4] : "";
+    if (sqlLower.startsWith("select")) {
+      let rows = dbData[tableName] || [];
+      if (sqlLower.includes("where id = 1")) rows = rows.filter((r) => r.id == 1);
+      if (sqlLower.includes("where id = $1") && tableName === "products") rows = rows.filter((r) => r.id === params[0]);
+      if (sqlLower.includes("order by date desc")) rows = [...rows].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      return { rows: JSON.parse(JSON.stringify(rows)), rowCount: rows.length };
     }
+    if (sqlLower.startsWith("insert into products")) {
+      const [id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo] = params;
+      const newProduct = { id, name, category, status, image, image_gallery: JSON.parse(image_gallery), short_description, long_description, highlights: JSON.parse(highlights), content_sections: JSON.parse(content_sections), nutrition: JSON.parse(nutrition), inquiry_subject_line, tonnage_options: JSON.parse(tonnage_options), seo: JSON.parse(seo) };
+      dbData.products = (dbData.products || []).filter((p) => p.id !== id);
+      dbData.products.push(newProduct);
+      saveDb();
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.startsWith("update products")) {
+      const [name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, id] = params;
+      const idx = dbData.products.findIndex((p) => p.id === id);
+      if (idx !== -1) {
+        dbData.products[idx] = { id, name, category, status, image, image_gallery: JSON.parse(image_gallery), short_description, long_description, highlights: JSON.parse(highlights), content_sections: JSON.parse(content_sections), nutrition: JSON.parse(nutrition), inquiry_subject_line, tonnage_options: JSON.parse(tonnage_options), seo: JSON.parse(seo) };
+        saveDb();
+      }
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.startsWith("insert into leads")) {
+      const [id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes] = params;
+      dbData.leads.push({ id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes });
+      saveDb();
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.startsWith("update leads")) {
+      const [status, notes, id] = params;
+      const idx = dbData.leads.findIndex((l) => l.id === id);
+      if (idx !== -1) {
+        dbData.leads[idx] = { ...dbData.leads[idx], status, notes };
+        saveDb();
+      }
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.startsWith("update global_settings")) {
+      dbData.global_settings[0] = { id: 1, header_logo: params[0], site_name: params[1], nav_links: JSON.parse(params[2]), cta_text: params[3], cta_url: params[4], footer_logo: params[5], footer_description: params[6], footer_lead_text: params[7], quick_links: JSON.parse(params[8]), office_address: params[9], phone_number: params[10], email_address: params[11], telegram_url: params[12], footer_cta_title: params[13], footer_cta_email: params[14], footer_copyright_text: params[15], ui_labels: JSON.parse(params[16]), google_site_verification_id: params[17] };
+      saveDb();
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.startsWith("update products_page")) {
+      dbData.products_page[0] = { id: 1, page_title: params[0], page_subtitle: params[1], hero_bg_image: params[2], ordering_bg_image: params[3], ordering_form_title: params[4], ordering_form_subtitle: params[5], step_one_label: params[6], step_two_label: params[7], step_three_label: params[8], mixed_container_label: params[9], volume_options: JSON.parse(params[10]), view_specs_label: params[11], step_one_placeholder: params[12], step_three_placeholder: params[13], next_step_button_label: params[14], back_button_label: params[15], submit_button_label: params[16], submitting_button_label: params[17], detail_ui: JSON.parse(params[18]), quick_contact_title: params[19], quick_contact_subtitle: params[20], telegram_label: params[21], telegram_sublabel: params[22], call_label: params[23], email_label: params[24], quick_phone: params[25], quick_email: params[26] };
+      saveDb();
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.startsWith("update export_page")) {
+      dbData.export_page[0] = { id: 1, hero_title: params[0], hero_subtitle: params[1], hero_bg_image: params[2], map_section_title: params[3], supply_routes: JSON.parse(params[4]), logistics_content: params[5], packaging_title: params[6], packaging_methods: params[7], transportation_title: params[8], transportation_methods: params[9], documentation_title: params[10], documentation_content: params[11], quality_title: params[12], technical_specs: params[13], quality_checks: JSON.parse(params[14]), certifications_gallery: JSON.parse(params[15]) };
+      saveDb();
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.startsWith("update contacts_page")) {
+      dbData.contacts_page[0] = { id: 1, page_title: params[0], intro_text: params[1], form_destination_email: params[2], contact_form_title: params[3], response_label_prefix: params[4], form_name_label: params[5], form_company_label: params[6], form_email_label: params[7], form_message_label: params[8], submit_button_label: params[9], submitting_button_label: params[10], email: params[11], phone: params[12], office_address: params[13], working_hours: params[14], map_pin_label: params[15], info_email_label: params[16], info_phone_label: params[17], info_address_label: params[18], info_hours_label: params[19], social_section_title: params[20], telegram_url: params[21], instagram_url: params[22], whatsapp_url: params[23], facebook_url: params[24], headquarters_image: params[25], google_maps_url: params[26] };
+      saveDb();
+      return { rows: [], rowCount: 1 };
+    }
+    if (sqlLower.includes("delete from products")) {
+      dbData.products = (dbData.products || []).filter((p) => p.id !== params[0]);
+      saveDb();
+      return { rows: [], rowCount: 1 };
+    }
+    return { rows: [], rowCount: 0 };
   }
 };
 var validLeadStatuses = /* @__PURE__ */ new Set(["New", "Contacted", "In Progress", "Converted", "Disqualified"]);
@@ -32185,9 +32253,6 @@ var app = (0, import_express.default)();
 app.use(import_express.default.json({ limit: "10mb" }));
 app.use(import_express.default.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", import_express.default.static(uploadsDir));
-async function ensureSingletonRow(tableName) {
-  await db.query(`INSERT INTO ${tableName} (id) VALUES (1) ON CONFLICT (id) DO NOTHING`);
-}
 async function getGlobalSettings() {
   const res = await db.query("SELECT * FROM global_settings WHERE id = 1");
   return mapGlobalSettings(res.rows[0] || {});
@@ -32354,7 +32419,6 @@ async function readContentTable(pageId) {
   return safeParseJson(row?.content, fallback);
 }
 async function writeContentTable(pageId, content) {
-  await ensureSingletonRow(pageContentTables[pageId]);
   await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1`, [JSON.stringify(content)]);
 }
 function getManagedProductSlug(product) {
@@ -32492,47 +32556,7 @@ async function buildSeoMeta(req) {
   return { statusCode: 404, title: `Page Not Found | ${siteName}`, description: "The requested page could not be found.", ogTitle: `Page Not Found | ${siteName}`, ogDescription: "The requested page could not be found.", ogImage: defaultImage, imageAlt: "Page not found", canonicalUrl: toCanonicalUrl(normalizedPath), robots: "noindex,nofollow", ogType: "website", siteName, googleSiteVerificationId, redirectTo: "" };
 }
 async function initDb() {
-  try {
-    const initSqlJs = (await import("sql.js")).default;
-    const SQL = await initSqlJs({
-      // Ensure we find the WASM file in node_modules
-      locateFile: (file) => import_path.default.join(process.cwd(), "node_modules", "sql.js", "dist", file)
-    });
-    if (import_fs.default.existsSync(dbFile)) {
-      const fileBuffer = import_fs.default.readFileSync(dbFile);
-      sqliteDb = new SQL.Database(fileBuffer);
-    } else {
-      sqliteDb = new SQL.Database();
-    }
-    console.log("\u2705 sql.js (WASM) loaded successfully");
-  } catch (err) {
-    const msg = `\u274C CRITICAL: Failed to load sql.js: ${err}`;
-    console.error(msg);
-    import_fs.default.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - ${msg}
-`);
-    return;
-  }
-  await db.query(`CREATE TABLE IF NOT EXISTS global_settings (id INTEGER PRIMARY KEY CHECK (id = 1), header_logo TEXT, site_name TEXT, nav_links TEXT, cta_text TEXT, cta_url TEXT, footer_logo TEXT, footer_description TEXT, footer_lead_text TEXT, quick_links TEXT, office_address TEXT, phone_number TEXT, email_address TEXT, telegram_url TEXT, footer_cta_title TEXT, footer_cta_email TEXT, footer_copyright_text TEXT, ui_labels TEXT, google_site_verification_id TEXT)`);
-  await db.query(`CREATE TABLE IF NOT EXISTS products_page (id INTEGER PRIMARY KEY CHECK (id = 1), page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, ordering_bg_image TEXT, ordering_form_title TEXT, ordering_form_subtitle TEXT, step_one_label TEXT, step_two_label TEXT, step_three_label TEXT, mixed_container_label TEXT, volume_options TEXT, view_specs_label TEXT, step_one_placeholder TEXT, step_three_placeholder TEXT, next_step_button_label TEXT, back_button_label TEXT, submit_button_label TEXT, submitting_button_label TEXT, detail_ui TEXT, quick_contact_title TEXT, quick_contact_subtitle TEXT, telegram_label TEXT, telegram_sublabel TEXT, call_label TEXT, email_label TEXT, quick_phone TEXT, quick_email TEXT)`);
-  await db.query(`CREATE TABLE IF NOT EXISTS export_page (id INTEGER PRIMARY KEY CHECK (id = 1), hero_title TEXT, hero_subtitle TEXT, hero_bg_image TEXT, map_section_title TEXT, supply_routes TEXT, logistics_content TEXT, packaging_title TEXT, packaging_methods TEXT, transportation_title TEXT, transportation_methods TEXT, documentation_title TEXT, documentation_content TEXT, quality_title TEXT, technical_specs TEXT, quality_checks TEXT, certifications_gallery TEXT)`);
-  await db.query(`CREATE TABLE IF NOT EXISTS contacts_page (id INTEGER PRIMARY KEY CHECK (id = 1), page_title TEXT, intro_text TEXT, form_destination_email TEXT, contact_form_title TEXT, response_label_prefix TEXT, form_name_label TEXT, form_company_label TEXT, form_email_label TEXT, form_message_label TEXT, submit_button_label TEXT, submitting_button_label TEXT, email TEXT, phone TEXT, office_address TEXT, working_hours TEXT, map_pin_label TEXT, info_email_label TEXT, info_phone_label TEXT, info_address_label TEXT, info_hours_label TEXT, social_section_title TEXT, telegram_url TEXT, instagram_url TEXT, whatsapp_url TEXT, facebook_url TEXT, headquarters_image TEXT, google_maps_url TEXT)`);
-  for (const tableName of Object.values(pageContentTables)) {
-    await db.query(`CREATE TABLE IF NOT EXISTS ${tableName} (id INTEGER PRIMARY KEY CHECK (id = 1), content TEXT)`);
-  }
-  await db.query(`CREATE TABLE IF NOT EXISTS products (id TEXT PRIMARY KEY, name TEXT, category TEXT, status TEXT, image TEXT, image_gallery TEXT, short_description TEXT, long_description TEXT, highlights TEXT, content_sections TEXT, nutrition TEXT, inquiry_subject_line TEXT, tonnage_options TEXT, seo TEXT)`);
-  await db.query(`CREATE TABLE IF NOT EXISTS leads (id TEXT PRIMARY KEY, date TEXT, name TEXT, company TEXT, email TEXT, phone TEXT, telegram TEXT, product_interest TEXT, est_tonnage TEXT, status TEXT, message TEXT, notes TEXT)`);
-  await db.query(`CREATE TABLE IF NOT EXISTS page_seo (page_id TEXT PRIMARY KEY, meta_title TEXT, meta_description TEXT, slug TEXT, og_title TEXT, image_alt TEXT)`);
-  await db.query(`INSERT INTO global_settings (id, header_logo, site_name, nav_links, cta_text, cta_url, footer_logo, footer_description, footer_lead_text, quick_links, office_address, phone_number, email_address, telegram_url, footer_cta_title, footer_cta_email, footer_copyright_text, ui_labels, google_site_verification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) ON CONFLICT (id) DO NOTHING`, [1, defaultGlobalSettings.headerLogo, defaultGlobalSettings.siteName, JSON.stringify(defaultGlobalSettings.navLinks), defaultGlobalSettings.ctaText, defaultGlobalSettings.ctaUrl, defaultGlobalSettings.footerLogo, defaultGlobalSettings.footerDescription, defaultGlobalSettings.footerLeadText, JSON.stringify(defaultGlobalSettings.quickLinks), defaultGlobalSettings.officeAddress, defaultGlobalSettings.phoneNumber, defaultGlobalSettings.emailAddress, defaultGlobalSettings.telegramUrl, defaultGlobalSettings.footerCtaTitle, defaultGlobalSettings.footerCtaEmail, defaultGlobalSettings.footerCopyrightText, JSON.stringify(defaultGlobalSettings.uiLabels), defaultGlobalSettings.googleSiteVerificationId]);
-  await db.query(`INSERT INTO products_page (id, page_title, page_subtitle, hero_bg_image, ordering_bg_image, ordering_form_title, ordering_form_subtitle, step_one_label, step_two_label, step_three_label, mixed_container_label, volume_options, view_specs_label, step_one_placeholder, step_three_placeholder, next_step_button_label, back_button_label, submit_button_label, submitting_button_label, detail_ui, quick_contact_title, quick_contact_subtitle, telegram_label, telegram_sublabel, call_label, email_label, quick_phone, quick_email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) ON CONFLICT (id) DO NOTHING`, [1, defaultProductsPage.pageTitle, defaultProductsPage.pageSubtitle, defaultProductsPage.heroBgImage, defaultProductsPage.orderingBgImage, defaultProductsPage.orderingFormTitle, defaultProductsPage.orderingFormSubtitle, defaultProductsPage.stepOneLabel, defaultProductsPage.stepTwoLabel, defaultProductsPage.stepThreeLabel, defaultProductsPage.mixedContainerLabel, JSON.stringify(defaultProductsPage.volumeOptions), defaultProductsPage.viewSpecsLabel, defaultProductsPage.stepOnePlaceholder, defaultProductsPage.stepThreePlaceholder, defaultProductsPage.nextStepButtonLabel, defaultProductsPage.backButtonLabel, defaultProductsPage.submitButtonLabel, defaultProductsPage.submittingButtonLabel, JSON.stringify(defaultProductsPage.detailUi), defaultProductsPage.quickContactTitle, defaultProductsPage.quickContactSubtitle, defaultProductsPage.telegramLabel, defaultProductsPage.telegramSublabel, defaultProductsPage.callLabel, defaultProductsPage.emailLabel, defaultProductsPage.quickPhone, defaultProductsPage.quickEmail]);
-  await db.query(`INSERT INTO export_page (id, hero_title, hero_subtitle, hero_bg_image, map_section_title, supply_routes, logistics_content, packaging_title, packaging_methods, transportation_title, transportation_methods, documentation_title, documentation_content, quality_title, technical_specs, quality_checks, certifications_gallery) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) ON CONFLICT (id) DO NOTHING`, [1, defaultExportPage.heroTitle, defaultExportPage.heroSubtitle, defaultExportPage.heroBgImage, defaultExportPage.mapSectionTitle, JSON.stringify(defaultExportPage.supplyRoutes), defaultExportPage.logisticsContent, defaultExportPage.packagingTitle, defaultExportPage.packagingMethods, defaultExportPage.transportationTitle, defaultExportPage.transportationMethods, defaultExportPage.documentationTitle, defaultExportPage.documentationContent, defaultExportPage.qualityTitle, defaultExportPage.technicalSpecs, JSON.stringify(defaultExportPage.qualityChecks), JSON.stringify(defaultExportPage.certificationsGallery)]);
-  await db.query(`INSERT INTO contacts_page (id, page_title, intro_text, form_destination_email, contact_form_title, response_label_prefix, form_name_label, form_company_label, form_email_label, form_message_label, submit_button_label, submitting_button_label, email, phone, office_address, working_hours, map_pin_label, info_email_label, info_phone_label, info_address_label, info_hours_label, social_section_title, telegram_url, instagram_url, whatsapp_url, facebook_url, headquarters_image, google_maps_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) ON CONFLICT (id) DO NOTHING`, [1, defaultContactsPage.pageTitle, defaultContactsPage.introText, defaultContactsPage.formDestinationEmail, defaultContactsPage.contactFormTitle, defaultContactsPage.responseLabelPrefix, defaultContactsPage.formNameLabel, defaultContactsPage.formCompanyLabel, defaultContactsPage.formEmailLabel, defaultContactsPage.formMessageLabel, defaultContactsPage.submitButtonLabel, defaultContactsPage.submittingButtonLabel, defaultContactsPage.emailAddress, defaultContactsPage.phoneNumber, defaultContactsPage.officeAddress, defaultContactsPage.workingHours, defaultContactsPage.mapPinLabel, defaultContactsPage.infoEmailLabel, defaultContactsPage.infoPhoneLabel, defaultContactsPage.infoAddressLabel, defaultContactsPage.infoHoursLabel, defaultContactsPage.socialSectionTitle, defaultContactsPage.telegramUrl, defaultContactsPage.instagramUrl, defaultContactsPage.whatsappUrl, defaultContactsPage.facebookUrl, defaultContactsPage.headquartersImage, defaultContactsPage.googleMapsUrl]);
-  for (const pageId of Object.keys(pageContentTables)) {
-    const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
-    await db.query(`INSERT INTO ${pageContentTables[pageId]} (id, content) VALUES (1, $1) ON CONFLICT (id) DO NOTHING`, [JSON.stringify(fallback)]);
-  }
-  for (const [pageId, seo] of Object.entries(defaultPageSeo)) {
-    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (page_id) DO NOTHING`, [pageId, seo.metaTitle, seo.metaDescription, seo.slug, seo.ogTitle, seo.imageAlt]);
-  }
+  console.log("\u2705 JSON database initialized");
 }
 app.get("/api/uploads", (_req, res) => {
   try {
@@ -32551,7 +32575,6 @@ app.get("/api/globals", async (_req, res) => {
 });
 app.post("/api/globals", async (req, res) => {
   try {
-    await ensureSingletonRow("global_settings");
     const settings = req.body ?? {};
     await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId)]);
     res.json({ success: true });
@@ -32571,7 +32594,7 @@ app.post("/api/seo/pages/:id", async (req, res) => {
     const pageId = asString(req.params.id);
     if (!(pageId in defaultPageSeo)) return res.status(404).json({ error: "Unknown page id" });
     const nextSeo = await validatePageSeoInput(pageId, req.body ?? {});
-    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT(page_id) DO UPDATE SET meta_title = excluded.meta_title, meta_description = excluded.meta_description, slug = excluded.slug, og_title = excluded.og_title, image_alt = excluded.image_alt`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt]);
+    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt]);
     res.json({ success: true });
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "Failed to save SEO settings" });
@@ -32638,17 +32661,14 @@ app.post("/api/pages/:id", async (req, res) => {
     const pageId = asString(req.params.id);
     const content = req.body ?? {};
     if (pageId === "products") {
-      await ensureSingletonRow("products_page");
       await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail)]);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await ensureSingletonRow("export_page");
       await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : [])]);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await ensureSingletonRow("contacts_page");
       await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl)]);
       return res.json({ success: true });
     }
