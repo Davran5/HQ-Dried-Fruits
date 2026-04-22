@@ -31987,7 +31987,6 @@ var require_multer = __commonJS({
 var import_dotenv = __toESM(require_main(), 1);
 var import_express = __toESM(require_express2(), 1);
 var import_multer = __toESM(require_multer(), 1);
-import Database from "better-sqlite3";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
@@ -31997,9 +31996,10 @@ var __filename = fileURLToPath(import.meta.url);
 var __dirname = path.dirname(__filename);
 var uploadsDir = path.join(__dirname, "public", "uploads");
 var distDir = path.join(__dirname, "dist");
-var sqliteDb = new Database("hq_dried_fruits.db");
+var sqliteDb;
 var db = {
   query: async (sql, params = []) => {
+    if (!sqliteDb) throw new Error("Database not initialized");
     const normalizedSql = sql.replace(/\$\d+/g, "?");
     const stmt = sqliteDb.prepare(normalizedSql);
     if (normalizedSql.trim().toUpperCase().startsWith("SELECT") || normalizedSql.includes("RETURNING")) {
@@ -32491,6 +32491,17 @@ async function buildSeoMeta(req) {
   return { statusCode: 404, title: `Page Not Found | ${siteName}`, description: "The requested page could not be found.", ogTitle: `Page Not Found | ${siteName}`, ogDescription: "The requested page could not be found.", ogImage: defaultImage, imageAlt: "Page not found", canonicalUrl: toCanonicalUrl(normalizedPath), robots: "noindex,nofollow", ogType: "website", siteName, googleSiteVerificationId, redirectTo: "" };
 }
 async function initDb() {
+  try {
+    const Database = (await import("better-sqlite3")).default;
+    sqliteDb = new Database("hq_dried_fruits.db");
+    console.log("\u2705 better-sqlite3 loaded successfully");
+  } catch (err) {
+    const msg = `\u274C CRITICAL: Failed to load better-sqlite3 module. Ensure it is installed on the server: ${err}`;
+    console.error(msg);
+    fs.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - ${msg}
+`);
+    throw err;
+  }
   await db.query(`CREATE TABLE IF NOT EXISTS global_settings (id INTEGER PRIMARY KEY CHECK (id = 1), header_logo TEXT, site_name TEXT, nav_links TEXT, cta_text TEXT, cta_url TEXT, footer_logo TEXT, footer_description TEXT, footer_lead_text TEXT, quick_links TEXT, office_address TEXT, phone_number TEXT, email_address TEXT, telegram_url TEXT, footer_cta_title TEXT, footer_cta_email TEXT, footer_copyright_text TEXT, ui_labels TEXT, google_site_verification_id TEXT)`);
   await db.query(`CREATE TABLE IF NOT EXISTS products_page (id INTEGER PRIMARY KEY CHECK (id = 1), page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, ordering_bg_image TEXT, ordering_form_title TEXT, ordering_form_subtitle TEXT, step_one_label TEXT, step_two_label TEXT, step_three_label TEXT, mixed_container_label TEXT, volume_options TEXT, view_specs_label TEXT, step_one_placeholder TEXT, step_three_placeholder TEXT, next_step_button_label TEXT, back_button_label TEXT, submit_button_label TEXT, submitting_button_label TEXT, detail_ui TEXT, quick_contact_title TEXT, quick_contact_subtitle TEXT, telegram_label TEXT, telegram_sublabel TEXT, call_label TEXT, email_label TEXT, quick_phone TEXT, quick_email TEXT)`);
   await db.query(`CREATE TABLE IF NOT EXISTS export_page (id INTEGER PRIMARY KEY CHECK (id = 1), hero_title TEXT, hero_subtitle TEXT, hero_bg_image TEXT, map_section_title TEXT, supply_routes TEXT, logistics_content TEXT, packaging_title TEXT, packaging_methods TEXT, transportation_title TEXT, transportation_methods TEXT, documentation_title TEXT, documentation_content TEXT, quality_title TEXT, technical_specs TEXT, quality_checks TEXT, certifications_gallery TEXT)`);

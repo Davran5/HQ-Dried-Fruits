@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import express, { Request } from "express";
-import Database from "better-sqlite3";
 import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
@@ -14,10 +13,11 @@ const __dirname = path.dirname(__filename);
 const uploadsDir = path.join(__dirname, "public", "uploads");
 const distDir = path.join(__dirname, "dist");
 
-// Initialize SQLite
-const sqliteDb = new Database('hq_dried_fruits.db');
+// Initialize SQLite (Lazy Load)
+let sqliteDb: any;
 const db = {
   query: async (sql: string, params: any[] = []) => {
+    if (!sqliteDb) throw new Error("Database not initialized");
     const normalizedSql = sql.replace(/\$\d+/g, '?');
     const stmt = sqliteDb.prepare(normalizedSql);
     if (normalizedSql.trim().toUpperCase().startsWith('SELECT') || normalizedSql.includes('RETURNING')) {
@@ -387,6 +387,17 @@ async function buildSeoMeta(req: Request) {
 
 // --- INITIALIZE DATABASE AND START SERVER ---
 async function initDb() {
+  try {
+    const Database = (await import("better-sqlite3")).default;
+    sqliteDb = new Database('hq_dried_fruits.db');
+    console.log("✅ better-sqlite3 loaded successfully");
+  } catch (err) {
+    const msg = `❌ CRITICAL: Failed to load better-sqlite3 module. Ensure it is installed on the server: ${err}`;
+    console.error(msg);
+    fs.appendFileSync('startup_error.log', `${new Date().toISOString()} - ${msg}\n`);
+    throw err;
+  }
+  
   await db.query(`CREATE TABLE IF NOT EXISTS global_settings (id INTEGER PRIMARY KEY CHECK (id = 1), header_logo TEXT, site_name TEXT, nav_links TEXT, cta_text TEXT, cta_url TEXT, footer_logo TEXT, footer_description TEXT, footer_lead_text TEXT, quick_links TEXT, office_address TEXT, phone_number TEXT, email_address TEXT, telegram_url TEXT, footer_cta_title TEXT, footer_cta_email TEXT, footer_copyright_text TEXT, ui_labels TEXT, google_site_verification_id TEXT)`);
   await db.query(`CREATE TABLE IF NOT EXISTS products_page (id INTEGER PRIMARY KEY CHECK (id = 1), page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, ordering_bg_image TEXT, ordering_form_title TEXT, ordering_form_subtitle TEXT, step_one_label TEXT, step_two_label TEXT, step_three_label TEXT, mixed_container_label TEXT, volume_options TEXT, view_specs_label TEXT, step_one_placeholder TEXT, step_three_placeholder TEXT, next_step_button_label TEXT, back_button_label TEXT, submit_button_label TEXT, submitting_button_label TEXT, detail_ui TEXT, quick_contact_title TEXT, quick_contact_subtitle TEXT, telegram_label TEXT, telegram_sublabel TEXT, call_label TEXT, email_label TEXT, quick_phone TEXT, quick_email TEXT)`);
   await db.query(`CREATE TABLE IF NOT EXISTS export_page (id INTEGER PRIMARY KEY CHECK (id = 1), hero_title TEXT, hero_subtitle TEXT, hero_bg_image TEXT, map_section_title TEXT, supply_routes TEXT, logistics_content TEXT, packaging_title TEXT, packaging_methods TEXT, transportation_title TEXT, transportation_methods TEXT, documentation_title TEXT, documentation_content TEXT, quality_title TEXT, technical_specs TEXT, quality_checks TEXT, certifications_gallery TEXT)`);
