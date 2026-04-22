@@ -1,0 +1,46 @@
+{
+  "global_settings": [
+    {
+      "id": 1,
+      "site_name": "HQ Dried Fruits"
+    }
+  ],
+  "products_page": [
+    {
+      "id": 1
+    }
+  ],
+  "export_page": [
+    {
+      "id": 1
+    }
+  ],
+  "contacts_page": [
+    {
+      "id": 1
+    }
+  ],
+  "products": [],
+  "leads": [],
+  "page_seo": [],
+  "home_page": [
+    {
+      "id": 1
+    }
+  ],
+  "about_page": [
+    {
+      "id": 1
+    }
+  ],
+  "privacy_page": [
+    {
+      "id": 1
+    }
+  ],
+  "terms_page": [
+    {
+      "id": 1
+    }
+  ]
+}

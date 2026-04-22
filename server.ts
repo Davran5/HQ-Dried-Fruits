@@ -247,6 +247,11 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", express.static(uploadsDir));
 
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
+
 // --- ASYNC DATABASE HELPERS ---
 async function ensureSingletonRow(tableName: string) {
   // Not needed for JSON but kept for API compatibility
@@ -458,6 +463,10 @@ async function buildSeoMeta(req: Request) {
 
 // --- INITIALIZE DATABASE AND START SERVER ---
 async function initDb() {
+  if (!fs.existsSync(dbFile)) {
+    console.log("📝 Creating initial database.json...");
+    saveDb();
+  }
   console.log("✅ JSON database initialized");
 }
 
