@@ -8,10 +8,8 @@ import sharp from "sharp";
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const uploadsDir = path.join(__dirname, "public", "uploads");
-const distDir = path.join(__dirname, "dist");
+const uploadsDir = path.join(process.cwd(), "public", "uploads");
+const distDir = path.join(process.cwd(), "dist");
 
 // Initialize SQLite (Lazy Load)
 let sqliteDb: any;

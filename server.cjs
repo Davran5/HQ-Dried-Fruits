@@ -31981,16 +31981,12 @@ var require_multer = __commonJS({
 var import_dotenv = __toESM(require_main(), 1);
 var import_express = __toESM(require_express2(), 1);
 var import_path = __toESM(require("path"), 1);
-var import_url = require("url");
 var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
 var import_sharp = __toESM(require("sharp"), 1);
-var import_meta = {};
 import_dotenv.default.config();
-var __filename = (0, import_url.fileURLToPath)(import_meta.url);
-var __dirname = import_path.default.dirname(__filename);
-var uploadsDir = import_path.default.join(__dirname, "public", "uploads");
-var distDir = import_path.default.join(__dirname, "dist");
+var uploadsDir = import_path.default.join(process.cwd(), "public", "uploads");
+var distDir = import_path.default.join(process.cwd(), "dist");
 var sqliteDb;
 var db = {
   query: async (sql, params = []) => {
@@ -32178,7 +32174,6 @@ var app = (0, import_express.default)();
 app.use(import_express.default.json({ limit: "10mb" }));
 app.use(import_express.default.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", import_express.default.static(uploadsDir));
-app.get("/health", (_req, res) => res.status(200).send("OK"));
 async function ensureSingletonRow(tableName) {
   await db.query(`INSERT INTO ${tableName} (id) VALUES (1) ON CONFLICT (id) DO NOTHING`);
 }
@@ -32738,21 +32733,7 @@ if (import_fs.default.existsSync(distDir)) {
 var port = process.env.PORT || 1e4;
 app.listen(port, () => {
   console.log(`\u2705 Server listening on: ${port}`);
-  initDb().then(() => {
-    console.log(`\u2705 Database initialized successfully`);
-  }).catch((err) => {
-    console.error("\u274C Failed to initialize database:", err);
-  });
-});
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught Exception:", err);
-  import_fs.default.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - Uncaught Exception: ${err.stack || err}
-`);
-});
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("Unhandled Rejection at:", promise, "reason:", reason);
-  import_fs.default.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - Unhandled Rejection: ${reason}
-`);
+  initDb();
 });
 /*! Bundled license information:
 
