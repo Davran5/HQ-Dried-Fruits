@@ -19,7 +19,7 @@ function migrateTable(tableName, columns) {
     }
 }
 
-migrateTable('products_page', ['ordering_bg_image', 'ordering_form_title', 'ordering_form_subtitle', 'quick_phone', 'quick_email']);
+migrateTable('products_page', ['ordering_bg_image', 'ordering_form_title', 'ordering_form_subtitle', 'quick_phone', 'quick_email', 'quick_contact_title', 'quick_contact_subtitle', 'telegram_label', 'telegram_sublabel', 'call_label', 'email_label']);
 migrateTable('export_page', ['packaging_methods', 'transportation_methods']);
 migrateTable('contacts_page', ['headquarters_image']);
 

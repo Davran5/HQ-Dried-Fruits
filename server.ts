@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import express, { Request } from "express";
-import pg from "pg";
+import Database from "better-sqlite3";
 import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
@@ -14,12 +14,20 @@ const __dirname = path.dirname(__filename);
 const uploadsDir = path.join(__dirname, "public", "uploads");
 const distDir = path.join(__dirname, "dist");
 
-// Initialize PostgreSQL Pool natively
-const { Pool } = pg;
-const db = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
+// Initialize SQLite
+const sqliteDb = new Database('hq_dried_fruits.db');
+const db = {
+  query: async (sql: string, params: any[] = []) => {
+    const normalizedSql = sql.replace(/\$\d+/g, '?');
+    const stmt = sqliteDb.prepare(normalizedSql);
+    if (normalizedSql.trim().toUpperCase().startsWith('SELECT') || normalizedSql.includes('RETURNING')) {
+      return { rows: stmt.all(...params), rowCount: 0 };
+    } else {
+      const info = stmt.run(...params);
+      return { rows: [], rowCount: info.changes };
+    }
+  }
+};
 
 type SeoRecord = { metaTitle: string; metaDescription: string; slug: string; ogTitle: string; imageAlt: string; };
 type ProductSectionRecord = { title: string; body: string; };
@@ -396,7 +404,7 @@ async function initDb() {
   await db.query(`INSERT INTO products_page (id, page_title, page_subtitle, hero_bg_image, ordering_bg_image, ordering_form_title, ordering_form_subtitle, step_one_label, step_two_label, step_three_label, mixed_container_label, volume_options, view_specs_label, step_one_placeholder, step_three_placeholder, next_step_button_label, back_button_label, submit_button_label, submitting_button_label, detail_ui, quick_contact_title, quick_contact_subtitle, telegram_label, telegram_sublabel, call_label, email_label, quick_phone, quick_email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) ON CONFLICT (id) DO NOTHING`, [1, defaultProductsPage.pageTitle, defaultProductsPage.pageSubtitle, defaultProductsPage.heroBgImage, defaultProductsPage.orderingBgImage, defaultProductsPage.orderingFormTitle, defaultProductsPage.orderingFormSubtitle, defaultProductsPage.stepOneLabel, defaultProductsPage.stepTwoLabel, defaultProductsPage.stepThreeLabel, defaultProductsPage.mixedContainerLabel, JSON.stringify(defaultProductsPage.volumeOptions), defaultProductsPage.viewSpecsLabel, defaultProductsPage.stepOnePlaceholder, defaultProductsPage.stepThreePlaceholder, defaultProductsPage.nextStepButtonLabel, defaultProductsPage.backButtonLabel, defaultProductsPage.submitButtonLabel, defaultProductsPage.submittingButtonLabel, JSON.stringify(defaultProductsPage.detailUi), defaultProductsPage.quickContactTitle, defaultProductsPage.quickContactSubtitle, defaultProductsPage.telegramLabel, defaultProductsPage.telegramSublabel, defaultProductsPage.callLabel, defaultProductsPage.emailLabel, defaultProductsPage.quickPhone, defaultProductsPage.quickEmail]);
   await db.query(`INSERT INTO export_page (id, hero_title, hero_subtitle, hero_bg_image, map_section_title, supply_routes, logistics_content, packaging_title, packaging_methods, transportation_title, transportation_methods, documentation_title, documentation_content, quality_title, technical_specs, quality_checks, certifications_gallery) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) ON CONFLICT (id) DO NOTHING`, [1, defaultExportPage.heroTitle, defaultExportPage.heroSubtitle, defaultExportPage.heroBgImage, defaultExportPage.mapSectionTitle, JSON.stringify(defaultExportPage.supplyRoutes), defaultExportPage.logisticsContent, defaultExportPage.packagingTitle, defaultExportPage.packagingMethods, defaultExportPage.transportationTitle, defaultExportPage.transportationMethods, defaultExportPage.documentationTitle, defaultExportPage.documentationContent, defaultExportPage.qualityTitle, defaultExportPage.technicalSpecs, JSON.stringify(defaultExportPage.qualityChecks), JSON.stringify(defaultExportPage.certificationsGallery)]);
   await db.query(`INSERT INTO contacts_page (id, page_title, intro_text, form_destination_email, contact_form_title, response_label_prefix, form_name_label, form_company_label, form_email_label, form_message_label, submit_button_label, submitting_button_label, email, phone, office_address, working_hours, map_pin_label, info_email_label, info_phone_label, info_address_label, info_hours_label, social_section_title, telegram_url, instagram_url, whatsapp_url, facebook_url, headquarters_image, google_maps_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) ON CONFLICT (id) DO NOTHING`, [1, defaultContactsPage.pageTitle, defaultContactsPage.introText, defaultContactsPage.formDestinationEmail, defaultContactsPage.contactFormTitle, defaultContactsPage.responseLabelPrefix, defaultContactsPage.formNameLabel, defaultContactsPage.formCompanyLabel, defaultContactsPage.formEmailLabel, defaultContactsPage.formMessageLabel, defaultContactsPage.submitButtonLabel, defaultContactsPage.submittingButtonLabel, defaultContactsPage.emailAddress, defaultContactsPage.phoneNumber, defaultContactsPage.officeAddress, defaultContactsPage.workingHours, defaultContactsPage.mapPinLabel, defaultContactsPage.infoEmailLabel, defaultContactsPage.infoPhoneLabel, defaultContactsPage.infoAddressLabel, defaultContactsPage.infoHoursLabel, defaultContactsPage.socialSectionTitle, defaultContactsPage.telegramUrl, defaultContactsPage.instagramUrl, defaultContactsPage.whatsappUrl, defaultContactsPage.facebookUrl, defaultContactsPage.headquartersImage, defaultContactsPage.googleMapsUrl]);
-
+  
   for (const pageId of Object.keys(pageContentTables) as Array<keyof typeof pageContentTables>) {
     const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
     await db.query(`INSERT INTO ${pageContentTables[pageId]} (id, content) VALUES (1, $1) ON CONFLICT (id) DO NOTHING`, [JSON.stringify(fallback)]);
@@ -406,6 +414,7 @@ async function initDb() {
     await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (page_id) DO NOTHING`, [pageId, seo.metaTitle, seo.metaDescription, seo.slug, seo.ogTitle, seo.imageAlt]);
   }
 }
+
 
 // --- API ENDPOINTS ---
 app.get("/api/uploads", (_req, res) => {
