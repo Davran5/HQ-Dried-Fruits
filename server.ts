@@ -2,10 +2,9 @@ import dotenv from "dotenv";
 import express, { Request } from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import { open } from "sqlite";
-import sqlite3 from "sqlite3";
 import multer from "multer";
 import fs from "fs";
+import initSqlJs from "sql.js";
 
 dotenv.config();
 
@@ -14,16 +13,29 @@ const distDir = path.join(process.cwd(), "dist");
 
 // Initialize SQLite (Lazy Load)
 let sqliteDb: any;
+const dbFile = 'hq_dried_fruits.db';
 const db = {
   query: async (sql: string, params: any[] = []) => {
     if (!sqliteDb) throw new Error("Database not initialized");
     const normalizedSql = sql.replace(/\$\d+/g, '?');
-    if (normalizedSql.trim().toUpperCase().startsWith('SELECT') || normalizedSql.includes('RETURNING')) {
-      const rows = await sqliteDb.all(normalizedSql, ...params);
-      return { rows: rows || [], rowCount: (rows || []).length };
-    } else {
-      const result = await sqliteDb.run(normalizedSql, ...params);
-      return { rows: [], rowCount: result.changes };
+    try {
+      if (normalizedSql.trim().toUpperCase().startsWith('SELECT')) {
+        const stmt = sqliteDb.prepare(normalizedSql);
+        stmt.bind(params);
+        const rows = [];
+        while (stmt.step()) rows.push(stmt.getAsObject());
+        stmt.free();
+        return { rows, rowCount: rows.length };
+      } else {
+        sqliteDb.run(normalizedSql, params);
+        // Persist to disk
+        const data = sqliteDb.export();
+        fs.writeFileSync(dbFile, Buffer.from(data));
+        return { rows: [], rowCount: 1 };
+      }
+    } catch (err) {
+      console.error("DB Query Error:", err);
+      throw err;
     }
   }
 };
@@ -386,19 +398,23 @@ async function buildSeoMeta(req: Request) {
 // --- INITIALIZE DATABASE AND START SERVER ---
 async function initDb() {
   try {
-    const { open } = await import("sqlite");
-    const sqlite3 = (await import("sqlite3")).default;
-    
-    sqliteDb = await open({
-      filename: 'hq_dried_fruits.db',
-      driver: sqlite3.Database
+    const initSqlJs = (await import("sql.js")).default;
+    const SQL = await initSqlJs({
+      // Ensure we find the WASM file in node_modules
+      locateFile: file => path.join(process.cwd(), 'node_modules', 'sql.js', 'dist', file)
     });
-    console.log("✅ sqlite3 loaded successfully");
+    if (fs.existsSync(dbFile)) {
+      const fileBuffer = fs.readFileSync(dbFile);
+      sqliteDb = new SQL.Database(fileBuffer);
+    } else {
+      sqliteDb = new SQL.Database();
+    }
+    console.log("✅ sql.js (WASM) loaded successfully");
   } catch (err) {
-    const msg = `❌ CRITICAL: Failed to load sqlite3 module: ${err}`;
+    const msg = `❌ CRITICAL: Failed to load sql.js: ${err}`;
     console.error(msg);
     fs.appendFileSync('startup_error.log', `${new Date().toISOString()} - ${msg}\n`);
-    return; // Don't throw, let the app stay up
+    return;
   }
   
   await db.query(`CREATE TABLE IF NOT EXISTS global_settings (id INTEGER PRIMARY KEY CHECK (id = 1), header_logo TEXT, site_name TEXT, nav_links TEXT, cta_text TEXT, cta_url TEXT, footer_logo TEXT, footer_description TEXT, footer_lead_text TEXT, quick_links TEXT, office_address TEXT, phone_number TEXT, email_address TEXT, telegram_url TEXT, footer_cta_title TEXT, footer_cta_email TEXT, footer_copyright_text TEXT, ui_labels TEXT, google_site_verification_id TEXT)`);

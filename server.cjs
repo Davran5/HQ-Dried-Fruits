@@ -31987,16 +31987,28 @@ import_dotenv.default.config();
 var uploadsDir = import_path.default.join(process.cwd(), "public", "uploads");
 var distDir = import_path.default.join(process.cwd(), "dist");
 var sqliteDb;
+var dbFile = "hq_dried_fruits.db";
 var db = {
   query: async (sql, params = []) => {
     if (!sqliteDb) throw new Error("Database not initialized");
     const normalizedSql = sql.replace(/\$\d+/g, "?");
-    if (normalizedSql.trim().toUpperCase().startsWith("SELECT") || normalizedSql.includes("RETURNING")) {
-      const rows = await sqliteDb.all(normalizedSql, ...params);
-      return { rows: rows || [], rowCount: (rows || []).length };
-    } else {
-      const result = await sqliteDb.run(normalizedSql, ...params);
-      return { rows: [], rowCount: result.changes };
+    try {
+      if (normalizedSql.trim().toUpperCase().startsWith("SELECT")) {
+        const stmt = sqliteDb.prepare(normalizedSql);
+        stmt.bind(params);
+        const rows = [];
+        while (stmt.step()) rows.push(stmt.getAsObject());
+        stmt.free();
+        return { rows, rowCount: rows.length };
+      } else {
+        sqliteDb.run(normalizedSql, params);
+        const data = sqliteDb.export();
+        import_fs.default.writeFileSync(dbFile, Buffer.from(data));
+        return { rows: [], rowCount: 1 };
+      }
+    } catch (err) {
+      console.error("DB Query Error:", err);
+      throw err;
     }
   }
 };
@@ -32481,15 +32493,20 @@ async function buildSeoMeta(req) {
 }
 async function initDb() {
   try {
-    const { open } = await import("sqlite");
-    const sqlite3 = (await import("sqlite3")).default;
-    sqliteDb = await open({
-      filename: "hq_dried_fruits.db",
-      driver: sqlite3.Database
+    const initSqlJs = (await import("sql.js")).default;
+    const SQL = await initSqlJs({
+      // Ensure we find the WASM file in node_modules
+      locateFile: (file) => import_path.default.join(process.cwd(), "node_modules", "sql.js", "dist", file)
     });
-    console.log("\u2705 sqlite3 loaded successfully");
+    if (import_fs.default.existsSync(dbFile)) {
+      const fileBuffer = import_fs.default.readFileSync(dbFile);
+      sqliteDb = new SQL.Database(fileBuffer);
+    } else {
+      sqliteDb = new SQL.Database();
+    }
+    console.log("\u2705 sql.js (WASM) loaded successfully");
   } catch (err) {
-    const msg = `\u274C CRITICAL: Failed to load sqlite3 module: ${err}`;
+    const msg = `\u274C CRITICAL: Failed to load sql.js: ${err}`;
     console.error(msg);
     import_fs.default.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - ${msg}
 `);
