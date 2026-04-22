@@ -10,7 +10,7 @@ dotenv.config();
 const uploadsDir = path.join(process.cwd(), "public", "uploads");
 const distDir = path.join(process.cwd(), "dist");
 
-const dbFile = 'database.json';
+const dbFile = path.join(process.cwd(), 'database.json');
 let dbData: any = {
   global_settings: [{ id: 1 }], products_page: [{ id: 1 }], export_page: [{ id: 1 }], contacts_page: [{ id: 1 }],
   products: [], leads: [], page_seo: [], home_page: [{ id: 1 }], about_page: [{ id: 1 }], privacy_page: [{ id: 1 }], terms_page: [{ id: 1 }]
@@ -20,7 +20,13 @@ if (fs.existsSync(dbFile)) {
   try { dbData = JSON.parse(fs.readFileSync(dbFile, 'utf8')); } catch (err) { console.error("DB Load Error:", err); }
 }
 
-const saveDb = () => fs.writeFileSync(dbFile, JSON.stringify(dbData, null, 2));
+const saveDb = () => {
+  try {
+    fs.writeFileSync(dbFile, JSON.stringify(dbData, null, 2));
+  } catch (err) {
+    console.error("❌ DB Save Error:", err);
+  }
+};
 
 const db = {
   query: async (sql: string, params: any[] = []) => {
@@ -456,6 +462,10 @@ async function initDb() {
 }
 
 // --- API ENDPOINTS ---
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok", engine: "JSON", db: fs.existsSync(dbFile) });
+});
+
 app.get("/api/uploads", (_req, res) => {
   try {
     const files = fs.existsSync(uploadsDir) ? fs.readdirSync(uploadsDir) : [];

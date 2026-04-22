@@ -31986,7 +31986,7 @@ var import_fs = __toESM(require("fs"), 1);
 import_dotenv.default.config();
 var uploadsDir = import_path.default.join(process.cwd(), "public", "uploads");
 var distDir = import_path.default.join(process.cwd(), "dist");
-var dbFile = "database.json";
+var dbFile = import_path.default.join(process.cwd(), "database.json");
 var dbData = {
   global_settings: [{ id: 1 }],
   products_page: [{ id: 1 }],
@@ -32007,7 +32007,13 @@ if (import_fs.default.existsSync(dbFile)) {
     console.error("DB Load Error:", err);
   }
 }
-var saveDb = () => import_fs.default.writeFileSync(dbFile, JSON.stringify(dbData, null, 2));
+var saveDb = () => {
+  try {
+    import_fs.default.writeFileSync(dbFile, JSON.stringify(dbData, null, 2));
+  } catch (err) {
+    console.error("\u274C DB Save Error:", err);
+  }
+};
 var db = {
   query: async (sql, params = []) => {
     const sqlLower = sql.trim().toLowerCase();
@@ -32558,6 +32564,9 @@ async function buildSeoMeta(req) {
 async function initDb() {
   console.log("\u2705 JSON database initialized");
 }
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok", engine: "JSON", db: import_fs.default.existsSync(dbFile) });
+});
 app.get("/api/uploads", (_req, res) => {
   try {
     const files = import_fs.default.existsSync(uploadsDir) ? import_fs.default.readdirSync(uploadsDir) : [];
