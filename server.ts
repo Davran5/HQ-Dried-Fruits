@@ -173,6 +173,7 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", express.static(uploadsDir));
+app.get("/health", (_req, res) => res.status(200).send("OK"));
 
 // --- ASYNC DATABASE HELPERS ---
 async function ensureSingletonRow(tableName: string) {
@@ -608,10 +609,23 @@ if (fs.existsSync(distDir)) {
 
 // Start everything up safely
 const port = Number(process.env.PORT || 10000);
-initDb().then(() => {
-  app.listen(port, "0.0.0.0", () => {
-    console.log(`✅ Backend server running and database connected on port ${port}`);
+
+app.listen(port, "0.0.0.0", () => {
+  console.log(`✅ Server listening on port ${port}`);
+  
+  initDb().then(() => {
+    console.log(`✅ Database initialized successfully`);
+  }).catch(err => {
+    console.error("❌ Failed to initialize database:", err);
   });
-}).catch(err => {
-  console.error("❌ Failed to initialize database:", err);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  fs.appendFileSync('startup_error.log', `${new Date().toISOString()} - Uncaught Exception: ${err.stack || err}\n`);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  fs.appendFileSync('startup_error.log', `${new Date().toISOString()} - Unhandled Rejection: ${reason}\n`);
 });

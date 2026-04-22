@@ -32183,6 +32183,7 @@ var app = (0, import_express.default)();
 app.use(import_express.default.json({ limit: "10mb" }));
 app.use(import_express.default.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", import_express.default.static(uploadsDir));
+app.get("/health", (_req, res) => res.status(200).send("OK"));
 async function ensureSingletonRow(tableName) {
   await db.query(`INSERT INTO ${tableName} (id) VALUES (1) ON CONFLICT (id) DO NOTHING`);
 }
@@ -32729,12 +32730,23 @@ if (fs.existsSync(distDir)) {
   });
 }
 var port = Number(process.env.PORT || 1e4);
-initDb().then(() => {
-  app.listen(port, "0.0.0.0", () => {
-    console.log(`\u2705 Backend server running and database connected on port ${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`\u2705 Server listening on port ${port}`);
+  initDb().then(() => {
+    console.log(`\u2705 Database initialized successfully`);
+  }).catch((err) => {
+    console.error("\u274C Failed to initialize database:", err);
   });
-}).catch((err) => {
-  console.error("\u274C Failed to initialize database:", err);
+});
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+  fs.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - Uncaught Exception: ${err.stack || err}
+`);
+});
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
+  fs.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - Unhandled Rejection: ${reason}
+`);
 });
 /*! Bundled license information:
 
