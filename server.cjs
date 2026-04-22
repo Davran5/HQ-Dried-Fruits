@@ -31991,12 +31991,12 @@ var db = {
   query: async (sql, params = []) => {
     if (!sqliteDb) throw new Error("Database not initialized");
     const normalizedSql = sql.replace(/\$\d+/g, "?");
-    const stmt = sqliteDb.prepare(normalizedSql);
     if (normalizedSql.trim().toUpperCase().startsWith("SELECT") || normalizedSql.includes("RETURNING")) {
-      return { rows: stmt.all(...params), rowCount: 0 };
+      const rows = await sqliteDb.all(normalizedSql, ...params);
+      return { rows: rows || [], rowCount: (rows || []).length };
     } else {
-      const info = stmt.run(...params);
-      return { rows: [], rowCount: info.changes };
+      const result = await sqliteDb.run(normalizedSql, ...params);
+      return { rows: [], rowCount: result.changes };
     }
   }
 };
@@ -32481,15 +32481,19 @@ async function buildSeoMeta(req) {
 }
 async function initDb() {
   try {
-    const Database = (await import("better-sqlite3")).default;
-    sqliteDb = new Database("hq_dried_fruits.db");
-    console.log("\u2705 better-sqlite3 loaded successfully");
+    const { open } = await import("sqlite");
+    const sqlite3 = (await import("sqlite3")).default;
+    sqliteDb = await open({
+      filename: "hq_dried_fruits.db",
+      driver: sqlite3.Database
+    });
+    console.log("\u2705 sqlite3 loaded successfully");
   } catch (err) {
-    const msg = `\u274C CRITICAL: Failed to load better-sqlite3 module. Ensure it is installed on the server: ${err}`;
+    const msg = `\u274C CRITICAL: Failed to load sqlite3 module: ${err}`;
     console.error(msg);
     import_fs.default.appendFileSync("startup_error.log", `${(/* @__PURE__ */ new Date()).toISOString()} - ${msg}
 `);
-    throw err;
+    return;
   }
   await db.query(`CREATE TABLE IF NOT EXISTS global_settings (id INTEGER PRIMARY KEY CHECK (id = 1), header_logo TEXT, site_name TEXT, nav_links TEXT, cta_text TEXT, cta_url TEXT, footer_logo TEXT, footer_description TEXT, footer_lead_text TEXT, quick_links TEXT, office_address TEXT, phone_number TEXT, email_address TEXT, telegram_url TEXT, footer_cta_title TEXT, footer_cta_email TEXT, footer_copyright_text TEXT, ui_labels TEXT, google_site_verification_id TEXT)`);
   await db.query(`CREATE TABLE IF NOT EXISTS products_page (id INTEGER PRIMARY KEY CHECK (id = 1), page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, ordering_bg_image TEXT, ordering_form_title TEXT, ordering_form_subtitle TEXT, step_one_label TEXT, step_two_label TEXT, step_three_label TEXT, mixed_container_label TEXT, volume_options TEXT, view_specs_label TEXT, step_one_placeholder TEXT, step_three_placeholder TEXT, next_step_button_label TEXT, back_button_label TEXT, submit_button_label TEXT, submitting_button_label TEXT, detail_ui TEXT, quick_contact_title TEXT, quick_contact_subtitle TEXT, telegram_label TEXT, telegram_sublabel TEXT, call_label TEXT, email_label TEXT, quick_phone TEXT, quick_email TEXT)`);
@@ -32678,10 +32682,11 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.webp`;
     const filePath = import_path.default.join(uploadsDir, filename);
     try {
-      const sharp = (await import("sharp")).default;
-      await sharp(uploadedFile.buffer).resize(1200, 1200, { fit: "inside", withoutEnlargement: true }).webp({ quality: 82, effort: 6 }).toFile(filePath);
+      const Jimp = (await import("jimp")).default;
+      const image = await Jimp.read(uploadedFile.buffer);
+      await image.scaleToFit(1200, 1200).quality(82).writeAsync(filePath);
     } catch (err) {
-      console.warn("\u26A0\uFE0F Sharp resizing failed or not available, saving original file:", err);
+      console.warn("\u26A0\uFE0F Jimp resizing failed, saving original file:", err);
       import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
     }
     res.json({ url: `/uploads/${filename}` });
