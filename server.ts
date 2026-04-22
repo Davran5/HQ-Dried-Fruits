@@ -619,10 +619,10 @@ if (fs.existsSync(distDir)) {
 }
 
 // Start everything up safely
-const port = Number(process.env.PORT || 10000);
+const port = process.env.PORT || 10000;
 
-app.listen(port, "0.0.0.0", () => {
-  console.log(`✅ Server listening on port ${port}`);
+app.listen(port, () => {
+  console.log(`✅ Server listening on: ${port}`);
   
   initDb().then(() => {
     console.log(`✅ Database initialized successfully`);

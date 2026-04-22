@@ -32740,9 +32740,9 @@ if (fs.existsSync(distDir)) {
     }
   });
 }
-var port = Number(process.env.PORT || 1e4);
-app.listen(port, "0.0.0.0", () => {
-  console.log(`\u2705 Server listening on port ${port}`);
+var port = process.env.PORT || 1e4;
+app.listen(port, () => {
+  console.log(`\u2705 Server listening on: ${port}`);
   initDb().then(() => {
     console.log(`\u2705 Database initialized successfully`);
   }).catch((err) => {
