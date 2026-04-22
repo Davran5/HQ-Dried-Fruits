@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/hqdriedfruits/public_html/
+    - /bin/rsync -aP --exclude '.git' --exclude '.cpanel.yml' $REPOPATH/ $DEPLOYPATH
