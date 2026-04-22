@@ -4,7 +4,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
 import fs from "fs";
-import sharp from "sharp";
 
 dotenv.config();
 
@@ -572,8 +571,20 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
     const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.webp`;
-    const outputPath = path.join(uploadsDir, filename);
-    await sharp(uploadedFile.buffer).rotate().resize({ width: 2400, height: 2400, fit: "inside", withoutEnlargement: true }).webp({ quality: 82, effort: 6 }).toFile(outputPath);
+    const filePath = path.join(uploadsDir, filename);
+
+    // Optional: Try to use sharp for optimization, fallback to original if it fails
+    try {
+      const sharp = (await import("sharp")).default;
+      await sharp(uploadedFile.buffer)
+        .resize(1200, 1200, { fit: "inside", withoutEnlargement: true })
+        .webp({ quality: 82, effort: 6 })
+        .toFile(filePath);
+    } catch (err) {
+      console.warn("⚠️ Sharp resizing failed or not available, saving original file:", err);
+      fs.writeFileSync(filePath, uploadedFile.buffer);
+    }
+    
     res.json({ url: `/uploads/${filename}` });
   } catch (error) { res.status(500).json({ error: "Upload failed on server" }); }
 });

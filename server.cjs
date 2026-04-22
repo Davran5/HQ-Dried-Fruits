@@ -31983,7 +31983,6 @@ var import_express = __toESM(require_express2(), 1);
 var import_path = __toESM(require("path"), 1);
 var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
-var import_sharp = __toESM(require("sharp"), 1);
 import_dotenv.default.config();
 var uploadsDir = import_path.default.join(process.cwd(), "public", "uploads");
 var distDir = import_path.default.join(process.cwd(), "dist");
@@ -32677,8 +32676,14 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
     const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.webp`;
-    const outputPath = import_path.default.join(uploadsDir, filename);
-    await (0, import_sharp.default)(uploadedFile.buffer).rotate().resize({ width: 2400, height: 2400, fit: "inside", withoutEnlargement: true }).webp({ quality: 82, effort: 6 }).toFile(outputPath);
+    const filePath = import_path.default.join(uploadsDir, filename);
+    try {
+      const sharp = (await import("sharp")).default;
+      await sharp(uploadedFile.buffer).resize(1200, 1200, { fit: "inside", withoutEnlargement: true }).webp({ quality: 82, effort: 6 }).toFile(filePath);
+    } catch (err) {
+      console.warn("\u26A0\uFE0F Sharp resizing failed or not available, saving original file:", err);
+      import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
+    }
     res.json({ url: `/uploads/${filename}` });
   } catch (error) {
     res.status(500).json({ error: "Upload failed on server" });
