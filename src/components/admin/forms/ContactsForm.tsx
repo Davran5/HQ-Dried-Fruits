@@ -274,7 +274,12 @@ export function ContactsForm({ content, updateContent }: Props) {
                     <input
                         type="text"
                         value={content.googleMapsUrl || ""}
-                        onChange={e => updateContent({ googleMapsUrl: e.target.value })}
+                        onChange={e => {
+                            let val = e.target.value;
+                            const match = val.match(/src="([^"]+)"/i);
+                            if (match) val = match[1];
+                            updateContent({ googleMapsUrl: val });
+                        }}
                         className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block"
                         placeholder="https://www.google.com/maps/embed?..."
                     />

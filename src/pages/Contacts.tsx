@@ -341,7 +341,7 @@ export function Contacts() {
         <div className="relative h-[500px] overflow-hidden rounded-[3rem] border border-earth-100 bg-earth-200 shadow-xl shadow-earth-100/60">
           {content?.googleMapsUrl ? (
             <iframe
-              src={content.googleMapsUrl}
+              src={content.googleMapsUrl.match(/src="([^"]+)"/i)?.[1] || content.googleMapsUrl}
               width="100%"
               height="100%"
               style={{ border: 0 }}
