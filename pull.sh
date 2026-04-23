@@ -23,7 +23,12 @@ cp -r dist_uploads_backup/* dist/uploads/ 2>/dev/null || true
 
 # 2. Install dependencies
 echo "📦 Installing dependencies..."
-npm install --production
+if command -v npm &> /dev/null; then
+    npm install --production
+else
+    echo "⚠️  npm command not found in this shell."
+    echo "   👉 Please go to cPanel -> 'Setup Node.js App' and click 'Run NPM Install' instead."
+fi
 
 # 3. Finalize
 echo "✅ Deployment complete!"
