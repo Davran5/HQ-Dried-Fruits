@@ -8,10 +8,10 @@ import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { canonicalizeManagedUrl, getManagedPagePath, pathsMatch } from "@/src/lib/routes";
 import { useLanguage } from "@/src/contexts/LanguageContext";
-import { languageNames, languageFull, getNavLabel, type Language } from "@/src/i18n";
+import { ACTIVE_LOCALES, languageNames, languageFull, getNavLabel, type Language } from "@/src/i18n";
 import type { TranslationKey } from "@/src/i18n/en";
 
-const SUPPORTED_LANGUAGES: Language[] = ["en", "ru", "uz"];
+const SUPPORTED_LANGUAGES: Language[] = [...ACTIVE_LOCALES];
 
 export function Header() {
   const { globalSettings, pageSeo } = usePages();
@@ -24,9 +24,9 @@ export function Header() {
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const activeLinks = (globalSettings.navLinks || []).map((link) => ({
     ...link,
-    resolvedUrl: canonicalizeManagedUrl(link.url, pageSeo, products),
+    resolvedUrl: canonicalizeManagedUrl(link.url, pageSeo, products, language),
   }));
-  const ctaUrl = canonicalizeManagedUrl(globalSettings.ctaUrl || "/contacts", pageSeo, products);
+  const ctaUrl = canonicalizeManagedUrl(globalSettings.ctaUrl || "/contacts", pageSeo, products, language);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,7 +65,7 @@ export function Header() {
               : "bg-white/30 backdrop-blur-md border-white/10 shadow-none"
           )}
         >
-          <Link to={getManagedPagePath("home", pageSeo)} className="flex items-center gap-2 group">
+          <Link to={getManagedPagePath("home", pageSeo, language)} className="flex items-center gap-2 group">
             <div className="flex items-center gap-3">
               {globalSettings.headerLogo ? (
                 <img src={globalSettings.headerLogo} alt={`${siteName} logo`} className="h-10 w-auto" />
@@ -88,7 +88,7 @@ export function Header() {
                 to={link.resolvedUrl}
                 className={cn(
                   "relative text-sm font-semibold transition-all hover:text-earth-600 py-1 group",
-                  pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products)
+                  pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products, language)
                     ? "text-earth-600"
                     : "text-earth-800"
                 )}
@@ -96,7 +96,7 @@ export function Header() {
                 {getNavLabel(link.url, link.label, t)}
                 <span className={cn(
                   "absolute bottom-0 left-0 h-0.5 w-0 bg-earth-500 transition-all duration-300",
-                  pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products) ? "w-full" : "group-hover:w-full"
+                  pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products, language) ? "w-full" : "group-hover:w-full"
                 )} />
               </Link>
             ))}
@@ -218,14 +218,14 @@ export function Header() {
                         to={link.resolvedUrl}
                         className={cn(
                           "group flex items-center gap-4 text-3xl font-display font-bold transition-all",
-                          pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products)
+                          pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products, language)
                             ? "text-earth-600 pl-4"
                             : "text-earth-900 hover:text-earth-600 hover:pl-4"
                         )}
                       >
                         <span className={cn(
                           "h-1.5 w-1.5 rounded-full bg-earth-500 opacity-0 transition-opacity",
-                          pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products) ? "opacity-100" : "group-hover:opacity-100"
+                          pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products, language) ? "opacity-100" : "group-hover:opacity-100"
                         )} />
                         {getNavLabel(link.url, link.label, t)}
                       </Link>

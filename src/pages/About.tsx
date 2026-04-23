@@ -5,10 +5,12 @@ import { Marquee } from "@/src/components/ui/Marquee";
 import { Award, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
+import { useLanguage } from "@/src/contexts/LanguageContext";
 import { AboutContent } from "@/src/types/page";
 
 export function About() {
   const { pages, pageSeo, globalSettings } = usePages();
+  const { t } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.about;
   const springEasing = [0.25, 1, 0.5, 1];
@@ -70,9 +72,9 @@ export function About() {
     content?.missionPhotography ||
     content?.productionMarqueeImages?.[0] ||
     "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop";
-  const aboutHeroTitle = content?.marqueeTitle || "Global Partners & Facilities";
+  const aboutHeroTitle = content?.marqueeTitle || t("aboutHeroTitle");
   const aboutHeroSubtitle =
-    content?.heritageSubtitle || "A clearer look at the orchards, production standards, and operational infrastructure behind our export program.";
+    content?.heritageSubtitle || t("aboutHeroSubtitle");
   const missionPanels = [
     {
       eyebrow: uiLabels.missionPurposeLabel || "Purpose",
@@ -211,10 +213,10 @@ export function About() {
                 {uiLabels.aboutCompanyLabel || "About The Company"}
               </p>
               <h2 className="mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:mt-5 sm:text-5xl">
-                {content?.heritageTitle || "Our Roots in the Silk Road"}
+                {content?.heritageTitle || t("aboutHeritageTitle")}
               </h2>
               <p className="mt-3 max-w-2xl text-base leading-7 text-earth-700 sm:mt-4 sm:text-lg sm:leading-8">
-                {content?.heritageSubtitle || "A journey of quality and tradition."}
+                {content?.heritageSubtitle || t("aboutHeritageSubtitle")}
               </p>
 
               <div
@@ -260,7 +262,7 @@ export function About() {
       <section className="border-b border-earth-100 bg-white py-16 sm:py-20">
         <div className="mx-auto mb-8 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-sm font-bold uppercase tracking-widest text-earth-400">
-            {content?.partnerSectionLabel || "Our Partners"}
+            {content?.partnerSectionLabel || t("aboutPartners")}
           </p>
         </div>
         <Marquee speed={30} direction="right" className={content?.partnerLogos?.length > 0 ? "" : "opacity-60"}>
@@ -396,10 +398,10 @@ export function About() {
         <div className="mb-12 max-w-3xl">
           <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{uiLabels.insideFacilityEyebrow || "Inside The Facility"}</p>
           <h2 className="mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-            {content?.ownProductionTitle || "Own Production"}
+            {content?.ownProductionTitle || t("aboutOwnProductionTitle")}
           </h2>
           <p className="mt-5 text-lg leading-8 text-earth-700">
-            {content?.ownProductionIntro || "From orchard intake to final export packing, each production stage is managed inside our own operation for consistency, traceability, and buyer-ready execution."}
+            {content?.ownProductionIntro || t("aboutOwnProductionIntro")}
           </p>
         </div>
 

@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { useLanguage } from "./LanguageContext";
+import { getActiveLocale, type ActiveLocaleCode, type LocaleCode } from "../i18n";
 import {
     PageData,
     HomeContent,
@@ -11,16 +12,19 @@ import {
     SimplePageContent,
 } from "../types/page";
 import { SEOData } from "../types/product";
+import { PublicBootstrapPayload } from "../types/bootstrap";
 
 interface PageContextType {
     globalSettings: GlobalSettings;
-    updateGlobalSettings: (settings: GlobalSettings, lang?: string) => Promise<void>;
+    pageDataLoaded: boolean;
+    currentLocale: ActiveLocaleCode;
+    updateGlobalSettings: (settings: GlobalSettings, locale?: LocaleCode) => Promise<void>;
     pages: PageData[];
-    updatePage: (id: string, newPageData: PageData, lang?: string) => Promise<void>;
+    updatePage: (id: string, newPageData: PageData, locale?: LocaleCode) => Promise<void>;
     pageSeo: Record<string, SEOData>;
     pageSeoLoaded: boolean;
-    updatePageSeo: (id: string, seo: SEOData, lang?: string) => Promise<void>;
-    refreshData: (lang?: string) => Promise<void>;
+    updatePageSeo: (id: string, seo: SEOData, locale?: LocaleCode) => Promise<void>;
+    refreshData: (locale?: LocaleCode) => Promise<void>;
 }
 
 const defaultUiLabels = {
@@ -74,6 +78,63 @@ const defaultUiLabels = {
     submittingLabel: "Sending...",
     inquirySuccessMsg: "Inquiry received. The export team will contact you shortly.",
     inquiryFailureMsg: "Submission failed. Please try again.",
+    sendMessageLabel: "Send Message",
+
+    // About Section
+    missionPurposeLabel: "Purpose",
+    missionHeritageLabel: "Heritage",
+    missionPhilosophyLabel: "Philosophy",
+    missionStandardsLabel: "Standards",
+    orchardPhilosophyLabel: "Orchard Philosophy",
+    missionNarrativeEyebrow: "Mission",
+    missionNarrativeTitle: "What drives us in cultivation and processing",
+    missionNarrativeSublabel: "A closer look at the mission, heritage, philosophy, and standards of the company.",
+
+    // Facility & Standards
+    insideFacilityEyebrow: "Inside the Facility",
+    haccpLabel: "HACCP Certified",
+    isoLabel: "ISO 9001:2015",
+    organicLabel: "100% Organic",
+    globalGapLabel: "GlobalGap",
+    fdaLabel: "FDA Registered",
+
+    // Export Operations
+    exportOpsEyebrow: "Export Operations",
+    exportOpsTitle: "Logistics, Documentation & Packaging tailored for buyers",
+    logisticsDesc1: "We provide full multimodal transport based on buyer requirements.",
+    logisticsDesc2: "Every shipment is structured for repeatability and compliance with destination country regulations.",
+    packagingTitle: "Custom Packaging",
+    packagingDesc: "Cartons, vacuum-sealed bags, or retail packaging under your brand.",
+    transportationTitle: "Ocean & Rail Freight",
+    transportationDesc: "Cost-effective FCL and LCL shipments via major ports and rail networks.",
+    documentationTitle: "Customs Clearance",
+    documentationDesc: "Full documentary support including phytosanitary and origin certificates.",
+
+    // Destination Breakdown
+    destinationBreakdownEyebrow: "Export Geography",
+    destinationBreakdownTitle: "Preparing every line for dispatch",
+    destinationBreakdownDesc: "Export planning varies based on the destination market.",
+
+    // Quality & Harvest
+    qualityGuaranteeTitle: "Quality Guarantee",
+    qualityGuaranteeDesc: "Our facilities utilize laser sorting to ensure 99.9% purity across all exports.",
+    qualitySealLabel: "Product Quality Seal",
+    moistureControlLabel: "Moisture Control",
+    moistureControlDesc: "Strictly maintained at 18-22% for optimal shelf life.",
+    sizeCalibrationLabel: "Size Calibration",
+    sizeCalibrationDesc: "Laser-calibrated for uniform sizing (Jumbo, Large, Medium).",
+    microSafeLabel: "Microbiological Safety",
+    microSafeDesc: "Regular lab testing for aflatoxins and heavy metals.",
+
+    // Contacts Page Specifics
+    contactsIntroFallback: "Whether you need pricing, samples, or logistics details, our team is ready to help.",
+    directContactEyebrow: "Direct Contact",
+    contactDetailsTitle: "Contact Details",
+    contactDetailsDesc: "Connect with our sales department through your preferred channel.",
+    emailLabel: "Email",
+    phoneLabel: "Phone",
+    headquartersLabel: "Headquarters",
+    workingHoursLabel: "Working Hours",
 };
 
 const initialGlobalSettings: GlobalSettings = {
@@ -420,22 +481,52 @@ const initialPages: PageData[] = [
     },
 ];
 
+const managedPageIds = ["home", "about", "products", "export", "contacts", "privacy", "terms"] as const;
+
+function mergePagesWithDefaults(pages?: PageData[]) {
+    if (!pages?.length) {
+        return initialPages;
+    }
+
+    return initialPages.map((page) => {
+        const incoming = pages.find((candidate) => candidate.id === page.id);
+        if (!incoming) {
+            return page;
+        }
+
+        return {
+            ...page,
+            ...incoming,
+            content: incoming.content ?? page.content,
+        };
+    });
+}
+
 const PageContext = createContext<PageContextType | undefined>(undefined);
 
-export const PageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const { language } = useLanguage();
-    const [globalSettings, setGlobalSettings] = useState<GlobalSettings>(initialGlobalSettings);
-    const [pages, setPages] = useState<PageData[]>(initialPages);
-    const [pageSeo, setPageSeo] = useState<Record<string, SEOData>>(defaultPageSeoSettings);
-    const [pageSeoLoaded, setPageSeoLoaded] = useState(false);
+export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicBootstrapPayload | null }> = ({ children, initialData }) => {
+    const { locale } = useLanguage();
+    const bootstrapData = useMemo(
+        () => (initialData && initialData.locale === locale ? initialData : null),
+        [initialData, locale],
+    );
+    const [globalSettings, setGlobalSettings] = useState<GlobalSettings>(bootstrapData?.globalSettings ?? initialGlobalSettings);
+    const [pages, setPages] = useState<PageData[]>(mergePagesWithDefaults(bootstrapData?.pages));
+    const [pageSeo, setPageSeo] = useState<Record<string, SEOData>>(bootstrapData?.pageSeo ?? defaultPageSeoSettings);
+    const [pageSeoLoaded, setPageSeoLoaded] = useState(Boolean(bootstrapData));
+    const [pageDataLoaded, setPageDataLoaded] = useState(Boolean(bootstrapData));
+    const [loadedLocale, setLoadedLocale] = useState<ActiveLocaleCode | null>(bootstrapData?.locale ?? null);
 
-    const refreshData = async (lang?: string) => {
-        const targetLang = lang || language;
+    const refreshData = async (requestedLocale?: LocaleCode) => {
+        const targetLocale = getActiveLocale(requestedLocale || locale);
+        setPageDataLoaded(false);
+        setPageSeoLoaded(false);
+
         try {
-            const langQuery = `?lang=${targetLang}&v=${Date.now()}`;
+            const localeQuery = `?locale=${encodeURIComponent(targetLocale)}&v=${Date.now()}`;
             const [globalsRes, seoRes] = await Promise.all([
-                fetch(`/api/globals${langQuery}`),
-                fetch(`/api/seo/pages${langQuery}`),
+                fetch(`/api/globals${localeQuery}`),
+                fetch(`/api/seo/pages${localeQuery}`),
             ]);
 
             if (globalsRes.ok) {
@@ -446,58 +537,74 @@ export const PageProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             if (seoRes.ok) {
                 const data = await seoRes.json();
                 setPageSeo(data);
-                setPageSeoLoaded(true);
             }
 
-            // Refresh all pages
-            const ids = ["home", "about", "products", "export", "contacts", "privacy", "terms"];
-            const pagePromises = ids.map(async (id) => {
-                const res = await fetch(`/api/pages/${id}${langQuery}`);
-                if (res.ok) return { id, content: await res.json() };
-                return null;
+            const pagePromises = managedPageIds.map(async (id) => {
+                const res = await fetch(`/api/pages/${id}${localeQuery}`);
+                if (!res.ok) {
+                    return null;
+                }
+
+                return { id, content: await res.json() };
             });
             const results = await Promise.all(pagePromises);
-            
-            setPages((prev) => prev.map(p => {
-                const match = results.find(r => r?.id === p.id);
-                return match ? { ...p, content: { ...p.content, ...match.content } } : p;
-            }));
 
+            setPages(
+                initialPages.map((page) => {
+                    const match = results.find((result) => result?.id === page.id);
+                    return match ? { ...page, content: match.content } : page;
+                }),
+            );
+            setLoadedLocale(targetLocale);
         } catch (error) {
             console.error("Failed to refresh page data:", error);
         } finally {
+            setPageDataLoaded(true);
             setPageSeoLoaded(true);
         }
     };
 
-    // When site language changes, reload public data
     useEffect(() => {
-        refreshData(language);
-    }, [language]);
+        if (bootstrapData) {
+            setGlobalSettings(bootstrapData.globalSettings);
+            setPages(mergePagesWithDefaults(bootstrapData.pages));
+            setPageSeo(bootstrapData.pageSeo);
+            setPageDataLoaded(true);
+            setPageSeoLoaded(true);
+            setLoadedLocale(bootstrapData.locale);
+            return;
+        }
 
-    const updateGlobalSettings = async (settings: GlobalSettings, lang?: string) => {
-        const targetLang = lang || language;
-        const response = await fetch(`/api/globals?lang=${targetLang}`, {
+        if (loadedLocale === locale && pageDataLoaded && pageSeoLoaded) {
+            return;
+        }
+
+        void refreshData(locale);
+    }, [bootstrapData, loadedLocale, locale]);
+
+    const updateGlobalSettings = async (settings: GlobalSettings, requestedLocale?: LocaleCode) => {
+        const targetLocale = getActiveLocale(requestedLocale || locale);
+        const response = await fetch(`/api/globals?locale=${encodeURIComponent(targetLocale)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(settings),
         });
         if (response.ok) {
-            if (targetLang === language) setGlobalSettings(settings);
+            if (targetLocale === locale) setGlobalSettings(settings);
         } else {
             throw new Error("Failed to update global settings");
         }
     };
 
-    const updatePage = async (id: string, newPageData: PageData, lang?: string) => {
-        const targetLang = lang || language;
-        const response = await fetch(`/api/pages/${id}?lang=${targetLang}`, {
+    const updatePage = async (id: string, newPageData: PageData, requestedLocale?: LocaleCode) => {
+        const targetLocale = getActiveLocale(requestedLocale || locale);
+        const response = await fetch(`/api/pages/${id}?locale=${encodeURIComponent(targetLocale)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newPageData.content),
         });
         if (response.ok) {
-            if (targetLang === language) {
+            if (targetLocale === locale) {
                 setPages((prev) => prev.map((p) => (p.id === id ? newPageData : p)));
             }
         } else {
@@ -505,15 +612,15 @@ export const PageProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
-    const updatePageSeo = async (id: string, seo: SEOData, lang?: string) => {
-        const targetLang = lang || language;
-        const response = await fetch(`/api/seo/pages/${id}?lang=${targetLang}`, {
+    const updatePageSeo = async (id: string, seo: SEOData, requestedLocale?: LocaleCode) => {
+        const targetLocale = getActiveLocale(requestedLocale || locale);
+        const response = await fetch(`/api/seo/pages/${id}?locale=${encodeURIComponent(targetLocale)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(seo),
         });
         if (response.ok) {
-            if (targetLang === language) {
+            if (targetLocale === locale) {
                 setPageSeo((prev) => ({ ...prev, [id]: seo }));
             }
         } else {
@@ -525,6 +632,8 @@ export const PageProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         <PageContext.Provider
             value={{
                 globalSettings,
+                pageDataLoaded,
+                currentLocale: locale,
                 updateGlobalSettings,
                 pages,
                 updatePage,

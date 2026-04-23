@@ -46,7 +46,7 @@ export function Terms() {
 
   useSEO({
     title: seo?.metaTitle || uiLabels.termsTitle || `${t("termsTitle")} | HQ Dried Fruits`,
-    description: seo?.metaDescription || "Terms of service for HQ Dried Fruits.",
+    description: seo?.metaDescription || t("termsDescription"),
     ogTitle: seo?.ogTitle || uiLabels.termsTitle || `${t("termsTitle")} | HQ Dried Fruits`,
   });
 
@@ -56,7 +56,7 @@ export function Terms() {
         <h1 className="font-display text-4xl font-bold text-earth-900 sm:text-5xl">
           {content?.title || uiLabels.termsTitle || t("termsTitle")}
         </h1>
-        <p className="mt-3 text-sm text-earth-400">Last updated: {new Date().getFullYear()}</p>
+        <p className="mt-3 text-sm text-earth-400">{t("lastUpdatedLabel")}: {new Date().getFullYear()}</p>
         <div
           className="mt-10 space-y-6 text-earth-700 prosetext prose prose-earth max-w-none
             prose-h2:font-display prose-h2:text-2xl prose-h2:font-bold prose-h2:text-earth-900 prose-h2:mt-10 prose-h2:mb-3

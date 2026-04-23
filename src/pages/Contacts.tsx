@@ -5,11 +5,13 @@ import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
+import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ContactsContent } from "@/src/types/page";
 import { submitLead } from "@/src/lib/leads";
 
 export function Contacts() {
   const { pages, pageSeo, globalSettings } = usePages();
+  const { t } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.contacts;
 
@@ -126,10 +128,10 @@ export function Contacts() {
       setEmail("");
       setMessage("");
       setIsValid(null);
-      setSubmitMessage(uiLabels.inquirySuccessMsg || "Inquiry received. The export team will contact you shortly.");
+      setSubmitMessage(uiLabels.inquirySuccessMsg || t("contactsFormSuccess"));
     } catch (error) {
       console.error("Failed to submit contact form:", error);
-      setSubmitMessage(uiLabels.inquiryFailureMsg || "Submission failed. Please try again.");
+      setSubmitMessage(uiLabels.inquiryFailureMsg || t("contactsFormError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -222,7 +224,7 @@ export function Contacts() {
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
-                      placeholder={uiLabels.footerEmailPlaceholder || "Enter your work email"}
+                      placeholder={uiLabels.footerEmailPlaceholder || t("contactsEmailPlaceholder")}
                       className={`w-full rounded-xl bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 transition-all border ${isValid === true ? "border-mint-500 focus:ring-mint-500" :
                         isValid === false ? "border-red-400 focus:ring-red-400" :
                           "border-earth-200 focus:ring-earth-500"
@@ -357,7 +359,7 @@ export function Contacts() {
               <div className="absolute inset-0 bg-[#e5e3df]">
                 <img
                   src={content?.headquartersImage || "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1500"}
-                  alt="Headquarters map"
+                  alt={t("contactsHeadquartersMapAlt")}
                   className="h-full w-full object-cover mix-blend-luminosity opacity-40"
                   referrerPolicy="no-referrer"
                 />

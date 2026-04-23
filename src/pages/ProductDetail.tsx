@@ -1,23 +1,23 @@
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { CheckCircle2, Flame, Droplets, Dumbbell, Wheat, ArrowRight, Loader2 } from "lucide-react";
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
 import { Select } from "@/src/components/ui/Select";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
-import { Product } from "@/src/types/product";
+import { useProducts } from "@/src/contexts/ProductContext";
+import { useLanguage } from "@/src/contexts/LanguageContext";
 import { submitLead } from "@/src/lib/leads";
-import { getManagedPagePath, getManagedProductPath, normalizePath } from "@/src/lib/routes";
+import { findManagedProduct, getManagedPagePath, getManagedProductPath, normalizePath, resolveManagedProductPath } from "@/src/lib/routes";
 
 export function ProductDetail() {
-  const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const navigate = useNavigate();
+  const { locale } = useLanguage();
   const { pages, pageSeo } = usePages();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { products, productsLoaded } = useProducts();
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedVolume, setSelectedVolume] = useState("");
   const [company, setCompany] = useState("");
@@ -27,40 +27,41 @@ export function ProductDetail() {
   const productsPage = pages.find((page) => page.id === "products");
   const detailUi = productsPage?.content?.detailUi || {};
 
-  useEffect(() => {
-    fetch(`/api/products/${id}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Not found");
-        return res.json();
-      })
-      .then(data => {
-        setProduct(data);
-        const gallery = [data?.image, ...(Array.isArray(data?.imageGallery) ? data.imageGallery : [])].filter(Boolean);
-        setSelectedImage(gallery[0] || "");
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch product", err);
-        setIsLoading(false);
-      });
-  }, [id]);
+  const resolvedPath = useMemo(
+    () => resolveManagedProductPath(location.pathname, pageSeo, locale),
+    [location.pathname, locale, pageSeo],
+  );
+  const product = useMemo(
+    () => (resolvedPath ? findManagedProduct(resolvedPath.productSlug, products) : null),
+    [products, resolvedPath],
+  );
 
   useEffect(() => {
     if (!product) {
       return;
     }
 
-    const canonicalPath = getManagedProductPath(product, pageSeo);
+    const gallery = [product.image, ...(Array.isArray(product.imageGallery) ? product.imageGallery : [])].filter(Boolean);
+    setSelectedImage((current) => (gallery.includes(current) ? current : gallery[0] || ""));
+  }, [product]);
+
+  useEffect(() => {
+    if (!product) {
+      return;
+    }
+
+    const canonicalPath = getManagedProductPath(product, pageSeo, locale);
     if (normalizePath(location.pathname) !== canonicalPath) {
       navigate(canonicalPath, { replace: true });
     }
-  }, [location.pathname, navigate, pageSeo, product]);
+  }, [location.pathname, locale, navigate, pageSeo, product]);
 
   useSEO({
     title: product?.seo?.metaTitle || (product ? `${product.name} | HQ Dried Fruits` : "Product Not Found"),
     description: product?.seo?.metaDescription || product?.shortDescription || "",
     ogTitle: product?.seo?.ogTitle || product?.name || "",
     ogImage: product?.image || "",
+    canonicalUrl: product ? getManagedProductPath(product, pageSeo, locale) : undefined,
   });
 
   const galleryImages = product
@@ -100,18 +101,18 @@ export function ProductDetail() {
     }
   };
 
-  if (isLoading) {
+  if (!productsLoaded) {
     return (
       <PageLayout>
         <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-earth-500 mb-4" />
-          <p className="text-earth-600 font-medium">{detailUi.loadingLabel || "Loading Specifications..."}</p>
+          <Loader2 className="mb-4 h-12 w-12 animate-spin text-earth-500" />
+          <p className="font-medium text-earth-600">{detailUi.loadingLabel || "Loading Specifications..."}</p>
         </div>
       </PageLayout>
     );
   }
 
-  if (!product) {
+  if (!resolvedPath || !product) {
     return (
       <PageLayout>
         <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
@@ -119,7 +120,7 @@ export function ProductDetail() {
             {detailUi.notFoundTitle || "Product Not Found"}
           </h1>
           <p className="mb-8 text-earth-600">{detailUi.notFoundBody || "The product you're looking for doesn't exist."}</p>
-          <Link to={getManagedPagePath("products", pageSeo)}>
+          <Link to={getManagedPagePath("products", pageSeo, locale)}>
             <Button>{detailUi.backToCatalogLabel || "Back to Catalog"}</Button>
           </Link>
         </div>
@@ -137,7 +138,7 @@ export function ProductDetail() {
       >
         <div className="grid gap-16 lg:grid-cols-2">
           <div className="relative flex flex-col gap-6 lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]">
-            <div className="flex-1 overflow-hidden rounded-[3rem] bg-amber-50 relative group">
+            <div className="relative flex-1 overflow-hidden rounded-[3rem] bg-amber-50 group">
               <motion.img
                 initial={{ scale: 1.1 }}
                 animate={{ scale: 1 }}
@@ -148,7 +149,7 @@ export function ProductDetail() {
                 referrerPolicy="no-referrer"
               />
             </div>
-            <div className="flex gap-4 h-24 shrink-0">
+            <div className="flex h-24 shrink-0 gap-4">
               {galleryImages.map((image, index) => (
                 <button
                   key={`${image}-${index}`}
@@ -180,7 +181,7 @@ export function ProductDetail() {
             </p>
             {product.longDescription && (
               <div
-                className="mb-10 prose prose-earth prose-lg text-earth-600"
+                className="prose prose-earth prose-lg mb-10 text-earth-600"
                 dangerouslySetInnerHTML={{ __html: product.longDescription }}
               />
             )}
@@ -193,8 +194,8 @@ export function ProductDetail() {
                 "Moisture: 18-22%",
                 "Shelf Life: 12 Months"
               ]).map((benefit, i) => (
-                <div key={i} className="flex items-center gap-3 text-earth-800 font-medium">
-                  <CheckCircle2 className="text-mint-500 h-5 w-5" /> {benefit}
+                <div key={i} className="flex items-center gap-3 font-medium text-earth-800">
+                  <CheckCircle2 className="h-5 w-5 text-mint-500" /> {benefit}
                 </div>
               ))}
             </div>
@@ -245,7 +246,7 @@ export function ProductDetail() {
                     placeholder={detailUi.companyPlaceholder || "Company Name"}
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full rounded-xl bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500 border border-earth-100"
+                    className="w-full rounded-xl border border-earth-100 bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                   />
                   <input
                     type="email"
@@ -253,16 +254,16 @@ export function ProductDetail() {
                     placeholder={detailUi.emailPlaceholder || "Work Email"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500 border border-earth-100"
+                    className="w-full rounded-xl border border-earth-100 bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                   />
                 </div>
                 <Select
                   value={selectedVolume}
-                  onChange={(val) => setSelectedVolume(val)}
+                  onChange={(value) => setSelectedVolume(value)}
                   placeholder={detailUi.volumePlaceholder || "Select Volume..."}
                   options={inquiryOptions.map((option) => ({ value: option, label: option }))}
                 />
-                <Button type="submit" className="mt-2 w-full h-12" disabled={isSubmitting}>
+                <Button type="submit" className="mt-2 h-12 w-full" disabled={isSubmitting}>
                   {isSubmitting
                     ? detailUi.inquirySubmittingLabel || "Sending Inquiry..."
                     : detailUi.inquiryButtonLabel || "Send Inquiry"}{" "}

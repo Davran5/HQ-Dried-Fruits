@@ -54,6 +54,63 @@ export interface GlobalUILabels {
     submittingLabel: string;
     inquirySuccessMsg: string;
     inquiryFailureMsg: string;
+    sendMessageLabel: string;
+    
+    // About Section
+    missionPurposeLabel: string;
+    missionHeritageLabel: string;
+    missionPhilosophyLabel: string;
+    missionStandardsLabel: string;
+    orchardPhilosophyLabel: string;
+    missionNarrativeEyebrow: string;
+    missionNarrativeTitle: string;
+    missionNarrativeSublabel: string;
+    
+    // Facility & Standards
+    insideFacilityEyebrow: string;
+    haccpLabel: string;
+    isoLabel: string;
+    organicLabel: string;
+    globalGapLabel: string;
+    fdaLabel: string;
+    
+    // Export Operations
+    exportOpsEyebrow: string;
+    exportOpsTitle: string;
+    logisticsDesc1: string;
+    logisticsDesc2: string;
+    packagingTitle: string;
+    packagingDesc: string;
+    transportationTitle: string;
+    transportationDesc: string;
+    documentationTitle: string;
+    documentationDesc: string;
+    
+    // Destination Breakdown
+    destinationBreakdownEyebrow: string;
+    destinationBreakdownTitle: string;
+    destinationBreakdownDesc: string;
+    
+    // Quality & Harvest
+    qualityGuaranteeTitle: string;
+    qualityGuaranteeDesc: string;
+    qualitySealLabel: string;
+    moistureControlLabel: string;
+    moistureControlDesc: string;
+    sizeCalibrationLabel: string;
+    sizeCalibrationDesc: string;
+    microSafeLabel: string;
+    microSafeDesc: string;
+    
+    // Contacts Page Specifics
+    contactsIntroFallback: string;
+    directContactEyebrow: string;
+    contactDetailsTitle: string;
+    contactDetailsDesc: string;
+    emailLabel: string;
+    phoneLabel: string;
+    headquartersLabel: string;
+    workingHoursLabel: string;
 }
 
 export interface SocialLink {
@@ -224,6 +281,8 @@ export interface ProductsContent {
     pageTitle: string;
     pageSubtitle: string;
     heroBgImage: string;
+    introContent?: string;
+    introFacts?: TextBlockItem[];
 
     orderingBgImage: string;
     orderingFormTitle: string;

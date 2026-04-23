@@ -1,13 +1,23 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { StrictMode } from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById("root");
+const initialData = window.__HQ_PUBLIC_BOOTSTRAP__ ?? null;
+
+if (!container) {
+  throw new Error("Root container not found");
+}
+
+const app = (
   <StrictMode>
-    <LanguageProvider>
-      <App />
-    </LanguageProvider>
-  </StrictMode>,
+    <App initialData={initialData} />
+  </StrictMode>
 );
+
+if (container.hasChildNodes()) {
+  hydrateRoot(container, app);
+} else {
+  createRoot(container).render(app);
+}

@@ -1,34 +1,65 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import { type Language, languageNames, languageFull } from "../i18n";
+import {
+  ACTIVE_LOCALES,
+  type ActiveLocaleCode,
+  localeNames as localeShortNames,
+  localeFullNames,
+} from "../i18n";
 
 interface AdminLanguageContextValue {
-  editingLang: Language;
-  setEditingLang: (lang: Language) => void;
+  editingLocale: ActiveLocaleCode;
+  editingLang: ActiveLocaleCode;
+  setEditingLocale: (locale: ActiveLocaleCode) => void;
+  setEditingLang: (locale: ActiveLocaleCode) => void;
 }
 
 const AdminLanguageContext = createContext<AdminLanguageContextValue | undefined>(undefined);
 
-const SUPPORTED_EDIT_LANGUAGES: Language[] = ["en", "ru", "uz"];
-const STORAGE_KEY = "hq_admin_edit_lang";
+const STORAGE_KEY = "hq_admin_edit_locale";
+const LEGACY_STORAGE_KEY = "hq_admin_edit_lang";
 
-function getSavedAdminLang(): Language {
+export const SUPPORTED_EDIT_LANGUAGES = [...ACTIVE_LOCALES];
+
+function isEditableLocale(value: string | null | undefined): value is ActiveLocaleCode {
+  return Boolean(value && SUPPORTED_EDIT_LANGUAGES.includes(value as ActiveLocaleCode));
+}
+
+function getSavedAdminLocale(): ActiveLocaleCode {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
-    if (saved && SUPPORTED_EDIT_LANGUAGES.includes(saved)) return saved;
+    const savedLocale = localStorage.getItem(STORAGE_KEY);
+    if (isEditableLocale(savedLocale)) {
+      return savedLocale;
+    }
+
+    const legacyLocale = localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (isEditableLocale(legacyLocale)) {
+      return legacyLocale;
+    }
   } catch {}
+
   return "en";
 }
 
 export function AdminLanguageProvider({ children }: { children: ReactNode }) {
-  const [editingLang, setEditingLangState] = useState<Language>(getSavedAdminLang);
+  const [editingLocale, setEditingLocaleState] = useState<ActiveLocaleCode>(getSavedAdminLocale);
 
-  const setEditingLang = useCallback((lang: Language) => {
-    setEditingLangState(lang);
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch {}
+  const setEditingLocale = useCallback((locale: ActiveLocaleCode) => {
+    setEditingLocaleState(locale);
+    try {
+      localStorage.setItem(STORAGE_KEY, locale);
+      localStorage.setItem(LEGACY_STORAGE_KEY, locale);
+    } catch {}
   }, []);
 
   return (
-    <AdminLanguageContext.Provider value={{ editingLang, setEditingLang }}>
+    <AdminLanguageContext.Provider
+      value={{
+        editingLocale,
+        editingLang: editingLocale,
+        setEditingLocale,
+        setEditingLang: setEditingLocale,
+      }}
+    >
       {children}
     </AdminLanguageContext.Provider>
   );
@@ -40,5 +71,6 @@ export function useAdminLanguage() {
   return ctx;
 }
 
-export { SUPPORTED_EDIT_LANGUAGES, languageNames, languageFull };
-export type { Language };
+export const languageNames = localeShortNames;
+export const languageFull = localeFullNames;
+export type Language = ActiveLocaleCode;

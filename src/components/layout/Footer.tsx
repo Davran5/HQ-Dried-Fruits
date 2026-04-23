@@ -12,7 +12,7 @@ import { getNavLabel } from "@/src/i18n";
 export function Footer() {
   const { globalSettings, pageSeo } = usePages();
   const { products } = useProducts();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,9 +23,9 @@ export function Footer() {
   const footerDescription =
     globalSettings.footerDescription ||
     uiLabels.footerDescription ||
-    "Quality sun-dried fruits from the heart of Uzbekistan. Exporting nature's sweetness to global B2B partners with uncompromising quality.";
+    t("footerDescription");
   const footerLeadText =
-    globalSettings.footerLeadText || uiLabels.footerLeadText || "Get our latest pricing and export terms directly to your inbox or Telegram.";
+    globalSettings.footerLeadText || uiLabels.footerLeadText || t("footerLeadText");
   const footerCtaEmail = globalSettings.footerCtaEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
   const telegramUrl = globalSettings.telegramUrl?.trim();
   const footerCopyrightText = globalSettings.footerCopyrightText || uiLabels.footerCopyright || `${siteName}. All rights reserved.`;
@@ -44,10 +44,10 @@ export function Footer() {
       });
       setCompany("");
       setEmail("");
-      setSubmitMessage(uiLabels.footerInquirySuccess || "Request received. The sales team will contact you shortly.");
+      setSubmitMessage(uiLabels.footerInquirySuccess || t("footerInquirySuccess"));
     } catch (error) {
       console.error("Failed to submit footer inquiry:", error);
-      setSubmitMessage(uiLabels.footerInquiryError || "Submission failed. Please try again.");
+      setSubmitMessage(uiLabels.footerInquiryError || t("footerInquiryError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -74,7 +74,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link to={getManagedPagePath("home", pageSeo)} className="group mb-6 flex items-center gap-2">
+            <Link to={getManagedPagePath("home", pageSeo, language)} className="group mb-6 flex items-center gap-2">
               <div className="flex items-center gap-3">
                 {globalSettings.footerLogo ? (
                   <img
@@ -115,7 +115,7 @@ export function Footer() {
               {globalSettings.quickLinks?.map((link) => (
                 <li key={link.label}>
                   <Link
-                    to={canonicalizeManagedUrl(link.url, pageSeo, products)}
+                    to={canonicalizeManagedUrl(link.url, pageSeo, products, language)}
                     className="text-earth-200 transition-colors hover:text-earth-500"
                   >
                     {getNavLabel(link.url, link.label, t)}
@@ -128,7 +128,7 @@ export function Footer() {
           <div className="lg:col-span-5">
             <div className="rounded-3xl border border-earth-700/50 bg-earth-800/50 p-8 backdrop-blur-sm">
               <h3 className="mb-2 font-display text-xl font-semibold text-white">
-                {globalSettings.footerCtaTitle || uiLabels.footerCtaTitle || "Request Wholesale Catalog"}
+                {globalSettings.footerCtaTitle || uiLabels.footerCtaTitle || t("footerCtaTitle")}
               </h3>
               <p className="mb-6 text-sm text-earth-300">{footerLeadText}</p>
 
@@ -164,7 +164,7 @@ export function Footer() {
                   </a>
                   {telegramUrl ? (
                     <>
-                      {" "}{uiLabels.footerTelegramOrLabel || "or"}{" "}
+                      {" "}{uiLabels.footerTelegramOrLabel || t("footerTelegramOr")}{" "}
                       <a href={telegramUrl} target="_blank" rel="noreferrer" className="text-earth-500 hover:underline">
                         {uiLabels.footerTelegramLinkLabel || t("footerTelegramLinkLabel")}
                       </a>
@@ -182,10 +182,10 @@ export function Footer() {
             &copy; {new Date().getFullYear()} {footerCopyrightText}
           </p>
           <div className="mt-4 flex gap-4 sm:mt-0">
-            <Link to={getManagedPagePath("privacy", pageSeo)} className="text-sm text-earth-400 hover:text-earth-200">
+            <Link to={getManagedPagePath("privacy", pageSeo, language)} className="text-sm text-earth-400 hover:text-earth-200">
               {uiLabels.footerPrivacyLinkLabel || t("footerPrivacyLinkLabel")}
             </Link>
-            <Link to={getManagedPagePath("terms", pageSeo)} className="text-sm text-earth-400 hover:text-earth-200">
+            <Link to={getManagedPagePath("terms", pageSeo, language)} className="text-sm text-earth-400 hover:text-earth-200">
               {uiLabels.footerTermsLinkLabel || t("footerTermsLinkLabel")}
             </Link>
           </div>

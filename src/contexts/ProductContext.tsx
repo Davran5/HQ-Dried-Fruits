@@ -1,33 +1,44 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { Product } from "../types/product";
 import { useLanguage } from "./LanguageContext";
+import { getActiveLocale, type ActiveLocaleCode, type LocaleCode } from "../i18n";
+import { PublicBootstrapPayload } from "../types/bootstrap";
 
 interface ProductContextType {
     products: Product[];
     productsLoaded: boolean;
-    addProduct: (product: Omit<Product, "id">, lang?: string) => Promise<void>;
-    updateProduct: (id: string, product: Omit<Product, "id">, lang?: string) => Promise<void>;
+    currentLocale: ActiveLocaleCode;
+    addProduct: (product: Omit<Product, "id">, locale?: LocaleCode) => Promise<void>;
+    updateProduct: (id: string, product: Omit<Product, "id">, locale?: LocaleCode) => Promise<void>;
     deleteProduct: (id: string) => Promise<void>;
-    refreshProducts: (lang?: string) => Promise<void>;
+    refreshProducts: (locale?: LocaleCode) => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
-export function ProductProvider({ children }: { children: ReactNode }) {
-    const { language } = useLanguage();
-    const [products, setProducts] = useState<Product[]>([]);
-    const [productsLoaded, setProductsLoaded] = useState(false);
+export function ProductProvider({ children, initialData }: { children: ReactNode; initialData?: PublicBootstrapPayload | null }) {
+    const { locale } = useLanguage();
+    const bootstrapData = useMemo(
+        () => (initialData && initialData.locale === locale ? initialData : null),
+        [initialData, locale],
+    );
+    const [products, setProducts] = useState<Product[]>(bootstrapData?.products ?? []);
+    const [productsLoaded, setProductsLoaded] = useState(Boolean(bootstrapData));
+    const [loadedLocale, setLoadedLocale] = useState<ActiveLocaleCode | null>(bootstrapData?.locale ?? null);
 
-    const refreshProducts = async (lang?: string) => {
-        const targetLang = lang || language;
+    const refreshProducts = async (requestedLocale?: LocaleCode) => {
+        const targetLocale = getActiveLocale(requestedLocale || locale);
+        setProductsLoaded(false);
+
         try {
-            const response = await fetch(`/api/products?lang=${targetLang}`);
+            const response = await fetch(`/api/products?locale=${encodeURIComponent(targetLocale)}&v=${Date.now()}`);
             if (response.ok) {
                 const data = await response.json();
                 if (Array.isArray(data)) {
                     setProducts(data);
                 }
             }
+            setLoadedLocale(targetLocale);
         } catch (err) {
             console.error("Error loading products:", err);
         } finally {
@@ -36,26 +47,36 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
-        setProductsLoaded(false);
-        refreshProducts();
-    }, [language]);
+        if (bootstrapData) {
+            setProducts(Array.isArray(bootstrapData.products) ? bootstrapData.products : []);
+            setProductsLoaded(true);
+            setLoadedLocale(bootstrapData.locale);
+            return;
+        }
 
-    const addProduct = async (productDetails: Omit<Product, "id">, lang?: string) => {
-        const targetLang = lang || language;
-        const baseSlug = productDetails.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        if (loadedLocale === locale && productsLoaded) {
+            return;
+        }
+
+        void refreshProducts(locale);
+    }, [bootstrapData, loadedLocale, locale]);
+
+    const addProduct = async (productDetails: Omit<Product, "id">, requestedLocale?: LocaleCode) => {
+        const targetLocale = getActiveLocale(requestedLocale || locale);
+        const baseSlug = productDetails.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
         const newId = `${baseSlug}-${Date.now().toString().slice(-4)}`;
 
         const newProduct: Product = { ...productDetails, id: newId };
 
         try {
-            const response = await fetch(`/api/products?lang=${targetLang}`, {
+            const response = await fetch(`/api/products?locale=${encodeURIComponent(targetLocale)}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newProduct)
             });
             if (response.ok) {
                 const payload = await response.json().catch(() => null);
-                if (targetLang === language) {
+                if (targetLocale === locale) {
                     setProducts(prev => [...prev, payload?.product || newProduct]);
                 }
             } else {
@@ -68,19 +89,19 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    const updateProduct = async (id: string, productDetails: Omit<Product, "id">, lang?: string) => {
-        const targetLang = lang || language;
+    const updateProduct = async (id: string, productDetails: Omit<Product, "id">, requestedLocale?: LocaleCode) => {
+        const targetLocale = getActiveLocale(requestedLocale || locale);
         const updatedProduct: Product = { ...productDetails, id };
 
         try {
-            const response = await fetch(`/api/products/${id}?lang=${targetLang}`, {
+            const response = await fetch(`/api/products/${id}?locale=${encodeURIComponent(targetLocale)}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedProduct)
             });
             if (response.ok) {
                 const payload = await response.json().catch(() => null);
-                if (targetLang === language) {
+                if (targetLocale === locale) {
                     setProducts(prev => prev.map(p => p.id === id ? (payload?.product || updatedProduct) : p));
                 }
             } else {
@@ -111,7 +132,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <ProductContext.Provider value={{ products, productsLoaded, addProduct, updateProduct, deleteProduct, refreshProducts }}>
+        <ProductContext.Provider value={{ products, productsLoaded, currentLocale: locale, addProduct, updateProduct, deleteProduct, refreshProducts }}>
             {children}
         </ProductContext.Provider>
     );

@@ -5,6 +5,7 @@ import { PageLayout } from "@/src/components/layout/PageLayout";
 import { BentoCard } from "@/src/components/ui/BentoCard";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
+import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ExportContent, SupplyRoute } from "@/src/types/page";
 
 const fallbackSupplyRoutes: SupplyRoute[] = [
@@ -55,6 +56,7 @@ function getRouteLabel(route: SupplyRoute) {
 
 export function Export() {
   const { pages, pageSeo, globalSettings } = usePages();
+  const { t } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.export;
   const springEasing = [0.25, 1, 0.5, 1];
@@ -231,7 +233,7 @@ export function Export() {
                 transition={{ duration: 0.8, ease: springEasing }}
                 className={`font-display text-[2.7rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[5.2rem] md:text-[6.3rem]`}
               >
-                {content?.heroTitle || "Our Global Export Network"}
+                {content?.heroTitle || t("exportHeroTitle")}
               </motion.h1>
             </div>
 
@@ -242,8 +244,7 @@ export function Export() {
                 transition={{ duration: 0.8, delay: 0.15, ease: springEasing }}
                 className={`text-base ${content?.heroBgImage ? "text-earth-100" : "text-earth-700"} sm:text-xl`}
               >
-                {content?.heroSubtitle ||
-                  "Seamless global logistics from the heart of the Silk Road to your warehouse."}
+                {content?.heroSubtitle || t("exportHeroSubtitle")}
               </motion.p>
             </div>
           </div>
@@ -383,14 +384,14 @@ export function Export() {
                 <div className="grid gap-12 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:items-stretch">
                   <div className="flex h-full flex-col justify-center">
             <h2 className="mb-5 font-display text-[2.35rem] font-bold text-earth-900 sm:mb-6 sm:text-4xl">
-              {content?.qualityTitle || uiLabels.qualityGuaranteeTitle || "The Quality Guarantee"}
+              {content?.qualityTitle || uiLabels.qualityGuaranteeTitle || t("exportQualityTitle")}
             </h2>
             <div
               className="prosetext mb-6 text-base text-earth-700 sm:mb-8 sm:text-xl"
               dangerouslySetInnerHTML={{
                 __html:
                   content?.technicalSpecs ||
-                  uiLabels.qualityGuaranteeDesc || "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
+                  uiLabels.qualityGuaranteeDesc || t("exportQualityDesc"),
               }}
             />
 
@@ -422,7 +423,7 @@ export function Export() {
                     type="button"
                     onClick={() => scrollCertificatesBy(-1)}
                     className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:left-0 sm:-translate-x-1/2 sm:p-4"
-                    aria-label="Scroll certificates left"
+                    aria-label={t("exportCertificatesPrev")}
                   >
                     <ChevronLeft size={20} />
                   </button>
@@ -462,7 +463,7 @@ export function Export() {
                     type="button"
                     onClick={() => scrollCertificatesBy(1)}
                     className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:right-0 sm:translate-x-1/2 sm:p-4"
-                    aria-label="Scroll certificates right"
+                    aria-label={t("exportCertificatesNext")}
                   >
                     <ChevronRight size={20} />
                   </button>

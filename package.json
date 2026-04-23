@@ -8,7 +8,7 @@
     "server": "tsx server.ts",
     "build": "npm run clean && vite build && npm run build-server",
     "build-server": "esbuild server.ts --bundle --platform=node --target=node18 --external:jimp --outfile=server.cjs --format=cjs",
-    "start": "NODE_ENV=production node server.cjs",
+    "start": "node server.cjs",
     "preview": "vite preview",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "lint": "tsc --noEmit"

@@ -149,7 +149,7 @@ export function AdminPages() {
                   <div>
                     <h3 className={`font-bold transition-colors ${isExpanded ? 'text-earth-900' : 'text-slate-900'}`}>{page.name}</h3>
                     <p className="text-xs text-slate-500 font-mono flex items-center gap-1">
-                      Internal Path: <span className="text-earth-600/70">{getManagedPagePath(page.id as ManagedPageId, pageSeo)}</span>
+                      Internal Path: <span className="text-earth-600/70">{getManagedPagePath(page.id as ManagedPageId, pageSeo, editingLang)}</span>
                     </p>
                   </div>
                 </div>

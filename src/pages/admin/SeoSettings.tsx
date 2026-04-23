@@ -54,7 +54,7 @@ export function AdminSeoSettings() {
 
   const staticPages: PageSEO[] = staticPageMetadata.map((page) => ({
     ...page,
-    path: getManagedPagePath(page.id as ManagedPageId, pageSeo),
+    path: getManagedPagePath(page.id as ManagedPageId, pageSeo, editingLang),
     seo: pageSeo[page.id] || defaultPageSeoSettings[page.id],
   }));
 
@@ -63,7 +63,7 @@ export function AdminSeoSettings() {
     ...products.map((product) => ({
       id: `product:${product.id}`,
       name: `Product: ${product.name}`,
-      path: getManagedProductAnchorPath(product, pageSeo),
+      path: getManagedProductAnchorPath(product, pageSeo, editingLang),
       seo: product.seo || {
         metaTitle: `${product.name} | HQ Dried Fruits`,
         metaDescription: product.shortDescription,

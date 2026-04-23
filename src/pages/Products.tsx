@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, CheckCircle2, Phone, Mail, Send, Loader2, SunMedium, Sprout, PackageCheck, ChevronDown } from "lucide-react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
+import { useProducts } from "@/src/contexts/ProductContext";
+import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ProductsContent } from "@/src/types/page";
 import { Product, ProductContentSection } from "@/src/types/product";
 import { submitLead } from "@/src/lib/leads";
-import { getManagedProductSlug } from "@/src/lib/routes";
+import { getManagedProductPath, getManagedProductSlug } from "@/src/lib/routes";
 
 const preferredProductOrder = ["sun-dried-apricots", "black-raisins", "pitted-prunes"];
 
@@ -18,14 +20,17 @@ function stripHtml(value: string) {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-function getFallbackSections(product: Product): ProductContentSection[] {
+function getFallbackSections(
+  product: Product,
+  t: (key: "productsOverview" | "productsBenefits") => string,
+): ProductContentSection[] {
   return [
     {
-      title: "Overview",
+      title: t("productsOverview"),
       body: product.longDescription || `<p>${product.shortDescription}</p>`,
     },
     {
-      title: "Benefits & Buyer Uses",
+      title: t("productsBenefits"),
       body: `<p>${product.highlights.join(". ")}</p>`,
     },
   ];
@@ -34,6 +39,8 @@ function getFallbackSections(product: Product): ProductContentSection[] {
 export function Products() {
   const location = useLocation();
   const { pages, pageSeo, globalSettings } = usePages();
+  const { products, productsLoaded } = useProducts();
+  const { locale, t } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
 
   const introFactCards = [
@@ -66,8 +73,6 @@ export function Products() {
     ogTitle: seo?.ogTitle || "HQ Dried Fruits Product Catalog",
   });
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [selectedSections, setSelectedSections] = useState<Record<string, string>>({});
   const [formStep, setFormStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -83,19 +88,6 @@ export function Products() {
   const [openVolumeProductId, setOpenVolumeProductId] = useState<string | null>(null);
   const orderHubRef = useRef<HTMLElement | null>(null);
   const directContactRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    fetch("/api/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(Array.isArray(data) ? data : []);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch products API payload", err);
-        setIsLoading(false);
-      });
-  }, []);
 
   const activeProducts = products.filter((product) => product.status === "Active");
   const preferredProducts = preferredProductOrder
@@ -114,15 +106,15 @@ export function Products() {
       const next = { ...prev };
       let changed = false;
       for (const product of orderedProducts) {
-        const sections = product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product);
+        const sections = product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product, t);
         if (!next[product.id]) {
-          next[product.id] = sections[0]?.title || uiLabels.overviewLabel || "Overview";
+          next[product.id] = sections[0]?.title || uiLabels.overviewLabel || t("productsOverview");
           changed = true;
         }
       }
       return changed ? next : prev;
     });
-  }, [products]);
+  }, [products, orderedProducts, t, uiLabels.overviewLabel]);
 
   useEffect(() => {
     if (!location.hash) {
@@ -239,12 +231,12 @@ export function Products() {
         estTonnage: tonnageSummary,
         message: `Submitted from the products page wholesale inquiry form.\nSelections: ${tonnageSummary}`,
       });
-      setSubmitMessage(uiLabels.inquirySuccessMsg || "Inquiry received. The sales team will send a quote shortly.");
+      setSubmitMessage(uiLabels.inquirySuccessMsg || t("contactsFormSuccess"));
       setFormData({ products: [], volumes: {}, name: "", contact: "" });
       setFormStep(1);
     } catch (error) {
       console.error("Failed to submit products inquiry:", error);
-      setSubmitMessage(uiLabels.inquiryFailureMsg || "Submission failed. Please try again or contact sales directly.");
+      setSubmitMessage(uiLabels.inquiryFailureMsg || t("contactsFormError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -279,7 +271,7 @@ export function Products() {
     });
   };
 
-  const currentStepText = (uiLabels.orderingFormStepLabel || "Step {step} of 3").replace("{step}", formStep.toString());
+  const currentStepText = (uiLabels.orderingFormStepLabel || t("productsStepIndicator")).replace("{step}", formStep.toString());
 
   return (
     <PageLayout>
@@ -389,7 +381,7 @@ export function Products() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-        {isLoading ? (
+        {!productsLoaded ? (
           <div className="flex h-full items-center justify-center py-20">
             <Loader2 className="h-12 w-12 animate-spin text-earth-500" />
           </div>
@@ -399,8 +391,8 @@ export function Products() {
               const isReversed = index % 2 === 1;
               const slug = getManagedProductSlug(product);
               const contentSections =
-                product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product);
-              const selectedTitle = selectedSections[product.id] || contentSections[0]?.title || uiLabels.overviewLabel || "Overview";
+                product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product, t);
+              const selectedTitle = selectedSections[product.id] || contentSections[0]?.title || uiLabels.overviewLabel || t("productsOverview");
               const selectedSection =
                 contentSections.find((section) => section.title === selectedTitle) || contentSections[0];
               const galleryImages = Array.from(
@@ -433,14 +425,21 @@ export function Products() {
                               {product.name}
                             </h2>
                           </div>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => handleScrollToInquiry(product.id)}
-                            className="border-earth-200 bg-white"
-                          >
-                            {uiLabels.requestQuoteBtn || "Request Quote"} <ArrowRight className="ml-2 h-4 w-4" />
-                          </Button>
+                          <div className="flex flex-wrap gap-3">
+                            <Link to={getManagedProductPath(product, pageSeo, locale)}>
+                              <Button type="button" variant="outline" className="border-earth-200 bg-white">
+                                {content?.viewSpecsLabel || uiLabels.viewSpecsLabel || "View Specifications"}
+                              </Button>
+                            </Link>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => handleScrollToInquiry(product.id)}
+                              className="border-earth-200 bg-white"
+                            >
+                              {uiLabels.requestQuoteBtn || t("productsRequestQuote")} <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
 
                         <p className="max-w-3xl text-base leading-7 text-earth-700 sm:text-lg sm:leading-relaxed">
@@ -453,10 +452,10 @@ export function Products() {
                           {contentSections.map((section) => {
                             const isActive = section.title === selectedTitle;
                             const labelMap: Record<string, string> = {
-                              "Origin & Growing Conditions": uiLabels.originLabel || "Origin",
-                              "Benefits & Buyer Uses": uiLabels.benefitsLabel || "Benefits",
-                              "Export & Handling": uiLabels.exportLabel || "Export",
-                              "Assembly & Sourcing": uiLabels.originLabel || "Origin",
+                              "Origin & Growing Conditions": uiLabels.originLabel || t("productsOverview"),
+                              "Benefits & Buyer Uses": uiLabels.benefitsLabel || t("productsBenefits"),
+                              "Export & Handling": uiLabels.exportLabel || t("productsExport"),
+                              "Assembly & Sourcing": uiLabels.originLabel || t("productsOverview"),
                             };
                             const displayLabel = labelMap[section.title] || section.title;
                             return (
@@ -489,16 +488,16 @@ export function Products() {
                             >
                               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-earth-400">
                                 {{
-                                  "Origin & Growing Conditions": uiLabels.originLabel || "Origin",
-                                  "Benefits & Buyer Uses": uiLabels.benefitsLabel || "Benefits",
-                                  "Export & Handling": uiLabels.exportLabel || "Export",
-                                  "Assembly & Sourcing": uiLabels.originLabel || "Origin",
+                                  "Origin & Growing Conditions": uiLabels.originLabel || t("productsOverview"),
+                                  "Benefits & Buyer Uses": uiLabels.benefitsLabel || t("productsBenefits"),
+                                  "Export & Handling": uiLabels.exportLabel || t("productsExport"),
+                                  "Assembly & Sourcing": uiLabels.originLabel || t("productsOverview"),
                                 }[selectedSection?.title || ""] || selectedSection?.title}
                               </p>
                               <div
                                 className="prose prose-sm mt-4 max-w-none break-words text-earth-700 prose-p:leading-relaxed prose-p:text-earth-700 prose-strong:text-earth-900 prose-li:leading-relaxed prose-li:text-earth-700"
                                 dangerouslySetInnerHTML={{
-                                  __html: selectedSection?.body || `<p>${uiLabels.noInfoLabel || "No additional information added yet."}</p>`,
+                                  __html: selectedSection?.body || `<p>${uiLabels.noInfoLabel || t("productsNoInfo")}</p>`,
                                 }}
                               />
                             </motion.div>
@@ -607,10 +606,10 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepOneLabel || uiLabels.stepOneLabel || "Which products are you interested in?"}
+                        {content?.stepOneLabel || uiLabels.stepOneLabel || t("stepOneLabel")}
                       </label>
                       <Button type="submit" className="self-start" disabled={formData.products.length === 0}>
-                        {content?.nextStepButtonLabel || uiLabels.nextStepBtn || "Next Step"} <ArrowRight className="ml-2 h-5 w-5" />
+                        {content?.nextStepButtonLabel || t("nextStepButtonLabel")} <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </div>
 
@@ -646,7 +645,7 @@ export function Products() {
                       <p className="text-sm text-earth-600">
                         {formData.products.length > 0
                           ? (uiLabels.productsSelectedLabel || "{count} products selected").replace("{count}", formData.products.length.toString())
-                          : uiLabels.selectToContinueLabel || "Select one or more products to continue."}
+                          : uiLabels.selectToContinueLabel || t("productsSelectToContinue")}
                       </p>
                     </div>
                   </motion.form>
@@ -663,17 +662,17 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepTwoLabel || uiLabels.stepTwoLabel || "Set tonnage for each selected product"}
+                        {content?.stepTwoLabel || uiLabels.stepTwoLabel || t("stepTwoLabel")}
                       </label>
                       <div className="flex gap-3">
                         <Button type="button" variant="ghost" onClick={() => setFormStep(1)}>
-                          {content?.backButtonLabel || uiLabels.backBtn || "Back"}
+                          {content?.backButtonLabel || t("backButtonLabel")}
                         </Button>
                         <Button
                           type="submit"
                           disabled={!formData.products.every((productId) => Boolean(formData.volumes[productId]))}
                         >
-                          {content?.nextStepButtonLabel || uiLabels.nextStepBtn || "Next Step"} <ArrowRight className="ml-2 h-5 w-5" />
+                          {content?.nextStepButtonLabel || t("nextStepButtonLabel")} <ArrowRight className="ml-2 h-5 w-5" />
                         </Button>
                       </div>
                     </div>
@@ -705,7 +704,7 @@ export function Products() {
                                 className="flex w-full items-center justify-between rounded-[1.1rem] border border-earth-200 bg-[linear-gradient(180deg,#fcf5fa_0%,#fffafc_100%)] px-4 py-3 text-left text-sm font-semibold text-earth-800 outline-none transition-all hover:border-earth-300 focus:border-earth-500 focus:ring-2 focus:ring-earth-200"
                               >
                                 <span className={formData.volumes[productId] ? "text-earth-800" : "text-earth-500"}>
-                                  {formData.volumes[productId] || uiLabels.selectTonnageLabel || "Select tonnage"}
+                                  {formData.volumes[productId] || uiLabels.selectTonnageLabel || t("productsSelectTonnage")}
                                 </span>
                                 <ChevronDown
                                   size={18}
@@ -761,16 +760,16 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepThreeLabel || uiLabels.stepThreeLabel || "Who should receive the quote?"}
+                        {content?.stepThreeLabel || uiLabels.stepThreeLabel || t("stepThreeLabel")}
                       </label>
                       <div className="flex gap-3">
                         <Button type="button" variant="ghost" onClick={() => setFormStep(2)}>
-                          {content?.backButtonLabel || uiLabels.backBtn || "Back"}
+                          {content?.backButtonLabel || t("backButtonLabel")}
                         </Button>
                         <Button type="submit" disabled={isSubmitting || !formData.name || !formData.contact}>
                           {isSubmitting
-                            ? content?.submittingButtonLabel || uiLabels.submittingLabel || "Sending..."
-                            : content?.submitButtonLabel || uiLabels.getQuoteBtn || "Get Instant Quote"}
+                            ? content?.submittingButtonLabel || t("submittingButtonLabel")
+                            : content?.submitButtonLabel || t("submitButtonLabel")}
                         </Button>
                       </div>
                     </div>
@@ -779,7 +778,7 @@ export function Products() {
                       <input
                         type="text"
                         required
-                        placeholder={uiLabels.formNameLabel || "Full Name"}
+                        placeholder={uiLabels.formNameLabel || t("contactsFormName")}
                         className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -787,7 +786,7 @@ export function Products() {
                       <input
                         type="email"
                         required
-                        placeholder={content?.stepThreePlaceholder || uiLabels.formEmailLabel || "Work Email Address"}
+                        placeholder={content?.stepThreePlaceholder || t("stepThreePlaceholder")}
                         className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                         value={formData.contact}
                         onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
@@ -796,7 +795,7 @@ export function Products() {
 
                     <div className="rounded-[1.75rem] border border-earth-100 bg-earth-50 px-4 py-3.5">
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-earth-400">
-                        Inquiry Summary
+                        {t("productsInquirySummary")}
                       </p>
                       <div className="mt-3 grid gap-2.5 md:grid-cols-3">
                         {formData.products.map((productId) => {
@@ -832,13 +831,13 @@ export function Products() {
 
           <div ref={directContactRef} className="flex h-full flex-col gap-6 p-1">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">Direct Contact</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">{t("productsDirectContact")}</p>
               <h2 className="mt-3 font-display text-3xl font-bold text-earth-900">
-                {content?.quickContactTitle || "Need it faster?"}
+                {content?.quickContactTitle || t("productsNeedItFaster")}
               </h2>
               <p className="mt-3 text-base leading-7 text-earth-700">
                 {content?.quickContactSubtitle ||
-                  "Skip the form. Connect with our export sales team directly for immediate assistance."}
+                  t("productsSkipForm")}
               </p>
             </div>
 
@@ -857,10 +856,10 @@ export function Products() {
                 </div>
                 <div>
                   <h3 className="font-display text-xl font-bold text-earth-900">
-                    {content?.telegramLabel || "Telegram Bot"}
+                    {content?.telegramLabel || t("productsTelegramBot")}
                   </h3>
                   <p className="text-sm text-earth-600">
-                    {content?.telegramSublabel || "Instant quotes & catalog PDF"}
+                    {content?.telegramSublabel || t("productsTelegramSubtitle")}
                   </p>
                 </div>
               </a>
@@ -874,7 +873,7 @@ export function Products() {
                 </div>
                 <div>
                   <h3 className="font-display text-xl font-bold text-earth-900">
-                    {content?.callLabel || "Call Sales"}
+                    {content?.callLabel || t("productsCallSales")}
                   </h3>
                   <p className="text-sm text-earth-600">{content?.quickPhone || "+998 90 123 45 67"}</p>
                 </div>
@@ -889,7 +888,7 @@ export function Products() {
                 </div>
                 <div>
                   <h3 className="font-display text-xl font-bold text-earth-900">
-                    {content?.emailLabel || "Email Us"}
+                    {content?.emailLabel || t("productsEmailUs")}
                   </h3>
                   <p className="text-sm text-earth-600">{quickEmailValue}</p>
                 </div>

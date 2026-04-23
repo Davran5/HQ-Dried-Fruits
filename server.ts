@@ -4,6 +4,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
 import fs from "fs";
+import React from "react";
+import { renderToString } from "react-dom/server";
+import { StaticRouter } from "react-router-dom";
+import { AppShell } from "./src/App";
 
 dotenv.config();
 
@@ -166,7 +170,13 @@ if (fs.existsSync(dbFile)) {
           "requestQuoteBtn": "Запросить оптовую цену",
           "orderingFormStepLabel": "Шаг",
           "privacyTitle": "Политика конфиденциальности",
-          "termsTitle": "Условия использования"
+          "termsTitle": "Условия использования",
+          "orchardBaseTitle": "База садоводства",
+          "orchardBaseDesc": "Зоны плодоводства Узбекистана опираются на ирригационные системы долин и предгорий.",
+          "growingConditionsTitle": "Условия выращивания",
+          "growingConditionsDesc": "Жаркое, сухое лето и солнечный свет помогают абрикосам, винограду и сливам накапливать сахар перед сушкой.",
+          "exportReadinessTitle": "Готовность к экспорту",
+          "exportReadinessDesc": "Каждая линия подготовлена под специфические коробки покупателя и оптовые программы."
 })
         },
         home_page: {
@@ -314,7 +324,13 @@ if (fs.existsSync(dbFile)) {
           "requestQuoteBtn": "Ulgurji narxni so'rash",
           "orderingFormStepLabel": "Qadam",
           "privacyTitle": "Maxfiylik siyosati",
-          "termsTitle": "Foydalanish shartlari"
+          "termsTitle": "Foydalanish shartlari",
+          "orchardBaseTitle": "Bog' bazasi",
+          "orchardBaseDesc": "O'zbekistonning meva yetishtirish zonalari yomg'irga emas, sug'oriladigan vodiy tizimlariga tayanadi.",
+          "growingConditionsTitle": "O'sish sharoitlari",
+          "growingConditionsDesc": "Issiq, quruq yozlar va quyosh nuri o'rik, uzum va olxo'rilarning qurishdan oldin shakar to'plashiga yordam beradi.",
+          "exportReadinessTitle": "Eksportga tayyorlik",
+          "exportReadinessDesc": "Har bir liniya xaridor uchun maxsus qutilar va takroriy ulgurji dasturlar uchun tayyorlangan."
 })
         },
         home_page: {
@@ -408,15 +424,17 @@ const db = {
       
       if (sqlLower.startsWith('insert into products')) {
         const [id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang] = params;
-        const newProduct = { id, name, category, status, image, image_gallery: safeParseJson(image_gallery, []), short_description, long_description, highlights: safeParseJson(highlights, []), content_sections: safeParseJson(content_sections, []), nutrition: safeParseJson(nutrition, {}), inquiry_subject_line, tonnage_options: safeParseJson(tonnage_options, []), seo: safeParseJson(seo, {}), lang: lang || 'en' };
-        dbData.products = (dbData.products || []).filter((p: any) => p.id !== id);
+        const targetLang = lang || 'en';
+        const newProduct = { id, name, category, status, image, image_gallery: safeParseJson(image_gallery, []), short_description, long_description, highlights: safeParseJson(highlights, []), content_sections: safeParseJson(content_sections, []), nutrition: safeParseJson(nutrition, {}), inquiry_subject_line, tonnage_options: safeParseJson(tonnage_options, []), seo: safeParseJson(seo, {}), lang: targetLang };
+        dbData.products = (dbData.products || []).filter((p: any) => !(p.id === id && (p.lang || 'en') === targetLang));
         dbData.products.push(newProduct);
         saveDb(); return { rows: [], rowCount: 1 };
       }
 
-      if (sqlLower.startsWith('update products')) {
-        const [name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, id] = params;
-        const idx = dbData.products.findIndex((p: any) => p.id === id);
+      if (sqlLower.startsWith('update products set')) {
+        const [name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, id, lang] = params;
+        const targetLang = lang || 'en';
+        const idx = dbData.products.findIndex((p: any) => p.id === id && (p.lang || 'en') === targetLang);
         if (idx !== -1) {
           dbData.products[idx] = { 
             ...dbData.products[idx], 
@@ -688,6 +706,59 @@ function getManagedPagePath(pageId: PageId, pageSeo: Record<PageId, SeoRecord> =
   return slug ? `/${slug}` : "/";
 }
 
+const activeLocales = ["en", "ru", "uz"] as const;
+type ActiveLocale = (typeof activeLocales)[number];
+
+function isActiveLocale(value: string | null | undefined): value is ActiveLocale {
+  return Boolean(value && activeLocales.includes(value as ActiveLocale));
+}
+
+function normalizeLocale(value: string | null | undefined, fallback: ActiveLocale = "en"): ActiveLocale {
+  const normalized = asString(value).trim().toLowerCase();
+  return isActiveLocale(normalized) ? normalized : fallback;
+}
+
+function buildLocalePath(locale: ActiveLocale, pathname = "/") {
+  const normalizedPath = normalizePathname(pathname);
+  return normalizedPath === "/" ? `/${locale}` : `/${locale}${normalizedPath}`;
+}
+
+function parseLocalePathname(pathname: string) {
+  const normalizedPath = normalizePathname(pathname);
+  const segments = normalizedPath.split("/").filter(Boolean);
+
+  if (segments.length === 0) {
+    return {
+      locale: null as ActiveLocale | null,
+      pathname: "/",
+      isLocalePrefixed: false,
+    };
+  }
+
+  const [candidateLocale, ...rest] = segments;
+  if (!isActiveLocale(candidateLocale)) {
+    return {
+      locale: null as ActiveLocale | null,
+      pathname: normalizedPath,
+      isLocalePrefixed: false,
+    };
+  }
+
+  return {
+    locale: candidateLocale,
+    pathname: rest.length > 0 ? `/${rest.join("/")}` : "/",
+    isLocalePrefixed: true,
+  };
+}
+
+function getLocalizedPagePath(pageId: PageId, locale: ActiveLocale, pageSeo: Record<PageId, SeoRecord> = defaultPageSeo) {
+  return buildLocalePath(locale, getManagedPagePath(pageId, pageSeo));
+}
+
+function getLocalizedProductPath(product: ReturnType<typeof mapProduct>, locale: ActiveLocale, pageSeo: Record<PageId, SeoRecord> = defaultPageSeo) {
+  return buildLocalePath(locale, getProductPath(product, pageSeo));
+}
+
 function ensureDirectory(directoryPath: string) {
   if (!fs.existsSync(directoryPath)) fs.mkdirSync(directoryPath, { recursive: true });
 }
@@ -813,16 +884,18 @@ async function ensureSingletonRow(tableName: string) {
   // Not needed for JSON but kept for API compatibility
 }
 
-async function getGlobalSettings(lang: string = 'en') {
-  const res = await db.query("SELECT * FROM global_settings WHERE id = 1", [lang]);
+async function getGlobalSettings(locale: string = "en") {
+  const resolvedLocale = normalizeLocale(locale);
+  const res = await db.query("SELECT * FROM global_settings WHERE id = 1", [resolvedLocale]);
   return mapGlobalSettings(res.rows[0] || {});
 }
 
-async function getPageSeo(lang: string = 'en') {
-  const res = await db.query("SELECT * FROM page_seo WHERE id = 1", [lang]); // Simple filter for our mock db
+async function getPageSeo(locale: string = "en") {
+  const resolvedLocale = normalizeLocale(locale);
+  const res = await db.query("SELECT * FROM page_seo WHERE id = 1", [resolvedLocale]); // Simple filter for our mock db
   const seoByPage = (res.rows as any[]).reduce<Record<string, SeoRecord>>((acc, row) => {
     const pageId = asString(row.page_id) as PageId;
-    if (pageId in defaultPageSeo && row.lang === lang) acc[pageId] = mapSeoRecord(row, pageId);
+    if (pageId in defaultPageSeo && row.lang === resolvedLocale) acc[pageId] = mapSeoRecord(row, pageId);
     return acc;
   }, {});
   for (const pageId of Object.keys(defaultPageSeo) as PageId[]) {
@@ -831,14 +904,23 @@ async function getPageSeo(lang: string = 'en') {
   return seoByPage as Record<PageId, SeoRecord>;
 }
 
-async function findProductRowByIdentifier(identifier: string) {
+function getPreferredProductRow(rows: any[], locale: string) {
+  const resolvedLocale = normalizeLocale(locale);
+  return rows.find((row) => asString(row?.lang, "en") === resolvedLocale)
+    || rows.find((row) => asString(row?.lang, "en") === "en")
+    || rows[0]
+    || null;
+}
+
+async function findProductRowByIdentifier(identifier: string, locale: string = "en") {
   const normalizedIdentifier = normalizeSlug(identifier, identifier.trim().toLowerCase());
   const res = await db.query("SELECT * FROM products");
-  return res.rows.find((row) => {
+  const matches = res.rows.filter((row) => {
     const rowId = asString(row?.id);
     const rowSlug = asString(safeParseJson<Partial<SeoRecord>>(row?.seo, {}).slug);
     return normalizeSlug(rowId, rowId) === normalizedIdentifier || normalizeSlug(rowSlug, rowId) === normalizedIdentifier;
   });
+  return getPreferredProductRow(matches, locale);
 }
 
 function mapSeoRecord(row: any, pageId: PageId): SeoRecord {
@@ -891,19 +973,61 @@ function mapContactsPage(row: any) {
   };
 }
 
-async function readContentTable(pageId: keyof typeof pageContentTables, lang: string = 'en') {
-  const res = await db.query(`SELECT content FROM ${pageContentTables[pageId]} WHERE id = 1 AND lang = $1`, [lang]);
+async function readContentTable(pageId: keyof typeof pageContentTables, locale: string = "en") {
+  const resolvedLocale = normalizeLocale(locale);
+  const res = await db.query(`SELECT content FROM ${pageContentTables[pageId]} WHERE id = 1 AND lang = $1`, [resolvedLocale]);
   const row = res.rows[0];
   const fallback = (pageId === "privacy" || pageId === "terms") ? defaultSimplePages[pageId as keyof typeof defaultSimplePages] : {};
   return safeParseJson(row?.content, fallback);
 }
 
-async function writeContentTable(pageId: keyof typeof pageContentTables, content: Record<string, unknown>) {
-  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1`, [JSON.stringify(content)]);
+async function writeContentTable(pageId: keyof typeof pageContentTables, content: Record<string, unknown>, locale: string = "en") {
+  const resolvedLocale = normalizeLocale(locale);
+  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1`, [JSON.stringify(content), resolvedLocale]);
 }
 
 function getManagedProductSlug(product: ReturnType<typeof mapProduct>) { return normalizeSlug(asString(product.seo?.slug), normalizeSlug(product.id, product.id)); }
 function getProductPath(product: ReturnType<typeof mapProduct>, pageSeo: Record<PageId, SeoRecord> = defaultPageSeo) { return `${getManagedPagePath("products", pageSeo)}/${getManagedProductSlug(product)}`; }
+
+async function getProductsForLocale(locale: string = "en") {
+  const resolvedLocale = normalizeLocale(locale);
+  const result = await db.query("SELECT * FROM products");
+  const rowsById = new Map<string, any[]>();
+
+  result.rows.forEach((row: any) => {
+    const key = asString(row?.id);
+    const bucket = rowsById.get(key) || [];
+    bucket.push(row);
+    rowsById.set(key, bucket);
+  });
+
+  return Array.from(rowsById.values())
+    .map((rows) => getPreferredProductRow(rows, resolvedLocale))
+    .filter(Boolean)
+    .map(mapProduct);
+}
+
+async function getPageContent(pageId: PageId, locale: string = "en") {
+  const resolvedLocale = normalizeLocale(locale);
+
+  if (pageId === "products") {
+    return mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+  }
+
+  if (pageId === "export") {
+    return mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+  }
+
+  if (pageId === "contacts") {
+    return mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+  }
+
+  if (pageId in pageContentTables) {
+    return readContentTable(pageId, resolvedLocale);
+  }
+
+  return {};
+}
 
 function resolveStaticPageByPath(pathname: string, pageSeo: Record<PageId, SeoRecord>) {
   const normalizedPath = normalizePathname(pathname);
@@ -931,8 +1055,59 @@ async function resolveProductPath(pathname: string, pageSeo: Record<PageId, SeoR
   return { product, canonicalPath: getProductPath(product, pageSeo) };
 }
 
-async function validatePageSeoInput(pageId: PageId, payload: any) {
-  const currentSeo = await getPageSeo();
+function resolveStaticLocalePageByPath(pathname: string, pageSeo: Record<PageId, SeoRecord>, fallbackLocale: ActiveLocale = "en") {
+  const parsed = parseLocalePathname(pathname);
+  const normalizedLocalPath = parsed.pathname;
+  const locale = parsed.locale ?? fallbackLocale;
+
+  for (const pageId of Object.keys(defaultPageSeo) as PageId[]) {
+    const canonicalLocalPath = getManagedPagePath(pageId, pageSeo);
+    const legacyLocalPath = getManagedPagePath(pageId);
+    if (normalizedLocalPath === canonicalLocalPath || normalizedLocalPath === legacyLocalPath) {
+      return {
+        pageId,
+        locale,
+        canonicalPath: getLocalizedPagePath(pageId, locale, pageSeo),
+        isLocalePrefixed: parsed.isLocalePrefixed,
+      };
+    }
+  }
+
+  return null;
+}
+
+async function resolveLocaleProductPath(pathname: string, pageSeo: Record<PageId, SeoRecord>, fallbackLocale: ActiveLocale = "en") {
+  const parsed = parseLocalePathname(pathname);
+  const segments = parsed.pathname.split("/").filter(Boolean);
+  const locale = parsed.locale ?? fallbackLocale;
+
+  if (segments.length !== 2) {
+    return null;
+  }
+
+  const [sectionSlug, productIdentifier] = segments;
+  const canonicalSectionSlug = getManagedPageSlug("products", pageSeo);
+  const legacySectionSlug = getManagedPageSlug("products");
+  if (sectionSlug !== canonicalSectionSlug && sectionSlug !== legacySectionSlug) {
+    return null;
+  }
+
+  const row = await findProductRowByIdentifier(productIdentifier, locale);
+  if (!row) {
+    return null;
+  }
+
+  const product = mapProduct(row);
+  return {
+    product,
+    locale,
+    canonicalPath: buildLocalePath(locale, `/${canonicalSectionSlug}/${getManagedProductSlug(product)}`),
+    isLocalePrefixed: parsed.isLocalePrefixed,
+  };
+}
+
+async function validatePageSeoInput(pageId: PageId, payload: any, locale: string = "en") {
+  const currentSeo = await getPageSeo(locale);
   const fallback = defaultPageSeo[pageId];
   const nextSeo: SeoRecord = {
     metaTitle: asString(payload.metaTitle, fallback.metaTitle), metaDescription: asString(payload.metaDescription, fallback.metaDescription), slug: pageId === "home" ? "" : normalizeSlug(asString(payload.slug), defaultPageSlugs[pageId]), ogTitle: asString(payload.ogTitle, fallback.ogTitle), imageAlt: asString(payload.imageAlt, fallback.imageAlt),
@@ -948,7 +1123,7 @@ async function validatePageSeoInput(pageId: PageId, payload: any) {
   return nextSeo;
 }
 
-async function validateProductPayload(product: any, existingId = "") {
+async function validateProductPayload(product: any, existingId = "", locale: string = "en") {
   const fallbackId = asString(existingId || product.id);
   const fallbackSlug = normalizeSlug(asString(product?.name), normalizeSlug(fallbackId, fallbackId));
   const normalizedSeoSlug = normalizeSlug(asString(product?.seo?.slug), fallbackSlug);
@@ -957,6 +1132,8 @@ async function validateProductPayload(product: any, existingId = "") {
 
   const res = await db.query("SELECT * FROM products");
   const duplicate = res.rows.find((row) => {
+    const rowLocale = normalizeLocale(asString(row?.lang, "en"));
+    if (rowLocale !== normalizeLocale(locale)) return false;
     const rowId = asString(row?.id);
     if (rowId === fallbackId) return false;
     const rowSlug = normalizeSlug(asString(safeParseJson<Partial<SeoRecord>>(row?.seo, {}).slug), normalizeSlug(rowId, rowId));
@@ -977,46 +1154,368 @@ async function validateProductPayload(product: any, existingId = "") {
 
 function getIndexTemplate() { return fs.readFileSync(path.join(distDir, "index.html"), "utf8"); }
 
-function renderHtmlWithSeo(template: string, meta: any) {
-  const patterns = [/<title>[\s\S]*?<\/title>/gi, /<meta[^>]+name="description"[^>]*>/gi, /<meta[^>]+name="robots"[^>]*>/gi, /<meta[^>]+name="google-site-verification"[^>]*>/gi, /<meta[^>]+name="twitter:title"[^>]*>/gi, /<meta[^>]+name="twitter:description"[^>]*>/gi, /<meta[^>]+name="twitter:image"[^>]*>/gi, /<meta[^>]+name="twitter:image:alt"[^>]*>/gi, /<meta[^>]+name="twitter:card"[^>]*>/gi, /<meta[^>]+property="og:title"[^>]*>/gi, /<meta[^>]+property="og:description"[^>]*>/gi, /<meta[^>]+property="og:image"[^>]*>/gi, /<meta[^>]+property="og:image:alt"[^>]*>/gi, /<meta[^>]+property="og:type"[^>]*>/gi, /<meta[^>]+property="og:url"[^>]*>/gi, /<meta[^>]+property="og:site_name"[^>]*>/gi, /<link[^>]+rel="canonical"[^>]*>/gi];
-  let html = template;
-  for (const pattern of patterns) html = html.replace(pattern, "");
-  const tags = [`<title>${escapeHtml(meta.title)}</title>`, `<meta name="description" content="${escapeHtml(meta.description)}" />`, `<meta name="robots" content="${escapeHtml(meta.robots)}" />`, `<link rel="canonical" href="${escapeHtml(meta.canonicalUrl)}" />`, `<meta property="og:type" content="${escapeHtml(meta.ogType)}" />`, `<meta property="og:site_name" content="${escapeHtml(meta.siteName)}" />`, `<meta property="og:title" content="${escapeHtml(meta.ogTitle)}" />`, `<meta property="og:description" content="${escapeHtml(meta.ogDescription)}" />`, `<meta property="og:url" content="${escapeHtml(meta.canonicalUrl)}" />`, `<meta name="twitter:card" content="summary_large_image" />`, `<meta name="twitter:title" content="${escapeHtml(meta.ogTitle)}" />`, `<meta name="twitter:description" content="${escapeHtml(meta.ogDescription)}" />`];
-  if (meta.ogImage) { tags.push(`<meta property="og:image" content="${escapeHtml(meta.ogImage)}" />`); tags.push(`<meta name="twitter:image" content="${escapeHtml(meta.ogImage)}" />`); }
-  if (meta.imageAlt) { tags.push(`<meta property="og:image:alt" content="${escapeHtml(meta.imageAlt)}" />`); tags.push(`<meta name="twitter:image:alt" content="${escapeHtml(meta.imageAlt)}" />`); }
-  if (meta.googleSiteVerificationId) tags.push(`<meta name="google-site-verification" content="${escapeHtml(meta.googleSiteVerificationId)}" />`);
-  return html.replace("</head>", `  ${tags.join("\n  ")}\n</head>`);
+type AlternateLink = { hrefLang: string; href: string };
+type RenderMeta = {
+  statusCode: number;
+  htmlLang: string;
+  title: string;
+  description: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  imageAlt: string;
+  canonicalUrl: string;
+  robots: string;
+  ogType: string;
+  siteName: string;
+  googleSiteVerificationId: string;
+  redirectTo?: string;
+  appHtml?: string;
+  bootstrapData?: any;
+  alternateLinks?: AlternateLink[];
+};
+
+function toCanonicalUrl(origin: string, pathname: string) {
+  const normalizedPath = normalizePathname(pathname);
+  return normalizedPath === "/" ? `${origin}/` : `${origin}${normalizedPath}`;
 }
 
-async function buildSeoMeta(req: Request) {
-  // Try to detect language from query or path (fallback to 'en')
-  const lang = asString(req.query.lang || 'en');
-  const globals = await getGlobalSettings(lang);
-  const pageSeo = await getPageSeo(lang);
+function formatLocaleTag(locale: string) {
+  const [language, region] = locale.split("-");
+  return region ? `${language.toLowerCase()}-${region.toUpperCase()}` : language.toLowerCase();
+}
+
+function serializeBootstrapData(payload: unknown) {
+  return JSON.stringify(payload).replace(/</g, "\\u003c");
+}
+
+function renderHtmlWithSeo(template: string, meta: RenderMeta) {
+  const patterns = [
+    /<title>[\s\S]*?<\/title>/gi,
+    /<meta[^>]+name="description"[^>]*>/gi,
+    /<meta[^>]+name="robots"[^>]*>/gi,
+    /<meta[^>]+name="google-site-verification"[^>]*>/gi,
+    /<meta[^>]+name="twitter:title"[^>]*>/gi,
+    /<meta[^>]+name="twitter:description"[^>]*>/gi,
+    /<meta[^>]+name="twitter:image"[^>]*>/gi,
+    /<meta[^>]+name="twitter:image:alt"[^>]*>/gi,
+    /<meta[^>]+name="twitter:card"[^>]*>/gi,
+    /<meta[^>]+property="og:title"[^>]*>/gi,
+    /<meta[^>]+property="og:description"[^>]*>/gi,
+    /<meta[^>]+property="og:image"[^>]*>/gi,
+    /<meta[^>]+property="og:image:alt"[^>]*>/gi,
+    /<meta[^>]+property="og:type"[^>]*>/gi,
+    /<meta[^>]+property="og:url"[^>]*>/gi,
+    /<meta[^>]+property="og:site_name"[^>]*>/gi,
+    /<link[^>]+rel="canonical"[^>]*>/gi,
+    /<link[^>]+rel="alternate"[^>]*hreflang="[^"]+"[^>]*>/gi,
+  ];
+  let html = template;
+  for (const pattern of patterns) html = html.replace(pattern, "");
+  html = /<html[^>]+lang=/i.test(html)
+    ? html.replace(/<html([^>]*)lang="[^"]*"([^>]*)>/i, `<html$1lang="${escapeHtml(meta.htmlLang)}"$2>`)
+    : html.replace(/<html([^>]*)>/i, `<html$1 lang="${escapeHtml(meta.htmlLang)}">`);
+
+  const tags = [
+    `<title>${escapeHtml(meta.title)}</title>`,
+    `<meta name="description" content="${escapeHtml(meta.description)}" />`,
+    `<meta name="robots" content="${escapeHtml(meta.robots)}" />`,
+    `<link rel="canonical" href="${escapeHtml(meta.canonicalUrl)}" />`,
+    `<meta property="og:type" content="${escapeHtml(meta.ogType)}" />`,
+    `<meta property="og:site_name" content="${escapeHtml(meta.siteName)}" />`,
+    `<meta property="og:title" content="${escapeHtml(meta.ogTitle)}" />`,
+    `<meta property="og:description" content="${escapeHtml(meta.ogDescription)}" />`,
+    `<meta property="og:url" content="${escapeHtml(meta.canonicalUrl)}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:title" content="${escapeHtml(meta.ogTitle)}" />`,
+    `<meta name="twitter:description" content="${escapeHtml(meta.ogDescription)}" />`,
+  ];
+
+  if (meta.ogImage) {
+    tags.push(`<meta property="og:image" content="${escapeHtml(meta.ogImage)}" />`);
+    tags.push(`<meta name="twitter:image" content="${escapeHtml(meta.ogImage)}" />`);
+  }
+  if (meta.imageAlt) {
+    tags.push(`<meta property="og:image:alt" content="${escapeHtml(meta.imageAlt)}" />`);
+    tags.push(`<meta name="twitter:image:alt" content="${escapeHtml(meta.imageAlt)}" />`);
+  }
+  if (meta.googleSiteVerificationId) {
+    tags.push(`<meta name="google-site-verification" content="${escapeHtml(meta.googleSiteVerificationId)}" />`);
+  }
+  for (const alternate of meta.alternateLinks || []) {
+    tags.push(`<link rel="alternate" hreflang="${escapeHtml(alternate.hrefLang)}" href="${escapeHtml(alternate.href)}" />`);
+  }
+
+  html = html.replace("</head>", `  ${tags.join("\n  ")}\n</head>`);
+
+  if (typeof meta.appHtml === "string") {
+    html = html.replace('<div id="root"></div>', `<div id="root">${meta.appHtml}</div>`);
+  }
+
+  if (meta.bootstrapData) {
+    const bootstrapScript = `<script>window.__HQ_PUBLIC_BOOTSTRAP__=${serializeBootstrapData(meta.bootstrapData)};</script>`;
+    html = html.replace("</body>", `  ${bootstrapScript}\n</body>`);
+  }
+
+  return html;
+}
+
+function getRequestLocale(req: Request) {
+  return normalizeLocale(asString(req.query.locale || req.query.lang || parseLocalePathname(req.path).locale || "en"));
+}
+
+async function buildPageAlternates(pageId: PageId, origin: string) {
+  const perLocale = await Promise.all(
+    activeLocales.map(async (locale) => {
+      const pageSeo = await getPageSeo(locale);
+      return {
+        hrefLang: formatLocaleTag(locale),
+        href: toCanonicalUrl(origin, getLocalizedPagePath(pageId, locale, pageSeo)),
+      };
+    }),
+  );
+
+  if (pageId === "home") {
+    return [{ hrefLang: "x-default", href: toCanonicalUrl(origin, "/") }, ...perLocale];
+  }
+
+  return perLocale;
+}
+
+async function buildProductAlternates(productId: string, origin: string) {
+  const perLocale = await Promise.all(
+    activeLocales.map(async (locale) => {
+      const [pageSeo, row] = await Promise.all([getPageSeo(locale), findProductRowByIdentifier(productId, locale)]);
+      if (!row) {
+        return null;
+      }
+
+      const product = mapProduct(row);
+      return {
+        hrefLang: formatLocaleTag(locale),
+        href: toCanonicalUrl(origin, getLocalizedProductPath(product, locale, pageSeo)),
+      };
+    }),
+  );
+
+  return perLocale.filter(Boolean) as AlternateLink[];
+}
+
+function buildSelectorAlternates(origin: string) {
+  return [
+    { hrefLang: "x-default", href: toCanonicalUrl(origin, "/") },
+    ...activeLocales.map((locale) => ({ hrefLang: formatLocaleTag(locale), href: toCanonicalUrl(origin, buildLocalePath(locale)) })),
+  ];
+}
+
+async function getPublicBootstrap(locale: ActiveLocale) {
+  const [globalSettings, pageSeo, products, homeContent, aboutContent, productsContent, exportContent, contactsContent, privacyContent, termsContent] = await Promise.all([
+    getGlobalSettings(locale),
+    getPageSeo(locale),
+    getProductsForLocale(locale),
+    getPageContent("home", locale),
+    getPageContent("about", locale),
+    getPageContent("products", locale),
+    getPageContent("export", locale),
+    getPageContent("contacts", locale),
+    getPageContent("privacy", locale),
+    getPageContent("terms", locale),
+  ]);
+
+  return {
+    locale,
+    globalSettings,
+    pageSeo,
+    products,
+    pages: [
+      { id: "home", name: "Home", path: getLocalizedPagePath("home", locale, pageSeo), content: homeContent },
+      { id: "about", name: "About Us", path: getLocalizedPagePath("about", locale, pageSeo), content: aboutContent },
+      { id: "products", name: "Products Hub", path: getLocalizedPagePath("products", locale, pageSeo), content: productsContent },
+      { id: "export", name: "Export", path: getLocalizedPagePath("export", locale, pageSeo), content: exportContent },
+      { id: "contacts", name: "Contacts", path: getLocalizedPagePath("contacts", locale, pageSeo), content: contactsContent },
+      { id: "privacy", name: "Privacy Policy", path: getLocalizedPagePath("privacy", locale, pageSeo), content: privacyContent },
+      { id: "terms", name: "Terms of Service", path: getLocalizedPagePath("terms", locale, pageSeo), content: termsContent },
+    ],
+  };
+}
+
+async function buildRenderMeta(req: Request): Promise<RenderMeta> {
   const origin = getOrigin(req);
   const normalizedPath = normalizePathname(req.path);
+  const defaultLocale: ActiveLocale = "en";
+
+  if (normalizedPath === "/") {
+    const globals = await getGlobalSettings(defaultLocale);
+    const siteName = globals.siteName || defaultGlobalSettings.siteName;
+    const defaultImage = toAbsoluteUrl(globals.headerLogo, origin);
+
+    return {
+      statusCode: 200,
+      htmlLang: formatLocaleTag(defaultLocale),
+      title: `${siteName} | Choose Language`,
+      description: "Select a localized version of the HQ Dried Fruits website.",
+      ogTitle: `${siteName} | Choose Language`,
+      ogDescription: "Select a localized version of the HQ Dried Fruits website.",
+      ogImage: defaultImage,
+      imageAlt: `${siteName} locale selector`,
+      canonicalUrl: toCanonicalUrl(origin, "/"),
+      robots: "index,follow",
+      ogType: "website",
+      siteName,
+      googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      alternateLinks: buildSelectorAlternates(origin),
+    };
+  }
+
+  if (normalizedPath === "/control-room" || normalizedPath.startsWith("/control-room/")) {
+    const globals = await getGlobalSettings(defaultLocale);
+    const siteName = globals.siteName || defaultGlobalSettings.siteName;
+    const defaultImage = toAbsoluteUrl(globals.headerLogo, origin);
+
+    return {
+      statusCode: 200,
+      htmlLang: formatLocaleTag(defaultLocale),
+      title: `Admin Panel | ${siteName}`,
+      description: `Administrative workspace for ${siteName}.`,
+      ogTitle: `Admin Panel | ${siteName}`,
+      ogDescription: `Administrative workspace for ${siteName}.`,
+      ogImage: defaultImage,
+      imageAlt: `${siteName} admin panel`,
+      canonicalUrl: toCanonicalUrl(origin, normalizedPath),
+      robots: "noindex,nofollow",
+      ogType: "website",
+      siteName,
+      googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      alternateLinks: [],
+    };
+  }
+
+  const legacyPageSeo = await getPageSeo(defaultLocale);
+  const legacyStaticMatch = resolveStaticLocalePageByPath(normalizedPath, legacyPageSeo, defaultLocale);
+  if (legacyStaticMatch && !legacyStaticMatch.isLocalePrefixed) {
+    const globals = await getGlobalSettings(defaultLocale);
+    const siteName = globals.siteName || defaultGlobalSettings.siteName;
+    const defaultImage = toAbsoluteUrl(globals.headerLogo, origin);
+
+    return {
+      statusCode: 301,
+      htmlLang: formatLocaleTag(defaultLocale),
+      title: legacyPageSeo[legacyStaticMatch.pageId].metaTitle,
+      description: legacyPageSeo[legacyStaticMatch.pageId].metaDescription,
+      ogTitle: legacyPageSeo[legacyStaticMatch.pageId].ogTitle || legacyPageSeo[legacyStaticMatch.pageId].metaTitle,
+      ogDescription: legacyPageSeo[legacyStaticMatch.pageId].metaDescription,
+      ogImage: defaultImage,
+      imageAlt: legacyPageSeo[legacyStaticMatch.pageId].imageAlt,
+      canonicalUrl: toCanonicalUrl(origin, legacyStaticMatch.canonicalPath),
+      robots: "index,follow",
+      ogType: "website",
+      siteName,
+      googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      redirectTo: legacyStaticMatch.canonicalPath,
+      alternateLinks: await buildPageAlternates(legacyStaticMatch.pageId, origin),
+    };
+  }
+
+  const legacyProductMatch = await resolveLocaleProductPath(normalizedPath, legacyPageSeo, defaultLocale);
+  if (legacyProductMatch && !legacyProductMatch.isLocalePrefixed) {
+    const globals = await getGlobalSettings(defaultLocale);
+    const siteName = globals.siteName || defaultGlobalSettings.siteName;
+    const defaultImage = toAbsoluteUrl(globals.headerLogo, origin);
+    const productSeo = legacyProductMatch.product.seo;
+
+    return {
+      statusCode: 301,
+      htmlLang: formatLocaleTag(defaultLocale),
+      title: productSeo?.metaTitle || `${legacyProductMatch.product.name} | ${siteName}`,
+      description: productSeo?.metaDescription || legacyProductMatch.product.shortDescription,
+      ogTitle: productSeo?.ogTitle || productSeo?.metaTitle || legacyProductMatch.product.name,
+      ogDescription: productSeo?.metaDescription || legacyProductMatch.product.shortDescription,
+      ogImage: toAbsoluteUrl(legacyProductMatch.product.image, origin) || defaultImage,
+      imageAlt: productSeo?.imageAlt || legacyProductMatch.product.name,
+      canonicalUrl: toCanonicalUrl(origin, legacyProductMatch.canonicalPath),
+      robots: "index,follow",
+      ogType: "product",
+      siteName,
+      googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      redirectTo: legacyProductMatch.canonicalPath,
+      alternateLinks: await buildProductAlternates(legacyProductMatch.product.id, origin),
+    };
+  }
+
+  const locale = getRequestLocale(req);
+  const bootstrap = await getPublicBootstrap(locale);
+  const pageSeo = bootstrap.pageSeo as Record<PageId, SeoRecord>;
+  const globals = bootstrap.globalSettings;
   const siteName = globals.siteName || defaultGlobalSettings.siteName;
   const defaultImage = toAbsoluteUrl(globals.headerLogo, origin);
   const googleSiteVerificationId = globals.googleSiteVerificationId || "";
-  const toCanonicalUrl = (pathname: string) => `${origin}${pathname === "/" ? "" : pathname}`;
+  const baseMeta = {
+    siteName,
+    googleSiteVerificationId,
+  };
 
-  const fromPage = (pageId: PageId, canonicalPath: string, robots = "index,follow") => ({
-    statusCode: 200, title: pageSeo[pageId].metaTitle, description: pageSeo[pageId].metaDescription, ogTitle: pageSeo[pageId].ogTitle || pageSeo[pageId].metaTitle, ogDescription: pageSeo[pageId].metaDescription, ogImage: defaultImage, imageAlt: pageSeo[pageId].imageAlt, canonicalUrl: toCanonicalUrl(canonicalPath), robots, ogType: "website", siteName, googleSiteVerificationId,
-  });
-
-  const staticMatch = resolveStaticPageByPath(normalizedPath, pageSeo);
-  if (staticMatch) return { ...fromPage(staticMatch.pageId, staticMatch.canonicalPath), redirectTo: staticMatch.canonicalPath !== normalizedPath ? staticMatch.canonicalPath : "" };
-
-  const productMatch = await resolveProductPath(normalizedPath, pageSeo);
-  if (productMatch) {
-    const { product } = productMatch;
-    const productsPagePath = getManagedPagePath("products", pageSeo);
-    return { ...fromPage("products", productsPagePath), canonicalUrl: toCanonicalUrl(productsPagePath), robots: "index,follow", ogType: "website", redirectTo: `${productsPagePath}#${getManagedProductSlug(product)}` };
+  const staticMatch = resolveStaticLocalePageByPath(normalizedPath, pageSeo, locale);
+  if (staticMatch) {
+    const pageMeta = pageSeo[staticMatch.pageId];
+    return {
+      statusCode: 200,
+      htmlLang: formatLocaleTag(locale),
+      title: pageMeta.metaTitle,
+      description: pageMeta.metaDescription,
+      ogTitle: pageMeta.ogTitle || pageMeta.metaTitle,
+      ogDescription: pageMeta.metaDescription,
+      ogImage: defaultImage,
+      imageAlt: pageMeta.imageAlt,
+      canonicalUrl: toCanonicalUrl(origin, staticMatch.canonicalPath),
+      robots: "index,follow",
+      ogType: "website",
+      redirectTo: staticMatch.canonicalPath !== normalizedPath ? staticMatch.canonicalPath : "",
+      alternateLinks: await buildPageAlternates(staticMatch.pageId, origin),
+      bootstrapData: bootstrap,
+      ...baseMeta,
+    };
   }
 
-  if (normalizedPath === "/admin" || normalizedPath.startsWith("/admin/")) return { statusCode: 200, title: `Admin Panel | ${siteName}`, description: `Administrative workspace for ${siteName}.`, ogTitle: `Admin Panel | ${siteName}`, ogDescription: `Administrative workspace for ${siteName}.`, ogImage: defaultImage, imageAlt: `${siteName} admin panel`, canonicalUrl: toCanonicalUrl(normalizedPath), robots: "noindex,nofollow", ogType: "website", siteName, googleSiteVerificationId, redirectTo: "" };
+  const productMatch = await resolveLocaleProductPath(normalizedPath, pageSeo, locale);
+  if (productMatch) {
+    const productSeo = productMatch.product.seo;
+    const canonicalPath = getLocalizedProductPath(productMatch.product, locale, pageSeo);
 
-  return { statusCode: 404, title: `Page Not Found | ${siteName}`, description: "The requested page could not be found.", ogTitle: `Page Not Found | ${siteName}`, ogDescription: "The requested page could not be found.", ogImage: defaultImage, imageAlt: "Page not found", canonicalUrl: toCanonicalUrl(normalizedPath), robots: "noindex,nofollow", ogType: "website", siteName, googleSiteVerificationId, redirectTo: "" };
+    return {
+      statusCode: 200,
+      htmlLang: formatLocaleTag(locale),
+      title: productSeo?.metaTitle || `${productMatch.product.name} | ${siteName}`,
+      description: productSeo?.metaDescription || productMatch.product.shortDescription,
+      ogTitle: productSeo?.ogTitle || productSeo?.metaTitle || productMatch.product.name,
+      ogDescription: productSeo?.metaDescription || productMatch.product.shortDescription,
+      ogImage: toAbsoluteUrl(productMatch.product.image, origin) || defaultImage,
+      imageAlt: productSeo?.imageAlt || productMatch.product.name,
+      canonicalUrl: toCanonicalUrl(origin, canonicalPath),
+      robots: "index,follow",
+      ogType: "product",
+      redirectTo: canonicalPath !== normalizedPath ? canonicalPath : "",
+      alternateLinks: await buildProductAlternates(productMatch.product.id, origin),
+      bootstrapData: bootstrap,
+      ...baseMeta,
+    };
+  }
+
+  return {
+    statusCode: 404,
+    htmlLang: formatLocaleTag(locale),
+    title: `Page Not Found | ${siteName}`,
+    description: "The requested page could not be found.",
+    ogTitle: `Page Not Found | ${siteName}`,
+    ogDescription: "The requested page could not be found.",
+    ogImage: defaultImage,
+    imageAlt: "Page not found",
+    canonicalUrl: toCanonicalUrl(origin, normalizedPath),
+    robots: "noindex,nofollow",
+    ogType: "website",
+    bootstrapData: parseLocalePathname(normalizedPath).isLocalePrefixed ? bootstrap : undefined,
+    alternateLinks: [],
+    ...baseMeta,
+  };
 }
 
 // --- INITIALIZE DATABASE AND START SERVER ---
@@ -1041,47 +1540,45 @@ app.get("/api/uploads", (_req, res) => {
 });
 
 app.get("/api/globals", async (req, res) => {
-  try { res.json(await getGlobalSettings(asString(req.query.lang || 'en'))); } 
+  try { res.json(await getGlobalSettings(getRequestLocale(req))); } 
   catch (error) { res.status(500).json({ error: "Failed to fetch settings" }); }
 });
 
 app.post("/api/globals", async (req, res) => {
   try {
     const settings = req.body ?? {};
-    const lang = asString(req.query.lang || 'en');
-    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), lang]);
+    const locale = getRequestLocale(req);
+    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), locale]);
     res.json({ success: true });
   } catch (error) { res.status(500).json({ error: "Update failed" }); }
 });
 
 app.get("/api/seo/pages", async (req, res) => {
-  try { res.json(await getPageSeo(asString(req.query.lang || 'en'))); } 
+  try { res.json(await getPageSeo(getRequestLocale(req))); } 
   catch (error) { res.status(500).json({ error: "Failed to fetch SEO settings" }); }
 });
 
 app.post("/api/seo/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id) as PageId;
-    const lang = asString(req.query.lang || 'en');
+    const locale = getRequestLocale(req);
     if (!(pageId in defaultPageSeo)) return res.status(404).json({ error: "Unknown page id" });
-    const nextSeo = await validatePageSeoInput(pageId, req.body ?? {});
-    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt, lang) VALUES ($1, $2, $3, $4, $5, $6, $7)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt, lang]);
+    const nextSeo = await validatePageSeoInput(pageId, req.body ?? {}, locale);
+    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt, lang) VALUES ($1, $2, $3, $4, $5, $6, $7)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt, locale]);
     res.json({ success: true });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to save SEO settings" }); }
 });
 
 app.get("/api/products", async (req, res) => {
   try {
-    const lang = asString(req.query.lang || 'en');
-    const result = await db.query("SELECT * FROM products");
-    // Filter products by lang. If a product doesn't have a lang, assume it's 'en'
-    res.json(result.rows.filter((r: any) => (r.lang || 'en') === lang).map(mapProduct));
+    res.json(await getProductsForLocale(getRequestLocale(req)));
   } catch (error) { res.status(500).json({ error: "Failed to fetch products" }); }
 });
 
 app.get("/api/products/:id", async (req, res) => {
   try {
-    const row = await findProductRowByIdentifier(asString(req.params.id));
+    const locale = getRequestLocale(req);
+    const row = await findProductRowByIdentifier(asString(req.params.id), locale);
     if (!row) return res.status(404).json({ error: "Product not found" });
     res.json(mapProduct(row));
   } catch (error) { res.status(500).json({ error: "Failed to fetch product" }); }
@@ -1089,17 +1586,47 @@ app.get("/api/products/:id", async (req, res) => {
 
 app.post("/api/products", async (req, res) => {
   try {
-    const lang = asString(req.query.lang || 'en');
-    const product = await validateProductPayload(req.body ?? {});
-    await db.query(`INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), lang]);
+    const locale = getRequestLocale(req);
+    const product = await validateProductPayload(req.body ?? {}, "", locale);
+    await db.query(`INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), locale]);
     res.json({ success: true, id: product.id, product });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" }); }
 });
 
 app.post("/api/products/:id", async (req, res) => {
   try {
-    const product = await validateProductPayload(req.body ?? {}, asString(req.params.id));
-    const result = await db.query(`UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13 WHERE id = $14`, [product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), asString(req.params.id)]);
+    const locale = getRequestLocale(req);
+    const product = await validateProductPayload(req.body ?? {}, asString(req.params.id), locale);
+    const existing = await findProductRowByIdentifier(asString(req.params.id), locale);
+
+    if (!existing || asString(existing?.lang, "en") !== locale || asString(existing?.id) !== asString(req.params.id)) {
+      await db.query(
+        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
+        [
+          asString(req.params.id),
+          product.name,
+          product.category,
+          product.status,
+          product.image,
+          JSON.stringify(product.imageGallery),
+          product.shortDescription,
+          product.longDescription,
+          JSON.stringify(product.highlights),
+          JSON.stringify(product.contentSections),
+          JSON.stringify(product.nutrition ?? {}),
+          product.inquirySubjectLine,
+          JSON.stringify(product.tonnageOptions),
+          JSON.stringify(product.seo),
+          locale,
+        ],
+      );
+      return res.json({ success: true, product: { ...product, id: asString(req.params.id) } });
+    }
+
+    const result = await db.query(
+      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13 WHERE id = $14 AND lang = $15`,
+      [product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), asString(req.params.id), locale],
+    );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
     res.json({ success: true, product });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" }); }
@@ -1114,18 +1641,9 @@ app.delete("/api/products/:id", async (req, res) => {
 
 app.get("/api/pages/:id", async (req, res) => {
   try {
-    const pageId = asString(req.params.id);
-    const lang = asString(req.query.lang || 'en');
-    if (pageId === "products") return res.json(mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1 AND lang = $1", [lang])).rows[0]));
-    if (pageId === "export") return res.json(mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1 AND lang = $1", [lang])).rows[0]));
-    if (pageId === "contacts") return res.json(mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1 AND lang = $1", [lang])).rows[0]));
-    
-    // For simple content pages (home, about, privacy, terms)
-    if (pageId in pageContentTables) {
-      const result = await db.query(`SELECT * FROM ${pageId}_page WHERE id = 1 AND lang = $1`, [lang]);
-      const content = safeParseJson(result.rows[0]?.content, {});
-      return res.json(content);
-    }
+    const pageId = asString(req.params.id) as PageId;
+    const locale = getRequestLocale(req);
+    if (pageId in defaultPageSeo) return res.json(await getPageContent(pageId, locale));
     return res.status(404).json({ error: "Page template not found" });
   } catch (error) { res.status(500).json({ error: "Internal Server Error" }); }
 });
@@ -1133,22 +1651,22 @@ app.get("/api/pages/:id", async (req, res) => {
 app.post("/api/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
-    const lang = asString(req.query.lang || 'en');
+    const locale = getRequestLocale(req);
     const content = req.body ?? {};
     if (pageId === "products") {
-      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), lang]);
+      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), lang]);
+      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), lang]);
+      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
       return res.json({ success: true });
     }
     if (pageId in pageContentTables) {
-      await db.query(`UPDATE ${pageId}_page SET content = $1 WHERE id = 1`, [asString(content.content), lang]);
+      await writeContentTable(pageId as keyof typeof pageContentTables, content, locale);
       return res.json({ success: true });
     }
     return res.status(404).json({ error: "Page template not found" });
@@ -1244,15 +1762,61 @@ app.post("/api/media/delete", (req, res) => {
 });
 
 app.get("/robots.txt", async (req, res) => {
-  res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /admin\nSitemap: ${getOrigin(req)}/sitemap.xml\n`);
+  res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /control-room\nSitemap: ${getOrigin(req)}/sitemap.xml\n`);
 });
 
 app.get("/sitemap.xml", async (req, res) => {
   try {
     const origin = getOrigin(req);
-    const pageSeo = await getPageSeo();
-    const staticUrls = (Object.keys(defaultPageSeo) as PageId[]).map((pageId) => `${origin}${getManagedPagePath(pageId, pageSeo) === "/" ? "" : getManagedPagePath(pageId, pageSeo)}`);
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${staticUrls.map((url) => `<url><loc>${escapeHtml(url)}</loc></url>`).join("\n")}\n</urlset>`;
+    const localeBundles = await Promise.all(
+      activeLocales.map(async (locale) => ({
+        locale,
+        pageSeo: await getPageSeo(locale),
+        products: await getProductsForLocale(locale),
+      })),
+    );
+
+    const renderAlternateLinks = (alternates: AlternateLink[]) =>
+      alternates
+        .map((alternate) => `<xhtml:link rel="alternate" hreflang="${escapeHtml(alternate.hrefLang)}" href="${escapeHtml(alternate.href)}" />`)
+        .join("");
+
+    const selectorEntry = `<url><loc>${escapeHtml(toCanonicalUrl(origin, "/"))}</loc>${renderAlternateLinks(buildSelectorAlternates(origin))}</url>`;
+
+    const staticEntries = localeBundles.flatMap(({ locale, pageSeo }) =>
+      (Object.keys(defaultPageSeo) as PageId[]).map((pageId) => {
+        const alternates = pageId === "home"
+          ? buildSelectorAlternates(origin)
+          : localeBundles.map((bundle) => ({
+              hrefLang: formatLocaleTag(bundle.locale),
+              href: toCanonicalUrl(origin, getLocalizedPagePath(pageId, bundle.locale, bundle.pageSeo)),
+            }));
+
+        return `<url><loc>${escapeHtml(toCanonicalUrl(origin, getLocalizedPagePath(pageId, locale, pageSeo)))}</loc>${renderAlternateLinks(alternates)}</url>`;
+      }),
+    );
+
+    const productEntries = localeBundles.flatMap(({ locale, pageSeo, products }) =>
+      products.map((product) => {
+        const alternates = localeBundles
+          .map((bundle) => {
+            const targetProduct = bundle.products.find((candidate) => candidate.id === product.id);
+            if (!targetProduct) {
+              return null;
+            }
+
+            return {
+              hrefLang: formatLocaleTag(bundle.locale),
+              href: toCanonicalUrl(origin, getLocalizedProductPath(targetProduct, bundle.locale, bundle.pageSeo)),
+            };
+          })
+          .filter(Boolean) as AlternateLink[];
+
+        return `<url><loc>${escapeHtml(toCanonicalUrl(origin, getLocalizedProductPath(product, locale, pageSeo)))}</loc>${renderAlternateLinks(alternates)}</url>`;
+      }),
+    );
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${[selectorEntry, ...staticEntries, ...productEntries].join("\n")}\n</urlset>`;
     res.type("application/xml").send(xml);
   } catch (error) { res.status(500).send("Failed to generate sitemap"); }
 });
@@ -1262,11 +1826,21 @@ if (fs.existsSync(distDir)) {
   app.get("*", async (req, res, next) => {
     if (req.path.startsWith("/api") || req.path.startsWith("/uploads")) return next();
     try {
-      const meta = await buildSeoMeta(req);
+      const meta = await buildRenderMeta(req);
       if (meta.redirectTo) return res.redirect(301, meta.redirectTo);
-      const html = renderHtmlWithSeo(getIndexTemplate(), meta);
+      const appHtml = renderToString(
+        React.createElement(
+          StaticRouter,
+          { location: req.originalUrl },
+          React.createElement(AppShell, { initialData: meta.bootstrapData ?? null }),
+        ),
+      );
+      const html = renderHtmlWithSeo(getIndexTemplate(), { ...meta, appHtml });
       res.status(meta.statusCode).send(html);
-    } catch (error) { res.status(500).send("Failed to render application shell"); }
+    } catch (error) {
+      console.error("SSR render failed:", error);
+      res.status(500).send("Failed to render application shell");
+    }
   });
 }
 

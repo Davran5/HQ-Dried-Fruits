@@ -7,12 +7,14 @@ import { PageLayout } from "@/src/components/layout/PageLayout";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
+import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ExportContent, HomeContent } from "@/src/types/page";
 import { canonicalizeManagedUrl, getManagedPagePath } from "@/src/lib/routes";
 
 export function FrontPage() {
     const { pages, globalSettings, pageSeo } = usePages();
     const { products } = useProducts();
+    const { locale, t } = useLanguage();
     const pageData = pages.find(p => p.id === "home");
     const content = pageData?.content as HomeContent;
     const exportPageData = pages.find(p => p.id === "export");
@@ -32,7 +34,7 @@ export function FrontPage() {
         return (
             <div className="flex min-h-screen flex-col items-center justify-center bg-earth-50">
                 <Loader2 className="h-12 w-12 animate-spin text-earth-600 mb-4" />
-                <p className="text-earth-600 font-medium animate-pulse">Loading Experience...</p>
+                <p className="text-earth-600 font-medium animate-pulse">{t("homeLoadingExperience")}</p>
             </div>
         );
     }
@@ -80,28 +82,28 @@ export function FrontPage() {
             : [
                 {
                     image: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=800",
-                    caption: "Export Documentation Set",
+                    caption: t("homeCertificateDocs"),
                 },
                 {
                     image: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800",
-                    caption: "Food Safety Certification",
+                    caption: t("homeCertificateSafety"),
                 },
                 {
                     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800",
-                    caption: "Organic Standard Certificate",
+                    caption: t("homeCertificateOrganic"),
                 },
                 {
                     image: "https://images.unsplash.com/photo-1615461066841-6116ecaabb04?q=80&w=800",
-                    caption: "Quality Assurance Record",
+                    caption: t("homeCertificateQuality"),
                 },
             ];
     const homepageQualityChecks =
         exportContent?.qualityChecks?.length && exportContent.qualityChecks.length > 0
             ? exportContent.qualityChecks
             : [
-                { title: "Export Documentation", description: "Commercial, origin, and compliance paperwork prepared for repeat international shipments." },
-                { title: "Quality Verification", description: "Sorting, grading, and lot review completed before final release for wholesale buyers." },
-                { title: "Dispatch Readiness", description: "Certificates, packing lists, and shipping files aligned before cargo leaves the facility." },
+                { title: t("homeCheckDocsTitle"), description: t("homeCheckDocsDesc") },
+                { title: t("homeCheckVerificationTitle"), description: t("homeCheckVerificationDesc") },
+                { title: t("homeCheckDispatchTitle"), description: t("homeCheckDispatchDesc") },
             ];
     const orderedAboutStats = useMemo(() => {
         const source = (content.statsGrid || []).slice(0, 4);
@@ -190,7 +192,7 @@ export function FrontPage() {
                                 transition={{ duration: 0.8, ease: springEasing }}
                                 className="font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[5.2rem] md:text-[6.3rem]"
                             >
-                                {content.heroTitle || "Nature's Sweetness, Sun-Dried"}
+                                {content.heroTitle || t("homeHeroTitle")}
                             </motion.h1>
                         </div>
                         <div className="overflow-hidden mb-8 max-w-xl">
@@ -210,15 +212,15 @@ export function FrontPage() {
                             transition={{ duration: 0.8, delay: 0.3, ease: springEasing }}
                             className="flex flex-wrap gap-4"
                         >
-                            <Link to={getManagedPagePath("products", pageSeo)}>
+                            <Link to={getManagedPagePath("products", pageSeo, locale)}>
                                 <Button size="lg" variant="primary" className="shadow-xl shadow-earth-900/20">
-                                    {content.heroPrimaryCtaLabel || "Request Wholesale Catalog"}
+                                    {content.heroPrimaryCtaLabel || t("homeHeroPrimaryCta")}
                                     <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
                             </Link>
-                            <Link to={getManagedPagePath("about", pageSeo)}>
+                            <Link to={getManagedPagePath("about", pageSeo, locale)}>
                                 <Button size="lg" variant="outline" className="border-white/80 bg-white/8 text-white hover:bg-white/14">
-                                    {content.heroSecondaryCtaLabel || "Our Processing Facilities"}
+                                    {content.heroSecondaryCtaLabel || t("homeHeroSecondaryCta")}
                                 </Button>
                             </Link>
                         </motion.div>
@@ -280,10 +282,10 @@ export function FrontPage() {
                         <div className="flex min-h-full flex-col justify-center min-w-0">
                             <div>
                                 <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">
-                                    About Us
+                                    {t("homeAboutEyebrow")}
                                 </p>
                                 <h2 className="mt-4 font-display text-[2.45rem] font-bold text-earth-900 sm:text-4xl">
-                                    {content.introLabel || "The HQ Dried Fruits Difference"}
+                                    {content.introLabel || t("homeIntroLabel")}
                                 </h2>
                                 <div className="mt-6 overflow-hidden rounded-[2.25rem] lg:hidden">
                                     <img
@@ -302,14 +304,13 @@ export function FrontPage() {
                                     dangerouslySetInnerHTML={{ __html: content.introText || "" }}
                                 />
                                 <p className="mt-4 max-w-2xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8">
-                                    Built around orchard relationships, disciplined processing, and buyer-ready export execution,
-                                    our operation is designed to deliver consistent dried fruit quality at wholesale scale.
+                                    {t("homeIntroExtraParagraph")}
                                 </p>
                             </div>
                             <div className="mt-6 hidden sm:mt-8 lg:block">
-                                <Link to={getManagedPagePath("about", pageSeo)}>
+                                <Link to={getManagedPagePath("about", pageSeo, locale)}>
                                     <Button variant="outline">
-                                        Learn More About Us
+                                        {t("homeLearnMore")}
                                     </Button>
                                 </Link>
                             </div>
@@ -332,9 +333,9 @@ export function FrontPage() {
                         ))}
                     </div>
                     <div className="mt-6 flex justify-center lg:hidden">
-                        <Link to={getManagedPagePath("about", pageSeo)}>
+                        <Link to={getManagedPagePath("about", pageSeo, locale)}>
                             <Button variant="outline">
-                                Learn More About Us
+                                {t("homeLearnMore")}
                             </Button>
                         </Link>
                     </div>
@@ -348,8 +349,8 @@ export function FrontPage() {
                                 {content.productPreviewTitle}
                             </h2>
                         </div>
-                        <Link to={getManagedPagePath("products", pageSeo)} className="hidden lg:block">
-                            <Button variant="outline">{content.productPreviewButtonLabel || "View Full Catalog"}</Button>
+                        <Link to={getManagedPagePath("products", pageSeo, locale)} className="hidden lg:block">
+                            <Button variant="outline">{content.productPreviewButtonLabel || t("homeViewFullCatalog")}</Button>
                         </Link>
                     </div>
 
@@ -378,7 +379,7 @@ export function FrontPage() {
                                         <div className="mb-5 flex items-center gap-3">
                                             <span className="h-px w-10 bg-earth-300" />
                                             <p className="text-sm font-semibold uppercase tracking-[0.26em] text-earth-400">
-                                                Featured Harvest
+                                                {t("homeFeaturedHarvest")}
                                             </p>
                                         </div>
                                         <h3 className="font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]">
@@ -390,19 +391,19 @@ export function FrontPage() {
 
                                         <div className="mt-5 flex flex-wrap gap-3 text-sm">
                                             <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
-                                                Export-ready
+                                                {t("homeExportReady")}
                                             </span>
                                             <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
-                                                Wholesale supply
+                                                {t("homeWholesaleSupply")}
                                             </span>
                                         </div>
 
                                         <div className="mt-6 flex items-center gap-4">
                                             <Link
-                                                to={canonicalizeManagedUrl(product.url, pageSeo, products)}
+                                            to={canonicalizeManagedUrl(product.url, pageSeo, products, locale)}
                                                 className="inline-flex items-center text-earth-700 font-medium transition-colors hover:text-earth-900"
                                             >
-                                                {content.productPreviewItemCtaLabel || "Request Sample"} <ArrowRight className="ml-2 h-4 w-4" />
+                                                {content.productPreviewItemCtaLabel || t("homeRequestSample")} <ArrowRight className="ml-2 h-4 w-4" />
                                             </Link>
                                             <div className="h-px flex-1 bg-earth-100" />
                                         </div>
@@ -421,24 +422,24 @@ export function FrontPage() {
                                     <div className="flex flex-col justify-between border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
                                         <div className="mb-3 text-center lg:text-left">
                                             <p className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-earth-400">
-                                                Nutrition / 100g
+                                                {t("homeNutritionPer100g")}
                                             </p>
                                         </div>
                                         <div className="grid grid-cols-4 gap-1.5 lg:grid-cols-1 lg:grid-rows-4 lg:justify-items-center">
                                             <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">Energy</p>
+                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionEnergy")}</p>
                                                 <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.energy}</p>
                                             </div>
                                             <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">Protein</p>
+                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionProtein")}</p>
                                                 <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.protein}</p>
                                             </div>
                                             <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">Fat</p>
+                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionFat")}</p>
                                                 <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.fat}</p>
                                             </div>
                                             <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">Carbs</p>
+                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionCarbs")}</p>
                                                 <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.carbs}</p>
                                             </div>
                                         </div>
@@ -450,8 +451,8 @@ export function FrontPage() {
                         ))}
                     </div>
                     <div className="mt-8 flex justify-center lg:hidden">
-                        <Link to={getManagedPagePath("products", pageSeo)}>
-                            <Button variant="outline">{content.productPreviewButtonLabel || "View Full Catalog"}</Button>
+                        <Link to={getManagedPagePath("products", pageSeo, locale)}>
+                            <Button variant="outline">{content.productPreviewButtonLabel || t("homeViewFullCatalog")}</Button>
                         </Link>
                     </div>
                 </div>
@@ -468,18 +469,18 @@ export function FrontPage() {
                         <div className="flex min-h-full flex-col justify-between">
                             <div>
                                 <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">
-                                    {content.exportMarketsEyebrow || "Export Focus"}
+                                    {content.exportMarketsEyebrow || t("homeExportFocusEyebrow")}
                                 </p>
                                 <h2 className="mt-4 max-w-[13ch] font-display text-[2.45rem] font-bold leading-tight text-earth-900 sm:text-5xl">
-                                    {content.exportMarketsTitle || "Built for Buyers Across Key Trade Corridors"}
+                                    {content.exportMarketsTitle || t("homeExportMarketsTitle")}
                                 </h2>
                                 <p className="mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8">
-                                    {content.exportMarketsIntro || "Our export team plans routing, documents, and buyer-ready packaging market by market. Select a destination to preview how we position each lane."}
+                                    {content.exportMarketsIntro || t("homeExportMarketsIntro")}
                                 </p>
                                 <div className="mt-6 sm:mt-7">
-                                    <Link to={getManagedPagePath("export", pageSeo)}>
+                                    <Link to={getManagedPagePath("export", pageSeo, locale)}>
                                         <Button variant="outline">
-                                            Explore Export Page
+                                            {t("homeExportExplore")}
                                         </Button>
                                     </Link>
                                 </div>
@@ -528,7 +529,7 @@ export function FrontPage() {
                                     <div className="absolute inset-x-0 bottom-0">
                                         <div className="bg-gradient-to-t from-earth-900/88 via-earth-900/46 to-transparent px-6 pb-6 pt-16 text-white sm:px-8 sm:pb-8 sm:pt-20">
                                             <p className="text-xs font-bold uppercase tracking-[0.24em] text-earth-100">
-                                                {content.exportMarketsEyebrow || "Export Focus"}
+                                                {content.exportMarketsEyebrow || t("homeExportFocusEyebrow")}
                                             </p>
                                             <h3 className="mt-3 font-display text-3xl font-bold sm:text-[2.5rem]">
                                                 {activeExportMarket.countryName}
@@ -553,14 +554,14 @@ export function FrontPage() {
                 <div className="grid gap-12 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:items-stretch">
                     <div className="flex h-full flex-col justify-center">
                         <h2 className="mb-5 font-display text-[2.35rem] font-bold text-earth-900 sm:mb-6 sm:text-4xl">
-                            {exportContent?.qualityTitle || "The Quality Guarantee"}
+                            {exportContent?.qualityTitle || t("homeQualityGuarantee")}
                         </h2>
                         <div
                             className="prosetext mb-6 text-base text-earth-700 sm:mb-8 sm:text-xl"
                             dangerouslySetInnerHTML={{
                                 __html:
                                     exportContent?.technicalSpecs ||
-                                    "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
+                                    t("homeQualityGuaranteeDesc"),
                             }}
                         />
 
@@ -592,7 +593,7 @@ export function FrontPage() {
                                         type="button"
                                         onClick={() => scrollCertificatesBy(-1)}
                                         className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:left-0 sm:-translate-x-1/2 sm:p-4"
-                                        aria-label="Scroll certificates left"
+                                        aria-label={t("homeCertificatesPrev")}
                                     >
                                         <ChevronLeft size={20} />
                                     </button>
@@ -632,7 +633,7 @@ export function FrontPage() {
                                         type="button"
                                         onClick={() => scrollCertificatesBy(1)}
                                         className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:right-0 sm:translate-x-1/2 sm:p-4"
-                                        aria-label="Scroll certificates right"
+                                        aria-label={t("homeCertificatesNext")}
                                     >
                                         <ChevronRight size={20} />
                                     </button>

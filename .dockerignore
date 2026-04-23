@@ -1,0 +1,17 @@
+node_modules
+dist
+.git
+.gitignore
+.vite
+.gemini
+server.cjs
+server.js
+server-run.log
+server-run.err.log
+server-run-3100.log
+server-run-3100.err.log
+verify-en.html
+verify-root.html
+verify-ru-products.html
+verify-sitemap.xml
+npm-debug.log*

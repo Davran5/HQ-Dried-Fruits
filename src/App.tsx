@@ -6,6 +6,8 @@ import { Export } from "./pages/Export";
 import { Contacts } from "./pages/Contacts";
 import { Privacy } from "./pages/Privacy";
 import { Terms } from "./pages/Terms";
+import { LocaleSelectorPage } from "./pages/LocaleSelector";
+import { ProductDetail } from "./pages/ProductDetail";
 import { AdminLayout } from "./components/layout/AdminLayout";
 import { Dashboard } from "./pages/admin/Dashboard";
 import { AdminProducts } from "./pages/admin/Products";
@@ -14,27 +16,28 @@ import { AdminLeads } from "./pages/admin/Leads";
 import { AdminSeoSettings } from "./pages/admin/SeoSettings";
 import { AdminGlobalSettings } from "./pages/admin/GlobalSettings";
 import { AdminMedia } from "./pages/admin/Media";
-import { ProductProvider } from "./contexts/ProductContext";
+import { ProductProvider, useProducts } from "./contexts/ProductContext";
 import { PageProvider, usePages } from "./contexts/PageContext";
 import { MediaProvider } from "./contexts/MediaContext";
-import { LanguageProvider } from "./contexts/LanguageContext";
-import { AdminLanguageProvider } from "./contexts/AdminLanguageContext";
+import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 import ScrollToTop from "./components/ScrollToTop";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { PageLayout } from "./components/layout/PageLayout";
 import { Button } from "./components/ui/Button";
 import { Loader2 } from "lucide-react";
-import { resolveManagedProductPath, resolveStaticPageByPath, getManagedPagePath } from "./lib/routes";
+import { getManagedPagePath, normalizePath, parseLocalePath, resolveManagedProductPath, resolveStaticPageByPath } from "./lib/routes";
+import { PublicBootstrapPayload } from "./types/bootstrap";
 
 function RouteLoading() {
   const { globalSettings } = usePages();
+  const { t } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-earth-50">
       <div className="flex flex-col items-center gap-4 text-earth-700">
         <Loader2 className="h-10 w-10 animate-spin text-earth-500" />
-        <p className="font-medium">{uiLabels.routeLoadingLabel || "Loading route..."}</p>
+        <p className="font-medium">{uiLabels.routeLoadingLabel || t("routeLoadingLabel")}</p>
       </div>
     </div>
   );
@@ -42,43 +45,63 @@ function RouteLoading() {
 
 function NotFoundPage() {
   const { pageSeo, globalSettings } = usePages();
+  const { locale, t } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
 
   return (
     <PageLayout>
       <div className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8">
         <h1 className="mb-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-          {uiLabels.notFoundTitle || "Page Not Found"}
+          {uiLabels.notFoundTitle || t("notFoundTitle")}
         </h1>
         <p className="mb-8 text-lg text-earth-600">
-          {uiLabels.notFoundBody || "The page you requested does not exist or its address has changed."}
+          {uiLabels.notFoundBody || t("notFoundBody")}
         </p>
-        <Link to={getManagedPagePath("home", pageSeo)}>
-          <Button>{uiLabels.notFoundButtonLabel || "Back to Homepage"}</Button>
+        <Link to={getManagedPagePath("home", pageSeo, locale)}>
+          <Button>{uiLabels.notFoundButtonLabel || t("notFoundButtonLabel")}</Button>
         </Link>
       </div>
     </PageLayout>
   );
 }
 
-function StaticPageResolver() {
+function PublicRouteResolver() {
   const location = useLocation();
-  const { pageSeo, pageSeoLoaded } = usePages();
+  const normalizedPath = normalizePath(location.pathname);
+  const { locale } = useLanguage();
+  const { pageSeo, pageSeoLoaded, pageDataLoaded } = usePages();
+  const { productsLoaded } = useProducts();
+  const parsedPath = parseLocalePath(normalizedPath);
 
-  if (!pageSeoLoaded) {
+  if (normalizedPath === "/") {
+    return <LocaleSelectorPage />;
+  }
+
+  if (parsedPath.isLocalePrefixed && (!pageDataLoaded || !pageSeoLoaded || !productsLoaded)) {
     return <RouteLoading />;
   }
 
-  const resolved = resolveStaticPageByPath(location.pathname, pageSeo);
-  if (!resolved) {
+  const productMatch = resolveManagedProductPath(normalizedPath, pageSeo, locale);
+  if (productMatch) {
+    if (productMatch.canonicalPath !== normalizedPath) {
+      return <Navigate to={productMatch.canonicalPath} replace />;
+    }
+
+    return <ProductDetail />;
+  }
+
+  const staticMatch = resolveStaticPageByPath(normalizedPath, pageSeo, locale);
+  if (!staticMatch) {
     return <NotFoundPage />;
   }
 
-  if (resolved.canonicalPath !== location.pathname) {
-    return <Navigate to={resolved.canonicalPath} replace />;
+  if (staticMatch.canonicalPath !== normalizedPath) {
+    return <Navigate to={staticMatch.canonicalPath} replace />;
   }
 
-  switch (resolved.pageId) {
+  switch (staticMatch.pageId) {
+    case "home":
+      return <FrontPage />;
     case "about":
       return <About />;
     case "products":
@@ -91,67 +114,43 @@ function StaticPageResolver() {
       return <Privacy />;
     case "terms":
       return <Terms />;
-    case "home":
-      return <Navigate to="/" replace />;
     default:
       return <NotFoundPage />;
   }
 }
 
-function ProductRouteResolver() {
-  const location = useLocation();
-  const { pageSeo, pageSeoLoaded } = usePages();
-  const { productsLoaded } = useProducts();
-
-  if (!pageSeoLoaded || !productsLoaded) {
-    return <RouteLoading />;
-  }
-
-  const resolved = resolveManagedProductPath(location.pathname, pageSeo);
-  if (!resolved) {
-    return <NotFoundPage />;
-  }
-
-  if (resolved.canonicalPath !== location.pathname) {
-    return <Navigate to={resolved.canonicalPath} replace />;
-  }
-
-  return <Navigate to={`${getManagedPagePath("products", pageSeo)}#${resolved.productSlug}`} replace />;
-}
-
-export default function App() {
+export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload | null }) {
   return (
     <ErrorBoundary>
       <LanguageProvider>
-        <AdminLanguageProvider>
-          <MediaProvider>
-            <PageProvider>
-              <ProductProvider>
-                <Router>
-                  <ScrollToTop />
-                  <Routes>
-                    <Route path="/" element={<FrontPage />} />
-                    <Route path="/:productsSlug/:id" element={<ProductRouteResolver />} />
-                    <Route path="/:pageSlug" element={<StaticPageResolver />} />
-
-                    <Route path="/control-room" element={<AdminLayout />}>
-                      <Route index element={<Dashboard />} />
-                      <Route path="products" element={<AdminProducts />} />
-
-                      <Route path="pages" element={<AdminPages />} />
-                      <Route path="leads" element={<AdminLeads />} />
-                      <Route path="media" element={<AdminMedia />} />
-                      <Route path="seo" element={<AdminSeoSettings />} />
-                      <Route path="globals" element={<AdminGlobalSettings />} />
-                    </Route>
-                    <Route path="*" element={<NotFoundPage />} />
-                  </Routes>
-                </Router>
-              </ProductProvider>
-            </PageProvider>
-          </MediaProvider>
-        </AdminLanguageProvider>
+        <MediaProvider>
+          <PageProvider initialData={initialData}>
+            <ProductProvider initialData={initialData}>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/control-room" element={<AdminLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="products" element={<AdminProducts />} />
+                  <Route path="pages" element={<AdminPages />} />
+                  <Route path="leads" element={<AdminLeads />} />
+                  <Route path="media" element={<AdminMedia />} />
+                  <Route path="seo" element={<AdminSeoSettings />} />
+                  <Route path="globals" element={<AdminGlobalSettings />} />
+                </Route>
+                <Route path="*" element={<PublicRouteResolver />} />
+              </Routes>
+            </ProductProvider>
+          </PageProvider>
+        </MediaProvider>
       </LanguageProvider>
     </ErrorBoundary>
+  );
+}
+
+export default function App({ initialData }: { initialData?: PublicBootstrapPayload | null }) {
+  return (
+    <Router>
+      <AppShell initialData={initialData} />
+    </Router>
   );
 }
