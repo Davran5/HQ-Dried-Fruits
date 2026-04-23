@@ -173,6 +173,8 @@ if (fs.existsSync(dbFile)) {
           content: JSON.stringify({
             heroTitle: "Сладость природы, высушенная на солнце до совершенства.",
             heroSubtitle: "Качественные сухофрукты из сердца Узбекистана. Мы экспортируем лучшие абрикосы, изюм и чернослив глобальным B2B партнерам.",
+            heroPrimaryCtaLabel: "Запросить каталог",
+            heroSecondaryCtaLabel: "Продукция",
             introLabel: "Наследие качества",
             introText: "Наш уникальный климат и богатая минералами почва позволяют выращивать фрукты с непревзойденной естественной сладостью и ярким цветом, не требующие искусственных добавок.",
             supplyReachTitle: "Бесшовный глобальный экспорт",
@@ -319,6 +321,8 @@ if (fs.existsSync(dbFile)) {
           content: JSON.stringify({
             heroTitle: "Tabiat shirinligi, quyoshda mukammal darajada quritilgan.",
             heroSubtitle: "O'zbekiston markazidan sifatli quritilgan mevalar. Biz eng sara o'rik, mayiz va olxo'rini global B2B hamkorlarga eksport qilamiz.",
+            heroPrimaryCtaLabel: "Katalogni so'rash",
+            heroSecondaryCtaLabel: "Mahsulotlar",
             introLabel: "Sifat merosi",
             introText: "Bizning noyob iqlimimiz va minerallarga boy tuprog'imiz hech qanday sun'iy qo'shimchalarsiz tengsiz tabiiy shirinlik va yorqin rangga ega mevalarni yetishtirish imkonini beradi.",
             supplyReachTitle: "Uzluksiz global eksport",

@@ -288,21 +288,24 @@ function AdminLayoutContent() {
             </div>
           )}
 
-          <div className="px-4 py-2">
-            <div className="mb-2 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Editing Language</div>
-            <div className="grid grid-cols-3 gap-1 rounded-lg bg-slate-800/50 p-1">
+          <div className="px-4 py-4 mt-2 border-y border-slate-800 bg-slate-800/30">
+            <div className="mb-3 px-1 text-[10px] font-bold uppercase tracking-wider text-earth-500 flex items-center gap-2">
+              <Globe size={12} />
+              Editing Language
+            </div>
+            <div className="grid grid-cols-3 gap-1.5 rounded-xl bg-slate-950 p-1.5 shadow-inner">
               {SUPPORTED_EDIT_LANGUAGES.map((lang) => (
                 <button
                   key={lang}
                   onClick={() => setEditingLang(lang)}
                   className={cn(
-                    "flex flex-col items-center justify-center rounded py-1.5 text-[10px] font-bold transition-all",
+                    "flex flex-col items-center justify-center rounded-lg py-2 text-[10px] font-bold transition-all duration-300",
                     editingLang === lang
-                      ? "bg-earth-600 text-white shadow-sm"
-                      : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                      ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20 scale-[1.02] ring-1 ring-earth-400/30"
+                      : "text-slate-500 hover:bg-slate-800 hover:text-slate-200"
                   )}
                 >
-                  <Languages size={14} className="mb-1" />
+                  <Languages size={14} className={cn("mb-1", editingLang === lang ? "text-earth-200" : "text-slate-600")} />
                   {lang.toUpperCase()}
                 </button>
               ))}

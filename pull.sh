@@ -15,11 +15,12 @@ git fetch --all
 git reset --hard origin/main
 git clean -fd
 
-# Restore database and uploads
-echo "♻️ Restoring database and uploads..."
-cp database.json.backup database.json 2>/dev/null || true
+# Restore uploads but NOT database (to prevent overwriting new translations)
+echo "♻️ Restoring uploads..."
 mkdir -p dist/uploads
 cp -r dist_uploads_backup/* dist/uploads/ 2>/dev/null || true
+
+# ⚠️ WARNING: Ensure you ran 'npm run build' locally before pushing!
 
 # 2. Install dependencies
 echo "📦 Installing dependencies..."

@@ -59,13 +59,13 @@ export function Home() {
             <div className="flex flex-wrap gap-4">
               <Link to="/products">
                 <Button size="lg" className="bg-earth-500 hover:bg-earth-400 text-earth-900">
-                  {uiLabels.requestCatalogLabel || "Request Wholesale Catalog"}
+                  {content?.heroPrimaryCtaLabel || uiLabels.requestCatalogLabel || "Request Wholesale Catalog"}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link to="/products">
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                  {uiLabels.exploreProductsLabel || "Explore Products"}
+                  {content?.heroSecondaryCtaLabel || uiLabels.exploreProductsLabel || "Explore Products"}
                 </Button>
               </Link>
             </div>
