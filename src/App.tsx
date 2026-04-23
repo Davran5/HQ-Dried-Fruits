@@ -130,7 +130,7 @@ export default function App() {
                 <Route path="/:productsSlug/:id" element={<ProductRouteResolver />} />
                 <Route path="/:pageSlug" element={<StaticPageResolver />} />
 
-                <Route path="/admin" element={<AdminLayout />}>
+                <Route path="/control-room" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path="products" element={<AdminProducts />} />
 

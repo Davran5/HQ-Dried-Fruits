@@ -1,24 +1,26 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X, Leaf, ChevronDown } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { cn } from "@/src/lib/utils";
 import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { canonicalizeManagedUrl, getManagedPagePath, pathsMatch } from "@/src/lib/routes";
+import { useLanguage } from "@/src/contexts/LanguageContext";
+import { languageNames, languageFull, type Language } from "@/src/i18n";
+
+const SUPPORTED_LANGUAGES: Language[] = ["en", "ru", "uz"];
 
 export function Header() {
   const { globalSettings, pageSeo } = usePages();
   const { products } = useProducts();
+  const { language, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const location = useLocation();
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
-  const uiLabels = globalSettings.uiLabels || {
-    mobileNavigationTitle: "Navigation",
-    mobileContactTitle: "Contact Us",
-  };
   const activeLinks = (globalSettings.navLinks || []).map((link) => ({
     ...link,
     resolvedUrl: canonicalizeManagedUrl(link.url, pageSeo, products),
@@ -35,7 +37,16 @@ export function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setLangDropdownOpen(false);
   }, [location.pathname]);
+
+  // Close lang dropdown on outside click
+  useEffect(() => {
+    if (!langDropdownOpen) return;
+    const handler = () => setLangDropdownOpen(false);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [langDropdownOpen]);
 
   return (
     <header
@@ -90,10 +101,55 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* Language Switcher */}
+            <div className="relative" onMouseDown={(e) => e.stopPropagation()}>
+              <button
+                onClick={() => setLangDropdownOpen((o) => !o)}
+                className={cn(
+                  "hidden md:flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold tracking-wider transition-all border",
+                  langDropdownOpen
+                    ? "bg-earth-600 text-white border-earth-600"
+                    : "bg-white/60 text-earth-700 border-earth-200 hover:bg-white hover:border-earth-300"
+                )}
+                aria-label={t("langSwitcherLabel")}
+              >
+                {languageNames[language]}
+                <ChevronDown size={12} className={cn("transition-transform", langDropdownOpen && "rotate-180")} />
+              </button>
+
+              <AnimatePresence>
+                {langDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-[9rem] overflow-hidden rounded-2xl border border-earth-100 bg-white shadow-xl shadow-earth-200/50"
+                  >
+                    {SUPPORTED_LANGUAGES.map((lang) => (
+                      <button
+                        key={lang}
+                        onClick={() => { setLanguage(lang); setLangDropdownOpen(false); }}
+                        className={cn(
+                          "flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium transition-colors",
+                          language === lang
+                            ? "bg-earth-600 text-white"
+                            : "text-earth-800 hover:bg-earth-50"
+                        )}
+                      >
+                        <span>{languageFull[lang]}</span>
+                        <span className="text-xs opacity-60">{languageNames[lang]}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <Link to={ctaUrl} className="hidden md:flex">
               <Button size="sm" className="rounded-full px-8 shadow-earth-500/10 hover:shadow-earth-500/30">
-                {globalSettings.ctaText || "Get a Free Quote"}
+                {globalSettings.ctaText || t("navCta")}
               </Button>
             </Link>
 
@@ -145,9 +201,9 @@ export function Header() {
                 <X size={32} />
               </button>
 
-              <div className="mb-12">
+              <div className="mb-8">
                 <p className="text-xs font-bold tracking-widest text-earth-400 uppercase mb-6">
-                  {uiLabels.mobileNavigationTitle || "Navigation"}
+                  {t("mobileNavigationTitle")}
                 </p>
                 <nav className="flex flex-col gap-6">
                   {activeLinks?.map((link, i) => (
@@ -177,10 +233,33 @@ export function Header() {
                 </nav>
               </div>
 
+              {/* Mobile Language Switcher */}
+              <div className="mb-8">
+                <p className="text-xs font-bold tracking-widest text-earth-400 uppercase mb-4">
+                  {t("langSwitcherLabel")}
+                </p>
+                <div className="flex gap-2">
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => setLanguage(lang)}
+                      className={cn(
+                        "flex-1 rounded-xl py-2 text-sm font-bold transition-all border",
+                        language === lang
+                          ? "bg-earth-600 text-white border-earth-600"
+                          : "bg-earth-50 text-earth-700 border-earth-200 hover:border-earth-400"
+                      )}
+                    >
+                      {languageNames[lang]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="mt-auto">
                 <div className="mb-8 space-y-4">
                   <p className="text-xs font-bold tracking-widest text-earth-400 uppercase">
-                    {uiLabels.mobileContactTitle || "Contact Us"}
+                    {t("mobileContactTitle")}
                   </p>
                   <p className="text-earth-900 font-medium">{globalSettings.emailAddress || "export@hqdriedfruits.com"}</p>
                   <p className="text-earth-900 font-medium">{globalSettings.phoneNumber || "+998 90 123 45 67"}</p>
@@ -188,7 +267,7 @@ export function Header() {
 
                 <Link to={ctaUrl}>
                   <Button size="lg" className="w-full h-16 text-lg rounded-2xl shadow-lg shadow-earth-500/20">
-                    {globalSettings.ctaText || "Get a Free Quote"}
+                    {globalSettings.ctaText || t("navCta")}
                   </Button>
                 </Link>
 

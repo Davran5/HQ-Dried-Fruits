@@ -6,17 +6,18 @@ import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { submitLead } from "@/src/lib/leads";
 import { canonicalizeManagedUrl, getManagedPagePath } from "@/src/lib/routes";
+import { useLanguage } from "@/src/contexts/LanguageContext";
 
 export function Footer() {
   const { globalSettings, pageSeo } = usePages();
   const { products } = useProducts();
+  const { t } = useLanguage();
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
 
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
-  const uiLabels = globalSettings.uiLabels || {};
   const footerDescription =
     globalSettings.footerDescription ||
     "Quality sun-dried fruits from the heart of Uzbekistan. Exporting nature's sweetness to global B2B partners with uncompromising quality.";
@@ -105,7 +106,7 @@ export function Footer() {
 
           <div className="hidden md:block lg:col-span-2 lg:col-start-6">
             <h3 className="mb-6 font-display text-lg font-semibold text-white">
-              {uiLabels.footerLinksTitle || "Company"}
+              {t("footerLinksTitle")}
             </h3>
             <ul className="flex flex-col gap-3">
               {globalSettings.quickLinks?.map((link) => (
@@ -131,7 +132,7 @@ export function Footer() {
               <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <input
                   type="text"
-                  placeholder={uiLabels.footerCompanyPlaceholder || "Company Name"}
+                  placeholder={t("footerCompanyPlaceholder")}
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
@@ -140,7 +141,7 @@ export function Footer() {
                   <input
                     type="email"
                     required
-                    placeholder={uiLabels.footerEmailPlaceholder || "Email Address"}
+                    placeholder={t("footerEmailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
@@ -148,13 +149,13 @@ export function Footer() {
                   <Button type="submit" className="shrink-0 px-8" disabled={isSubmitting}>
                     <Send size={18} className="mr-2" />
                     {isSubmitting
-                      ? uiLabels.footerSubmittingLabel || "Sending"
-                      : uiLabels.footerSubmitLabel || "Send"}
+                      ? t("footerSubmittingLabel")
+                      : t("footerSubmitLabel")}
                   </Button>
                 </div>
                 {submitMessage && <p className="text-xs text-earth-300">{submitMessage}</p>}
                 <p className="mt-2 text-xs text-earth-400">
-                  {uiLabels.footerSecondaryContactPrefix || "Prefer direct contact?"}{" "}
+                  {t("footerSecondaryContactPrefix")}{" "}
                   <a href={`mailto:${footerCtaEmail}`} className="text-earth-500 hover:underline">
                     {footerCtaEmail}
                   </a>
@@ -162,7 +163,7 @@ export function Footer() {
                     <>
                       {" "}or{" "}
                       <a href={telegramUrl} target="_blank" rel="noreferrer" className="text-earth-500 hover:underline">
-                        {uiLabels.footerTelegramLinkLabel || "contact us on Telegram"}
+                        {t("footerTelegramLinkLabel")}
                       </a>
                     </>
                   ) : null}
@@ -178,14 +179,11 @@ export function Footer() {
             &copy; {new Date().getFullYear()} {footerCopyrightText}
           </p>
           <div className="mt-4 flex gap-4 sm:mt-0">
-            <Link to="/admin" className="text-sm text-earth-400 hover:text-earth-200">
-              {uiLabels.footerAdminLinkLabel || "Admin Panel"}
-            </Link>
             <Link to={getManagedPagePath("privacy", pageSeo)} className="text-sm text-earth-400 hover:text-earth-200">
-              {uiLabels.footerPrivacyLinkLabel || "Privacy Policy"}
+              {t("footerPrivacyLinkLabel")}
             </Link>
             <Link to={getManagedPagePath("terms", pageSeo)} className="text-sm text-earth-400 hover:text-earth-200">
-              {uiLabels.footerTermsLinkLabel || "Terms of Service"}
+              {t("footerTermsLinkLabel")}
             </Link>
           </div>
         </div>

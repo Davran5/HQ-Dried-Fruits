@@ -269,6 +269,57 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", express.static(uploadsDir));
 
+// ---------- Auth Token Store ----------
+const activeSessions = new Set<string>();
+
+function generateToken(): string {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let token = "";
+  for (let i = 0; i < 48; i++) token += chars[Math.floor(Math.random() * chars.length)];
+  return token;
+}
+
+// POST /api/auth/login
+app.post("/api/auth/login", (req, res) => {
+  const { username, password } = req.body ?? {};
+  const expectedUser = process.env.ADMIN_USERNAME || "admin";
+  const expectedPass = process.env.ADMIN_PASSWORD || "";
+
+  if (!expectedPass) {
+    return res.status(500).json({ error: "Admin credentials not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD in .env" });
+  }
+
+  if (username === expectedUser && password === expectedPass) {
+    const token = generateToken();
+    activeSessions.add(token);
+    console.log(`✅ Admin login successful for user: ${username}`);
+    return res.json({ success: true, token });
+  }
+
+  console.warn(`⚠️  Failed admin login attempt for user: ${username}`);
+  return res.status(401).json({ error: "Invalid username or password." });
+});
+
+// GET /api/auth/verify
+app.get("/api/auth/verify", (req, res) => {
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+  if (token && activeSessions.has(token)) {
+    return res.json({ valid: true });
+  }
+  return res.status(401).json({ valid: false });
+});
+
+// POST /api/auth/logout
+app.post("/api/auth/logout", (req, res) => {
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+  activeSessions.delete(token);
+  return res.json({ success: true });
+});
+
+
+
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
