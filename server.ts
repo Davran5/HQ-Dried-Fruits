@@ -98,6 +98,23 @@ const db = {
       saveDb(); return { rows: [], rowCount: 1 };
     }
 
+    if (sqlLower.startsWith('insert into page_seo')) {
+      const [page_id, meta_title, meta_description, slug, og_title, image_alt] = params;
+      const idx = dbData.page_seo.findIndex((p: any) => p.page_id === page_id);
+      const newSeo = { page_id, meta_title, meta_description, slug, og_title, image_alt };
+      if (idx !== -1) {
+        dbData.page_seo[idx] = newSeo;
+      } else {
+        dbData.page_seo.push(newSeo);
+      }
+      saveDb(); return { rows: [], rowCount: 1 };
+    }
+
+    if (['home_page', 'about_page', 'privacy_page', 'terms_page'].some(t => sqlLower.startsWith(`update ${t}`))) {
+      dbData[tableName][0] = { id: 1, content: params[0] };
+      saveDb(); return { rows: [], rowCount: 1 };
+    }
+
     return { rows: [], rowCount: 0 };
   }
 };
@@ -598,6 +615,17 @@ app.post("/api/leads", async (req, res) => {
     if (!email) return res.status(400).json({ error: "Email is required" });
     const id = createLeadId();
     await db.query(`INSERT INTO leads (id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`, [id, new Date().toISOString(), asString(payload.name), asString(payload.company), email, asString(payload.phone), asString(payload.telegram), asString(payload.productInterest, "General Inquiry"), asString(payload.estTonnage), "New", asString(payload.message), ""]);
+    
+    const token = "8358796615:AAHd6uwdo8qvXHbOFmHdWTQ-h91siSrbSqc";
+    const chatId = "-5159296315";
+    const text = `🌟 <b>New Lead from Website</b> 🌟\n\n👤 <b>Name:</b> ${asString(payload.name) || "N/A"}\n🏢 <b>Company:</b> ${asString(payload.company) || "N/A"}\n📧 <b>Email:</b> ${email}\n📞 <b>Phone:</b> ${asString(payload.phone) || "N/A"}\n✈️ <b>Telegram:</b> ${asString(payload.telegram) || "N/A"}\n📦 <b>Product:</b> ${asString(payload.productInterest, "General Inquiry")}\n⚖️ <b>Volume:</b> ${asString(payload.estTonnage) || "N/A"}\n\n📝 <b>Message:</b>\n${asString(payload.message) || "N/A"}`;
+    
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
+    }).catch(err => console.error("Telegram error:", err));
+
     res.status(201).json({ success: true, id });
   } catch (error) { res.status(500).json({ error: "Failed to submit inquiry" }); }
 });

@@ -361,7 +361,7 @@ export function FrontPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 0.6, delay: i * 0.1, ease: springEasing }}
-                                className="group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6"
+                                className="group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]"
                             >
                                 {(() => {
                                     const previewProduct = findPreviewProduct(product.categoryName);
@@ -373,8 +373,8 @@ export function FrontPage() {
                                     };
 
                                     return (
-                                <div className="grid gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(4.8rem,0.16fr)] lg:items-stretch lg:gap-5">
-                                    <div className="flex min-w-0 flex-col justify-center">
+                                <div className="grid h-full gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(4.8rem,0.16fr)] lg:items-stretch lg:gap-5">
+                                    <div className="flex h-full min-w-0 flex-col justify-center">
                                         <div className="mb-5 flex items-center gap-3">
                                             <span className="h-px w-10 bg-earth-300" />
                                             <p className="text-sm font-semibold uppercase tracking-[0.26em] text-earth-400">
