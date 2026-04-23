@@ -37,7 +37,7 @@ function RouteLoading() {
     <div className="flex min-h-screen items-center justify-center bg-earth-50">
       <div className="flex flex-col items-center gap-4 text-earth-700">
         <Loader2 className="h-10 w-10 animate-spin text-earth-500" />
-        <p className="font-medium">{uiLabels.routeLoadingLabel || t("routeLoadingLabel")}</p>
+        <p className="font-medium">{t("routeLoadingLabel")}</p>
       </div>
     </div>
   );
@@ -52,13 +52,13 @@ function NotFoundPage() {
     <PageLayout>
       <div className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8">
         <h1 className="mb-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-          {uiLabels.notFoundTitle || t("notFoundTitle")}
+          {t("notFoundTitle")}
         </h1>
         <p className="mb-8 text-lg text-earth-600">
-          {uiLabels.notFoundBody || t("notFoundBody")}
+          {t("notFoundBody")}
         </p>
         <Link to={getManagedPagePath("home", pageSeo, locale)}>
-          <Button>{uiLabels.notFoundButtonLabel || t("notFoundButtonLabel")}</Button>
+          <Button>{t("notFoundButtonLabel")}</Button>
         </Link>
       </div>
     </PageLayout>

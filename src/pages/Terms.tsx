@@ -45,16 +45,16 @@ export function Terms() {
   const seo = pageSeo.terms;
 
   useSEO({
-    title: seo?.metaTitle || uiLabels.termsTitle || `${t("termsTitle")} | HQ Dried Fruits`,
+    title: seo?.metaTitle || `${t("termsTitle")} | HQ Dried Fruits`,
     description: seo?.metaDescription || t("termsDescription"),
-    ogTitle: seo?.ogTitle || uiLabels.termsTitle || `${t("termsTitle")} | HQ Dried Fruits`,
+    ogTitle: seo?.ogTitle || `${t("termsTitle")} | HQ Dried Fruits`,
   });
 
   return (
     <PageLayout>
       <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
         <h1 className="font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-          {content?.title || uiLabels.termsTitle || t("termsTitle")}
+          {content?.title || t("termsTitle")}
         </h1>
         <p className="mt-3 text-sm text-earth-400">{t("lastUpdatedLabel")}: {new Date().getFullYear()}</p>
         <div

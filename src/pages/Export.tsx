@@ -77,35 +77,35 @@ export function Export() {
     content?.qualityChecks?.length > 0
       ? content.qualityChecks
       : [
-          { title: uiLabels.moistureControlLabel || "Moisture Control", description: uiLabels.moistureControlDesc || "Strictly maintained at 18-22% for optimal shelf life." },
-          { title: uiLabels.sizeCalibrationLabel || "Size Calibration", description: uiLabels.sizeCalibrationDesc || "Laser-graded for uniform sizing (Jumbo, Large, Medium)." },
-          { title: uiLabels.microSafeLabel || "Microbiological Safety", description: uiLabels.microSafeDesc || "Regular lab testing for aflatoxins and heavy metals." },
+          { title: t("exportMoistureLabel"), description: t("exportMoistureDesc") },
+          { title: t("exportCalibrationLabel"), description: t("exportCalibrationDesc") },
+          { title: t("exportMicroSafeLabel"), description: t("exportMicroSafeDesc") },
         ];
 
   const standardsCards = [
     {
-      title: content?.packagingTitle || uiLabels.packagingTitle || "Custom Packaging",
+      title: content?.packagingTitle || t("exportPackagingTitle"),
       body:
         content?.packagingMethods ||
-        `<p>${uiLabels.packagingDesc || "Bulk cartons, vacuum-sealed bags, or retail-ready packaging customized with your brand labels."}</p>`,
+        `<p>${t("exportPackagingDesc")}</p>`,
       icon: Package,
       colorClass: "bg-earth-100 text-earth-600",
       delay: 0,
     },
     {
-      title: content?.transportationTitle || uiLabels.transportationTitle || "Ocean & Rail Freight",
+      title: content?.transportationTitle || t("exportTransportTitle"),
       body:
         content?.transportationMethods ||
-        `<p>${uiLabels.transportationDesc || "Cost-effective FCL (Full Container Load) and LCL shipments via major ports and the trans-Eurasian rail network."}</p>`,
+        `<p>${t("exportTransportDesc")}</p>`,
       icon: Ship,
       colorClass: "bg-mint-100 text-mint-600",
       delay: 0.1,
     },
     {
-      title: content?.documentationTitle || uiLabels.documentationTitle || "Customs Clearance",
+      title: content?.documentationTitle || t("exportDocumentationTitle"),
       body:
         content?.documentationContent ||
-        `<p>${uiLabels.documentationDesc || "Full documentation support including phytosanitary certificates, certificates of origin, and EUR.1."}</p>`,
+        `<p>${t("exportDocumentationDesc")}</p>`,
       icon: FileText,
       colorClass: "bg-blue-100 text-blue-600",
       delay: 0.2,
@@ -127,19 +127,19 @@ export function Export() {
       : [
           {
             image: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=800",
-            caption: uiLabels.isoLabel || "Standard ISO Certification",
+            caption: t("exportIsoLabel"),
           },
           {
             image: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800",
-            caption: uiLabels.haccpLabel || "HACCP Food Safety",
+            caption: t("exportHaccpLabel"),
           },
           {
             image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800",
-            caption: uiLabels.organicLabel || "Organic Standard Certificate",
+            caption: t("exportOrganicLabel"),
           },
           {
             image: "https://images.unsplash.com/photo-1615461066841-6116ecaabb04?q=80&w=800",
-            caption: uiLabels.qualitySealLabel || "Product Quality Seal",
+            caption: t("exportQualitySealLabel"),
           },
         ];
   const certificateScrollerRef = useRef<HTMLDivElement | null>(null);
@@ -255,16 +255,16 @@ export function Export() {
         <div className="rounded-[3rem] border border-earth-100 bg-white px-5 py-6 shadow-xl shadow-earth-200/60 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="grid items-stretch gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
             <div className="flex flex-col justify-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{uiLabels.exportOpsEyebrow || "Export Operations"}</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{t("exportOpsEyebrow")}</p>
               <h2 className="mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl">
-                {uiLabels.exportOpsTitle || "Built for Buyer-Specific Routing, Documentation, and Packing"}
+                {t("exportOpsTitle")}
               </h2>
               <div
                 className="prosetext mt-4 space-y-3 text-base leading-7 text-earth-700 sm:mt-5 sm:space-y-4 sm:text-lg sm:leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html:
                     content?.logisticsContent ||
-                    `<p>${uiLabels.logisticsDesc1 || "We handle end-to-end multi-modal transport routing around buyer requirements, from packing format and paperwork to the most efficient lane for delivery."}</p><p>${uiLabels.logisticsDesc2 || "Each shipment is structured around repeatability, destination compliance, and wholesale practicality so importers can move with less friction from order to warehouse receipt."}</p>`,
+                    `<p>${t("exportLogisticsDesc1")}</p><p>${t("exportLogisticsDesc2")}</p>`,
                 }}
               />
             </div>
@@ -272,7 +272,7 @@ export function Export() {
             <div className="overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70">
               <img
                 src={exportIntroImage}
-                alt={uiLabels.exportOpsEyebrow || "Export operations"}
+                alt={t("exportOpsEyebrow")}
                 className="h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]"
                 referrerPolicy="no-referrer"
               />
@@ -316,13 +316,13 @@ export function Export() {
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch lg:gap-8">
             <div className="flex flex-col">
               <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">
-                {uiLabels.destinationBreakdownEyebrow || "Destination Breakdown"}
+                {t("exportDestinationEyebrow")}
               </p>
               <h2 className="mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl">
-                {uiLabels.destinationBreakdownTitle || "How each destination lane is prepared before dispatch"}
+                {t("exportDestinationTitle")}
               </h2>
               <p className="mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8">
-                {uiLabels.destinationBreakdownDesc || "Export planning changes by market. Select a destination to preview the lane focus, the route context, and how we position packing and documentation around buyer expectations."}
+                {t("exportDestinationDesc")}
               </p>
 
               <div className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2">
@@ -353,7 +353,7 @@ export function Export() {
               <div className="relative min-h-[25.2rem] overflow-hidden rounded-[3.5rem] shadow-[0_32px_60px_rgba(84,39,70,0.12)] sm:min-h-[24rem] lg:h-full lg:min-h-0">
                 <img
                   src={activeRoute?.image || exportIntroImage}
-                  alt={uiLabels.destinationBreakdownEyebrow || "Export route overview"}
+                  alt={t("exportDestinationEyebrow")}
                   className="absolute inset-0 h-full w-full object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -363,7 +363,7 @@ export function Export() {
                   <div className="absolute inset-x-0 bottom-0">
                     <div className="bg-gradient-to-t from-earth-900/88 via-earth-900/46 to-transparent px-6 pb-6 pt-16 text-white sm:px-8 sm:pb-8 sm:pt-20">
                       <p className="text-xs font-bold uppercase tracking-[0.24em] text-earth-100">
-                        {uiLabels.destinationBreakdownEyebrow || "Destination Breakdown"}
+                        {t("exportDestinationEyebrow")}
                       </p>
                       <div className="mt-3 flex items-center gap-3">
                         <h3 className="font-display text-3xl font-bold sm:text-[2.5rem]">{activeRoute.displayName}</h3>
@@ -384,14 +384,14 @@ export function Export() {
                 <div className="grid gap-12 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:items-stretch">
                   <div className="flex h-full flex-col justify-center">
             <h2 className="mb-5 font-display text-[2.35rem] font-bold text-earth-900 sm:mb-6 sm:text-4xl">
-              {content?.qualityTitle || uiLabels.qualityGuaranteeTitle || t("exportQualityTitle")}
+              {content?.qualityTitle || t("exportQualityTitle")}
             </h2>
             <div
               className="prosetext mb-6 text-base text-earth-700 sm:mb-8 sm:text-xl"
               dangerouslySetInnerHTML={{
                 __html:
                   content?.technicalSpecs ||
-                  uiLabels.qualityGuaranteeDesc || t("exportQualityDesc"),
+                  t("exportQualityDesc"),
               }}
             />
 

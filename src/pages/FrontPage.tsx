@@ -46,30 +46,30 @@ export function FrontPage() {
             : [
                 {
                     countryName: "Germany",
-                    shortDescription: "Structured pallet and container supply for Central European wholesale buyers.",
-                    statLabel: "Lead Time Window",
+                    shortDescription: t("homeExportMarketGermanyDesc"),
+                    statLabel: t("homeExportStatLeadTime"),
                     statValue: "18-24 days",
                     image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=1600&auto=format&fit=crop",
                 },
                 {
                     countryName: "Netherlands",
-                    shortDescription: "High-frequency logistics support for import partners and regional distribution hubs.",
-                    statLabel: "Port Routing",
+                    shortDescription: t("homeExportMarketNetherlandsDesc"),
+                    statLabel: t("homeExportStatPortRouting"),
                     statValue: "Rotterdam-first",
                     image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1600&auto=format&fit=crop",
                 },
                 {
                     countryName: "UAE",
-                    shortDescription: "Flexible mixed-load planning for GCC trade routes and re-export buyers.",
-                    statLabel: "Documentation",
-                    statValue: "Buyer-ready set",
+                    shortDescription: t("homeExportMarketUaeDesc"),
+                    statLabel: t("homeExportStatDocumentation"),
+                    statValue: t("homeExportStatBuyerReady"),
                     image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1600&auto=format&fit=crop",
                 },
                 {
                     countryName: "Kazakhstan",
-                    shortDescription: "Fast regional replenishment with land-linked scheduling from Tashkent.",
-                    statLabel: "Transport Mode",
-                    statValue: "Road + rail",
+                    shortDescription: t("homeExportMarketKazakhstanDesc"),
+                    statLabel: t("homeExportStatTransportMode"),
+                    statValue: t("homeExportStatRoadRail"),
                     image: "https://images.unsplash.com/photo-1502920514313-52581002a659?q=80&w=1600&auto=format&fit=crop",
                 },
             ];
@@ -101,9 +101,9 @@ export function FrontPage() {
         exportContent?.qualityChecks?.length && exportContent.qualityChecks.length > 0
             ? exportContent.qualityChecks
             : [
-                { title: t("homeCheckDocsTitle"), description: t("homeCheckDocsDesc") },
-                { title: t("homeCheckVerificationTitle"), description: t("homeCheckVerificationDesc") },
-                { title: t("homeCheckDispatchTitle"), description: t("homeCheckDispatchDesc") },
+                { title: t("exportMoistureLabel"), description: t("exportMoistureDesc") },
+                { title: t("exportCalibrationLabel"), description: t("exportCalibrationDesc") },
+                { title: t("exportMicroSafeLabel"), description: t("exportMicroSafeDesc") },
             ];
     const orderedAboutStats = useMemo(() => {
         const source = (content.statsGrid || []).slice(0, 4);

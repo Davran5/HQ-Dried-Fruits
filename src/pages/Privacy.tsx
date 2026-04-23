@@ -48,16 +48,16 @@ export function Privacy() {
   const seo = pageSeo.privacy;
 
   useSEO({
-    title: seo?.metaTitle || uiLabels.privacyTitle || `${t("privacyTitle")} | HQ Dried Fruits`,
+    title: seo?.metaTitle || `${t("privacyTitle")} | HQ Dried Fruits`,
     description: seo?.metaDescription || t("privacyDescription"),
-    ogTitle: seo?.ogTitle || uiLabels.privacyTitle || `${t("privacyTitle")} | HQ Dried Fruits`,
+    ogTitle: seo?.ogTitle || `${t("privacyTitle")} | HQ Dried Fruits`,
   });
 
   return (
     <PageLayout>
       <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
         <h1 className="font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-          {content?.title || uiLabels.privacyTitle || t("privacyTitle")}
+          {content?.title || t("privacyTitle")}
         </h1>
         <p className="mt-3 text-sm text-earth-400">{t("lastUpdatedLabel")}: {new Date().getFullYear()}</p>
         <div

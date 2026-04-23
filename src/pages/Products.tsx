@@ -65,12 +65,9 @@ export function Products() {
   const springEasing = [0.25, 1, 0.5, 1];
 
   useSEO({
-    title: seo?.metaTitle || uiLabels.productsMetaTitle || "Wholesale Dried Apricots, Raisins, Prunes & Mixed Baskets | HQ Dried Fruits",
-    description:
-      seo?.metaDescription ||
-      uiLabels.productsMetaDesc ||
-      "Source Uzbekistan dried apricots, raisins, prunes, and mixed baskets with detailed origin, processing, nutrition, and export information on one page.",
-    ogTitle: seo?.ogTitle || "HQ Dried Fruits Product Catalog",
+    title: seo?.metaTitle || t("productsMetaTitle"),
+    description: seo?.metaDescription || t("productsMetaDesc"),
+    ogTitle: seo?.ogTitle || t("productsMetaTitle"),
   });
 
   const [selectedSections, setSelectedSections] = useState<Record<string, string>>({});
@@ -108,13 +105,13 @@ export function Products() {
       for (const product of orderedProducts) {
         const sections = product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product, t);
         if (!next[product.id]) {
-          next[product.id] = sections[0]?.title || uiLabels.overviewLabel || t("productsOverview");
+          next[product.id] = sections[0]?.title || t("productsOverview");
           changed = true;
         }
       }
       return changed ? next : prev;
     });
-  }, [products, orderedProducts, t, uiLabels.overviewLabel]);
+  }, [products, orderedProducts, t]);
 
   useEffect(() => {
     if (!location.hash) {
@@ -138,7 +135,7 @@ export function Products() {
   const volumeOptions =
     content?.volumeOptions?.length > 0
       ? content.volumeOptions
-      : [uiLabels.volOption1 || "1-5 Tons", uiLabels.volOption2 || "5-20 Tons", uiLabels.volOption3 || "1 FCL (20ft)", uiLabels.volOption4 || "Multiple FCLs"];
+      : [t("volOption1"), t("volOption2"), t("volOption3"), t("volOption4")];
   const telegramUrl = globalSettings.telegramUrl?.trim();
   const quickPhoneHref = (content?.quickPhone || "+998 90 123 45 67").replace(/[^\d+]/g, "");
   const quickEmailValue = content?.quickEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
@@ -231,12 +228,12 @@ export function Products() {
         estTonnage: tonnageSummary,
         message: `Submitted from the products page wholesale inquiry form.\nSelections: ${tonnageSummary}`,
       });
-      setSubmitMessage(uiLabels.inquirySuccessMsg || t("contactsFormSuccess"));
+      setSubmitMessage(t("contactsFormSuccess"));
       setFormData({ products: [], volumes: {}, name: "", contact: "" });
       setFormStep(1);
     } catch (error) {
       console.error("Failed to submit products inquiry:", error);
-      setSubmitMessage(uiLabels.inquiryFailureMsg || t("contactsFormError"));
+      setSubmitMessage(t("contactsFormError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -271,7 +268,7 @@ export function Products() {
     });
   };
 
-  const currentStepText = (uiLabels.orderingFormStepLabel || t("productsStepIndicator")).replace("{step}", formStep.toString());
+  const currentStepText = t("productsStepIndicator").replace("{step}", formStep.toString());
 
   return (
     <PageLayout>
@@ -285,7 +282,7 @@ export function Products() {
           >
             <img
               src={content.heroBgImage}
-              alt={content?.pageTitle || uiLabels.productsTitle || "Products hero background"}
+              alt={content?.pageTitle || t("productsTitle")}
               className="h-full w-full object-cover"
               referrerPolicy="no-referrer"
             />
@@ -304,7 +301,7 @@ export function Products() {
                 transition={{ duration: 0.8, ease: springEasing }}
                 className={`font-display text-[2.7rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[5.2rem] md:text-[6.3rem]`}
               >
-                {content?.pageTitle || uiLabels.productsTitle || "Wholesale Dried Fruits from Uzbekistan"}
+                {content?.pageTitle || t("productsTitle")}
               </motion.h1>
             </div>
 
@@ -315,8 +312,7 @@ export function Products() {
                 transition={{ duration: 0.8, delay: 0.15, ease: springEasing }}
                 className={`text-base ${content?.heroBgImage ? "text-earth-100" : "text-earth-700"} sm:text-xl`}
               >
-                {content?.pageSubtitle || uiLabels.productsSubtitle ||
-                  "Explore export-ready apricots, raisins, prunes, and mixed assortments with buyer-focused origin, processing, and application details in one catalog."}
+                {content?.pageSubtitle || t("productsSubtitle")}
               </motion.p>
             </div>
           </div>
@@ -327,16 +323,16 @@ export function Products() {
         <div className="rounded-[3rem] border border-earth-100 bg-white px-5 py-6 shadow-xl shadow-earth-200/60 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="grid items-stretch gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
             <div className="flex flex-col justify-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{uiLabels.originEyebrow || "Uzbekistan Origin"}</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{t("productsOriginEyebrow")}</p>
               <h2 className="mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl">
-                {uiLabels.productsIntroTitle || "One Page. Four Core Product Lines. Real Buyer Context."}
+                {t("productsIntroTitle")}
               </h2>
               <div
                 className="mt-4 space-y-3 text-base leading-7 text-earth-700 sm:mt-5 sm:space-y-4 sm:text-lg sm:leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html:
                     content?.introContent ||
-                    `<p>${uiLabels.productsIntroP1 || "Uzbekistan's fruit-growing regions are built around irrigated valley and foothill agriculture. Across those zones, orchard and vineyard production commonly works with sierozem, meadow, and alluvial soils, supported by controlled water management rather than unstable rainfall patterns."}</p><p>${uiLabels.productsIntroP2 || "For dried-fruit buyers, the commercial result is more important than the terminology: hot summers, dry ripening conditions, and strong solar exposure help apricots, grapes, and plums build natural sugars before drying. That gives importers a better raw product for retail, bakery, ingredient, and mixed-load programs."}</p>`,
+                    `<p>${t("productsIntroP1")}</p><p>${t("productsIntroP2")}</p>`,
                 }}
               />
             </div>
@@ -345,13 +341,13 @@ export function Products() {
               {introShowcaseImage ? (
                 <img
                   src={introShowcaseImage}
-                  alt={uiLabels.originEyebrow || "Uzbekistan dried fruit origin"}
+                  alt={t("productsOriginEyebrow")}
                   className="h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]"
                   referrerPolicy="no-referrer"
                 />
               ) : (
                 <div className="flex h-full min-h-[18rem] items-center justify-center bg-gradient-to-br from-earth-100 via-earth-50 to-white text-earth-400 lg:min-h-[21rem]">
-                  {uiLabels.noImageLabel || "No image added yet"}
+                  {"No image added yet"}
                 </div>
               )}
             </div>
@@ -359,9 +355,9 @@ export function Products() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {(content?.introFacts?.length > 0 ? content.introFacts : [
-              { title: uiLabels.factTitle1 || "Orchard Base", description: uiLabels.factDesc1 || "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
-              { title: uiLabels.factTitle2 || "Growing Conditions", description: uiLabels.factDesc2 || "Hot, dry summers and strong sunlight help apricots, grapes, and plums build sugar before drying." },
-              { title: uiLabels.factTitle3 || "Export Readiness", description: uiLabels.factDesc3 || "Every line is positioned for buyer-specific cartons, mixed loads, and repeat wholesale programs." }
+              { title: t("productsOrchardBaseTitle"), description: t("productsOrchardBaseDesc") },
+              { title: t("productsGrowingConditionsTitle"), description: t("productsGrowingConditionsDesc") },
+              { title: t("productsExportReadinessTitle"), description: t("productsExportReadinessDesc") }
             ]).map((card, idx) => {
               const Icon = idx === 0 ? Sprout : idx === 1 ? SunMedium : PackageCheck;
               return (
@@ -428,7 +424,7 @@ export function Products() {
                           <div className="flex flex-wrap gap-3">
                             <Link to={getManagedProductPath(product, pageSeo, locale)}>
                               <Button type="button" variant="outline" className="border-earth-200 bg-white">
-                                {content?.viewSpecsLabel || uiLabels.viewSpecsLabel || "View Specifications"}
+                                {content?.viewSpecsLabel || t("productsViewSpecs")}
                               </Button>
                             </Link>
                             <Button
@@ -452,10 +448,10 @@ export function Products() {
                           {contentSections.map((section) => {
                             const isActive = section.title === selectedTitle;
                             const labelMap: Record<string, string> = {
-                              "Origin & Growing Conditions": uiLabels.originLabel || t("productsOverview"),
-                              "Benefits & Buyer Uses": uiLabels.benefitsLabel || t("productsBenefits"),
-                              "Export & Handling": uiLabels.exportLabel || t("productsExport"),
-                              "Assembly & Sourcing": uiLabels.originLabel || t("productsOverview"),
+                              "Origin & Growing Conditions": t("productsOverview"),
+                              "Benefits & Buyer Uses": t("productsBenefits"),
+                              "Export & Handling": t("productsExport"),
+                              "Assembly & Sourcing": t("productsOverview"),
                             };
                             const displayLabel = labelMap[section.title] || section.title;
                             return (
@@ -488,16 +484,16 @@ export function Products() {
                             >
                               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-earth-400">
                                 {{
-                                  "Origin & Growing Conditions": uiLabels.originLabel || t("productsOverview"),
-                                  "Benefits & Buyer Uses": uiLabels.benefitsLabel || t("productsBenefits"),
-                                  "Export & Handling": uiLabels.exportLabel || t("productsExport"),
-                                  "Assembly & Sourcing": uiLabels.originLabel || t("productsOverview"),
+                                  "Origin & Growing Conditions": t("productsOverview"),
+                                  "Benefits & Buyer Uses": t("productsBenefits"),
+                                  "Export & Handling": t("productsExport"),
+                                  "Assembly & Sourcing": t("productsOverview"),
                                 }[selectedSection?.title || ""] || selectedSection?.title}
                               </p>
                               <div
                                 className="prose prose-sm mt-4 max-w-none break-words text-earth-700 prose-p:leading-relaxed prose-p:text-earth-700 prose-strong:text-earth-900 prose-li:leading-relaxed prose-li:text-earth-700"
                                 dangerouslySetInnerHTML={{
-                                  __html: selectedSection?.body || `<p>${uiLabels.noInfoLabel || t("productsNoInfo")}</p>`,
+                                  __html: selectedSection?.body || `<p>${t("productsNoInfo")}</p>`,
                                 }}
                               />
                             </motion.div>
@@ -526,23 +522,23 @@ export function Products() {
                         <div className="p-1 lg:flex lg:h-[22.5rem] lg:flex-col">
                           <div>
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
-                              {uiLabels.nutritionalSnapshotLabel || "Nutritional Snapshot"}
+                              {t("productsNutritionalSnapshot")}
                             </p>
                             <div className="mt-3 grid grid-cols-4 gap-1.5 lg:grid-cols-4">
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.energyLabel || "Energy"}</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsEnergyLabel")}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.energy}</div>
                               </div>
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.proteinLabel || "Protein"}</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsProteinLabel")}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.protein}</div>
                               </div>
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.fatLabel || "Fat"}</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsFatLabel")}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.fat}</div>
                               </div>
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.carbsLabel || "Carbs"}</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsCarbsLabel")}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.carbs}</div>
                               </div>
                             </div>
@@ -550,7 +546,7 @@ export function Products() {
 
                           <div className="mt-4 border-t border-earth-100 pt-4">
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
-                              {uiLabels.sellingPointsLabel || "Key Selling Points"}
+                              {t("productsSellingPoints")}
                             </p>
                             <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5">
                               {product.highlights.map((highlight) => (
@@ -586,7 +582,7 @@ export function Products() {
           >
             <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
               <h2 className="font-display text-3xl font-bold text-earth-900">
-                {content?.orderingFormTitle || uiLabels.wholesaleInquiryTitle || "Wholesale Inquiry"}
+                {content?.orderingFormTitle || t("productsWholesaleInquiry")}
               </h2>
               <p className="pt-1 text-right text-earth-600">
                 {content?.orderingFormSubtitle || currentStepText}
@@ -606,7 +602,7 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepOneLabel || uiLabels.stepOneLabel || t("stepOneLabel")}
+                        {content?.stepOneLabel || t("stepOneLabel")}
                       </label>
                       <Button type="submit" className="self-start" disabled={formData.products.length === 0}>
                         {content?.nextStepButtonLabel || t("nextStepButtonLabel")} <ArrowRight className="ml-2 h-5 w-5" />
@@ -644,8 +640,8 @@ export function Products() {
                     <div className="mt-1">
                       <p className="text-sm text-earth-600">
                         {formData.products.length > 0
-                          ? (uiLabels.productsSelectedLabel || "{count} products selected").replace("{count}", formData.products.length.toString())
-                          : uiLabels.selectToContinueLabel || t("productsSelectToContinue")}
+                          ? t("productsSelectedLabel").replace("{count}", formData.products.length.toString())
+                          : t("productsSelectToContinue")}
                       </p>
                     </div>
                   </motion.form>
@@ -662,7 +658,7 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepTwoLabel || uiLabels.stepTwoLabel || t("stepTwoLabel")}
+                        {content?.stepTwoLabel || t("stepTwoLabel")}
                       </label>
                       <div className="flex gap-3">
                         <Button type="button" variant="ghost" onClick={() => setFormStep(1)}>
@@ -704,7 +700,7 @@ export function Products() {
                                 className="flex w-full items-center justify-between rounded-[1.1rem] border border-earth-200 bg-[linear-gradient(180deg,#fcf5fa_0%,#fffafc_100%)] px-4 py-3 text-left text-sm font-semibold text-earth-800 outline-none transition-all hover:border-earth-300 focus:border-earth-500 focus:ring-2 focus:ring-earth-200"
                               >
                                 <span className={formData.volumes[productId] ? "text-earth-800" : "text-earth-500"}>
-                                  {formData.volumes[productId] || uiLabels.selectTonnageLabel || t("productsSelectTonnage")}
+                                  {formData.volumes[productId] || t("productsSelectTonnage")}
                                 </span>
                                 <ChevronDown
                                   size={18}
@@ -760,7 +756,7 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepThreeLabel || uiLabels.stepThreeLabel || t("stepThreeLabel")}
+                        {content?.stepThreeLabel || t("stepThreeLabel")}
                       </label>
                       <div className="flex gap-3">
                         <Button type="button" variant="ghost" onClick={() => setFormStep(2)}>
@@ -778,7 +774,7 @@ export function Products() {
                       <input
                         type="text"
                         required
-                        placeholder={uiLabels.formNameLabel || t("contactsFormName")}
+                        placeholder={t("contactsFormName")}
                         className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}

@@ -22,13 +22,12 @@ export function Footer() {
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const footerDescription =
     globalSettings.footerDescription ||
-    uiLabels.footerDescription ||
     t("footerDescription");
   const footerLeadText =
-    globalSettings.footerLeadText || uiLabels.footerLeadText || t("footerLeadText");
+    globalSettings.footerLeadText || t("footerLeadText");
   const footerCtaEmail = globalSettings.footerCtaEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
   const telegramUrl = globalSettings.telegramUrl?.trim();
-  const footerCopyrightText = globalSettings.footerCopyrightText || uiLabels.footerCopyright || `${siteName}. All rights reserved.`;
+  const footerCopyrightText = globalSettings.footerCopyrightText || `${siteName}. All rights reserved.`;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -44,10 +43,10 @@ export function Footer() {
       });
       setCompany("");
       setEmail("");
-      setSubmitMessage(uiLabels.footerInquirySuccess || t("footerInquirySuccess"));
+      setSubmitMessage(t("footerInquirySuccess"));
     } catch (error) {
       console.error("Failed to submit footer inquiry:", error);
-      setSubmitMessage(uiLabels.footerInquiryError || t("footerInquiryError"));
+      setSubmitMessage(t("footerInquiryError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +108,7 @@ export function Footer() {
 
           <div className="hidden md:block lg:col-span-2 lg:col-start-6">
             <h3 className="mb-6 font-display text-lg font-semibold text-white">
-              {uiLabels.footerLinksTitle || t("footerLinksTitle")}
+              {t("footerLinksTitle")}
             </h3>
             <ul className="flex flex-col gap-3">
               {globalSettings.quickLinks?.map((link) => (
@@ -128,14 +127,14 @@ export function Footer() {
           <div className="lg:col-span-5">
             <div className="rounded-3xl border border-earth-700/50 bg-earth-800/50 p-8 backdrop-blur-sm">
               <h3 className="mb-2 font-display text-xl font-semibold text-white">
-                {globalSettings.footerCtaTitle || uiLabels.footerCtaTitle || t("footerCtaTitle")}
+                {globalSettings.footerCtaTitle || t("footerCtaTitle")}
               </h3>
               <p className="mb-6 text-sm text-earth-300">{footerLeadText}</p>
 
               <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <input
                   type="text"
-                  placeholder={uiLabels.footerCompanyPlaceholder || t("footerCompanyPlaceholder")}
+                  placeholder={t("footerCompanyPlaceholder")}
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
@@ -144,7 +143,7 @@ export function Footer() {
                   <input
                     type="email"
                     required
-                    placeholder={uiLabels.footerEmailPlaceholder || t("footerEmailPlaceholder")}
+                    placeholder={t("footerEmailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
@@ -152,21 +151,21 @@ export function Footer() {
                   <Button type="submit" className="shrink-0 px-8" disabled={isSubmitting}>
                     <Send size={18} className="mr-2" />
                     {isSubmitting
-                      ? (uiLabels.footerSubmittingLabel || t("footerSubmittingLabel"))
-                      : (uiLabels.footerSubmitLabel || t("footerSubmitLabel"))}
+                      ? t("footerSubmittingLabel")
+                      : t("footerSubmitLabel")}
                   </Button>
                 </div>
                 {submitMessage && <p className="text-xs text-earth-300">{submitMessage}</p>}
                 <p className="mt-2 text-xs text-earth-400">
-                  {uiLabels.footerSecondaryContactPrefix || t("footerSecondaryContactPrefix")}{" "}
+                  {t("footerSecondaryContactPrefix")}{" "}
                   <a href={`mailto:${footerCtaEmail}`} className="text-earth-500 hover:underline">
                     {footerCtaEmail}
                   </a>
                   {telegramUrl ? (
                     <>
-                      {" "}{uiLabels.footerTelegramOrLabel || t("footerTelegramOr")}{" "}
+                      {" "}{t("footerTelegramOr")}{" "}
                       <a href={telegramUrl} target="_blank" rel="noreferrer" className="text-earth-500 hover:underline">
-                        {uiLabels.footerTelegramLinkLabel || t("footerTelegramLinkLabel")}
+                        {t("footerTelegramLinkLabel")}
                       </a>
                     </>
                   ) : null}
@@ -183,10 +182,10 @@ export function Footer() {
           </p>
           <div className="mt-4 flex gap-4 sm:mt-0">
             <Link to={getManagedPagePath("privacy", pageSeo, language)} className="text-sm text-earth-400 hover:text-earth-200">
-              {uiLabels.footerPrivacyLinkLabel || t("footerPrivacyLinkLabel")}
+              {t("footerPrivacyLinkLabel")}
             </Link>
             <Link to={getManagedPagePath("terms", pageSeo, language)} className="text-sm text-earth-400 hover:text-earth-200">
-              {uiLabels.footerTermsLinkLabel || t("footerTermsLinkLabel")}
+              {t("footerTermsLinkLabel")}
             </Link>
           </div>
         </div>

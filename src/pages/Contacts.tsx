@@ -16,9 +16,9 @@ export function Contacts() {
   const seo = pageSeo.contacts;
 
   useSEO({
-    title: seo?.metaTitle || uiLabels.contactsMetaTitle || "Contact HQ Dried Fruits | Wholesale Inquiries",
-    description: seo?.metaDescription || uiLabels.contactsMetaDesc || "Get our latest wholesale pricing, request a sample box, or discuss logistics with our export team.",
-    ogTitle: seo?.ogTitle || "Contact HQ Dried Fruits"
+    title: seo?.metaTitle || t("contactsMetaTitle"),
+    description: seo?.metaDescription || t("contactsMetaDesc"),
+    ogTitle: seo?.ogTitle || t("contactsMetaTitle")
   });
   const pageData = pages.find(p => p.id === "contacts");
   const content: ContactsContent = pageData?.content;
@@ -42,25 +42,25 @@ export function Contacts() {
   ];
   const infoCards = [
     {
-      label: content?.infoEmailLabel || uiLabels.emailLabel || "Email",
+      label: content?.infoEmailLabel || t("contactsEmailLabel"),
       value: content?.emailAddress || "sales@hqdriedfruits.com",
       href: `mailto:${content?.emailAddress || "sales@hqdriedfruits.com"}`,
       icon: Mail,
     },
     {
-      label: content?.infoPhoneLabel || uiLabels.phoneLabel || "Phone",
+      label: content?.infoPhoneLabel || t("contactsPhoneLabel"),
       value: content?.phoneNumber || "+998 90 123 45 67",
       href: `tel:${(content?.phoneNumber || "+998 90 123 45 67").replace(/\s/g, "")}`,
       icon: Phone,
     },
     {
-      label: content?.infoAddressLabel || uiLabels.headquartersLabel || "Headquarters",
+      label: content?.infoAddressLabel || t("contactsHeadquartersLabel"),
       value: content?.officeAddress || "123 Silk Road Ave, Tashkent, Uzbekistan",
       href: content?.googleMapsUrl || "#map",
       icon: MapPin,
     },
     {
-      label: content?.infoHoursLabel || uiLabels.workingHoursLabel || "Working Hours",
+      label: content?.infoHoursLabel || t("contactsWorkingHoursLabel"),
       value: content?.workingHours || "Mon - Fri: 9:00 AM - 6:00 PM (GMT+5)",
       href: undefined,
       icon: Clock,
@@ -128,10 +128,10 @@ export function Contacts() {
       setEmail("");
       setMessage("");
       setIsValid(null);
-      setSubmitMessage(uiLabels.inquirySuccessMsg || t("contactsFormSuccess"));
+      setSubmitMessage(t("contactsFormSuccess"));
     } catch (error) {
       console.error("Failed to submit contact form:", error);
-      setSubmitMessage(uiLabels.inquiryFailureMsg || t("contactsFormError"));
+      setSubmitMessage(t("contactsFormError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -148,7 +148,7 @@ export function Contacts() {
         >
           <img
             src={contactHeroImage}
-            alt={content?.pageTitle || uiLabels.contactsTitle || "Let's Connect"}
+            alt={content?.pageTitle || t("contactsTitle")}
             className="h-full w-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -164,7 +164,7 @@ export function Contacts() {
                 transition={{ duration: 0.8, ease: springEasing }}
                 className="font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[4.9rem] md:text-[5.6rem]"
               >
-                {content?.pageTitle || uiLabels.contactsTitle || "Let's Connect"}
+                {content?.pageTitle || t("contactsTitle")}
               </motion.h1>
             </div>
 
@@ -175,7 +175,7 @@ export function Contacts() {
                 transition={{ duration: 0.8, delay: 0.15, ease: springEasing }}
                 className="text-base text-earth-100 sm:text-xl"
               >
-                {content?.introText || uiLabels.contactsIntroFallback || "Whether you need a custom quote, a sample box, or logistics details, our export team is ready to assist you."}
+                {content?.introText || t("contactsIntroFallback")}
               </motion.p>
             </div>
           </div>
@@ -187,13 +187,13 @@ export function Contacts() {
           <div className="lg:col-span-7">
             <div className="h-full rounded-[3rem] bg-white p-8 shadow-xl border border-earth-100 sm:p-12">
               <h2 className="mb-8 font-display text-3xl font-bold text-earth-900">
-                {content?.contactFormTitle || uiLabels.sendInquiryTitle || "Send an Inquiry"}
+                {content?.contactFormTitle || t("contactsSendInquiry")}
               </h2>
               <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-earth-700">
-                      {content?.formNameLabel || uiLabels.formNameLabel || "Full Name"}
+                      {content?.formNameLabel || t("contactsFormName")}
                     </label>
                     <input
                       type="text"
@@ -204,7 +204,7 @@ export function Contacts() {
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-earth-700">
-                      {content?.formCompanyLabel || uiLabels.formCompanyLabel || "Company"}
+                      {content?.formCompanyLabel || t("contactsFormCompany")}
                     </label>
                     <input
                       type="text"
@@ -217,14 +217,14 @@ export function Contacts() {
 
                 <div className="relative">
                   <label className="mb-2 block text-sm font-medium text-earth-700">
-                    {content?.formEmailLabel || uiLabels.formEmailLabel || "Work Email"}
+                    {content?.formEmailLabel || t("contactsFormWorkEmail")}
                   </label>
                   <div className="relative flex items-center">
                     <input
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
-                      placeholder={uiLabels.footerEmailPlaceholder || t("contactsEmailPlaceholder")}
+                      placeholder={t("contactsEmailPlaceholder")}
                       className={`w-full rounded-xl bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 transition-all border ${isValid === true ? "border-mint-500 focus:ring-mint-500" :
                         isValid === false ? "border-red-400 focus:ring-red-400" :
                           "border-earth-200 focus:ring-earth-500"
@@ -240,7 +240,7 @@ export function Contacts() {
 
                 <div>
                   <label className="mb-2 block text-sm font-medium text-earth-700">
-                    {content?.formMessageLabel || uiLabels.formMessageLabel || "Message"}
+                    {content?.formMessageLabel || t("contactsFormMessage")}
                   </label>
                   <textarea
                     rows={4}
@@ -252,8 +252,8 @@ export function Contacts() {
 
                 <Button type="submit" className="mt-4 h-14 text-lg" disabled={isSubmitting}>
                   {isSubmitting
-                    ? content?.submittingButtonLabel || uiLabels.submittingLabel || "Sending..."
-                    : content?.submitButtonLabel || uiLabels.sendMessageLabel || "Send Message"}
+                    ? content?.submittingButtonLabel || t("contactsSending")
+                    : content?.submitButtonLabel || t("contactsSendMessage")}
                 </Button>
                 {submitMessage && (
                   <p className="text-sm text-earth-600">{submitMessage}</p>
@@ -264,12 +264,12 @@ export function Contacts() {
           <div className="lg:col-span-5">
             <div className="flex flex-col gap-6 p-1">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">{uiLabels.directContactEyebrow || "Direct Contact"}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">{t("contactsDirectContactEyebrow")}</p>
                 <h2 className="mt-3 font-display text-3xl font-bold text-earth-900">
-                  {uiLabels.contactDetailsTitle || "Contact Details"}
+                  {t("contactsDetailsTitle")}
                 </h2>
                 <p className="mt-3 text-base leading-7 text-earth-700">
-                  {uiLabels.contactDetailsDesc || "Reach our sales and export coordination team through the fastest channel for your request."}
+                  {t("contactsDetailsDesc")}
                 </p>
               </div>
 
