@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, ChevronDown, Globe, Package } from "lucide-react";
+import { CheckCircle2, ChevronDown, Globe, Package, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { SeoFormSection, SEOData } from "@/src/components/admin/SeoFormSection";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { defaultPageSeoSettings, usePages } from "@/src/contexts/PageContext";
 import { getManagedPagePath, getManagedProductAnchorPath, type ManagedPageId } from "@/src/lib/routes";
+import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 
 interface PageSEO {
   id: string;
@@ -25,10 +26,31 @@ const staticPageMetadata = [
 ];
 
 export function AdminSeoSettings() {
-  const { products, updateProduct } = useProducts();
-  const { pageSeo, updatePageSeo } = usePages();
+  const { products, updateProduct, refreshProducts } = useProducts();
+  const { pageSeo, updatePageSeo, refreshData } = usePages();
+  const { editingLang } = useAdminLanguage();
   const [editingPage, setEditingPage] = useState<PageSEO | null>(null);
   const [showToast, setShowToast] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Refresh all data whenever the editing language changes
+  useEffect(() => {
+    const loadLangData = async () => {
+      setIsRefreshing(true);
+      try {
+        await Promise.all([
+            refreshData(editingLang),
+            refreshProducts(editingLang)
+        ]);
+      } catch (err) {
+        console.error("Failed to load language data:", err);
+      } finally {
+        setIsRefreshing(false);
+      }
+    };
+    loadLangData();
+    setEditingPage(null); // Close any open editor
+  }, [editingLang]);
 
   const staticPages: PageSEO[] = staticPageMetadata.map((page) => ({
     ...page,
@@ -76,10 +98,10 @@ export function AdminSeoSettings() {
         const productId = editingPage.id.replace("product:", "");
         const targetProduct = products.find((product) => product.id === productId);
         if (targetProduct) {
-          await updateProduct(productId, { ...targetProduct, seo: editingPage.seo });
+          await updateProduct(productId, { ...targetProduct, seo: editingPage.seo }, editingLang);
         }
       } else {
-        await updatePageSeo(editingPage.id, editingPage.seo);
+        await updatePageSeo(editingPage.id, editingPage.seo, editingLang);
       }
 
       setShowToast(true);
@@ -89,6 +111,17 @@ export function AdminSeoSettings() {
       alert(error instanceof Error ? error.message : "Failed to save SEO changes.");
     }
   };
+
+  if (isRefreshing) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-earth-600" />
+          <p className="text-sm text-slate-500 font-medium">Switching to {editingLang.toUpperCase()} SEO data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 relative">
@@ -101,15 +134,15 @@ export function AdminSeoSettings() {
             className="fixed top-4 right-4 z-[100] flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg border border-emerald-200"
           >
             <CheckCircle2 size={20} className="text-emerald-500" />
-            <span className="text-sm font-medium">SEO settings updated successfully</span>
+            <span className="text-sm font-medium">SEO settings ({editingLang.toUpperCase()}) updated successfully</span>
           </motion.div>
         )}
       </AnimatePresence>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">SEO Settings</h2>
-          <p className="text-sm text-slate-500">Manage indexability and social sharing previews for all endpoints.</p>
+          <h2 className="text-2xl font-bold text-slate-900">SEO Settings ({editingLang.toUpperCase()})</h2>
+          <p className="text-sm text-slate-500">Manage indexability and social sharing previews for the {editingLang.toUpperCase()} version.</p>
         </div>
       </div>
 
@@ -172,7 +205,7 @@ export function AdminSeoSettings() {
                             Discard Changes
                           </Button>
                           <Button type="submit" className="bg-earth-600 hover:bg-earth-700 text-white min-w-[160px] shadow-lg shadow-earth-500/20 text-sm font-bold">
-                            Update SEO Data
+                            Update {editingLang.toUpperCase()} SEO
                           </Button>
                         </div>
                       </form>

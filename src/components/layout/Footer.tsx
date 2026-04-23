@@ -7,6 +7,7 @@ import { useProducts } from "@/src/contexts/ProductContext";
 import { submitLead } from "@/src/lib/leads";
 import { canonicalizeManagedUrl, getManagedPagePath } from "@/src/lib/routes";
 import { useLanguage } from "@/src/contexts/LanguageContext";
+import { getNavLabel } from "@/src/i18n";
 
 export function Footer() {
   const { globalSettings, pageSeo } = usePages();
@@ -17,15 +18,17 @@ export function Footer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
 
+  const uiLabels = globalSettings.uiLabels || {};
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const footerDescription =
     globalSettings.footerDescription ||
+    uiLabels.footerDescription ||
     "Quality sun-dried fruits from the heart of Uzbekistan. Exporting nature's sweetness to global B2B partners with uncompromising quality.";
   const footerLeadText =
-    globalSettings.footerLeadText || "Get our latest pricing and export terms directly to your inbox or Telegram.";
+    globalSettings.footerLeadText || uiLabels.footerLeadText || "Get our latest pricing and export terms directly to your inbox or Telegram.";
   const footerCtaEmail = globalSettings.footerCtaEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
   const telegramUrl = globalSettings.telegramUrl?.trim();
-  const footerCopyrightText = globalSettings.footerCopyrightText || `${siteName}. All rights reserved.`;
+  const footerCopyrightText = globalSettings.footerCopyrightText || uiLabels.footerCopyright || `${siteName}. All rights reserved.`;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,10 +44,10 @@ export function Footer() {
       });
       setCompany("");
       setEmail("");
-      setSubmitMessage("Request received. The sales team will contact you shortly.");
+      setSubmitMessage(uiLabels.footerInquirySuccess || "Request received. The sales team will contact you shortly.");
     } catch (error) {
       console.error("Failed to submit footer inquiry:", error);
-      setSubmitMessage("Submission failed. Please try again.");
+      setSubmitMessage(uiLabels.footerInquiryError || "Submission failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -106,7 +109,7 @@ export function Footer() {
 
           <div className="hidden md:block lg:col-span-2 lg:col-start-6">
             <h3 className="mb-6 font-display text-lg font-semibold text-white">
-              {t("footerLinksTitle")}
+              {uiLabels.footerLinksTitle || t("footerLinksTitle")}
             </h3>
             <ul className="flex flex-col gap-3">
               {globalSettings.quickLinks?.map((link) => (
@@ -115,7 +118,7 @@ export function Footer() {
                     to={canonicalizeManagedUrl(link.url, pageSeo, products)}
                     className="text-earth-200 transition-colors hover:text-earth-500"
                   >
-                    {link.label}
+                    {getNavLabel(link.url, link.label, t)}
                   </Link>
                 </li>
               ))}
@@ -125,14 +128,14 @@ export function Footer() {
           <div className="lg:col-span-5">
             <div className="rounded-3xl border border-earth-700/50 bg-earth-800/50 p-8 backdrop-blur-sm">
               <h3 className="mb-2 font-display text-xl font-semibold text-white">
-                {globalSettings.footerCtaTitle || "Request Wholesale Catalog"}
+                {globalSettings.footerCtaTitle || uiLabels.footerCtaTitle || "Request Wholesale Catalog"}
               </h3>
               <p className="mb-6 text-sm text-earth-300">{footerLeadText}</p>
 
               <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <input
                   type="text"
-                  placeholder={t("footerCompanyPlaceholder")}
+                  placeholder={uiLabels.footerCompanyPlaceholder || t("footerCompanyPlaceholder")}
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
@@ -141,7 +144,7 @@ export function Footer() {
                   <input
                     type="email"
                     required
-                    placeholder={t("footerEmailPlaceholder")}
+                    placeholder={uiLabels.footerEmailPlaceholder || t("footerEmailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
@@ -149,21 +152,21 @@ export function Footer() {
                   <Button type="submit" className="shrink-0 px-8" disabled={isSubmitting}>
                     <Send size={18} className="mr-2" />
                     {isSubmitting
-                      ? t("footerSubmittingLabel")
-                      : t("footerSubmitLabel")}
+                      ? (uiLabels.footerSubmittingLabel || t("footerSubmittingLabel"))
+                      : (uiLabels.footerSubmitLabel || t("footerSubmitLabel"))}
                   </Button>
                 </div>
                 {submitMessage && <p className="text-xs text-earth-300">{submitMessage}</p>}
                 <p className="mt-2 text-xs text-earth-400">
-                  {t("footerSecondaryContactPrefix")}{" "}
+                  {uiLabels.footerSecondaryContactPrefix || t("footerSecondaryContactPrefix")}{" "}
                   <a href={`mailto:${footerCtaEmail}`} className="text-earth-500 hover:underline">
                     {footerCtaEmail}
                   </a>
                   {telegramUrl ? (
                     <>
-                      {" "}or{" "}
+                      {" "}{uiLabels.footerTelegramOrLabel || "or"}{" "}
                       <a href={telegramUrl} target="_blank" rel="noreferrer" className="text-earth-500 hover:underline">
-                        {t("footerTelegramLinkLabel")}
+                        {uiLabels.footerTelegramLinkLabel || t("footerTelegramLinkLabel")}
                       </a>
                     </>
                   ) : null}
@@ -180,10 +183,10 @@ export function Footer() {
           </p>
           <div className="mt-4 flex gap-4 sm:mt-0">
             <Link to={getManagedPagePath("privacy", pageSeo)} className="text-sm text-earth-400 hover:text-earth-200">
-              {t("footerPrivacyLinkLabel")}
+              {uiLabels.footerPrivacyLinkLabel || t("footerPrivacyLinkLabel")}
             </Link>
             <Link to={getManagedPagePath("terms", pageSeo)} className="text-sm text-earth-400 hover:text-earth-200">
-              {t("footerTermsLinkLabel")}
+              {uiLabels.footerTermsLinkLabel || t("footerTermsLinkLabel")}
             </Link>
           </div>
         </div>

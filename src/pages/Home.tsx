@@ -9,13 +9,15 @@ import { usePages } from "@/src/contexts/PageContext";
 import { HomeContent } from "@/src/types/page";
 
 export function Home() {
+  const { pages, globalSettings } = usePages();
+  const uiLabels = globalSettings.uiLabels || {};
+  
   useSEO({
-    title: "HQ Dried Fruits | High-Quality Organic Export",
-    description: "High-quality sun-dried fruits from the heart of Uzbekistan. We export the finest apricots, raisins, and prunes to global B2B partners.",
-    ogTitle: "HQ Dried Fruits"
+    title: uiLabels.homeMetaTitle || "HQ Dried Fruits | High-Quality Organic Export",
+    description: uiLabels.homeMetaDescription || "High-quality sun-dried fruits from the heart of Uzbekistan. We export the finest apricots, raisins, and prunes to global B2B partners.",
+    ogTitle: uiLabels.homeMetaTitle || "HQ Dried Fruits"
   });
 
-  const { pages } = usePages();
   const pageData = pages.find(p => p.id === "home");
   const content: HomeContent = pageData?.content;
 
@@ -30,7 +32,7 @@ export function Home() {
         >
           <img
             src={content?.heroBgImage || "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2000&auto=format&fit=crop"}
-            alt="Sun-dried apricots"
+            alt={content?.heroTitle || "Sun-dried apricots"}
             className="h-full w-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -57,13 +59,13 @@ export function Home() {
             <div className="flex flex-wrap gap-4">
               <Link to="/products">
                 <Button size="lg" className="bg-earth-500 hover:bg-earth-400 text-earth-900">
-                  Request Wholesale Catalog
+                  {uiLabels.requestCatalogLabel || "Request Wholesale Catalog"}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link to="/products">
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                  Explore Products
+                  {uiLabels.exploreProductsLabel || "Explore Products"}
                 </Button>
               </Link>
             </div>
@@ -73,20 +75,23 @@ export function Home() {
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="font-display text-3xl font-bold text-earth-900 sm:text-4xl">
-            {content?.introLabel || "A Heritage of Quality"}
+            {content?.introLabel || uiLabels.aboutCompanyLabel || "A Heritage of Quality"}
           </h2>
-          <p className="mt-4 text-earth-700">Decades of expertise in every harvest.</p>
+          <p className="mt-4 text-earth-700">
+            {uiLabels.heritageSloganLabel || "Decades of expertise in every harvest."}
+          </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
           <BentoCard className="md:col-span-2 lg:col-span-2 lg:row-span-2 p-0 overflow-hidden relative group">
             <img
               src={content?.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1000&auto=format&fit=crop"}
-              alt="Orchards in Uzbekistan"
+              alt={content?.introLabel || "Orchards in Uzbekistan"}
               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-earth-900/90 via-earth-900/20 to-transparent p-8 flex flex-col justify-end">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-earth-300 mb-2">{uiLabels.aboutCompanyLabel || "About The Company"}</p>
               <h3 className="font-display text-2xl font-bold text-white mb-2">{content?.introLabel || "The HQ Dried Fruits Advantage"}</h3>
               <div
                 className="text-earth-100 prosetext"
@@ -95,8 +100,8 @@ export function Home() {
             </div>
           </BentoCard>
           {(content?.statsGrid?.length > 0 ? content.statsGrid : [
-            { value: "25+", label: "Years Experience" },
-            { value: "10,000", label: "Tons Exported" }
+            { value: "25+", label: uiLabels.statYearsLabel || "Years Experience" },
+            { value: "10,000", label: uiLabels.statTonsLabel || "Tons Exported" }
           ]).slice(0, 2).map((stat, i) => (
             <div key={i}>
               <BentoCard delay={i * 0.1} className={i % 2 === 0 ? "bg-mint-50 border-mint-100 flex flex-col justify-center items-center text-center h-full" : "bg-earth-50 border-earth-100 flex flex-col justify-center items-center text-center h-full"}>
@@ -124,10 +129,10 @@ export function Home() {
               <h2 className="font-display text-3xl font-bold text-earth-900 sm:text-4xl">
                 {content?.productPreviewTitle || "Export Selection"}
               </h2>
-              <p className="mt-4 text-earth-700">Hand-picked and naturally sun-dried.</p>
+              <p className="mt-4 text-earth-700">{uiLabels.productSelectionSublabel || "Hand-picked and naturally sun-dried."}</p>
             </div>
             <Link to="/products">
-              <Button variant="outline">View Full Catalog</Button>
+              <Button variant="outline">{uiLabels.viewFullCatalogLabel || "View Full Catalog"}</Button>
             </Link>
           </div>
 
@@ -156,7 +161,7 @@ export function Home() {
                 <h3 className="font-display text-2xl font-bold text-earth-900">{product.categoryName}</h3>
                 <p className="mt-2 text-earth-700">{product.shortDescription}</p>
                 <Link to={product.url} className="mt-6 flex items-center text-earth-600 font-medium opacity-0 transition-all group-hover:opacity-100">
-                  Request Sample <ArrowRight className="ml-2 h-4 w-4" />
+                  {uiLabels.requestSampleLabel || "Request Sample"} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </motion.div>
             ))}
@@ -167,7 +172,7 @@ export function Home() {
         <div className="absolute inset-0 z-0">
           <img
             src={content?.supplyReachBgImage || "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000"}
-            alt="Global logistics"
+            alt={content?.supplyReachTitle || "Global logistics"}
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-mint-900/90 mix-blend-multiply" />
@@ -183,7 +188,7 @@ export function Home() {
           />
           <Link to="/export">
             <Button className="bg-white text-mint-900 hover:bg-mint-50">
-              Learn About Our Export Process
+              {uiLabels.learnMoreLabel || "Learn About Our Export Process"}
             </Button>
           </Link>
         </div>
@@ -208,14 +213,14 @@ export function Home() {
               <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
-                  placeholder="Enter your work email"
+                  placeholder={uiLabels.footerEmailPlaceholder || "Enter your work email"}
                   className="w-full rounded-xl bg-earth-50 px-4 py-4 text-earth-900 placeholder-earth-400 outline-none focus:ring-2 focus:ring-earth-500 transition-all border border-earth-100"
                 />
                 <Button className="w-full h-14 text-lg">
-                  {content?.ctaButtonText || "Get Pricing & Samples"}
+                  {content?.ctaButtonText || uiLabels.getPricingLabel || "Get Pricing & Samples"}
                 </Button>
                 <p className="text-center text-sm text-earth-500 mt-2">
-                  Or message us directly on <a href="#telegram-bot-integration" className="text-earth-600 font-medium hover:underline">Telegram</a>
+                  {uiLabels.footerSecondaryContactPrefix || "Or message us directly on"} <a href={globalSettings.telegramUrl || "#"} className="text-earth-600 font-medium hover:underline">{uiLabels.footerTelegramLinkLabel || "Telegram"}</a>
                 </p>
               </form>
             </div>

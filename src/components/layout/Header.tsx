@@ -8,7 +8,8 @@ import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { canonicalizeManagedUrl, getManagedPagePath, pathsMatch } from "@/src/lib/routes";
 import { useLanguage } from "@/src/contexts/LanguageContext";
-import { languageNames, languageFull, type Language } from "@/src/i18n";
+import { languageNames, languageFull, getNavLabel, type Language } from "@/src/i18n";
+import type { TranslationKey } from "@/src/i18n/en";
 
 const SUPPORTED_LANGUAGES: Language[] = ["en", "ru", "uz"];
 
@@ -92,7 +93,7 @@ export function Header() {
                     : "text-earth-800"
                 )}
               >
-                {link.label}
+                {getNavLabel(link.url, link.label, t)}
                 <span className={cn(
                   "absolute bottom-0 left-0 h-0.5 w-0 bg-earth-500 transition-all duration-300",
                   pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products) ? "w-full" : "group-hover:w-full"
@@ -226,7 +227,7 @@ export function Header() {
                           "h-1.5 w-1.5 rounded-full bg-earth-500 opacity-0 transition-opacity",
                           pathsMatch(link.resolvedUrl, location.pathname, pageSeo, products) ? "opacity-100" : "group-hover:opacity-100"
                         )} />
-                        {link.label}
+                        {getNavLabel(link.url, link.label, t)}
                       </Link>
                     </motion.div>
                   ))}

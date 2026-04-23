@@ -14,11 +14,32 @@ import { ProductsForm } from "@/src/components/admin/forms/ProductsForm";
 import { SimplePageForm } from "@/src/components/admin/forms/SimplePageForm";
 import { getManagedPagePath, type ManagedPageId } from "@/src/lib/routes";
 
+import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+
 export function AdminPages() {
-  const { pages, updatePage, pageSeo } = usePages();
+  const { pages, updatePage, pageSeo, refreshData } = usePages();
+  const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const [editingPage, setEditingPage] = useState<PageData | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Refresh data whenever the editing language changes
+  useEffect(() => {
+    const loadLangData = async () => {
+      setIsRefreshing(true);
+      try {
+        await refreshData(editingLang);
+      } catch (err) {
+        console.error("Failed to load language data:", err);
+      } finally {
+        setIsRefreshing(false);
+      }
+    };
+    loadLangData();
+    handleClose(); // Close any open editor when switching languages
+  }, [editingLang]);
+
 
   const handleEdit = (page: PageData) => {
     if (editingPage?.id === page.id) {
@@ -36,8 +57,8 @@ export function AdminPages() {
     e.preventDefault();
     if (editingPage) {
       try {
-        await updatePage(editingPage.id, editingPage);
-        setSuccessMessage(`${editingPage.name} page updated successfully!`);
+        await updatePage(editingPage.id, editingPage, editingLang);
+        setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
         setTimeout(() => setSuccessMessage(null), 3000);
         handleClose();
       } catch (error) {

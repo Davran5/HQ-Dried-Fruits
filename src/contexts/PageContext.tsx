@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { useLanguage } from "./LanguageContext";
 import {
     PageData,
     HomeContent,
@@ -13,12 +14,13 @@ import { SEOData } from "../types/product";
 
 interface PageContextType {
     globalSettings: GlobalSettings;
-    updateGlobalSettings: (settings: GlobalSettings) => Promise<void>;
+    updateGlobalSettings: (settings: GlobalSettings, lang?: string) => Promise<void>;
     pages: PageData[];
-    updatePage: (id: string, newPageData: PageData) => Promise<void>;
+    updatePage: (id: string, newPageData: PageData, lang?: string) => Promise<void>;
     pageSeo: Record<string, SEOData>;
     pageSeoLoaded: boolean;
-    updatePageSeo: (id: string, seo: SEOData) => Promise<void>;
+    updatePageSeo: (id: string, seo: SEOData, lang?: string) => Promise<void>;
+    refreshData: (lang?: string) => Promise<void>;
 }
 
 const defaultUiLabels = {
@@ -38,6 +40,40 @@ const defaultUiLabels = {
     notFoundTitle: "Page Not Found",
     notFoundBody: "The page you requested does not exist or its address has changed.",
     notFoundButtonLabel: "Back to Homepage",
+
+    // Core CTAs & Section Labels
+    requestCatalogLabel: "Request Wholesale Catalog",
+    exploreProductsLabel: "Explore Products",
+    aboutCompanyLabel: "About The Company",
+    heritageSloganLabel: "Decades of expertise in every harvest.",
+    learnMoreLabel: "About our export process",
+    getPricingLabel: "Pricing & Samples",
+    viewFullCatalogLabel: "View Full Catalog",
+    requestSampleLabel: "Request Samples",
+    productSelectionSublabel: "Hand-selected and sun-dried.",
+
+    // Meta/SEO
+    homeMetaTitle: "HQ Dried Fruits | High-Quality Organic Export",
+    productsMetaTitle: "Our Products | Wholesale Catalog",
+    exportMetaTitle: "Global Export & Logistics",
+    contactsMetaTitle: "Contact Us | Wholesale Inquiries",
+
+    // Stats
+    statYearsLabel: "Years of Experience",
+    statTonsLabel: "Tons Exported",
+
+    // Contact Form
+    contactsTitle: "Let's Connect",
+    sendInquiryTitle: "Send an Inquiry",
+    formNameLabel: "Full Name",
+    formEmailLabel: "Work Email",
+    formPhoneLabel: "Phone Number",
+    formMessageLabel: "Message",
+    formCompanyLabel: "Company",
+    submitBtnLabel: "Send Inquiry",
+    submittingLabel: "Sending...",
+    inquirySuccessMsg: "Inquiry received. The export team will contact you shortly.",
+    inquiryFailureMsg: "Submission failed. Please try again.",
 };
 
 const initialGlobalSettings: GlobalSettings = {
@@ -386,129 +422,122 @@ const initialPages: PageData[] = [
 
 const PageContext = createContext<PageContextType | undefined>(undefined);
 
-export function PageProvider({ children }: { children: ReactNode }) {
-    const [pages, setPages] = useState<PageData[]>(initialPages);
+export const PageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const { language } = useLanguage();
     const [globalSettings, setGlobalSettings] = useState<GlobalSettings>(initialGlobalSettings);
+    const [pages, setPages] = useState<PageData[]>(initialPages);
     const [pageSeo, setPageSeo] = useState<Record<string, SEOData>>(defaultPageSeoSettings);
     const [pageSeoLoaded, setPageSeoLoaded] = useState(false);
 
-    useEffect(() => {
-        fetch("/api/globals")
-            .then((res) => res.json())
-            .then((data) => {
-                if (data && typeof data === "object") {
-                    setGlobalSettings((prev) => ({
-                        ...initialGlobalSettings,
-                        ...prev,
-                        ...data,
-                        uiLabels: {
-                            ...defaultUiLabels,
-                            ...prev.uiLabels,
-                            ...(typeof data.uiLabels === "object" && data.uiLabels ? data.uiLabels : {}),
-                        },
-                    }));
-                }
-            })
-            .catch((err) => console.error("Error loading globals:", err));
+    const refreshData = async (lang?: string) => {
+        const targetLang = lang || language;
+        try {
+            const langQuery = `?lang=${targetLang}&v=${Date.now()}`;
+            const [globalsRes, seoRes] = await Promise.all([
+                fetch(`/api/globals${langQuery}`),
+                fetch(`/api/seo/pages${langQuery}`),
+            ]);
 
-        fetch("/api/seo/pages")
-            .then((res) => res.json())
-            .then((data) => {
-                if (data && typeof data === "object") {
-                    setPageSeo((prev) => ({ ...prev, ...data }));
-                }
-            })
-            .finally(() => setPageSeoLoaded(true))
-            .catch((err) => console.error("Error loading page SEO:", err));
-
-        ["home", "about", "products", "export", "contacts", "privacy", "terms"].forEach(async (id) => {
-            try {
-                const res = await fetch(`/api/pages/${id}`);
-                if (!res.ok) {
-                    return;
-                }
-
-                const content = await res.json();
-                if (content && typeof content === "object") {
-                    setPages((prev) =>
-                        prev.map((page) =>
-                            page.id === id ? { ...page, content: { ...page.content, ...content } } : page,
-                        ),
-                    );
-                }
-            } catch (err) {
-                console.error(`[PageContext] Failed to load page '${id}':`, err);
+            if (globalsRes.ok) {
+                const data = await globalsRes.json();
+                setGlobalSettings(data);
             }
-        });
-    }, []);
 
-    const updatePage = async (id: string, newPageData: PageData) => {
-        if (!newPageData || typeof newPageData.content !== "object") {
-            throw new Error("Invalid page data");
+            if (seoRes.ok) {
+                const data = await seoRes.json();
+                setPageSeo(data);
+                setPageSeoLoaded(true);
+            }
+
+            // Refresh all pages
+            const ids = ["home", "about", "products", "export", "contacts", "privacy", "terms"];
+            const pagePromises = ids.map(async (id) => {
+                const res = await fetch(`/api/pages/${id}${langQuery}`);
+                if (res.ok) return { id, content: await res.json() };
+                return null;
+            });
+            const results = await Promise.all(pagePromises);
+            
+            setPages((prev) => prev.map(p => {
+                const match = results.find(r => r?.id === p.id);
+                return match ? { ...p, content: { ...p.content, ...match.content } } : p;
+            }));
+
+        } catch (error) {
+            console.error("Failed to refresh page data:", error);
+        } finally {
+            setPageSeoLoaded(true);
         }
+    };
 
-        const response = await fetch(`/api/pages/${id}`, {
+    // When site language changes, reload public data
+    useEffect(() => {
+        refreshData(language);
+    }, [language]);
+
+    const updateGlobalSettings = async (settings: GlobalSettings, lang?: string) => {
+        const targetLang = lang || language;
+        const response = await fetch(`/api/globals?lang=${targetLang}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(settings),
+        });
+        if (response.ok) {
+            if (targetLang === language) setGlobalSettings(settings);
+        } else {
+            throw new Error("Failed to update global settings");
+        }
+    };
+
+    const updatePage = async (id: string, newPageData: PageData, lang?: string) => {
+        const targetLang = lang || language;
+        const response = await fetch(`/api/pages/${id}?lang=${targetLang}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newPageData.content),
         });
-
-        if (!response.ok) {
-            const payload = await response.json().catch(() => null);
-            throw new Error(payload?.error || `Failed to save page ${id}`);
+        if (response.ok) {
+            if (targetLang === language) {
+                setPages((prev) => prev.map((p) => (p.id === id ? newPageData : p)));
+            }
+        } else {
+            throw new Error("Failed to update page");
         }
-
-        setPages((prev) =>
-            prev.map((page) =>
-                page.id === id ? { ...page, content: { ...page.content, ...newPageData.content } } : page,
-            ),
-        );
     };
 
-    const updateGlobalSettings = async (newSettings: GlobalSettings) => {
-        const response = await fetch("/api/globals", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newSettings),
-        });
-
-        if (!response.ok) {
-            const payload = await response.json().catch(() => null);
-            throw new Error(payload?.error || "Failed to save global settings");
-        }
-
-        setGlobalSettings((prev) => ({
-            ...prev,
-            ...newSettings,
-            uiLabels: {
-                ...defaultUiLabels,
-                ...prev.uiLabels,
-                ...newSettings.uiLabels,
-            },
-        }));
-    };
-
-    const updatePageSeo = async (id: string, seo: SEOData) => {
-        const response = await fetch(`/api/seo/pages/${id}`, {
+    const updatePageSeo = async (id: string, seo: SEOData, lang?: string) => {
+        const targetLang = lang || language;
+        const response = await fetch(`/api/seo/pages/${id}?lang=${targetLang}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(seo),
         });
-
-        if (!response.ok) {
-            const payload = await response.json().catch(() => null);
-            throw new Error(payload?.error || `Failed to save SEO for ${id}`);
+        if (response.ok) {
+            if (targetLang === language) {
+                setPageSeo((prev) => ({ ...prev, [id]: seo }));
+            }
+        } else {
+            throw new Error("Failed to update SEO settings");
         }
-
-        setPageSeo((prev) => ({ ...prev, [id]: seo }));
     };
 
     return (
-        <PageContext.Provider value={{ pages, updatePage, globalSettings, updateGlobalSettings, pageSeo, pageSeoLoaded, updatePageSeo }}>
+        <PageContext.Provider
+            value={{
+                globalSettings,
+                updateGlobalSettings,
+                pages,
+                updatePage,
+                pageSeo,
+                pageSeoLoaded,
+                updatePageSeo,
+                refreshData,
+            }}
+        >
             {children}
         </PageContext.Provider>
     );
-}
+};
 
 export function usePages() {
     const context = useContext(PageContext);

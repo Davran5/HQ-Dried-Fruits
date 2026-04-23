@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2 } from "lucide-react";
+import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { Select } from "@/src/components/ui/Select";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
@@ -8,6 +8,7 @@ import { Repeater } from "@/src/components/admin/Repeater";
 import { RichTextEditor } from "@/src/components/admin/forms/RichTextEditor";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { Product, ProductContentSection } from "@/src/types/product";
+import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 
 const emptyProduct: Omit<Product, "id"> = {
   name: "",
@@ -30,12 +31,30 @@ const emptyProduct: Omit<Product, "id"> = {
 };
 
 export function AdminProducts() {
-  const { products, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
+  const { editingLang } = useAdminLanguage();
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null); // null = closed, "new" = adding new, "ID" = editing existing
   const [formData, setFormData] = useState<Omit<Product, "id">>(emptyProduct);
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Refresh products whenever the editing language changes
+  useEffect(() => {
+    const loadLangData = async () => {
+      setIsRefreshing(true);
+      try {
+        await refreshProducts(editingLang);
+      } catch (err) {
+        console.error("Failed to load language data:", err);
+      } finally {
+        setIsRefreshing(false);
+      }
+    };
+    loadLangData();
+    handleClose(); // Close any open editor when switching languages
+  }, [editingLang]);
 
   const handleToggleAccordion = (id: string, product?: Product) => {
     if (editingId === id) {
@@ -57,11 +76,11 @@ export function AdminProducts() {
 
     try {
       if (editingId === "new") {
-        await addProduct(formData);
-        setSuccessMessage("New product created successfully!");
+        await addProduct(formData, editingLang);
+        setSuccessMessage(`New product (${editingLang.toUpperCase()}) created successfully!`);
       } else if (editingId) {
-        await updateProduct(editingId, formData);
-        setSuccessMessage("Product updated successfully!");
+        await updateProduct(editingId, formData, editingLang);
+        setSuccessMessage(`Product (${editingLang.toUpperCase()}) updated successfully!`);
       }
 
       setTimeout(() => setSuccessMessage(null), 3000);
@@ -278,6 +297,17 @@ export function AdminProducts() {
     </div>
   );
 
+  if (isRefreshing) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-earth-600" />
+          <p className="text-sm text-slate-500 font-medium">Switching to {editingLang.toUpperCase()} products...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <AnimatePresence>
@@ -295,8 +325,8 @@ export function AdminProducts() {
       </AnimatePresence>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Products Catalog</h2>
-          <p className="text-sm text-slate-500">Manage your dried fruits inventory and specifications.</p>
+          <h2 className="text-2xl font-bold text-slate-900">Products Catalog ({editingLang.toUpperCase()})</h2>
+          <p className="text-sm text-slate-500">Manage your dried fruits inventory for the {editingLang.toUpperCase()} version.</p>
         </div>
         <Button
           onClick={() => handleToggleAccordion("new")}
@@ -317,7 +347,7 @@ export function AdminProducts() {
             >
               <div className="px-6 py-4 bg-earth-50 border-b border-earth-200">
                 <h3 className="font-bold text-earth-900 flex items-center gap-2">
-                  <Plus size={18} /> New Product Drafting
+                  <Plus size={18} /> New {editingLang.toUpperCase()} Product Drafting
                 </h3>
               </div>
               {renderProductForm("new")}
@@ -390,9 +420,9 @@ export function AdminProducts() {
         {products.length === 0 && editingId !== "new" && (
           <div className="py-20 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
             <Package size={48} className="mx-auto text-slate-200 mb-4" />
-            <p className="text-slate-500 font-medium">Your product catalog is currently empty.</p>
+            <p className="text-slate-500 font-medium">Your {editingLang.toUpperCase()} product catalog is currently empty.</p>
             <Button onClick={() => handleToggleAccordion("new")} variant="ghost" className="mt-4 text-earth-600">
-              Add your first product
+              Add your first {editingLang.toUpperCase()} product
             </Button>
           </div>
         )}

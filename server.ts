@@ -16,21 +16,360 @@ const distDir = path.join(process.cwd(), "dist");
 
 const dbFile = path.join(process.cwd(), 'database.json');
 let dbData: any = {
-  global_settings: [{ id: 1 }], products_page: [{ id: 1 }], export_page: [{ id: 1 }], contacts_page: [{ id: 1 }],
-  products: [], leads: [], page_seo: [], home_page: [{ id: 1 }], about_page: [{ id: 1 }], privacy_page: [{ id: 1 }], terms_page: [{ id: 1 }]
+  global_settings: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  products_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  export_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  contacts_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  products: [],
+  leads: [],
+  page_seo: [],
+  home_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  about_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  privacy_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  terms_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }]
 };
 
 if (fs.existsSync(dbFile)) {
-  try { dbData = JSON.parse(fs.readFileSync(dbFile, 'utf8')); } catch (err) { console.error("DB Load Error:", err); }
+  try {
+    const loaded = JSON.parse(fs.readFileSync(dbFile, 'utf8'));
+    let changed = false;
+    
+    const tablesToMigrate = ['global_settings', 'products_page', 'export_page', 'contacts_page', 'home_page', 'about_page', 'privacy_page', 'terms_page'];
+    const targetLangs = ['en', 'ru', 'uz'];
+    
+    const translations: Record<string, any> = {
+      ru: {
+        global_settings: {
+          site_name: "HQ Dried Fruits",
+          nav_links: JSON.stringify([{ label: "Главная", url: "/" }, { label: "О нас", url: "/about" }, { label: "Продукция", url: "/products" }, { label: "Экспорт", url: "/export" }, { label: "Контакты", url: "/contacts" }]),
+          cta_text: "Получить расчет",
+          footer_description: "Качественные сухофрукты из сердца Узбекистана. Экспорт природной сладости глобальным B2B партнерам с бескомпромиссным качеством.",
+          footer_lead_text: "Получайте последние цены и условия экспорта прямо на почту или в Telegram.",
+          ui_labels: JSON.stringify({
+          "mobileNavigationTitle": "Навигация",
+          "mobileContactTitle": "Связаться с нами",
+          "homeMetaTitle": "HQ Dried Fruits | Высококачественный органический экспорт",
+          "productsMetaTitle": "Наша продукция | Оптовый каталог",
+          "exportMetaTitle": "Глобальный экспорт и логистика",
+          "contactsMetaTitle": "Контакты | Оптовые запросы",
+          "routeLoadingLabel": "Загрузка маршрута...",
+          "notFoundTitle": "Страница не найдена",
+          "notFoundBody": "Запрашиваемая страница не существует или ее адрес изменился.",
+          "notFoundButtonLabel": "Вернуться на главную",
+          "requestCatalogLabel": "Запросить оптовый каталог",
+          "exploreProductsLabel": "Изучить продукцию",
+          "heritageSloganLabel": "Десятилетия опыта в каждом урожае.",
+          "aboutCompanyLabel": "О компании",
+          "statYearsLabel": "Лет опыта",
+          "statTonsLabel": "Тонн экспортировано",
+          "productSelectionSublabel": "Собрано вручную и высушено на солнце.",
+          "viewFullCatalogLabel": "Весь каталог",
+          "requestSampleLabel": "Запросить образцы",
+          "learnMoreLabel": "О нашем процессе экспорта",
+          "getPricingLabel": "Цены и образцы",
+          "heritageStat1Title": "Первый урожай",
+          "heritageStat1Desc": "Началось как небольшой семейный сад в Ферганской долине.",
+          "heritageStat2Title": "Масштабирование",
+          "heritageStat2Desc": "Внедрение современных методов сушки на солнце.",
+          "heritageStat3Title": "Мировой рынок",
+          "heritageStat3Desc": "Получение международных органических сертификатов.",
+          "heritageStat4Title": "Современная логистика",
+          "heritageStat4Desc": "Высокотехнологичный логистический хаб в Ташкенте.",
+          "prodStep1Title": "Прием сырья",
+          "prodStep1Subtitle": "Отбор урожая",
+          "prodStep1Desc": "Поступающие фрукты сортируются по партиям, профилю влажности и требованиям назначения.",
+          "prodStep2Title": "Переработка",
+          "prodStep2Subtitle": "Лазерный и рентгеновский контроль",
+          "prodStep2Desc": "Каждая линия откалибрована для обеспечения чистоты и экспортного качества.",
+          "prodStep3Title": "Упаковка",
+          "prodStep3Subtitle": "Форматы под заказчика",
+          "prodStep3Desc": "Мы упаковываем для розницы, под собственными торговыми марками или для промышленности.",
+          "prodStep4Title": "Отправка",
+          "prodStep4Subtitle": "Передача на экспорт",
+          "prodStep4Desc": "Груз документируется, паллетируется и отправляется по оптимальному маршруту.",
+          "missionPurposeLabel": "Цель",
+          "missionHeritageLabel": "Наследие",
+          "missionPhilosophyLabel": "Философия",
+          "missionStandardsLabel": "Стандарты",
+          "orchardPhilosophyLabel": "Философия сада",
+          "whoWeAreFallback1": "Расположенная в сельскохозяйственном центре Центральной Азии, HQ Dried Fruits объединяет контроль садов и дисциплину переработки.",
+          "whoWeAreFallback2": "Это помогает оптовым покупателям получать стабильный продукт и четкую документацию.",
+          "missionNarrativeEyebrow": "Миссия",
+          "missionNarrativeTitle": "Что направляет нас в выращивании и переработке",
+          "missionNarrativeSublabel": "Взгляд на миссию компании, наследие, философию и стандарты.",
+          "insideFacilityEyebrow": "Внутри предприятия",
+          "haccpLabel": "Сертификат HACCP",
+          "isoLabel": "ISO 9001:2015",
+          "organicLabel": "100% Органика",
+          "globalGapLabel": "GlobalGap",
+          "fdaLabel": "Зарегистрировано FDA",
+          "exportOpsEyebrow": "Экспортные операции",
+          "exportOpsTitle": "Логистика, документация и упаковка под заказчика",
+          "logisticsDesc1": "Мы обеспечиваем полную мультимодальную транспортировку в соответствии с требованиями покупателя.",
+          "logisticsDesc2": "Каждая отгрузка структурирована для повторяемости и соответствия требованиям страны назначения.",
+          "packagingTitle": "Индивидуальная упаковка",
+          "packagingDesc": "Коробки, вакуумные пакеты или розничная упаковка под вашим брендом.",
+          "transportationTitle": "Морские и ж/д перевозки",
+          "transportationDesc": "Экономичные FCL и LCL перевозки через основные порты и ж/д сети.",
+          "documentationTitle": "Таможенное оформление",
+          "documentationDesc": "Полная документальная поддержка, включая фитосанитарные сертификаты и сертификаты происхождения.",
+          "destinationBreakdownEyebrow": "География экспорта",
+          "destinationBreakdownTitle": "Подготовка каждой линии к отправке",
+          "destinationBreakdownDesc": "Планирование экспорта меняется в зависимости от рынка.",
+          "qualityGuaranteeTitle": "Гарантия качества",
+          "qualityGuaranteeDesc": "Наши мощности используют лазерную сортировку для обеспечения чистоты 99.9%.",
+          "moistureControlLabel": "Контроль влажности",
+          "moistureControlDesc": "Поддерживается на уровне 18-22% для оптимального срока хранения.",
+          "sizeCalibrationLabel": "Калибровка размера",
+          "sizeCalibrationDesc": "Лазерная калибровка (Jumbo, Large, Medium).",
+          "microSafeLabel": "Микробиологическая безопасность",
+          "microSafeDesc": "Регулярные лабораторные тесты на афлатоксины.",
+          "qualitySealLabel": "Знак качества продукции",
+          "contactsTitle": "Давайте свяжемся",
+          "contactsIntroFallback": "Нужна ли вам цена, образцы или детали логистики, наша команда готова помочь.",
+          "sendInquiryTitle": "Отправить запрос",
+          "formNameLabel": "Полное имя",
+          "formEmailLabel": "Рабочая почта",
+          "formPhoneLabel": "Номер телефона",
+          "formMessageLabel": "Сообщение",
+          "formCompanyLabel": "Компания",
+          "submitBtnLabel": "Отправить запрос",
+          "submittingLabel": "Отправка...",
+          "sendMessageLabel": "Отправить сообщение",
+          "inquirySuccessMsg": "Запрос получен. Наша команда свяжется с вами в ближайшее время.",
+          "inquiryFailureMsg": "Ошибка отправки. Пожалуйста, попробуйте снова.",
+          "directContactEyebrow": "Прямой контакт",
+          "contactDetailsTitle": "Контактная информация",
+          "contactDetailsDesc": "Свяжитесь с отделом продаж по наиболее удобному для вас каналу.",
+          "emailLabel": "Email",
+          "phoneLabel": "Телефон",
+          "headquartersLabel": "Главный офис",
+          "workingHoursLabel": "Рабочее время",
+          "footerLinksTitle": "Компания",
+          "footerCompanyPlaceholder": "Название компании",
+          "footerEmailPlaceholder": "Email адрес",
+          "footerSubmitLabel": "Отправить",
+          "footerSubmittingLabel": "Отправка",
+          "footerSecondaryContactPrefix": "Предпочитаете прямой контакт?",
+          "footerTelegramLinkLabel": "напишите нам в Telegram",
+          "footerAdminLinkLabel": "Админ-панель",
+          "footerPrivacyLinkLabel": "Политика конфиденциальности",
+          "footerTermsLinkLabel": "Условия использования",
+          "footerCopyright": "HQ Dried Fruits. Все права защищены.",
+          "footerInquirySuccess": "Спасибо за обращение! Мы скоро свяжемся с вами.",
+          "productsTitle": "Оптовый каталог",
+          "productsSubtitle": "Изучите нашу коллекцию для экспорта.",
+          "overviewLabel": "Обзор",
+          "originLabel": "Происхождение",
+          "benefitsLabel": "Польза",
+          "exportLabel": "Экспорт",
+          "requestQuoteBtn": "Запросить оптовую цену",
+          "orderingFormStepLabel": "Шаг",
+          "privacyTitle": "Политика конфиденциальности",
+          "termsTitle": "Условия использования"
+})
+        },
+        home_page: {
+          content: JSON.stringify({
+            heroTitle: "Сладость природы, высушенная на солнце до совершенства.",
+            heroSubtitle: "Качественные сухофрукты из сердца Узбекистана. Мы экспортируем лучшие абрикосы, изюм и чернослив глобальным B2B партнерам.",
+            introLabel: "Наследие качества",
+            introText: "Наш уникальный климат и богатая минералами почва позволяют выращивать фрукты с непревзойденной естественной сладостью и ярким цветом, не требующие искусственных добавок.",
+            supplyReachTitle: "Бесшовный глобальный экспорт",
+            supplyReachOverview: "От наших залитых солнцем полей сушки прямо до вашего склада. Мы берем на себя все таможенные вопросы, упаковку и экспедирование грузов.",
+            productPreviewTitle: "Экспортный выбор",
+            ctaHeading: "Готовы расширить свою линейку продуктов?",
+            ctaSubheading: "Получите наш последний оптовый прайс-лист и бесплатную коробку с образцами с доставкой в ваш офис.",
+            ctaButtonText: "Получить цены и образцы"
+          })
+        }
+      },
+      uz: {
+        global_settings: {
+          site_name: "HQ Dried Fruits",
+          nav_links: JSON.stringify([{ label: "Asosiy", url: "/" }, { label: "Biz haqimizda", url: "/about" }, { label: "Mahsulotlar", url: "/products" }, { label: "Eksport", url: "/export" }, { label: "Kontaktlar", url: "/contacts" }]),
+          cta_text: "Narxni olish",
+          footer_description: "O'zbekiston markazidan sifatli quritilgan mevalar. Tabiiy shirinlikni global B2B hamkorlarga murosasiz sifat bilan eksport qilamiz.",
+          footer_lead_text: "Oxirgi narxlar va eksport shartlarini to'g'ridan-to'g'ri elektron pochta yoki Telegram orqali oling.",
+          ui_labels: JSON.stringify({
+          "mobileNavigationTitle": "Navigatsiya",
+          "mobileContactTitle": "Biz bilan bog'lanish",
+          "homeMetaTitle": "HQ Dried Fruits | Yuqori sifatli organik eksport",
+          "productsMetaTitle": "Mahsulotlarimiz | Ulgurji katalog",
+          "exportMetaTitle": "Global eksport va logistika",
+          "contactsMetaTitle": "Kontaktlar | Ulgurji so'rovlar",
+          "routeLoadingLabel": "Yo'nalish yuklanmoqda...",
+          "notFoundTitle": "Sahifa topilmadi",
+          "notFoundBody": "Siz so'ragan sahifa mavjud emas yoki uning manzili o'zgargan.",
+          "notFoundButtonLabel": "Bosh sahifaga qaytish",
+          "requestCatalogLabel": "Ulgurji katalogni so'rash",
+          "exploreProductsLabel": "Mahsulotlarni ko'rish",
+          "heritageSloganLabel": "Har bir hosilda o'n yillik tajriba.",
+          "aboutCompanyLabel": "Kompaniya haqida",
+          "statYearsLabel": "Yillik tajriba",
+          "statTonsLabel": "Eksport qilingan tonna",
+          "productSelectionSublabel": "Qo'lda terilgan va quyoshda quritilgan.",
+          "viewFullCatalogLabel": "To'liq katalog",
+          "requestSampleLabel": "Namuna so'rash",
+          "learnMoreLabel": "Eksport jarayonimiz haqida",
+          "getPricingLabel": "Narxlar va namunalar",
+          "heritageStat1Title": "Birinchi hosil",
+          "heritageStat1Desc": "Farg'ona vodiysida kichik oilaviy bog' sifatida boshlangan.",
+          "heritageStat2Title": "Kengayish",
+          "heritageStat2Desc": "Zamonaviy quyoshda quritish usullarini joriy etish.",
+          "heritageStat3Title": "Global bozor",
+          "heritageStat3Desc": "Xalqaro organik sertifikatlarni olish.",
+          "heritageStat4Title": "Zamonaviy logistika",
+          "heritageStat4Desc": "Toshkentdagi yuqori texnologiyali logistika markazi.",
+          "prodStep1Title": "Xomashyo qabuli",
+          "prodStep1Subtitle": "Hosil tanlovi",
+          "prodStep1Desc": "Kelayotgan mevalar partiyalar, namlik darajasi va talablarga ko'ra saralanadi.",
+          "prodStep2Title": "Qayta ishlash",
+          "prodStep2Subtitle": "Lazer va rentgen nazorati",
+          "prodStep2Desc": "Har bir liniya tozalik va eksport sifatini ta'minlash uchun sozlangan.",
+          "prodStep3Title": "Qadoqlash",
+          "prodStep3Subtitle": "Buyurtmachi formatlari",
+          "prodStep3Desc": "Biz chakana savdo, xususiy brendlar yoki sanoat uchun qadoqlaymiz.",
+          "prodStep4Title": "Yuborish",
+          "prodStep4Subtitle": "Eksportga topshirish",
+          "prodStep4Desc": "Yuk hujjatlashtiriladi, palletlanadi va optimal yo'nalish bo'yicha yuboriladi.",
+          "missionPurposeLabel": "Maqsad",
+          "missionHeritageLabel": "Meros",
+          "missionPhilosophyLabel": "Falsafa",
+          "missionStandardsLabel": "Standartlar",
+          "orchardPhilosophyLabel": "Bog' falsafasi",
+          "whoWeAreFallback1": "Markaziy Osiyoning qishloq xo'jaligi markazida joylashgan HQ Dried Fruits bog' nazorati va qayta ishlash intizomini birlashtiradi.",
+          "whoWeAreFallback2": "Bu ulgurji xaridorlarga barqaror mahsulot va aniq hujjatlarni olishga yordam beradi.",
+          "missionNarrativeEyebrow": "Missiya",
+          "missionNarrativeTitle": "Yetishtirish va qayta ishlashda bizni nima boshqaradi",
+          "missionNarrativeSublabel": "Kompaniya missiyasi, merosi, falsafasi va standartlariga nazar.",
+          "insideFacilityEyebrow": "Korxona ichida",
+          "haccpLabel": "HACCP sertifikati",
+          "isoLabel": "ISO 9001:2015",
+          "organicLabel": "100% Organik",
+          "globalGapLabel": "GlobalGap",
+          "fdaLabel": "FDA ro'yxatidan o'tgan",
+          "exportOpsEyebrow": "Eksport operatsiyalari",
+          "exportOpsTitle": "Buyurtmachi talabiga ko'ra logistika, hujjatlar va qadoqlash",
+          "logisticsDesc1": "Biz xaridor talablariga muvofiq to'liq multimodal tashishni ta'minlaymiz.",
+          "logisticsDesc2": "Har bir yuk tashish takrorlanuvchanlik va boradigan mamlakat talablariga muvofiq tuzilgan.",
+          "packagingTitle": "Maxsus qadoqlash",
+          "packagingDesc": "Sizning brendingiz ostida qutilar, vakuumli paketlar yoki chakana qadoqlar.",
+          "transportationTitle": "Dengiz va t-yo'l tashuvlari",
+          "transportationDesc": "Asosiy portlar va t-yo'l tarmoqlari orqali tejamkor FCL va LCL tashuvlar.",
+          "documentationTitle": "Bojxona rasmiylashtiruvi",
+          "documentationDesc": "To'liq hujjatli qo'llab-quvvatlash, shu jumladan fitosanitariya va kelib chiqish sertifikatlari.",
+          "destinationBreakdownEyebrow": "Eksport geografiyasi",
+          "destinationBreakdownTitle": "Har bir liniyani yuborishga tayyorlash",
+          "destinationBreakdownDesc": "Eksportni rejalashtirish bozorga qarab o'zgaradi.",
+          "qualityGuaranteeTitle": "Sifat kafolati",
+          "qualityGuaranteeDesc": "Bizning quvvatlarimiz 99.9% tozalikni ta'minlash uchun lazerli saralashdan foydalanadi.",
+          "moistureControlLabel": "Namlik nazorati",
+          "moistureControlDesc": "Optimal saqlash muddati uchun 18-22% darajasida saqlanadi.",
+          "sizeCalibrationLabel": "O'lcham kalibrlash",
+          "sizeCalibrationDesc": "Lazerli kalibrlash (Jumbo, Large, Medium).",
+          "microSafeLabel": "Mikrobiologik xavfsizlik",
+          "microSafeDesc": "Aflatoksinlar bo'yicha muntazam laboratoriya sinovlari.",
+          "qualitySealLabel": "Mahsulot sifat belgisi",
+          "contactsTitle": "Bog'lanish",
+          "contactsIntroFallback": "Sizga narx, namunalar yoki logistika tafsilotlari kerak bo'ladimi, jamoamiz yordamga tayyor.",
+          "sendInquiryTitle": "So'rov yuborish",
+          "formNameLabel": "To'liq ism",
+          "formEmailLabel": "Ish pochtasi",
+          "formPhoneLabel": "Telefon raqami",
+          "formMessageLabel": "Xabar",
+          "formCompanyLabel": "Kompaniya",
+          "submitBtnLabel": "So'rov yuborish",
+          "submittingLabel": "Yuborilmoqda...",
+          "sendMessageLabel": "Xabarni yuborish",
+          "inquirySuccessMsg": "So'rov qabul qilindi. Jamoamiz tez orada siz bilan bog'lanadi.",
+          "inquiryFailureMsg": "Yuborishda xato. Iltimos, qaytadan urinib ko'ring.",
+          "directContactEyebrow": "To'g'ridan-to'g'ri bog'lanish",
+          "contactDetailsTitle": "Kontakt ma'lumotlari",
+          "contactDetailsDesc": "Sotuv bo'limi bilan o'zingizga qulay kanal orqali bog'laning.",
+          "emailLabel": "Email",
+          "phoneLabel": "Telefon",
+          "headquartersLabel": "Bosh ofis",
+          "workingHoursLabel": "Ish vaqti",
+          "footerLinksTitle": "Kompaniya",
+          "footerCompanyPlaceholder": "Kompaniya nomi",
+          "footerEmailPlaceholder": "Email manzili",
+          "footerSubmitLabel": "Yuborish",
+          "footerSubmittingLabel": "Yuborilmoqda",
+          "footerSecondaryContactPrefix": "To'g'ridan-to'g'ri bog'lanishni afzal ko'rasizmi?",
+          "footerTelegramLinkLabel": "Telegram orqali yozing",
+          "footerAdminLinkLabel": "Admin paneli",
+          "footerPrivacyLinkLabel": "Maxfiylik siyosati",
+          "footerTermsLinkLabel": "Foydalanish shartlari",
+          "footerCopyright": "HQ Dried Fruits. Barcha huquqlar himoyalangan.",
+          "footerInquirySuccess": "Murojaat uchun rahmat! Tez orada bog'lanamiz.",
+          "productsTitle": "Ulgurji katalog",
+          "productsSubtitle": "Eksport uchun mo'ljallangan to'plamimizni ko'ring.",
+          "overviewLabel": "Sharh",
+          "originLabel": "Kelib chiqishi",
+          "benefitsLabel": "Foydasi",
+          "exportLabel": "Eksport",
+          "requestQuoteBtn": "Ulgurji narxni so'rash",
+          "orderingFormStepLabel": "Qadam",
+          "privacyTitle": "Maxfiylik siyosati",
+          "termsTitle": "Foydalanish shartlari"
+})
+        },
+        home_page: {
+          content: JSON.stringify({
+            heroTitle: "Tabiat shirinligi, quyoshda mukammal darajada quritilgan.",
+            heroSubtitle: "O'zbekiston markazidan sifatli quritilgan mevalar. Biz eng sara o'rik, mayiz va olxo'rini global B2B hamkorlarga eksport qilamiz.",
+            introLabel: "Sifat merosi",
+            introText: "Bizning noyob iqlimimiz va minerallarga boy tuprog'imiz hech qanday sun'iy qo'shimchalarsiz tengsiz tabiiy shirinlik va yorqin rangga ega mevalarni yetishtirish imkonini beradi.",
+            supplyReachTitle: "Uzluksiz global eksport",
+            supplyReachOverview: "Bizning quyoshli quritish maydonlarimizdan to'g'ridan-to'g'ri omboringizgacha. Biz barcha bojxona masalalari, qadoqlash va yuk tashishni o'z zimmamizga olamiz.",
+            productPreviewTitle: "Eksport tanlovi",
+            ctaHeading: "Mahsulot qatoringizni kengaytirishga tayyormisiz?",
+            ctaSubheading: "Oxirgi ulgurji narxlarimiz va ofisingizga yetkazib beriladigan bepul namunalar qutisini oling.",
+            ctaButtonText: "Narxlar va namunalarni olish"
+          })
+        }
+      }
+    };
+    
+    tablesToMigrate.forEach(table => {
+      if (!Array.isArray(loaded[table])) loaded[table] = [];
+      targetLangs.forEach(lang => {
+        let row = loaded[table].find((r: any) => r.id == 1 && r.lang === lang);
+        if (!row) {
+          console.log(`🛠️ Migrating: Adding translated ${lang} row to ${table}`);
+          const baseData = translations[lang]?.[table] || {};
+          loaded[table].push({ id: 1, lang, ...baseData });
+          changed = true;
+        } else if (lang !== 'en') {
+          // More aggressive migration: check if UI labels are missing or look incomplete
+          const currentUiLabels = typeof row.ui_labels === 'string' ? JSON.parse(row.ui_labels) : (row.ui_labels || {});
+          const baseData = translations[lang]?.[table] || {};
+          
+          if (Object.keys(currentUiLabels).length < 5 || !row.site_name) {
+            console.log(`🛠️ Migrating: Updating ${lang} row in ${table} (current keys: ${Object.keys(currentUiLabels).length})`);
+            Object.assign(row, baseData);
+            changed = true;
+          }
+        }
+      });
+    });
+
+    dbData = loaded;
+    if (changed) {
+      console.log("💾 Migration complete, saving database...");
+      saveDb();
+    }
+  } catch (err) { console.error("❌ DB Load/Migration Error:", err); }
 }
 
-const saveDb = () => {
+function saveDb() {
   try {
     fs.writeFileSync(dbFile, JSON.stringify(dbData, null, 2));
   } catch (err) {
     console.error("❌ DB Save Error:", err);
   }
-};
+}
 
 const db = {
   query: async (sql: string, params: any[] = []) => {
@@ -38,31 +377,59 @@ const db = {
     const tableMatch = sql.match(/from\s+(\w+)|into\s+(\w+)|update\s+(\w+)|delete from\s+(\w+)/i);
     const tableName = tableMatch ? (tableMatch[1] || tableMatch[2] || tableMatch[3] || tableMatch[4]) : '';
     
-    if (sqlLower.startsWith('select')) {
-      let rows = dbData[tableName] || [];
-      if (sqlLower.includes('where id = 1')) rows = rows.filter((r: any) => r.id == 1);
-      if (sqlLower.includes('where id = $1') && tableName === 'products') rows = rows.filter((r: any) => r.id === params[0]);
-      if (sqlLower.includes('order by date desc')) rows = [...rows].sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      return { rows: JSON.parse(JSON.stringify(rows)), rowCount: rows.length };
-    }
-    
-    if (sqlLower.startsWith('insert into products')) {
-      const [id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo] = params;
-      const newProduct = { id, name, category, status, image, image_gallery: JSON.parse(image_gallery), short_description, long_description, highlights: JSON.parse(highlights), content_sections: JSON.parse(content_sections), nutrition: JSON.parse(nutrition), inquiry_subject_line, tonnage_options: JSON.parse(tonnage_options), seo: JSON.parse(seo) };
-      dbData.products = (dbData.products || []).filter((p: any) => p.id !== id);
-      dbData.products.push(newProduct);
-      saveDb(); return { rows: [], rowCount: 1 };
-    }
+    console.log(`[DB Query] ${sql} | Params: ${JSON.stringify(params)}`);
 
-    if (sqlLower.startsWith('update products')) {
-      const [name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, id] = params;
-      const idx = dbData.products.findIndex((p: any) => p.id === id);
-      if (idx !== -1) {
-        dbData.products[idx] = { id, name, category, status, image, image_gallery: JSON.parse(image_gallery), short_description, long_description, highlights: JSON.parse(highlights), content_sections: JSON.parse(content_sections), nutrition: JSON.parse(nutrition), inquiry_subject_line, tonnage_options: JSON.parse(tonnage_options), seo: JSON.parse(seo) };
-        saveDb();
+    try {
+      if (sqlLower.startsWith('select')) {
+        let rows = dbData[tableName] || [];
+        
+        // Support 'where id = 1'
+        if (sqlLower.includes('where id = 1')) {
+          const targetLang = params[0] || 'en';
+          rows = rows.filter((r: any) => r.id == 1 && r.lang === targetLang);
+        }
+        
+        // Support 'where id = $1' (for products)
+        if (sqlLower.includes('where id = $1') && tableName === 'products') {
+          rows = rows.filter((r: any) => r.id === params[0]);
+        }
+        
+        // Support 'order by date desc' (for leads)
+        if (sqlLower.includes('order by date desc')) {
+          rows = [...rows].sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        }
+
+        return { rows: JSON.parse(JSON.stringify(rows)), rowCount: rows.length };
       }
-      return { rows: [], rowCount: 1 };
-    }
+      
+      if (sqlLower.startsWith('insert into products')) {
+        const [id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang] = params;
+        const newProduct = { id, name, category, status, image, image_gallery: safeParseJson(image_gallery, []), short_description, long_description, highlights: safeParseJson(highlights, []), content_sections: safeParseJson(content_sections, []), nutrition: safeParseJson(nutrition, {}), inquiry_subject_line, tonnage_options: safeParseJson(tonnage_options, []), seo: safeParseJson(seo, {}), lang: lang || 'en' };
+        dbData.products = (dbData.products || []).filter((p: any) => p.id !== id);
+        dbData.products.push(newProduct);
+        saveDb(); return { rows: [], rowCount: 1 };
+      }
+
+      if (sqlLower.startsWith('update products')) {
+        const [name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, id] = params;
+        const idx = dbData.products.findIndex((p: any) => p.id === id);
+        if (idx !== -1) {
+          dbData.products[idx] = { 
+            ...dbData.products[idx], 
+            name, category, status, image, 
+            image_gallery: safeParseJson(image_gallery, []), 
+            short_description, long_description, 
+            highlights: safeParseJson(highlights, []), 
+            content_sections: safeParseJson(content_sections, []), 
+            nutrition: safeParseJson(nutrition, {}), 
+            inquiry_subject_line, 
+            tonnage_options: safeParseJson(tonnage_options, []), 
+            seo: safeParseJson(seo, {}) 
+          };
+          saveDb();
+        }
+        return { rows: [], rowCount: 1 };
+      }
 
     if (sqlLower.startsWith('insert into leads')) {
       const [id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes] = params;
@@ -78,22 +445,34 @@ const db = {
     }
 
     if (sqlLower.startsWith('update global_settings')) {
-      dbData.global_settings[0] = { id: 1, header_logo: params[0], site_name: params[1], nav_links: JSON.parse(params[2]), cta_text: params[3], cta_url: params[4], footer_logo: params[5], footer_description: params[6], footer_lead_text: params[7], quick_links: JSON.parse(params[8]), office_address: params[9], phone_number: params[10], email_address: params[11], telegram_url: params[12], footer_cta_title: params[13], footer_cta_email: params[14], footer_copyright_text: params[15], ui_labels: JSON.parse(params[16]), google_site_verification_id: params[17] };
+      const lang = params[18] || 'en';
+      const idx = dbData.global_settings.findIndex((r: any) => r.lang === lang);
+      const newRow = { id: 1, lang, header_logo: params[0], site_name: params[1], nav_links: JSON.parse(params[2]), cta_text: params[3], cta_url: params[4], footer_logo: params[5], footer_description: params[6], footer_lead_text: params[7], quick_links: JSON.parse(params[8]), office_address: params[9], phone_number: params[10], email_address: params[11], telegram_url: params[12], footer_cta_title: params[13], footer_cta_email: params[14], footer_copyright_text: params[15], ui_labels: JSON.parse(params[16]), google_site_verification_id: params[17] };
+      if (idx !== -1) dbData.global_settings[idx] = newRow; else dbData.global_settings.push(newRow);
       saveDb(); return { rows: [], rowCount: 1 };
     }
 
     if (sqlLower.startsWith('update products_page')) {
-      dbData.products_page[0] = { id: 1, page_title: params[0], page_subtitle: params[1], hero_bg_image: params[2], ordering_bg_image: params[3], ordering_form_title: params[4], ordering_form_subtitle: params[5], step_one_label: params[6], step_two_label: params[7], step_three_label: params[8], mixed_container_label: params[9], volume_options: JSON.parse(params[10]), view_specs_label: params[11], step_one_placeholder: params[12], step_three_placeholder: params[13], next_step_button_label: params[14], back_button_label: params[15], submit_button_label: params[16], submitting_button_label: params[17], detail_ui: JSON.parse(params[18]), quick_contact_title: params[19], quick_contact_subtitle: params[20], telegram_label: params[21], telegram_sublabel: params[22], call_label: params[23], email_label: params[24], quick_phone: params[25], quick_email: params[26] };
+      const lang = params[27] || 'en';
+      const idx = dbData.products_page.findIndex((r: any) => r.lang === lang);
+      const newRow = { id: 1, lang, page_title: params[0], page_subtitle: params[1], hero_bg_image: params[2], ordering_bg_image: params[3], ordering_form_title: params[4], ordering_form_subtitle: params[5], step_one_label: params[6], step_two_label: params[7], step_three_label: params[8], mixed_container_label: params[9], volume_options: JSON.parse(params[10]), view_specs_label: params[11], step_one_placeholder: params[12], step_three_placeholder: params[13], next_step_button_label: params[14], back_button_label: params[15], submit_button_label: params[16], submitting_button_label: params[17], detail_ui: JSON.parse(params[18]), quick_contact_title: params[19], quick_contact_subtitle: params[20], telegram_label: params[21], telegram_sublabel: params[22], call_label: params[23], email_label: params[24], quick_phone: params[25], quick_email: params[26] };
+      if (idx !== -1) dbData.products_page[idx] = newRow; else dbData.products_page.push(newRow);
       saveDb(); return { rows: [], rowCount: 1 };
     }
 
     if (sqlLower.startsWith('update export_page')) {
-      dbData.export_page[0] = { id: 1, hero_title: params[0], hero_subtitle: params[1], hero_bg_image: params[2], map_section_title: params[3], supply_routes: JSON.parse(params[4]), logistics_content: params[5], packaging_title: params[6], packaging_methods: params[7], transportation_title: params[8], transportation_methods: params[9], documentation_title: params[10], documentation_content: params[11], quality_title: params[12], technical_specs: params[13], quality_checks: JSON.parse(params[14]), certifications_gallery: JSON.parse(params[15]) };
+      const lang = params[16] || 'en';
+      const idx = dbData.export_page.findIndex((r: any) => r.lang === lang);
+      const newRow = { id: 1, lang, hero_title: params[0], hero_subtitle: params[1], hero_bg_image: params[2], map_section_title: params[3], supply_routes: JSON.parse(params[4]), logistics_content: params[5], packaging_title: params[6], packaging_methods: params[7], transportation_title: params[8], transportation_methods: params[9], documentation_title: params[10], documentation_content: params[11], quality_title: params[12], technical_specs: params[13], quality_checks: JSON.parse(params[14]), certifications_gallery: JSON.parse(params[15]) };
+      if (idx !== -1) dbData.export_page[idx] = newRow; else dbData.export_page.push(newRow);
       saveDb(); return { rows: [], rowCount: 1 };
     }
 
     if (sqlLower.startsWith('update contacts_page')) {
-      dbData.contacts_page[0] = { id: 1, page_title: params[0], intro_text: params[1], form_destination_email: params[2], contact_form_title: params[3], response_label_prefix: params[4], form_name_label: params[5], form_company_label: params[6], form_email_label: params[7], form_message_label: params[8], submit_button_label: params[9], submitting_button_label: params[10], email: params[11], phone: params[12], office_address: params[13], working_hours: params[14], map_pin_label: params[15], info_email_label: params[16], info_phone_label: params[17], info_address_label: params[18], info_hours_label: params[19], social_section_title: params[20], telegram_url: params[21], instagram_url: params[22], whatsapp_url: params[23], facebook_url: params[24], headquarters_image: params[25], google_maps_url: params[26] };
+      const lang = params[27] || 'en';
+      const idx = dbData.contacts_page.findIndex((r: any) => r.lang === lang);
+      const newRow = { id: 1, lang, page_title: params[0], intro_text: params[1], form_destination_email: params[2], contact_form_title: params[3], response_label_prefix: params[4], form_name_label: params[5], form_company_label: params[6], form_email_label: params[7], form_message_label: params[8], submit_button_label: params[9], submitting_button_label: params[10], email: params[11], phone: params[12], office_address: params[13], working_hours: params[14], map_pin_label: params[15], info_email_label: params[16], info_phone_label: params[17], info_address_label: params[18], info_hours_label: params[19], social_section_title: params[20], telegram_url: params[21], instagram_url: params[22], whatsapp_url: params[23], facebook_url: params[24], headquarters_image: params[25], google_maps_url: params[26] };
+      if (idx !== -1) dbData.contacts_page[idx] = newRow; else dbData.contacts_page.push(newRow);
       saveDb(); return { rows: [], rowCount: 1 };
     }
 
@@ -103,23 +482,26 @@ const db = {
     }
 
     if (sqlLower.startsWith('insert into page_seo')) {
-      const [page_id, meta_title, meta_description, slug, og_title, image_alt] = params;
-      const idx = dbData.page_seo.findIndex((p: any) => p.page_id === page_id);
-      const newSeo = { page_id, meta_title, meta_description, slug, og_title, image_alt };
-      if (idx !== -1) {
-        dbData.page_seo[idx] = newSeo;
-      } else {
-        dbData.page_seo.push(newSeo);
-      }
+      const [page_id, meta_title, meta_description, slug, og_title, image_alt, lang] = params;
+      const targetLang = lang || 'en';
+      const idx = dbData.page_seo.findIndex((p: any) => p.page_id === page_id && p.lang === targetLang);
+      const newSeo = { page_id, meta_title, meta_description, slug, og_title, image_alt, lang: targetLang };
+      if (idx !== -1) dbData.page_seo[idx] = newSeo; else dbData.page_seo.push(newSeo);
       saveDb(); return { rows: [], rowCount: 1 };
     }
 
     if (['home_page', 'about_page', 'privacy_page', 'terms_page'].some(t => sqlLower.startsWith(`update ${t}`))) {
-      dbData[tableName][0] = { id: 1, content: params[0] };
+      const lang = params[1] || 'en';
+      const idx = dbData[tableName].findIndex((r: any) => r.lang === lang);
+      const newRow = { id: 1, lang, content: params[0] };
+      if (idx !== -1) dbData[tableName][idx] = newRow; else dbData[tableName].push(newRow);
       saveDb(); return { rows: [], rowCount: 1 };
     }
 
-    return { rows: [], rowCount: 0 };
+    } catch (error) {
+      console.error(`❌ DB Query Error (${tableName}):`, error);
+      throw error;
+    }
   }
 };
 
@@ -145,7 +527,94 @@ const defaultGlobalSettings = {
   quickLinks: [{ label: "About Us", url: "/about" }, { label: "Export", url: "/export" }, { label: "Contacts", url: "/contacts" }],
   officeAddress: "Amir Temur Ave 107B, Tashkent, Uzbekistan", phoneNumber: "+998 90 123 45 67", emailAddress: "export@hqdriedfruits.com", telegramUrl: "",
   footerCtaTitle: "Need a custom container quote?", footerCtaEmail: "export@hqdriedfruits.com", footerCopyrightText: "HQ Dried Fruits. All rights reserved.",
-  uiLabels: { mobileNavigationTitle: "Navigation", mobileContactTitle: "Contact Us", footerLinksTitle: "Company", footerCompanyPlaceholder: "Company Name", footerEmailPlaceholder: "Email Address", footerSubmitLabel: "Send", footerSubmittingLabel: "Sending", footerSecondaryContactPrefix: "Prefer direct contact?", footerTelegramLinkLabel: "contact us on Telegram", footerAdminLinkLabel: "Admin Panel", footerPrivacyLinkLabel: "Privacy Policy", footerTermsLinkLabel: "Terms of Service", routeLoadingLabel: "Loading route...", notFoundTitle: "Page Not Found", notFoundBody: "The page you requested does not exist or its address has changed.", notFoundButtonLabel: "Back to Homepage" },
+  uiLabels: { 
+    // Navigation & General
+    mobileNavigationTitle: "Navigation", 
+    mobileContactTitle: "Contact Us", 
+    homeMetaTitle: "HQ Dried Fruits | High-Quality Organic Export",
+    productsMetaTitle: "Our Products | Wholesale Catalog",
+    exportMetaTitle: "Global Export & Logistics",
+    contactsMetaTitle: "Contact Us | Wholesale Inquiries",
+    routeLoadingLabel: "Loading route...", 
+    notFoundTitle: "Page Not Found", 
+    notFoundBody: "The page you requested does not exist or its address has changed.", 
+    notFoundButtonLabel: "Back to Homepage",
+    
+    // Homepage Specifics
+    requestCatalogLabel: "Request Wholesale Catalog",
+    exploreProductsLabel: "Explore Products",
+    heritageSloganLabel: "Decades of expertise in every harvest.",
+    aboutCompanyLabel: "About The Company",
+    statYearsLabel: "Years Experience",
+    statTonsLabel: "Tons Exported",
+    productSelectionSublabel: "Hand-picked and naturally sun-dried.",
+    viewFullCatalogLabel: "View Full Catalog",
+    requestSampleLabel: "Request Sample",
+    learnMoreLabel: "Learn About Our Export Process",
+    getPricingLabel: "Get Pricing & Samples",
+    
+    // About Page Specifics
+    heritageStat1Title: "The First Harvest", heritageStat1Desc: "Started as a small family orchard in the Fergana Valley.",
+    heritageStat2Title: "Scaling Operations", heritageStat2Desc: "Introduced modern sun-drying techniques.",
+    heritageStat3Title: "Going Global", heritageStat3Desc: "Achieved international organic certifications.",
+    heritageStat4Title: "Modern Logistics", heritageStat4Desc: "State-of-the-art logistics hub in Tashkent.",
+    prodStep1Title: "Raw Intake", prodStep1Subtitle: "Harvest Selection", prodStep1Desc: "Incoming fruit is sorted by batch, moisture profile, and destination requirements before processing begins.",
+    prodStep2Title: "Processing", prodStep2Subtitle: "Laser & X-Ray Control", prodStep2Desc: "Each production line is calibrated for purity, defect removal, and export-grade consistency across volume orders.",
+    prodStep3Title: "Packaging", prodStep3Subtitle: "Buyer-Specific Formats", prodStep3Desc: "We pack for retail, private label, and industrial shipments with the same in-house quality checks before dispatch.",
+    prodStep4Title: "Dispatch", prodStep4Subtitle: "Export Handover", prodStep4Desc: "Finished cargo is documented, palletized, and scheduled for the route that best fits the buyer’s timeline and market.",
+    missionPurposeLabel: "Purpose", missionHeritageLabel: "Heritage", missionPhilosophyLabel: "Philosophy", missionStandardsLabel: "Standards",
+    orchardPhilosophyLabel: "Orchard Philosophy",
+    whoWeAreFallback1: "Deeply embedded in the agricultural heart of Central Asia, HQ Dried Fruits brings orchard control, processing discipline, and export execution into one operating system.",
+    whoWeAreFallback2: "That structure helps wholesale buyers secure consistent product, clearer documentation, and repeatable shipment preparation across seasons.",
+    missionNarrativeEyebrow: "Mission Narrative", missionNarrativeTitle: "What guides the way we grow, process, and deliver", missionNarrativeSublabel: "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.",
+    insideFacilityEyebrow: "Inside The Facility",
+    haccpLabel: "HACCP Certified", isoLabel: "ISO 9001:2015", organicLabel: "100% Organic", globalGapLabel: "GlobalGap", fdaLabel: "FDA Registered",
+    
+    // Export Page Specifics
+    exportOpsEyebrow: "Export Operations", exportOpsTitle: "Built for Buyer-Specific Routing, Documentation, and Packing",
+    logisticsDesc1: "We handle end-to-end multi-modal transport routing around buyer requirements, from packing format and paperwork to the most efficient lane for delivery.",
+    logisticsDesc2: "Each shipment is structured around repeatability, destination compliance, and wholesale practicality so importers can move with less friction from order to warehouse receipt.",
+    packagingTitle: "Custom Packaging", packagingDesc: "Bulk cartons, vacuum-sealed bags, or retail-ready packaging customized with your brand labels.",
+    transportationTitle: "Ocean & Rail Freight", transportationDesc: "Cost-effective FCL (Full Container Load) and LCL shipments via major ports and the trans-Eurasian rail network.",
+    documentationTitle: "Customs Clearance", documentationDesc: "Full documentation support including phytosanitary certificates, certificates of origin, and EUR.1.",
+    destinationBreakdownEyebrow: "Destination Breakdown", destinationBreakdownTitle: "How each destination lane is prepared before dispatch", destinationBreakdownDesc: "Export planning changes by market. Select a destination to preview the lane focus, the route context, and how we position packing and documentation around buyer expectations.",
+    qualityGuaranteeTitle: "The Quality Guarantee", qualityGuaranteeDesc: "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
+    moistureControlLabel: "Moisture Control", moistureControlDesc: "Strictly maintained at 18-22% for optimal shelf life.",
+    sizeCalibrationLabel: "Size Calibration", sizeCalibrationDesc: "Laser-graded for uniform sizing (Jumbo, Large, Medium).",
+    microSafeLabel: "Microbiological Safety", microSafeDesc: "Regular lab testing for aflatoxins and heavy metals.",
+    qualitySealLabel: "Product Quality Seal",
+    
+    // Contacts Page & Forms
+    contactsTitle: "Let's Connect",
+    contactsIntroFallback: "Whether you need a custom quote, a sample box, or logistics details, our export team is ready to assist you.",
+    sendInquiryTitle: "Send an Inquiry",
+    formNameLabel: "Full Name", formEmailLabel: "Work Email", formPhoneLabel: "Phone Number", formMessageLabel: "Message", formCompanyLabel: "Company",
+    submitBtnLabel: "Send Inquiry", submittingLabel: "Sending...", sendMessageLabel: "Send Message",
+    inquirySuccessMsg: "Inquiry received. The export team will contact you shortly.",
+    inquiryFailureMsg: "Submission failed. Please try again.",
+    directContactEyebrow: "Direct Contact", contactDetailsTitle: "Contact Details", contactDetailsDesc: "Reach our sales and export coordination team through the fastest channel for your request.",
+    emailLabel: "Email", phoneLabel: "Phone", headquartersLabel: "Headquarters", workingHoursLabel: "Working Hours",
+    
+    // Footer Labels
+    footerLinksTitle: "Company", 
+    footerCompanyPlaceholder: "Company Name", 
+    footerEmailPlaceholder: "Email Address", 
+    footerSubmitLabel: "Send", 
+    footerSubmittingLabel: "Sending", 
+    footerSecondaryContactPrefix: "Prefer direct contact?", 
+    footerTelegramLinkLabel: "contact us on Telegram", 
+    footerAdminLinkLabel: "Admin Panel", 
+    footerPrivacyLinkLabel: "Privacy Policy", 
+    footerTermsLinkLabel: "Terms of Service",
+    footerCopyright: "HQ Dried Fruits. All rights reserved.",
+    footerInquirySuccess: "Thanks for reaching out! We will contact you shortly.",
+
+    // Products Page Labels
+    productsTitle: "Wholesale Catalog", productsSubtitle: "Explore our export-ready collection.",
+    overviewLabel: "Overview", originLabel: "Origin", benefitsLabel: "Benefits", exportLabel: "Export",
+    requestQuoteBtn: "Request Wholesale Quote", orderingFormStepLabel: "Step",
+    privacyTitle: "Privacy Policy", termsTitle: "Terms of Service"
+  },
   googleSiteVerificationId: "",
 };
 
@@ -325,21 +794,31 @@ app.use((req, res, next) => {
   next();
 });
 
+// Global error handler
+app.use((err: any, req: Request, res: any, next: any) => {
+  console.error("🔥 Global Error Handler:", err);
+  res.status(500).json({ 
+    error: "Internal Server Error", 
+    message: err.message,
+    path: req.path
+  });
+});
+
 // --- ASYNC DATABASE HELPERS ---
 async function ensureSingletonRow(tableName: string) {
   // Not needed for JSON but kept for API compatibility
 }
 
-async function getGlobalSettings() {
-  const res = await db.query("SELECT * FROM global_settings WHERE id = 1");
+async function getGlobalSettings(lang: string = 'en') {
+  const res = await db.query("SELECT * FROM global_settings WHERE id = 1", [lang]);
   return mapGlobalSettings(res.rows[0] || {});
 }
 
-async function getPageSeo() {
-  const res = await db.query("SELECT * FROM page_seo");
+async function getPageSeo(lang: string = 'en') {
+  const res = await db.query("SELECT * FROM page_seo WHERE id = 1", [lang]); // Simple filter for our mock db
   const seoByPage = (res.rows as any[]).reduce<Record<string, SeoRecord>>((acc, row) => {
     const pageId = asString(row.page_id) as PageId;
-    if (pageId in defaultPageSeo) acc[pageId] = mapSeoRecord(row, pageId);
+    if (pageId in defaultPageSeo && row.lang === lang) acc[pageId] = mapSeoRecord(row, pageId);
     return acc;
   }, {});
   for (const pageId of Object.keys(defaultPageSeo) as PageId[]) {
@@ -408,10 +887,10 @@ function mapContactsPage(row: any) {
   };
 }
 
-async function readContentTable(pageId: keyof typeof pageContentTables) {
-  const res = await db.query(`SELECT content FROM ${pageContentTables[pageId]} WHERE id = 1`);
+async function readContentTable(pageId: keyof typeof pageContentTables, lang: string = 'en') {
+  const res = await db.query(`SELECT content FROM ${pageContentTables[pageId]} WHERE id = 1 AND lang = $1`, [lang]);
   const row = res.rows[0];
-  const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
+  const fallback = (pageId === "privacy" || pageId === "terms") ? defaultSimplePages[pageId as keyof typeof defaultSimplePages] : {};
   return safeParseJson(row?.content, fallback);
 }
 
@@ -506,8 +985,10 @@ function renderHtmlWithSeo(template: string, meta: any) {
 }
 
 async function buildSeoMeta(req: Request) {
-  const globals = await getGlobalSettings();
-  const pageSeo = await getPageSeo();
+  // Try to detect language from query or path (fallback to 'en')
+  const lang = asString(req.query.lang || 'en');
+  const globals = await getGlobalSettings(lang);
+  const pageSeo = await getPageSeo(lang);
   const origin = getOrigin(req);
   const normalizedPath = normalizePathname(req.path);
   const siteName = globals.siteName || defaultGlobalSettings.siteName;
@@ -555,38 +1036,42 @@ app.get("/api/uploads", (_req, res) => {
   } catch (error) { res.status(500).json({ error: "Failed to read uploads directory" }); }
 });
 
-app.get("/api/globals", async (_req, res) => {
-  try { res.json(await getGlobalSettings()); } 
+app.get("/api/globals", async (req, res) => {
+  try { res.json(await getGlobalSettings(asString(req.query.lang || 'en'))); } 
   catch (error) { res.status(500).json({ error: "Failed to fetch settings" }); }
 });
 
 app.post("/api/globals", async (req, res) => {
   try {
     const settings = req.body ?? {};
-    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId)]);
+    const lang = asString(req.query.lang || 'en');
+    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), lang]);
     res.json({ success: true });
   } catch (error) { res.status(500).json({ error: "Update failed" }); }
 });
 
-app.get("/api/seo/pages", async (_req, res) => {
-  try { res.json(await getPageSeo()); } 
+app.get("/api/seo/pages", async (req, res) => {
+  try { res.json(await getPageSeo(asString(req.query.lang || 'en'))); } 
   catch (error) { res.status(500).json({ error: "Failed to fetch SEO settings" }); }
 });
 
 app.post("/api/seo/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id) as PageId;
+    const lang = asString(req.query.lang || 'en');
     if (!(pageId in defaultPageSeo)) return res.status(404).json({ error: "Unknown page id" });
     const nextSeo = await validatePageSeoInput(pageId, req.body ?? {});
-    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt]);
+    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt, lang) VALUES ($1, $2, $3, $4, $5, $6, $7)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt, lang]);
     res.json({ success: true });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to save SEO settings" }); }
 });
 
-app.get("/api/products", async (_req, res) => {
+app.get("/api/products", async (req, res) => {
   try {
+    const lang = asString(req.query.lang || 'en');
     const result = await db.query("SELECT * FROM products");
-    res.json(result.rows.map(mapProduct));
+    // Filter products by lang. If a product doesn't have a lang, assume it's 'en'
+    res.json(result.rows.filter((r: any) => (r.lang || 'en') === lang).map(mapProduct));
   } catch (error) { res.status(500).json({ error: "Failed to fetch products" }); }
 });
 
@@ -600,8 +1085,9 @@ app.get("/api/products/:id", async (req, res) => {
 
 app.post("/api/products", async (req, res) => {
   try {
+    const lang = asString(req.query.lang || 'en');
     const product = await validateProductPayload(req.body ?? {});
-    await db.query(`INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo)]);
+    await db.query(`INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), lang]);
     res.json({ success: true, id: product.id, product });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" }); }
 });
@@ -625,10 +1111,17 @@ app.delete("/api/products/:id", async (req, res) => {
 app.get("/api/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
-    if (pageId === "products") return res.json(mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1")).rows[0]));
-    if (pageId === "export") return res.json(mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1")).rows[0]));
-    if (pageId === "contacts") return res.json(mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1")).rows[0]));
-    if (pageId in pageContentTables) return res.json(await readContentTable(pageId as keyof typeof pageContentTables));
+    const lang = asString(req.query.lang || 'en');
+    if (pageId === "products") return res.json(mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1 AND lang = $1", [lang])).rows[0]));
+    if (pageId === "export") return res.json(mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1 AND lang = $1", [lang])).rows[0]));
+    if (pageId === "contacts") return res.json(mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1 AND lang = $1", [lang])).rows[0]));
+    
+    // For simple content pages (home, about, privacy, terms)
+    if (pageId in pageContentTables) {
+      const result = await db.query(`SELECT * FROM ${pageId}_page WHERE id = 1 AND lang = $1`, [lang]);
+      const content = safeParseJson(result.rows[0]?.content, {});
+      return res.json(content);
+    }
     return res.status(404).json({ error: "Page template not found" });
   } catch (error) { res.status(500).json({ error: "Internal Server Error" }); }
 });
@@ -636,21 +1129,22 @@ app.get("/api/pages/:id", async (req, res) => {
 app.post("/api/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
+    const lang = asString(req.query.lang || 'en');
     const content = req.body ?? {};
     if (pageId === "products") {
-      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail)]);
+      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), lang]);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : [])]);
+      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), lang]);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl)]);
+      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), lang]);
       return res.json({ success: true });
     }
     if (pageId in pageContentTables) {
-      await writeContentTable(pageId as keyof typeof pageContentTables, content);
+      await db.query(`UPDATE ${pageId}_page SET content = $1 WHERE id = 1`, [asString(content.content), lang]);
       return res.json({ success: true });
     }
     return res.status(404).json({ error: "Page template not found" });

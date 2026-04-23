@@ -15,9 +15,11 @@ import {
   Lock,
   Eye,
   EyeOff,
+  Languages,
 } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
+import { AdminLanguageProvider, useAdminLanguage, SUPPORTED_EDIT_LANGUAGES, languageNames } from "@/src/contexts/AdminLanguageContext";
 
 interface SidebarAction {
   label: string;
@@ -172,11 +174,12 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
   );
 }
 
-// ---------- Main AdminLayout ----------
-export function AdminLayout() {
+// ---------- Main AdminLayout Content ----------
+function AdminLayoutContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [action, setAction] = useState<SidebarAction | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const { editingLang, setEditingLang } = useAdminLanguage();
   const location = useLocation();
   const navigate = useNavigate();
   const actionContextValue = useMemo(() => ({ action, setAction }), [action]);
@@ -285,6 +288,27 @@ export function AdminLayout() {
             </div>
           )}
 
+          <div className="px-4 py-2">
+            <div className="mb-2 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Editing Language</div>
+            <div className="grid grid-cols-3 gap-1 rounded-lg bg-slate-800/50 p-1">
+              {SUPPORTED_EDIT_LANGUAGES.map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setEditingLang(lang)}
+                  className={cn(
+                    "flex flex-col items-center justify-center rounded py-1.5 text-[10px] font-bold transition-all",
+                    editingLang === lang
+                      ? "bg-earth-600 text-white shadow-sm"
+                      : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                  )}
+                >
+                  <Languages size={14} className="mb-1" />
+                  {lang.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="p-4 border-t border-slate-800">
             <button
               onClick={handleLogout}
@@ -307,9 +331,30 @@ export function AdminLayout() {
               </button>
               <h1 className="text-xl font-semibold text-slate-900">{currentLink.name}</h1>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="h-8 w-8 rounded-full bg-earth-600 flex items-center justify-center text-sm font-bold text-white">
-                A
+            
+            <div className="flex items-center gap-6">
+              {/* Editing Language Selector */}
+              <div className="hidden sm:flex items-center bg-slate-100 rounded-lg p-1">
+                {SUPPORTED_EDIT_LANGUAGES.map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => setEditingLang(lang)}
+                    className={cn(
+                      "px-3 py-1.5 text-xs font-bold rounded-md transition-all",
+                      editingLang === lang
+                        ? "bg-white text-earth-600 shadow-sm"
+                        : "text-slate-500 hover:text-slate-700"
+                    )}
+                  >
+                    {languageNames[lang].toUpperCase()}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-earth-600 flex items-center justify-center text-sm font-bold text-white">
+                  A
+                </div>
               </div>
             </div>
           </header>
@@ -319,6 +364,15 @@ export function AdminLayout() {
         </div>
       </div>
     </AdminSidebarActionContext.Provider>
+  );
+}
+
+// Wrapper to provide AdminLanguageContext
+export function AdminLayout() {
+  return (
+    <AdminLanguageProvider>
+      <AdminLayoutContent />
+    </AdminLanguageProvider>
   );
 }
 

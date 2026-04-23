@@ -11,13 +11,14 @@ import { Dashboard } from "./pages/admin/Dashboard";
 import { AdminProducts } from "./pages/admin/Products";
 import { AdminPages } from "./pages/admin/Pages";
 import { AdminLeads } from "./pages/admin/Leads";
-
 import { AdminSeoSettings } from "./pages/admin/SeoSettings";
 import { AdminGlobalSettings } from "./pages/admin/GlobalSettings";
 import { AdminMedia } from "./pages/admin/Media";
 import { ProductProvider } from "./contexts/ProductContext";
 import { PageProvider, usePages } from "./contexts/PageContext";
 import { MediaProvider } from "./contexts/MediaContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import { AdminLanguageProvider } from "./contexts/AdminLanguageContext";
 import ScrollToTop from "./components/ScrollToTop";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { PageLayout } from "./components/layout/PageLayout";
@@ -27,7 +28,7 @@ import { resolveManagedProductPath, resolveStaticPageByPath, getManagedPagePath 
 
 function RouteLoading() {
   const { globalSettings } = usePages();
-  const uiLabels = globalSettings.uiLabels;
+  const uiLabels = globalSettings.uiLabels || {};
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-earth-50">
@@ -41,7 +42,7 @@ function RouteLoading() {
 
 function NotFoundPage() {
   const { pageSeo, globalSettings } = usePages();
-  const uiLabels = globalSettings.uiLabels;
+  const uiLabels = globalSettings.uiLabels || {};
 
   return (
     <PageLayout>
@@ -100,8 +101,9 @@ function StaticPageResolver() {
 function ProductRouteResolver() {
   const location = useLocation();
   const { pageSeo, pageSeoLoaded } = usePages();
+  const { productsLoaded } = useProducts();
 
-  if (!pageSeoLoaded) {
+  if (!pageSeoLoaded || !productsLoaded) {
     return <RouteLoading />;
   }
 
@@ -120,32 +122,36 @@ function ProductRouteResolver() {
 export default function App() {
   return (
     <ErrorBoundary>
-      <MediaProvider>
-        <PageProvider>
-          <ProductProvider>
-            <Router>
-              <ScrollToTop />
-              <Routes>
-                <Route path="/" element={<FrontPage />} />
-                <Route path="/:productsSlug/:id" element={<ProductRouteResolver />} />
-                <Route path="/:pageSlug" element={<StaticPageResolver />} />
+      <LanguageProvider>
+        <AdminLanguageProvider>
+          <MediaProvider>
+            <PageProvider>
+              <ProductProvider>
+                <Router>
+                  <ScrollToTop />
+                  <Routes>
+                    <Route path="/" element={<FrontPage />} />
+                    <Route path="/:productsSlug/:id" element={<ProductRouteResolver />} />
+                    <Route path="/:pageSlug" element={<StaticPageResolver />} />
 
-                <Route path="/control-room" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path="products" element={<AdminProducts />} />
+                    <Route path="/control-room" element={<AdminLayout />}>
+                      <Route index element={<Dashboard />} />
+                      <Route path="products" element={<AdminProducts />} />
 
-                  <Route path="pages" element={<AdminPages />} />
-                  <Route path="leads" element={<AdminLeads />} />
-                  <Route path="media" element={<AdminMedia />} />
-                  <Route path="seo" element={<AdminSeoSettings />} />
-                  <Route path="globals" element={<AdminGlobalSettings />} />
-                </Route>
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </Router>
-          </ProductProvider>
-        </PageProvider>
-      </MediaProvider>
+                      <Route path="pages" element={<AdminPages />} />
+                      <Route path="leads" element={<AdminLeads />} />
+                      <Route path="media" element={<AdminMedia />} />
+                      <Route path="seo" element={<AdminSeoSettings />} />
+                      <Route path="globals" element={<AdminGlobalSettings />} />
+                    </Route>
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </Router>
+              </ProductProvider>
+            </PageProvider>
+          </MediaProvider>
+        </AdminLanguageProvider>
+      </LanguageProvider>
     </ErrorBoundary>
   );
 }

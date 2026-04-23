@@ -59,4 +59,32 @@ export function t(lang: Language, key: TranslationKey): string {
   return translations[lang][key] ?? translations["en"][key] ?? key;
 }
 
+/**
+ * Map canonical URL patterns to translation keys.
+ * This allows nav items to automatically translate when language changes,
+ * even if the admin set custom English labels.
+ */
+export const NAV_URL_TRANSLATION_MAP: Record<string, TranslationKey> = {
+  "/": "navHome",
+  "/about": "navAbout",
+  "/products": "navProducts",
+  "/export": "navExport",
+  "/contacts": "navContacts",
+};
+
+/**
+ * Utility to resolve a navigation label.
+ * Prioritizes translations for core pages unless the admin has provided a custom label.
+ */
+export function getNavLabel(url: string, adminLabel: string, t: (key: TranslationKey) => string): string {
+  // Strip trailing slash for matching
+  const normalizedUrl = url.replace(/\/$/, "") || "/";
+  const key = NAV_URL_TRANSLATION_MAP[normalizedUrl];
+  
+  // If we have a translation key for this URL, use the translated version.
+  // Otherwise, fallback to the admin-provided label.
+  if (key) return t(key);
+  return adminLabel;
+}
+
 export { type TranslationKey };

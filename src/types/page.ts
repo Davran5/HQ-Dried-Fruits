@@ -20,6 +20,40 @@ export interface GlobalUILabels {
     notFoundTitle: string;
     notFoundBody: string;
     notFoundButtonLabel: string;
+    
+    // Core CTAs & Section Labels
+    requestCatalogLabel: string;
+    exploreProductsLabel: string;
+    aboutCompanyLabel: string;
+    heritageSloganLabel: string;
+    learnMoreLabel: string;
+    getPricingLabel: string;
+    viewFullCatalogLabel: string;
+    requestSampleLabel: string;
+    productSelectionSublabel: string;
+    
+    // Meta/SEO
+    homeMetaTitle: string;
+    productsMetaTitle: string;
+    exportMetaTitle: string;
+    contactsMetaTitle: string;
+    
+    // Stats
+    statYearsLabel: string;
+    statTonsLabel: string;
+    
+    // Contact Form
+    contactsTitle: string;
+    sendInquiryTitle: string;
+    formNameLabel: string;
+    formEmailLabel: string;
+    formPhoneLabel: string;
+    formMessageLabel: string;
+    formCompanyLabel: string;
+    submitBtnLabel: string;
+    submittingLabel: string;
+    inquirySuccessMsg: string;
+    inquiryFailureMsg: string;
 }
 
 export interface SocialLink {

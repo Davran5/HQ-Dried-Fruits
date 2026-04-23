@@ -10,11 +10,12 @@ import { submitLead } from "@/src/lib/leads";
 
 export function Contacts() {
   const { pages, pageSeo, globalSettings } = usePages();
+  const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.contacts;
 
   useSEO({
-    title: seo?.metaTitle || "Contact HQ Dried Fruits | Wholesale Inquiries",
-    description: seo?.metaDescription || "Get our latest wholesale pricing, request a sample box, or discuss logistics with our export team.",
+    title: seo?.metaTitle || uiLabels.contactsMetaTitle || "Contact HQ Dried Fruits | Wholesale Inquiries",
+    description: seo?.metaDescription || uiLabels.contactsMetaDesc || "Get our latest wholesale pricing, request a sample box, or discuss logistics with our export team.",
     ogTitle: seo?.ogTitle || "Contact HQ Dried Fruits"
   });
   const pageData = pages.find(p => p.id === "contacts");
@@ -39,25 +40,25 @@ export function Contacts() {
   ];
   const infoCards = [
     {
-      label: content?.infoEmailLabel || "Email",
+      label: content?.infoEmailLabel || uiLabels.emailLabel || "Email",
       value: content?.emailAddress || "sales@hqdriedfruits.com",
       href: `mailto:${content?.emailAddress || "sales@hqdriedfruits.com"}`,
       icon: Mail,
     },
     {
-      label: content?.infoPhoneLabel || "Phone",
+      label: content?.infoPhoneLabel || uiLabels.phoneLabel || "Phone",
       value: content?.phoneNumber || "+998 90 123 45 67",
       href: `tel:${(content?.phoneNumber || "+998 90 123 45 67").replace(/\s/g, "")}`,
       icon: Phone,
     },
     {
-      label: content?.infoAddressLabel || "Headquarters",
+      label: content?.infoAddressLabel || uiLabels.headquartersLabel || "Headquarters",
       value: content?.officeAddress || "123 Silk Road Ave, Tashkent, Uzbekistan",
       href: content?.googleMapsUrl || "#map",
       icon: MapPin,
     },
     {
-      label: content?.infoHoursLabel || "Working Hours",
+      label: content?.infoHoursLabel || uiLabels.workingHoursLabel || "Working Hours",
       value: content?.workingHours || "Mon - Fri: 9:00 AM - 6:00 PM (GMT+5)",
       href: undefined,
       icon: Clock,
@@ -125,10 +126,10 @@ export function Contacts() {
       setEmail("");
       setMessage("");
       setIsValid(null);
-      setSubmitMessage("Inquiry received. The export team will contact you shortly.");
+      setSubmitMessage(uiLabels.inquirySuccessMsg || "Inquiry received. The export team will contact you shortly.");
     } catch (error) {
       console.error("Failed to submit contact form:", error);
-      setSubmitMessage("Submission failed. Please try again.");
+      setSubmitMessage(uiLabels.inquiryFailureMsg || "Submission failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -145,7 +146,7 @@ export function Contacts() {
         >
           <img
             src={contactHeroImage}
-            alt={content?.pageTitle || "Contacts hero background"}
+            alt={content?.pageTitle || uiLabels.contactsTitle || "Let's Connect"}
             className="h-full w-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -161,7 +162,7 @@ export function Contacts() {
                 transition={{ duration: 0.8, ease: springEasing }}
                 className="font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[4.9rem] md:text-[5.6rem]"
               >
-                {content?.pageTitle || "Let's Connect"}
+                {content?.pageTitle || uiLabels.contactsTitle || "Let's Connect"}
               </motion.h1>
             </div>
 
@@ -172,7 +173,7 @@ export function Contacts() {
                 transition={{ duration: 0.8, delay: 0.15, ease: springEasing }}
                 className="text-base text-earth-100 sm:text-xl"
               >
-                {content?.introText || "Whether you need a custom quote, a sample box, or logistics details, our export team is ready to assist you."}
+                {content?.introText || uiLabels.contactsIntroFallback || "Whether you need a custom quote, a sample box, or logistics details, our export team is ready to assist you."}
               </motion.p>
             </div>
           </div>
@@ -184,13 +185,13 @@ export function Contacts() {
           <div className="lg:col-span-7">
             <div className="h-full rounded-[3rem] bg-white p-8 shadow-xl border border-earth-100 sm:p-12">
               <h2 className="mb-8 font-display text-3xl font-bold text-earth-900">
-                {content?.contactFormTitle || "Send an Inquiry"}
+                {content?.contactFormTitle || uiLabels.sendInquiryTitle || "Send an Inquiry"}
               </h2>
               <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-earth-700">
-                      {content?.formNameLabel || "Full Name"}
+                      {content?.formNameLabel || uiLabels.formNameLabel || "Full Name"}
                     </label>
                     <input
                       type="text"
@@ -201,7 +202,7 @@ export function Contacts() {
                   </div>
                   <div>
                     <label className="mb-2 block text-sm font-medium text-earth-700">
-                      {content?.formCompanyLabel || "Company"}
+                      {content?.formCompanyLabel || uiLabels.formCompanyLabel || "Company"}
                     </label>
                     <input
                       type="text"
@@ -214,13 +215,14 @@ export function Contacts() {
 
                 <div className="relative">
                   <label className="mb-2 block text-sm font-medium text-earth-700">
-                    {content?.formEmailLabel || "Work Email"}
+                    {content?.formEmailLabel || uiLabels.formEmailLabel || "Work Email"}
                   </label>
                   <div className="relative flex items-center">
                     <input
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
+                      placeholder={uiLabels.footerEmailPlaceholder || "Enter your work email"}
                       className={`w-full rounded-xl bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 transition-all border ${isValid === true ? "border-mint-500 focus:ring-mint-500" :
                         isValid === false ? "border-red-400 focus:ring-red-400" :
                           "border-earth-200 focus:ring-earth-500"
@@ -236,7 +238,7 @@ export function Contacts() {
 
                 <div>
                   <label className="mb-2 block text-sm font-medium text-earth-700">
-                    {content?.formMessageLabel || "Message"}
+                    {content?.formMessageLabel || uiLabels.formMessageLabel || "Message"}
                   </label>
                   <textarea
                     rows={4}
@@ -248,8 +250,8 @@ export function Contacts() {
 
                 <Button type="submit" className="mt-4 h-14 text-lg" disabled={isSubmitting}>
                   {isSubmitting
-                    ? content?.submittingButtonLabel || "Sending..."
-                    : content?.submitButtonLabel || "Send Message"}
+                    ? content?.submittingButtonLabel || uiLabels.submittingLabel || "Sending..."
+                    : content?.submitButtonLabel || uiLabels.sendMessageLabel || "Send Message"}
                 </Button>
                 {submitMessage && (
                   <p className="text-sm text-earth-600">{submitMessage}</p>
@@ -260,12 +262,12 @@ export function Contacts() {
           <div className="lg:col-span-5">
             <div className="flex flex-col gap-6 p-1">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">Direct Contact</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">{uiLabels.directContactEyebrow || "Direct Contact"}</p>
                 <h2 className="mt-3 font-display text-3xl font-bold text-earth-900">
-                  Contact Details
+                  {uiLabels.contactDetailsTitle || "Contact Details"}
                 </h2>
                 <p className="mt-3 text-base leading-7 text-earth-700">
-                  Reach our sales and export coordination team through the fastest channel for your request.
+                  {uiLabels.contactDetailsDesc || "Reach our sales and export coordination team through the fastest channel for your request."}
                 </p>
               </div>
 

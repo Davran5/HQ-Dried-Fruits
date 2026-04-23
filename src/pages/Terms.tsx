@@ -37,23 +37,24 @@ const TERMS_FALLBACK = `
 `;
 
 export function Terms() {
-  const { pages, pageSeo } = usePages();
+  const { pages, pageSeo, globalSettings } = usePages();
+  const uiLabels = globalSettings.uiLabels || {};
   const { t } = useLanguage();
   const pageData = pages.find((page) => page.id === "terms");
   const content = pageData?.content as SimplePageContent;
   const seo = pageSeo.terms;
 
   useSEO({
-    title: seo?.metaTitle || `${t("termsTitle")} | HQ Dried Fruits`,
+    title: seo?.metaTitle || uiLabels.termsTitle || `${t("termsTitle")} | HQ Dried Fruits`,
     description: seo?.metaDescription || "Terms of service for HQ Dried Fruits.",
-    ogTitle: seo?.ogTitle || `${t("termsTitle")} | HQ Dried Fruits`,
+    ogTitle: seo?.ogTitle || uiLabels.termsTitle || `${t("termsTitle")} | HQ Dried Fruits`,
   });
 
   return (
     <PageLayout>
       <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
         <h1 className="font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-          {content?.title || t("termsTitle")}
+          {content?.title || uiLabels.termsTitle || t("termsTitle")}
         </h1>
         <p className="mt-3 text-sm text-earth-400">Last updated: {new Date().getFullYear()}</p>
         <div

@@ -13,23 +13,6 @@ import { getManagedProductSlug } from "@/src/lib/routes";
 
 const preferredProductOrder = ["sun-dried-apricots", "black-raisins", "pitted-prunes"];
 
-const introFactCards = [
-  {
-    title: "Orchard Base",
-    description: "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty.",
-    icon: Sprout,
-  },
-  {
-    title: "Growing Conditions",
-    description: "Hot, dry summers and strong sunlight help apricots, grapes, and plums build sugar before drying.",
-    icon: SunMedium,
-  },
-  {
-    title: "Export Readiness",
-    description: "Every line is positioned for buyer-specific cartons, mixed loads, and repeat wholesale programs.",
-    icon: PackageCheck,
-  },
-];
 
 function stripHtml(value: string) {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -51,13 +34,34 @@ function getFallbackSections(product: Product): ProductContentSection[] {
 export function Products() {
   const location = useLocation();
   const { pages, pageSeo, globalSettings } = usePages();
+  const uiLabels = globalSettings.uiLabels || {};
+
+  const introFactCards = [
+    {
+      title: uiLabels.orchardBaseTitle || "Orchard Base",
+      description: uiLabels.orchardBaseDesc || "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty.",
+      icon: Sprout,
+    },
+    {
+      title: uiLabels.growingConditionsTitle || "Growing Conditions",
+      description: uiLabels.growingConditionsDesc || "Hot, dry summers and sunlight help apricots, grapes, and plums build sugar.",
+      icon: SunMedium,
+    },
+    {
+      title: uiLabels.exportReadinessTitle || "Export Readiness",
+      description: uiLabels.exportReadinessDesc || "Every line is positioned for buyer-specific cartons and repeat wholesale programs.",
+      icon: PackageCheck,
+    },
+  ];
+
   const seo = pageSeo.products;
   const springEasing = [0.25, 1, 0.5, 1];
 
   useSEO({
-    title: seo?.metaTitle || "Wholesale Dried Apricots, Raisins, Prunes & Mixed Baskets | HQ Dried Fruits",
+    title: seo?.metaTitle || uiLabels.productsMetaTitle || "Wholesale Dried Apricots, Raisins, Prunes & Mixed Baskets | HQ Dried Fruits",
     description:
       seo?.metaDescription ||
+      uiLabels.productsMetaDesc ||
       "Source Uzbekistan dried apricots, raisins, prunes, and mixed baskets with detailed origin, processing, nutrition, and export information on one page.",
     ogTitle: seo?.ogTitle || "HQ Dried Fruits Product Catalog",
   });
@@ -112,7 +116,7 @@ export function Products() {
       for (const product of orderedProducts) {
         const sections = product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product);
         if (!next[product.id]) {
-          next[product.id] = sections[0]?.title || "Overview";
+          next[product.id] = sections[0]?.title || uiLabels.overviewLabel || "Overview";
           changed = true;
         }
       }
@@ -142,7 +146,7 @@ export function Products() {
   const volumeOptions =
     content?.volumeOptions?.length > 0
       ? content.volumeOptions
-      : ["1-5 Tons", "5-20 Tons", "1 FCL (20ft)", "Multiple FCLs"];
+      : [uiLabels.volOption1 || "1-5 Tons", uiLabels.volOption2 || "5-20 Tons", uiLabels.volOption3 || "1 FCL (20ft)", uiLabels.volOption4 || "Multiple FCLs"];
   const telegramUrl = globalSettings.telegramUrl?.trim();
   const quickPhoneHref = (content?.quickPhone || "+998 90 123 45 67").replace(/[^\d+]/g, "");
   const quickEmailValue = content?.quickEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
@@ -235,12 +239,12 @@ export function Products() {
         estTonnage: tonnageSummary,
         message: `Submitted from the products page wholesale inquiry form.\nSelections: ${tonnageSummary}`,
       });
-      setSubmitMessage("Inquiry received. The sales team will send a quote shortly.");
+      setSubmitMessage(uiLabels.inquirySuccessMsg || "Inquiry received. The sales team will send a quote shortly.");
       setFormData({ products: [], volumes: {}, name: "", contact: "" });
       setFormStep(1);
     } catch (error) {
       console.error("Failed to submit products inquiry:", error);
-      setSubmitMessage("Submission failed. Please try again or contact sales directly.");
+      setSubmitMessage(uiLabels.inquiryFailureMsg || "Submission failed. Please try again or contact sales directly.");
     } finally {
       setIsSubmitting(false);
     }
@@ -275,6 +279,8 @@ export function Products() {
     });
   };
 
+  const currentStepText = (uiLabels.orderingFormStepLabel || "Step {step} of 3").replace("{step}", formStep.toString());
+
   return (
     <PageLayout>
       <section className="relative h-[38rem] overflow-hidden rounded-b-[4rem] md:h-[36rem] sm:rounded-b-[6rem]">
@@ -287,7 +293,7 @@ export function Products() {
           >
             <img
               src={content.heroBgImage}
-              alt={content?.pageTitle || "Products hero background"}
+              alt={content?.pageTitle || uiLabels.productsTitle || "Products hero background"}
               className="h-full w-full object-cover"
               referrerPolicy="no-referrer"
             />
@@ -306,7 +312,7 @@ export function Products() {
                 transition={{ duration: 0.8, ease: springEasing }}
                 className={`font-display text-[2.7rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[5.2rem] md:text-[6.3rem]`}
               >
-                {content?.pageTitle || "Wholesale Dried Fruits from Uzbekistan"}
+                {content?.pageTitle || uiLabels.productsTitle || "Wholesale Dried Fruits from Uzbekistan"}
               </motion.h1>
             </div>
 
@@ -317,7 +323,7 @@ export function Products() {
                 transition={{ duration: 0.8, delay: 0.15, ease: springEasing }}
                 className={`text-base ${content?.heroBgImage ? "text-earth-100" : "text-earth-700"} sm:text-xl`}
               >
-                {content?.pageSubtitle ||
+                {content?.pageSubtitle || uiLabels.productsSubtitle ||
                   "Explore export-ready apricots, raisins, prunes, and mixed assortments with buyer-focused origin, processing, and application details in one catalog."}
               </motion.p>
             </div>
@@ -329,46 +335,45 @@ export function Products() {
         <div className="rounded-[3rem] border border-earth-100 bg-white px-5 py-6 shadow-xl shadow-earth-200/60 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="grid items-stretch gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
             <div className="flex flex-col justify-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">Uzbekistan Origin</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{uiLabels.originEyebrow || "Uzbekistan Origin"}</p>
               <h2 className="mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl">
-                One Page. Four Core Product Lines. Real Buyer Context.
+                {uiLabels.productsIntroTitle || "One Page. Four Core Product Lines. Real Buyer Context."}
               </h2>
-              <div className="mt-4 space-y-3 text-base leading-7 text-earth-700 sm:mt-5 sm:space-y-4 sm:text-lg sm:leading-relaxed">
-                <p>
-                  Uzbekistan&apos;s fruit-growing regions are built around irrigated valley and foothill agriculture.
-                  Across those zones, orchard and vineyard production commonly works with sierozem, meadow, and
-                  alluvial soils, supported by controlled water management rather than unstable rainfall patterns.
-                </p>
-                <p>
-                  For dried-fruit buyers, the commercial result is more important than the terminology: hot summers,
-                  dry ripening conditions, and strong solar exposure help apricots, grapes, and plums build natural
-                  sugars before drying. That gives importers a better raw product for retail, bakery, ingredient, and
-                  mixed-load programs.
-                </p>
-              </div>
+              <div
+                className="mt-4 space-y-3 text-base leading-7 text-earth-700 sm:mt-5 sm:space-y-4 sm:text-lg sm:leading-relaxed"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    content?.introContent ||
+                    `<p>${uiLabels.productsIntroP1 || "Uzbekistan's fruit-growing regions are built around irrigated valley and foothill agriculture. Across those zones, orchard and vineyard production commonly works with sierozem, meadow, and alluvial soils, supported by controlled water management rather than unstable rainfall patterns."}</p><p>${uiLabels.productsIntroP2 || "For dried-fruit buyers, the commercial result is more important than the terminology: hot summers, dry ripening conditions, and strong solar exposure help apricots, grapes, and plums build natural sugars before drying. That gives importers a better raw product for retail, bakery, ingredient, and mixed-load programs."}</p>`,
+                }}
+              />
             </div>
 
             <div className="overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70">
               {introShowcaseImage ? (
                 <img
                   src={introShowcaseImage}
-                  alt="Uzbekistan dried fruit origin"
+                  alt={uiLabels.originEyebrow || "Uzbekistan dried fruit origin"}
                   className="h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]"
                   referrerPolicy="no-referrer"
                 />
               ) : (
                 <div className="flex h-full min-h-[18rem] items-center justify-center bg-gradient-to-br from-earth-100 via-earth-50 to-white text-earth-400 lg:min-h-[21rem]">
-                  No image added yet
+                  {uiLabels.noImageLabel || "No image added yet"}
                 </div>
               )}
             </div>
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            {introFactCards.map((card) => {
-              const Icon = card.icon;
+            {(content?.introFacts?.length > 0 ? content.introFacts : [
+              { title: uiLabels.factTitle1 || "Orchard Base", description: uiLabels.factDesc1 || "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
+              { title: uiLabels.factTitle2 || "Growing Conditions", description: uiLabels.factDesc2 || "Hot, dry summers and strong sunlight help apricots, grapes, and plums build sugar before drying." },
+              { title: uiLabels.factTitle3 || "Export Readiness", description: uiLabels.factDesc3 || "Every line is positioned for buyer-specific cartons, mixed loads, and repeat wholesale programs." }
+            ]).map((card, idx) => {
+              const Icon = idx === 0 ? Sprout : idx === 1 ? SunMedium : PackageCheck;
               return (
-                <div key={card.title} className="rounded-[2rem] border border-earth-100 bg-earth-50 px-5 py-4">
+                <div key={idx} className="rounded-[2rem] border border-earth-100 bg-earth-50 px-5 py-4">
                   <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-earth-600 shadow-sm">
                       <Icon size={20} />
@@ -395,7 +400,7 @@ export function Products() {
               const slug = getManagedProductSlug(product);
               const contentSections =
                 product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product);
-              const selectedTitle = selectedSections[product.id] || contentSections[0]?.title || "Overview";
+              const selectedTitle = selectedSections[product.id] || contentSections[0]?.title || uiLabels.overviewLabel || "Overview";
               const selectedSection =
                 contentSections.find((section) => section.title === selectedTitle) || contentSections[0];
               const galleryImages = Array.from(
@@ -434,7 +439,7 @@ export function Products() {
                             onClick={() => handleScrollToInquiry(product.id)}
                             className="border-earth-200 bg-white"
                           >
-                            Request Quote <ArrowRight className="ml-2 h-4 w-4" />
+                            {uiLabels.requestQuoteBtn || "Request Quote"} <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </div>
 
@@ -448,10 +453,10 @@ export function Products() {
                           {contentSections.map((section) => {
                             const isActive = section.title === selectedTitle;
                             const labelMap: Record<string, string> = {
-                              "Origin & Growing Conditions": "Origin",
-                              "Benefits & Buyer Uses": "Benefits",
-                              "Export & Handling": "Export",
-                              "Assembly & Sourcing": "Origin",
+                              "Origin & Growing Conditions": uiLabels.originLabel || "Origin",
+                              "Benefits & Buyer Uses": uiLabels.benefitsLabel || "Benefits",
+                              "Export & Handling": uiLabels.exportLabel || "Export",
+                              "Assembly & Sourcing": uiLabels.originLabel || "Origin",
                             };
                             const displayLabel = labelMap[section.title] || section.title;
                             return (
@@ -484,16 +489,16 @@ export function Products() {
                             >
                               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-earth-400">
                                 {{
-                                  "Origin & Growing Conditions": "Origin",
-                                  "Benefits & Buyer Uses": "Benefits",
-                                  "Export & Handling": "Export",
-                                  "Assembly & Sourcing": "Origin",
+                                  "Origin & Growing Conditions": uiLabels.originLabel || "Origin",
+                                  "Benefits & Buyer Uses": uiLabels.benefitsLabel || "Benefits",
+                                  "Export & Handling": uiLabels.exportLabel || "Export",
+                                  "Assembly & Sourcing": uiLabels.originLabel || "Origin",
                                 }[selectedSection?.title || ""] || selectedSection?.title}
                               </p>
                               <div
                                 className="prose prose-sm mt-4 max-w-none break-words text-earth-700 prose-p:leading-relaxed prose-p:text-earth-700 prose-strong:text-earth-900 prose-li:leading-relaxed prose-li:text-earth-700"
                                 dangerouslySetInnerHTML={{
-                                  __html: selectedSection?.body || "<p>No additional information added yet.</p>",
+                                  __html: selectedSection?.body || `<p>${uiLabels.noInfoLabel || "No additional information added yet."}</p>`,
                                 }}
                               />
                             </motion.div>
@@ -522,23 +527,23 @@ export function Products() {
                         <div className="p-1 lg:flex lg:h-[22.5rem] lg:flex-col">
                           <div>
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
-                              Nutritional Snapshot
+                              {uiLabels.nutritionalSnapshotLabel || "Nutritional Snapshot"}
                             </p>
                             <div className="mt-3 grid grid-cols-4 gap-1.5 lg:grid-cols-4">
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">Energy</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.energyLabel || "Energy"}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.energy}</div>
                               </div>
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">Protein</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.proteinLabel || "Protein"}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.protein}</div>
                               </div>
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">Fat</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.fatLabel || "Fat"}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.fat}</div>
                               </div>
                               <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">Carbs</div>
+                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{uiLabels.carbsLabel || "Carbs"}</div>
                                 <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.carbs}</div>
                               </div>
                             </div>
@@ -546,7 +551,7 @@ export function Products() {
 
                           <div className="mt-4 border-t border-earth-100 pt-4">
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
-                              Key Selling Points
+                              {uiLabels.sellingPointsLabel || "Key Selling Points"}
                             </p>
                             <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5">
                               {product.highlights.map((highlight) => (
@@ -582,10 +587,10 @@ export function Products() {
           >
             <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
               <h2 className="font-display text-3xl font-bold text-earth-900">
-                {content?.orderingFormTitle || "Wholesale Inquiry"}
+                {content?.orderingFormTitle || uiLabels.wholesaleInquiryTitle || "Wholesale Inquiry"}
               </h2>
               <p className="pt-1 text-right text-earth-600">
-                {content?.orderingFormSubtitle || `Let's build your order. Step ${formStep} of 3.`}
+                {content?.orderingFormSubtitle || currentStepText}
               </p>
             </div>
 
@@ -602,10 +607,10 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepOneLabel || "Which products are you interested in?"}
+                        {content?.stepOneLabel || uiLabels.stepOneLabel || "Which products are you interested in?"}
                       </label>
                       <Button type="submit" className="self-start" disabled={formData.products.length === 0}>
-                        {content?.nextStepButtonLabel || "Next Step"} <ArrowRight className="ml-2 h-5 w-5" />
+                        {content?.nextStepButtonLabel || uiLabels.nextStepBtn || "Next Step"} <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </div>
 
@@ -640,8 +645,8 @@ export function Products() {
                     <div className="mt-1">
                       <p className="text-sm text-earth-600">
                         {formData.products.length > 0
-                          ? `${formData.products.length} product${formData.products.length > 1 ? "s" : ""} selected`
-                          : "Select one or more products to continue."}
+                          ? (uiLabels.productsSelectedLabel || "{count} products selected").replace("{count}", formData.products.length.toString())
+                          : uiLabels.selectToContinueLabel || "Select one or more products to continue."}
                       </p>
                     </div>
                   </motion.form>
@@ -658,17 +663,17 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepTwoLabel || "Set tonnage for each selected product"}
+                        {content?.stepTwoLabel || uiLabels.stepTwoLabel || "Set tonnage for each selected product"}
                       </label>
                       <div className="flex gap-3">
                         <Button type="button" variant="ghost" onClick={() => setFormStep(1)}>
-                          {content?.backButtonLabel || "Back"}
+                          {content?.backButtonLabel || uiLabels.backBtn || "Back"}
                         </Button>
                         <Button
                           type="submit"
                           disabled={!formData.products.every((productId) => Boolean(formData.volumes[productId]))}
                         >
-                          {content?.nextStepButtonLabel || "Next Step"} <ArrowRight className="ml-2 h-5 w-5" />
+                          {content?.nextStepButtonLabel || uiLabels.nextStepBtn || "Next Step"} <ArrowRight className="ml-2 h-5 w-5" />
                         </Button>
                       </div>
                     </div>
@@ -700,7 +705,7 @@ export function Products() {
                                 className="flex w-full items-center justify-between rounded-[1.1rem] border border-earth-200 bg-[linear-gradient(180deg,#fcf5fa_0%,#fffafc_100%)] px-4 py-3 text-left text-sm font-semibold text-earth-800 outline-none transition-all hover:border-earth-300 focus:border-earth-500 focus:ring-2 focus:ring-earth-200"
                               >
                                 <span className={formData.volumes[productId] ? "text-earth-800" : "text-earth-500"}>
-                                  {formData.volumes[productId] || "Select tonnage"}
+                                  {formData.volumes[productId] || uiLabels.selectTonnageLabel || "Select tonnage"}
                                 </span>
                                 <ChevronDown
                                   size={18}
@@ -756,16 +761,16 @@ export function Products() {
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <label className="text-lg font-medium text-earth-800">
-                        {content?.stepThreeLabel || "Who should receive the quote?"}
+                        {content?.stepThreeLabel || uiLabels.stepThreeLabel || "Who should receive the quote?"}
                       </label>
                       <div className="flex gap-3">
                         <Button type="button" variant="ghost" onClick={() => setFormStep(2)}>
-                          {content?.backButtonLabel || "Back"}
+                          {content?.backButtonLabel || uiLabels.backBtn || "Back"}
                         </Button>
                         <Button type="submit" disabled={isSubmitting || !formData.name || !formData.contact}>
                           {isSubmitting
-                            ? content?.submittingButtonLabel || "Sending..."
-                            : content?.submitButtonLabel || "Get Instant Quote"}
+                            ? content?.submittingButtonLabel || uiLabels.submittingLabel || "Sending..."
+                            : content?.submitButtonLabel || uiLabels.getQuoteBtn || "Get Instant Quote"}
                         </Button>
                       </div>
                     </div>
@@ -774,7 +779,7 @@ export function Products() {
                       <input
                         type="text"
                         required
-                        placeholder="Full Name"
+                        placeholder={uiLabels.formNameLabel || "Full Name"}
                         className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -782,7 +787,7 @@ export function Products() {
                       <input
                         type="email"
                         required
-                        placeholder={content?.stepThreePlaceholder || "Work Email Address"}
+                        placeholder={content?.stepThreePlaceholder || uiLabels.formEmailLabel || "Work Email Address"}
                         className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                         value={formData.contact}
                         onChange={(e) => setFormData({ ...formData, contact: e.target.value })}

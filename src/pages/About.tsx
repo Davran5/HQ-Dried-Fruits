@@ -8,7 +8,8 @@ import { usePages } from "@/src/contexts/PageContext";
 import { AboutContent } from "@/src/types/page";
 
 export function About() {
-  const { pages, pageSeo } = usePages();
+  const { pages, pageSeo, globalSettings } = usePages();
+  const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.about;
   const springEasing = [0.25, 1, 0.5, 1];
 
@@ -23,10 +24,10 @@ export function About() {
   const [revealedProductionIndex, setRevealedProductionIndex] = useState(0);
   const [isDesktopFacilityViewport, setIsDesktopFacilityViewport] = useState(false);
   const heritageStats = content?.heritageStats || [
-    { boxNumber: "1994", title: "The First Harvest", description: "Started as a small family orchard in the Fergana Valley." },
-    { boxNumber: "2005", title: "Scaling Operations", description: "Introduced modern sun-drying techniques." },
-    { boxNumber: "2012", title: "Going Global", description: "Achieved international organic certifications." },
-    { boxNumber: "2023", title: "Modern Logistics", description: "State-of-the-art logistics hub in Tashkent." }
+    { boxNumber: "1994", title: uiLabels.heritageStat1Title || "The First Harvest", description: uiLabels.heritageStat1Desc || "Started as a small family orchard in the Fergana Valley." },
+    { boxNumber: "2005", title: uiLabels.heritageStat2Title || "Scaling Operations", description: uiLabels.heritageStat2Desc || "Introduced modern sun-drying techniques." },
+    { boxNumber: "2012", title: uiLabels.heritageStat3Title || "Going Global", description: uiLabels.heritageStat3Desc || "Achieved international organic certifications." },
+    { boxNumber: "2023", title: uiLabels.heritageStat4Title || "Modern Logistics", description: uiLabels.heritageStat4Desc || "State-of-the-art logistics hub in Tashkent." }
   ];
   const heritageImages =
     content?.heritageImagery?.length > 0
@@ -42,27 +43,27 @@ export function About() {
       : [
           {
             image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",
-            title: "Raw Intake",
-            subtitle: "Harvest Selection",
-            description: "Incoming fruit is sorted by batch, moisture profile, and destination requirements before processing begins.",
+            title: uiLabels.prodStep1Title || "Raw Intake",
+            subtitle: uiLabels.prodStep1Subtitle || "Harvest Selection",
+            description: uiLabels.prodStep1Desc || "Incoming fruit is sorted by batch, moisture profile, and destination requirements before processing begins.",
           },
           {
             image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
-            title: "Processing",
-            subtitle: "Laser & X-Ray Control",
-            description: "Each production line is calibrated for purity, defect removal, and export-grade consistency across volume orders.",
+            title: uiLabels.prodStep2Title || "Processing",
+            subtitle: uiLabels.prodStep2Subtitle || "Laser & X-Ray Control",
+            description: uiLabels.prodStep2Desc || "Each production line is calibrated for purity, defect removal, and export-grade consistency across volume orders.",
           },
           {
             image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop",
-            title: "Packaging",
-            subtitle: "Buyer-Specific Formats",
-            description: "We pack for retail, private label, and industrial shipments with the same in-house quality checks before dispatch.",
+            title: uiLabels.prodStep3Title || "Packaging",
+            subtitle: uiLabels.prodStep3Subtitle || "Buyer-Specific Formats",
+            description: uiLabels.prodStep3Desc || "We pack for retail, private label, and industrial shipments with the same in-house quality checks before dispatch.",
           },
           {
             image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop",
-            title: "Dispatch",
-            subtitle: "Export Handover",
-            description: "Finished cargo is documented, palletized, and scheduled for the route that best fits the buyer’s timeline and market.",
+            title: uiLabels.prodStep4Title || "Dispatch",
+            subtitle: uiLabels.prodStep4Subtitle || "Export Handover",
+            description: uiLabels.prodStep4Desc || "Finished cargo is documented, palletized, and scheduled for the route that best fits the buyer’s timeline and market.",
           },
         ];
   const aboutHeroImage =
@@ -74,29 +75,29 @@ export function About() {
     content?.heritageSubtitle || "A clearer look at the orchards, production standards, and operational infrastructure behind our export program.";
   const missionPanels = [
     {
-      eyebrow: "Purpose",
+      eyebrow: uiLabels.missionPurposeLabel || "Purpose",
       title: content?.missionTitle || "Our Mission",
       html:
         content?.missionStatement ||
         "<p>Our mission is to bridge traditional sun-drying methods with modern food safety regulations.</p>",
     },
     {
-      eyebrow: "Heritage",
+      eyebrow: uiLabels.missionHeritageLabel || "Heritage",
       title: content?.philosophyTitle || "Heritage & Philosophy",
       html:
         content?.whoWeAreContent ||
         "<p>Deeply embedded in the agricultural heart of Central Asia, we cultivate, process, and export dried fruits with long-term consistency for wholesale buyers.</p>",
     },
     {
-      eyebrow: "Philosophy",
-      title: "Orchard Philosophy",
+      eyebrow: uiLabels.missionPhilosophyLabel || "Philosophy",
+      title: uiLabels.orchardPhilosophyLabel || "Orchard Philosophy",
       plain:
         content?.orchardPhilosophy ||
         "We believe in sustainable agriculture without compromising on bulk efficiency.",
       isQuote: true,
     },
     {
-      eyebrow: "Standards",
+      eyebrow: uiLabels.missionStandardsLabel || "Standards",
       title: content?.productionStandardsTitle || "Production Standards",
       plain:
         content?.productionStandards ||
@@ -119,7 +120,7 @@ export function About() {
   const condensedCompanyContent =
     content?.whoWeAreContent
       ? excerptHtml(content.whoWeAreContent, 2)
-      : "<p>Deeply embedded in the agricultural heart of Central Asia, HQ Dried Fruits brings orchard control, processing discipline, and export execution into one operating system.</p><p>That structure helps wholesale buyers secure consistent product, clearer documentation, and repeatable shipment preparation across seasons.</p>";
+      : `<p>${uiLabels.whoWeAreFallback1 || "Deeply embedded in the agricultural heart of Central Asia, HQ Dried Fruits brings orchard control, processing discipline, and export execution into one operating system."}</p><p>${uiLabels.whoWeAreFallback2 || "That structure helps wholesale buyers secure consistent product, clearer documentation, and repeatable shipment preparation across seasons."}</p>`;
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -207,7 +208,7 @@ export function About() {
               className="relative p-0 sm:pr-4 lg:pr-10"
             >
               <p className="text-sm font-bold uppercase tracking-[0.28em] text-earth-500">
-                About The Company
+                {uiLabels.aboutCompanyLabel || "About The Company"}
               </p>
               <h2 className="mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:mt-5 sm:text-5xl">
                 {content?.heritageTitle || "Our Roots in the Silk Road"}
@@ -270,11 +271,11 @@ export function About() {
               ))
             ) : (
               <>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><ShieldCheck className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> HACCP Certified</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><Award className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> ISO 9001:2015</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><CheckCircle2 className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> 100% Organic</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">GlobalGap</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">FDA Registered</div>
+                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><ShieldCheck className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> {uiLabels.haccpLabel || "HACCP Certified"}</div>
+                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><Award className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> {uiLabels.isoLabel || "ISO 9001:2015"}</div>
+                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><CheckCircle2 className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> {uiLabels.organicLabel || "100% Organic"}</div>
+                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">{uiLabels.globalGapLabel || "GlobalGap"}</div>
+                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">{uiLabels.fdaLabel || "FDA Registered"}</div>
               </>
             )}
           </div>
@@ -286,12 +287,12 @@ export function About() {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">Mission Narrative</p>
+            <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{uiLabels.missionNarrativeEyebrow || "Mission Narrative"}</p>
             <h2 className="mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-              What guides the way we grow, process, and deliver
+              {uiLabels.missionNarrativeTitle || "What guides the way we grow, process, and deliver"}
             </h2>
             <p className="mt-5 text-lg leading-8 text-earth-700">
-              A cleaner overview of the company mission, heritage, philosophy, and standards, shaped into one visual section.
+              {uiLabels.missionNarrativeSublabel || "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section."}
             </p>
           </div>
 
@@ -393,7 +394,7 @@ export function About() {
 
       <section className="mx-auto max-w-7xl px-4 pb-32 sm:px-6 lg:px-8">
         <div className="mb-12 max-w-3xl">
-          <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">Inside The Facility</p>
+          <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{uiLabels.insideFacilityEyebrow || "Inside The Facility"}</p>
           <h2 className="mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
             {content?.ownProductionTitle || "Own Production"}
           </h2>
@@ -475,4 +476,5 @@ export function About() {
       </section>
     </PageLayout>
   );
+;
 }

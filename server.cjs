@@ -31991,119 +31991,182 @@ var uploadsDir = import_path.default.join(process.cwd(), "public", "uploads");
 var distDir = import_path.default.join(process.cwd(), "dist");
 var dbFile = import_path.default.join(process.cwd(), "database.json");
 var dbData = {
-  global_settings: [{ id: 1 }],
-  products_page: [{ id: 1 }],
-  export_page: [{ id: 1 }],
-  contacts_page: [{ id: 1 }],
+  global_settings: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  products_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  export_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  contacts_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
   products: [],
   leads: [],
   page_seo: [],
-  home_page: [{ id: 1 }],
-  about_page: [{ id: 1 }],
-  privacy_page: [{ id: 1 }],
-  terms_page: [{ id: 1 }]
+  home_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  about_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  privacy_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }],
+  terms_page: [{ id: 1, lang: "en" }, { id: 1, lang: "ru" }, { id: 1, lang: "uz" }]
 };
 if (import_fs.default.existsSync(dbFile)) {
   try {
-    dbData = JSON.parse(import_fs.default.readFileSync(dbFile, "utf8"));
+    const loaded = JSON.parse(import_fs.default.readFileSync(dbFile, "utf8"));
+    let changed = false;
+    const tablesToMigrate = ["global_settings", "products_page", "export_page", "contacts_page", "home_page", "about_page", "privacy_page", "terms_page"];
+    const targetLangs = ["en", "ru", "uz"];
+    tablesToMigrate.forEach((table) => {
+      if (!Array.isArray(loaded[table])) loaded[table] = [];
+      targetLangs.forEach((lang) => {
+        if (!loaded[table].find((r) => r.id == 1 && r.lang === lang)) {
+          console.log(`\u{1F6E0}\uFE0F Migrating: Adding ${lang} row to ${table}`);
+          loaded[table].push({ id: 1, lang });
+          changed = true;
+        }
+      });
+    });
+    dbData = loaded;
+    if (changed) {
+      console.log("\u{1F4BE} Migration complete, saving database...");
+      saveDb();
+    }
   } catch (err) {
-    console.error("DB Load Error:", err);
+    console.error("\u274C DB Load/Migration Error:", err);
   }
 }
-var saveDb = () => {
+function saveDb() {
   try {
     import_fs.default.writeFileSync(dbFile, JSON.stringify(dbData, null, 2));
   } catch (err) {
     console.error("\u274C DB Save Error:", err);
   }
-};
+}
 var db = {
   query: async (sql, params = []) => {
     const sqlLower = sql.trim().toLowerCase();
     const tableMatch = sql.match(/from\s+(\w+)|into\s+(\w+)|update\s+(\w+)|delete from\s+(\w+)/i);
     const tableName = tableMatch ? tableMatch[1] || tableMatch[2] || tableMatch[3] || tableMatch[4] : "";
-    if (sqlLower.startsWith("select")) {
-      let rows = dbData[tableName] || [];
-      if (sqlLower.includes("where id = 1")) rows = rows.filter((r) => r.id == 1);
-      if (sqlLower.includes("where id = $1") && tableName === "products") rows = rows.filter((r) => r.id === params[0]);
-      if (sqlLower.includes("order by date desc")) rows = [...rows].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      return { rows: JSON.parse(JSON.stringify(rows)), rowCount: rows.length };
-    }
-    if (sqlLower.startsWith("insert into products")) {
-      const [id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo] = params;
-      const newProduct = { id, name, category, status, image, image_gallery: JSON.parse(image_gallery), short_description, long_description, highlights: JSON.parse(highlights), content_sections: JSON.parse(content_sections), nutrition: JSON.parse(nutrition), inquiry_subject_line, tonnage_options: JSON.parse(tonnage_options), seo: JSON.parse(seo) };
-      dbData.products = (dbData.products || []).filter((p) => p.id !== id);
-      dbData.products.push(newProduct);
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("update products")) {
-      const [name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, id] = params;
-      const idx = dbData.products.findIndex((p) => p.id === id);
-      if (idx !== -1) {
-        dbData.products[idx] = { id, name, category, status, image, image_gallery: JSON.parse(image_gallery), short_description, long_description, highlights: JSON.parse(highlights), content_sections: JSON.parse(content_sections), nutrition: JSON.parse(nutrition), inquiry_subject_line, tonnage_options: JSON.parse(tonnage_options), seo: JSON.parse(seo) };
+    console.log(`[DB Query] ${sql} | Params: ${JSON.stringify(params)}`);
+    try {
+      if (sqlLower.startsWith("select")) {
+        let rows = dbData[tableName] || [];
+        if (sqlLower.includes("where id = 1")) {
+          const targetLang = params[0] || "en";
+          rows = rows.filter((r) => r.id == 1 && r.lang === targetLang);
+        }
+        if (sqlLower.includes("where id = $1") && tableName === "products") {
+          rows = rows.filter((r) => r.id === params[0]);
+        }
+        if (sqlLower.includes("order by date desc")) {
+          rows = [...rows].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        }
+        return { rows: JSON.parse(JSON.stringify(rows)), rowCount: rows.length };
+      }
+      if (sqlLower.startsWith("insert into products")) {
+        const [id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang] = params;
+        const newProduct = { id, name, category, status, image, image_gallery: safeParseJson(image_gallery, []), short_description, long_description, highlights: safeParseJson(highlights, []), content_sections: safeParseJson(content_sections, []), nutrition: safeParseJson(nutrition, {}), inquiry_subject_line, tonnage_options: safeParseJson(tonnage_options, []), seo: safeParseJson(seo, {}), lang: lang || "en" };
+        dbData.products = (dbData.products || []).filter((p) => p.id !== id);
+        dbData.products.push(newProduct);
         saveDb();
+        return { rows: [], rowCount: 1 };
       }
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("insert into leads")) {
-      const [id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes] = params;
-      dbData.leads.push({ id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes });
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("update leads")) {
-      const [status, notes, id] = params;
-      const idx = dbData.leads.findIndex((l) => l.id === id);
-      if (idx !== -1) {
-        dbData.leads[idx] = { ...dbData.leads[idx], status, notes };
+      if (sqlLower.startsWith("update products")) {
+        const [name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, id] = params;
+        const idx = dbData.products.findIndex((p) => p.id === id);
+        if (idx !== -1) {
+          dbData.products[idx] = {
+            ...dbData.products[idx],
+            name,
+            category,
+            status,
+            image,
+            image_gallery: safeParseJson(image_gallery, []),
+            short_description,
+            long_description,
+            highlights: safeParseJson(highlights, []),
+            content_sections: safeParseJson(content_sections, []),
+            nutrition: safeParseJson(nutrition, {}),
+            inquiry_subject_line,
+            tonnage_options: safeParseJson(tonnage_options, []),
+            seo: safeParseJson(seo, {})
+          };
+          saveDb();
+        }
+        return { rows: [], rowCount: 1 };
+      }
+      if (sqlLower.startsWith("insert into leads")) {
+        const [id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes] = params;
+        dbData.leads.push({ id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes });
         saveDb();
+        return { rows: [], rowCount: 1 };
       }
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("update global_settings")) {
-      dbData.global_settings[0] = { id: 1, header_logo: params[0], site_name: params[1], nav_links: JSON.parse(params[2]), cta_text: params[3], cta_url: params[4], footer_logo: params[5], footer_description: params[6], footer_lead_text: params[7], quick_links: JSON.parse(params[8]), office_address: params[9], phone_number: params[10], email_address: params[11], telegram_url: params[12], footer_cta_title: params[13], footer_cta_email: params[14], footer_copyright_text: params[15], ui_labels: JSON.parse(params[16]), google_site_verification_id: params[17] };
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("update products_page")) {
-      dbData.products_page[0] = { id: 1, page_title: params[0], page_subtitle: params[1], hero_bg_image: params[2], ordering_bg_image: params[3], ordering_form_title: params[4], ordering_form_subtitle: params[5], step_one_label: params[6], step_two_label: params[7], step_three_label: params[8], mixed_container_label: params[9], volume_options: JSON.parse(params[10]), view_specs_label: params[11], step_one_placeholder: params[12], step_three_placeholder: params[13], next_step_button_label: params[14], back_button_label: params[15], submit_button_label: params[16], submitting_button_label: params[17], detail_ui: JSON.parse(params[18]), quick_contact_title: params[19], quick_contact_subtitle: params[20], telegram_label: params[21], telegram_sublabel: params[22], call_label: params[23], email_label: params[24], quick_phone: params[25], quick_email: params[26] };
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("update export_page")) {
-      dbData.export_page[0] = { id: 1, hero_title: params[0], hero_subtitle: params[1], hero_bg_image: params[2], map_section_title: params[3], supply_routes: JSON.parse(params[4]), logistics_content: params[5], packaging_title: params[6], packaging_methods: params[7], transportation_title: params[8], transportation_methods: params[9], documentation_title: params[10], documentation_content: params[11], quality_title: params[12], technical_specs: params[13], quality_checks: JSON.parse(params[14]), certifications_gallery: JSON.parse(params[15]) };
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("update contacts_page")) {
-      dbData.contacts_page[0] = { id: 1, page_title: params[0], intro_text: params[1], form_destination_email: params[2], contact_form_title: params[3], response_label_prefix: params[4], form_name_label: params[5], form_company_label: params[6], form_email_label: params[7], form_message_label: params[8], submit_button_label: params[9], submitting_button_label: params[10], email: params[11], phone: params[12], office_address: params[13], working_hours: params[14], map_pin_label: params[15], info_email_label: params[16], info_phone_label: params[17], info_address_label: params[18], info_hours_label: params[19], social_section_title: params[20], telegram_url: params[21], instagram_url: params[22], whatsapp_url: params[23], facebook_url: params[24], headquarters_image: params[25], google_maps_url: params[26] };
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.includes("delete from products")) {
-      dbData.products = (dbData.products || []).filter((p) => p.id !== params[0]);
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    if (sqlLower.startsWith("insert into page_seo")) {
-      const [page_id, meta_title, meta_description, slug, og_title, image_alt] = params;
-      const idx = dbData.page_seo.findIndex((p) => p.page_id === page_id);
-      const newSeo = { page_id, meta_title, meta_description, slug, og_title, image_alt };
-      if (idx !== -1) {
-        dbData.page_seo[idx] = newSeo;
-      } else {
-        dbData.page_seo.push(newSeo);
+      if (sqlLower.startsWith("update leads")) {
+        const [status, notes, id] = params;
+        const idx = dbData.leads.findIndex((l) => l.id === id);
+        if (idx !== -1) {
+          dbData.leads[idx] = { ...dbData.leads[idx], status, notes };
+          saveDb();
+        }
+        return { rows: [], rowCount: 1 };
       }
-      saveDb();
-      return { rows: [], rowCount: 1 };
+      if (sqlLower.startsWith("update global_settings")) {
+        const lang = params[18] || "en";
+        const idx = dbData.global_settings.findIndex((r) => r.lang === lang);
+        const newRow = { id: 1, lang, header_logo: params[0], site_name: params[1], nav_links: JSON.parse(params[2]), cta_text: params[3], cta_url: params[4], footer_logo: params[5], footer_description: params[6], footer_lead_text: params[7], quick_links: JSON.parse(params[8]), office_address: params[9], phone_number: params[10], email_address: params[11], telegram_url: params[12], footer_cta_title: params[13], footer_cta_email: params[14], footer_copyright_text: params[15], ui_labels: JSON.parse(params[16]), google_site_verification_id: params[17] };
+        if (idx !== -1) dbData.global_settings[idx] = newRow;
+        else dbData.global_settings.push(newRow);
+        saveDb();
+        return { rows: [], rowCount: 1 };
+      }
+      if (sqlLower.startsWith("update products_page")) {
+        const lang = params[27] || "en";
+        const idx = dbData.products_page.findIndex((r) => r.lang === lang);
+        const newRow = { id: 1, lang, page_title: params[0], page_subtitle: params[1], hero_bg_image: params[2], ordering_bg_image: params[3], ordering_form_title: params[4], ordering_form_subtitle: params[5], step_one_label: params[6], step_two_label: params[7], step_three_label: params[8], mixed_container_label: params[9], volume_options: JSON.parse(params[10]), view_specs_label: params[11], step_one_placeholder: params[12], step_three_placeholder: params[13], next_step_button_label: params[14], back_button_label: params[15], submit_button_label: params[16], submitting_button_label: params[17], detail_ui: JSON.parse(params[18]), quick_contact_title: params[19], quick_contact_subtitle: params[20], telegram_label: params[21], telegram_sublabel: params[22], call_label: params[23], email_label: params[24], quick_phone: params[25], quick_email: params[26] };
+        if (idx !== -1) dbData.products_page[idx] = newRow;
+        else dbData.products_page.push(newRow);
+        saveDb();
+        return { rows: [], rowCount: 1 };
+      }
+      if (sqlLower.startsWith("update export_page")) {
+        const lang = params[16] || "en";
+        const idx = dbData.export_page.findIndex((r) => r.lang === lang);
+        const newRow = { id: 1, lang, hero_title: params[0], hero_subtitle: params[1], hero_bg_image: params[2], map_section_title: params[3], supply_routes: JSON.parse(params[4]), logistics_content: params[5], packaging_title: params[6], packaging_methods: params[7], transportation_title: params[8], transportation_methods: params[9], documentation_title: params[10], documentation_content: params[11], quality_title: params[12], technical_specs: params[13], quality_checks: JSON.parse(params[14]), certifications_gallery: JSON.parse(params[15]) };
+        if (idx !== -1) dbData.export_page[idx] = newRow;
+        else dbData.export_page.push(newRow);
+        saveDb();
+        return { rows: [], rowCount: 1 };
+      }
+      if (sqlLower.startsWith("update contacts_page")) {
+        const lang = params[27] || "en";
+        const idx = dbData.contacts_page.findIndex((r) => r.lang === lang);
+        const newRow = { id: 1, lang, page_title: params[0], intro_text: params[1], form_destination_email: params[2], contact_form_title: params[3], response_label_prefix: params[4], form_name_label: params[5], form_company_label: params[6], form_email_label: params[7], form_message_label: params[8], submit_button_label: params[9], submitting_button_label: params[10], email: params[11], phone: params[12], office_address: params[13], working_hours: params[14], map_pin_label: params[15], info_email_label: params[16], info_phone_label: params[17], info_address_label: params[18], info_hours_label: params[19], social_section_title: params[20], telegram_url: params[21], instagram_url: params[22], whatsapp_url: params[23], facebook_url: params[24], headquarters_image: params[25], google_maps_url: params[26] };
+        if (idx !== -1) dbData.contacts_page[idx] = newRow;
+        else dbData.contacts_page.push(newRow);
+        saveDb();
+        return { rows: [], rowCount: 1 };
+      }
+      if (sqlLower.includes("delete from products")) {
+        dbData.products = (dbData.products || []).filter((p) => p.id !== params[0]);
+        saveDb();
+        return { rows: [], rowCount: 1 };
+      }
+      if (sqlLower.startsWith("insert into page_seo")) {
+        const [page_id, meta_title, meta_description, slug, og_title, image_alt, lang] = params;
+        const targetLang = lang || "en";
+        const idx = dbData.page_seo.findIndex((p) => p.page_id === page_id && p.lang === targetLang);
+        const newSeo = { page_id, meta_title, meta_description, slug, og_title, image_alt, lang: targetLang };
+        if (idx !== -1) dbData.page_seo[idx] = newSeo;
+        else dbData.page_seo.push(newSeo);
+        saveDb();
+        return { rows: [], rowCount: 1 };
+      }
+      if (["home_page", "about_page", "privacy_page", "terms_page"].some((t) => sqlLower.startsWith(`update ${t}`))) {
+        const lang = params[1] || "en";
+        const idx = dbData[tableName].findIndex((r) => r.lang === lang);
+        const newRow = { id: 1, lang, content: params[0] };
+        if (idx !== -1) dbData[tableName][idx] = newRow;
+        else dbData[tableName].push(newRow);
+        saveDb();
+        return { rows: [], rowCount: 1 };
+      }
+    } catch (error) {
+      console.error(`\u274C DB Query Error (${tableName}):`, error);
+      throw error;
     }
-    if (["home_page", "about_page", "privacy_page", "terms_page"].some((t) => sqlLower.startsWith(`update ${t}`))) {
-      dbData[tableName][0] = { id: 1, content: params[0] };
-      saveDb();
-      return { rows: [], rowCount: 1 };
-    }
-    return { rows: [], rowCount: 0 };
   }
 };
 var validLeadStatuses = /* @__PURE__ */ new Set(["New", "Contacted", "In Progress", "Converted", "Disqualified"]);
@@ -32205,10 +32268,6 @@ var defaultContactsPage = {
   facebookUrl: "",
   headquartersImage: "",
   googleMapsUrl: ""
-};
-var defaultSimplePages = {
-  privacy: { title: "Privacy Policy", body: "<p>We use the information submitted through this website to respond to wholesale inquiries, prepare quotes, and manage customer communication.</p>" },
-  terms: { title: "Terms of Service", body: "<p>Information on this site is provided for wholesale inquiry and quotation purposes.</p>" }
 };
 var defaultPageSeo = {
   home: { metaTitle: "HQ Dried Fruits | High-Quality Organic Export", metaDescription: "Quality sun-dried fruits from the heart of Uzbekistan.", slug: "", ogTitle: "HQ Dried Fruits", imageAlt: "Sun-dried apricots from Uzbekistan" },
@@ -32321,15 +32380,23 @@ app.use((req, res, next) => {
   console.log(`${(/* @__PURE__ */ new Date()).toISOString()} - ${req.method} ${req.path}`);
   next();
 });
-async function getGlobalSettings() {
-  const res = await db.query("SELECT * FROM global_settings WHERE id = 1");
+app.use((err, req, res, next) => {
+  console.error("\u{1F525} Global Error Handler:", err);
+  res.status(500).json({
+    error: "Internal Server Error",
+    message: err.message,
+    path: req.path
+  });
+});
+async function getGlobalSettings(lang = "en") {
+  const res = await db.query("SELECT * FROM global_settings WHERE id = 1", [lang]);
   return mapGlobalSettings(res.rows[0] || {});
 }
-async function getPageSeo() {
-  const res = await db.query("SELECT * FROM page_seo");
+async function getPageSeo(lang = "en") {
+  const res = await db.query("SELECT * FROM page_seo WHERE id = 1", [lang]);
   const seoByPage = res.rows.reduce((acc, row) => {
     const pageId = asString(row.page_id);
-    if (pageId in defaultPageSeo) acc[pageId] = mapSeoRecord(row, pageId);
+    if (pageId in defaultPageSeo && row.lang === lang) acc[pageId] = mapSeoRecord(row, pageId);
     return acc;
   }, {});
   for (const pageId of Object.keys(defaultPageSeo)) {
@@ -32480,15 +32547,6 @@ function mapContactsPage(row) {
     googleMapsUrl: asString(row?.google_maps_url, defaultContactsPage.googleMapsUrl)
   };
 }
-async function readContentTable(pageId) {
-  const res = await db.query(`SELECT content FROM ${pageContentTables[pageId]} WHERE id = 1`);
-  const row = res.rows[0];
-  const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
-  return safeParseJson(row?.content, fallback);
-}
-async function writeContentTable(pageId, content) {
-  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1`, [JSON.stringify(content)]);
-}
 function getManagedProductSlug(product) {
   return normalizeSlug(asString(product.seo?.slug), normalizeSlug(product.id, product.id));
 }
@@ -32590,8 +32648,9 @@ function renderHtmlWithSeo(template, meta) {
 </head>`);
 }
 async function buildSeoMeta(req) {
-  const globals = await getGlobalSettings();
-  const pageSeo = await getPageSeo();
+  const lang = asString(req.query.lang || "en");
+  const globals = await getGlobalSettings(lang);
+  const pageSeo = await getPageSeo(lang);
   const origin = getOrigin(req);
   const normalizedPath = normalizePathname(req.path);
   const siteName = globals.siteName || defaultGlobalSettings.siteName;
@@ -32641,9 +32700,9 @@ app.get("/api/uploads", (_req, res) => {
     res.status(500).json({ error: "Failed to read uploads directory" });
   }
 });
-app.get("/api/globals", async (_req, res) => {
+app.get("/api/globals", async (req, res) => {
   try {
-    res.json(await getGlobalSettings());
+    res.json(await getGlobalSettings(asString(req.query.lang || "en")));
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch settings" });
   }
@@ -32651,15 +32710,16 @@ app.get("/api/globals", async (_req, res) => {
 app.post("/api/globals", async (req, res) => {
   try {
     const settings = req.body ?? {};
-    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId)]);
+    const lang = asString(req.query.lang || "en");
+    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), lang]);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: "Update failed" });
   }
 });
-app.get("/api/seo/pages", async (_req, res) => {
+app.get("/api/seo/pages", async (req, res) => {
   try {
-    res.json(await getPageSeo());
+    res.json(await getPageSeo(asString(req.query.lang || "en")));
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch SEO settings" });
   }
@@ -32667,18 +32727,20 @@ app.get("/api/seo/pages", async (_req, res) => {
 app.post("/api/seo/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
+    const lang = asString(req.query.lang || "en");
     if (!(pageId in defaultPageSeo)) return res.status(404).json({ error: "Unknown page id" });
     const nextSeo = await validatePageSeoInput(pageId, req.body ?? {});
-    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt) VALUES ($1, $2, $3, $4, $5, $6)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt]);
+    await db.query(`INSERT INTO page_seo (page_id, meta_title, meta_description, slug, og_title, image_alt, lang) VALUES ($1, $2, $3, $4, $5, $6, $7)`, [pageId, nextSeo.metaTitle, nextSeo.metaDescription, nextSeo.slug, nextSeo.ogTitle, nextSeo.imageAlt, lang]);
     res.json({ success: true });
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "Failed to save SEO settings" });
   }
 });
-app.get("/api/products", async (_req, res) => {
+app.get("/api/products", async (req, res) => {
   try {
+    const lang = asString(req.query.lang || "en");
     const result = await db.query("SELECT * FROM products");
-    res.json(result.rows.map(mapProduct));
+    res.json(result.rows.filter((r) => (r.lang || "en") === lang).map(mapProduct));
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch products" });
   }
@@ -32694,8 +32756,9 @@ app.get("/api/products/:id", async (req, res) => {
 });
 app.post("/api/products", async (req, res) => {
   try {
+    const lang = asString(req.query.lang || "en");
     const product = await validateProductPayload(req.body ?? {});
-    await db.query(`INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo)]);
+    await db.query(`INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), lang]);
     res.json({ success: true, id: product.id, product });
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" });
@@ -32722,10 +32785,14 @@ app.delete("/api/products/:id", async (req, res) => {
 app.get("/api/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
-    if (pageId === "products") return res.json(mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1")).rows[0]));
-    if (pageId === "export") return res.json(mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1")).rows[0]));
-    if (pageId === "contacts") return res.json(mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1")).rows[0]));
-    if (pageId in pageContentTables) return res.json(await readContentTable(pageId));
+    const lang = asString(req.query.lang || "en");
+    if (pageId === "products") return res.json(mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1", [lang])).rows[0]));
+    if (pageId === "export") return res.json(mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1", [lang])).rows[0]));
+    if (pageId === "contacts") return res.json(mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1", [lang])).rows[0]));
+    if (pageId in pageContentTables) {
+      const result = await db.query(`SELECT * FROM ${pageId}_page WHERE id = 1`, [lang]);
+      return res.json({ id: pageId, content: asString(result.rows[0]?.content, "") });
+    }
     return res.status(404).json({ error: "Page template not found" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
@@ -32734,21 +32801,22 @@ app.get("/api/pages/:id", async (req, res) => {
 app.post("/api/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
+    const lang = asString(req.query.lang || "en");
     const content = req.body ?? {};
     if (pageId === "products") {
-      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail)]);
+      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), lang]);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : [])]);
+      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), lang]);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl)]);
+      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), lang]);
       return res.json({ success: true });
     }
     if (pageId in pageContentTables) {
-      await writeContentTable(pageId, content);
+      await db.query(`UPDATE ${pageId}_page SET content = $1 WHERE id = 1`, [asString(content.content), lang]);
       return res.json({ success: true });
     }
     return res.status(404).json({ error: "Page template not found" });

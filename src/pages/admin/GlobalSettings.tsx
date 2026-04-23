@@ -1,25 +1,46 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, Save, Globe, Layout, Mail, ChevronDown, Flag, Settings2 } from "lucide-react";
+import { CheckCircle2, Save, Globe, Layout, Mail, ChevronDown, Flag, Settings2, Loader2, Languages } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { usePages } from "@/src/contexts/PageContext";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { NavLink } from "@/src/types/page";
+import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 
 export function AdminGlobalSettings() {
-    const { globalSettings, updateGlobalSettings } = usePages();
+    const { globalSettings, updateGlobalSettings, refreshData } = usePages();
+    const { editingLang } = useAdminLanguage();
     const [settings, setSettings] = useState(globalSettings);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    const [activeSection, setActiveSection] = useState<string | null>("branding");    React.useEffect(() => {
+    const [activeSection, setActiveSection] = useState<string | null>("branding");
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    // Refresh data whenever the editing language changes
+    React.useEffect(() => {
+        const loadLangData = async () => {
+            setIsRefreshing(true);
+            try {
+                await refreshData(editingLang);
+            } catch (err) {
+                console.error("Failed to load language data:", err);
+            } finally {
+                setIsRefreshing(false);
+            }
+        };
+        loadLangData();
+    }, [editingLang]);
+
+    // Sync local state with context data
+    React.useEffect(() => {
         setSettings(globalSettings);
     }, [globalSettings]);
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await updateGlobalSettings(settings);
-            setSuccessMessage("Global settings saved successfully!");
+            await updateGlobalSettings(settings, editingLang);
+            setSuccessMessage(`Global settings (${editingLang.toUpperCase()}) saved successfully!`);
             setTimeout(() => setSuccessMessage(null), 3000);
         } catch (error) {
             console.error("Failed to save global settings:", error);
@@ -49,16 +70,40 @@ export function AdminGlobalSettings() {
             title: "SEO & Integrations",
             description: "Configure Google verification and global search settings.",
             icon: <Globe className="text-earth-500" size={20} />
+        },
+        {
+            id: "translations",
+            title: "UI Labels & Translations",
+            description: "Translate buttons, form labels, and small UI strings.",
+            icon: <Languages className="text-earth-500" size={20} />
         }
     ];
+
+    if (isRefreshing) {
+        return (
+            <div className="flex h-64 items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="h-8 w-8 animate-spin text-earth-600" />
+                    <p className="text-sm text-slate-500 font-medium">Switching to {editingLang.toUpperCase()} content...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-bold text-slate-900">Global Settings</h2>
-                    <p className="text-sm text-slate-500">Manage site-wide variables like Header & Footer.</p>
+                    <p className="text-sm text-slate-500">Manage site-wide variables like Header & Footer for the {editingLang.toUpperCase()} version.</p>
                 </div>
+                <Button 
+                    onClick={handleSave} 
+                    className="flex items-center gap-2 bg-earth-600 hover:bg-earth-700 text-white px-6 py-2 rounded-xl shadow-lg shadow-earth-500/20"
+                >
+                    <Save size={18} />
+                    <span>Save Changes ({editingLang.toUpperCase()})</span>
+                </Button>
             </div>
 
             <AnimatePresence>
@@ -82,7 +127,8 @@ export function AdminGlobalSettings() {
                         <div
                             key={section.id}
                             className={`rounded-xl border transition-all duration-300 overflow-hidden ${isOpen ? 'border-earth-300 shadow-xl ring-1 ring-earth-500/10' : 'border-slate-200 bg-white shadow-sm hover:border-earth-200'}`}
-                        >                            <div
+                        >
+                            <div
                                 onClick={() => toggleSection(section.id)}
                                 className={`group flex items-center justify-between px-6 py-5 cursor-pointer select-none transition-colors ${isOpen ? 'bg-earth-50' : 'hover:bg-slate-50'}`}
                             >
@@ -98,7 +144,9 @@ export function AdminGlobalSettings() {
                                 <div className={`p-2 rounded-full transition-all duration-300 ${isOpen ? 'rotate-180 bg-earth-200 text-earth-700' : 'text-slate-400 group-hover:text-earth-600'}`}>
                                     <ChevronDown size={20} />
                                 </div>
-                            </div>                            <AnimatePresence initial={false}>
+                            </div>
+
+                            <AnimatePresence initial={false}>
                                 {isOpen && (
                                     <motion.div
                                         initial={{ height: 0, opacity: 0 }}
@@ -165,7 +213,7 @@ export function AdminGlobalSettings() {
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm font-bold text-slate-700 mb-2">"Learn More" CTA URL</label>
+                                                            <label className="block text-sm font-bold text-slate-700 mb-2">"Learn More" CTA Link</label>
                                                             <input
                                                                 type="text"
                                                                 value={settings.ctaUrl || ""}
@@ -174,176 +222,57 @@ export function AdminGlobalSettings() {
                                                             />
                                                         </div>
                                                     </div>
-
-                                                    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
-                                                        <h4 className="font-bold text-slate-900">Shared Navigation Labels</h4>
-                                                        <div className="grid grid-cols-2 gap-4">
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Mobile Menu Title</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.mobileNavigationTitle || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, mobileNavigationTitle: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Mobile Contact Title</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.mobileContactTitle || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, mobileContactTitle: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Route Loading Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.routeLoadingLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, routeLoadingLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">404 Button Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.notFoundButtonLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, notFoundButtonLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">404 Title</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.notFoundTitle || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, notFoundTitle: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div className="col-span-2">
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">404 Description</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.notFoundBody || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, notFoundBody: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             )}
 
                                             {section.id === "footer" && (
                                                 <div className="space-y-8">
-                                                    <ImageUploader
-                                                        label="Footer Branding Logo"
-                                                        value={settings.footerLogo}
-                                                        onChange={url => setSettings({ ...settings, footerLogo: url })}
-                                                    />
-
-                                                    <div>
-                                                        <label className="block text-sm font-bold text-slate-700 mb-2">Footer Description</label>
-                                                        <textarea
-                                                            rows={3}
-                                                            value={settings.footerDescription || ""}
-                                                            onChange={e => setSettings({ ...settings, footerDescription: e.target.value })}
-                                                            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-none"
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                        <ImageUploader
+                                                            label="Footer Logo"
+                                                            value={settings.footerLogo}
+                                                            onChange={url => setSettings({ ...settings, footerLogo: url })}
                                                         />
-                                                    </div>
-
-                                                    <div>
-                                                        <label className="block text-sm font-bold text-slate-700 mb-2">Footer Lead Capture Text</label>
-                                                        <textarea
-                                                            rows={2}
-                                                            value={settings.footerLeadText || ""}
-                                                            onChange={e => setSettings({ ...settings, footerLeadText: e.target.value })}
-                                                            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-none"
-                                                        />
-                                                    </div>
-
-                                                    <Repeater<NavLink>
-                                                        label="Footer Quick Links"
-                                                        items={settings.quickLinks || []}
-                                                        emptyItem={{ label: "", url: "" }}
-                                                        onUpdate={(items) => setSettings({ ...settings, quickLinks: items })}
-                                                        renderItem={(item, index, updateItem, replaceItem) => (
-                                                            <div className="grid grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                                                <div>
-                                                                    <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">Label</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        value={item.label}
-                                                                        onChange={e => updateItem(index, "label", e.target.value)}
-                                                                        className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                    />
-                                                                </div>
-                                                                <div>
-                                                                    <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">Link</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        value={item.url}
-                                                                        onChange={e => updateItem(index, "url", e.target.value)}
-                                                                        className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    />
-
-                                                    <div className="grid grid-cols-2 gap-6">
                                                         <div>
-                                                            <label className="block text-sm font-bold text-slate-700 mb-2">HQ Office Address</label>
+                                                            <label className="block text-sm font-bold text-slate-700 mb-2">Footer Description</label>
+                                                            <textarea
+                                                                value={settings.footerDescription || ""}
+                                                                onChange={e => setSettings({ ...settings, footerDescription: e.target.value })}
+                                                                rows={4}
+                                                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                        <div>
+                                                            <label className="block text-sm font-bold text-slate-700 mb-2">Office Address</label>
                                                             <input
                                                                 type="text"
                                                                 value={settings.officeAddress || ""}
                                                                 onChange={e => setSettings({ ...settings, officeAddress: e.target.value })}
-                                                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none"
+                                                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm font-bold text-slate-700 mb-2">Public Phone Number</label>
+                                                            <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
                                                             <input
                                                                 type="text"
                                                                 value={settings.phoneNumber || ""}
                                                                 onChange={e => setSettings({ ...settings, phoneNumber: e.target.value })}
-                                                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none"
+                                                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
                                                             />
                                                         </div>
                                                     </div>
 
-                                                    <div className="grid grid-cols-2 gap-6">
+                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                                         <div>
-                                                            <label className="block text-sm font-bold text-slate-700 mb-2">Inquiry Destination Email</label>
+                                                            <label className="block text-sm font-bold text-slate-700 mb-2">Contact Email</label>
                                                             <input
-                                                                type="text"
+                                                                type="email"
                                                                 value={settings.emailAddress || ""}
                                                                 onChange={e => setSettings({ ...settings, emailAddress: e.target.value })}
-                                                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none"
-                                                            />
-                                                        </div>
-                                                        <div>
-                                                            <label className="block text-sm font-bold text-slate-700 mb-2">CTA Form Header Title</label>
-                                                            <input
-                                                                type="text"
-                                                                value={settings.footerCtaTitle || ""}
-                                                                onChange={e => setSettings({ ...settings, footerCtaTitle: e.target.value })}
-                                                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none"
-                                                            />
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="grid grid-cols-2 gap-6">
-                                                        <div>
-                                                            <label className="block text-sm font-bold text-slate-700 mb-2">CTA Routing Email</label>
-                                                            <input
-                                                                type="text"
-                                                                value={settings.footerCtaEmail || ""}
-                                                                onChange={e => setSettings({ ...settings, footerCtaEmail: e.target.value })}
-                                                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none"
+                                                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
                                                             />
                                                         </div>
                                                         <div>
@@ -352,139 +281,97 @@ export function AdminGlobalSettings() {
                                                                 type="text"
                                                                 value={settings.telegramUrl || ""}
                                                                 onChange={e => setSettings({ ...settings, telegramUrl: e.target.value })}
-                                                                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none"
-                                                                placeholder="https://t.me/yourhandle"
+                                                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
                                                             />
                                                         </div>
-                                                    </div>
-
-                                                    <div>
-                                                        <label className="block text-sm font-bold text-slate-700 mb-2">Footer Copyright Text</label>
-                                                        <input
-                                                            type="text"
-                                                            value={settings.footerCopyrightText || ""}
-                                                            onChange={e => setSettings({ ...settings, footerCopyrightText: e.target.value })}
-                                                            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none"
-                                                        />
-                                                    </div>
-
-                                                    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
-                                                        <h4 className="font-bold text-slate-900">Footer UI Labels</h4>
-                                                        <div className="grid grid-cols-2 gap-4">
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Links Section Title</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerLinksTitle || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerLinksTitle: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Company Placeholder</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerCompanyPlaceholder || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerCompanyPlaceholder: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Email Placeholder</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerEmailPlaceholder || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerEmailPlaceholder: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Submit Button Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerSubmitLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerSubmitLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Submitting Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerSubmittingLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerSubmittingLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Direct Contact Prefix</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerSecondaryContactPrefix || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerSecondaryContactPrefix: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Telegram Link Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerTelegramLinkLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerTelegramLinkLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Admin Link Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerAdminLinkLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerAdminLinkLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Privacy Link Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerPrivacyLinkLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerPrivacyLinkLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Terms Link Label</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={settings.uiLabels?.footerTermsLinkLabel || ""}
-                                                                    onChange={e => setSettings({ ...settings, uiLabels: { ...settings.uiLabels, footerTermsLinkLabel: e.target.value } })}
-                                                                    className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none"
-                                                                />
-                                                            </div>
+                                                        <div>
+                                                            <label className="block text-sm font-bold text-slate-700 mb-2">Copyright Text</label>
+                                                            <input
+                                                                type="text"
+                                                                value={settings.footerCopyrightText || ""}
+                                                                onChange={e => setSettings({ ...settings, footerCopyrightText: e.target.value })}
+                                                                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
                                             )}
 
                                             {section.id === "seo" && (
-                                                <div className="space-y-6 max-w-2xl bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        <Settings2 size={18} className="text-earth-500" />
-                                                        <h4 className="font-bold text-slate-900">Search Engine Verification</h4>
+                                                <div className="space-y-8">
+                                                    <div>
+                                                        <label className="block text-sm font-bold text-slate-700 mb-2">Google Site Verification ID</label>
+                                                        <input
+                                                            type="text"
+                                                            value={settings.googleSiteVerificationId || ""}
+                                                            onChange={e => setSettings({ ...settings, googleSiteVerificationId: e.target.value })}
+                                                            placeholder="e.g. google1234567890abcdef"
+                                                            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
+                                                        />
+                                                        <p className="text-xs text-slate-500 mt-2 italic">Found in the meta tag: content="YOUR_ID"</p>
                                                     </div>
-                                                    <label className="block text-sm font-medium text-slate-700 mb-1">Google Site Verification ID</label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="e.g. Ms-3490..."
-                                                        value={settings.googleSiteVerificationId || ""}
-                                                        onChange={e => setSettings({ ...settings, googleSiteVerificationId: e.target.value })}
-                                                        className="w-full rounded-xl border border-slate-300 px-5 py-3 text-slate-900 outline-none focus:border-earth-500 transition-all"
-                                                    />
-                                                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 flex gap-3">
-                                                        <Flag className="text-blue-500 shrink-0 mt-0.5" size={16} />
-                                                        <p className="text-xs text-blue-800 leading-relaxed font-medium">
-                                                            Enter the code from the HTML tag content attribute provided by Google Search Console (e.g., Ms-3490...). This will be injected into the site &lt;head&gt;.
-                                                        </p>
+                                                </div>
+                                            )}
+
+                                            {section.id === "translations" && (
+                                                <div className="space-y-10">
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                                        <div className="col-span-full border-b border-slate-200 pb-2">
+                                                            <h4 className="text-sm font-bold text-earth-700 uppercase tracking-wider">General & Navigation</h4>
+                                                        </div>
+                                                        
+                                                        <UIField label="Mobile Menu Title" field="mobileNavigationTitle" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Mobile Contact Title" field="mobileContactTitle" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Home Meta Title" field="homeMetaTitle" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Products Meta Title" field="productsMetaTitle" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Export Meta Title" field="exportMetaTitle" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Contacts Meta Title" field="contactsMetaTitle" settings={settings} setSettings={setSettings} />
+
+                                                        <div className="col-span-full border-b border-slate-200 pb-2 pt-4">
+                                                             <h4 className="text-sm font-bold text-earth-700 uppercase tracking-wider">Homepage</h4>
+                                                         </div>
+                                                         <UIField label="Request Catalog" field="requestCatalogLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Explore Products" field="exploreProductsLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Heritage Slogan" field="heritageSloganLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="About Company Title" field="aboutCompanyLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Experience Years" field="statYearsLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Tons Exported" field="statTonsLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Product Selection Sub" field="productSelectionSublabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="View Catalog Btn" field="viewFullCatalogLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Request Sample Link" field="requestSampleLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Learn More Btn" field="learnMoreLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Pricing CTA Btn" field="getPricingLabel" settings={settings} setSettings={setSettings} /><div className="col-span-full border-b border-slate-200 pb-2 pt-4">
+                                                             <h4 className="text-sm font-bold text-earth-700 uppercase tracking-wider">About Page</h4>
+                                                         </div>
+                                                         <UIField label="Mission Narrative Eyebrow" field="missionNarrativeEyebrow" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Mission Narrative Title" field="missionNarrativeTitle" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Mission Narrative Sub" field="missionNarrativeSublabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Inside Facility Eyebrow" field="insideFacilityEyebrow" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="HACCP Label" field="haccpLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="ISO Label" field="isoLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Organic Label" field="organicLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="GlobalGap Label" field="globalGapLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="FDA Label" field="fdaLabel" settings={settings} setSettings={setSettings} /><div className="col-span-full border-b border-slate-200 pb-2 pt-4">
+                                                             <h4 className="text-sm font-bold text-earth-700 uppercase tracking-wider">Export Page</h4>
+                                                         </div>
+                                                         <UIField label="Ops Eyebrow" field="exportOpsEyebrow" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Ops Title" field="exportOpsTitle" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Packaging Title" field="packagingTitle" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Transport Title" field="transportationTitle" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Clearance Title" field="documentationTitle" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Dest. Eyebrow" field="destinationBreakdownEyebrow" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Dest. Title" field="destinationBreakdownTitle" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Quality Title" field="qualityGuaranteeTitle" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Moisture Label" field="moistureControlLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Calibration Label" field="sizeCalibrationLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Micro Safe Label" field="microSafeLabel" settings={settings} setSettings={setSettings} /><div className="col-span-full border-b border-slate-200 pb-2 pt-4">
+                                                            <h4 className="text-sm font-bold text-earth-700 uppercase tracking-wider">Footer Labels</h4>
+                                                        </div>
+                                                        <UIField label="Links Section Title" field="footerLinksTitle" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Copyright Text" field="footerCopyright" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Privacy Link" field="footerPrivacyLinkLabel" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Terms Link" field="footerTermsLinkLabel" settings={settings} setSettings={setSettings} />
+                                                        <UIField label="Success Message" field="footerInquirySuccess" settings={settings} setSettings={setSettings} />
                                                     </div>
                                                 </div>
                                             )}
@@ -495,14 +382,26 @@ export function AdminGlobalSettings() {
                         </div>
                     );
                 })}
-
-                <div className="flex justify-end pt-8">
-                    <Button type="submit" className="bg-earth-600 hover:bg-earth-700 text-white min-w-[200px] py-6 rounded-xl shadow-xl shadow-earth-500/20 font-bold text-lg">
-                        <Save size={20} className="mr-2" />
-                        Apply Global Changes
-                    </Button>
-                </div>
             </form>
+        </div>
+    );
+}
+
+function UIField({ label, field, settings, setSettings }: { label: string, field: string, settings: any, setSettings: any }) {
+    const value = settings.uiLabels?.[field] || "";
+    return (
+        <div>
+            <label className="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">{label}</label>
+            <input
+                type="text"
+                value={value}
+                onChange={e => {
+                    const newLabels = { ...(settings.uiLabels || {}), [field]: e.target.value };
+                    setSettings({ ...settings, uiLabels: newLabels });
+                }}
+                className="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-earth-500 outline-none transition-all hover:border-slate-300"
+                placeholder={`Enter ${label.toLowerCase()}...`}
+            />
         </div>
     );
 }
