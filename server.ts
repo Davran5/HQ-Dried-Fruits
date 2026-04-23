@@ -7,6 +7,10 @@ import fs from "fs";
 
 dotenv.config();
 
+console.log("🛠️  Server environment initializing...");
+console.log(process.env.TELEGRAM_BOT_TOKEN ? "✅ TELEGRAM_BOT_TOKEN found" : "❌ TELEGRAM_BOT_TOKEN missing");
+console.log(process.env.TELEGRAM_CHAT_ID ? "✅ TELEGRAM_CHAT_ID found" : "❌ TELEGRAM_CHAT_ID missing");
+
 const uploadsDir = path.join(process.cwd(), "public", "uploads");
 const distDir = path.join(process.cwd(), "dist");
 
@@ -619,13 +623,27 @@ app.post("/api/leads", async (req, res) => {
     
     const token = process.env.TELEGRAM_BOT_TOKEN || "";
     const chatId = process.env.TELEGRAM_CHAT_ID || "";
-    const text = `🌟 <b>New Lead from Website</b> 🌟\n\n👤 <b>Name:</b> ${asString(payload.name) || "N/A"}\n🏢 <b>Company:</b> ${asString(payload.company) || "N/A"}\n📧 <b>Email:</b> ${email}\n📞 <b>Phone:</b> ${asString(payload.phone) || "N/A"}\n✈️ <b>Telegram:</b> ${asString(payload.telegram) || "N/A"}\n📦 <b>Product:</b> ${asString(payload.productInterest, "General Inquiry")}\n⚖️ <b>Volume:</b> ${asString(payload.estTonnage) || "N/A"}\n\n📝 <b>Message:</b>\n${asString(payload.message) || "N/A"}`;
     
-    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
-    }).catch(err => console.error("Telegram error:", err));
+    if (!token || !chatId) {
+      console.warn("⚠️ Telegram notification skipped: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing in .env");
+    } else {
+      const text = `🌟 <b>New Lead from Website</b> 🌟\n\n👤 <b>Name:</b> ${asString(payload.name) || "N/A"}\n🏢 <b>Company:</b> ${asString(payload.company) || "N/A"}\n📧 <b>Email:</b> ${email}\n📞 <b>Phone:</b> ${asString(payload.phone) || "N/A"}\n✈️ <b>Telegram:</b> ${asString(payload.telegram) || "N/A"}\n📦 <b>Product:</b> ${asString(payload.productInterest, "General Inquiry")}\n⚖️ <b>Volume:</b> ${asString(payload.estTonnage) || "N/A"}\n\n📝 <b>Message:</b>\n${asString(payload.message) || "N/A"}`;
+      
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" })
+      })
+      .then(async response => {
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          console.error("❌ Telegram API Error:", response.status, errorData);
+        } else {
+          console.log("✅ Telegram notification sent successfully");
+        }
+      })
+      .catch(err => console.error("❌ Telegram fetch failed:", err));
+    }
 
     res.status(201).json({ success: true, id });
   } catch (error) { res.status(500).json({ error: "Failed to submit inquiry" }); }
