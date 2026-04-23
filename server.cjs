@@ -32731,8 +32731,8 @@ app.post("/api/leads", async (req, res) => {
     if (!email) return res.status(400).json({ error: "Email is required" });
     const id = createLeadId();
     await db.query(`INSERT INTO leads (id, date, name, company, email, phone, telegram, product_interest, est_tonnage, status, message, notes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`, [id, (/* @__PURE__ */ new Date()).toISOString(), asString(payload.name), asString(payload.company), email, asString(payload.phone), asString(payload.telegram), asString(payload.productInterest, "General Inquiry"), asString(payload.estTonnage), "New", asString(payload.message), ""]);
-    const token = "8358796615:AAHd6uwdo8qvXHbOFmHdWTQ-h91siSrbSqc";
-    const chatId = "-5159296315";
+    const token = process.env.TELEGRAM_BOT_TOKEN || "";
+    const chatId = process.env.TELEGRAM_CHAT_ID || "";
     const text = `\u{1F31F} <b>New Lead from Website</b> \u{1F31F}
 
 \u{1F464} <b>Name:</b> ${asString(payload.name) || "N/A"}
