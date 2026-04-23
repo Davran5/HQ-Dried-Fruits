@@ -159,7 +159,7 @@ export function Contacts() {
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: springEasing }}
-                className="font-display text-[3.9rem] font-bold leading-[0.92] text-white sm:text-[7rem] md:text-[8rem]"
+                className="font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[4.9rem] md:text-[5.6rem]"
               >
                 {content?.pageTitle || "Let's Connect"}
               </motion.h1>

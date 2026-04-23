@@ -180,19 +180,19 @@ export function FrontPage() {
                         referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent" />
-                </motion.div>                <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 sm:px-6 sm:pb-24 lg:px-8">
+                </motion.div>
+                <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 sm:px-6 sm:pb-24 lg:px-8">
                     <div className="max-w-3xl">
                         <div className="overflow-hidden mb-6">
                             <motion.h1
                                 initial={{ y: "100%", opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, ease: springEasing }}
-                                className="font-display text-[3.9rem] font-bold leading-[0.92] text-white sm:text-[7.5rem] md:text-[9rem]"
+                                className="font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[5.2rem] md:text-[6.3rem]"
                             >
                                 {content.heroTitle || "Nature's Sweetness, Sun-Dried"}
                             </motion.h1>
                         </div>
-
                         <div className="overflow-hidden mb-8 max-w-xl">
                             <motion.p
                                 initial={{ y: "100%", opacity: 0 }}

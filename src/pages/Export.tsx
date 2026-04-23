@@ -228,7 +228,7 @@ export function Export() {
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: springEasing }}
-                className={`font-display text-[3.9rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[7.5rem] md:text-[9rem]`}
+                className={`font-display text-[2.7rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[5.2rem] md:text-[6.3rem]`}
               >
                 {content?.heroTitle || "Our Global Export Network"}
               </motion.h1>
