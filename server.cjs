@@ -32240,6 +32240,7 @@ function asContentString(value, fallback = "") {
   return content;
 }
 function safeParseJson(value, fallback) {
+  if (value !== null && typeof value === "object") return value;
   if (typeof value !== "string" || value.trim() === "") return fallback;
   try {
     return JSON.parse(value) ?? fallback;
