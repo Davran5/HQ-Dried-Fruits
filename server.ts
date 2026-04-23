@@ -282,7 +282,7 @@ async function getGlobalSettings() {
 
 async function getPageSeo() {
   const res = await db.query("SELECT * FROM page_seo");
-  const seoByPage = res.rows.reduce<Record<string, SeoRecord>>((acc, row) => {
+  const seoByPage = (res.rows as any[]).reduce<Record<string, SeoRecord>>((acc, row) => {
     const pageId = asString(row.page_id) as PageId;
     if (pageId in defaultPageSeo) acc[pageId] = mapSeoRecord(row, pageId);
     return acc;
@@ -650,6 +650,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
 
     // Optional: Try to use jimp for optimization
     try {
+      // @ts-ignore
       const Jimp = (await import("jimp")).default;
       const image = await Jimp.read(uploadedFile.buffer);
       await image
