@@ -436,7 +436,7 @@ type SharedMediaConfig = {
 const sharedMediaConfigs: Record<string, SharedMediaConfig> = {
   home: {
     scalar: ["heroBgImage", "supplyReachBgImage", "ctaBgImage"],
-    mixedImageArrays: ["progressSlider", "productCategories", "exportMarkets"],
+    mixedImageArrays: ["productCategories", "exportMarkets"],
   },
   about: {
     scalar: ["missionPhotography"],
@@ -454,6 +454,17 @@ const sharedMediaConfigs: Record<string, SharedMediaConfig> = {
     scalar: ["headquartersImage"],
   },
 };
+
+function sanitizeFlexiblePageContent(pageId: keyof typeof pageContentTables, content: any) {
+  if (!content || typeof content !== "object" || Array.isArray(content)) return {};
+  const next = { ...content };
+
+  if (pageId === "home") {
+    delete next.progressSlider;
+  }
+
+  return next;
+}
 
 function hasOwn(value: Record<string, unknown>, key: string) {
   return Object.prototype.hasOwnProperty.call(value, key);
@@ -770,19 +781,21 @@ async function readContentTable(pageId: keyof typeof pageContentTables, locale: 
   const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
   const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === resolvedLocale);
   const fallback = (pageId === "privacy" || pageId === "terms") ? defaultSimplePages[pageId as keyof typeof defaultSimplePages] : {};
-  const targetContent = safeParseJson(row?.content, fallback);
+  const targetContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback));
   const config = sharedMediaConfigs[pageId];
   const contents = res.rows.map((candidate: any) => ({
     lang: asString(candidate?.lang, "en"),
-    content: safeParseJson(candidate?.content, {}),
+    content: sanitizeFlexiblePageContent(pageId, safeParseJson(candidate?.content, {})),
   }));
   const sharedContent = pickSharedMediaContent(contents, config);
-  return sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
+  const mergedContent = sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
+  return sanitizeFlexiblePageContent(pageId, mergedContent);
 }
 
 async function writeContentTable(pageId: keyof typeof pageContentTables, content: Record<string, unknown>, locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(content), resolvedLocale]);
+  const sanitizedContent = sanitizeFlexiblePageContent(pageId, content);
+  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(sanitizedContent), resolvedLocale]);
 }
 
 async function syncFlexiblePageSharedMedia(pageId: keyof typeof pageContentTables, sourceContent: Record<string, unknown>) {
@@ -794,9 +807,24 @@ async function syncFlexiblePageSharedMedia(pageId: keyof typeof pageContentTable
 
   await Promise.all(activeLocales.map(async (locale) => {
     const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === locale);
-    const existingContent = safeParseJson(row?.content, {});
-    const nextContent = applySharedMedia(existingContent, sourceContent, config);
+    const existingContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, {}));
+    const nextContent = sanitizeFlexiblePageContent(pageId, applySharedMedia(existingContent, sourceContent, config));
     await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(nextContent), locale]);
+  }));
+}
+
+async function purgeDeprecatedHomeProgressSlider() {
+  const res = await db.query("SELECT lang, content FROM home_page WHERE id = 1");
+
+  await Promise.all(res.rows.map(async (row: any) => {
+    const content = safeParseJson(row?.content, null);
+    if (!content || typeof content !== "object" || Array.isArray(content) || !hasOwn(content, "progressSlider")) return;
+
+    delete content.progressSlider;
+    await db.query("UPDATE home_page SET content = $1 WHERE id = 1 AND lang = $2", [
+      JSON.stringify(content),
+      asString(row?.lang, "en"),
+    ]);
   }));
 }
 
@@ -1743,7 +1771,8 @@ if (fs.existsSync(distDir)) {
 // Start everything up safely
 const port = process.env.PORT || 10000;
 
-initDb().then(() => {
+initDb().then(async () => {
+  await purgeDeprecatedHomeProgressSlider();
   app.listen(port, () => {
     console.log(`✅ Server listening on: ${port}`);
   });

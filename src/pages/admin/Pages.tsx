@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, ChevronDown, Layout } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { usePages } from "@/src/contexts/PageContext";
 import { PageData, HomeContent, AboutContent, ExportContent, ContactsContent, ProductsContent, SimplePageContent } from "@/src/types/page";
 import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
-
 import { HomeForm } from "@/src/components/admin/forms/HomeForm";
 import { AboutForm } from "@/src/components/admin/forms/AboutForm";
 import { ExportForm } from "@/src/components/admin/forms/ExportForm";
@@ -13,19 +12,33 @@ import { ContactsForm } from "@/src/components/admin/forms/ContactsForm";
 import { ProductsForm } from "@/src/components/admin/forms/ProductsForm";
 import { SimplePageForm } from "@/src/components/admin/forms/SimplePageForm";
 import { getManagedPagePath, type ManagedPageId } from "@/src/lib/routes";
-
+import { cn } from "@/src/lib/utils";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+
+function clonePage(page: PageData) {
+  return JSON.parse(JSON.stringify(page)) as PageData;
+}
 
 export function AdminPages() {
   const { pages, updatePage, pageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const [selectedPageId, setSelectedPageId] = useState<ManagedPageId>("home");
   const [editingPage, setEditingPage] = useState<PageData | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Refresh data whenever the editing language changes
+  const selectedSourcePage = useMemo(
+    () => pages.find((page) => page.id === selectedPageId) || pages[0] || null,
+    [pages, selectedPageId],
+  );
+
+  useEffect(() => {
+    if (!selectedSourcePage) return;
+    setEditingPage(clonePage(selectedSourcePage));
+  }, [selectedSourcePage]);
+
   useEffect(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
@@ -37,64 +50,55 @@ export function AdminPages() {
         setIsRefreshing(false);
       }
     };
-    loadLangData();
-    handleClose(); // Close any open editor when switching languages
+
+    void loadLangData();
   }, [editingLang]);
-
-
-  const handleEdit = (page: PageData) => {
-    if (editingPage?.id === page.id) {
-      handleClose();
-      return;
-    }
-    setEditingPage(JSON.parse(JSON.stringify(page)));
-  };
-
-  const handleClose = () => {
-    setEditingPage(null);
-  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingPage) {
-      setIsSaving(true);
-      try {
-        await updatePage(editingPage.id, editingPage, editingLang);
-        setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
-        setTimeout(() => setSuccessMessage(null), 3000);
-      } catch (error) {
-        console.error("Failed to save page:", error);
-        alert(`Failed to save ${editingPage.name}. Please try again.`);
-      } finally {
-        setIsSaving(false);
-      }
+    if (!editingPage) return;
+
+    setIsSaving(true);
+    try {
+      await updatePage(editingPage.id, editingPage, editingLang);
+      setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (error) {
+      console.error("Failed to save page:", error);
+      alert(`Failed to save ${editingPage.name}. Please try again.`);
+    } finally {
+      setIsSaving(false);
     }
   };
 
   useEffect(() => {
-    if (editingPage) {
-      setAction({
-        label: `Save ${editingPage.name}`,
-        formId: `form-${editingPage.id}`,
-        isLoading: isSaving,
-        disabled: isSaving,
-      });
-      return () => setAction(null);
+    if (!editingPage) {
+      setAction(null);
+      return undefined;
     }
 
-    setAction(null);
-    return undefined;
-  }, [editingPage, isSaving, setAction]);
+    setAction({
+      label: `Save ${editingPage.name}`,
+      formId: `form-${editingPage.id}`,
+      isLoading: isSaving,
+      disabled: isSaving || isRefreshing,
+    });
+
+    return () => setAction(null);
+  }, [editingPage, isRefreshing, isSaving, setAction]);
+
+  const updateContent = (updates: any) => {
+    setEditingPage((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        content: { ...current.content, ...updates },
+      };
+    });
+  };
 
   const renderFormContent = () => {
     if (!editingPage) return null;
-
-    const updateContent = (updates: any) => {
-      setEditingPage({
-        ...editingPage,
-        content: { ...editingPage.content, ...updates }
-      });
-    };
 
     switch (editingPage.id) {
       case "home":
@@ -115,22 +119,30 @@ export function AdminPages() {
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-900">Static Pages</h2>
-          <p className="text-sm text-slate-500">Manage structure, layout, and copy for the main site.</p>
+  const restoreCurrentPage = () => {
+    if (selectedSourcePage) setEditingPage(clonePage(selectedSourcePage));
+  };
+
+  if (isRefreshing && !editingPage) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-earth-600" />
+          <p className="text-sm font-medium text-slate-500">Switching to {editingLang.toUpperCase()} pages...</p>
         </div>
       </div>
+    );
+  }
 
+  return (
+    <div className="space-y-4">
       <AnimatePresence>
         {successMessage && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex items-center gap-2 rounded-lg bg-emerald-50 p-4 text-emerald-800 border border-emerald-200"
+            className="fixed right-4 top-4 z-[100] flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg"
           >
             <CheckCircle2 size={18} />
             <p className="text-sm font-medium">{successMessage}</p>
@@ -138,60 +150,45 @@ export function AdminPages() {
         )}
       </AnimatePresence>
 
-      <div className="space-y-4">
-        {pages.map((page) => {
-          const isExpanded = editingPage?.id === page.id;
-          return (
-            <div key={page.id} className={`rounded-xl border transition-all duration-300 overflow-hidden ${isExpanded ? 'border-earth-300 shadow-md ring-1 ring-earth-500/10' : 'border-slate-200 bg-white shadow-sm'}`}>
-              <div
-                onClick={() => handleEdit(page)}
-                className={`flex items-center justify-between px-6 py-4 cursor-pointer select-none transition-colors ${isExpanded ? 'bg-earth-50' : 'hover:bg-slate-50'}`}
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isExpanded ? 'bg-earth-600 text-white' : 'bg-slate-100 text-slate-500'}`}>
-                    <Layout size={20} />
-                  </div>
-                  <div>
-                    <h3 className={`font-bold transition-colors ${isExpanded ? 'text-earth-900' : 'text-slate-900'}`}>{page.name}</h3>
-                    <p className="text-xs text-slate-500 font-mono flex items-center gap-1">
-                      Internal Path: <span className="text-earth-600/70">{getManagedPagePath(page.id as ManagedPageId, pageSeo, editingLang)}</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-full transition-all duration-300 ${isExpanded ? 'rotate-180 bg-earth-200 text-earth-700' : 'text-slate-400'}`}>
-                    <ChevronDown size={20} />
-                  </div>
-                </div>
-              </div>
-              <AnimatePresence initial={false}>
-                {isExpanded && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden border-t border-slate-100 bg-slate-50"
-                  >
-                    <div className="p-4 sm:p-5">
-                      <form id={`form-${page.id}`} onSubmit={handleSave} className="space-y-5">
-                        {renderFormContent()}
+      <div className="sticky top-0 z-20 border-b border-slate-200 bg-slate-50/95 py-2 backdrop-blur">
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {pages.map((page) => {
+            const pageId = page.id as ManagedPageId;
+            const isActive = selectedPageId === pageId;
 
-                        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
-                          <Button type="button" variant="ghost" onClick={handleClose} className="text-slate-600 hover:bg-slate-200">
-                            Cancel
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
-                  </motion.div>
+            return (
+              <button
+                key={page.id}
+                type="button"
+                onClick={() => setSelectedPageId(pageId)}
+                className={cn(
+                  "min-w-max rounded-lg border px-3 py-2 text-left transition-all",
+                  isActive
+                    ? "border-earth-300 bg-white text-earth-800 shadow-sm"
+                    : "border-transparent bg-transparent text-slate-600 hover:border-slate-200 hover:bg-white/70",
                 )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
+              >
+                <span className="block text-sm font-bold">{page.name}</span>
+                <span className="block max-w-[12rem] truncate font-mono text-[11px] text-slate-400">
+                  {getManagedPagePath(pageId, pageSeo, editingLang)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
+      {editingPage && (
+        <form id={`form-${editingPage.id}`} onSubmit={handleSave} className="space-y-4">
+          {renderFormContent()}
+
+          <div className="flex justify-end border-t border-slate-200 pt-3">
+            <Button type="button" variant="ghost" onClick={restoreCurrentPage} className="text-slate-600 hover:bg-slate-200">
+              Discard Changes
+            </Button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { HomeContent, HomeExportMarketItem, ImageLabelPair, StatItem, ProductCategoryItem } from "@/src/types/page";
+import { HomeContent, HomeExportMarketItem, StatItem, ProductCategoryItem } from "@/src/types/page";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
@@ -61,30 +61,6 @@ export function HomeForm({ content, updateContent }: Props) {
                     </div>
                 </div>
 
-                <Repeater<ImageLabelPair>
-                    label="Progress Slider"
-                    items={content.progressSlider || []}
-                    emptyItem={{ image: "", label: "" }}
-                    onUpdate={(items) => updateContent({ progressSlider: items })}
-                    renderItem={(item, index, updateItem) => (
-                        <div className="space-y-4">
-                            <ImageUploader
-                                label={`Thumbnail Image ${index + 1}`}
-                                value={item.image}
-                                onChange={url => updateItem(index, "image", url)}
-                            />
-                            <div>
-                                <label className="block text-xs font-medium text-slate-500 mb-1">Label Text</label>
-                                <input
-                                    type="text"
-                                    value={item.label}
-                                    onChange={e => updateItem(index, "label", e.target.value)}
-                                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
-                                />
-                            </div>
-                        </div>
-                    )}
-                />
             </FormSection>
 
             <FormSection title="2. Introduction (About Us)" defaultOpen={false}>

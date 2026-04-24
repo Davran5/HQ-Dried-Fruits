@@ -145,7 +145,7 @@ export function AdminSeoSettings() {
   }
 
   return (
-    <div className="space-y-6 relative">
+    <div className="relative space-y-4">
       <AnimatePresence>
         {showToast && (
           <motion.div
@@ -160,14 +160,14 @@ export function AdminSeoSettings() {
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-2xl font-bold text-slate-900">SEO Settings ({editingLang.toUpperCase()})</h2>
           <p className="text-sm text-slate-500">Manage indexability and social sharing previews for the {editingLang.toUpperCase()} version.</p>
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {combinedPages.map((page) => {
           const isExpanded = editingPage?.id === page.id;
           const isProduct = page.id.startsWith("product:");
@@ -175,11 +175,11 @@ export function AdminSeoSettings() {
           return (
             <div
               key={page.id}
-              className={`rounded-xl border transition-all duration-300 overflow-hidden ${isExpanded ? "border-earth-300 shadow-lg ring-1 ring-earth-500/10" : "border-slate-200 bg-white shadow-sm hover:border-earth-200"}`}
+              className={`overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`}
             >
               <div
                 onClick={() => handleEdit(page)}
-                className={`group flex items-center justify-between px-6 py-5 cursor-pointer select-none transition-colors ${isExpanded ? "bg-earth-50" : "hover:bg-slate-50"}`}
+                className={`group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? "bg-earth-50/70" : "hover:bg-slate-50"}`}
               >
                 <div className="flex items-center gap-4 min-w-0">
                   <div className={`h-11 w-11 rounded-xl flex items-center justify-center transition-colors shrink-0 ${isExpanded ? "bg-earth-600 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-earth-100 group-hover:text-earth-600"}`}>
@@ -212,10 +212,10 @@ export function AdminSeoSettings() {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden border-t border-slate-100 bg-slate-50/50"
+                    className="overflow-hidden border-t border-slate-100"
                   >
-                    <div className="p-4 sm:p-6">
-                      <form id={`form-seo-${editingPage.id.replace(/:/g, "-")}`} onSubmit={handleSave} className="space-y-5">
+                    <div className="p-3 sm:p-4">
+                      <form id={`form-seo-${editingPage.id.replace(/:/g, "-")}`} onSubmit={handleSave} className="space-y-4">
                         <SeoFormSection
                           data={editingPage.seo}
                           onChange={(seo) => setEditingPage({ ...editingPage, seo })}

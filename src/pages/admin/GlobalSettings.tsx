@@ -107,8 +107,8 @@ export function AdminGlobalSettings() {
     }
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-4">
+            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                 <div>
                     <h2 className="text-2xl font-bold text-slate-900">Global Settings</h2>
                     <p className="text-sm text-slate-500">Manage site-wide variables like Header & Footer for the {editingLang.toUpperCase()} version.</p>
@@ -129,17 +129,17 @@ export function AdminGlobalSettings() {
                 )}
             </AnimatePresence>
 
-            <form id="global-settings-form" onSubmit={handleSave} className="space-y-4">
+            <form id="global-settings-form" onSubmit={handleSave} className="space-y-3">
                 {sections.map((section) => {
                     const isOpen = activeSection === section.id;
                     return (
                         <div
                             key={section.id}
-                            className={`rounded-xl border transition-all duration-300 overflow-hidden ${isOpen ? 'border-earth-300 shadow-xl ring-1 ring-earth-500/10' : 'border-slate-200 bg-white shadow-sm hover:border-earth-200'}`}
+                            className={`overflow-hidden rounded-lg border transition-all duration-300 ${isOpen ? 'border-earth-300 bg-white ring-1 ring-earth-500/10' : 'border-slate-200 bg-white hover:border-earth-200'}`}
                         >
                             <div
                                 onClick={() => toggleSection(section.id)}
-                                className={`group flex items-center justify-between px-5 py-4 cursor-pointer select-none transition-colors ${isOpen ? 'bg-earth-50' : 'hover:bg-slate-50'}`}
+                                className={`group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isOpen ? 'bg-earth-50/70' : 'hover:bg-slate-50'}`}
                             >
                                 <div className="flex items-center gap-4">
                                     <div className={`h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? 'bg-earth-600 text-white shadow-lg shadow-earth-500/20' : 'bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600'}`}>
@@ -163,9 +163,9 @@ export function AdminGlobalSettings() {
                                         exit={{ height: 0, opacity: 0 }}
                                         transition={{ duration: 0.3, ease: "easeInOut" }}
                                     >
-                                        <div className="p-5 bg-slate-50/50 border-t border-slate-100 space-y-5">
+                                        <div className="space-y-4 border-t border-slate-100 p-3 sm:p-4">
                                             {section.id === "branding" && (
-                                                <div className="space-y-5">
+                                                <div className="space-y-4">
                                                     <ImageUploader
                                                         label="Main Branding Logo"
                                                         value={settings.headerLogo}
@@ -188,7 +188,7 @@ export function AdminGlobalSettings() {
                                                         emptyItem={{ label: "", url: "" }}
                                                         onUpdate={(items) => setSettings({ ...settings, navLinks: items })}
                                                         renderItem={(item, index, updateItem, replaceItem) => (
-                                                            <div className="grid grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                                            <div className="grid grid-cols-2 gap-3">
                                                                 <div>
                                                                     <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">Display Label</label>
                                                                     <input
@@ -235,7 +235,7 @@ export function AdminGlobalSettings() {
                                             )}
 
                                             {section.id === "footer" && (
-                                                <div className="space-y-5">
+                                                <div className="space-y-4">
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                                         <ImageUploader
                                                             label="Footer Logo"

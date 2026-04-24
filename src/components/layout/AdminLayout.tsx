@@ -14,7 +14,6 @@ import {
   Globe,
   Eye,
   EyeOff,
-  Languages,
   Save,
   Loader2,
 } from "lucide-react";
@@ -319,30 +318,6 @@ function AdminLayoutContent() {
             })}
           </nav>
 
-          <div className="px-4 py-4 mt-2 border-y border-slate-800 bg-slate-800/30">
-            <div className="mb-3 px-1 text-[10px] font-bold uppercase tracking-wider text-earth-500 flex items-center gap-2">
-              <Globe size={12} />
-              Editing Language
-            </div>
-            <div className="grid grid-cols-3 gap-1.5 rounded-xl bg-slate-950 p-1.5 shadow-inner">
-              {SUPPORTED_EDIT_LANGUAGES.map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setEditingLang(lang)}
-                  className={cn(
-                    "flex flex-col items-center justify-center rounded-lg py-2 text-[10px] font-bold transition-all duration-300",
-                    editingLang === lang
-                      ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20 scale-[1.02] ring-1 ring-earth-400/30"
-                      : "text-slate-500 hover:bg-slate-800 hover:text-slate-200"
-                  )}
-                >
-                  <Languages size={14} className={cn("mb-1", editingLang === lang ? "text-earth-200" : "text-slate-600")} />
-                  {lang.toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </div>
-
           <div className="p-4 border-t border-slate-800">
             <button
               onClick={handleLogout}
@@ -366,15 +341,14 @@ function AdminLayoutContent() {
               <h1 className="text-xl font-semibold text-slate-900">{currentLink.name}</h1>
             </div>
             
-            <div className="flex items-center gap-6">
-              {/* Editing Language Selector */}
-              <div className="hidden sm:flex items-center bg-slate-100 rounded-lg p-1">
+            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+              <div className="flex items-center rounded-lg bg-slate-100 p-1">
                 {SUPPORTED_EDIT_LANGUAGES.map((lang) => (
                   <button
                     key={lang}
                     onClick={() => setEditingLang(lang)}
                     className={cn(
-                      "px-3 py-1.5 text-xs font-bold rounded-md transition-all",
+                      "rounded-md px-2 py-1.5 text-[11px] font-bold transition-all sm:px-3 sm:text-xs",
                       editingLang === lang
                         ? "bg-white text-earth-600 shadow-sm"
                         : "text-slate-500 hover:text-slate-700"

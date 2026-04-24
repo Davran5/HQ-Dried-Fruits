@@ -70,12 +70,12 @@ export function AdminMedia() {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4">
             <div>
                 <h2 className="text-2xl font-bold text-slate-900">Media Library</h2>
                 <p className="text-sm text-slate-500">Upload and manage local images and PDF files (Stored in IndexedDB).</p>
             </div>            <div
-                className={`relative border-2 border-dashed rounded-xl p-10 text-center transition-all ${isDragging ? "border-earth-500 bg-earth-50" : "border-slate-300 bg-white hover:border-earth-400"
+                className={`relative rounded-lg border border-dashed p-6 text-center transition-all ${isDragging ? "border-earth-500 bg-earth-50" : "border-slate-300 bg-white hover:border-earth-400"
                     }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -106,14 +106,14 @@ export function AdminMedia() {
                     </div>
                 </div>
             </div>            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden p-6">
-                <h3 className="font-bold text-slate-900 mb-4">Uploaded Files ({(images || []).length})</h3>
+                <h3 className="mb-3 font-bold text-slate-900">Uploaded Files ({(images || []).length})</h3>
 
                 {isLoading ? (
                     <div className="py-12 text-center text-slate-500">Loading media library...</div>
                 ) : (images || []).length === 0 ? (
                     <div className="py-12 text-center text-slate-500">No media files found. Upload some to get started.</div>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                         <AnimatePresence>
                             {(images || []).map((url) => {
                                 const isImage = /\.(jpeg|jpg|png|webp|gif|svg)$/i.test(url);
@@ -125,7 +125,7 @@ export function AdminMedia() {
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.9 }}
-                                        className="group relative rounded-xl border border-slate-200 bg-slate-50 overflow-hidden flex flex-col"
+                                        className="group relative flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-slate-50"
                                     >                                        <div className="h-40 w-full bg-slate-200 flex items-center justify-center overflow-hidden relative">
                                             {isImage ? (
                                                 <img src={url} alt={name} className="w-full h-full object-cover" />

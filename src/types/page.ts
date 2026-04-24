@@ -203,7 +203,6 @@ export interface HomeContent {
     heroSubtitle: string;
     heroPrimaryCtaLabel: string;
     heroSecondaryCtaLabel: string;
-    progressSlider: ImageLabelPair[];
 
     introLabel: string;
     introText: string;

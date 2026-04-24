@@ -44,7 +44,7 @@ export function Repeater<T>({ label, items, onUpdate, emptyItem, renderItem }: R
     };
 
     return (
-        <div className="space-y-2.5">
+        <div className="space-y-2">
             <div className="flex items-center justify-between gap-3">
                 <label className="block text-sm font-bold text-slate-800">{label}</label>
                 <Button type="button" size="sm" variant="outline" onClick={addItem} className="h-8 text-xs">
@@ -52,21 +52,21 @@ export function Repeater<T>({ label, items, onUpdate, emptyItem, renderItem }: R
                 </Button>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2">
                 {items.length === 0 ? (
-                    <div className="text-center py-4 text-sm text-slate-500 border border-dashed border-slate-300 rounded-lg">
+                    <div className="rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500">
                         No items added yet.
                     </div>
                 ) : (
                     items.map((item, index) => (
-                        <div key={index} className="relative rounded-lg border border-slate-200 bg-slate-50 p-3 group">
-                            <div className="absolute left-2 top-1/2 -translate-y-1/2 cursor-grab text-slate-300 hover:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div key={index} className="group relative rounded-md border border-slate-200 bg-white/60 p-2.5">
+                            <div className="absolute left-2 top-1/2 -translate-y-1/2 cursor-grab text-slate-300 opacity-0 transition-opacity hover:text-slate-500 group-hover:opacity-100">
                                 <GripVertical size={16} />
                             </div>
                             <button
                                 type="button"
                                 onClick={() => removeItem(index)}
-                                className="absolute top-3 right-3 text-slate-400 hover:text-red-500 bg-white p-1 rounded transition-colors shadow-sm"
+                                className="absolute right-2 top-2 rounded bg-white p-1 text-slate-400 shadow-sm transition-colors hover:text-red-500"
                             >
                                 <Trash2 size={16} />
                             </button>

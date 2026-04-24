@@ -231,7 +231,6 @@ const initialPages: PageData[] = [
             heroSubtitle: "Hand-picked and processed to global export standards.",
             heroPrimaryCtaLabel: "Request Wholesale Catalog",
             heroSecondaryCtaLabel: "Our Processing Facilities",
-            progressSlider: [],
             introLabel: "The HQ Dried Fruits Difference",
             introText: "We cultivate, process, and directly export the finest dried fruits from the Fergana Valley. Using advanced laser-sorting technology, we guarantee 99.9% purity for high-volume wholesale buyers across Europe and Asia.",
             statsGrid: [

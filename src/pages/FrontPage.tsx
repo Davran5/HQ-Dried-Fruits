@@ -228,27 +228,6 @@ export function FrontPage() {
                 </div>
             </section>
 
-            {content.progressSlider?.length > 0 && (
-                <section className="mx-auto -mt-10 max-w-7xl px-4 sm:px-6 lg:px-8 relative z-20">
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {content.progressSlider.map((item, index) => (
-                            <div key={`${item.label}-${index}`} className="overflow-hidden rounded-[2rem] border border-white/60 bg-white/90 shadow-lg backdrop-blur-sm">
-                                <div className="h-40 overflow-hidden">
-                                    <img
-                                        src={item.image}
-                                        alt={item.label}
-                                        className="h-full w-full object-cover"
-                                        referrerPolicy="no-referrer"
-                                    />
-                                </div>
-                                <div className="px-5 py-4">
-                                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-earth-500">{item.label}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
             <section className="mx-auto max-w-7xl overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
                 <motion.section
                     initial={{ opacity: 0, y: 30 }}
@@ -266,12 +245,8 @@ export function FrontPage() {
                             className="group relative hidden min-h-[23rem] overflow-hidden rounded-[2.75rem] sm:min-h-[28rem] lg:block lg:h-full lg:min-h-0"
                         >
                             <img
-                                src={
-                                    content.progressSlider?.[0]?.image ||
-                                    content.heroBgImage ||
-                                    "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"
-                                }
-                                alt={content.progressSlider?.[0]?.label || "HQ Dried Fruits abstract orchard visual"}
+                                src={content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
+                                alt="HQ Dried Fruits abstract orchard visual"
                                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 referrerPolicy="no-referrer"
                             />
@@ -289,12 +264,8 @@ export function FrontPage() {
                                 </h2>
                                 <div className="mt-6 overflow-hidden rounded-[2.25rem] lg:hidden">
                                     <img
-                                        src={
-                                            content.progressSlider?.[0]?.image ||
-                                            content.heroBgImage ||
-                                            "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"
-                                        }
-                                        alt={content.progressSlider?.[0]?.label || "HQ Dried Fruits abstract orchard visual"}
+                                        src={content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
+                                        alt="HQ Dried Fruits abstract orchard visual"
                                         className="h-[14rem] w-full object-cover"
                                         referrerPolicy="no-referrer"
                                     />

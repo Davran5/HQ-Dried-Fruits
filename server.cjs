@@ -55462,7 +55462,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
       );
       return [workInProgressHook.memoizedState, reducer];
     }
-    function useMemo21(nextCreate, deps) {
+    function useMemo22(nextCreate, deps) {
       currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
       workInProgressHook = createWorkInProgressHook();
       deps = void 0 === deps ? null : deps;
@@ -55578,7 +55578,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
         resolveCurrentlyRenderingComponent();
         return context._currentValue2;
       },
-      useMemo: useMemo21,
+      useMemo: useMemo22,
       useReducer,
       useRef: function(initialValue) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -55592,7 +55592,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
       useInsertionEffect: noop2,
       useLayoutEffect: noop2,
       useCallback: function(callback, deps) {
-        return useMemo21(function() {
+        return useMemo22(function() {
           return callback;
         }, deps);
       },
@@ -60661,7 +60661,7 @@ var require_react_dom_server_node_production = __commonJS({
       );
       return [workInProgressHook.memoizedState, reducer];
     }
-    function useMemo21(nextCreate, deps) {
+    function useMemo22(nextCreate, deps) {
       currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
       workInProgressHook = createWorkInProgressHook();
       deps = void 0 === deps ? null : deps;
@@ -60781,7 +60781,7 @@ var require_react_dom_server_node_production = __commonJS({
         resolveCurrentlyRenderingComponent();
         return context._currentValue;
       },
-      useMemo: useMemo21,
+      useMemo: useMemo22,
       useReducer,
       useRef: function(initialValue) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -60795,7 +60795,7 @@ var require_react_dom_server_node_production = __commonJS({
       useInsertionEffect: noop2,
       useLayoutEffect: noop2,
       useCallback: function(callback, deps) {
-        return useMemo21(function() {
+        return useMemo22(function() {
           return callback;
         }, deps);
       },
@@ -66708,7 +66708,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         );
         return [workInProgressHook.memoizedState, reducer];
       }
-      function useMemo21(nextCreate, deps) {
+      function useMemo22(nextCreate, deps) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
         workInProgressHook = createWorkInProgressHook();
         deps = void 0 === deps ? null : deps;
@@ -70776,7 +70776,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
           resolveCurrentlyRenderingComponent();
           return context._currentValue2;
         },
-        useMemo: useMemo21,
+        useMemo: useMemo22,
         useReducer,
         useRef: function(initialValue) {
           currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -70791,7 +70791,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         useInsertionEffect: noop2,
         useLayoutEffect: noop2,
         useCallback: function(callback, deps) {
-          return useMemo21(function() {
+          return useMemo22(function() {
             return callback;
           }, deps);
         },
@@ -73864,7 +73864,7 @@ var require_react_dom_server_node_development = __commonJS({
         );
         return [workInProgressHook.memoizedState, reducer];
       }
-      function useMemo21(nextCreate, deps) {
+      function useMemo22(nextCreate, deps) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
         workInProgressHook = createWorkInProgressHook();
         deps = void 0 === deps ? null : deps;
@@ -78255,7 +78255,7 @@ var require_react_dom_server_node_development = __commonJS({
           resolveCurrentlyRenderingComponent();
           return context._currentValue;
         },
-        useMemo: useMemo21,
+        useMemo: useMemo22,
         useReducer,
         useRef: function(initialValue) {
           currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -78270,7 +78270,7 @@ var require_react_dom_server_node_development = __commonJS({
         useInsertionEffect: noop2,
         useLayoutEffect: noop2,
         useCallback: function(callback, deps) {
-          return useMemo21(function() {
+          return useMemo22(function() {
             return callback;
           }, deps);
         },
@@ -97212,7 +97212,7 @@ var require_lucide_react = __commonJS({
     ];
     var Cherry = createLucideIcon("cherry", __iconNode$kE);
     var __iconNode$kD = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-    var ChevronDown10 = createLucideIcon("chevron-down", __iconNode$kD);
+    var ChevronDown9 = createLucideIcon("chevron-down", __iconNode$kD);
     var __iconNode$kC = [
       ["path", { d: "m17 18-6-6 6-6", key: "1yerx2" }],
       ["path", { d: "M7 6v12", key: "1p53r6" }]
@@ -102165,7 +102165,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "m22 22-5-10-5 10", key: "don7ne" }],
       ["path", { d: "M14 18h6", key: "1m8k6r" }]
     ];
-    var Languages3 = createLucideIcon("languages", __iconNode$cv);
+    var Languages2 = createLucideIcon("languages", __iconNode$cv);
     var __iconNode$cu = [
       ["path", { d: "M2 20h20", key: "owomy5" }],
       ["path", { d: "m9 10 2 2 4-4", key: "1gnqz4" }],
@@ -110218,7 +110218,7 @@ var require_lucide_react = __commonJS({
       CheckLine,
       ChefHat,
       Cherry,
-      ChevronDown: ChevronDown10,
+      ChevronDown: ChevronDown9,
       ChevronFirst,
       ChevronLast,
       ChevronLeft: ChevronLeft3,
@@ -110738,7 +110738,7 @@ var require_lucide_react = __commonJS({
       LampWallUp,
       LandPlot,
       Landmark,
-      Languages: Languages3,
+      Languages: Languages2,
       Laptop,
       LaptopMinimal,
       LaptopMinimalCheck,
@@ -112285,10 +112285,10 @@ var require_lucide_react = __commonJS({
     exports2.ChefHatIcon = ChefHat;
     exports2.Cherry = Cherry;
     exports2.CherryIcon = Cherry;
-    exports2.ChevronDown = ChevronDown10;
+    exports2.ChevronDown = ChevronDown9;
     exports2.ChevronDownCircle = CircleChevronDown;
     exports2.ChevronDownCircleIcon = CircleChevronDown;
-    exports2.ChevronDownIcon = ChevronDown10;
+    exports2.ChevronDownIcon = ChevronDown9;
     exports2.ChevronDownSquare = SquareChevronDown;
     exports2.ChevronDownSquareIcon = SquareChevronDown;
     exports2.ChevronFirst = ChevronFirst;
@@ -113464,8 +113464,8 @@ var require_lucide_react = __commonJS({
     exports2.LandPlotIcon = LandPlot;
     exports2.Landmark = Landmark;
     exports2.LandmarkIcon = Landmark;
-    exports2.Languages = Languages3;
-    exports2.LanguagesIcon = Languages3;
+    exports2.Languages = Languages2;
+    exports2.LanguagesIcon = Languages2;
     exports2.Laptop = Laptop;
     exports2.Laptop2 = LaptopMinimal;
     exports2.Laptop2Icon = LaptopMinimal;
@@ -113981,7 +113981,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideCheckSquare2 = SquareCheck;
     exports2.LucideChefHat = ChefHat;
     exports2.LucideCherry = Cherry;
-    exports2.LucideChevronDown = ChevronDown10;
+    exports2.LucideChevronDown = ChevronDown9;
     exports2.LucideChevronDownCircle = CircleChevronDown;
     exports2.LucideChevronDownSquare = SquareChevronDown;
     exports2.LucideChevronFirst = ChevronFirst;
@@ -114570,7 +114570,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideLampWallUp = LampWallUp;
     exports2.LucideLandPlot = LandPlot;
     exports2.LucideLandmark = Landmark;
-    exports2.LucideLanguages = Languages3;
+    exports2.LucideLanguages = Languages2;
     exports2.LucideLaptop = Laptop;
     exports2.LucideLaptop2 = LaptopMinimal;
     exports2.LucideLaptopMinimal = LaptopMinimal;
@@ -130870,7 +130870,6 @@ var initialPages = [
       heroSubtitle: "Hand-picked and processed to global export standards.",
       heroPrimaryCtaLabel: "Request Wholesale Catalog",
       heroSecondaryCtaLabel: "Our Processing Facilities",
-      progressSlider: [],
       introLabel: "The HQ Dried Fruits Difference",
       introText: "We cultivate, process, and directly export the finest dried fruits from the Fergana Valley. Using advanced laser-sorting technology, we guarantee 99.9% purity for high-volume wholesale buyers across Europe and Asia.",
       statsGrid: [
@@ -132125,18 +132124,6 @@ function FrontPage() {
         )
       ] }) })
     ] }),
-    content.progressSlider?.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("section", { className: "mx-auto -mt-10 max-w-7xl px-4 sm:px-6 lg:px-8 relative z-20", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "grid gap-4 sm:grid-cols-2 lg:grid-cols-4", children: content.progressSlider.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "overflow-hidden rounded-[2rem] border border-white/60 bg-white/90 shadow-lg backdrop-blur-sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "h-40 overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
-        "img",
-        {
-          src: item.image,
-          alt: item.label,
-          className: "h-full w-full object-cover",
-          referrerPolicy: "no-referrer"
-        }
-      ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "px-5 py-4", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.2em] text-earth-500", children: item.label }) })
-    ] }, `${item.label}-${index}`)) }) }),
     /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("section", { className: "mx-auto max-w-7xl overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
       motion.section,
       {
@@ -132159,8 +132146,8 @@ function FrontPage() {
                   /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
                     "img",
                     {
-                      src: content.progressSlider?.[0]?.image || content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
-                      alt: content.progressSlider?.[0]?.label || "HQ Dried Fruits abstract orchard visual",
+                      src: content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
+                      alt: "HQ Dried Fruits abstract orchard visual",
                       className: "h-full w-full object-cover transition-transform duration-700 group-hover:scale-105",
                       referrerPolicy: "no-referrer"
                     }
@@ -132177,8 +132164,8 @@ function FrontPage() {
                 /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 overflow-hidden rounded-[2.25rem] lg:hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
                   "img",
                   {
-                    src: content.progressSlider?.[0]?.image || content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
-                    alt: content.progressSlider?.[0]?.label || "HQ Dried Fruits abstract orchard visual",
+                    src: content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
+                    alt: "HQ Dried Fruits abstract orchard visual",
                     className: "h-[14rem] w-full object-cover",
                     referrerPolicy: "no-referrer"
                   }
@@ -135189,27 +135176,6 @@ function AdminLayoutContent() {
               link.name
             );
           }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "px-4 py-4 mt-2 border-y border-slate-800 bg-slate-800/30", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "mb-3 px-1 text-[10px] font-bold uppercase tracking-wider text-earth-500 flex items-center gap-2", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Globe, { size: 12 }),
-              "Editing Language"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "grid grid-cols-3 gap-1.5 rounded-xl bg-slate-950 p-1.5 shadow-inner", children: SUPPORTED_EDIT_LANGUAGES.map((lang) => /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
-              "button",
-              {
-                onClick: () => setEditingLang(lang),
-                className: cn(
-                  "flex flex-col items-center justify-center rounded-lg py-2 text-[10px] font-bold transition-all duration-300",
-                  editingLang === lang ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20 scale-[1.02] ring-1 ring-earth-400/30" : "text-slate-500 hover:bg-slate-800 hover:text-slate-200"
-                ),
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Languages, { size: 14, className: cn("mb-1", editingLang === lang ? "text-earth-200" : "text-slate-600") }),
-                  lang.toUpperCase()
-                ]
-              },
-              lang
-            )) })
-          ] }),
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "p-4 border-t border-slate-800", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
             "button",
             {
@@ -135237,13 +135203,13 @@ function AdminLayoutContent() {
           ),
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h1", { className: "text-xl font-semibold text-slate-900", children: currentLink.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex items-center gap-6", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "hidden sm:flex items-center bg-slate-100 rounded-lg p-1", children: SUPPORTED_EDIT_LANGUAGES.map((lang) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex min-w-0 items-center gap-3 sm:gap-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex items-center rounded-lg bg-slate-100 p-1", children: SUPPORTED_EDIT_LANGUAGES.map((lang) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
             "button",
             {
               onClick: () => setEditingLang(lang),
               className: cn(
-                "px-3 py-1.5 text-xs font-bold rounded-md transition-all",
+                "rounded-md px-2 py-1.5 text-[11px] font-bold transition-all sm:px-3 sm:text-xs",
                 editingLang === lang ? "bg-white text-earth-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
               ),
               children: languageNames2[lang].toUpperCase()
@@ -136115,7 +136081,7 @@ function Repeater({ label, items, onUpdate, emptyItem, renderItem }) {
     newItems[index] = value;
     onUpdate(newItems);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "space-y-2.5", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "space-y-2", children: [
     /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "flex items-center justify-between gap-3", children: [
       /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("label", { className: "block text-sm font-bold text-slate-800", children: label }),
       /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(Button, { type: "button", size: "sm", variant: "outline", onClick: addItem, className: "h-8 text-xs", children: [
@@ -136123,14 +136089,14 @@ function Repeater({ label, items, onUpdate, emptyItem, renderItem }) {
         " Add Row"
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "space-y-2.5", children: items.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "text-center py-4 text-sm text-slate-500 border border-dashed border-slate-300 rounded-lg", children: "No items added yet." }) : items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "relative rounded-lg border border-slate-200 bg-slate-50 p-3 group", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "absolute left-2 top-1/2 -translate-y-1/2 cursor-grab text-slate-300 hover:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react14.GripVertical, { size: 16 }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "space-y-2", children: items.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500", children: "No items added yet." }) : items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "group relative rounded-md border border-slate-200 bg-white/60 p-2.5", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "absolute left-2 top-1/2 -translate-y-1/2 cursor-grab text-slate-300 opacity-0 transition-opacity hover:text-slate-500 group-hover:opacity-100", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react14.GripVertical, { size: 16 }) }),
       /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
         "button",
         {
           type: "button",
           onClick: () => removeItem2(index),
-          className: "absolute top-3 right-3 text-slate-400 hover:text-red-500 bg-white p-1 rounded transition-colors shadow-sm",
+          className: "absolute right-2 top-2 rounded bg-white p-1 text-slate-400 shadow-sm transition-colors hover:text-red-500",
           children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react14.Trash2, { size: 16 })
         }
       ),
@@ -136276,9 +136242,9 @@ function AdminProducts() {
     setIsDeleteOpen(false);
     setItemToDelete(null);
   };
-  const renderProductForm = (id3) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "p-4 sm:p-6 bg-slate-50/50 border-t border-slate-100", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-5", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-5 lg:grid-cols-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
+  const renderProductForm = (id3) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "border-t border-slate-100 p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-4 lg:grid-cols-2", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
         /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Product Name *" }),
           /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
@@ -136339,7 +136305,7 @@ function AdminProducts() {
           )
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
         /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
           ImageUploader,
           {
@@ -136348,9 +136314,9 @@ function AdminProducts() {
             onChange: (url) => setFormData({ ...formData, image: url })
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "bg-white rounded-xl p-4 border border-slate-200", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h4", { className: "text-xs font-bold uppercase tracking-widest text-slate-400 mb-4", children: "Nutritional Facts (per 100g)" }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/60 p-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h4", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-400", children: "Nutritional Facts (per 100g)" }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-3", children: [
             /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Energy (kcal)" }),
               /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
@@ -136407,7 +136373,7 @@ function AdminProducts() {
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
         RichTextEditor,
         {
@@ -136423,7 +136389,7 @@ function AdminProducts() {
           items: formData.contentSections || [],
           emptyItem: { title: "", body: "" },
           onUpdate: (items) => setFormData({ ...formData, contentSections: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4 rounded-2xl border border-slate-200 bg-white p-4", children: [
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
             /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "mb-2 block text-xs font-bold uppercase tracking-widest text-slate-500", children: "Section Title" }),
               /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
@@ -136449,7 +136415,7 @@ function AdminProducts() {
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-5 lg:grid-cols-2 pt-2", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-4 pt-1 lg:grid-cols-2", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
         Repeater,
         {
@@ -136499,7 +136465,7 @@ function AdminProducts() {
       ] })
     ] }) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-6", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
       motion.div,
       {
@@ -136513,7 +136479,7 @@ function AdminProducts() {
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex flex-col justify-between gap-3 sm:flex-row sm:items-center", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("h2", { className: "text-2xl font-bold text-slate-900", children: [
           "Products Catalog (",
@@ -136538,16 +136504,16 @@ function AdminProducts() {
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(AnimatePresence, { children: editingId === "new" && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
         motion.div,
         {
           initial: { height: 0, opacity: 0, y: -20 },
           animate: { height: "auto", opacity: 1, y: 0 },
           exit: { height: 0, opacity: 0, y: -20 },
-          className: "rounded-xl border-2 border-dashed border-earth-300 bg-earth-50/30 overflow-hidden",
+          className: "overflow-hidden rounded-lg border border-dashed border-earth-300 bg-earth-50/30",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "px-6 py-4 bg-earth-50 border-b border-earth-200", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("h3", { className: "font-bold text-earth-900 flex items-center gap-2", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "border-b border-earth-200 bg-earth-50 px-4 py-3", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("h3", { className: "font-bold text-earth-900 flex items-center gap-2", children: [
               /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Plus, { size: 18 }),
               " New ",
               editingLang.toUpperCase(),
@@ -136562,13 +136528,13 @@ function AdminProducts() {
         return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
           "div",
           {
-            className: `rounded-xl border transition-all duration-300 overflow-hidden ${isExpanded ? "border-earth-300 shadow-xl ring-1 ring-earth-500/10" : "border-slate-200 bg-white shadow-sm hover:border-earth-200"}`,
+            className: `overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
                 "div",
                 {
                   onClick: () => handleToggleAccordion(product.id, product),
-                  className: `group flex items-center justify-between px-6 py-4 cursor-pointer select-none transition-colors ${isExpanded ? "bg-earth-50" : "hover:bg-slate-50"}`,
+                  className: `group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
                   children: [
                     /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex items-center gap-4 min-w-0", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: `h-14 w-14 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${isExpanded ? "border-earth-600 shadow-md" : "border-slate-100 group-hover:border-earth-200"}`, children: product.image ? /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("img", { src: product.image, alt: product.name, className: "h-full w-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "w-full h-full bg-slate-100 flex items-center justify-center text-slate-300", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Package, { size: 24 }) }) }),
@@ -136667,11 +136633,11 @@ var import_lucide_react16 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
 function FormSection({ title, children, defaultOpen = true, actions }) {
   const [isOpen, setIsOpen] = (0, import_react61.useState)(defaultOpen);
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "overflow-hidden rounded-lg border border-slate-200 bg-white/70", children: [
     /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
       "div",
       {
-        className: `flex items-center justify-between gap-3 px-4 py-3 transition-colors ${isOpen ? "bg-earth-50" : "hover:bg-slate-50"}`,
+        className: `flex items-center justify-between gap-3 px-3 py-2.5 transition-colors ${isOpen ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
             "button",
@@ -136680,12 +136646,12 @@ function FormSection({ title, children, defaultOpen = true, actions }) {
               onClick: () => setIsOpen((value) => !value),
               className: "flex flex-1 items-center justify-between gap-4 text-left",
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h4", { className: "text-base font-bold text-slate-800", children: title }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: title }),
                 /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
                   "div",
                   {
-                    className: `rounded-full p-2 transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400"}`,
-                    children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react16.ChevronDown, { size: 18 })
+                    className: `rounded-md p-1.5 transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-100 text-earth-700" : "text-slate-400"}`,
+                    children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react16.ChevronDown, { size: 16 })
                   }
                 )
               ]
@@ -136703,7 +136669,7 @@ function FormSection({ title, children, defaultOpen = true, actions }) {
         exit: { height: 0, opacity: 0 },
         transition: { duration: 0.25, ease: "easeInOut" },
         className: "overflow-hidden border-t border-slate-100",
-        children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "space-y-4 p-4", children })
+        children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "space-y-3 p-3", children })
       }
     ) })
   ] });
@@ -136771,38 +136737,7 @@ function HomeForm({ content, updateContent }) {
             }
           )
         ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        Repeater,
-        {
-          label: "Progress Slider",
-          items: content.progressSlider || [],
-          emptyItem: { image: "", label: "" },
-          onUpdate: (items) => updateContent({ progressSlider: items }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-              ImageUploader,
-              {
-                label: `Thumbnail Image ${index + 1}`,
-                value: item.image,
-                onChange: (url) => updateItem(index, "image", url)
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Label Text" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.label,
-                  onChange: (e) => updateItem(index, "label", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
-                }
-              )
-            ] })
-          ] })
-        }
-      )
+      ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "2. Introduction (About Us)", defaultOpen: false, children: [
       /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
@@ -138787,14 +138722,26 @@ function SimplePageForm({ content, updateContent }) {
 
 // src/pages/admin/Pages.tsx
 var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
+function clonePage(page) {
+  return JSON.parse(JSON.stringify(page));
+}
 function AdminPages() {
   const { pages, updatePage, pageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const [selectedPageId, setSelectedPageId] = (0, import_react63.useState)("home");
   const [editingPage, setEditingPage] = (0, import_react63.useState)(null);
   const [successMessage, setSuccessMessage] = (0, import_react63.useState)(null);
   const [isRefreshing, setIsRefreshing] = (0, import_react63.useState)(false);
   const [isSaving, setIsSaving] = (0, import_react63.useState)(false);
+  const selectedSourcePage = (0, import_react63.useMemo)(
+    () => pages.find((page) => page.id === selectedPageId) || pages[0] || null,
+    [pages, selectedPageId]
+  );
+  (0, import_react63.useEffect)(() => {
+    if (!selectedSourcePage) return;
+    setEditingPage(clonePage(selectedSourcePage));
+  }, [selectedSourcePage]);
   (0, import_react63.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
@@ -138806,56 +138753,47 @@ function AdminPages() {
         setIsRefreshing(false);
       }
     };
-    loadLangData();
-    handleClose();
+    void loadLangData();
   }, [editingLang]);
-  const handleEdit = (page) => {
-    if (editingPage?.id === page.id) {
-      handleClose();
-      return;
-    }
-    setEditingPage(JSON.parse(JSON.stringify(page)));
-  };
-  const handleClose = () => {
-    setEditingPage(null);
-  };
   const handleSave = async (e) => {
     e.preventDefault();
-    if (editingPage) {
-      setIsSaving(true);
-      try {
-        await updatePage(editingPage.id, editingPage, editingLang);
-        setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
-        setTimeout(() => setSuccessMessage(null), 3e3);
-      } catch (error) {
-        console.error("Failed to save page:", error);
-        alert(`Failed to save ${editingPage.name}. Please try again.`);
-      } finally {
-        setIsSaving(false);
-      }
+    if (!editingPage) return;
+    setIsSaving(true);
+    try {
+      await updatePage(editingPage.id, editingPage, editingLang);
+      setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
+      setTimeout(() => setSuccessMessage(null), 3e3);
+    } catch (error) {
+      console.error("Failed to save page:", error);
+      alert(`Failed to save ${editingPage.name}. Please try again.`);
+    } finally {
+      setIsSaving(false);
     }
   };
   (0, import_react63.useEffect)(() => {
-    if (editingPage) {
-      setAction({
-        label: `Save ${editingPage.name}`,
-        formId: `form-${editingPage.id}`,
-        isLoading: isSaving,
-        disabled: isSaving
-      });
-      return () => setAction(null);
+    if (!editingPage) {
+      setAction(null);
+      return void 0;
     }
-    setAction(null);
-    return void 0;
-  }, [editingPage, isSaving, setAction]);
+    setAction({
+      label: `Save ${editingPage.name}`,
+      formId: `form-${editingPage.id}`,
+      isLoading: isSaving,
+      disabled: isSaving || isRefreshing
+    });
+    return () => setAction(null);
+  }, [editingPage, isRefreshing, isSaving, setAction]);
+  const updateContent = (updates) => {
+    setEditingPage((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        content: { ...current.content, ...updates }
+      };
+    });
+  };
   const renderFormContent = () => {
     if (!editingPage) return null;
-    const updateContent = (updates) => {
-      setEditingPage({
-        ...editingPage,
-        content: { ...editingPage.content, ...updates }
-      });
-    };
     switch (editingPage.id) {
       case "home":
         return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(HomeForm, { content: editingPage.content, updateContent });
@@ -138874,63 +138812,57 @@ function AdminPages() {
         return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "text-slate-500", children: "Form not configured for this page type." });
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Static Pages" }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "text-sm text-slate-500", children: "Manage structure, layout, and copy for the main site." })
-    ] }) }),
+  const restoreCurrentPage = () => {
+    if (selectedSourcePage) setEditingPage(clonePage(selectedSourcePage));
+  };
+  if (isRefreshing && !editingPage) {
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { className: "text-sm font-medium text-slate-500", children: [
+        "Switching to ",
+        editingLang.toUpperCase(),
+        " pages..."
+      ] })
+    ] }) });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
       motion.div,
       {
         initial: { opacity: 0, y: -10 },
         animate: { opacity: 1, y: 0 },
         exit: { opacity: 0, y: -10 },
-        className: "flex items-center gap-2 rounded-lg bg-emerald-50 p-4 text-emerald-800 border border-emerald-200",
+        className: "fixed right-4 top-4 z-[100] flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg",
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.CheckCircle2, { size: 18 }),
           /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "text-sm font-medium", children: successMessage })
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "space-y-4", children: pages.map((page) => {
-      const isExpanded = editingPage?.id === page.id;
-      return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: `rounded-xl border transition-all duration-300 overflow-hidden ${isExpanded ? "border-earth-300 shadow-md ring-1 ring-earth-500/10" : "border-slate-200 bg-white shadow-sm"}`, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
-          "div",
-          {
-            onClick: () => handleEdit(page),
-            className: `flex items-center justify-between px-6 py-4 cursor-pointer select-none transition-colors ${isExpanded ? "bg-earth-50" : "hover:bg-slate-50"}`,
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "flex items-center gap-4", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: `h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isExpanded ? "bg-earth-600 text-white" : "bg-slate-100 text-slate-500"}`, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.Layout, { size: 20 }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h3", { className: `font-bold transition-colors ${isExpanded ? "text-earth-900" : "text-slate-900"}`, children: page.name }),
-                  /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { className: "text-xs text-slate-500 font-mono flex items-center gap-1", children: [
-                    "Internal Path: ",
-                    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { className: "text-earth-600/70", children: getManagedPagePath(page.id, pageSeo, editingLang) })
-                  ] })
-                ] })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex items-center gap-3", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isExpanded ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400"}`, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.ChevronDown, { size: 20 }) }) })
-            ]
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(AnimatePresence, { initial: false, children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-          motion.div,
-          {
-            initial: { height: 0, opacity: 0 },
-            animate: { height: "auto", opacity: 1 },
-            exit: { height: 0, opacity: 0 },
-            transition: { duration: 0.3, ease: "easeInOut" },
-            className: "overflow-hidden border-t border-slate-100 bg-slate-50",
-            children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "p-4 sm:p-5", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-${page.id}`, onSubmit: handleSave, className: "space-y-5", children: [
-              renderFormContent(),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200", children: "Cancel" }) })
-            ] }) })
-          }
-        ) })
-      ] }, page.id);
-    }) })
+    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "sticky top-0 z-20 border-b border-slate-200 bg-slate-50/95 py-2 backdrop-blur", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex gap-2 overflow-x-auto pb-1", children: pages.map((page) => {
+      const pageId = page.id;
+      const isActive = selectedPageId === pageId;
+      return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
+        "button",
+        {
+          type: "button",
+          onClick: () => setSelectedPageId(pageId),
+          className: cn(
+            "min-w-max rounded-lg border px-3 py-2 text-left transition-all",
+            isActive ? "border-earth-300 bg-white text-earth-800 shadow-sm" : "border-transparent bg-transparent text-slate-600 hover:border-slate-200 hover:bg-white/70"
+          ),
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { className: "block text-sm font-bold", children: page.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { className: "block max-w-[12rem] truncate font-mono text-[11px] text-slate-400", children: getManagedPagePath(pageId, pageSeo, editingLang) })
+          ]
+        },
+        page.id
+      );
+    }) }) }),
+    editingPage && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-${editingPage.id}`, onSubmit: handleSave, className: "space-y-4", children: [
+      renderFormContent(),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex justify-end border-t border-slate-200 pt-3", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: restoreCurrentPage, className: "text-slate-600 hover:bg-slate-200", children: "Discard Changes" }) })
+    ] })
   ] });
 }
 
@@ -139929,7 +139861,7 @@ function AdminSeoSettings() {
       ] })
     ] }) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "space-y-6 relative", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "relative space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(AnimatePresence, { children: showToast && /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
       motion.div,
       {
@@ -139947,7 +139879,7 @@ function AdminSeoSettings() {
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex flex-col justify-between gap-3 sm:flex-row sm:items-center", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("h2", { className: "text-2xl font-bold text-slate-900", children: [
         "SEO Settings (",
         editingLang.toUpperCase(),
@@ -139959,19 +139891,19 @@ function AdminSeoSettings() {
         " version."
       ] })
     ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "space-y-4", children: combinedPages.map((page) => {
+    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "space-y-3", children: combinedPages.map((page) => {
       const isExpanded = editingPage?.id === page.id;
       const isProduct = page.id.startsWith("product:");
       return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
         "div",
         {
-          className: `rounded-xl border transition-all duration-300 overflow-hidden ${isExpanded ? "border-earth-300 shadow-lg ring-1 ring-earth-500/10" : "border-slate-200 bg-white shadow-sm hover:border-earth-200"}`,
+          className: `overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
           children: [
             /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
               "div",
               {
                 onClick: () => handleEdit(page),
-                className: `group flex items-center justify-between px-6 py-5 cursor-pointer select-none transition-colors ${isExpanded ? "bg-earth-50" : "hover:bg-slate-50"}`,
+                className: `group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "flex items-center gap-4 min-w-0", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: `h-11 w-11 rounded-xl flex items-center justify-center transition-colors shrink-0 ${isExpanded ? "bg-earth-600 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-earth-100 group-hover:text-earth-600"}`, children: isProduct ? /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.Package, { size: 22 }) : /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.Globe, { size: 22 }) }),
@@ -140002,8 +139934,8 @@ function AdminSeoSettings() {
                 animate: { height: "auto", opacity: 1 },
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3, ease: "easeInOut" },
-                className: "overflow-hidden border-t border-slate-100 bg-slate-50/50",
-                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "p-4 sm:p-6", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("form", { id: `form-seo-${editingPage.id.replace(/:/g, "-")}`, onSubmit: handleSave, className: "space-y-5", children: [
+                className: "overflow-hidden border-t border-slate-100",
+                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("form", { id: `form-seo-${editingPage.id.replace(/:/g, "-")}`, onSubmit: handleSave, className: "space-y-4", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
                     SeoFormSection,
                     {
@@ -140114,8 +140046,8 @@ function AdminGlobalSettings() {
       ] })
     ] }) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "flex flex-col justify-between gap-3 sm:flex-row sm:items-center", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Global Settings" }),
       /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { className: "text-sm text-slate-500", children: [
         "Manage site-wide variables like Header & Footer for the ",
@@ -140136,18 +140068,18 @@ function AdminGlobalSettings() {
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("form", { id: "global-settings-form", onSubmit: handleSave, className: "space-y-4", children: sections.map((section) => {
+    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("form", { id: "global-settings-form", onSubmit: handleSave, className: "space-y-3", children: sections.map((section) => {
       const isOpen = activeSection === section.id;
       return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
         "div",
         {
-          className: `rounded-xl border transition-all duration-300 overflow-hidden ${isOpen ? "border-earth-300 shadow-xl ring-1 ring-earth-500/10" : "border-slate-200 bg-white shadow-sm hover:border-earth-200"}`,
+          className: `overflow-hidden rounded-lg border transition-all duration-300 ${isOpen ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
           children: [
             /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
               "div",
               {
                 onClick: () => toggleSection(section.id),
-                className: `group flex items-center justify-between px-5 py-4 cursor-pointer select-none transition-colors ${isOpen ? "bg-earth-50" : "hover:bg-slate-50"}`,
+                className: `group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isOpen ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex items-center gap-4", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: `h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20" : "bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600"}`, children: section.icon }),
@@ -140167,8 +140099,8 @@ function AdminGlobalSettings() {
                 animate: { height: "auto", opacity: 1 },
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3, ease: "easeInOut" },
-                children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "p-5 bg-slate-50/50 border-t border-slate-100 space-y-5", children: [
-                  section.id === "branding" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-5", children: [
+                children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4 border-t border-slate-100 p-3 sm:p-4", children: [
+                  section.id === "branding" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
                       ImageUploader,
                       {
@@ -140196,7 +140128,7 @@ function AdminGlobalSettings() {
                         items: settings.navLinks || [],
                         emptyItem: { label: "", url: "" },
                         onUpdate: (items) => setSettings({ ...settings, navLinks: items }),
-                        renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm", children: [
+                        renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-2 gap-3", children: [
                           /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
                             /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("label", { className: "block text-[10px] font-bold text-slate-400 uppercase mb-1", children: "Display Label" }),
                             /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
@@ -140251,7 +140183,7 @@ function AdminGlobalSettings() {
                       ] })
                     ] })
                   ] }),
-                  section.id === "footer" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-5", children: [
+                  section.id === "footer" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
                         ImageUploader,
@@ -140494,7 +140426,7 @@ function AdminMedia() {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "space-y-6", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Media Library" }),
       /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "text-sm text-slate-500", children: "Upload and manage local images and PDF files (Stored in IndexedDB)." })
@@ -140502,7 +140434,7 @@ function AdminMedia() {
     /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
       "div",
       {
-        className: `relative border-2 border-dashed rounded-xl p-10 text-center transition-all ${isDragging2 ? "border-earth-500 bg-earth-50" : "border-slate-300 bg-white hover:border-earth-400"}`,
+        className: `relative rounded-lg border border-dashed p-6 text-center transition-all ${isDragging2 ? "border-earth-500 bg-earth-50" : "border-slate-300 bg-white hover:border-earth-400"}`,
         onDragOver: handleDragOver,
         onDragLeave: handleDragLeave,
         onDrop: handleDrop,
@@ -140538,12 +140470,12 @@ function AdminMedia() {
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden p-6", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("h3", { className: "font-bold text-slate-900 mb-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("h3", { className: "mb-3 font-bold text-slate-900", children: [
         "Uploaded Files (",
         (images || []).length,
         ")"
       ] }),
-      isLoading ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "py-12 text-center text-slate-500", children: "Loading media library..." }) : (images || []).length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "py-12 text-center text-slate-500", children: "No media files found. Upload some to get started." }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(AnimatePresence, { children: (images || []).map((url) => {
+      isLoading ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "py-12 text-center text-slate-500", children: "Loading media library..." }) : (images || []).length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "py-12 text-center text-slate-500", children: "No media files found. Upload some to get started." }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(AnimatePresence, { children: (images || []).map((url) => {
         const isImage2 = /\.(jpeg|jpg|png|webp|gif|svg)$/i.test(url);
         const name = url.split("/").pop() || "File";
         return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
@@ -140553,7 +140485,7 @@ function AdminMedia() {
             initial: { opacity: 0, scale: 0.9 },
             animate: { opacity: 1, scale: 1 },
             exit: { opacity: 0, scale: 0.9 },
-            className: "group relative rounded-xl border border-slate-200 bg-slate-50 overflow-hidden flex flex-col",
+            className: "group relative flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-slate-50",
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "h-40 w-full bg-slate-200 flex items-center justify-center overflow-hidden relative", children: [
                 isImage2 ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("img", { src: url, alt: name, className: "w-full h-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "flex flex-col items-center text-slate-400", children: [
@@ -141215,7 +141147,7 @@ function safeParseJson(value, fallback) {
 var sharedMediaConfigs = {
   home: {
     scalar: ["heroBgImage", "supplyReachBgImage", "ctaBgImage"],
-    mixedImageArrays: ["progressSlider", "productCategories", "exportMarkets"]
+    mixedImageArrays: ["productCategories", "exportMarkets"]
   },
   about: {
     scalar: ["missionPhotography"],
@@ -141233,6 +141165,14 @@ var sharedMediaConfigs = {
     scalar: ["headquartersImage"]
   }
 };
+function sanitizeFlexiblePageContent(pageId, content) {
+  if (!content || typeof content !== "object" || Array.isArray(content)) return {};
+  const next = { ...content };
+  if (pageId === "home") {
+    delete next.progressSlider;
+  }
+  return next;
+}
 function hasOwn(value, key) {
   return Object.prototype.hasOwnProperty.call(value, key);
 }
@@ -141569,18 +141509,20 @@ async function readContentTable(pageId, locale = "en") {
   const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
   const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === resolvedLocale);
   const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
-  const targetContent = safeParseJson(row?.content, fallback);
+  const targetContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback));
   const config = sharedMediaConfigs[pageId];
   const contents = res.rows.map((candidate) => ({
     lang: asString(candidate?.lang, "en"),
-    content: safeParseJson(candidate?.content, {})
+    content: sanitizeFlexiblePageContent(pageId, safeParseJson(candidate?.content, {}))
   }));
   const sharedContent = pickSharedMediaContent(contents, config);
-  return sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
+  const mergedContent = sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
+  return sanitizeFlexiblePageContent(pageId, mergedContent);
 }
 async function writeContentTable(pageId, content, locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(content), resolvedLocale]);
+  const sanitizedContent = sanitizeFlexiblePageContent(pageId, content);
+  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(sanitizedContent), resolvedLocale]);
 }
 async function syncFlexiblePageSharedMedia(pageId, sourceContent) {
   const config = sharedMediaConfigs[pageId];
@@ -141589,9 +141531,21 @@ async function syncFlexiblePageSharedMedia(pageId, sourceContent) {
   const res = await db.query(`SELECT lang, content FROM ${tableName} WHERE id = 1`);
   await Promise.all(activeLocales.map(async (locale) => {
     const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === locale);
-    const existingContent = safeParseJson(row?.content, {});
-    const nextContent = applySharedMedia(existingContent, sourceContent, config);
+    const existingContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, {}));
+    const nextContent = sanitizeFlexiblePageContent(pageId, applySharedMedia(existingContent, sourceContent, config));
     await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(nextContent), locale]);
+  }));
+}
+async function purgeDeprecatedHomeProgressSlider() {
+  const res = await db.query("SELECT lang, content FROM home_page WHERE id = 1");
+  await Promise.all(res.rows.map(async (row) => {
+    const content = safeParseJson(row?.content, null);
+    if (!content || typeof content !== "object" || Array.isArray(content) || !hasOwn(content, "progressSlider")) return;
+    delete content.progressSlider;
+    await db.query("UPDATE home_page SET content = $1 WHERE id = 1 AND lang = $2", [
+      JSON.stringify(content),
+      asString(row?.lang, "en")
+    ]);
   }));
 }
 async function syncGlobalSharedMedia(settings) {
@@ -142433,7 +142387,8 @@ if (import_fs.default.existsSync(distDir)) {
   });
 }
 var port = process.env.PORT || 1e4;
-initDb().then(() => {
+initDb().then(async () => {
+  await purgeDeprecatedHomeProgressSlider();
   app.listen(port, () => {
     console.log(`\u2705 Server listening on: ${port}`);
   });

@@ -130,10 +130,10 @@ export function AdminProducts() {
   };
 
   const renderProductForm = (id: string) => (
-    <div className="p-4 sm:p-6 bg-slate-50/50 border-t border-slate-100">
-      <form id={`form-product-${id}`} onSubmit={handleSaveProduct} className="space-y-5">
-        <div className="grid gap-5 lg:grid-cols-2">
-          <div className="space-y-4">
+    <div className="border-t border-slate-100 p-3 sm:p-4">
+      <form id={`form-product-${id}`} onSubmit={handleSaveProduct} className="space-y-4">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="space-y-3">
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2">Product Name *</label>
               <input
@@ -186,16 +186,16 @@ export function AdminProducts() {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <ImageUploader
               label="Primary Feature Image"
               value={formData.image}
               onChange={url => setFormData({ ...formData, image: url })}
             />
 
-            <div className="bg-white rounded-xl p-4 border border-slate-200">
-              <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Nutritional Facts (per 100g)</h4>
-              <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-lg border border-slate-200 bg-white/60 p-3">
+              <h4 className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Nutritional Facts (per 100g)</h4>
+              <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Energy (kcal)</label>
                   <input
@@ -241,7 +241,7 @@ export function AdminProducts() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <RichTextEditor
             label="Product Storytelling / Long Description"
             value={formData.longDescription || ""}
@@ -254,7 +254,7 @@ export function AdminProducts() {
             emptyItem={{ title: "", body: "" }}
             onUpdate={(items) => setFormData({ ...formData, contentSections: items })}
             renderItem={(item, index, updateItem, replaceItem) => (
-              <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-4">
+              <div className="space-y-3">
                 <div>
                   <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-500">
                     Section Title
@@ -277,7 +277,7 @@ export function AdminProducts() {
           />
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-2 pt-2">
+        <div className="grid gap-4 pt-1 lg:grid-cols-2">
           <Repeater<string>
             label="Product Highlights"
             items={formData.highlights || []}
@@ -330,7 +330,7 @@ export function AdminProducts() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <AnimatePresence>
         {successMessage && (
           <motion.div
@@ -344,7 +344,7 @@ export function AdminProducts() {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-2xl font-bold text-slate-900">Products Catalog ({editingLang.toUpperCase()})</h2>
           <p className="text-sm text-slate-500">Manage your dried fruits inventory for the {editingLang.toUpperCase()} version.</p>
@@ -357,16 +357,16 @@ export function AdminProducts() {
           {editingId === "new" ? "Cancel Adding" : "Add New Product"}
         </Button>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3">
         <AnimatePresence>
           {editingId === "new" && (
             <motion.div
               initial={{ height: 0, opacity: 0, y: -20 }}
               animate={{ height: "auto", opacity: 1, y: 0 }}
               exit={{ height: 0, opacity: 0, y: -20 }}
-              className="rounded-xl border-2 border-dashed border-earth-300 bg-earth-50/30 overflow-hidden"
+              className="overflow-hidden rounded-lg border border-dashed border-earth-300 bg-earth-50/30"
             >
-              <div className="px-6 py-4 bg-earth-50 border-b border-earth-200">
+              <div className="border-b border-earth-200 bg-earth-50 px-4 py-3">
                 <h3 className="font-bold text-earth-900 flex items-center gap-2">
                   <Plus size={18} /> New {editingLang.toUpperCase()} Product Drafting
                 </h3>
@@ -381,11 +381,11 @@ export function AdminProducts() {
           return (
             <div
               key={product.id}
-              className={`rounded-xl border transition-all duration-300 overflow-hidden ${isExpanded ? 'border-earth-300 shadow-xl ring-1 ring-earth-500/10' : 'border-slate-200 bg-white shadow-sm hover:border-earth-200'}`}
+              className={`overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? 'border-earth-300 bg-white ring-1 ring-earth-500/10' : 'border-slate-200 bg-white hover:border-earth-200'}`}
             >
               <div
                 onClick={() => handleToggleAccordion(product.id, product)}
-                className={`group flex items-center justify-between px-6 py-4 cursor-pointer select-none transition-colors ${isExpanded ? 'bg-earth-50' : 'hover:bg-slate-50'}`}
+                className={`group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? 'bg-earth-50/70' : 'hover:bg-slate-50'}`}
               >
                 <div className="flex items-center gap-4 min-w-0">
                   <div className={`h-14 w-14 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${isExpanded ? 'border-earth-600 shadow-md' : 'border-slate-100 group-hover:border-earth-200'}`}>
