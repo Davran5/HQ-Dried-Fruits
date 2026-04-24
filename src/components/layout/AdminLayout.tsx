@@ -12,19 +12,23 @@ import {
   Leaf,
   ImageIcon,
   Globe,
-  Lock,
   Eye,
   EyeOff,
   Languages,
+  Save,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { AdminLanguageProvider, useAdminLanguage, SUPPORTED_EDIT_LANGUAGES, languageNames } from "@/src/contexts/AdminLanguageContext";
+import { usePages } from "@/src/contexts/PageContext";
 
 interface SidebarAction {
   label: string;
   formId?: string;
   onClick?: () => void;
+  disabled?: boolean;
+  isLoading?: boolean;
 }
 
 interface AdminSidebarActionContextValue {
@@ -56,8 +60,24 @@ function clearStoredToken() {
   try { localStorage.removeItem(AUTH_KEY); } catch {}
 }
 
+function AdminBrandMark({ logo, className }: { logo?: string; className?: string }) {
+  if (logo) {
+    return (
+      <span className={cn("flex items-center justify-center overflow-hidden rounded-xl bg-white", className)}>
+        <img src={logo} alt="HQ Dried Fruits logo" className="h-full w-full object-contain" />
+      </span>
+    );
+  }
+
+  return (
+    <span className={cn("flex items-center justify-center rounded-xl bg-earth-600 text-white", className)}>
+      <Leaf size={20} />
+    </span>
+  );
+}
+
 // ---------- Login Screen ----------
-function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
+function LoginScreen({ onSuccess, brandLogo }: { onSuccess: () => void; brandLogo?: string }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -98,9 +118,7 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
       >
         {/* Logo / Brand */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-earth-600 shadow-lg shadow-earth-900/40">
-            <Lock size={24} className="text-white" />
-          </div>
+          <AdminBrandMark logo={brandLogo} className="mx-auto mb-4 h-14 w-14 rounded-2xl shadow-lg shadow-earth-900/40" />
           <h1 className="font-display text-2xl font-bold text-white">Control Room</h1>
           <p className="mt-1 text-sm text-slate-400">Sign in to manage your website</p>
         </div>
@@ -180,9 +198,12 @@ function AdminLayoutContent() {
   const [action, setAction] = useState<SidebarAction | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
+  const { globalSettings } = usePages();
   const location = useLocation();
   const navigate = useNavigate();
   const actionContextValue = useMemo(() => ({ action, setAction }), [action]);
+  const brandLogo = globalSettings.headerLogo || "";
+  const siteName = globalSettings.siteName || "HQ Dried Fruits";
 
   // Verify stored token with the server on mount
   useEffect(() => {
@@ -204,6 +225,29 @@ function AdminLayoutContent() {
     navigate("/control-room");
   };
 
+  useEffect(() => {
+    if (!action) return undefined;
+
+    const handleSaveShortcut = (event: KeyboardEvent) => {
+      if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== "s") return;
+      event.preventDefault();
+
+      if (action.disabled || action.isLoading) return;
+      if (action.onClick) {
+        action.onClick();
+        return;
+      }
+
+      if (action.formId) {
+        const form = document.getElementById(action.formId) as HTMLFormElement | null;
+        form?.requestSubmit();
+      }
+    };
+
+    window.addEventListener("keydown", handleSaveShortcut);
+    return () => window.removeEventListener("keydown", handleSaveShortcut);
+  }, [action]);
+
   // Still checking auth
   if (isAuthenticated === null) {
     return (
@@ -215,7 +259,7 @@ function AdminLayoutContent() {
 
   // Not logged in → show login screen
   if (!isAuthenticated) {
-    return <LoginScreen onSuccess={() => setIsAuthenticated(true)} />;
+    return <LoginScreen onSuccess={() => setIsAuthenticated(true)} brandLogo={brandLogo} />;
   }
 
   const currentLink = sidebarLinks.find((link) => link.path === location.pathname) || sidebarLinks[0];
@@ -242,9 +286,9 @@ function AdminLayoutContent() {
         >
           <div className="flex h-16 items-center justify-between px-6 border-b border-slate-800">
             <Link to="/" className="flex items-center gap-2 text-white">
-              <Leaf size={20} className="text-earth-500" />
+              <AdminBrandMark logo={brandLogo} className="h-9 w-9" />
               <span className="font-display text-lg font-bold tracking-tight">
-                HQ Dried Fruits <span className="text-earth-500">Admin</span>
+                {siteName} <span className="text-earth-500">Admin</span>
               </span>
             </Link>
             <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-400 hover:text-white">
@@ -274,19 +318,6 @@ function AdminLayoutContent() {
               );
             })}
           </nav>
-
-          {action && (
-            <div className="border-t border-slate-800 p-4">
-              <button
-                type={action.formId ? "submit" : "button"}
-                form={action.formId}
-                onClick={action.onClick}
-                className="flex w-full items-center justify-center rounded-lg bg-earth-600 px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-earth-700"
-              >
-                {action.label}
-              </button>
-            </div>
-          )}
 
           <div className="px-4 py-4 mt-2 border-y border-slate-800 bg-slate-800/30">
             <div className="mb-3 px-1 text-[10px] font-bold uppercase tracking-wider text-earth-500 flex items-center gap-2">
@@ -355,16 +386,39 @@ function AdminLayoutContent() {
               </div>
               
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-earth-600 flex items-center justify-center text-sm font-bold text-white">
-                  A
-                </div>
+                <AdminBrandMark logo={brandLogo} className="h-8 w-8 rounded-full" />
               </div>
             </div>
           </header>
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          <main className="flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8">
             <Outlet />
           </main>
         </div>
+        <AnimatePresence>
+          {action && (
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.96 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              className="fixed bottom-4 right-4 z-[80] sm:bottom-6 sm:right-6 lg:right-8"
+            >
+              <button
+                type={action.formId ? "submit" : "button"}
+                form={action.formId}
+                onClick={action.onClick}
+                disabled={action.disabled || action.isLoading}
+                className="flex min-w-[11rem] items-center justify-center gap-2 rounded-2xl bg-earth-600 px-5 py-3 text-sm font-bold text-white shadow-2xl shadow-earth-900/25 transition-all hover:bg-earth-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {action.isLoading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+                {action.label}
+              </button>
+              <div className="mt-2 hidden text-center text-[11px] font-semibold text-slate-500 sm:block">
+                Ctrl / Cmd + S
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </AdminSidebarActionContext.Provider>
   );

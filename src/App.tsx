@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 import { FrontPage } from "./pages/FrontPage";
 import { About } from "./pages/About";
@@ -65,6 +66,28 @@ function NotFoundPage() {
   );
 }
 
+function FaviconUpdater() {
+  const { globalSettings } = usePages();
+  const faviconUrl = globalSettings.headerLogo || "";
+
+  useEffect(() => {
+    document
+      .querySelectorAll<HTMLLinkElement>('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]')
+      .forEach((link) => link.remove());
+
+    if (!faviconUrl) return;
+
+    ["icon", "apple-touch-icon"].forEach((rel) => {
+      const link = document.createElement("link");
+      link.rel = rel;
+      link.href = faviconUrl;
+      document.head.appendChild(link);
+    });
+  }, [faviconUrl]);
+
+  return null;
+}
+
 function PublicRouteResolver() {
   const location = useLocation();
   const normalizedPath = normalizePath(location.pathname);
@@ -126,6 +149,7 @@ export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload
         <MediaProvider>
           <PageProvider initialData={initialData}>
             <ProductProvider initialData={initialData}>
+              <FaviconUpdater />
               <ScrollToTop />
               <Routes>
                 <Route path="/control-room" element={<AdminLayout />}>

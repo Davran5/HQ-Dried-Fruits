@@ -182,6 +182,15 @@ export function detectPreferredLocale(): ActiveLocaleCode {
   return matchPreferredLocale(browserCandidates);
 }
 
+export function detectDeviceLocale(): ActiveLocaleCode {
+  if (typeof window === "undefined") {
+    return "en";
+  }
+
+  const browserCandidates = [navigator.language, ...(navigator.languages ?? [])].filter(Boolean);
+  return matchPreferredLocale(browserCandidates);
+}
+
 export function saveLocalePreference(locale: LocaleCode) {
   if (typeof window === "undefined") {
     return;

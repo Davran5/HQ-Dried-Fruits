@@ -13,9 +13,9 @@ export function FormSection({ title, children, defaultOpen = true, actions }: Fo
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
       <div
-        className={`flex items-center justify-between gap-4 px-6 py-4 transition-colors ${
+        className={`flex items-center justify-between gap-3 px-4 py-3 transition-colors ${
           isOpen ? "bg-earth-50" : "hover:bg-slate-50"
         }`}
       >
@@ -24,7 +24,7 @@ export function FormSection({ title, children, defaultOpen = true, actions }: Fo
           onClick={() => setIsOpen((value) => !value)}
           className="flex flex-1 items-center justify-between gap-4 text-left"
         >
-          <h4 className="text-lg font-bold text-slate-800">{title}</h4>
+          <h4 className="text-base font-bold text-slate-800">{title}</h4>
           <div
             className={`rounded-full p-2 transition-all duration-300 ${
               isOpen ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400"
@@ -45,7 +45,7 @@ export function FormSection({ title, children, defaultOpen = true, actions }: Fo
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden border-t border-slate-100"
           >
-            <div className="space-y-4 p-6">{children}</div>
+            <div className="space-y-4 p-4">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>

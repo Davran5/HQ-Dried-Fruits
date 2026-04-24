@@ -8,7 +8,7 @@ interface ProductContextType {
     products: Product[];
     productsLoaded: boolean;
     currentLocale: ActiveLocaleCode;
-    addProduct: (product: Omit<Product, "id">, locale?: LocaleCode) => Promise<void>;
+    addProduct: (product: Omit<Product, "id">, locale?: LocaleCode) => Promise<Product>;
     updateProduct: (id: string, product: Omit<Product, "id">, locale?: LocaleCode) => Promise<void>;
     deleteProduct: (id: string) => Promise<void>;
     refreshProducts: (locale?: LocaleCode) => Promise<void>;
@@ -76,9 +76,9 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
             });
             if (response.ok) {
                 const payload = await response.json().catch(() => null);
-                if (targetLocale === locale) {
-                    setProducts(prev => [...prev, payload?.product || newProduct]);
-                }
+                const savedProduct = payload?.product || newProduct;
+                setProducts(prev => [...prev, savedProduct]);
+                return savedProduct;
             } else {
                 const payload = await response.json().catch(() => null);
                 throw new Error(payload?.error || "Failed to add product on server");
@@ -101,9 +101,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
             });
             if (response.ok) {
                 const payload = await response.json().catch(() => null);
-                if (targetLocale === locale) {
-                    setProducts(prev => prev.map(p => p.id === id ? (payload?.product || updatedProduct) : p));
-                }
+                setProducts(prev => prev.map(p => p.id === id ? (payload?.product || updatedProduct) : p));
             } else {
                 const payload = await response.json().catch(() => null);
                 throw new Error(payload?.error || "Failed to update product on server");

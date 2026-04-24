@@ -427,6 +427,135 @@ function safeParseJson<T>(value: unknown, fallback: T): T {
   }
 }
 
+type SharedMediaConfig = {
+  scalar?: string[];
+  imageOnlyArrays?: string[];
+  mixedImageArrays?: string[];
+};
+
+const sharedMediaConfigs: Record<string, SharedMediaConfig> = {
+  home: {
+    scalar: ["heroBgImage", "supplyReachBgImage", "ctaBgImage"],
+    mixedImageArrays: ["progressSlider", "productCategories", "exportMarkets"],
+  },
+  about: {
+    scalar: ["missionPhotography"],
+    imageOnlyArrays: ["productionMarqueeImages", "partnerLogos", "heritageImagery"],
+    mixedImageArrays: ["ownProductionItems"],
+  },
+  products: {
+    scalar: ["heroBgImage", "orderingBgImage"],
+  },
+  export: {
+    scalar: ["heroBgImage"],
+    mixedImageArrays: ["supplyRoutes", "certificationsGallery"],
+  },
+  contacts: {
+    scalar: ["headquartersImage"],
+  },
+};
+
+function hasOwn(value: Record<string, unknown>, key: string) {
+  return Object.prototype.hasOwnProperty.call(value, key);
+}
+
+function localePreferenceRows(rows: any[], order: readonly string[]) {
+  const used = new Set<any>();
+  const ordered = order
+    .map((locale) => rows.find((row) => asString(row?.lang, "en") === locale))
+    .filter(Boolean);
+  ordered.forEach((row) => used.add(row));
+  return [...ordered, ...rows.filter((row) => !used.has(row))];
+}
+
+function sharedMediaRows(rows: any[]) {
+  return localePreferenceRows(rows, ["en", ...activeLocales.filter((locale) => locale !== "en")]);
+}
+
+function arrayHasImage(items: unknown) {
+  if (!Array.isArray(items)) return false;
+  return items.some((item) => {
+    if (typeof item === "string") return item.trim().length > 0;
+    if (!item || typeof item !== "object" || Array.isArray(item)) return false;
+    return asString((item as any).image).trim().length > 0;
+  });
+}
+
+function hasSharedMedia(content: any, config?: SharedMediaConfig) {
+  if (!config || !content || typeof content !== "object") return false;
+
+  if ((config.scalar || []).some((key) => asString(content[key]).trim().length > 0)) return true;
+  if ((config.imageOnlyArrays || []).some((key) => arrayHasImage(content[key]))) return true;
+  if ((config.mixedImageArrays || []).some((key) => arrayHasImage(content[key]))) return true;
+
+  return false;
+}
+
+function mergeMixedImageArray(sourceItems: unknown, targetItems: unknown) {
+  if (!Array.isArray(sourceItems)) return Array.isArray(targetItems) ? targetItems : [];
+  const existingItems = Array.isArray(targetItems) ? targetItems : [];
+
+  return sourceItems.map((sourceItem, index) => {
+    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
+      return sourceItem;
+    }
+
+    const existingItem = existingItems[index];
+    const base = existingItem && typeof existingItem === "object" && !Array.isArray(existingItem)
+      ? { ...(existingItem as Record<string, unknown>) }
+      : { ...(sourceItem as Record<string, unknown>) };
+
+    base.image = asString((sourceItem as any).image);
+    return base;
+  });
+}
+
+function applySharedMedia(targetContent: any, sourceContent: any, config?: SharedMediaConfig) {
+  if (!config || !sourceContent || typeof sourceContent !== "object") return targetContent;
+  const next = targetContent && typeof targetContent === "object" && !Array.isArray(targetContent)
+    ? { ...targetContent }
+    : {};
+
+  for (const key of config.scalar || []) {
+    if (hasOwn(sourceContent, key)) next[key] = asString(sourceContent[key]);
+  }
+
+  for (const key of config.imageOnlyArrays || []) {
+    if (hasOwn(sourceContent, key)) next[key] = Array.isArray(sourceContent[key]) ? sourceContent[key] : [];
+  }
+
+  for (const key of config.mixedImageArrays || []) {
+    if (hasOwn(sourceContent, key)) next[key] = mergeMixedImageArray(sourceContent[key], next[key]);
+  }
+
+  return next;
+}
+
+function pickSharedMediaContent(contents: Array<{ lang: string; content: any }>, config?: SharedMediaConfig) {
+  return sharedMediaRows(contents)
+    .map((entry) => entry.content)
+    .find((content) => hasSharedMedia(content, config));
+}
+
+function pickSharedMediaField(rows: any[], field: string, fallback: unknown = "") {
+  const row = sharedMediaRows(rows).find((candidate) => {
+    const value = candidate?.[field];
+    if (typeof value !== "string" || !value.trim()) return false;
+    if (value.trim().startsWith("[")) return safeParseJson<unknown[]>(value, []).length > 0;
+    return true;
+  });
+
+  return row ? row[field] : fallback;
+}
+
+function mergeProductSharedMedia(row: any, rows: any[]) {
+  return {
+    ...row,
+    image: asString(pickSharedMediaField(rows, "image", row?.image)),
+    image_gallery: pickSharedMediaField(rows, "image_gallery", row?.image_gallery),
+  };
+}
+
 function createLeadId() {
   const timestamp = new Date().toISOString().replace(/\D/g, "").slice(2, 14);
   return `L-${timestamp}-${Math.floor(100 + Math.random() * 900)}`;
@@ -543,8 +672,13 @@ async function ensureSingletonRow(tableName: string) {
 
 async function getGlobalSettings(locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  const res = await db.query("SELECT * FROM global_settings WHERE id = 1 AND lang = $1", [resolvedLocale]);
-  return mapGlobalSettings(res.rows[0] || {});
+  const res = await db.query("SELECT * FROM global_settings WHERE id = 1");
+  const targetRow = res.rows.find((row: any) => asString(row?.lang, "en") === resolvedLocale) || {};
+  return mapGlobalSettings({
+    ...targetRow,
+    header_logo: pickSharedMediaField(res.rows, "header_logo", targetRow?.header_logo),
+    footer_logo: pickSharedMediaField(res.rows, "footer_logo", targetRow?.footer_logo),
+  });
 }
 
 async function getPageSeo(locale: string = "en") {
@@ -577,7 +711,8 @@ async function findProductRowByIdentifier(identifier: string, locale: string = "
     const rowSlug = asString(safeParseJson<Partial<SeoRecord>>(row?.seo, {}).slug);
     return normalizeSlug(rowId, rowId) === normalizedIdentifier || normalizeSlug(rowSlug, rowId) === normalizedIdentifier;
   });
-  return getPreferredProductRow(matches, locale);
+  const preferredRow = getPreferredProductRow(matches, locale);
+  return preferredRow ? mergeProductSharedMedia(preferredRow, matches) : null;
 }
 
 function mapSeoRecord(row: any, pageId: PageId): SeoRecord {
@@ -632,15 +767,88 @@ function mapContactsPage(row: any) {
 
 async function readContentTable(pageId: keyof typeof pageContentTables, locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  const res = await db.query(`SELECT content FROM ${pageContentTables[pageId]} WHERE id = 1 AND lang = $1`, [resolvedLocale]);
-  const row = res.rows[0];
+  const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
+  const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === resolvedLocale);
   const fallback = (pageId === "privacy" || pageId === "terms") ? defaultSimplePages[pageId as keyof typeof defaultSimplePages] : {};
-  return safeParseJson(row?.content, fallback);
+  const targetContent = safeParseJson(row?.content, fallback);
+  const config = sharedMediaConfigs[pageId];
+  const contents = res.rows.map((candidate: any) => ({
+    lang: asString(candidate?.lang, "en"),
+    content: safeParseJson(candidate?.content, {}),
+  }));
+  const sharedContent = pickSharedMediaContent(contents, config);
+  return sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
 }
 
 async function writeContentTable(pageId: keyof typeof pageContentTables, content: Record<string, unknown>, locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
   await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(content), resolvedLocale]);
+}
+
+async function syncFlexiblePageSharedMedia(pageId: keyof typeof pageContentTables, sourceContent: Record<string, unknown>) {
+  const config = sharedMediaConfigs[pageId];
+  if (!config) return;
+
+  const tableName = pageContentTables[pageId];
+  const res = await db.query(`SELECT lang, content FROM ${tableName} WHERE id = 1`);
+
+  await Promise.all(activeLocales.map(async (locale) => {
+    const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === locale);
+    const existingContent = safeParseJson(row?.content, {});
+    const nextContent = applySharedMedia(existingContent, sourceContent, config);
+    await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(nextContent), locale]);
+  }));
+}
+
+async function syncGlobalSharedMedia(settings: any) {
+  await db.query(
+    "UPDATE global_settings SET header_logo = $1, footer_logo = $2 WHERE id = 1",
+    [asString(settings.headerLogo), asString(settings.footerLogo)],
+  );
+}
+
+async function syncProductsPageSharedMedia(content: any) {
+  await db.query(
+    "UPDATE products_page SET hero_bg_image = $1, ordering_bg_image = $2 WHERE id = 1",
+    [asString(content.heroBgImage), asString(content.orderingBgImage)],
+  );
+}
+
+async function syncExportPageSharedMedia(content: any) {
+  const res = await db.query("SELECT lang, supply_routes, certifications_gallery FROM export_page WHERE id = 1");
+
+  await Promise.all(activeLocales.map(async (locale) => {
+    const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === locale);
+    const existingContent = {
+      supplyRoutes: safeParseJson(row?.supply_routes, []),
+      certificationsGallery: safeParseJson(row?.certifications_gallery, []),
+    };
+    const nextContent = applySharedMedia(existingContent, content, sharedMediaConfigs.export);
+
+    await db.query(
+      "UPDATE export_page SET hero_bg_image = $1, supply_routes = $2, certifications_gallery = $3 WHERE id = 1 AND lang = $4",
+      [
+        asString(content.heroBgImage),
+        JSON.stringify(Array.isArray(nextContent.supplyRoutes) ? nextContent.supplyRoutes : []),
+        JSON.stringify(Array.isArray(nextContent.certificationsGallery) ? nextContent.certificationsGallery : []),
+        locale,
+      ],
+    );
+  }));
+}
+
+async function syncContactsPageSharedMedia(content: any) {
+  await db.query(
+    "UPDATE contacts_page SET headquarters_image = $1 WHERE id = 1",
+    [asString(content.headquartersImage)],
+  );
+}
+
+async function syncProductSharedMedia(product: any) {
+  await db.query(
+    "UPDATE products SET image = $1, image_gallery = $2 WHERE id = $3",
+    [asString(product.image), JSON.stringify(Array.isArray(product.imageGallery) ? product.imageGallery : []), asString(product.id)],
+  );
 }
 
 function getManagedProductSlug(product: ReturnType<typeof mapProduct>) { return normalizeSlug(asString(product.seo?.slug), normalizeSlug(product.id, product.id)); }
@@ -659,24 +867,40 @@ async function getProductsForLocale(locale: string = "en") {
   });
 
   return Array.from(rowsById.values())
-    .map((rows) => getPreferredProductRow(rows, resolvedLocale))
+    .map((rows) => {
+      const preferredRow = getPreferredProductRow(rows, resolvedLocale);
+      return preferredRow ? mergeProductSharedMedia(preferredRow, rows) : null;
+    })
     .filter(Boolean)
     .map(mapProduct);
+}
+
+async function getSharedStructuredPageContent(tableName: string, locale: string, mapper: (row: any) => any, config: SharedMediaConfig) {
+  const resolvedLocale = normalizeLocale(locale);
+  const res = await db.query(`SELECT * FROM ${tableName} WHERE id = 1`);
+  const targetRow = res.rows.find((row: any) => asString(row?.lang, "en") === resolvedLocale) || {};
+  const targetContent = mapper(targetRow);
+  const mappedContents = res.rows.map((row: any) => ({
+    lang: asString(row?.lang, "en"),
+    content: mapper(row),
+  }));
+  const sharedContent = pickSharedMediaContent(mappedContents, config);
+  return sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
 }
 
 async function getPageContent(pageId: PageId, locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
 
   if (pageId === "products") {
-    return mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+    return getSharedStructuredPageContent("products_page", resolvedLocale, mapProductsPage, sharedMediaConfigs.products);
   }
 
   if (pageId === "export") {
-    return mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+    return getSharedStructuredPageContent("export_page", resolvedLocale, mapExportPage, sharedMediaConfigs.export);
   }
 
   if (pageId === "contacts") {
-    return mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+    return getSharedStructuredPageContent("contacts_page", resolvedLocale, mapContactsPage, sharedMediaConfigs.contacts);
   }
 
   if (pageId in pageContentTables) {
@@ -826,6 +1050,7 @@ type RenderMeta = {
   ogType: string;
   siteName: string;
   googleSiteVerificationId: string;
+  faviconUrl?: string;
   redirectTo?: string;
   appHtml?: string;
   bootstrapData?: any;
@@ -865,6 +1090,7 @@ function renderHtmlWithSeo(template: string, meta: RenderMeta) {
     /<meta[^>]+property="og:url"[^>]*>/gi,
     /<meta[^>]+property="og:site_name"[^>]*>/gi,
     /<link[^>]+rel="canonical"[^>]*>/gi,
+    /<link[^>]+rel="(?:icon|shortcut icon|apple-touch-icon)"[^>]*>/gi,
     /<link[^>]+rel="alternate"[^>]*hreflang="[^"]+"[^>]*>/gi,
   ];
   let html = template;
@@ -898,6 +1124,10 @@ function renderHtmlWithSeo(template: string, meta: RenderMeta) {
   }
   if (meta.googleSiteVerificationId) {
     tags.push(`<meta name="google-site-verification" content="${escapeHtml(meta.googleSiteVerificationId)}" />`);
+  }
+  if (meta.faviconUrl) {
+    tags.push(`<link rel="icon" href="${escapeHtml(meta.faviconUrl)}" />`);
+    tags.push(`<link rel="apple-touch-icon" href="${escapeHtml(meta.faviconUrl)}" />`);
   }
   for (const alternate of meta.alternateLinks || []) {
     tags.push(`<link rel="alternate" hreflang="${escapeHtml(alternate.hrefLang)}" href="${escapeHtml(alternate.href)}" />`);
@@ -1020,6 +1250,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "website",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      faviconUrl: defaultImage,
       alternateLinks: buildSelectorAlternates(origin),
     };
   }
@@ -1043,6 +1274,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "website",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      faviconUrl: defaultImage,
       alternateLinks: [],
     };
   }
@@ -1068,6 +1300,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "website",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      faviconUrl: defaultImage,
       redirectTo: legacyStaticMatch.canonicalPath,
       alternateLinks: await buildPageAlternates(legacyStaticMatch.pageId, origin),
     };
@@ -1094,6 +1327,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "product",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
+      faviconUrl: defaultImage,
       redirectTo: legacyProductMatch.canonicalPath,
       alternateLinks: await buildProductAlternates(legacyProductMatch.product.id, origin),
     };
@@ -1109,6 +1343,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
   const baseMeta = {
     siteName,
     googleSiteVerificationId,
+    faviconUrl: defaultImage,
   };
 
   const staticMatch = resolveStaticLocalePageByPath(normalizedPath, pageSeo, locale);
@@ -1202,6 +1437,7 @@ app.post("/api/globals", async (req, res) => {
     const settings = req.body ?? {};
     const locale = getRequestLocale(req);
     await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1 AND lang = $19`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), locale]);
+    await syncGlobalSharedMedia(settings);
     res.json({ success: true });
   } catch (error) { res.status(500).json({ error: "Update failed" }); }
 });
@@ -1242,6 +1478,7 @@ app.post("/api/products", async (req, res) => {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, "", locale);
     await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), locale]);
+    await syncProductSharedMedia(product);
     res.json({ success: true, id: product.id, product });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" }); }
 });
@@ -1273,6 +1510,7 @@ app.post("/api/products/:id", async (req, res) => {
           locale,
         ],
       );
+      await syncProductSharedMedia({ ...product, id: asString(req.params.id) });
       return res.json({ success: true, product: { ...product, id: asString(req.params.id) } });
     }
 
@@ -1281,6 +1519,7 @@ app.post("/api/products/:id", async (req, res) => {
       [product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), asString(req.params.id), locale],
     );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
+    await syncProductSharedMedia(product);
     res.json({ success: true, product });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" }); }
 });
@@ -1308,18 +1547,22 @@ app.post("/api/pages/:id", async (req, res) => {
     const content = req.body ?? {};
     if (pageId === "products") {
       await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
+      await syncProductsPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "export") {
       await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1 AND lang = $17`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
+      await syncExportPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
       await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
+      await syncContactsPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId in pageContentTables) {
       await writeContentTable(pageId as keyof typeof pageContentTables, content, locale);
+      await syncFlexiblePageSharedMedia(pageId as keyof typeof pageContentTables, content);
       return res.json({ success: true });
     }
     return res.status(404).json({ error: "Page template not found" });

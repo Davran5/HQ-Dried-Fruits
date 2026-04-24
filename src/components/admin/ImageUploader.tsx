@@ -42,7 +42,7 @@ export function ImageUploader({ label, value, onChange, placeholder }: ImageUplo
     };
 
     return (
-        <div className="space-y-3">
+        <div className="space-y-2.5">
             <label className="block text-sm font-bold text-slate-700">{label}</label>            <div className="flex items-start gap-4">
                 <div className="relative h-24 w-24 shrink-0 rounded-xl border-2 border-slate-200 bg-slate-50 overflow-hidden shadow-inner flex items-center justify-center">
                     {isInternalImage(value) ? (

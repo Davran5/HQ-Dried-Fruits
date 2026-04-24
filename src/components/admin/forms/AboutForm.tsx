@@ -12,7 +12,7 @@ interface Props {
 
 export function AboutForm({ content, updateContent }: Props) {
     return (
-        <div className="space-y-8">
+        <div className="space-y-4">
             <FormSection title="1. Marquee Hero">
 
                 <div>

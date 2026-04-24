@@ -15194,11 +15194,11 @@ var require_object_inspect = __commonJS({
       }
       return false;
     }
-    var hasOwn = Object.prototype.hasOwnProperty || function(key) {
+    var hasOwn2 = Object.prototype.hasOwnProperty || function(key) {
       return key in this;
     };
     function has(obj, key) {
-      return hasOwn.call(obj, key);
+      return hasOwn2.call(obj, key);
     }
     function toStr(obj) {
       return objectToString.call(obj);
@@ -16196,7 +16196,7 @@ var require_get_intrinsic = __commonJS({
       "%WeakSetPrototype%": ["WeakSet", "prototype"]
     };
     var bind = require_function_bind();
-    var hasOwn = require_hasown();
+    var hasOwn2 = require_hasown();
     var $concat = bind.call($call, Array.prototype.concat);
     var $spliceApply = bind.call($apply, Array.prototype.splice);
     var $replace = bind.call($call, String.prototype.replace);
@@ -16221,11 +16221,11 @@ var require_get_intrinsic = __commonJS({
     var getBaseIntrinsic = function getBaseIntrinsic2(name, allowMissing) {
       var intrinsicName = name;
       var alias;
-      if (hasOwn(LEGACY_ALIASES, intrinsicName)) {
+      if (hasOwn2(LEGACY_ALIASES, intrinsicName)) {
         alias = LEGACY_ALIASES[intrinsicName];
         intrinsicName = "%" + alias[0] + "%";
       }
-      if (hasOwn(INTRINSICS, intrinsicName)) {
+      if (hasOwn2(INTRINSICS, intrinsicName)) {
         var value = INTRINSICS[intrinsicName];
         if (value === needsEval) {
           value = doEval(intrinsicName);
@@ -16274,7 +16274,7 @@ var require_get_intrinsic = __commonJS({
         }
         intrinsicBaseName += "." + part;
         intrinsicRealName = "%" + intrinsicBaseName + "%";
-        if (hasOwn(INTRINSICS, intrinsicRealName)) {
+        if (hasOwn2(INTRINSICS, intrinsicRealName)) {
           value = INTRINSICS[intrinsicRealName];
         } else if (value != null) {
           if (!(part in value)) {
@@ -16292,7 +16292,7 @@ var require_get_intrinsic = __commonJS({
               value = value[part];
             }
           } else {
-            isOwn = hasOwn(value, part);
+            isOwn = hasOwn2(value, part);
             value = value[part];
           }
           if (isOwn && !skipFurtherCaching) {
@@ -37930,10 +37930,10 @@ var require_bom_handling2 = __commonJS({
 var require_merge_exports = __commonJS({
   "node_modules/mysql2/node_modules/iconv-lite/lib/helpers/merge-exports.js"(exports2, module2) {
     "use strict";
-    var hasOwn = typeof Object.hasOwn === "undefined" ? Function.call.bind(Object.prototype.hasOwnProperty) : Object.hasOwn;
+    var hasOwn2 = typeof Object.hasOwn === "undefined" ? Function.call.bind(Object.prototype.hasOwnProperty) : Object.hasOwn;
     function mergeModules(target, module3) {
       for (var key in module3) {
-        if (hasOwn(module3, key)) {
+        if (hasOwn2(module3, key)) {
           target[key] = module3[key];
         }
       }
@@ -55462,7 +55462,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
       );
       return [workInProgressHook.memoizedState, reducer];
     }
-    function useMemo20(nextCreate, deps) {
+    function useMemo21(nextCreate, deps) {
       currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
       workInProgressHook = createWorkInProgressHook();
       deps = void 0 === deps ? null : deps;
@@ -55578,7 +55578,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
         resolveCurrentlyRenderingComponent();
         return context._currentValue2;
       },
-      useMemo: useMemo20,
+      useMemo: useMemo21,
       useReducer,
       useRef: function(initialValue) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -55592,7 +55592,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
       useInsertionEffect: noop2,
       useLayoutEffect: noop2,
       useCallback: function(callback, deps) {
-        return useMemo20(function() {
+        return useMemo21(function() {
           return callback;
         }, deps);
       },
@@ -60661,7 +60661,7 @@ var require_react_dom_server_node_production = __commonJS({
       );
       return [workInProgressHook.memoizedState, reducer];
     }
-    function useMemo20(nextCreate, deps) {
+    function useMemo21(nextCreate, deps) {
       currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
       workInProgressHook = createWorkInProgressHook();
       deps = void 0 === deps ? null : deps;
@@ -60781,7 +60781,7 @@ var require_react_dom_server_node_production = __commonJS({
         resolveCurrentlyRenderingComponent();
         return context._currentValue;
       },
-      useMemo: useMemo20,
+      useMemo: useMemo21,
       useReducer,
       useRef: function(initialValue) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -60795,7 +60795,7 @@ var require_react_dom_server_node_production = __commonJS({
       useInsertionEffect: noop2,
       useLayoutEffect: noop2,
       useCallback: function(callback, deps) {
-        return useMemo20(function() {
+        return useMemo21(function() {
           return callback;
         }, deps);
       },
@@ -66708,7 +66708,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         );
         return [workInProgressHook.memoizedState, reducer];
       }
-      function useMemo20(nextCreate, deps) {
+      function useMemo21(nextCreate, deps) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
         workInProgressHook = createWorkInProgressHook();
         deps = void 0 === deps ? null : deps;
@@ -70776,7 +70776,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
           resolveCurrentlyRenderingComponent();
           return context._currentValue2;
         },
-        useMemo: useMemo20,
+        useMemo: useMemo21,
         useReducer,
         useRef: function(initialValue) {
           currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -70791,7 +70791,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         useInsertionEffect: noop2,
         useLayoutEffect: noop2,
         useCallback: function(callback, deps) {
-          return useMemo20(function() {
+          return useMemo21(function() {
             return callback;
           }, deps);
         },
@@ -73864,7 +73864,7 @@ var require_react_dom_server_node_development = __commonJS({
         );
         return [workInProgressHook.memoizedState, reducer];
       }
-      function useMemo20(nextCreate, deps) {
+      function useMemo21(nextCreate, deps) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
         workInProgressHook = createWorkInProgressHook();
         deps = void 0 === deps ? null : deps;
@@ -78255,7 +78255,7 @@ var require_react_dom_server_node_development = __commonJS({
           resolveCurrentlyRenderingComponent();
           return context._currentValue;
         },
-        useMemo: useMemo20,
+        useMemo: useMemo21,
         useReducer,
         useRef: function(initialValue) {
           currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -78270,7 +78270,7 @@ var require_react_dom_server_node_development = __commonJS({
         useInsertionEffect: noop2,
         useLayoutEffect: noop2,
         useCallback: function(callback, deps) {
-          return useMemo20(function() {
+          return useMemo21(function() {
             return callback;
           }, deps);
         },
@@ -94773,7 +94773,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M5 12h14", key: "1ays0h" }],
       ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
     ];
-    var ArrowRight5 = createLucideIcon("arrow-right", __iconNode$ok);
+    var ArrowRight4 = createLucideIcon("arrow-right", __iconNode$ok);
     var __iconNode$oj = [
       ["path", { d: "m3 8 4-4 4 4", key: "11wl7u" }],
       ["path", { d: "M7 4v16", key: "1glfcx" }],
@@ -99946,7 +99946,7 @@ var require_lucide_react = __commonJS({
         }
       ]
     ];
-    var Flag2 = createLucideIcon("flag", __iconNode$fE);
+    var Flag = createLucideIcon("flag", __iconNode$fE);
     var __iconNode$fD = [
       [
         "path",
@@ -102319,7 +102319,7 @@ var require_lucide_react = __commonJS({
       ],
       ["path", { d: "M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12", key: "mt58a7" }]
     ];
-    var Leaf5 = createLucideIcon("leaf", __iconNode$cg);
+    var Leaf4 = createLucideIcon("leaf", __iconNode$cg);
     var __iconNode$cf = [
       [
         "path",
@@ -102426,7 +102426,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71", key: "1cjeqo" }],
       ["path", { d: "M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71", key: "19qd67" }]
     ];
-    var Link11 = createLucideIcon("link", __iconNode$c4);
+    var Link10 = createLucideIcon("link", __iconNode$c4);
     var __iconNode$c3 = [
       [
         "path",
@@ -102682,7 +102682,7 @@ var require_lucide_react = __commonJS({
       ["rect", { width: "18", height: "11", x: "3", y: "11", rx: "2", ry: "2", key: "1w4ew1" }],
       ["path", { d: "M7 11V7a5 5 0 0 1 10 0v4", key: "fwvmzm" }]
     ];
-    var Lock2 = createLucideIcon("lock", __iconNode$bA);
+    var Lock = createLucideIcon("lock", __iconNode$bA);
     var __iconNode$bz = [
       ["path", { d: "M3 5h1", key: "1mv5vm" }],
       ["path", { d: "M3 12h1", key: "lp3yf2" }],
@@ -102989,7 +102989,7 @@ var require_lucide_react = __commonJS({
       ],
       ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
     ];
-    var MapPin3 = createLucideIcon("map-pin", __iconNode$b6);
+    var MapPin4 = createLucideIcon("map-pin", __iconNode$b6);
     var __iconNode$b5 = [
       [
         "path",
@@ -106365,7 +106365,7 @@ var require_lucide_react = __commonJS({
       ["circle", { cx: "17", cy: "17", r: "3", key: "18b49y" }],
       ["circle", { cx: "7", cy: "7", r: "3", key: "dfmy0x" }]
     ];
-    var Settings22 = createLucideIcon("settings-2", __iconNode$5R);
+    var Settings2 = createLucideIcon("settings-2", __iconNode$5R);
     var __iconNode$5Q = [
       [
         "path",
@@ -109850,7 +109850,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
       ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
     ];
-    var X6 = createLucideIcon("x", __iconNode$5);
+    var X5 = createLucideIcon("x", __iconNode$5);
     var __iconNode$4 = [
       [
         "path",
@@ -109978,7 +109978,7 @@ var require_lucide_react = __commonJS({
       ArrowLeftFromLine,
       ArrowLeftRight,
       ArrowLeftToLine,
-      ArrowRight: ArrowRight5,
+      ArrowRight: ArrowRight4,
       ArrowRightFromLine,
       ArrowRightLeft,
       ArrowRightToLine,
@@ -110534,7 +110534,7 @@ var require_lucide_react = __commonJS({
       Fish,
       FishOff,
       FishSymbol,
-      Flag: Flag2,
+      Flag,
       FlagOff,
       FlagTriangleLeft,
       FlagTriangleRight,
@@ -110753,7 +110753,7 @@ var require_lucide_react = __commonJS({
       LayoutPanelLeft,
       LayoutPanelTop,
       LayoutTemplate,
-      Leaf: Leaf5,
+      Leaf: Leaf4,
       LeafyGreen,
       Lectern,
       Library: Library2,
@@ -110763,7 +110763,7 @@ var require_lucide_react = __commonJS({
       Lightbulb,
       LightbulbOff,
       LineSquiggle,
-      Link: Link11,
+      Link: Link10,
       Link2: Link22,
       Link2Off,
       Linkedin,
@@ -110794,7 +110794,7 @@ var require_lucide_react = __commonJS({
       Locate,
       LocateFixed,
       LocateOff,
-      Lock: Lock2,
+      Lock,
       LockKeyhole,
       LockKeyholeOpen,
       LockOpen,
@@ -110817,7 +110817,7 @@ var require_lucide_react = __commonJS({
       Mails,
       Map: Map2,
       MapMinus,
-      MapPin: MapPin3,
+      MapPin: MapPin4,
       MapPinCheck,
       MapPinCheckInside,
       MapPinHouse,
@@ -111165,7 +111165,7 @@ var require_lucide_react = __commonJS({
       ServerCrash,
       ServerOff,
       Settings: Settings3,
-      Settings2: Settings22,
+      Settings2,
       Shapes,
       Share,
       Share2,
@@ -111532,7 +111532,7 @@ var require_lucide_react = __commonJS({
       Workflow,
       Worm,
       Wrench,
-      X: X6,
+      X: X5,
       Youtube,
       Zap,
       ZapOff,
@@ -111743,12 +111743,12 @@ var require_lucide_react = __commonJS({
     exports2.ArrowLeftSquareIcon = SquareArrowLeft;
     exports2.ArrowLeftToLine = ArrowLeftToLine;
     exports2.ArrowLeftToLineIcon = ArrowLeftToLine;
-    exports2.ArrowRight = ArrowRight5;
+    exports2.ArrowRight = ArrowRight4;
     exports2.ArrowRightCircle = CircleArrowRight;
     exports2.ArrowRightCircleIcon = CircleArrowRight;
     exports2.ArrowRightFromLine = ArrowRightFromLine;
     exports2.ArrowRightFromLineIcon = ArrowRightFromLine;
-    exports2.ArrowRightIcon = ArrowRight5;
+    exports2.ArrowRightIcon = ArrowRight4;
     exports2.ArrowRightLeft = ArrowRightLeft;
     exports2.ArrowRightLeftIcon = ArrowRightLeft;
     exports2.ArrowRightSquare = SquareArrowRight;
@@ -112997,8 +112997,8 @@ var require_lucide_react = __commonJS({
     exports2.FishOffIcon = FishOff;
     exports2.FishSymbol = FishSymbol;
     exports2.FishSymbolIcon = FishSymbol;
-    exports2.Flag = Flag2;
-    exports2.FlagIcon = Flag2;
+    exports2.Flag = Flag;
+    exports2.FlagIcon = Flag;
     exports2.FlagOff = FlagOff;
     exports2.FlagOffIcon = FlagOff;
     exports2.FlagTriangleLeft = FlagTriangleLeft;
@@ -113500,8 +113500,8 @@ var require_lucide_react = __commonJS({
     exports2.LayoutPanelTopIcon = LayoutPanelTop;
     exports2.LayoutTemplate = LayoutTemplate;
     exports2.LayoutTemplateIcon = LayoutTemplate;
-    exports2.Leaf = Leaf5;
-    exports2.LeafIcon = Leaf5;
+    exports2.Leaf = Leaf4;
+    exports2.LeafIcon = Leaf4;
     exports2.LeafyGreen = LeafyGreen;
     exports2.LeafyGreenIcon = LeafyGreen;
     exports2.Lectern = Lectern;
@@ -113526,12 +113526,12 @@ var require_lucide_react = __commonJS({
     exports2.LineChartIcon = ChartLine;
     exports2.LineSquiggle = LineSquiggle;
     exports2.LineSquiggleIcon = LineSquiggle;
-    exports2.Link = Link11;
+    exports2.Link = Link10;
     exports2.Link2 = Link22;
     exports2.Link2Icon = Link22;
     exports2.Link2Off = Link2Off;
     exports2.Link2OffIcon = Link2Off;
-    exports2.LinkIcon = Link11;
+    exports2.LinkIcon = Link10;
     exports2.Linkedin = Linkedin;
     exports2.LinkedinIcon = Linkedin;
     exports2.List = List;
@@ -113592,8 +113592,8 @@ var require_lucide_react = __commonJS({
     exports2.LocateOffIcon = LocateOff;
     exports2.LocationEdit = MapPinPen;
     exports2.LocationEditIcon = MapPinPen;
-    exports2.Lock = Lock2;
-    exports2.LockIcon = Lock2;
+    exports2.Lock = Lock;
+    exports2.LockIcon = Lock;
     exports2.LockKeyhole = LockKeyhole;
     exports2.LockKeyholeIcon = LockKeyhole;
     exports2.LockKeyholeOpen = LockKeyholeOpen;
@@ -113710,7 +113710,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideArrowLeftRight = ArrowLeftRight;
     exports2.LucideArrowLeftSquare = SquareArrowLeft;
     exports2.LucideArrowLeftToLine = ArrowLeftToLine;
-    exports2.LucideArrowRight = ArrowRight5;
+    exports2.LucideArrowRight = ArrowRight4;
     exports2.LucideArrowRightCircle = CircleArrowRight;
     exports2.LucideArrowRightFromLine = ArrowRightFromLine;
     exports2.LucideArrowRightLeft = ArrowRightLeft;
@@ -114337,7 +114337,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideFish = Fish;
     exports2.LucideFishOff = FishOff;
     exports2.LucideFishSymbol = FishSymbol;
-    exports2.LucideFlag = Flag2;
+    exports2.LucideFlag = Flag;
     exports2.LucideFlagOff = FlagOff;
     exports2.LucideFlagTriangleLeft = FlagTriangleLeft;
     exports2.LucideFlagTriangleRight = FlagTriangleRight;
@@ -114588,7 +114588,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideLayoutPanelLeft = LayoutPanelLeft;
     exports2.LucideLayoutPanelTop = LayoutPanelTop;
     exports2.LucideLayoutTemplate = LayoutTemplate;
-    exports2.LucideLeaf = Leaf5;
+    exports2.LucideLeaf = Leaf4;
     exports2.LucideLeafyGreen = LeafyGreen;
     exports2.LucideLectern = Lectern;
     exports2.LucideLetterText = TextInitial;
@@ -114601,7 +114601,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideLightbulbOff = LightbulbOff;
     exports2.LucideLineChart = ChartLine;
     exports2.LucideLineSquiggle = LineSquiggle;
-    exports2.LucideLink = Link11;
+    exports2.LucideLink = Link10;
     exports2.LucideLink2 = Link22;
     exports2.LucideLink2Off = Link2Off;
     exports2.LucideLinkedin = Linkedin;
@@ -114634,7 +114634,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideLocateFixed = LocateFixed;
     exports2.LucideLocateOff = LocateOff;
     exports2.LucideLocationEdit = MapPinPen;
-    exports2.LucideLock = Lock2;
+    exports2.LucideLock = Lock;
     exports2.LucideLockKeyhole = LockKeyhole;
     exports2.LucideLockKeyholeOpen = LockKeyholeOpen;
     exports2.LucideLockOpen = LockOpen;
@@ -114659,7 +114659,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideMails = Mails;
     exports2.LucideMap = Map2;
     exports2.LucideMapMinus = MapMinus;
-    exports2.LucideMapPin = MapPin3;
+    exports2.LucideMapPin = MapPin4;
     exports2.LucideMapPinCheck = MapPinCheck;
     exports2.LucideMapPinCheckInside = MapPinCheckInside;
     exports2.LucideMapPinHouse = MapPinHouse;
@@ -115054,7 +115054,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideServerCrash = ServerCrash;
     exports2.LucideServerOff = ServerOff;
     exports2.LucideSettings = Settings3;
-    exports2.LucideSettings2 = Settings22;
+    exports2.LucideSettings2 = Settings2;
     exports2.LucideShapes = Shapes;
     exports2.LucideShare = Share;
     exports2.LucideShare2 = Share2;
@@ -115462,7 +115462,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideWorm = Worm;
     exports2.LucideWrapText = TextWrap;
     exports2.LucideWrench = Wrench;
-    exports2.LucideX = X6;
+    exports2.LucideX = X5;
     exports2.LucideXCircle = CircleX;
     exports2.LucideXOctagon = OctagonX;
     exports2.LucideXSquare = SquareX;
@@ -115505,14 +115505,14 @@ var require_lucide_react = __commonJS({
     exports2.MapIcon = Map2;
     exports2.MapMinus = MapMinus;
     exports2.MapMinusIcon = MapMinus;
-    exports2.MapPin = MapPin3;
+    exports2.MapPin = MapPin4;
     exports2.MapPinCheck = MapPinCheck;
     exports2.MapPinCheckIcon = MapPinCheck;
     exports2.MapPinCheckInside = MapPinCheckInside;
     exports2.MapPinCheckInsideIcon = MapPinCheckInside;
     exports2.MapPinHouse = MapPinHouse;
     exports2.MapPinHouseIcon = MapPinHouse;
-    exports2.MapPinIcon = MapPin3;
+    exports2.MapPinIcon = MapPin4;
     exports2.MapPinMinus = MapPinMinus;
     exports2.MapPinMinusIcon = MapPinMinus;
     exports2.MapPinMinusInside = MapPinMinusInside;
@@ -116294,8 +116294,8 @@ var require_lucide_react = __commonJS({
     exports2.ServerOff = ServerOff;
     exports2.ServerOffIcon = ServerOff;
     exports2.Settings = Settings3;
-    exports2.Settings2 = Settings22;
-    exports2.Settings2Icon = Settings22;
+    exports2.Settings2 = Settings2;
+    exports2.Settings2Icon = Settings2;
     exports2.SettingsIcon = Settings3;
     exports2.Shapes = Shapes;
     exports2.ShapesIcon = Shapes;
@@ -117111,10 +117111,10 @@ var require_lucide_react = __commonJS({
     exports2.WrapTextIcon = TextWrap;
     exports2.Wrench = Wrench;
     exports2.WrenchIcon = Wrench;
-    exports2.X = X6;
+    exports2.X = X5;
     exports2.XCircle = CircleX;
     exports2.XCircleIcon = CircleX;
-    exports2.XIcon = X6;
+    exports2.XIcon = X5;
     exports2.XOctagon = OctagonX;
     exports2.XOctagonIcon = OctagonX;
     exports2.XSquare = SquareX;
@@ -117141,11 +117141,12 @@ var import_path2 = __toESM(require("path"), 1);
 var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
 var import_promise = __toESM(require_promise(), 1);
-var import_react74 = __toESM(require_react(), 1);
+var import_react76 = __toESM(require_react(), 1);
 var import_server = __toESM(require_server_node(), 1);
 var import_react_router_dom12 = __toESM(require_dist2(), 1);
 
 // src/App.tsx
+var import_react75 = __toESM(require_react(), 1);
 var import_react_router_dom11 = __toESM(require_dist2(), 1);
 
 // src/pages/FrontPage.tsx
@@ -130397,6 +130398,13 @@ function detectPreferredLocale() {
   const browserCandidates = [navigator.language, ...navigator.languages ?? []].filter(Boolean);
   return matchPreferredLocale(browserCandidates);
 }
+function detectDeviceLocale() {
+  if (typeof window === "undefined") {
+    return "en";
+  }
+  const browserCandidates = [navigator.language, ...navigator.languages ?? []].filter(Boolean);
+  return matchPreferredLocale(browserCandidates);
+}
 function saveLocalePreference(locale) {
   if (typeof window === "undefined") {
     return;
@@ -131204,7 +131212,7 @@ var PageProvider = ({ children, initialData }) => {
       body: JSON.stringify(settings)
     });
     if (response.ok) {
-      if (targetLocale === locale) setGlobalSettings(settings);
+      setGlobalSettings(settings);
     } else {
       throw new Error("Failed to update global settings");
     }
@@ -131217,9 +131225,7 @@ var PageProvider = ({ children, initialData }) => {
       body: JSON.stringify(newPageData.content)
     });
     if (response.ok) {
-      if (targetLocale === locale) {
-        setPages((prev) => prev.map((p) => p.id === id3 ? newPageData : p));
-      }
+      setPages((prev) => prev.map((p) => p.id === id3 ? newPageData : p));
     } else {
       throw new Error("Failed to update page");
     }
@@ -131232,9 +131238,7 @@ var PageProvider = ({ children, initialData }) => {
       body: JSON.stringify(seo)
     });
     if (response.ok) {
-      if (targetLocale === locale) {
-        setPageSeo((prev) => ({ ...prev, [id3]: seo }));
-      }
+      setPageSeo((prev) => ({ ...prev, [id3]: seo }));
     } else {
       throw new Error("Failed to update SEO settings");
     }
@@ -131322,9 +131326,9 @@ function ProductProvider({ children, initialData }) {
       });
       if (response.ok) {
         const payload = await response.json().catch(() => null);
-        if (targetLocale === locale) {
-          setProducts((prev) => [...prev, payload?.product || newProduct]);
-        }
+        const savedProduct = payload?.product || newProduct;
+        setProducts((prev) => [...prev, savedProduct]);
+        return savedProduct;
       } else {
         const payload = await response.json().catch(() => null);
         throw new Error(payload?.error || "Failed to add product on server");
@@ -131345,9 +131349,7 @@ function ProductProvider({ children, initialData }) {
       });
       if (response.ok) {
         const payload = await response.json().catch(() => null);
-        if (targetLocale === locale) {
-          setProducts((prev) => prev.map((p) => p.id === id3 ? payload?.product || updatedProduct : p));
-        }
+        setProducts((prev) => prev.map((p) => p.id === id3 ? payload?.product || updatedProduct : p));
       } else {
         const payload = await response.json().catch(() => null);
         throw new Error(payload?.error || "Failed to update product on server");
@@ -134520,87 +134522,77 @@ function Terms() {
 }
 
 // src/pages/LocaleSelector.tsx
+var import_react47 = __toESM(require_react(), 1);
 var import_react_router_dom6 = __toESM(require_dist2(), 1);
 var import_lucide_react8 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
-var selectorCopy = {
+var loadingCopy = {
   en: {
-    eyebrow: "Global Access",
-    title: "Choose your language",
-    description: "Search engines and buyers need crawlable locale pages. Pick a language version to continue.",
-    recommendation: "Recommended"
+    title: "Detecting language",
+    body: "We are preparing the right language version from your browser settings."
   },
   ru: {
-    eyebrow: "\u041C\u0435\u0436\u0434\u0443\u043D\u0430\u0440\u043E\u0434\u043D\u044B\u0439 \u0434\u043E\u0441\u0442\u0443\u043F",
-    title: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u044F\u0437\u044B\u043A",
-    description: "\u041F\u043E\u0438\u0441\u043A\u043E\u0432\u044B\u043C \u0441\u0438\u0441\u0442\u0435\u043C\u0430\u043C \u0438 \u043F\u043E\u043A\u0443\u043F\u0430\u0442\u0435\u043B\u044F\u043C \u043D\u0443\u0436\u043D\u044B \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u044B\u0435 \u0438\u043D\u0434\u0435\u043A\u0441\u0438\u0440\u0443\u0435\u043C\u044B\u0435 \u0432\u0435\u0440\u0441\u0438\u0438. \u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u044F\u0437\u044B\u043A \u0441\u0430\u0439\u0442\u0430.",
-    recommendation: "\u0420\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0443\u0435\u0442\u0441\u044F"
+    title: "\u041E\u043F\u0440\u0435\u0434\u0435\u043B\u044F\u0435\u043C \u044F\u0437\u044B\u043A",
+    body: "\u041C\u044B \u043F\u043E\u0434\u0433\u043E\u0442\u0430\u0432\u043B\u0438\u0432\u0430\u0435\u043C \u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0449\u0443\u044E \u044F\u0437\u044B\u043A\u043E\u0432\u0443\u044E \u0432\u0435\u0440\u0441\u0438\u044E \u043F\u043E \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430\u043C \u0432\u0430\u0448\u0435\u0433\u043E \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430."
   },
   uz: {
-    eyebrow: "Global kirish",
-    title: "Tilni tanlang",
-    description: "Qidiruv tizimlari va xaridorlar uchun har bir til alohida indekslanadigan sahifaga ega bo\u2018lishi kerak. Davom etish uchun tilni tanlang.",
-    recommendation: "Tavsiya etiladi"
+    title: "Til aniqlanmoqda",
+    body: "Brauzeringiz sozlamalariga mos til versiyasi tayyorlanmoqda."
   }
 };
 function LocaleSelectorPage() {
-  const { locale } = useLanguage();
-  const copy = selectorCopy[locale] ?? selectorCopy.en;
-  return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("main", { className: "min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,rgba(251,239,229,0.9),transparent_40%),linear-gradient(135deg,#fffaf7_0%,#f7efe8_48%,#f3e3d5_100%)] px-4 py-10 sm:px-6 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "mx-auto flex min-h-[calc(100vh-5rem)] max-w-6xl flex-col justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(24rem,0.88fr)] lg:items-center", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { className: "rounded-[3rem] border border-white/70 bg-white/70 p-8 shadow-[0_24px_80px_rgba(98,56,30,0.08)] backdrop-blur-xl sm:p-10", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "inline-flex items-center gap-2 rounded-full bg-earth-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-earth-500", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.Globe2, { size: 14 }),
-        copy.eyebrow
+  const navigate = (0, import_react_router_dom6.useNavigate)();
+  const { globalSettings } = usePages();
+  const detectedLocale = (0, import_react47.useMemo)(() => detectDeviceLocale(), []);
+  const detectedDefinition = activeLocaleDefinitions.find((entry) => entry.code === detectedLocale) ?? activeLocaleDefinitions[0];
+  const logo = globalSettings.headerLogo || globalSettings.footerLogo || "";
+  (0, import_react47.useEffect)(() => {
+    saveLocalePreference(detectedLocale);
+    const redirectTimer = window.setTimeout(() => {
+      navigate(buildLocalePath(detectedLocale), { replace: true });
+    }, 900);
+    return () => window.clearTimeout(redirectTimer);
+  }, [detectedLocale, navigate]);
+  return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("main", { className: "relative min-h-screen overflow-hidden bg-[#f7f1e8] text-earth-950", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "absolute inset-0 bg-[linear-gradient(120deg,rgba(248,242,232,0.94)_0%,rgba(240,229,211,0.9)_45%,rgba(222,202,171,0.84)_100%)]" }),
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(96,65,42,0.28)_1px,transparent_1px),linear-gradient(90deg,rgba(96,65,42,0.28)_1px,transparent_1px)] [background-size:44px_44px]" }),
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(0deg,rgba(72,48,31,0.12),transparent)]" }),
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { className: "relative mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center px-5 py-12 text-center sm:px-8", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "mb-9 flex h-24 w-24 items-center justify-center rounded-[2rem] border border-white/70 bg-white/65 shadow-[0_24px_80px_rgba(82,52,31,0.14)] backdrop-blur-xl sm:h-28 sm:w-28", children: logo ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("img", { src: logo, alt: "HQ Dried Fruits", className: "max-h-16 max-w-16 object-contain sm:max-h-20 sm:max-w-20" }) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.Globe2, { className: "h-11 w-11 text-earth-700 sm:h-12 sm:w-12" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "mb-5 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-earth-700 shadow-sm backdrop-blur", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.MapPin, { size: 14 }),
+        detectedDefinition.label
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h1", { className: "mt-6 max-w-[12ch] font-display text-5xl font-bold leading-[0.92] text-earth-950 sm:text-6xl", children: copy.title }),
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { className: "mt-6 max-w-xl text-lg leading-8 text-earth-700", children: copy.description })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("section", { className: "grid gap-4", children: activeLocaleDefinitions.map((entry) => {
-      const targetPath = buildLocalePath(entry.code);
-      const isPreferred = entry.code === locale;
-      return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(
-        import_react_router_dom6.Link,
-        {
-          to: targetPath,
-          onClick: () => saveLocalePreference(entry.code),
-          className: "group relative overflow-hidden rounded-[2.4rem] border border-earth-100 bg-white px-6 py-6 shadow-[0_18px_50px_rgba(98,56,30,0.08)] transition-all hover:-translate-y-1 hover:border-earth-200 hover:shadow-[0_26px_60px_rgba(98,56,30,0.12)] sm:px-8 sm:py-7",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "absolute inset-y-0 right-0 w-40 bg-[radial-gradient(circle_at_center,rgba(225,196,162,0.2),transparent_68%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" }),
-            /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "relative flex items-center justify-between gap-6", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "flex items-center gap-3", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "flex h-12 w-12 items-center justify-center rounded-2xl bg-earth-100 text-earth-700", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.Leaf, { size: 20 }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { className: "font-display text-2xl font-bold text-earth-950", children: entry.label }),
-                  /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.22em] text-earth-400", children: entry.shortLabel })
-                ] })
-              ] }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "flex items-center gap-4", children: [
-                isPreferred ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "hidden rounded-full bg-earth-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-earth-600 sm:inline-flex", children: copy.recommendation }) : null,
-                /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.ArrowRight, { className: "h-5 w-5 text-earth-500 transition-transform duration-300 group-hover:translate-x-1" })
-              ] })
-            ] })
-          ]
-        },
-        entry.code
-      );
-    }) })
-  ] }) }) });
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h1", { className: "max-w-3xl font-display text-4xl font-bold leading-tight text-earth-950 sm:text-6xl", children: loadingCopy[detectedLocale].title }),
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { className: "mt-5 max-w-2xl text-base leading-7 text-earth-700 sm:text-lg", children: loadingCopy[detectedLocale].body }),
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "mt-10 flex items-center gap-4 rounded-full border border-white/70 bg-white/60 px-5 py-3 shadow-[0_18px_60px_rgba(82,52,31,0.12)] backdrop-blur-xl", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.Loader2, { className: "h-5 w-5 animate-spin text-earth-700" }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "flex gap-2", children: activeLocaleDefinitions.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+          "span",
+          {
+            className: `h-2.5 rounded-full transition-all duration-500 ${entry.code === detectedLocale ? "w-9 bg-earth-700" : "w-2.5 bg-earth-300"}`
+          },
+          entry.code
+        )) })
+      ] })
+    ] })
+  ] });
 }
 
 // src/pages/ProductDetail.tsx
-var import_react49 = __toESM(require_react(), 1);
+var import_react50 = __toESM(require_react(), 1);
 var import_lucide_react10 = __toESM(require_lucide_react(), 1);
 var import_react_router_dom7 = __toESM(require_dist2(), 1);
 
 // src/components/ui/Select.tsx
-var import_react47 = __toESM(require_react(), 1);
+var import_react48 = __toESM(require_react(), 1);
 var import_lucide_react9 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
 function Select({ options, value, onChange, placeholder = "Select an option...", className }) {
-  const [isOpen, setIsOpen] = (0, import_react47.useState)(false);
-  const containerRef = (0, import_react47.useRef)(null);
+  const [isOpen, setIsOpen] = (0, import_react48.useState)(false);
+  const containerRef = (0, import_react48.useRef)(null);
   const selectedOption = options.find((opt) => opt.value === value);
-  (0, import_react47.useEffect)(() => {
+  (0, import_react48.useEffect)(() => {
     const handleOutsideClick = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setIsOpen(false);
@@ -134671,30 +134663,30 @@ function ProductDetail() {
   const { locale } = useLanguage();
   const { pages, pageSeo } = usePages();
   const { products, productsLoaded } = useProducts();
-  const [selectedImage, setSelectedImage] = (0, import_react49.useState)("");
-  const [selectedVolume, setSelectedVolume] = (0, import_react49.useState)("");
-  const [company, setCompany] = (0, import_react49.useState)("");
-  const [email, setEmail] = (0, import_react49.useState)("");
-  const [isSubmitting, setIsSubmitting] = (0, import_react49.useState)(false);
-  const [submitMessage, setSubmitMessage] = (0, import_react49.useState)(null);
+  const [selectedImage, setSelectedImage] = (0, import_react50.useState)("");
+  const [selectedVolume, setSelectedVolume] = (0, import_react50.useState)("");
+  const [company, setCompany] = (0, import_react50.useState)("");
+  const [email, setEmail] = (0, import_react50.useState)("");
+  const [isSubmitting, setIsSubmitting] = (0, import_react50.useState)(false);
+  const [submitMessage, setSubmitMessage] = (0, import_react50.useState)(null);
   const productsPage = pages.find((page) => page.id === "products");
   const detailUi = productsPage?.content?.detailUi || {};
-  const resolvedPath = (0, import_react49.useMemo)(
+  const resolvedPath = (0, import_react50.useMemo)(
     () => resolveManagedProductPath(location2.pathname, pageSeo, locale),
     [location2.pathname, locale, pageSeo]
   );
-  const product = (0, import_react49.useMemo)(
+  const product = (0, import_react50.useMemo)(
     () => resolvedPath ? findManagedProduct(resolvedPath.productSlug, products) : null,
     [products, resolvedPath]
   );
-  (0, import_react49.useEffect)(() => {
+  (0, import_react50.useEffect)(() => {
     if (!product) {
       return;
     }
     const gallery = [product.image, ...Array.isArray(product.imageGallery) ? product.imageGallery : []].filter(Boolean);
     setSelectedImage((current) => gallery.includes(current) ? current : gallery[0] || "");
   }, [product]);
-  (0, import_react49.useEffect)(() => {
+  (0, import_react50.useEffect)(() => {
     if (!product) {
       return;
     }
@@ -134891,14 +134883,14 @@ function ProductDetail() {
 }
 
 // src/components/layout/AdminLayout.tsx
-var import_react52 = __toESM(require_react(), 1);
+var import_react53 = __toESM(require_react(), 1);
 var import_react_router_dom8 = __toESM(require_dist2(), 1);
 var import_lucide_react11 = __toESM(require_lucide_react(), 1);
 
 // src/contexts/AdminLanguageContext.tsx
-var import_react51 = __toESM(require_react(), 1);
+var import_react52 = __toESM(require_react(), 1);
 var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
-var AdminLanguageContext = (0, import_react51.createContext)(void 0);
+var AdminLanguageContext = (0, import_react52.createContext)(void 0);
 var STORAGE_KEY = "hq_admin_edit_locale";
 var LEGACY_STORAGE_KEY = "hq_admin_edit_lang";
 var SUPPORTED_EDIT_LANGUAGES = [...ACTIVE_LOCALES];
@@ -134920,8 +134912,8 @@ function getSavedAdminLocale() {
   return "en";
 }
 function AdminLanguageProvider({ children }) {
-  const [editingLocale, setEditingLocaleState] = (0, import_react51.useState)(getSavedAdminLocale);
-  const setEditingLocale = (0, import_react51.useCallback)((locale) => {
+  const [editingLocale, setEditingLocaleState] = (0, import_react52.useState)(getSavedAdminLocale);
+  const setEditingLocale = (0, import_react52.useCallback)((locale) => {
     setEditingLocaleState(locale);
     try {
       localStorage.setItem(STORAGE_KEY, locale);
@@ -134943,7 +134935,7 @@ function AdminLanguageProvider({ children }) {
   );
 }
 function useAdminLanguage() {
-  const ctx = (0, import_react51.useContext)(AdminLanguageContext);
+  const ctx = (0, import_react52.useContext)(AdminLanguageContext);
   if (!ctx) throw new Error("useAdminLanguage must be used within AdminLanguageProvider");
   return ctx;
 }
@@ -134951,7 +134943,7 @@ var languageNames2 = localeNames;
 
 // src/components/layout/AdminLayout.tsx
 var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
-var AdminSidebarActionContext = (0, import_react52.createContext)(void 0);
+var AdminSidebarActionContext = (0, import_react53.createContext)(void 0);
 var sidebarLinks = [
   { name: "Dashboard", path: "/control-room", icon: import_lucide_react11.LayoutDashboard },
   { name: "Products", path: "/control-room/products", icon: import_lucide_react11.Package },
@@ -134981,12 +134973,18 @@ function clearStoredToken() {
   } catch {
   }
 }
-function LoginScreen({ onSuccess }) {
-  const [username, setUsername] = (0, import_react52.useState)("");
-  const [password, setPassword] = (0, import_react52.useState)("");
-  const [showPassword, setShowPassword] = (0, import_react52.useState)(false);
-  const [error, setError] = (0, import_react52.useState)("");
-  const [loading, setLoading] = (0, import_react52.useState)(false);
+function AdminBrandMark({ logo, className }) {
+  if (logo) {
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: cn("flex items-center justify-center overflow-hidden rounded-xl bg-white", className), children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("img", { src: logo, alt: "HQ Dried Fruits logo", className: "h-full w-full object-contain" }) });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: cn("flex items-center justify-center rounded-xl bg-earth-600 text-white", className), children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Leaf, { size: 20 }) });
+}
+function LoginScreen({ onSuccess, brandLogo }) {
+  const [username, setUsername] = (0, import_react53.useState)("");
+  const [password, setPassword] = (0, import_react53.useState)("");
+  const [showPassword, setShowPassword] = (0, import_react53.useState)(false);
+  const [error, setError] = (0, import_react53.useState)("");
+  const [loading, setLoading] = (0, import_react53.useState)(false);
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -135019,7 +135017,7 @@ function LoginScreen({ onSuccess }) {
       className: "w-full max-w-sm",
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "mb-8 text-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-earth-600 shadow-lg shadow-earth-900/40", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Lock, { size: 24, className: "text-white" }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminBrandMark, { logo: brandLogo, className: "mx-auto mb-4 h-14 w-14 rounded-2xl shadow-lg shadow-earth-900/40" }),
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h1", { className: "font-display text-2xl font-bold text-white", children: "Control Room" }),
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { className: "mt-1 text-sm text-slate-400", children: "Sign in to manage your website" })
         ] }),
@@ -135091,14 +135089,17 @@ function LoginScreen({ onSuccess }) {
   ) });
 }
 function AdminLayoutContent() {
-  const [sidebarOpen, setSidebarOpen] = (0, import_react52.useState)(false);
-  const [action, setAction] = (0, import_react52.useState)(null);
-  const [isAuthenticated, setIsAuthenticated] = (0, import_react52.useState)(null);
+  const [sidebarOpen, setSidebarOpen] = (0, import_react53.useState)(false);
+  const [action, setAction] = (0, import_react53.useState)(null);
+  const [isAuthenticated, setIsAuthenticated] = (0, import_react53.useState)(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
+  const { globalSettings } = usePages();
   const location2 = (0, import_react_router_dom8.useLocation)();
   const navigate = (0, import_react_router_dom8.useNavigate)();
-  const actionContextValue = (0, import_react52.useMemo)(() => ({ action, setAction }), [action]);
-  (0, import_react52.useEffect)(() => {
+  const actionContextValue = (0, import_react53.useMemo)(() => ({ action, setAction }), [action]);
+  const brandLogo = globalSettings.headerLogo || "";
+  const siteName = globalSettings.siteName || "HQ Dried Fruits";
+  (0, import_react53.useEffect)(() => {
     const token = getStoredToken();
     if (!token) {
       setIsAuthenticated(false);
@@ -135113,11 +135114,29 @@ function AdminLayoutContent() {
     setIsAuthenticated(false);
     navigate("/control-room");
   };
+  (0, import_react53.useEffect)(() => {
+    if (!action) return void 0;
+    const handleSaveShortcut = (event) => {
+      if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== "s") return;
+      event.preventDefault();
+      if (action.disabled || action.isLoading) return;
+      if (action.onClick) {
+        action.onClick();
+        return;
+      }
+      if (action.formId) {
+        const form = document.getElementById(action.formId);
+        form?.requestSubmit();
+      }
+    };
+    window.addEventListener("keydown", handleSaveShortcut);
+    return () => window.removeEventListener("keydown", handleSaveShortcut);
+  }, [action]);
   if (isAuthenticated === null) {
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex min-h-screen items-center justify-center bg-slate-950", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "h-10 w-10 animate-spin rounded-full border-4 border-earth-600 border-t-transparent" }) });
   }
   if (!isAuthenticated) {
-    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(LoginScreen, { onSuccess: () => setIsAuthenticated(true) });
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(LoginScreen, { onSuccess: () => setIsAuthenticated(true), brandLogo });
   }
   const currentLink = sidebarLinks.find((link) => link.path === location2.pathname) || sidebarLinks[0];
   return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminSidebarActionContext.Provider, { value: actionContextValue, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex h-screen w-full bg-slate-50 overflow-hidden font-sans", children: [
@@ -135141,9 +135160,10 @@ function AdminLayoutContent() {
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex h-16 items-center justify-between px-6 border-b border-slate-800", children: [
             /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(import_react_router_dom8.Link, { to: "/", className: "flex items-center gap-2 text-white", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Leaf, { size: 20, className: "text-earth-500" }),
+              /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminBrandMark, { logo: brandLogo, className: "h-9 w-9" }),
               /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("span", { className: "font-display text-lg font-bold tracking-tight", children: [
-                "HQ Dried Fruits ",
+                siteName,
+                " ",
                 /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "text-earth-500", children: "Admin" })
               ] })
             ] }),
@@ -135169,16 +135189,6 @@ function AdminLayoutContent() {
               link.name
             );
           }) }),
-          action && /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "border-t border-slate-800 p-4", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
-            "button",
-            {
-              type: action.formId ? "submit" : "button",
-              form: action.formId,
-              onClick: action.onClick,
-              className: "flex w-full items-center justify-center rounded-lg bg-earth-600 px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-earth-700",
-              children: action.label
-            }
-          ) }),
           /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "px-4 py-4 mt-2 border-y border-slate-800 bg-slate-800/30", children: [
             /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "mb-3 px-1 text-[10px] font-bold uppercase tracking-wider text-earth-500 flex items-center gap-2", children: [
               /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Globe, { size: 12 }),
@@ -135240,18 +135250,45 @@ function AdminLayoutContent() {
             },
             lang
           )) }),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "h-8 w-8 rounded-full bg-earth-600 flex items-center justify-center text-sm font-bold text-white", children: "A" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminBrandMark, { logo: brandLogo, className: "h-8 w-8 rounded-full" }) })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("main", { className: "flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_react_router_dom8.Outlet, {}) })
-    ] })
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("main", { className: "flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_react_router_dom8.Outlet, {}) })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AnimatePresence, { children: action && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
+      motion.div,
+      {
+        initial: { opacity: 0, y: 16, scale: 0.96 },
+        animate: { opacity: 1, y: 0, scale: 1 },
+        exit: { opacity: 0, y: 16, scale: 0.96 },
+        transition: { duration: 0.18, ease: "easeOut" },
+        className: "fixed bottom-4 right-4 z-[80] sm:bottom-6 sm:right-6 lg:right-8",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
+            "button",
+            {
+              type: action.formId ? "submit" : "button",
+              form: action.formId,
+              onClick: action.onClick,
+              disabled: action.disabled || action.isLoading,
+              className: "flex min-w-[11rem] items-center justify-center gap-2 rounded-2xl bg-earth-600 px-5 py-3 text-sm font-bold text-white shadow-2xl shadow-earth-900/25 transition-all hover:bg-earth-700 disabled:cursor-not-allowed disabled:opacity-60",
+              children: [
+                action.isLoading ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Loader2, { size: 18, className: "animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Save, { size: 18 }),
+                action.label
+              ]
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "mt-2 hidden text-center text-[11px] font-semibold text-slate-500 sm:block", children: "Ctrl / Cmd + S" })
+        ]
+      }
+    ) })
   ] }) });
 }
 function AdminLayout() {
   return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminLanguageProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminLayoutContent, {}) });
 }
 function useAdminSidebarAction() {
-  const context = (0, import_react52.useContext)(AdminSidebarActionContext);
+  const context = (0, import_react53.useContext)(AdminSidebarActionContext);
   if (!context) {
     throw new Error("useAdminSidebarAction must be used within AdminLayout");
   }
@@ -135259,7 +135296,7 @@ function useAdminSidebarAction() {
 }
 
 // src/pages/admin/Dashboard.tsx
-var import_react54 = __toESM(require_react(), 1);
+var import_react55 = __toESM(require_react(), 1);
 var import_react_router_dom9 = __toESM(require_dist2(), 1);
 var import_lucide_react12 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
@@ -135369,15 +135406,15 @@ function formatDelta(current, previous) {
   };
 }
 function Dashboard() {
-  const [data2, setData] = (0, import_react54.useState)({
+  const [data2, setData] = (0, import_react55.useState)({
     leads: [],
     products: [],
     pageSeo: {}
   });
-  const [isLoading, setIsLoading] = (0, import_react54.useState)(true);
-  const [error, setError] = (0, import_react54.useState)(null);
-  const [isRefreshing, setIsRefreshing] = (0, import_react54.useState)(false);
-  const [lastUpdated, setLastUpdated] = (0, import_react54.useState)(null);
+  const [isLoading, setIsLoading] = (0, import_react55.useState)(true);
+  const [error, setError] = (0, import_react55.useState)(null);
+  const [isRefreshing, setIsRefreshing] = (0, import_react55.useState)(false);
+  const [lastUpdated, setLastUpdated] = (0, import_react55.useState)(null);
   const loadDashboard = async (showRefreshState = false) => {
     if (showRefreshState) {
       setIsRefreshing(true);
@@ -135413,10 +135450,10 @@ function Dashboard() {
       setIsRefreshing(false);
     }
   };
-  (0, import_react54.useEffect)(() => {
+  (0, import_react55.useEffect)(() => {
     loadDashboard();
   }, []);
-  const dashboardStats = (0, import_react54.useMemo)(() => {
+  const dashboardStats = (0, import_react55.useMemo)(() => {
     const now2 = Date.now();
     const day = 24 * 60 * 60 * 1e3;
     const thirtyDaysAgo = now2 - 30 * day;
@@ -135783,20 +135820,20 @@ function Dashboard() {
 }
 
 // src/pages/admin/Products.tsx
-var import_react58 = __toESM(require_react(), 1);
+var import_react59 = __toESM(require_react(), 1);
 var import_lucide_react15 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/ImageUploader.tsx
-var import_react56 = __toESM(require_react(), 1);
+var import_react57 = __toESM(require_react(), 1);
 var import_lucide_react13 = __toESM(require_lucide_react(), 1);
 
 // src/contexts/MediaContext.tsx
-var import_react55 = __toESM(require_react(), 1);
+var import_react56 = __toESM(require_react(), 1);
 var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
-var MediaContext = (0, import_react55.createContext)(void 0);
+var MediaContext = (0, import_react56.createContext)(void 0);
 function MediaProvider({ children }) {
-  const [images, setImages] = (0, import_react55.useState)([]);
-  const [isLoading, setIsLoading] = (0, import_react55.useState)(true);
+  const [images, setImages] = (0, import_react56.useState)([]);
+  const [isLoading, setIsLoading] = (0, import_react56.useState)(true);
   const fetchImages = async () => {
     try {
       const res = await fetch("/api/uploads");
@@ -135810,7 +135847,7 @@ function MediaProvider({ children }) {
       setIsLoading(false);
     }
   };
-  (0, import_react55.useEffect)(() => {
+  (0, import_react56.useEffect)(() => {
     fetchImages();
   }, []);
   const uploadMedia = async (file) => {
@@ -135856,7 +135893,7 @@ function MediaProvider({ children }) {
   return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(MediaContext.Provider, { value: { images, uploadMedia, deleteMedia, isLoading }, children });
 }
 function useMedia() {
-  const context = (0, import_react55.useContext)(MediaContext);
+  const context = (0, import_react56.useContext)(MediaContext);
   if (context === void 0) {
     throw new Error("useMedia must be used within a MediaProvider");
   }
@@ -135867,10 +135904,10 @@ function useMedia() {
 var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
 function ImageUploader({ label, value, onChange, placeholder }) {
   const { uploadMedia, images: contextImages, isLoading: contextLoading } = useMedia();
-  const fileInputRef = (0, import_react56.useRef)(null);
-  const [isUploading, setIsUploading] = (0, import_react56.useState)(false);
-  const [mode, setMode] = (0, import_react56.useState)("url");
-  const [isLibraryOpen, setIsLibraryOpen] = (0, import_react56.useState)(false);
+  const fileInputRef = (0, import_react57.useRef)(null);
+  const [isUploading, setIsUploading] = (0, import_react57.useState)(false);
+  const [mode, setMode] = (0, import_react57.useState)("url");
+  const [isLibraryOpen, setIsLibraryOpen] = (0, import_react57.useState)(false);
   const handleFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -135893,7 +135930,7 @@ function ImageUploader({ label, value, onChange, placeholder }) {
   const isInternalImage = (val) => {
     return val && (val.startsWith("http") || val.startsWith("data:image") || val.startsWith("/") || val.includes("unsplash.com"));
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "space-y-3", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "space-y-2.5", children: [
     /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("label", { className: "block text-sm font-bold text-slate-700", children: label }),
     /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "flex items-start gap-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "relative h-24 w-24 shrink-0 rounded-xl border-2 border-slate-200 bg-slate-50 overflow-hidden shadow-inner flex items-center justify-center", children: [
@@ -136078,15 +136115,15 @@ function Repeater({ label, items, onUpdate, emptyItem, renderItem }) {
     newItems[index] = value;
     onUpdate(newItems);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "space-y-3", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "flex items-center justify-between", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "space-y-2.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "flex items-center justify-between gap-3", children: [
       /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("label", { className: "block text-sm font-bold text-slate-800", children: label }),
       /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(Button, { type: "button", size: "sm", variant: "outline", onClick: addItem, className: "h-8 text-xs", children: [
         /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react14.Plus, { size: 14, className: "mr-1" }),
         " Add Row"
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "space-y-3", children: items.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "text-center py-6 text-sm text-slate-500 border border-dashed border-slate-300 rounded-lg", children: "No items added yet." }) : items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "relative rounded-lg border border-slate-200 bg-slate-50 p-4 group", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "space-y-2.5", children: items.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "text-center py-4 text-sm text-slate-500 border border-dashed border-slate-300 rounded-lg", children: "No items added yet." }) : items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "relative rounded-lg border border-slate-200 bg-slate-50 p-3 group", children: [
       /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "absolute left-2 top-1/2 -translate-y-1/2 cursor-grab text-slate-300 hover:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react14.GripVertical, { size: 16 }) }),
       /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
         "button",
@@ -136097,7 +136134,7 @@ function Repeater({ label, items, onUpdate, emptyItem, renderItem }) {
           children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react14.Trash2, { size: 16 })
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "pl-6 pr-8", children: renderItem(item, index, updateItem, replaceItem) })
+      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "pl-5 pr-8", children: renderItem(item, index, updateItem, replaceItem) })
     ] }, index)) })
   ] });
 }
@@ -136157,13 +136194,15 @@ var emptyProduct = {
 function AdminProducts() {
   const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
   const { editingLang } = useAdminLanguage();
-  const [isDeleteOpen, setIsDeleteOpen] = (0, import_react58.useState)(false);
-  const [editingId, setEditingId] = (0, import_react58.useState)(null);
-  const [formData, setFormData] = (0, import_react58.useState)(emptyProduct);
-  const [itemToDelete, setItemToDelete] = (0, import_react58.useState)(null);
-  const [successMessage, setSuccessMessage] = (0, import_react58.useState)(null);
-  const [isRefreshing, setIsRefreshing] = (0, import_react58.useState)(false);
-  (0, import_react58.useEffect)(() => {
+  const { setAction } = useAdminSidebarAction();
+  const [isDeleteOpen, setIsDeleteOpen] = (0, import_react59.useState)(false);
+  const [editingId, setEditingId] = (0, import_react59.useState)(null);
+  const [formData, setFormData] = (0, import_react59.useState)(emptyProduct);
+  const [itemToDelete, setItemToDelete] = (0, import_react59.useState)(null);
+  const [successMessage, setSuccessMessage] = (0, import_react59.useState)(null);
+  const [isRefreshing, setIsRefreshing] = (0, import_react59.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react59.useState)(false);
+  (0, import_react59.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -136192,21 +136231,39 @@ function AdminProducts() {
   };
   const handleSaveProduct = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
     try {
       if (editingId === "new") {
-        await addProduct(formData, editingLang);
+        const createdProduct = await addProduct(formData, editingLang);
+        const { id: createdId, ...createdFormData } = createdProduct;
+        setEditingId(createdId);
+        setFormData(createdFormData);
         setSuccessMessage(`New product (${editingLang.toUpperCase()}) created successfully!`);
       } else if (editingId) {
         await updateProduct(editingId, formData, editingLang);
         setSuccessMessage(`Product (${editingLang.toUpperCase()}) updated successfully!`);
       }
       setTimeout(() => setSuccessMessage(null), 3e3);
-      handleClose();
     } catch (error) {
       console.error("Save failed:", error);
       alert(error instanceof Error ? error.message : "Failed to save changes. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
+  (0, import_react59.useEffect)(() => {
+    if (!editingId) {
+      setAction(null);
+      return void 0;
+    }
+    setAction({
+      label: editingId === "new" ? "Create Product" : "Save Product",
+      formId: `form-product-${editingId}`,
+      isLoading: isSaving,
+      disabled: isSaving
+    });
+    return () => setAction(null);
+  }, [editingId, isSaving, setAction]);
   const confirmDelete = (e, id3) => {
     e.stopPropagation();
     setItemToDelete(id3);
@@ -136219,9 +136276,9 @@ function AdminProducts() {
     setIsDeleteOpen(false);
     setItemToDelete(null);
   };
-  const renderProductForm = (id3) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "p-6 sm:p-10 bg-slate-50/50 border-t border-slate-100", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("form", { onSubmit: handleSaveProduct, className: "space-y-8", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-8 lg:grid-cols-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-6", children: [
+  const renderProductForm = (id3) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "p-4 sm:p-6 bg-slate-50/50 border-t border-slate-100", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-5 lg:grid-cols-2", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Product Name *" }),
           /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
@@ -136282,7 +136339,7 @@ function AdminProducts() {
           )
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-6", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
           ImageUploader,
           {
@@ -136350,7 +136407,7 @@ function AdminProducts() {
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-6", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
         RichTextEditor,
         {
@@ -136392,7 +136449,7 @@ function AdminProducts() {
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-8 lg:grid-cols-2 pt-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-5 lg:grid-cols-2 pt-2", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
         Repeater,
         {
@@ -136430,10 +136487,7 @@ function AdminProducts() {
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex items-center justify-end gap-3 pt-10 border-t border-slate-200", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200 font-bold", children: "Discard Changes" }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Button, { type: "submit", className: "bg-earth-600 hover:bg-earth-700 text-white min-w-[160px] shadow-lg shadow-earth-500/20 font-bold", children: id3 === "new" ? "Create Product" : "Save All Changes" })
-    ] })
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200 font-bold", children: "Discard Changes" }) })
   ] }) });
   if (isRefreshing) {
     return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
@@ -136604,20 +136658,20 @@ function AdminProducts() {
 }
 
 // src/pages/admin/Pages.tsx
-var import_react62 = __toESM(require_react(), 1);
+var import_react63 = __toESM(require_react(), 1);
 var import_lucide_react17 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/forms/FormSection.tsx
-var import_react60 = __toESM(require_react(), 1);
+var import_react61 = __toESM(require_react(), 1);
 var import_lucide_react16 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
 function FormSection({ title, children, defaultOpen = true, actions }) {
-  const [isOpen, setIsOpen] = (0, import_react60.useState)(defaultOpen);
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm", children: [
+  const [isOpen, setIsOpen] = (0, import_react61.useState)(defaultOpen);
+  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm", children: [
     /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
       "div",
       {
-        className: `flex items-center justify-between gap-4 px-6 py-4 transition-colors ${isOpen ? "bg-earth-50" : "hover:bg-slate-50"}`,
+        className: `flex items-center justify-between gap-3 px-4 py-3 transition-colors ${isOpen ? "bg-earth-50" : "hover:bg-slate-50"}`,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
             "button",
@@ -136626,7 +136680,7 @@ function FormSection({ title, children, defaultOpen = true, actions }) {
               onClick: () => setIsOpen((value) => !value),
               className: "flex flex-1 items-center justify-between gap-4 text-left",
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h4", { className: "text-lg font-bold text-slate-800", children: title }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h4", { className: "text-base font-bold text-slate-800", children: title }),
                 /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
                   "div",
                   {
@@ -136649,7 +136703,7 @@ function FormSection({ title, children, defaultOpen = true, actions }) {
         exit: { height: 0, opacity: 0 },
         transition: { duration: 0.25, ease: "easeInOut" },
         className: "overflow-hidden border-t border-slate-100",
-        children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "space-y-4 p-6", children })
+        children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "space-y-4 p-4", children })
       }
     ) })
   ] });
@@ -136658,7 +136712,7 @@ function FormSection({ title, children, defaultOpen = true, actions }) {
 // src/components/admin/forms/HomeForm.tsx
 var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
 function HomeForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-8", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "1. Hero Orchard Section", children: [
       /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
         ImageUploader,
@@ -137165,7 +137219,7 @@ function HomeForm({ content, updateContent }) {
 // src/components/admin/forms/AboutForm.tsx
 var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
 function AboutForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-8", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "1. Marquee Hero", children: [
       /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Large Top Title" }),
@@ -137507,7 +137561,7 @@ var suggestedRoutes = [
   { countryName: "Kazakhstan", mapCoordinatesId: "KZ", tooltipDescription: "Land-linked regional route for rapid replenishment.", image: "" }
 ];
 function ExportForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-8", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(
       FormSection,
       {
@@ -138161,7 +138215,7 @@ function ContactsForm({ content, updateContent }) {
 // src/components/admin/forms/ProductsForm.tsx
 var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
 function ProductsForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-8", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(FormSection, { title: "1. Header / Intro", children: [
       /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
         ImageUploader,
@@ -138706,7 +138760,7 @@ function ProductsForm({ content, updateContent }) {
 // src/components/admin/forms/SimplePageForm.tsx
 var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
 function SimplePageForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "space-y-8", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "space-y-4", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm", children: [
     /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h4", { className: "font-bold text-slate-800 text-lg border-b pb-2 mb-4", children: "Page Content" }),
     /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Title" }),
@@ -138737,10 +138791,11 @@ function AdminPages() {
   const { pages, updatePage, pageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
-  const [editingPage, setEditingPage] = (0, import_react62.useState)(null);
-  const [successMessage, setSuccessMessage] = (0, import_react62.useState)(null);
-  const [isRefreshing, setIsRefreshing] = (0, import_react62.useState)(false);
-  (0, import_react62.useEffect)(() => {
+  const [editingPage, setEditingPage] = (0, import_react63.useState)(null);
+  const [successMessage, setSuccessMessage] = (0, import_react63.useState)(null);
+  const [isRefreshing, setIsRefreshing] = (0, import_react63.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react63.useState)(false);
+  (0, import_react63.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -138767,28 +138822,32 @@ function AdminPages() {
   const handleSave = async (e) => {
     e.preventDefault();
     if (editingPage) {
+      setIsSaving(true);
       try {
         await updatePage(editingPage.id, editingPage, editingLang);
         setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
         setTimeout(() => setSuccessMessage(null), 3e3);
-        handleClose();
       } catch (error) {
         console.error("Failed to save page:", error);
         alert(`Failed to save ${editingPage.name}. Please try again.`);
+      } finally {
+        setIsSaving(false);
       }
     }
   };
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     if (editingPage) {
       setAction({
         label: `Save ${editingPage.name}`,
-        formId: `form-${editingPage.id}`
+        formId: `form-${editingPage.id}`,
+        isLoading: isSaving,
+        disabled: isSaving
       });
       return () => setAction(null);
     }
     setAction(null);
     return void 0;
-  }, [editingPage, setAction]);
+  }, [editingPage, isSaving, setAction]);
   const renderFormContent = () => {
     if (!editingPage) return null;
     const updateContent = (updates) => {
@@ -138864,9 +138923,9 @@ function AdminPages() {
             exit: { height: 0, opacity: 0 },
             transition: { duration: 0.3, ease: "easeInOut" },
             className: "overflow-hidden border-t border-slate-100 bg-slate-50",
-            children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "p-6 sm:p-8", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-${page.id}`, onSubmit: handleSave, className: "space-y-8", children: [
+            children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "p-4 sm:p-5", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-${page.id}`, onSubmit: handleSave, className: "space-y-5", children: [
               renderFormContent(),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex items-center justify-end gap-3 pt-8 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200", children: "Cancel" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200", children: "Cancel" }) })
             ] }) })
           }
         ) })
@@ -138876,7 +138935,7 @@ function AdminPages() {
 }
 
 // src/pages/admin/Leads.tsx
-var import_react64 = __toESM(require_react(), 1);
+var import_react65 = __toESM(require_react(), 1);
 var import_lucide_react18 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
 var statusColors = {
@@ -138912,30 +138971,30 @@ function safeValue(value) {
   return value?.trim() || "Not provided";
 }
 function AdminLeads() {
-  const [leads, setLeads] = (0, import_react64.useState)([]);
-  const [expandedId, setExpandedId] = (0, import_react64.useState)(null);
-  const [searchTerm, setSearchTerm] = (0, import_react64.useState)("");
-  const [filterStatus, setFilterStatus] = (0, import_react64.useState)("All");
-  const [ageFilter, setAgeFilter] = (0, import_react64.useState)("all");
-  const [noteFilter, setNoteFilter] = (0, import_react64.useState)("all");
-  const [sortOption, setSortOption] = (0, import_react64.useState)("newest");
-  const [selectedIds, setSelectedIds] = (0, import_react64.useState)([]);
-  const [draftNotes, setDraftNotes] = (0, import_react64.useState)({});
-  const [savingNoteIds, setSavingNoteIds] = (0, import_react64.useState)([]);
-  const [updatingStatusIds, setUpdatingStatusIds] = (0, import_react64.useState)([]);
-  const [bulkStatus, setBulkStatus] = (0, import_react64.useState)("");
-  const [isBulkUpdating, setIsBulkUpdating] = (0, import_react64.useState)(false);
-  const [isLoading, setIsLoading] = (0, import_react64.useState)(true);
-  const [toastMessage, setToastMessage] = (0, import_react64.useState)(null);
-  const showToast = (0, import_react64.useCallback)((message) => {
+  const [leads, setLeads] = (0, import_react65.useState)([]);
+  const [expandedId, setExpandedId] = (0, import_react65.useState)(null);
+  const [searchTerm, setSearchTerm] = (0, import_react65.useState)("");
+  const [filterStatus, setFilterStatus] = (0, import_react65.useState)("All");
+  const [ageFilter, setAgeFilter] = (0, import_react65.useState)("all");
+  const [noteFilter, setNoteFilter] = (0, import_react65.useState)("all");
+  const [sortOption, setSortOption] = (0, import_react65.useState)("newest");
+  const [selectedIds, setSelectedIds] = (0, import_react65.useState)([]);
+  const [draftNotes, setDraftNotes] = (0, import_react65.useState)({});
+  const [savingNoteIds, setSavingNoteIds] = (0, import_react65.useState)([]);
+  const [updatingStatusIds, setUpdatingStatusIds] = (0, import_react65.useState)([]);
+  const [bulkStatus, setBulkStatus] = (0, import_react65.useState)("");
+  const [isBulkUpdating, setIsBulkUpdating] = (0, import_react65.useState)(false);
+  const [isLoading, setIsLoading] = (0, import_react65.useState)(true);
+  const [toastMessage, setToastMessage] = (0, import_react65.useState)(null);
+  const showToast = (0, import_react65.useCallback)((message) => {
     setToastMessage(message);
   }, []);
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     if (!toastMessage) return;
     const timeout = window.setTimeout(() => setToastMessage(null), 2500);
     return () => window.clearTimeout(timeout);
   }, [toastMessage]);
-  const fetchLeads = (0, import_react64.useCallback)(async () => {
+  const fetchLeads = (0, import_react65.useCallback)(async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/leads");
@@ -138958,7 +139017,7 @@ function AdminLeads() {
       setIsLoading(false);
     }
   }, [showToast]);
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     void fetchLeads();
   }, [fetchLeads]);
   const persistLead = async (id3, payload) => {
@@ -138969,15 +139028,15 @@ function AdminLeads() {
     });
     if (!response.ok) throw new Error("Failed to update lead.");
   };
-  const selectedSet = (0, import_react64.useMemo)(() => new Set(selectedIds), [selectedIds]);
-  const summaryStats = (0, import_react64.useMemo)(() => {
+  const selectedSet = (0, import_react65.useMemo)(() => new Set(selectedIds), [selectedIds]);
+  const summaryStats = (0, import_react65.useMemo)(() => {
     const open = leads.filter((lead) => lead.status === "New" || lead.status === "Contacted" || lead.status === "In Progress").length;
     const converted = leads.filter((lead) => lead.status === "Converted").length;
     const stale = leads.filter((lead) => isStaleLead(lead)).length;
     const withoutNotes = leads.filter((lead) => !(draftNotes[lead.id] ?? lead.notes ?? "").trim()).length;
     return { total: leads.length, open, converted, stale, withoutNotes };
   }, [draftNotes, leads]);
-  const filteredAndSortedLeads = (0, import_react64.useMemo)(() => {
+  const filteredAndSortedLeads = (0, import_react65.useMemo)(() => {
     const now2 = Date.now();
     const today = now2 - 24 * 60 * 60 * 1e3;
     const last7d = now2 - 7 * 24 * 60 * 60 * 1e3;
@@ -139678,7 +139737,7 @@ ${nextLine}` : nextLine };
 }
 
 // src/pages/admin/SeoSettings.tsx
-var import_react66 = __toESM(require_react(), 1);
+var import_react67 = __toESM(require_react(), 1);
 var import_lucide_react19 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/SeoFormSection.tsx
@@ -139771,10 +139830,12 @@ function AdminSeoSettings() {
   const { products, updateProduct, refreshProducts } = useProducts();
   const { pageSeo, updatePageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
-  const [editingPage, setEditingPage] = (0, import_react66.useState)(null);
-  const [showToast, setShowToast] = (0, import_react66.useState)(false);
-  const [isRefreshing, setIsRefreshing] = (0, import_react66.useState)(false);
-  (0, import_react66.useEffect)(() => {
+  const { setAction } = useAdminSidebarAction();
+  const [editingPage, setEditingPage] = (0, import_react67.useState)(null);
+  const [showToast, setShowToast] = (0, import_react67.useState)(false);
+  const [isRefreshing, setIsRefreshing] = (0, import_react67.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react67.useState)(false);
+  (0, import_react67.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -139811,7 +139872,7 @@ function AdminSeoSettings() {
       }
     }))
   ];
-  (0, import_react66.useEffect)(() => {
+  (0, import_react67.useEffect)(() => {
     if (!showToast) return;
     const timer = window.setTimeout(() => setShowToast(false), 3e3);
     return () => window.clearTimeout(timer);
@@ -139826,6 +139887,7 @@ function AdminSeoSettings() {
   const handleSave = async (e) => {
     e.preventDefault();
     if (!editingPage) return;
+    setIsSaving(true);
     try {
       if (editingPage.id.startsWith("product:")) {
         const productId = editingPage.id.replace("product:", "");
@@ -139837,12 +139899,26 @@ function AdminSeoSettings() {
         await updatePageSeo(editingPage.id, editingPage.seo, editingLang);
       }
       setShowToast(true);
-      setEditingPage(null);
     } catch (error) {
       console.error("SEO save error:", error);
       alert(error instanceof Error ? error.message : "Failed to save SEO changes.");
+    } finally {
+      setIsSaving(false);
     }
   };
+  (0, import_react67.useEffect)(() => {
+    if (!editingPage) {
+      setAction(null);
+      return void 0;
+    }
+    setAction({
+      label: "Save SEO",
+      formId: `form-seo-${editingPage.id.replace(/:/g, "-")}`,
+      isLoading: isSaving,
+      disabled: isSaving
+    });
+    return () => setAction(null);
+  }, [editingPage, isSaving, setAction]);
   if (isRefreshing) {
     return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
@@ -139927,7 +140003,7 @@ function AdminSeoSettings() {
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3, ease: "easeInOut" },
                 className: "overflow-hidden border-t border-slate-100 bg-slate-50/50",
-                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "p-6 sm:p-10", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("form", { onSubmit: handleSave, className: "space-y-8", children: [
+                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "p-4 sm:p-6", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("form", { id: `form-seo-${editingPage.id.replace(/:/g, "-")}`, onSubmit: handleSave, className: "space-y-5", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
                     SeoFormSection,
                     {
@@ -139935,14 +140011,7 @@ function AdminSeoSettings() {
                       onChange: (seo) => setEditingPage({ ...editingPage, seo })
                     }
                   ),
-                  /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "flex items-center justify-end gap-3 pt-8 border-t border-slate-200", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(Button, { type: "button", variant: "ghost", onClick: () => setEditingPage(null), className: "text-slate-600 hover:bg-slate-200 text-sm font-bold", children: "Discard Changes" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(Button, { type: "submit", className: "bg-earth-600 hover:bg-earth-700 text-white min-w-[160px] shadow-lg shadow-earth-500/20 text-sm font-bold", children: [
-                      "Update ",
-                      editingLang.toUpperCase(),
-                      " SEO"
-                    ] })
-                  ] })
+                  /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(Button, { type: "button", variant: "ghost", onClick: () => setEditingPage(null), className: "text-slate-600 hover:bg-slate-200 text-sm font-bold", children: "Discard Changes" }) })
                 ] }) })
               }
             ) })
@@ -139955,17 +140024,19 @@ function AdminSeoSettings() {
 }
 
 // src/pages/admin/GlobalSettings.tsx
-var import_react68 = __toESM(require_react(), 1);
+var import_react69 = __toESM(require_react(), 1);
 var import_lucide_react20 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
 function AdminGlobalSettings() {
   const { globalSettings, updateGlobalSettings, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
-  const [settings, setSettings] = (0, import_react68.useState)(globalSettings);
-  const [successMessage, setSuccessMessage] = (0, import_react68.useState)(null);
-  const [activeSection, setActiveSection] = (0, import_react68.useState)("branding");
-  const [isRefreshing, setIsRefreshing] = (0, import_react68.useState)(false);
-  import_react68.default.useEffect(() => {
+  const { setAction } = useAdminSidebarAction();
+  const [settings, setSettings] = (0, import_react69.useState)(globalSettings);
+  const [successMessage, setSuccessMessage] = (0, import_react69.useState)(null);
+  const [activeSection, setActiveSection] = (0, import_react69.useState)("branding");
+  const [isRefreshing, setIsRefreshing] = (0, import_react69.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react69.useState)(false);
+  import_react69.default.useEffect(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -139978,11 +140049,12 @@ function AdminGlobalSettings() {
     };
     loadLangData();
   }, [editingLang]);
-  import_react68.default.useEffect(() => {
+  import_react69.default.useEffect(() => {
     setSettings(globalSettings);
   }, [globalSettings]);
   const handleSave = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
     try {
       await updateGlobalSettings(settings, editingLang);
       setSuccessMessage(`Global settings (${editingLang.toUpperCase()}) saved successfully!`);
@@ -139990,8 +140062,19 @@ function AdminGlobalSettings() {
     } catch (error) {
       console.error("Failed to save global settings:", error);
       alert("Failed to save global settings. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
+  import_react69.default.useEffect(() => {
+    setAction({
+      label: `Save Settings`,
+      formId: "global-settings-form",
+      isLoading: isSaving,
+      disabled: isSaving || isRefreshing
+    });
+    return () => setAction(null);
+  }, [isRefreshing, isSaving, setAction]);
   const toggleSection = (id3) => {
     setActiveSection(activeSection === id3 ? null : id3);
   };
@@ -140032,31 +140115,14 @@ function AdminGlobalSettings() {
     ] }) });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Global Settings" }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { className: "text-sm text-slate-500", children: [
-          "Manage site-wide variables like Header & Footer for the ",
-          editingLang.toUpperCase(),
-          " version."
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
-        Button,
-        {
-          onClick: handleSave,
-          className: "flex items-center gap-2 bg-earth-600 hover:bg-earth-700 text-white px-6 py-2 rounded-xl shadow-lg shadow-earth-500/20",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Save, { size: 18 }),
-            /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("span", { children: [
-              "Save Changes (",
-              editingLang.toUpperCase(),
-              ")"
-            ] })
-          ]
-        }
-      )
-    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Global Settings" }),
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { className: "text-sm text-slate-500", children: [
+        "Manage site-wide variables like Header & Footer for the ",
+        editingLang.toUpperCase(),
+        " version."
+      ] })
+    ] }) }),
     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
       motion.div,
       {
@@ -140070,7 +140136,7 @@ function AdminGlobalSettings() {
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("form", { onSubmit: handleSave, className: "space-y-4", children: sections.map((section) => {
+    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("form", { id: "global-settings-form", onSubmit: handleSave, className: "space-y-4", children: sections.map((section) => {
       const isOpen = activeSection === section.id;
       return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
         "div",
@@ -140081,7 +140147,7 @@ function AdminGlobalSettings() {
               "div",
               {
                 onClick: () => toggleSection(section.id),
-                className: `group flex items-center justify-between px-6 py-5 cursor-pointer select-none transition-colors ${isOpen ? "bg-earth-50" : "hover:bg-slate-50"}`,
+                className: `group flex items-center justify-between px-5 py-4 cursor-pointer select-none transition-colors ${isOpen ? "bg-earth-50" : "hover:bg-slate-50"}`,
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex items-center gap-4", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: `h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20" : "bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600"}`, children: section.icon }),
@@ -140101,8 +140167,8 @@ function AdminGlobalSettings() {
                 animate: { height: "auto", opacity: 1 },
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3, ease: "easeInOut" },
-                children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "p-8 bg-slate-50/50 border-t border-slate-100 space-y-8", children: [
-                  section.id === "branding" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-8", children: [
+                children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "p-5 bg-slate-50/50 border-t border-slate-100 space-y-5", children: [
+                  section.id === "branding" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-5", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
                       ImageUploader,
                       {
@@ -140158,7 +140224,7 @@ function AdminGlobalSettings() {
                         ] })
                       }
                     ),
-                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-2 gap-6 pt-4", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 gap-5 pt-2 md:grid-cols-2", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
                         /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: '"Learn More" CTA Text' }),
                         /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
@@ -140185,8 +140251,8 @@ function AdminGlobalSettings() {
                       ] })
                     ] })
                   ] }),
-                  section.id === "footer" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-8", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-8", children: [
+                  section.id === "footer" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-5", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
                         ImageUploader,
                         {
@@ -140208,7 +140274,7 @@ function AdminGlobalSettings() {
                         )
                       ] })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-8", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
                         /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Office Address" }),
                         /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
@@ -140234,7 +140300,7 @@ function AdminGlobalSettings() {
                         )
                       ] })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-5", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
                         /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Contact Email" }),
                         /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
@@ -140273,7 +140339,7 @@ function AdminGlobalSettings() {
                       ] })
                     ] })
                   ] }),
-                  section.id === "seo" && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "space-y-8", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
+                  section.id === "seo" && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "space-y-5", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Google Site Verification ID" }),
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
                       "input",
@@ -140367,15 +140433,15 @@ function UIField({ label, field, settings, setSettings }) {
 }
 
 // src/pages/admin/Media.tsx
-var import_react70 = __toESM(require_react(), 1);
+var import_react71 = __toESM(require_react(), 1);
 var import_lucide_react21 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
 function AdminMedia() {
   const { images, uploadMedia, deleteMedia, isLoading } = useMedia();
-  const [isDragging2, setIsDragging] = (0, import_react70.useState)(false);
-  const [uploading, setUploading] = (0, import_react70.useState)(false);
-  const fileInputRef = (0, import_react70.useRef)(null);
-  const [copiedId, setCopiedId] = (0, import_react70.useState)(null);
+  const [isDragging2, setIsDragging] = (0, import_react71.useState)(false);
+  const [uploading, setUploading] = (0, import_react71.useState)(false);
+  const fileInputRef = (0, import_react71.useRef)(null);
+  const [copiedId, setCopiedId] = (0, import_react71.useState)(null);
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
@@ -140530,21 +140596,21 @@ function AdminMedia() {
 }
 
 // src/components/ScrollToTop.tsx
-var import_react72 = __toESM(require_react(), 1);
+var import_react73 = __toESM(require_react(), 1);
 var import_react_router_dom10 = __toESM(require_dist2(), 1);
 function ScrollToTop() {
   const { pathname } = (0, import_react_router_dom10.useLocation)();
-  (0, import_react72.useEffect)(() => {
+  (0, import_react73.useEffect)(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 }
 
 // src/components/ErrorBoundary.jsx
-var import_react73 = __toESM(require_react(), 1);
+var import_react74 = __toESM(require_react(), 1);
 var import_lucide_react22 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
-var ErrorBoundary = class extends import_react73.default.Component {
+var ErrorBoundary = class extends import_react74.default.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -140617,6 +140683,21 @@ function NotFoundPage() {
     /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Link, { to: getManagedPagePath("home", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Button, { children: t2("notFoundButtonLabel") }) })
   ] }) });
 }
+function FaviconUpdater() {
+  const { globalSettings } = usePages();
+  const faviconUrl = globalSettings.headerLogo || "";
+  (0, import_react75.useEffect)(() => {
+    document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]').forEach((link) => link.remove());
+    if (!faviconUrl) return;
+    ["icon", "apple-touch-icon"].forEach((rel) => {
+      const link = document.createElement("link");
+      link.rel = rel;
+      link.href = faviconUrl;
+      document.head.appendChild(link);
+    });
+  }, [faviconUrl]);
+  return null;
+}
 function PublicRouteResolver() {
   const location2 = (0, import_react_router_dom11.useLocation)();
   const normalizedPath = normalizePath(location2.pathname);
@@ -140665,6 +140746,7 @@ function PublicRouteResolver() {
 }
 function AppShell({ initialData }) {
   return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(LanguageProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(MediaProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(PageProvider, { initialData, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(ProductProvider, { initialData, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(FaviconUpdater, {}),
     /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(ScrollToTop, {}),
     /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(import_react_router_dom11.Routes, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(import_react_router_dom11.Route, { path: "/control-room", element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AdminLayout, {}), children: [
@@ -141130,6 +141212,100 @@ function safeParseJson(value, fallback) {
     return fallback;
   }
 }
+var sharedMediaConfigs = {
+  home: {
+    scalar: ["heroBgImage", "supplyReachBgImage", "ctaBgImage"],
+    mixedImageArrays: ["progressSlider", "productCategories", "exportMarkets"]
+  },
+  about: {
+    scalar: ["missionPhotography"],
+    imageOnlyArrays: ["productionMarqueeImages", "partnerLogos", "heritageImagery"],
+    mixedImageArrays: ["ownProductionItems"]
+  },
+  products: {
+    scalar: ["heroBgImage", "orderingBgImage"]
+  },
+  export: {
+    scalar: ["heroBgImage"],
+    mixedImageArrays: ["supplyRoutes", "certificationsGallery"]
+  },
+  contacts: {
+    scalar: ["headquartersImage"]
+  }
+};
+function hasOwn(value, key) {
+  return Object.prototype.hasOwnProperty.call(value, key);
+}
+function localePreferenceRows(rows, order) {
+  const used = /* @__PURE__ */ new Set();
+  const ordered = order.map((locale) => rows.find((row) => asString(row?.lang, "en") === locale)).filter(Boolean);
+  ordered.forEach((row) => used.add(row));
+  return [...ordered, ...rows.filter((row) => !used.has(row))];
+}
+function sharedMediaRows(rows) {
+  return localePreferenceRows(rows, ["en", ...activeLocales.filter((locale) => locale !== "en")]);
+}
+function arrayHasImage(items) {
+  if (!Array.isArray(items)) return false;
+  return items.some((item) => {
+    if (typeof item === "string") return item.trim().length > 0;
+    if (!item || typeof item !== "object" || Array.isArray(item)) return false;
+    return asString(item.image).trim().length > 0;
+  });
+}
+function hasSharedMedia(content, config) {
+  if (!config || !content || typeof content !== "object") return false;
+  if ((config.scalar || []).some((key) => asString(content[key]).trim().length > 0)) return true;
+  if ((config.imageOnlyArrays || []).some((key) => arrayHasImage(content[key]))) return true;
+  if ((config.mixedImageArrays || []).some((key) => arrayHasImage(content[key]))) return true;
+  return false;
+}
+function mergeMixedImageArray(sourceItems, targetItems) {
+  if (!Array.isArray(sourceItems)) return Array.isArray(targetItems) ? targetItems : [];
+  const existingItems = Array.isArray(targetItems) ? targetItems : [];
+  return sourceItems.map((sourceItem, index) => {
+    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
+      return sourceItem;
+    }
+    const existingItem = existingItems[index];
+    const base = existingItem && typeof existingItem === "object" && !Array.isArray(existingItem) ? { ...existingItem } : { ...sourceItem };
+    base.image = asString(sourceItem.image);
+    return base;
+  });
+}
+function applySharedMedia(targetContent, sourceContent, config) {
+  if (!config || !sourceContent || typeof sourceContent !== "object") return targetContent;
+  const next = targetContent && typeof targetContent === "object" && !Array.isArray(targetContent) ? { ...targetContent } : {};
+  for (const key of config.scalar || []) {
+    if (hasOwn(sourceContent, key)) next[key] = asString(sourceContent[key]);
+  }
+  for (const key of config.imageOnlyArrays || []) {
+    if (hasOwn(sourceContent, key)) next[key] = Array.isArray(sourceContent[key]) ? sourceContent[key] : [];
+  }
+  for (const key of config.mixedImageArrays || []) {
+    if (hasOwn(sourceContent, key)) next[key] = mergeMixedImageArray(sourceContent[key], next[key]);
+  }
+  return next;
+}
+function pickSharedMediaContent(contents, config) {
+  return sharedMediaRows(contents).map((entry) => entry.content).find((content) => hasSharedMedia(content, config));
+}
+function pickSharedMediaField(rows, field, fallback = "") {
+  const row = sharedMediaRows(rows).find((candidate) => {
+    const value = candidate?.[field];
+    if (typeof value !== "string" || !value.trim()) return false;
+    if (value.trim().startsWith("[")) return safeParseJson(value, []).length > 0;
+    return true;
+  });
+  return row ? row[field] : fallback;
+}
+function mergeProductSharedMedia(row, rows) {
+  return {
+    ...row,
+    image: asString(pickSharedMediaField(rows, "image", row?.image)),
+    image_gallery: pickSharedMediaField(rows, "image_gallery", row?.image_gallery)
+  };
+}
 function createLeadId() {
   const timestamp = (/* @__PURE__ */ new Date()).toISOString().replace(/\D/g, "").slice(2, 14);
   return `L-${timestamp}-${Math.floor(100 + Math.random() * 900)}`;
@@ -141218,8 +141394,13 @@ app.use((err, req, res, next) => {
 });
 async function getGlobalSettings(locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  const res = await db.query("SELECT * FROM global_settings WHERE id = 1 AND lang = $1", [resolvedLocale]);
-  return mapGlobalSettings(res.rows[0] || {});
+  const res = await db.query("SELECT * FROM global_settings WHERE id = 1");
+  const targetRow = res.rows.find((row) => asString(row?.lang, "en") === resolvedLocale) || {};
+  return mapGlobalSettings({
+    ...targetRow,
+    header_logo: pickSharedMediaField(res.rows, "header_logo", targetRow?.header_logo),
+    footer_logo: pickSharedMediaField(res.rows, "footer_logo", targetRow?.footer_logo)
+  });
 }
 async function getPageSeo(locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
@@ -141246,7 +141427,8 @@ async function findProductRowByIdentifier(identifier, locale = "en") {
     const rowSlug = asString(safeParseJson(row?.seo, {}).slug);
     return normalizeSlug2(rowId, rowId) === normalizedIdentifier || normalizeSlug2(rowSlug, rowId) === normalizedIdentifier;
   });
-  return getPreferredProductRow(matches, locale);
+  const preferredRow = getPreferredProductRow(matches, locale);
+  return preferredRow ? mergeProductSharedMedia(preferredRow, matches) : null;
 }
 function mapSeoRecord(row, pageId) {
   const fallback = defaultPageSeo[pageId];
@@ -141384,14 +141566,77 @@ function mapContactsPage(row) {
 }
 async function readContentTable(pageId, locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  const res = await db.query(`SELECT content FROM ${pageContentTables[pageId]} WHERE id = 1 AND lang = $1`, [resolvedLocale]);
-  const row = res.rows[0];
+  const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
+  const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === resolvedLocale);
   const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
-  return safeParseJson(row?.content, fallback);
+  const targetContent = safeParseJson(row?.content, fallback);
+  const config = sharedMediaConfigs[pageId];
+  const contents = res.rows.map((candidate) => ({
+    lang: asString(candidate?.lang, "en"),
+    content: safeParseJson(candidate?.content, {})
+  }));
+  const sharedContent = pickSharedMediaContent(contents, config);
+  return sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
 }
 async function writeContentTable(pageId, content, locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
   await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(content), resolvedLocale]);
+}
+async function syncFlexiblePageSharedMedia(pageId, sourceContent) {
+  const config = sharedMediaConfigs[pageId];
+  if (!config) return;
+  const tableName = pageContentTables[pageId];
+  const res = await db.query(`SELECT lang, content FROM ${tableName} WHERE id = 1`);
+  await Promise.all(activeLocales.map(async (locale) => {
+    const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === locale);
+    const existingContent = safeParseJson(row?.content, {});
+    const nextContent = applySharedMedia(existingContent, sourceContent, config);
+    await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(nextContent), locale]);
+  }));
+}
+async function syncGlobalSharedMedia(settings) {
+  await db.query(
+    "UPDATE global_settings SET header_logo = $1, footer_logo = $2 WHERE id = 1",
+    [asString(settings.headerLogo), asString(settings.footerLogo)]
+  );
+}
+async function syncProductsPageSharedMedia(content) {
+  await db.query(
+    "UPDATE products_page SET hero_bg_image = $1, ordering_bg_image = $2 WHERE id = 1",
+    [asString(content.heroBgImage), asString(content.orderingBgImage)]
+  );
+}
+async function syncExportPageSharedMedia(content) {
+  const res = await db.query("SELECT lang, supply_routes, certifications_gallery FROM export_page WHERE id = 1");
+  await Promise.all(activeLocales.map(async (locale) => {
+    const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === locale);
+    const existingContent = {
+      supplyRoutes: safeParseJson(row?.supply_routes, []),
+      certificationsGallery: safeParseJson(row?.certifications_gallery, [])
+    };
+    const nextContent = applySharedMedia(existingContent, content, sharedMediaConfigs.export);
+    await db.query(
+      "UPDATE export_page SET hero_bg_image = $1, supply_routes = $2, certifications_gallery = $3 WHERE id = 1 AND lang = $4",
+      [
+        asString(content.heroBgImage),
+        JSON.stringify(Array.isArray(nextContent.supplyRoutes) ? nextContent.supplyRoutes : []),
+        JSON.stringify(Array.isArray(nextContent.certificationsGallery) ? nextContent.certificationsGallery : []),
+        locale
+      ]
+    );
+  }));
+}
+async function syncContactsPageSharedMedia(content) {
+  await db.query(
+    "UPDATE contacts_page SET headquarters_image = $1 WHERE id = 1",
+    [asString(content.headquartersImage)]
+  );
+}
+async function syncProductSharedMedia(product) {
+  await db.query(
+    "UPDATE products SET image = $1, image_gallery = $2 WHERE id = $3",
+    [asString(product.image), JSON.stringify(Array.isArray(product.imageGallery) ? product.imageGallery : []), asString(product.id)]
+  );
 }
 function getManagedProductSlug2(product) {
   return normalizeSlug2(asString(product.seo?.slug), normalizeSlug2(product.id, product.id));
@@ -141409,18 +141654,33 @@ async function getProductsForLocale(locale = "en") {
     bucket.push(row);
     rowsById.set(key, bucket);
   });
-  return Array.from(rowsById.values()).map((rows) => getPreferredProductRow(rows, resolvedLocale)).filter(Boolean).map(mapProduct);
+  return Array.from(rowsById.values()).map((rows) => {
+    const preferredRow = getPreferredProductRow(rows, resolvedLocale);
+    return preferredRow ? mergeProductSharedMedia(preferredRow, rows) : null;
+  }).filter(Boolean).map(mapProduct);
+}
+async function getSharedStructuredPageContent(tableName, locale, mapper, config) {
+  const resolvedLocale = normalizeLocale(locale);
+  const res = await db.query(`SELECT * FROM ${tableName} WHERE id = 1`);
+  const targetRow = res.rows.find((row) => asString(row?.lang, "en") === resolvedLocale) || {};
+  const targetContent = mapper(targetRow);
+  const mappedContents = res.rows.map((row) => ({
+    lang: asString(row?.lang, "en"),
+    content: mapper(row)
+  }));
+  const sharedContent = pickSharedMediaContent(mappedContents, config);
+  return sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
 }
 async function getPageContent(pageId, locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
   if (pageId === "products") {
-    return mapProductsPage((await db.query("SELECT * FROM products_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+    return getSharedStructuredPageContent("products_page", resolvedLocale, mapProductsPage, sharedMediaConfigs.products);
   }
   if (pageId === "export") {
-    return mapExportPage((await db.query("SELECT * FROM export_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+    return getSharedStructuredPageContent("export_page", resolvedLocale, mapExportPage, sharedMediaConfigs.export);
   }
   if (pageId === "contacts") {
-    return mapContactsPage((await db.query("SELECT * FROM contacts_page WHERE id = 1 AND lang = $1", [resolvedLocale])).rows[0]);
+    return getSharedStructuredPageContent("contacts_page", resolvedLocale, mapContactsPage, sharedMediaConfigs.contacts);
   }
   if (pageId in pageContentTables) {
     return readContentTable(pageId, resolvedLocale);
@@ -141557,6 +141817,7 @@ function renderHtmlWithSeo(template, meta) {
     /<meta[^>]+property="og:url"[^>]*>/gi,
     /<meta[^>]+property="og:site_name"[^>]*>/gi,
     /<link[^>]+rel="canonical"[^>]*>/gi,
+    /<link[^>]+rel="(?:icon|shortcut icon|apple-touch-icon)"[^>]*>/gi,
     /<link[^>]+rel="alternate"[^>]*hreflang="[^"]+"[^>]*>/gi
   ];
   let html = template;
@@ -141586,6 +141847,10 @@ function renderHtmlWithSeo(template, meta) {
   }
   if (meta.googleSiteVerificationId) {
     tags.push(`<meta name="google-site-verification" content="${escapeHtml2(meta.googleSiteVerificationId)}" />`);
+  }
+  if (meta.faviconUrl) {
+    tags.push(`<link rel="icon" href="${escapeHtml2(meta.faviconUrl)}" />`);
+    tags.push(`<link rel="apple-touch-icon" href="${escapeHtml2(meta.faviconUrl)}" />`);
   }
   for (const alternate of meta.alternateLinks || []) {
     tags.push(`<link rel="alternate" hreflang="${escapeHtml2(alternate.hrefLang)}" href="${escapeHtml2(alternate.href)}" />`);
@@ -141693,6 +141958,7 @@ async function buildRenderMeta(req) {
       ogType: "website",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
+      faviconUrl: defaultImage2,
       alternateLinks: buildSelectorAlternates(origin)
     };
   }
@@ -141714,6 +141980,7 @@ async function buildRenderMeta(req) {
       ogType: "website",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
+      faviconUrl: defaultImage2,
       alternateLinks: []
     };
   }
@@ -141737,6 +142004,7 @@ async function buildRenderMeta(req) {
       ogType: "website",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
+      faviconUrl: defaultImage2,
       redirectTo: legacyStaticMatch.canonicalPath,
       alternateLinks: await buildPageAlternates(legacyStaticMatch.pageId, origin)
     };
@@ -141761,6 +142029,7 @@ async function buildRenderMeta(req) {
       ogType: "product",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
+      faviconUrl: defaultImage2,
       redirectTo: legacyProductMatch.canonicalPath,
       alternateLinks: await buildProductAlternates(legacyProductMatch.product.id, origin)
     };
@@ -141774,7 +142043,8 @@ async function buildRenderMeta(req) {
   const googleSiteVerificationId = globals.googleSiteVerificationId || "";
   const baseMeta = {
     siteName,
-    googleSiteVerificationId
+    googleSiteVerificationId,
+    faviconUrl: defaultImage
   };
   const staticMatch = resolveStaticLocalePageByPath(normalizedPath, pageSeo, locale);
   if (staticMatch) {
@@ -141856,6 +142126,7 @@ app.post("/api/globals", async (req, res) => {
     const settings = req.body ?? {};
     const locale = getRequestLocale(req);
     await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1 AND lang = $19`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), locale]);
+    await syncGlobalSharedMedia(settings);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: "Update failed" });
@@ -141902,6 +142173,7 @@ app.post("/api/products", async (req, res) => {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, "", locale);
     await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), locale]);
+    await syncProductSharedMedia(product);
     res.json({ success: true, id: product.id, product });
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" });
@@ -141933,6 +142205,7 @@ app.post("/api/products/:id", async (req, res) => {
           locale
         ]
       );
+      await syncProductSharedMedia({ ...product, id: asString(req.params.id) });
       return res.json({ success: true, product: { ...product, id: asString(req.params.id) } });
     }
     const result = await db.query(
@@ -141940,6 +142213,7 @@ app.post("/api/products/:id", async (req, res) => {
       [product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), asString(req.params.id), locale]
     );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
+    await syncProductSharedMedia(product);
     res.json({ success: true, product });
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" });
@@ -141970,18 +142244,22 @@ app.post("/api/pages/:id", async (req, res) => {
     const content = req.body ?? {};
     if (pageId === "products") {
       await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
+      await syncProductsPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "export") {
       await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1 AND lang = $17`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
+      await syncExportPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
       await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
+      await syncContactsPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId in pageContentTables) {
       await writeContentTable(pageId, content, locale);
+      await syncFlexiblePageSharedMedia(pageId, content);
       return res.json({ success: true });
     }
     return res.status(404).json({ error: "Page template not found" });
@@ -142140,10 +142418,10 @@ if (import_fs.default.existsSync(distDir)) {
       const meta = await buildRenderMeta(req);
       if (meta.redirectTo) return res.redirect(301, meta.redirectTo);
       const appHtml = (0, import_server.renderToString)(
-        import_react74.default.createElement(
+        import_react76.default.createElement(
           import_react_router_dom12.StaticRouter,
           { location: req.originalUrl },
-          import_react74.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
+          import_react76.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
         )
       );
       const html = renderHtmlWithSeo(getIndexTemplate(), { ...meta, appHtml });

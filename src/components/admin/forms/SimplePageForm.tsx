@@ -9,7 +9,7 @@ interface Props {
 
 export function SimplePageForm({ content, updateContent }: Props) {
     return (
-        <div className="space-y-8">
+        <div className="space-y-4">
             <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h4 className="font-bold text-slate-800 text-lg border-b pb-2 mb-4">Page Content</h4>
 

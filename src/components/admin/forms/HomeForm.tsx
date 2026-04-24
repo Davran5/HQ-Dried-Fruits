@@ -11,7 +11,7 @@ interface Props {
 
 export function HomeForm({ content, updateContent }: Props) {
     return (
-        <div className="space-y-8">
+        <div className="space-y-4">
             <FormSection title="1. Hero Orchard Section">
 
                 <ImageUploader

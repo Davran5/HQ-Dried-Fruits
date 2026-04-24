@@ -44,22 +44,22 @@ export function Repeater<T>({ label, items, onUpdate, emptyItem, renderItem }: R
     };
 
     return (
-        <div className="space-y-3">
-            <div className="flex items-center justify-between">
+        <div className="space-y-2.5">
+            <div className="flex items-center justify-between gap-3">
                 <label className="block text-sm font-bold text-slate-800">{label}</label>
                 <Button type="button" size="sm" variant="outline" onClick={addItem} className="h-8 text-xs">
                     <Plus size={14} className="mr-1" /> Add Row
                 </Button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
                 {items.length === 0 ? (
-                    <div className="text-center py-6 text-sm text-slate-500 border border-dashed border-slate-300 rounded-lg">
+                    <div className="text-center py-4 text-sm text-slate-500 border border-dashed border-slate-300 rounded-lg">
                         No items added yet.
                     </div>
                 ) : (
                     items.map((item, index) => (
-                        <div key={index} className="relative rounded-lg border border-slate-200 bg-slate-50 p-4 group">
+                        <div key={index} className="relative rounded-lg border border-slate-200 bg-slate-50 p-3 group">
                             <div className="absolute left-2 top-1/2 -translate-y-1/2 cursor-grab text-slate-300 hover:text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <GripVertical size={16} />
                             </div>
@@ -70,7 +70,7 @@ export function Repeater<T>({ label, items, onUpdate, emptyItem, renderItem }: R
                             >
                                 <Trash2 size={16} />
                             </button>
-                            <div className="pl-6 pr-8">
+                            <div className="pl-5 pr-8">
                                 {renderItem(item, index, updateItem, replaceItem)}
                             </div>
                         </div>

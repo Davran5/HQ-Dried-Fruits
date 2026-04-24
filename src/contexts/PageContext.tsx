@@ -590,7 +590,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
             body: JSON.stringify(settings),
         });
         if (response.ok) {
-            if (targetLocale === locale) setGlobalSettings(settings);
+            setGlobalSettings(settings);
         } else {
             throw new Error("Failed to update global settings");
         }
@@ -604,9 +604,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
             body: JSON.stringify(newPageData.content),
         });
         if (response.ok) {
-            if (targetLocale === locale) {
-                setPages((prev) => prev.map((p) => (p.id === id ? newPageData : p)));
-            }
+            setPages((prev) => prev.map((p) => (p.id === id ? newPageData : p)));
         } else {
             throw new Error("Failed to update page");
         }
@@ -620,9 +618,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
             body: JSON.stringify(seo),
         });
         if (response.ok) {
-            if (targetLocale === locale) {
-                setPageSeo((prev) => ({ ...prev, [id]: seo }));
-            }
+            setPageSeo((prev) => ({ ...prev, [id]: seo }));
         } else {
             throw new Error("Failed to update SEO settings");
         }

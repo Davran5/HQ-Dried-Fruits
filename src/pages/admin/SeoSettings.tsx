@@ -7,6 +7,7 @@ import { useProducts } from "@/src/contexts/ProductContext";
 import { defaultPageSeoSettings, usePages } from "@/src/contexts/PageContext";
 import { getManagedPagePath, getManagedProductAnchorPath, type ManagedPageId } from "@/src/lib/routes";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 
 interface PageSEO {
   id: string;
@@ -29,9 +30,11 @@ export function AdminSeoSettings() {
   const { products, updateProduct, refreshProducts } = useProducts();
   const { pageSeo, updatePageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
+  const { setAction } = useAdminSidebarAction();
   const [editingPage, setEditingPage] = useState<PageSEO | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Refresh all data whenever the editing language changes
   useEffect(() => {
@@ -93,6 +96,7 @@ export function AdminSeoSettings() {
     e.preventDefault();
     if (!editingPage) return;
 
+    setIsSaving(true);
     try {
       if (editingPage.id.startsWith("product:")) {
         const productId = editingPage.id.replace("product:", "");
@@ -105,12 +109,29 @@ export function AdminSeoSettings() {
       }
 
       setShowToast(true);
-      setEditingPage(null);
     } catch (error) {
       console.error("SEO save error:", error);
       alert(error instanceof Error ? error.message : "Failed to save SEO changes.");
+    } finally {
+      setIsSaving(false);
     }
   };
+
+  useEffect(() => {
+    if (!editingPage) {
+      setAction(null);
+      return undefined;
+    }
+
+    setAction({
+      label: "Save SEO",
+      formId: `form-seo-${editingPage.id.replace(/:/g, "-")}`,
+      isLoading: isSaving,
+      disabled: isSaving,
+    });
+
+    return () => setAction(null);
+  }, [editingPage, isSaving, setAction]);
 
   if (isRefreshing) {
     return (
@@ -193,19 +214,16 @@ export function AdminSeoSettings() {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden border-t border-slate-100 bg-slate-50/50"
                   >
-                    <div className="p-6 sm:p-10">
-                      <form onSubmit={handleSave} className="space-y-8">
+                    <div className="p-4 sm:p-6">
+                      <form id={`form-seo-${editingPage.id.replace(/:/g, "-")}`} onSubmit={handleSave} className="space-y-5">
                         <SeoFormSection
                           data={editingPage.seo}
                           onChange={(seo) => setEditingPage({ ...editingPage, seo })}
                         />
 
-                        <div className="flex items-center justify-end gap-3 pt-8 border-t border-slate-200">
+                        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
                           <Button type="button" variant="ghost" onClick={() => setEditingPage(null)} className="text-slate-600 hover:bg-slate-200 text-sm font-bold">
                             Discard Changes
-                          </Button>
-                          <Button type="submit" className="bg-earth-600 hover:bg-earth-700 text-white min-w-[160px] shadow-lg shadow-earth-500/20 text-sm font-bold">
-                            Update {editingLang.toUpperCase()} SEO
                           </Button>
                         </div>
                       </form>

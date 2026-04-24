@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, Save, Globe, Layout, Mail, ChevronDown, Flag, Settings2, Loader2, Languages } from "lucide-react";
-import { Button } from "@/src/components/ui/Button";
+import { CheckCircle2, Globe, Layout, Mail, ChevronDown, Loader2, Languages } from "lucide-react";
 import { usePages } from "@/src/contexts/PageContext";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { NavLink } from "@/src/types/page";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 
 export function AdminGlobalSettings() {
     const { globalSettings, updateGlobalSettings, refreshData } = usePages();
     const { editingLang } = useAdminLanguage();
+    const { setAction } = useAdminSidebarAction();
     const [settings, setSettings] = useState(globalSettings);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [activeSection, setActiveSection] = useState<string | null>("branding");
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     // Refresh data whenever the editing language changes
     React.useEffect(() => {
@@ -38,6 +40,7 @@ export function AdminGlobalSettings() {
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsSaving(true);
         try {
             await updateGlobalSettings(settings, editingLang);
             setSuccessMessage(`Global settings (${editingLang.toUpperCase()}) saved successfully!`);
@@ -45,8 +48,21 @@ export function AdminGlobalSettings() {
         } catch (error) {
             console.error("Failed to save global settings:", error);
             alert("Failed to save global settings. Please try again.");
+        } finally {
+            setIsSaving(false);
         }
     };
+
+    React.useEffect(() => {
+        setAction({
+            label: `Save Settings`,
+            formId: "global-settings-form",
+            isLoading: isSaving,
+            disabled: isSaving || isRefreshing,
+        });
+
+        return () => setAction(null);
+    }, [isRefreshing, isSaving, setAction]);
 
     const toggleSection = (id: string) => {
         setActiveSection(activeSection === id ? null : id);
@@ -97,13 +113,6 @@ export function AdminGlobalSettings() {
                     <h2 className="text-2xl font-bold text-slate-900">Global Settings</h2>
                     <p className="text-sm text-slate-500">Manage site-wide variables like Header & Footer for the {editingLang.toUpperCase()} version.</p>
                 </div>
-                <Button 
-                    onClick={handleSave} 
-                    className="flex items-center gap-2 bg-earth-600 hover:bg-earth-700 text-white px-6 py-2 rounded-xl shadow-lg shadow-earth-500/20"
-                >
-                    <Save size={18} />
-                    <span>Save Changes ({editingLang.toUpperCase()})</span>
-                </Button>
             </div>
 
             <AnimatePresence>
@@ -120,7 +129,7 @@ export function AdminGlobalSettings() {
                 )}
             </AnimatePresence>
 
-            <form onSubmit={handleSave} className="space-y-4">
+            <form id="global-settings-form" onSubmit={handleSave} className="space-y-4">
                 {sections.map((section) => {
                     const isOpen = activeSection === section.id;
                     return (
@@ -130,7 +139,7 @@ export function AdminGlobalSettings() {
                         >
                             <div
                                 onClick={() => toggleSection(section.id)}
-                                className={`group flex items-center justify-between px-6 py-5 cursor-pointer select-none transition-colors ${isOpen ? 'bg-earth-50' : 'hover:bg-slate-50'}`}
+                                className={`group flex items-center justify-between px-5 py-4 cursor-pointer select-none transition-colors ${isOpen ? 'bg-earth-50' : 'hover:bg-slate-50'}`}
                             >
                                 <div className="flex items-center gap-4">
                                     <div className={`h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? 'bg-earth-600 text-white shadow-lg shadow-earth-500/20' : 'bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600'}`}>
@@ -154,9 +163,9 @@ export function AdminGlobalSettings() {
                                         exit={{ height: 0, opacity: 0 }}
                                         transition={{ duration: 0.3, ease: "easeInOut" }}
                                     >
-                                        <div className="p-8 bg-slate-50/50 border-t border-slate-100 space-y-8">
+                                        <div className="p-5 bg-slate-50/50 border-t border-slate-100 space-y-5">
                                             {section.id === "branding" && (
-                                                <div className="space-y-8">
+                                                <div className="space-y-5">
                                                     <ImageUploader
                                                         label="Main Branding Logo"
                                                         value={settings.headerLogo}
@@ -202,7 +211,7 @@ export function AdminGlobalSettings() {
                                                         )}
                                                     />
 
-                                                    <div className="grid grid-cols-2 gap-6 pt-4">
+                                                    <div className="grid grid-cols-1 gap-5 pt-2 md:grid-cols-2">
                                                         <div>
                                                             <label className="block text-sm font-bold text-slate-700 mb-2">"Learn More" CTA Text</label>
                                                             <input
@@ -226,8 +235,8 @@ export function AdminGlobalSettings() {
                                             )}
 
                                             {section.id === "footer" && (
-                                                <div className="space-y-8">
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                <div className="space-y-5">
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                                         <ImageUploader
                                                             label="Footer Logo"
                                                             value={settings.footerLogo}
@@ -244,7 +253,7 @@ export function AdminGlobalSettings() {
                                                         </div>
                                                     </div>
 
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                                         <div>
                                                             <label className="block text-sm font-bold text-slate-700 mb-2">Office Address</label>
                                                             <input
@@ -265,7 +274,7 @@ export function AdminGlobalSettings() {
                                                         </div>
                                                     </div>
 
-                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                                                         <div>
                                                             <label className="block text-sm font-bold text-slate-700 mb-2">Contact Email</label>
                                                             <input
@@ -298,7 +307,7 @@ export function AdminGlobalSettings() {
                                             )}
 
                                             {section.id === "seo" && (
-                                                <div className="space-y-8">
+                                                <div className="space-y-5">
                                                     <div>
                                                         <label className="block text-sm font-bold text-slate-700 mb-2">Google Site Verification ID</label>
                                                         <input

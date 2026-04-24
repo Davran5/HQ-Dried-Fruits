@@ -11,7 +11,7 @@ interface Props {
 
 export function ProductsForm({ content, updateContent }: Props) {
     return (
-        <div className="space-y-8">
+        <div className="space-y-4">
             <FormSection title="1. Header / Intro">
                 <ImageUploader
                     label="Header / Intro Background Image"

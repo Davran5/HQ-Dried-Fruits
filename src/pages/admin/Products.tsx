@@ -9,6 +9,7 @@ import { RichTextEditor } from "@/src/components/admin/forms/RichTextEditor";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { Product, ProductContentSection } from "@/src/types/product";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 
 const emptyProduct: Omit<Product, "id"> = {
   name: "",
@@ -33,12 +34,14 @@ const emptyProduct: Omit<Product, "id"> = {
 export function AdminProducts() {
   const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
   const { editingLang } = useAdminLanguage();
+  const { setAction } = useAdminSidebarAction();
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null); // null = closed, "new" = adding new, "ID" = editing existing
   const [formData, setFormData] = useState<Omit<Product, "id">>(emptyProduct);
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Refresh products whenever the editing language changes
   useEffect(() => {
@@ -74,9 +77,13 @@ export function AdminProducts() {
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    setIsSaving(true);
     try {
       if (editingId === "new") {
-        await addProduct(formData, editingLang);
+        const createdProduct = await addProduct(formData, editingLang);
+        const { id: createdId, ...createdFormData } = createdProduct;
+        setEditingId(createdId);
+        setFormData(createdFormData);
         setSuccessMessage(`New product (${editingLang.toUpperCase()}) created successfully!`);
       } else if (editingId) {
         await updateProduct(editingId, formData, editingLang);
@@ -84,12 +91,29 @@ export function AdminProducts() {
       }
 
       setTimeout(() => setSuccessMessage(null), 3000);
-      handleClose(); // AUTO-CLOSE ON SAVE
     } catch (error) {
       console.error("Save failed:", error);
       alert(error instanceof Error ? error.message : "Failed to save changes. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
+
+  useEffect(() => {
+    if (!editingId) {
+      setAction(null);
+      return undefined;
+    }
+
+    setAction({
+      label: editingId === "new" ? "Create Product" : "Save Product",
+      formId: `form-product-${editingId}`,
+      isLoading: isSaving,
+      disabled: isSaving,
+    });
+
+    return () => setAction(null);
+  }, [editingId, isSaving, setAction]);
 
   const confirmDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Prevents opening the accordion
@@ -106,10 +130,10 @@ export function AdminProducts() {
   };
 
   const renderProductForm = (id: string) => (
-    <div className="p-6 sm:p-10 bg-slate-50/50 border-t border-slate-100">
-      <form onSubmit={handleSaveProduct} className="space-y-8">
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="space-y-6">
+    <div className="p-4 sm:p-6 bg-slate-50/50 border-t border-slate-100">
+      <form id={`form-product-${id}`} onSubmit={handleSaveProduct} className="space-y-5">
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2">Product Name *</label>
               <input
@@ -162,7 +186,7 @@ export function AdminProducts() {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             <ImageUploader
               label="Primary Feature Image"
               value={formData.image}
@@ -217,7 +241,7 @@ export function AdminProducts() {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           <RichTextEditor
             label="Product Storytelling / Long Description"
             value={formData.longDescription || ""}
@@ -253,7 +277,7 @@ export function AdminProducts() {
           />
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2 pt-4">
+        <div className="grid gap-5 lg:grid-cols-2 pt-2">
           <Repeater<string>
             label="Product Highlights"
             items={formData.highlights || []}
@@ -285,12 +309,9 @@ export function AdminProducts() {
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-10 border-t border-slate-200">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
           <Button type="button" variant="ghost" onClick={handleClose} className="text-slate-600 hover:bg-slate-200 font-bold">
             Discard Changes
-          </Button>
-          <Button type="submit" className="bg-earth-600 hover:bg-earth-700 text-white min-w-[160px] shadow-lg shadow-earth-500/20 font-bold">
-            {id === "new" ? "Create Product" : "Save All Changes"}
           </Button>
         </div>
       </form>

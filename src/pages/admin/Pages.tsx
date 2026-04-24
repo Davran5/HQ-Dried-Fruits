@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Edit2, X, CheckCircle2, ChevronDown, Layout } from "lucide-react";
+import { CheckCircle2, ChevronDown, Layout } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { usePages } from "@/src/contexts/PageContext";
 import { PageData, HomeContent, AboutContent, ExportContent, ContactsContent, ProductsContent, SimplePageContent } from "@/src/types/page";
@@ -23,6 +23,7 @@ export function AdminPages() {
   const [editingPage, setEditingPage] = useState<PageData | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Refresh data whenever the editing language changes
   useEffect(() => {
@@ -56,14 +57,16 @@ export function AdminPages() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingPage) {
+      setIsSaving(true);
       try {
         await updatePage(editingPage.id, editingPage, editingLang);
         setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
         setTimeout(() => setSuccessMessage(null), 3000);
-        handleClose();
       } catch (error) {
         console.error("Failed to save page:", error);
         alert(`Failed to save ${editingPage.name}. Please try again.`);
+      } finally {
+        setIsSaving(false);
       }
     }
   };
@@ -73,13 +76,15 @@ export function AdminPages() {
       setAction({
         label: `Save ${editingPage.name}`,
         formId: `form-${editingPage.id}`,
+        isLoading: isSaving,
+        disabled: isSaving,
       });
       return () => setAction(null);
     }
 
     setAction(null);
     return undefined;
-  }, [editingPage, setAction]);
+  }, [editingPage, isSaving, setAction]);
 
   const renderFormContent = () => {
     if (!editingPage) return null;
@@ -168,11 +173,11 @@ export function AdminPages() {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden border-t border-slate-100 bg-slate-50"
                   >
-                    <div className="p-6 sm:p-8">
-                      <form id={`form-${page.id}`} onSubmit={handleSave} className="space-y-8">
+                    <div className="p-4 sm:p-5">
+                      <form id={`form-${page.id}`} onSubmit={handleSave} className="space-y-5">
                         {renderFormContent()}
 
-                        <div className="flex items-center justify-end gap-3 pt-8 border-t border-slate-200">
+                        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
                           <Button type="button" variant="ghost" onClick={handleClose} className="text-slate-600 hover:bg-slate-200">
                             Cancel
                           </Button>
