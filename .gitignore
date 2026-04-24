@@ -1,6 +1,14 @@
 node_modules/
 build/
-# dist/
+dist/
+.vite/
+.gemini/
+server.js
+server.cjs
+database.json
+error.txt
+public/uploads/
+dist/uploads/
 coverage/
 .DS_Store
 *.log
