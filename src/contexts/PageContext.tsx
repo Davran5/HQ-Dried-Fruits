@@ -232,6 +232,8 @@ const initialPages: PageData[] = [
             heroPrimaryCtaLabel: "Request Wholesale Catalog",
             heroSecondaryCtaLabel: "Our Processing Facilities",
             introLabel: "The HQ Dried Fruits Difference",
+            introEyebrow: "About Us",
+            introImage: "",
             introText: "We cultivate, process, and directly export the finest dried fruits from the Fergana Valley. Using advanced laser-sorting technology, we guarantee 99.9% purity for high-volume wholesale buyers across Europe and Asia.",
             statsGrid: [
                 { value: "25+", label: "Years Experience" },
@@ -243,9 +245,9 @@ const initialPages: PageData[] = [
             productPreviewButtonLabel: "View Full Catalog",
             productPreviewItemCtaLabel: "Request Sample",
             productCategories: [
-                { categoryName: "Dried Apricots", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800", shortDescription: "High-quality dark and golden varieties.", url: "/products/sun-dried-apricots" },
-                { categoryName: "Dried Prunes", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=800", shortDescription: "Pitted and unpitted sweet plums.", url: "/products/pitted-prunes" },
-                { categoryName: "Shadow-Dried Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Traditional drying process for max flavor.", url: "/products/black-raisins" },
+                { categoryName: "Dried Apricots", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800", shortDescription: "High-quality dark and golden varieties.", url: "/products/sun-dried-apricots", nutrition: { energy: "280 kcal", protein: "2.5 g", fat: "0.4 g", carbs: "72 g" } },
+                { categoryName: "Dried Prunes", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=800", shortDescription: "Pitted and unpitted sweet plums.", url: "/products/pitted-prunes", nutrition: { energy: "240 kcal", protein: "2.2 g", fat: "0.4 g", carbs: "64 g" } },
+                { categoryName: "Shadow-Dried Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Traditional drying process for max flavor.", url: "/products/black-raisins", nutrition: { energy: "299 kcal", protein: "3.1 g", fat: "0.5 g", carbs: "79 g" } },
             ],
             exportMarketsEyebrow: "Export Focus",
             exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",

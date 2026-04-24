@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, ChevronDown, Globe, Package, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { SeoFormSection, SEOData } from "@/src/components/admin/SeoFormSection";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { defaultPageSeoSettings, usePages } from "@/src/contexts/PageContext";
 import { getManagedPagePath, getManagedProductAnchorPath, type ManagedPageId } from "@/src/lib/routes";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
-import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
+import { useAdminHeaderTabs, useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 
 interface PageSEO {
   id: string;
@@ -31,6 +31,8 @@ export function AdminSeoSettings() {
   const { pageSeo, updatePageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const { setHeaderTabs } = useAdminHeaderTabs();
+  const [selectedSeoId, setSelectedSeoId] = useState("home");
   const [editingPage, setEditingPage] = useState<PageSEO | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -52,45 +54,65 @@ export function AdminSeoSettings() {
       }
     };
     loadLangData();
-    setEditingPage(null); // Close any open editor
   }, [editingLang]);
 
-  const staticPages: PageSEO[] = staticPageMetadata.map((page) => ({
-    ...page,
-    path: getManagedPagePath(page.id as ManagedPageId, pageSeo, editingLang),
-    seo: pageSeo[page.id] || defaultPageSeoSettings[page.id],
-  }));
-
-  const combinedPages: PageSEO[] = [
-    ...staticPages,
-    ...products.map((product) => ({
-      id: `product:${product.id}`,
-      name: `Product: ${product.name}`,
-      path: getManagedProductAnchorPath(product, pageSeo, editingLang),
-      seo: product.seo || {
-        metaTitle: `${product.name} | HQ Dried Fruits`,
-        metaDescription: product.shortDescription,
-        slug: product.id,
-        ogTitle: product.name,
-        imageAlt: product.name,
-      },
+  const staticPages: PageSEO[] = useMemo(
+    () => staticPageMetadata.map((page) => ({
+      ...page,
+      path: getManagedPagePath(page.id as ManagedPageId, pageSeo, editingLang),
+      seo: pageSeo[page.id] || defaultPageSeoSettings[page.id],
     })),
-  ];
+    [editingLang, pageSeo],
+  );
+
+  const combinedPages: PageSEO[] = useMemo(
+    () => [
+      ...staticPages,
+      ...products.map((product) => ({
+        id: `product:${product.id}`,
+        name: `Product: ${product.name}`,
+        path: getManagedProductAnchorPath(product, pageSeo, editingLang),
+        seo: product.seo || {
+          metaTitle: `${product.name} | HQ Dried Fruits`,
+          metaDescription: product.shortDescription,
+          slug: product.id,
+          ogTitle: product.name,
+          imageAlt: product.name,
+        },
+      })),
+    ],
+    [editingLang, pageSeo, products, staticPages],
+  );
+
+  const selectedSourcePage = useMemo(
+    () => combinedPages.find((page) => page.id === selectedSeoId) || combinedPages[0] || null,
+    [combinedPages, selectedSeoId],
+  );
+
+  useEffect(() => {
+    if (!selectedSourcePage) return;
+    setEditingPage(JSON.parse(JSON.stringify(selectedSourcePage)));
+  }, [selectedSourcePage]);
+
+  useEffect(() => {
+    setHeaderTabs(
+      combinedPages.map((page) => ({
+        id: page.id,
+        label: page.name,
+        sublabel: page.path,
+        onClick: () => setSelectedSeoId(page.id),
+      })),
+      selectedSeoId,
+    );
+
+    return () => setHeaderTabs(null);
+  }, [combinedPages, selectedSeoId, setHeaderTabs]);
 
   useEffect(() => {
     if (!showToast) return;
     const timer = window.setTimeout(() => setShowToast(false), 3000);
     return () => window.clearTimeout(timer);
   }, [showToast]);
-
-  const handleEdit = (page: PageSEO) => {
-    if (editingPage?.id === page.id) {
-      setEditingPage(null);
-      return;
-    }
-
-    setEditingPage(JSON.parse(JSON.stringify(page)));
-  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,81 +182,25 @@ export function AdminSeoSettings() {
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-900">SEO Settings ({editingLang.toUpperCase()})</h2>
-          <p className="text-sm text-slate-500">Manage indexability and social sharing previews for the {editingLang.toUpperCase()} version.</p>
-        </div>
-      </div>
+      {editingPage && (
+        <form id={`form-seo-${editingPage.id.replace(/:/g, "-")}`} onSubmit={handleSave} className="space-y-4">
+          <SeoFormSection
+            data={editingPage.seo}
+            onChange={(seo) => setEditingPage({ ...editingPage, seo })}
+          />
 
-      <div className="space-y-3">
-        {combinedPages.map((page) => {
-          const isExpanded = editingPage?.id === page.id;
-          const isProduct = page.id.startsWith("product:");
-
-          return (
-            <div
-              key={page.id}
-              className={`overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`}
+          <div className="flex items-center justify-end gap-3 border-t border-slate-200 pt-4">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => selectedSourcePage && setEditingPage(JSON.parse(JSON.stringify(selectedSourcePage)))}
+              className="text-sm font-bold text-slate-600 hover:bg-slate-200"
             >
-              <div
-                onClick={() => handleEdit(page)}
-                className={`group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? "bg-earth-50/70" : "hover:bg-slate-50"}`}
-              >
-                <div className="flex items-center gap-4 min-w-0">
-                  <div className={`h-11 w-11 rounded-xl flex items-center justify-center transition-colors shrink-0 ${isExpanded ? "bg-earth-600 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-earth-100 group-hover:text-earth-600"}`}>
-                    {isProduct ? <Package size={22} /> : <Globe size={22} />}
-                  </div>
-                  <div className="truncate">
-                    <div className={`font-bold transition-colors ${isExpanded ? "text-earth-900" : "text-slate-900"}`}>{page.name}</div>
-                    <div className="flex items-center gap-3 mt-1 text-xs">
-                      <span className="font-mono text-slate-400">{page.path}</span>
-                      <span className="h-1 w-1 rounded-full bg-slate-300 shrink-0" />
-                      <span className="text-slate-500 truncate italic">"{page.seo.metaTitle}"</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 shrink-0">
-                  <span className={`hidden md:block text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-white border ${isExpanded ? "border-earth-200 text-earth-600" : "border-slate-100 text-slate-400"}`}>
-                    {isProduct ? "Product" : "Static Page"}
-                  </span>
-                  <div className={`p-2 rounded-full transition-all duration-300 ${isExpanded ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`}>
-                    <ChevronDown size={20} />
-                  </div>
-                </div>
-              </div>
-
-              <AnimatePresence initial={false}>
-                {isExpanded && editingPage && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden border-t border-slate-100"
-                  >
-                    <div className="p-3 sm:p-4">
-                      <form id={`form-seo-${editingPage.id.replace(/:/g, "-")}`} onSubmit={handleSave} className="space-y-4">
-                        <SeoFormSection
-                          data={editingPage.seo}
-                          onChange={(seo) => setEditingPage({ ...editingPage, seo })}
-                        />
-
-                        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
-                          <Button type="button" variant="ghost" onClick={() => setEditingPage(null)} className="text-slate-600 hover:bg-slate-200 text-sm font-bold">
-                            Discard Changes
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
-      </div>
+              Discard Changes
+            </Button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

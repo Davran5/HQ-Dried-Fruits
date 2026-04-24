@@ -6,12 +6,13 @@ import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { NavLink } from "@/src/types/page";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
-import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
+import { useAdminHeaderTabs, useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 
 export function AdminGlobalSettings() {
     const { globalSettings, updateGlobalSettings, refreshData } = usePages();
     const { editingLang } = useAdminLanguage();
     const { setAction } = useAdminSidebarAction();
+    const { setHeaderTabs } = useAdminHeaderTabs();
     const [settings, setSettings] = useState(globalSettings);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [activeSection, setActiveSection] = useState<string | null>("branding");
@@ -65,7 +66,7 @@ export function AdminGlobalSettings() {
     }, [isRefreshing, isSaving, setAction]);
 
     const toggleSection = (id: string) => {
-        setActiveSection(activeSection === id ? null : id);
+        setActiveSection(id);
     };
 
     const sections = [
@@ -95,6 +96,19 @@ export function AdminGlobalSettings() {
         }
     ];
 
+    React.useEffect(() => {
+        setHeaderTabs(
+            sections.map((section) => ({
+                id: section.id,
+                label: section.title,
+                onClick: () => setActiveSection(section.id),
+            })),
+            activeSection,
+        );
+
+        return () => setHeaderTabs(null);
+    }, [activeSection, setHeaderTabs]);
+
     if (isRefreshing) {
         return (
             <div className="flex h-64 items-center justify-center">
@@ -108,13 +122,6 @@ export function AdminGlobalSettings() {
 
     return (
         <div className="space-y-4">
-            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                <div>
-                    <h2 className="text-2xl font-bold text-slate-900">Global Settings</h2>
-                    <p className="text-sm text-slate-500">Manage site-wide variables like Header & Footer for the {editingLang.toUpperCase()} version.</p>
-                </div>
-            </div>
-
             <AnimatePresence>
                 {successMessage && (
                     <motion.div
@@ -135,11 +142,11 @@ export function AdminGlobalSettings() {
                     return (
                         <div
                             key={section.id}
-                            className={`overflow-hidden rounded-lg border transition-all duration-300 ${isOpen ? 'border-earth-300 bg-white ring-1 ring-earth-500/10' : 'border-slate-200 bg-white hover:border-earth-200'}`}
+                            className={isOpen ? "contents" : "hidden"}
                         >
                             <div
                                 onClick={() => toggleSection(section.id)}
-                                className={`group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isOpen ? 'bg-earth-50/70' : 'hover:bg-slate-50'}`}
+                                className="hidden"
                             >
                                 <div className="flex items-center gap-4">
                                     <div className={`h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? 'bg-earth-600 text-white shadow-lg shadow-earth-500/20' : 'bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600'}`}>
@@ -163,7 +170,7 @@ export function AdminGlobalSettings() {
                                         exit={{ height: 0, opacity: 0 }}
                                         transition={{ duration: 0.3, ease: "easeInOut" }}
                                     >
-                                        <div className="space-y-4 border-t border-slate-100 p-3 sm:p-4">
+                                        <div className="space-y-4">
                                             {section.id === "branding" && (
                                                 <div className="space-y-4">
                                                     <ImageUploader

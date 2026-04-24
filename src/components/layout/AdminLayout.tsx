@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, useEffect, type FormEvent, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, useEffect, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -16,6 +16,7 @@ import {
   EyeOff,
   Save,
   Loader2,
+  CircleUserRound,
 } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
@@ -30,9 +31,19 @@ interface SidebarAction {
   isLoading?: boolean;
 }
 
+interface AdminHeaderTab {
+  id: string;
+  label: string;
+  sublabel?: string;
+  onClick: () => void;
+}
+
 interface AdminSidebarActionContextValue {
   action: SidebarAction | null;
   setAction: (action: SidebarAction | null) => void;
+  headerTabs: AdminHeaderTab[] | null;
+  activeHeaderTabId: string | null;
+  setHeaderTabs: (tabs: AdminHeaderTab[] | null, activeId?: string | null) => void;
 }
 
 const AdminSidebarActionContext = createContext<AdminSidebarActionContextValue | undefined>(undefined);
@@ -195,12 +206,21 @@ function LoginScreen({ onSuccess, brandLogo }: { onSuccess: () => void; brandLog
 function AdminLayoutContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [action, setAction] = useState<SidebarAction | null>(null);
+  const [headerTabs, setHeaderTabsState] = useState<AdminHeaderTab[] | null>(null);
+  const [activeHeaderTabId, setActiveHeaderTabId] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
   const { globalSettings } = usePages();
   const location = useLocation();
   const navigate = useNavigate();
-  const actionContextValue = useMemo(() => ({ action, setAction }), [action]);
+  const setHeaderTabs = useCallback((tabs: AdminHeaderTab[] | null, activeId: string | null = null) => {
+    setHeaderTabsState(tabs);
+    setActiveHeaderTabId(activeId);
+  }, []);
+  const actionContextValue = useMemo(
+    () => ({ action, setAction, headerTabs, activeHeaderTabId, setHeaderTabs }),
+    [action, activeHeaderTabId, headerTabs],
+  );
   const brandLogo = globalSettings.headerLogo || "";
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
 
@@ -330,18 +350,46 @@ function AdminLayoutContent() {
         </motion.aside>
 
         <div className="flex flex-1 flex-col overflow-hidden">
-          <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6">
-            <div className="flex items-center gap-4">
+          <header className="flex h-16 items-center gap-3 border-b border-slate-200 bg-white px-4 sm:px-6">
+            <div className="flex min-w-0 flex-1 items-center gap-3">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="text-slate-500 hover:text-slate-700 lg:hidden"
+                className="shrink-0 text-slate-500 hover:text-slate-700 lg:hidden"
               >
                 <Menu size={24} />
               </button>
-              <h1 className="text-xl font-semibold text-slate-900">{currentLink.name}</h1>
+              {headerTabs ? (
+                <div className="flex min-w-0 flex-1 gap-1.5 overflow-x-auto py-2">
+                  {headerTabs.map((tab) => {
+                    const isActive = activeHeaderTabId === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={tab.onClick}
+                        className={cn(
+                          "min-w-max rounded-lg border px-3 py-1.5 text-left transition-all",
+                          isActive
+                            ? "border-earth-300 bg-earth-50 text-earth-800"
+                            : "border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50",
+                        )}
+                      >
+                        <span className="block text-xs font-bold sm:text-sm">{tab.label}</span>
+                        {tab.sublabel ? (
+                          <span className="block max-w-[11rem] truncate font-mono text-[10px] text-slate-400">
+                            {tab.sublabel}
+                          </span>
+                        ) : null}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <h1 className="truncate text-xl font-semibold text-slate-900">{currentLink.name}</h1>
+              )}
             </div>
             
-            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <div className="flex shrink-0 items-center gap-3 sm:gap-4">
               <div className="flex items-center rounded-lg bg-slate-100 p-1">
                 {SUPPORTED_EDIT_LANGUAGES.map((lang) => (
                   <button
@@ -359,8 +407,8 @@ function AdminLayoutContent() {
                 ))}
               </div>
               
-              <div className="flex items-center gap-2">
-                <AdminBrandMark logo={brandLogo} className="h-8 w-8 rounded-full" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600">
+                <CircleUserRound size={18} />
               </div>
             </div>
           </header>
@@ -413,4 +461,14 @@ export function useAdminSidebarAction() {
     throw new Error("useAdminSidebarAction must be used within AdminLayout");
   }
   return context;
+}
+
+export function useAdminHeaderTabs() {
+  const context = useContext(AdminSidebarActionContext);
+  if (!context) {
+    throw new Error("useAdminHeaderTabs must be used within AdminLayout");
+  }
+  return {
+    setHeaderTabs: context.setHeaderTabs,
+  };
 }

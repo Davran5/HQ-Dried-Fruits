@@ -185,12 +185,12 @@ export function FrontPage() {
                 </motion.div>
                 <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 sm:px-6 sm:pb-24 lg:px-8">
                     <div className="max-w-3xl">
-                        <div className="overflow-hidden mb-6">
+                        <div className="mb-5 overflow-hidden py-2">
                             <motion.h1
                                 initial={{ y: "100%", opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, ease: springEasing }}
-                                className="font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[5.2rem] md:text-[6.3rem]"
+                                className="font-display text-[2.7rem] font-bold leading-[1.04] text-white sm:text-[5.2rem] md:text-[6.3rem]"
                             >
                                 {content.heroTitle || t("homeHeroTitle")}
                             </motion.h1>
@@ -245,7 +245,7 @@ export function FrontPage() {
                             className="group relative hidden min-h-[23rem] overflow-hidden rounded-[2.75rem] sm:min-h-[28rem] lg:block lg:h-full lg:min-h-0"
                         >
                             <img
-                                src={content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
+                                src={content.introImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
                                 alt="HQ Dried Fruits abstract orchard visual"
                                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 referrerPolicy="no-referrer"
@@ -257,14 +257,14 @@ export function FrontPage() {
                         <div className="flex min-h-full flex-col justify-center min-w-0">
                             <div>
                                 <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">
-                                    {t("homeAboutEyebrow")}
+                                    {content.introEyebrow || t("homeAboutEyebrow")}
                                 </p>
                                 <h2 className="mt-4 font-display text-[2.45rem] font-bold text-earth-900 sm:text-4xl">
                                     {content.introLabel || t("homeIntroLabel")}
                                 </h2>
                                 <div className="mt-6 overflow-hidden rounded-[2.25rem] lg:hidden">
                                     <img
-                                        src={content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
+                                        src={content.introImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
                                         alt="HQ Dried Fruits abstract orchard visual"
                                         className="h-[14rem] w-full object-cover"
                                         referrerPolicy="no-referrer"
@@ -337,7 +337,7 @@ export function FrontPage() {
                             >
                                 {(() => {
                                     const previewProduct = findPreviewProduct(product.categoryName);
-                                    const nutrition = previewProduct?.nutrition || {
+                                    const nutrition = product.nutrition || previewProduct?.nutrition || {
                                         energy: "280 kcal",
                                         protein: "2.5 g",
                                         fat: "0.4 g",

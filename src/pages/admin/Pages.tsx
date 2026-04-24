@@ -4,7 +4,7 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { usePages } from "@/src/contexts/PageContext";
 import { PageData, HomeContent, AboutContent, ExportContent, ContactsContent, ProductsContent, SimplePageContent } from "@/src/types/page";
-import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
+import { useAdminHeaderTabs, useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 import { HomeForm } from "@/src/components/admin/forms/HomeForm";
 import { AboutForm } from "@/src/components/admin/forms/AboutForm";
 import { ExportForm } from "@/src/components/admin/forms/ExportForm";
@@ -12,7 +12,6 @@ import { ContactsForm } from "@/src/components/admin/forms/ContactsForm";
 import { ProductsForm } from "@/src/components/admin/forms/ProductsForm";
 import { SimplePageForm } from "@/src/components/admin/forms/SimplePageForm";
 import { getManagedPagePath, type ManagedPageId } from "@/src/lib/routes";
-import { cn } from "@/src/lib/utils";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 
 function clonePage(page: PageData) {
@@ -23,6 +22,7 @@ export function AdminPages() {
   const { pages, updatePage, pageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const { setHeaderTabs } = useAdminHeaderTabs();
   const [selectedPageId, setSelectedPageId] = useState<ManagedPageId>("home");
   const [editingPage, setEditingPage] = useState<PageData | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -38,6 +38,23 @@ export function AdminPages() {
     if (!selectedSourcePage) return;
     setEditingPage(clonePage(selectedSourcePage));
   }, [selectedSourcePage]);
+
+  useEffect(() => {
+    setHeaderTabs(
+      pages.map((page) => {
+        const pageId = page.id as ManagedPageId;
+        return {
+          id: page.id,
+          label: page.name,
+          sublabel: getManagedPagePath(pageId, pageSeo, editingLang),
+          onClick: () => setSelectedPageId(pageId),
+        };
+      }),
+      selectedPageId,
+    );
+
+    return () => setHeaderTabs(null);
+  }, [editingLang, pageSeo, pages, selectedPageId, setHeaderTabs]);
 
   useEffect(() => {
     const loadLangData = async () => {
@@ -149,34 +166,6 @@ export function AdminPages() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div className="sticky top-0 z-20 border-b border-slate-200 bg-slate-50/95 py-2 backdrop-blur">
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {pages.map((page) => {
-            const pageId = page.id as ManagedPageId;
-            const isActive = selectedPageId === pageId;
-
-            return (
-              <button
-                key={page.id}
-                type="button"
-                onClick={() => setSelectedPageId(pageId)}
-                className={cn(
-                  "min-w-max rounded-lg border px-3 py-2 text-left transition-all",
-                  isActive
-                    ? "border-earth-300 bg-white text-earth-800 shadow-sm"
-                    : "border-transparent bg-transparent text-slate-600 hover:border-slate-200 hover:bg-white/70",
-                )}
-              >
-                <span className="block text-sm font-bold">{page.name}</span>
-                <span className="block max-w-[12rem] truncate font-mono text-[11px] text-slate-400">
-                  {getManagedPagePath(pageId, pageSeo, editingLang)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
 
       {editingPage && (
         <form id={`form-${editingPage.id}`} onSubmit={handleSave} className="space-y-4">

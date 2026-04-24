@@ -1,3 +1,5 @@
+import type { Nutrition } from "@/src/types/product";
+
 export interface NavLink {
     label: string;
     url: string;
@@ -157,6 +159,7 @@ export interface ProductCategoryItem {
     image: string;
     shortDescription: string;
     url: string;
+    nutrition?: Nutrition;
 }
 
 export interface HomeExportMarketItem {
@@ -205,6 +208,8 @@ export interface HomeContent {
     heroSecondaryCtaLabel: string;
 
     introLabel: string;
+    introEyebrow: string;
+    introImage: string;
     introText: string;
     statsGrid: StatItem[];
 

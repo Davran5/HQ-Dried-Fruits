@@ -65,6 +65,22 @@ export function HomeForm({ content, updateContent }: Props) {
 
             <FormSection title="2. Introduction (About Us)" defaultOpen={false}>
 
+                <ImageUploader
+                    label="About Section Image"
+                    value={content.introImage || ""}
+                    onChange={url => updateContent({ introImage: url })}
+                />
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow Text Above Title</label>
+                    <input
+                        type="text"
+                        value={content.introEyebrow || ""}
+                        onChange={e => updateContent({ introEyebrow: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Side-Label</label>
                     <input
@@ -151,9 +167,9 @@ export function HomeForm({ content, updateContent }: Props) {
                 <Repeater<ProductCategoryItem>
                     label="Product Categories Grid (Exactly 3 items)"
                     items={content.productCategories || []}
-                    emptyItem={{ categoryName: "", image: "", shortDescription: "", url: "" }}
+                    emptyItem={{ categoryName: "", image: "", shortDescription: "", url: "", nutrition: { energy: "", protein: "", fat: "", carbs: "" } }}
                     onUpdate={(items) => updateContent({ productCategories: items.slice(0, 3) })}
-                    renderItem={(item, index, updateItem) => (
+                    renderItem={(item, index, updateItem, replaceItem) => (
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-xs font-medium text-slate-500 mb-1">Category Name</label>
@@ -186,6 +202,39 @@ export function HomeForm({ content, updateContent }: Props) {
                                     onChange={e => updateItem(index, "url", e.target.value)}
                                     className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                                 />
+                            </div>
+                            <div className="rounded-lg border border-slate-200 bg-white/70 p-3">
+                                <h5 className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">
+                                    Nutritional Facts (per 100g)
+                                </h5>
+                                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                                    {[
+                                        ["energy", "Energy"],
+                                        ["protein", "Protein"],
+                                        ["fat", "Fat"],
+                                        ["carbs", "Carbs"],
+                                    ].map(([key, label]) => (
+                                        <div key={key}>
+                                            <label className="block text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1">{label}</label>
+                                            <input
+                                                type="text"
+                                                value={item.nutrition?.[key as keyof NonNullable<ProductCategoryItem["nutrition"]>] || ""}
+                                                onChange={e => replaceItem(index, {
+                                                    ...item,
+                                                    nutrition: {
+                                                        energy: item.nutrition?.energy || "",
+                                                        protein: item.nutrition?.protein || "",
+                                                        fat: item.nutrition?.fat || "",
+                                                        carbs: item.nutrition?.carbs || "",
+                                                        [key]: e.target.value,
+                                                    },
+                                                })}
+                                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
+                                                placeholder={key === "energy" ? "280 kcal" : "2.5 g"}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     )}

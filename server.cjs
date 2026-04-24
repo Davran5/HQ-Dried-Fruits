@@ -55462,7 +55462,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
       );
       return [workInProgressHook.memoizedState, reducer];
     }
-    function useMemo22(nextCreate, deps) {
+    function useMemo23(nextCreate, deps) {
       currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
       workInProgressHook = createWorkInProgressHook();
       deps = void 0 === deps ? null : deps;
@@ -55578,7 +55578,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
         resolveCurrentlyRenderingComponent();
         return context._currentValue2;
       },
-      useMemo: useMemo22,
+      useMemo: useMemo23,
       useReducer,
       useRef: function(initialValue) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -55592,7 +55592,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
       useInsertionEffect: noop2,
       useLayoutEffect: noop2,
       useCallback: function(callback, deps) {
-        return useMemo22(function() {
+        return useMemo23(function() {
           return callback;
         }, deps);
       },
@@ -60661,7 +60661,7 @@ var require_react_dom_server_node_production = __commonJS({
       );
       return [workInProgressHook.memoizedState, reducer];
     }
-    function useMemo22(nextCreate, deps) {
+    function useMemo23(nextCreate, deps) {
       currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
       workInProgressHook = createWorkInProgressHook();
       deps = void 0 === deps ? null : deps;
@@ -60781,7 +60781,7 @@ var require_react_dom_server_node_production = __commonJS({
         resolveCurrentlyRenderingComponent();
         return context._currentValue;
       },
-      useMemo: useMemo22,
+      useMemo: useMemo23,
       useReducer,
       useRef: function(initialValue) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -60795,7 +60795,7 @@ var require_react_dom_server_node_production = __commonJS({
       useInsertionEffect: noop2,
       useLayoutEffect: noop2,
       useCallback: function(callback, deps) {
-        return useMemo22(function() {
+        return useMemo23(function() {
           return callback;
         }, deps);
       },
@@ -66708,7 +66708,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         );
         return [workInProgressHook.memoizedState, reducer];
       }
-      function useMemo22(nextCreate, deps) {
+      function useMemo23(nextCreate, deps) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
         workInProgressHook = createWorkInProgressHook();
         deps = void 0 === deps ? null : deps;
@@ -70776,7 +70776,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
           resolveCurrentlyRenderingComponent();
           return context._currentValue2;
         },
-        useMemo: useMemo22,
+        useMemo: useMemo23,
         useReducer,
         useRef: function(initialValue) {
           currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -70791,7 +70791,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         useInsertionEffect: noop2,
         useLayoutEffect: noop2,
         useCallback: function(callback, deps) {
-          return useMemo22(function() {
+          return useMemo23(function() {
             return callback;
           }, deps);
         },
@@ -73864,7 +73864,7 @@ var require_react_dom_server_node_development = __commonJS({
         );
         return [workInProgressHook.memoizedState, reducer];
       }
-      function useMemo22(nextCreate, deps) {
+      function useMemo23(nextCreate, deps) {
         currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
         workInProgressHook = createWorkInProgressHook();
         deps = void 0 === deps ? null : deps;
@@ -78255,7 +78255,7 @@ var require_react_dom_server_node_development = __commonJS({
           resolveCurrentlyRenderingComponent();
           return context._currentValue;
         },
-        useMemo: useMemo22,
+        useMemo: useMemo23,
         useReducer,
         useRef: function(initialValue) {
           currentlyRenderingComponent = resolveCurrentlyRenderingComponent();
@@ -78270,7 +78270,7 @@ var require_react_dom_server_node_development = __commonJS({
         useInsertionEffect: noop2,
         useLayoutEffect: noop2,
         useCallback: function(callback, deps) {
-          return useMemo22(function() {
+          return useMemo23(function() {
             return callback;
           }, deps);
         },
@@ -97212,7 +97212,7 @@ var require_lucide_react = __commonJS({
     ];
     var Cherry = createLucideIcon("cherry", __iconNode$kE);
     var __iconNode$kD = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-    var ChevronDown9 = createLucideIcon("chevron-down", __iconNode$kD);
+    var ChevronDown8 = createLucideIcon("chevron-down", __iconNode$kD);
     var __iconNode$kC = [
       ["path", { d: "m17 18-6-6 6-6", key: "1yerx2" }],
       ["path", { d: "M7 6v12", key: "1p53r6" }]
@@ -97593,7 +97593,7 @@ var require_lucide_react = __commonJS({
       ["circle", { cx: "12", cy: "10", r: "4", key: "1h16sb" }],
       ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
     ];
-    var CircleUserRound = createLucideIcon("circle-user-round", __iconNode$jH);
+    var CircleUserRound2 = createLucideIcon("circle-user-round", __iconNode$jH);
     var __iconNode$jG = [
       ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
       ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }],
@@ -100921,7 +100921,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20", key: "13o1zl" }],
       ["path", { d: "M2 12h20", key: "9i4pu4" }]
     ];
-    var Globe6 = createLucideIcon("globe", __iconNode$e9);
+    var Globe5 = createLucideIcon("globe", __iconNode$e9);
     var __iconNode$e8 = [
       ["path", { d: "M22 5V2l-5.89 5.89", key: "1eenpo" }],
       ["circle", { cx: "16.6", cy: "15.89", r: "3", key: "xjtalx" }],
@@ -104331,7 +104331,7 @@ var require_lucide_react = __commonJS({
       ["polyline", { points: "3.29 7 12 12 20.71 7", key: "ousv84" }],
       ["path", { d: "m7.5 4.27 9 5.15", key: "1c824w" }]
     ];
-    var Package6 = createLucideIcon("package", __iconNode$93);
+    var Package5 = createLucideIcon("package", __iconNode$93);
     var __iconNode$92 = [
       [
         "path",
@@ -110218,7 +110218,7 @@ var require_lucide_react = __commonJS({
       CheckLine,
       ChefHat,
       Cherry,
-      ChevronDown: ChevronDown9,
+      ChevronDown: ChevronDown8,
       ChevronFirst,
       ChevronLast,
       ChevronLeft: ChevronLeft3,
@@ -110280,7 +110280,7 @@ var require_lucide_react = __commonJS({
       CircleStar,
       CircleStop,
       CircleUser,
-      CircleUserRound,
+      CircleUserRound: CircleUserRound2,
       CircleX,
       CircuitBoard,
       Citrus,
@@ -110628,7 +110628,7 @@ var require_lucide_react = __commonJS({
       Gitlab,
       GlassWater,
       Glasses,
-      Globe: Globe6,
+      Globe: Globe5,
       GlobeLock,
       Goal,
       Gpu,
@@ -110951,7 +110951,7 @@ var require_lucide_react = __commonJS({
       Option,
       Orbit,
       Origami,
-      Package: Package6,
+      Package: Package5,
       Package2: Package22,
       PackageCheck: PackageCheck2,
       PackageMinus,
@@ -112285,10 +112285,10 @@ var require_lucide_react = __commonJS({
     exports2.ChefHatIcon = ChefHat;
     exports2.Cherry = Cherry;
     exports2.CherryIcon = Cherry;
-    exports2.ChevronDown = ChevronDown9;
+    exports2.ChevronDown = ChevronDown8;
     exports2.ChevronDownCircle = CircleChevronDown;
     exports2.ChevronDownCircleIcon = CircleChevronDown;
-    exports2.ChevronDownIcon = ChevronDown9;
+    exports2.ChevronDownIcon = ChevronDown8;
     exports2.ChevronDownSquare = SquareChevronDown;
     exports2.ChevronDownSquareIcon = SquareChevronDown;
     exports2.ChevronFirst = ChevronFirst;
@@ -112431,8 +112431,8 @@ var require_lucide_react = __commonJS({
     exports2.CircleStopIcon = CircleStop;
     exports2.CircleUser = CircleUser;
     exports2.CircleUserIcon = CircleUser;
-    exports2.CircleUserRound = CircleUserRound;
-    exports2.CircleUserRoundIcon = CircleUserRound;
+    exports2.CircleUserRound = CircleUserRound2;
+    exports2.CircleUserRoundIcon = CircleUserRound2;
     exports2.CircleX = CircleX;
     exports2.CircleXIcon = CircleX;
     exports2.CircuitBoard = CircuitBoard;
@@ -113205,10 +113205,10 @@ var require_lucide_react = __commonJS({
     exports2.GlassWaterIcon = GlassWater;
     exports2.Glasses = Glasses;
     exports2.GlassesIcon = Glasses;
-    exports2.Globe = Globe6;
+    exports2.Globe = Globe5;
     exports2.Globe2 = Earth;
     exports2.Globe2Icon = Earth;
-    exports2.GlobeIcon = Globe6;
+    exports2.GlobeIcon = Globe5;
     exports2.GlobeLock = GlobeLock;
     exports2.GlobeLockIcon = GlobeLock;
     exports2.Goal = Goal;
@@ -113981,7 +113981,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideCheckSquare2 = SquareCheck;
     exports2.LucideChefHat = ChefHat;
     exports2.LucideCherry = Cherry;
-    exports2.LucideChevronDown = ChevronDown9;
+    exports2.LucideChevronDown = ChevronDown8;
     exports2.LucideChevronDownCircle = CircleChevronDown;
     exports2.LucideChevronDownSquare = SquareChevronDown;
     exports2.LucideChevronFirst = ChevronFirst;
@@ -114054,7 +114054,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideCircleStar = CircleStar;
     exports2.LucideCircleStop = CircleStop;
     exports2.LucideCircleUser = CircleUser;
-    exports2.LucideCircleUserRound = CircleUserRound;
+    exports2.LucideCircleUserRound = CircleUserRound2;
     exports2.LucideCircleX = CircleX;
     exports2.LucideCircuitBoard = CircuitBoard;
     exports2.LucideCitrus = Citrus;
@@ -114441,7 +114441,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideGitlab = Gitlab;
     exports2.LucideGlassWater = GlassWater;
     exports2.LucideGlasses = Glasses;
-    exports2.LucideGlobe = Globe6;
+    exports2.LucideGlobe = Globe5;
     exports2.LucideGlobe2 = Earth;
     exports2.LucideGlobeLock = GlobeLock;
     exports2.LucideGoal = Goal;
@@ -114803,7 +114803,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideOrbit = Orbit;
     exports2.LucideOrigami = Origami;
     exports2.LucideOutdent = ListIndentDecrease;
-    exports2.LucidePackage = Package6;
+    exports2.LucidePackage = Package5;
     exports2.LucidePackage2 = Package22;
     exports2.LucidePackageCheck = PackageCheck2;
     exports2.LucidePackageMinus = PackageMinus;
@@ -115374,7 +115374,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideUserCheck = UserCheck;
     exports2.LucideUserCheck2 = UserRoundCheck;
     exports2.LucideUserCircle = CircleUser;
-    exports2.LucideUserCircle2 = CircleUserRound;
+    exports2.LucideUserCircle2 = CircleUserRound2;
     exports2.LucideUserCog = UserCog;
     exports2.LucideUserCog2 = UserRoundCog;
     exports2.LucideUserLock = UserLock;
@@ -115793,12 +115793,12 @@ var require_lucide_react = __commonJS({
     exports2.OrigamiIcon = Origami;
     exports2.Outdent = ListIndentDecrease;
     exports2.OutdentIcon = ListIndentDecrease;
-    exports2.Package = Package6;
+    exports2.Package = Package5;
     exports2.Package2 = Package22;
     exports2.Package2Icon = Package22;
     exports2.PackageCheck = PackageCheck2;
     exports2.PackageCheckIcon = PackageCheck2;
-    exports2.PackageIcon = Package6;
+    exports2.PackageIcon = Package5;
     exports2.PackageMinus = PackageMinus;
     exports2.PackageMinusIcon = PackageMinus;
     exports2.PackageOpen = PackageOpen;
@@ -116933,8 +116933,8 @@ var require_lucide_react = __commonJS({
     exports2.UserCheck2Icon = UserRoundCheck;
     exports2.UserCheckIcon = UserCheck;
     exports2.UserCircle = CircleUser;
-    exports2.UserCircle2 = CircleUserRound;
-    exports2.UserCircle2Icon = CircleUserRound;
+    exports2.UserCircle2 = CircleUserRound2;
+    exports2.UserCircle2Icon = CircleUserRound2;
     exports2.UserCircleIcon = CircleUser;
     exports2.UserCog = UserCog;
     exports2.UserCog2 = UserRoundCog;
@@ -130871,6 +130871,8 @@ var initialPages = [
       heroPrimaryCtaLabel: "Request Wholesale Catalog",
       heroSecondaryCtaLabel: "Our Processing Facilities",
       introLabel: "The HQ Dried Fruits Difference",
+      introEyebrow: "About Us",
+      introImage: "",
       introText: "We cultivate, process, and directly export the finest dried fruits from the Fergana Valley. Using advanced laser-sorting technology, we guarantee 99.9% purity for high-volume wholesale buyers across Europe and Asia.",
       statsGrid: [
         { value: "25+", label: "Years Experience" },
@@ -130882,9 +130884,9 @@ var initialPages = [
       productPreviewButtonLabel: "View Full Catalog",
       productPreviewItemCtaLabel: "Request Sample",
       productCategories: [
-        { categoryName: "Dried Apricots", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800", shortDescription: "High-quality dark and golden varieties.", url: "/products/sun-dried-apricots" },
-        { categoryName: "Dried Prunes", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=800", shortDescription: "Pitted and unpitted sweet plums.", url: "/products/pitted-prunes" },
-        { categoryName: "Shadow-Dried Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Traditional drying process for max flavor.", url: "/products/black-raisins" }
+        { categoryName: "Dried Apricots", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800", shortDescription: "High-quality dark and golden varieties.", url: "/products/sun-dried-apricots", nutrition: { energy: "280 kcal", protein: "2.5 g", fat: "0.4 g", carbs: "72 g" } },
+        { categoryName: "Dried Prunes", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=800", shortDescription: "Pitted and unpitted sweet plums.", url: "/products/pitted-prunes", nutrition: { energy: "240 kcal", protein: "2.2 g", fat: "0.4 g", carbs: "64 g" } },
+        { categoryName: "Shadow-Dried Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Traditional drying process for max flavor.", url: "/products/black-raisins", nutrition: { energy: "299 kcal", protein: "3.1 g", fat: "0.5 g", carbs: "79 g" } }
       ],
       exportMarketsEyebrow: "Export Focus",
       exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
@@ -132086,13 +132088,13 @@ function FrontPage() {
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 sm:px-6 sm:pb-24 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "max-w-3xl", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "overflow-hidden mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mb-5 overflow-hidden py-2", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
           motion.h1,
           {
             initial: { y: "100%", opacity: 0 },
             animate: { y: 0, opacity: 1 },
             transition: { duration: 0.8, ease: springEasing },
-            className: "font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[5.2rem] md:text-[6.3rem]",
+            className: "font-display text-[2.7rem] font-bold leading-[1.04] text-white sm:text-[5.2rem] md:text-[6.3rem]",
             children: content.heroTitle || t2("homeHeroTitle")
           }
         ) }),
@@ -132146,7 +132148,7 @@ function FrontPage() {
                   /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
                     "img",
                     {
-                      src: content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
+                      src: content.introImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
                       alt: "HQ Dried Fruits abstract orchard visual",
                       className: "h-full w-full object-cover transition-transform duration-700 group-hover:scale-105",
                       referrerPolicy: "no-referrer"
@@ -132159,12 +132161,12 @@ function FrontPage() {
             ),
             /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "flex min-h-full flex-col justify-center min-w-0", children: [
               /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: t2("homeAboutEyebrow") }),
+                /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content.introEyebrow || t2("homeAboutEyebrow") }),
                 /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h2", { className: "mt-4 font-display text-[2.45rem] font-bold text-earth-900 sm:text-4xl", children: content.introLabel || t2("homeIntroLabel") }),
                 /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 overflow-hidden rounded-[2.25rem] lg:hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
                   "img",
                   {
-                    src: content.heroBgImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
+                    src: content.introImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop",
                     alt: "HQ Dried Fruits abstract orchard visual",
                     className: "h-[14rem] w-full object-cover",
                     referrerPolicy: "no-referrer"
@@ -132216,7 +132218,7 @@ function FrontPage() {
           className: "group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]",
           children: (() => {
             const previewProduct = findPreviewProduct(product.categoryName);
-            const nutrition = previewProduct?.nutrition || {
+            const nutrition = product.nutrition || previewProduct?.nutrition || {
               energy: "280 kcal",
               protein: "2.5 g",
               fat: "0.4 g",
@@ -135078,12 +135080,21 @@ function LoginScreen({ onSuccess, brandLogo }) {
 function AdminLayoutContent() {
   const [sidebarOpen, setSidebarOpen] = (0, import_react53.useState)(false);
   const [action, setAction] = (0, import_react53.useState)(null);
+  const [headerTabs, setHeaderTabsState] = (0, import_react53.useState)(null);
+  const [activeHeaderTabId, setActiveHeaderTabId] = (0, import_react53.useState)(null);
   const [isAuthenticated, setIsAuthenticated] = (0, import_react53.useState)(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
   const { globalSettings } = usePages();
   const location2 = (0, import_react_router_dom8.useLocation)();
   const navigate = (0, import_react_router_dom8.useNavigate)();
-  const actionContextValue = (0, import_react53.useMemo)(() => ({ action, setAction }), [action]);
+  const setHeaderTabs = (0, import_react53.useCallback)((tabs, activeId = null) => {
+    setHeaderTabsState(tabs);
+    setActiveHeaderTabId(activeId);
+  }, []);
+  const actionContextValue = (0, import_react53.useMemo)(
+    () => ({ action, setAction, headerTabs, activeHeaderTabId, setHeaderTabs }),
+    [action, activeHeaderTabId, headerTabs]
+  );
   const brandLogo = globalSettings.headerLogo || "";
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   (0, import_react53.useEffect)(() => {
@@ -135191,19 +135202,37 @@ function AdminLayoutContent() {
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex flex-1 flex-col overflow-hidden", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("header", { className: "flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex items-center gap-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("header", { className: "flex h-16 items-center gap-3 border-b border-slate-200 bg-white px-4 sm:px-6", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex min-w-0 flex-1 items-center gap-3", children: [
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
             "button",
             {
               onClick: () => setSidebarOpen(true),
-              className: "text-slate-500 hover:text-slate-700 lg:hidden",
+              className: "shrink-0 text-slate-500 hover:text-slate-700 lg:hidden",
               children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Menu, { size: 24 })
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h1", { className: "text-xl font-semibold text-slate-900", children: currentLink.name })
+          headerTabs ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex min-w-0 flex-1 gap-1.5 overflow-x-auto py-2", children: headerTabs.map((tab) => {
+            const isActive = activeHeaderTabId === tab.id;
+            return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
+              "button",
+              {
+                type: "button",
+                onClick: tab.onClick,
+                className: cn(
+                  "min-w-max rounded-lg border px-3 py-1.5 text-left transition-all",
+                  isActive ? "border-earth-300 bg-earth-50 text-earth-800" : "border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50"
+                ),
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "block text-xs font-bold sm:text-sm", children: tab.label }),
+                  tab.sublabel ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "block max-w-[11rem] truncate font-mono text-[10px] text-slate-400", children: tab.sublabel }) : null
+                ]
+              },
+              tab.id
+            );
+          }) }) : /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h1", { className: "truncate text-xl font-semibold text-slate-900", children: currentLink.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex min-w-0 items-center gap-3 sm:gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex shrink-0 items-center gap-3 sm:gap-4", children: [
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex items-center rounded-lg bg-slate-100 p-1", children: SUPPORTED_EDIT_LANGUAGES.map((lang) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
             "button",
             {
@@ -135216,7 +135245,7 @@ function AdminLayoutContent() {
             },
             lang
           )) }),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminBrandMark, { logo: brandLogo, className: "h-8 w-8 rounded-full" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.CircleUserRound, { size: 18 }) })
         ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("main", { className: "flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_react_router_dom8.Outlet, {}) })
@@ -135259,6 +135288,15 @@ function useAdminSidebarAction() {
     throw new Error("useAdminSidebarAction must be used within AdminLayout");
   }
   return context;
+}
+function useAdminHeaderTabs() {
+  const context = (0, import_react53.useContext)(AdminSidebarActionContext);
+  if (!context) {
+    throw new Error("useAdminHeaderTabs must be used within AdminLayout");
+  }
+  return {
+    setHeaderTabs: context.setHeaderTabs
+  };
 }
 
 // src/pages/admin/Dashboard.tsx
@@ -136740,6 +136778,26 @@ function HomeForm({ content, updateContent }) {
       ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "2. Introduction (About Us)", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        ImageUploader,
+        {
+          label: "About Section Image",
+          value: content.introImage || "",
+          onChange: (url) => updateContent({ introImage: url })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Text Above Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.introEyebrow || "",
+            onChange: (e) => updateContent({ introEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Side-Label" }),
         /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
@@ -136844,9 +136902,9 @@ function HomeForm({ content, updateContent }) {
         {
           label: "Product Categories Grid (Exactly 3 items)",
           items: content.productCategories || [],
-          emptyItem: { categoryName: "", image: "", shortDescription: "", url: "" },
+          emptyItem: { categoryName: "", image: "", shortDescription: "", url: "", nutrition: { energy: "", protein: "", fat: "", carbs: "" } },
           onUpdate: (items) => updateContent({ productCategories: items.slice(0, 3) }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
             /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
               /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
@@ -136890,6 +136948,36 @@ function HomeForm({ content, updateContent }) {
                   className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                 }
               )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/70 p-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-500", children: "Nutritional Facts (per 100g)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "grid grid-cols-2 gap-3 lg:grid-cols-4", children: [
+                ["energy", "Energy"],
+                ["protein", "Protein"],
+                ["fat", "Fat"],
+                ["carbs", "Carbs"]
+              ].map(([key, label]) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1", children: label }),
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.nutrition?.[key] || "",
+                    onChange: (e) => replaceItem(index, {
+                      ...item,
+                      nutrition: {
+                        energy: item.nutrition?.energy || "",
+                        protein: item.nutrition?.protein || "",
+                        fat: item.nutrition?.fat || "",
+                        carbs: item.nutrition?.carbs || "",
+                        [key]: e.target.value
+                      }
+                    }),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500",
+                    placeholder: key === "energy" ? "280 kcal" : "2.5 g"
+                  }
+                )
+              ] }, key)) })
             ] })
           ] })
         }
@@ -138729,6 +138817,7 @@ function AdminPages() {
   const { pages, updatePage, pageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const { setHeaderTabs } = useAdminHeaderTabs();
   const [selectedPageId, setSelectedPageId] = (0, import_react63.useState)("home");
   const [editingPage, setEditingPage] = (0, import_react63.useState)(null);
   const [successMessage, setSuccessMessage] = (0, import_react63.useState)(null);
@@ -138742,6 +138831,21 @@ function AdminPages() {
     if (!selectedSourcePage) return;
     setEditingPage(clonePage(selectedSourcePage));
   }, [selectedSourcePage]);
+  (0, import_react63.useEffect)(() => {
+    setHeaderTabs(
+      pages.map((page) => {
+        const pageId = page.id;
+        return {
+          id: page.id,
+          label: page.name,
+          sublabel: getManagedPagePath(pageId, pageSeo, editingLang),
+          onClick: () => setSelectedPageId(pageId)
+        };
+      }),
+      selectedPageId
+    );
+    return () => setHeaderTabs(null);
+  }, [editingLang, pageSeo, pages, selectedPageId, setHeaderTabs]);
   (0, import_react63.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
@@ -138839,26 +138943,6 @@ function AdminPages() {
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "sticky top-0 z-20 border-b border-slate-200 bg-slate-50/95 py-2 backdrop-blur", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex gap-2 overflow-x-auto pb-1", children: pages.map((page) => {
-      const pageId = page.id;
-      const isActive = selectedPageId === pageId;
-      return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
-        "button",
-        {
-          type: "button",
-          onClick: () => setSelectedPageId(pageId),
-          className: cn(
-            "min-w-max rounded-lg border px-3 py-2 text-left transition-all",
-            isActive ? "border-earth-300 bg-white text-earth-800 shadow-sm" : "border-transparent bg-transparent text-slate-600 hover:border-slate-200 hover:bg-white/70"
-          ),
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { className: "block text-sm font-bold", children: page.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { className: "block max-w-[12rem] truncate font-mono text-[11px] text-slate-400", children: getManagedPagePath(pageId, pageSeo, editingLang) })
-          ]
-        },
-        page.id
-      );
-    }) }) }),
     editingPage && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-${editingPage.id}`, onSubmit: handleSave, className: "space-y-4", children: [
       renderFormContent(),
       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex justify-end border-t border-slate-200 pt-3", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: restoreCurrentPage, className: "text-slate-600 hover:bg-slate-200", children: "Discard Changes" }) })
@@ -139763,6 +139847,8 @@ function AdminSeoSettings() {
   const { pageSeo, updatePageSeo, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const { setHeaderTabs } = useAdminHeaderTabs();
+  const [selectedSeoId, setSelectedSeoId] = (0, import_react67.useState)("home");
   const [editingPage, setEditingPage] = (0, import_react67.useState)(null);
   const [showToast, setShowToast] = (0, import_react67.useState)(false);
   const [isRefreshing, setIsRefreshing] = (0, import_react67.useState)(false);
@@ -139782,40 +139868,58 @@ function AdminSeoSettings() {
       }
     };
     loadLangData();
-    setEditingPage(null);
   }, [editingLang]);
-  const staticPages = staticPageMetadata.map((page) => ({
-    ...page,
-    path: getManagedPagePath(page.id, pageSeo, editingLang),
-    seo: pageSeo[page.id] || defaultPageSeoSettings[page.id]
-  }));
-  const combinedPages = [
-    ...staticPages,
-    ...products.map((product) => ({
-      id: `product:${product.id}`,
-      name: `Product: ${product.name}`,
-      path: getManagedProductAnchorPath(product, pageSeo, editingLang),
-      seo: product.seo || {
-        metaTitle: `${product.name} | HQ Dried Fruits`,
-        metaDescription: product.shortDescription,
-        slug: product.id,
-        ogTitle: product.name,
-        imageAlt: product.name
-      }
-    }))
-  ];
+  const staticPages = (0, import_react67.useMemo)(
+    () => staticPageMetadata.map((page) => ({
+      ...page,
+      path: getManagedPagePath(page.id, pageSeo, editingLang),
+      seo: pageSeo[page.id] || defaultPageSeoSettings[page.id]
+    })),
+    [editingLang, pageSeo]
+  );
+  const combinedPages = (0, import_react67.useMemo)(
+    () => [
+      ...staticPages,
+      ...products.map((product) => ({
+        id: `product:${product.id}`,
+        name: `Product: ${product.name}`,
+        path: getManagedProductAnchorPath(product, pageSeo, editingLang),
+        seo: product.seo || {
+          metaTitle: `${product.name} | HQ Dried Fruits`,
+          metaDescription: product.shortDescription,
+          slug: product.id,
+          ogTitle: product.name,
+          imageAlt: product.name
+        }
+      }))
+    ],
+    [editingLang, pageSeo, products, staticPages]
+  );
+  const selectedSourcePage = (0, import_react67.useMemo)(
+    () => combinedPages.find((page) => page.id === selectedSeoId) || combinedPages[0] || null,
+    [combinedPages, selectedSeoId]
+  );
+  (0, import_react67.useEffect)(() => {
+    if (!selectedSourcePage) return;
+    setEditingPage(JSON.parse(JSON.stringify(selectedSourcePage)));
+  }, [selectedSourcePage]);
+  (0, import_react67.useEffect)(() => {
+    setHeaderTabs(
+      combinedPages.map((page) => ({
+        id: page.id,
+        label: page.name,
+        sublabel: page.path,
+        onClick: () => setSelectedSeoId(page.id)
+      })),
+      selectedSeoId
+    );
+    return () => setHeaderTabs(null);
+  }, [combinedPages, selectedSeoId, setHeaderTabs]);
   (0, import_react67.useEffect)(() => {
     if (!showToast) return;
     const timer = window.setTimeout(() => setShowToast(false), 3e3);
     return () => window.clearTimeout(timer);
   }, [showToast]);
-  const handleEdit = (page) => {
-    if (editingPage?.id === page.id) {
-      setEditingPage(null);
-      return;
-    }
-    setEditingPage(JSON.parse(JSON.stringify(page)));
-  };
   const handleSave = async (e) => {
     e.preventDefault();
     if (!editingPage) return;
@@ -139879,79 +139983,25 @@ function AdminSeoSettings() {
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex flex-col justify-between gap-3 sm:flex-row sm:items-center", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("h2", { className: "text-2xl font-bold text-slate-900", children: [
-        "SEO Settings (",
-        editingLang.toUpperCase(),
-        ")"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("p", { className: "text-sm text-slate-500", children: [
-        "Manage indexability and social sharing previews for the ",
-        editingLang.toUpperCase(),
-        " version."
-      ] })
-    ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "space-y-3", children: combinedPages.map((page) => {
-      const isExpanded = editingPage?.id === page.id;
-      const isProduct = page.id.startsWith("product:");
-      return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
-        "div",
+    editingPage && /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("form", { id: `form-seo-${editingPage.id.replace(/:/g, "-")}`, onSubmit: handleSave, className: "space-y-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+        SeoFormSection,
         {
-          className: `overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
-              "div",
-              {
-                onClick: () => handleEdit(page),
-                className: `group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "flex items-center gap-4 min-w-0", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: `h-11 w-11 rounded-xl flex items-center justify-center transition-colors shrink-0 ${isExpanded ? "bg-earth-600 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-earth-100 group-hover:text-earth-600"}`, children: isProduct ? /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.Package, { size: 22 }) : /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.Globe, { size: 22 }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "truncate", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: `font-bold transition-colors ${isExpanded ? "text-earth-900" : "text-slate-900"}`, children: page.name }),
-                      /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "flex items-center gap-3 mt-1 text-xs", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { className: "font-mono text-slate-400", children: page.path }),
-                        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { className: "h-1 w-1 rounded-full bg-slate-300 shrink-0" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("span", { className: "text-slate-500 truncate italic", children: [
-                          '"',
-                          page.seo.metaTitle,
-                          '"'
-                        ] })
-                      ] })
-                    ] })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "flex items-center gap-4 shrink-0", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { className: `hidden md:block text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-white border ${isExpanded ? "border-earth-200 text-earth-600" : "border-slate-100 text-slate-400"}`, children: isProduct ? "Product" : "Static Page" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isExpanded ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.ChevronDown, { size: 20 }) })
-                  ] })
-                ]
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(AnimatePresence, { initial: false, children: isExpanded && editingPage && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-              motion.div,
-              {
-                initial: { height: 0, opacity: 0 },
-                animate: { height: "auto", opacity: 1 },
-                exit: { height: 0, opacity: 0 },
-                transition: { duration: 0.3, ease: "easeInOut" },
-                className: "overflow-hidden border-t border-slate-100",
-                children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("form", { id: `form-seo-${editingPage.id.replace(/:/g, "-")}`, onSubmit: handleSave, className: "space-y-4", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-                    SeoFormSection,
-                    {
-                      data: editingPage.seo,
-                      onChange: (seo) => setEditingPage({ ...editingPage, seo })
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(Button, { type: "button", variant: "ghost", onClick: () => setEditingPage(null), className: "text-slate-600 hover:bg-slate-200 text-sm font-bold", children: "Discard Changes" }) })
-                ] }) })
-              }
-            ) })
-          ]
-        },
-        page.id
-      );
-    }) })
+          data: editingPage.seo,
+          onChange: (seo) => setEditingPage({ ...editingPage, seo })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex items-center justify-end gap-3 border-t border-slate-200 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+        Button,
+        {
+          type: "button",
+          variant: "ghost",
+          onClick: () => selectedSourcePage && setEditingPage(JSON.parse(JSON.stringify(selectedSourcePage))),
+          className: "text-sm font-bold text-slate-600 hover:bg-slate-200",
+          children: "Discard Changes"
+        }
+      ) })
+    ] })
   ] });
 }
 
@@ -139963,6 +140013,7 @@ function AdminGlobalSettings() {
   const { globalSettings, updateGlobalSettings, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const { setHeaderTabs } = useAdminHeaderTabs();
   const [settings, setSettings] = (0, import_react69.useState)(globalSettings);
   const [successMessage, setSuccessMessage] = (0, import_react69.useState)(null);
   const [activeSection, setActiveSection] = (0, import_react69.useState)("branding");
@@ -140008,7 +140059,7 @@ function AdminGlobalSettings() {
     return () => setAction(null);
   }, [isRefreshing, isSaving, setAction]);
   const toggleSection = (id3) => {
-    setActiveSection(activeSection === id3 ? null : id3);
+    setActiveSection(id3);
   };
   const sections = [
     {
@@ -140036,6 +140087,17 @@ function AdminGlobalSettings() {
       icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Languages, { className: "text-earth-500", size: 20 })
     }
   ];
+  import_react69.default.useEffect(() => {
+    setHeaderTabs(
+      sections.map((section) => ({
+        id: section.id,
+        label: section.title,
+        onClick: () => setActiveSection(section.id)
+      })),
+      activeSection
+    );
+    return () => setHeaderTabs(null);
+  }, [activeSection, setHeaderTabs]);
   if (isRefreshing) {
     return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
@@ -140047,14 +140109,6 @@ function AdminGlobalSettings() {
     ] }) });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "flex flex-col justify-between gap-3 sm:flex-row sm:items-center", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Global Settings" }),
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { className: "text-sm text-slate-500", children: [
-        "Manage site-wide variables like Header & Footer for the ",
-        editingLang.toUpperCase(),
-        " version."
-      ] })
-    ] }) }),
     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
       motion.div,
       {
@@ -140073,13 +140127,13 @@ function AdminGlobalSettings() {
       return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
         "div",
         {
-          className: `overflow-hidden rounded-lg border transition-all duration-300 ${isOpen ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
+          className: isOpen ? "contents" : "hidden",
           children: [
             /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
               "div",
               {
                 onClick: () => toggleSection(section.id),
-                className: `group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isOpen ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
+                className: "hidden",
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex items-center gap-4", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: `h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20" : "bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600"}`, children: section.icon }),
@@ -140099,7 +140153,7 @@ function AdminGlobalSettings() {
                 animate: { height: "auto", opacity: 1 },
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3, ease: "easeInOut" },
-                children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4 border-t border-slate-100 p-3 sm:p-4", children: [
+                children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4", children: [
                   section.id === "branding" && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "space-y-4", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
                       ImageUploader,
@@ -141146,7 +141200,7 @@ function safeParseJson(value, fallback) {
 }
 var sharedMediaConfigs = {
   home: {
-    scalar: ["heroBgImage", "supplyReachBgImage", "ctaBgImage"],
+    scalar: ["heroBgImage", "introImage", "supplyReachBgImage", "ctaBgImage"],
     mixedImageArrays: ["productCategories", "exportMarkets"]
   },
   about: {

@@ -435,7 +435,7 @@ type SharedMediaConfig = {
 
 const sharedMediaConfigs: Record<string, SharedMediaConfig> = {
   home: {
-    scalar: ["heroBgImage", "supplyReachBgImage", "ctaBgImage"],
+    scalar: ["heroBgImage", "introImage", "supplyReachBgImage", "ctaBgImage"],
     mixedImageArrays: ["productCategories", "exportMarkets"],
   },
   about: {
