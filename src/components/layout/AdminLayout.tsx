@@ -2,7 +2,6 @@ import { createContext, useCallback, useContext, useMemo, useState, useEffect, t
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
-  Package,
   FileText,
   Users,
   Settings,
@@ -50,7 +49,6 @@ const AdminSidebarActionContext = createContext<AdminSidebarActionContextValue |
 
 const sidebarLinks = [
   { name: "Dashboard", path: "/control-room", icon: LayoutDashboard },
-  { name: "Products", path: "/control-room/products", icon: Package },
   { name: "Pages", path: "/control-room/pages", icon: FileText },
   { name: "Global Settings", path: "/control-room/globals", icon: Globe },
   { name: "Media", path: "/control-room/media", icon: ImageIcon },

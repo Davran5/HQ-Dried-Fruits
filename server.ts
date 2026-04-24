@@ -86,7 +86,8 @@ async function initDb() {
 
     await conn.execute(`CREATE TABLE IF NOT EXISTS products_page (
       id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
-      page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, ordering_bg_image TEXT,
+      page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, intro_eyebrow TEXT,
+      intro_title TEXT, intro_content LONGTEXT, intro_image TEXT, intro_facts LONGTEXT, ordering_bg_image TEXT,
       ordering_form_title TEXT, ordering_form_subtitle TEXT, step_one_label TEXT,
       step_two_label TEXT, step_three_label TEXT, mixed_container_label TEXT,
       volume_options TEXT, view_specs_label TEXT, step_one_placeholder TEXT,
@@ -99,7 +100,8 @@ async function initDb() {
 
     await conn.execute(`CREATE TABLE IF NOT EXISTS export_page (
       id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
-      hero_title TEXT, hero_subtitle TEXT, hero_bg_image TEXT, map_section_title TEXT,
+      hero_title TEXT, hero_subtitle TEXT, hero_bg_image TEXT, operations_image TEXT, map_section_title TEXT,
+      operations_eyebrow TEXT, destination_eyebrow TEXT,
       supply_routes LONGTEXT, logistics_content LONGTEXT, packaging_title TEXT,
       packaging_methods LONGTEXT, transportation_title TEXT, transportation_methods LONGTEXT,
       documentation_title TEXT, documentation_content LONGTEXT, quality_title TEXT,
@@ -110,6 +112,7 @@ async function initDb() {
     await conn.execute(`CREATE TABLE IF NOT EXISTS contacts_page (
       id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
       page_title TEXT, intro_text TEXT, form_destination_email TEXT, contact_form_title TEXT,
+      direct_contact_eyebrow TEXT,
       response_label_prefix TEXT, form_name_label TEXT, form_company_label TEXT,
       form_email_label TEXT, form_message_label TEXT, submit_button_label TEXT,
       submitting_button_label TEXT, email TEXT, phone TEXT, office_address TEXT,
@@ -128,6 +131,24 @@ async function initDb() {
         PRIMARY KEY (id, lang)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
     }
+
+    const addColumnIfMissing = async (table: string, column: string, definition: string) => {
+      try {
+        await conn.execute(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+      } catch (err: any) {
+        if (err?.code !== "ER_DUP_FIELDNAME") throw err;
+      }
+    };
+
+    await addColumnIfMissing("products_page", "intro_eyebrow", "TEXT");
+    await addColumnIfMissing("products_page", "intro_title", "TEXT");
+    await addColumnIfMissing("products_page", "intro_content", "LONGTEXT");
+    await addColumnIfMissing("products_page", "intro_image", "TEXT");
+    await addColumnIfMissing("products_page", "intro_facts", "LONGTEXT");
+    await addColumnIfMissing("export_page", "operations_image", "TEXT");
+    await addColumnIfMissing("export_page", "operations_eyebrow", "TEXT");
+    await addColumnIfMissing("export_page", "destination_eyebrow", "TEXT");
+    await addColumnIfMissing("contacts_page", "direct_contact_eyebrow", "TEXT");
 
     await conn.execute(`CREATE TABLE IF NOT EXISTS products (
       id VARCHAR(255) NOT NULL, lang VARCHAR(10) NOT NULL DEFAULT 'en',
@@ -286,7 +307,15 @@ const defaultGlobalSettings = {
 const defaultProductsPage = {
   pageTitle: "Wholesale Dried Fruits from Uzbekistan",
   pageSubtitle: "Explore export-ready apricots, raisins, prunes, and mixed assortments with buyer-focused origin, processing, and application details in one catalog.",
-  heroBgImage: "", orderingBgImage: "", orderingFormTitle: "Wholesale Inquiry",
+  heroBgImage: "", introEyebrow: "Uzbekistan Origin", introTitle: "One Page. Four Core Product Lines. Real Buyer Context.",
+  introContent: "<p>Compare origin, processing, nutrition, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
+  introImage: "",
+  introFacts: [
+    { title: "Orchard Base", description: "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
+    { title: "Growing Conditions", description: "Hot, dry summers and sunlight help apricots, grapes, and plums build sugar." },
+    { title: "Export Readiness", description: "Every line is positioned for buyer-specific cartons and repeat wholesale programs." },
+  ],
+  orderingBgImage: "", orderingFormTitle: "Wholesale Inquiry",
   orderingFormSubtitle: "Share your target volume and timeline. We will respond with pricing and logistics details.",
   stepOneLabel: "Which product are you interested in?", stepTwoLabel: "Estimated Monthly Volume?", stepThreeLabel: "Where should we send the quote?",
   mixedContainerLabel: "Mixed Container", volumeOptions: ["1-5 Tons", "5-20 Tons", "1 FCL (20ft)", "Multiple FCLs"],
@@ -300,6 +329,8 @@ const defaultProductsPage = {
 
 const defaultExportPage = {
   heroTitle: "Our Global Export Network", heroSubtitle: "Seamless global logistics from the heart of the Silk Road to your warehouse.", heroBgImage: "",
+  operationsImage: "",
+  operationsEyebrow: "Export Operations", destinationEyebrow: "Export Geography",
   mapSectionTitle: "Our Global Export Network", supplyRoutes: [], logisticsContent: "<p>End-to-end multi-modal transport routing.</p>",
   packagingTitle: "Custom Packaging", packagingMethods: "<p>Bulk cartons, vacuum-sealed bags, or retail-ready packaging customized with your brand labels.</p>",
   transportationTitle: "Ocean & Rail Freight", transportationMethods: "<p>Cost-effective FCL (Full Container Load) and LCL shipments via major ports and the trans-Eurasian rail network.</p>",
@@ -311,7 +342,7 @@ const defaultExportPage = {
 
 const defaultContactsPage = {
   pageTitle: "Let's Connect", introText: "Whether you need a mixed container or a dedicated harvest line, our B2B team is available 24/7.",
-  formDestinationEmail: "sales@hqdriedfruits.com", contactFormTitle: "Send an Inquiry", responseLabelPrefix: "Replies are monitored at",
+  directContactEyebrow: "Direct Contact", formDestinationEmail: "sales@hqdriedfruits.com", contactFormTitle: "Send an Inquiry", responseLabelPrefix: "Replies are monitored at",
   formNameLabel: "Full Name", formCompanyLabel: "Company", formEmailLabel: "Work Email", formMessageLabel: "Message",
   submitButtonLabel: "Send Message", submittingButtonLabel: "Sending...", emailAddress: "sales@hqdriedfruits.com", phoneNumber: "+998 90 123 45 67",
   officeAddress: "Amir Temur Ave 107B", workingHours: "Mon-Sat: 09:00 - 18:00 (Tashkent Time)", mapPinLabel: "HQ Dried Fruits HQ",
@@ -435,19 +466,19 @@ type SharedMediaConfig = {
 
 const sharedMediaConfigs: Record<string, SharedMediaConfig> = {
   home: {
-    scalar: ["heroBgImage", "introImage", "supplyReachBgImage", "ctaBgImage"],
+    scalar: ["heroBgImage", "introImage"],
     mixedImageArrays: ["productCategories", "exportMarkets"],
   },
   about: {
-    scalar: ["missionPhotography"],
+    scalar: ["heroBgImage", "missionPhotography"],
     imageOnlyArrays: ["productionMarqueeImages", "partnerLogos", "heritageImagery"],
     mixedImageArrays: ["ownProductionItems"],
   },
   products: {
-    scalar: ["heroBgImage", "orderingBgImage"],
+    scalar: ["heroBgImage", "introImage", "orderingBgImage"],
   },
   export: {
-    scalar: ["heroBgImage"],
+    scalar: ["heroBgImage", "operationsImage"],
     mixedImageArrays: ["supplyRoutes", "certificationsGallery"],
   },
   contacts: {
@@ -461,6 +492,18 @@ function sanitizeFlexiblePageContent(pageId: keyof typeof pageContentTables, con
 
   if (pageId === "home") {
     delete next.progressSlider;
+    delete next.supplyReachTitle;
+    delete next.supplyReachOverview;
+    delete next.supplyReachBgImage;
+    delete next.supplyReachButtonLabel;
+    delete next.ctaBgImage;
+    delete next.ctaHeading;
+    delete next.ctaSubheading;
+    delete next.ctaButtonText;
+    delete next.ctaButtonUrl;
+    delete next.ctaLinkLabel;
+    delete next.ctaEmailPlaceholder;
+    delete next.ctaSubmittingLabel;
   }
 
   return next;
@@ -762,19 +805,19 @@ function mapGlobalSettings(row: any) {
 
 function mapProductsPage(row: any) {
   return {
-    pageTitle: asString(row?.page_title, defaultProductsPage.pageTitle), pageSubtitle: asString(row?.page_subtitle, defaultProductsPage.pageSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultProductsPage.heroBgImage), orderingBgImage: asString(row?.ordering_bg_image, defaultProductsPage.orderingBgImage), orderingFormTitle: asString(row?.ordering_form_title, defaultProductsPage.orderingFormTitle), orderingFormSubtitle: asString(row?.ordering_form_subtitle, defaultProductsPage.orderingFormSubtitle), stepOneLabel: asString(row?.step_one_label, defaultProductsPage.stepOneLabel), stepTwoLabel: asString(row?.step_two_label, defaultProductsPage.stepTwoLabel), stepThreeLabel: asString(row?.step_three_label, defaultProductsPage.stepThreeLabel), mixedContainerLabel: asString(row?.mixed_container_label, defaultProductsPage.mixedContainerLabel), volumeOptions: safeParseJson(row?.volume_options, defaultProductsPage.volumeOptions), viewSpecsLabel: asString(row?.view_specs_label, defaultProductsPage.viewSpecsLabel), stepOnePlaceholder: asString(row?.step_one_placeholder, defaultProductsPage.stepOnePlaceholder), stepThreePlaceholder: asString(row?.step_three_placeholder, defaultProductsPage.stepThreePlaceholder), nextStepButtonLabel: asString(row?.next_step_button_label, defaultProductsPage.nextStepButtonLabel), backButtonLabel: asString(row?.back_button_label, defaultProductsPage.backButtonLabel), submitButtonLabel: asString(row?.submit_button_label, defaultProductsPage.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, defaultProductsPage.submittingButtonLabel), detailUi: { ...defaultProductsPage.detailUi, ...safeParseJson(row?.detail_ui, defaultProductsPage.detailUi) }, quickContactTitle: asString(row?.quick_contact_title, defaultProductsPage.quickContactTitle), quickContactSubtitle: asString(row?.quick_contact_subtitle, defaultProductsPage.quickContactSubtitle), telegramLabel: asString(row?.telegram_label, defaultProductsPage.telegramLabel), telegramSublabel: asString(row?.telegram_sublabel, defaultProductsPage.telegramSublabel), callLabel: asString(row?.call_label, defaultProductsPage.callLabel), emailLabel: asString(row?.email_label, defaultProductsPage.emailLabel), quickPhone: asString(row?.quick_phone, defaultProductsPage.quickPhone), quickEmail: asString(row?.quick_email, defaultProductsPage.quickEmail),
+    pageTitle: asString(row?.page_title, defaultProductsPage.pageTitle), pageSubtitle: asString(row?.page_subtitle, defaultProductsPage.pageSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultProductsPage.heroBgImage), introEyebrow: asString(row?.intro_eyebrow, defaultProductsPage.introEyebrow), introTitle: asString(row?.intro_title, defaultProductsPage.introTitle), introContent: asContentString(row?.intro_content, defaultProductsPage.introContent), introImage: asString(row?.intro_image, defaultProductsPage.introImage), introFacts: safeParseJson(row?.intro_facts, defaultProductsPage.introFacts), orderingBgImage: asString(row?.ordering_bg_image, defaultProductsPage.orderingBgImage), orderingFormTitle: asString(row?.ordering_form_title, defaultProductsPage.orderingFormTitle), orderingFormSubtitle: asString(row?.ordering_form_subtitle, defaultProductsPage.orderingFormSubtitle), stepOneLabel: asString(row?.step_one_label, defaultProductsPage.stepOneLabel), stepTwoLabel: asString(row?.step_two_label, defaultProductsPage.stepTwoLabel), stepThreeLabel: asString(row?.step_three_label, defaultProductsPage.stepThreeLabel), mixedContainerLabel: asString(row?.mixed_container_label, defaultProductsPage.mixedContainerLabel), volumeOptions: safeParseJson(row?.volume_options, defaultProductsPage.volumeOptions), viewSpecsLabel: asString(row?.view_specs_label, defaultProductsPage.viewSpecsLabel), stepOnePlaceholder: asString(row?.step_one_placeholder, defaultProductsPage.stepOnePlaceholder), stepThreePlaceholder: asString(row?.step_three_placeholder, defaultProductsPage.stepThreePlaceholder), nextStepButtonLabel: asString(row?.next_step_button_label, defaultProductsPage.nextStepButtonLabel), backButtonLabel: asString(row?.back_button_label, defaultProductsPage.backButtonLabel), submitButtonLabel: asString(row?.submit_button_label, defaultProductsPage.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, defaultProductsPage.submittingButtonLabel), detailUi: { ...defaultProductsPage.detailUi, ...safeParseJson(row?.detail_ui, defaultProductsPage.detailUi) }, quickContactTitle: asString(row?.quick_contact_title, defaultProductsPage.quickContactTitle), quickContactSubtitle: asString(row?.quick_contact_subtitle, defaultProductsPage.quickContactSubtitle), telegramLabel: asString(row?.telegram_label, defaultProductsPage.telegramLabel), telegramSublabel: asString(row?.telegram_sublabel, defaultProductsPage.telegramSublabel), callLabel: asString(row?.call_label, defaultProductsPage.callLabel), emailLabel: asString(row?.email_label, defaultProductsPage.emailLabel), quickPhone: asString(row?.quick_phone, defaultProductsPage.quickPhone), quickEmail: asString(row?.quick_email, defaultProductsPage.quickEmail),
   };
 }
 
 function mapExportPage(row: any) {
   return {
-    heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle), heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage), mapSectionTitle: asString(row?.map_section_title, defaultExportPage.mapSectionTitle), supplyRoutes: safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes), logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent), packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle), packagingMethods: asContentString(row?.packaging_methods, defaultExportPage.packagingMethods), transportationTitle: asContentString(row?.transportation_title, defaultExportPage.transportationTitle), transportationMethods: asContentString(row?.transportation_methods, defaultExportPage.transportationMethods), documentationTitle: asContentString(row?.documentation_title, defaultExportPage.documentationTitle), documentationContent: asContentString(row?.documentation_content, defaultExportPage.documentationContent), qualityTitle: asContentString(row?.quality_title, defaultExportPage.qualityTitle), technicalSpecs: asContentString(row?.technical_specs, defaultExportPage.technicalSpecs), qualityChecks: safeParseJson(row?.quality_checks, defaultExportPage.qualityChecks), certificationsGallery: safeParseJson(row?.certifications_gallery, defaultExportPage.certificationsGallery),
+    heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle), heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage), operationsImage: asString(row?.operations_image, defaultExportPage.operationsImage), operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow), destinationEyebrow: asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow), mapSectionTitle: asString(row?.map_section_title, defaultExportPage.mapSectionTitle), supplyRoutes: safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes), logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent), packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle), packagingMethods: asContentString(row?.packaging_methods, defaultExportPage.packagingMethods), transportationTitle: asContentString(row?.transportation_title, defaultExportPage.transportationTitle), transportationMethods: asContentString(row?.transportation_methods, defaultExportPage.transportationMethods), documentationTitle: asContentString(row?.documentation_title, defaultExportPage.documentationTitle), documentationContent: asContentString(row?.documentation_content, defaultExportPage.documentationContent), qualityTitle: asContentString(row?.quality_title, defaultExportPage.qualityTitle), technicalSpecs: asContentString(row?.technical_specs, defaultExportPage.technicalSpecs), qualityChecks: safeParseJson(row?.quality_checks, defaultExportPage.qualityChecks), certificationsGallery: safeParseJson(row?.certifications_gallery, defaultExportPage.certificationsGallery),
   };
 }
 
 function mapContactsPage(row: any) {
   return {
-    pageTitle: asString(row?.page_title, defaultContactsPage.pageTitle), introText: asString(row?.intro_text, defaultContactsPage.introText), formDestinationEmail: asString(row?.form_destination_email, defaultContactsPage.formDestinationEmail), contactFormTitle: asString(row?.contact_form_title, defaultContactsPage.contactFormTitle), responseLabelPrefix: asString(row?.response_label_prefix, defaultContactsPage.responseLabelPrefix), formNameLabel: asString(row?.form_name_label, defaultContactsPage.formNameLabel), formCompanyLabel: asString(row?.form_company_label, defaultContactsPage.formCompanyLabel), formEmailLabel: asString(row?.form_email_label, defaultContactsPage.formEmailLabel), formMessageLabel: asString(row?.form_message_label, defaultContactsPage.formMessageLabel), submitButtonLabel: asString(row?.submit_button_label, defaultContactsPage.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, defaultContactsPage.submittingButtonLabel), emailAddress: asString(row?.email, defaultContactsPage.emailAddress), phoneNumber: asString(row?.phone, defaultContactsPage.phoneNumber), officeAddress: asString(row?.office_address, defaultContactsPage.officeAddress), workingHours: asString(row?.working_hours, defaultContactsPage.workingHours), mapPinLabel: asString(row?.map_pin_label, defaultContactsPage.mapPinLabel), infoEmailLabel: asString(row?.info_email_label, defaultContactsPage.infoEmailLabel), infoPhoneLabel: asString(row?.info_phone_label, defaultContactsPage.infoPhoneLabel), infoAddressLabel: asString(row?.info_address_label, defaultContactsPage.infoAddressLabel), infoHoursLabel: asString(row?.info_hours_label, defaultContactsPage.infoHoursLabel), socialSectionTitle: asString(row?.social_section_title, defaultContactsPage.socialSectionTitle), telegramUrl: asString(row?.telegram_url, defaultContactsPage.telegramUrl), instagramUrl: asString(row?.instagram_url, defaultContactsPage.instagramUrl), whatsappUrl: asString(row?.whatsapp_url, defaultContactsPage.whatsappUrl), facebookUrl: asString(row?.facebook_url, defaultContactsPage.facebookUrl), headquartersImage: asString(row?.headquarters_image, defaultContactsPage.headquartersImage), googleMapsUrl: asString(row?.google_maps_url, defaultContactsPage.googleMapsUrl),
+    pageTitle: asString(row?.page_title, defaultContactsPage.pageTitle), introText: asString(row?.intro_text, defaultContactsPage.introText), directContactEyebrow: asString(row?.direct_contact_eyebrow, defaultContactsPage.directContactEyebrow), formDestinationEmail: asString(row?.form_destination_email, defaultContactsPage.formDestinationEmail), contactFormTitle: asString(row?.contact_form_title, defaultContactsPage.contactFormTitle), responseLabelPrefix: asString(row?.response_label_prefix, defaultContactsPage.responseLabelPrefix), formNameLabel: asString(row?.form_name_label, defaultContactsPage.formNameLabel), formCompanyLabel: asString(row?.form_company_label, defaultContactsPage.formCompanyLabel), formEmailLabel: asString(row?.form_email_label, defaultContactsPage.formEmailLabel), formMessageLabel: asString(row?.form_message_label, defaultContactsPage.formMessageLabel), submitButtonLabel: asString(row?.submit_button_label, defaultContactsPage.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, defaultContactsPage.submittingButtonLabel), emailAddress: asString(row?.email, defaultContactsPage.emailAddress), phoneNumber: asString(row?.phone, defaultContactsPage.phoneNumber), officeAddress: asString(row?.office_address, defaultContactsPage.officeAddress), workingHours: asString(row?.working_hours, defaultContactsPage.workingHours), mapPinLabel: asString(row?.map_pin_label, defaultContactsPage.mapPinLabel), infoEmailLabel: asString(row?.info_email_label, defaultContactsPage.infoEmailLabel), infoPhoneLabel: asString(row?.info_phone_label, defaultContactsPage.infoPhoneLabel), infoAddressLabel: asString(row?.info_address_label, defaultContactsPage.infoAddressLabel), infoHoursLabel: asString(row?.info_hours_label, defaultContactsPage.infoHoursLabel), socialSectionTitle: asString(row?.social_section_title, defaultContactsPage.socialSectionTitle), telegramUrl: asString(row?.telegram_url, defaultContactsPage.telegramUrl), instagramUrl: asString(row?.instagram_url, defaultContactsPage.instagramUrl), whatsappUrl: asString(row?.whatsapp_url, defaultContactsPage.whatsappUrl), facebookUrl: asString(row?.facebook_url, defaultContactsPage.facebookUrl), headquartersImage: asString(row?.headquarters_image, defaultContactsPage.headquartersImage), googleMapsUrl: asString(row?.google_maps_url, defaultContactsPage.googleMapsUrl),
   };
 }
 
@@ -815,14 +858,31 @@ async function syncFlexiblePageSharedMedia(pageId: keyof typeof pageContentTable
   }));
 }
 
-async function purgeDeprecatedHomeProgressSlider() {
+async function purgeDeprecatedHomeContentFields() {
   const res = await db.query("SELECT lang, content FROM home_page WHERE id = 1");
+  const deprecatedKeys = [
+    "progressSlider",
+    "supplyReachTitle",
+    "supplyReachOverview",
+    "supplyReachBgImage",
+    "supplyReachButtonLabel",
+    "ctaBgImage",
+    "ctaHeading",
+    "ctaSubheading",
+    "ctaButtonText",
+    "ctaButtonUrl",
+    "ctaLinkLabel",
+    "ctaEmailPlaceholder",
+    "ctaSubmittingLabel",
+  ];
 
   await Promise.all(res.rows.map(async (row: any) => {
     const content = safeParseJson(row?.content, null);
-    if (!content || typeof content !== "object" || Array.isArray(content) || !hasOwn(content, "progressSlider")) return;
+    if (!content || typeof content !== "object" || Array.isArray(content)) return;
+    const hasDeprecatedKey = deprecatedKeys.some((key) => hasOwn(content, key));
+    if (!hasDeprecatedKey) return;
 
-    delete content.progressSlider;
+    for (const key of deprecatedKeys) delete content[key];
     await db.query("UPDATE home_page SET content = $1 WHERE id = 1 AND lang = $2", [
       JSON.stringify(content),
       asString(row?.lang, "en"),
@@ -856,9 +916,10 @@ async function syncExportPageSharedMedia(content: any) {
     const nextContent = applySharedMedia(existingContent, content, sharedMediaConfigs.export);
 
     await db.query(
-      "UPDATE export_page SET hero_bg_image = $1, supply_routes = $2, certifications_gallery = $3 WHERE id = 1 AND lang = $4",
+      "UPDATE export_page SET hero_bg_image = $1, operations_image = $2, supply_routes = $3, certifications_gallery = $4 WHERE id = 1 AND lang = $5",
       [
         asString(content.heroBgImage),
+        asString(content.operationsImage),
         JSON.stringify(Array.isArray(nextContent.supplyRoutes) ? nextContent.supplyRoutes : []),
         JSON.stringify(Array.isArray(nextContent.certificationsGallery) ? nextContent.certificationsGallery : []),
         locale,
@@ -1576,17 +1637,17 @@ app.post("/api/pages/:id", async (req, res) => {
     const locale = getRequestLocale(req);
     const content = req.body ?? {};
     if (pageId === "products") {
-      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
+      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, intro_eyebrow = $4, intro_title = $5, intro_content = $6, intro_image = $7, intro_facts = $8, ordering_bg_image = $9, ordering_form_title = $10, ordering_form_subtitle = $11, step_one_label = $12, step_two_label = $13, step_three_label = $14, mixed_container_label = $15, volume_options = $16, view_specs_label = $17, step_one_placeholder = $18, step_three_placeholder = $19, next_step_button_label = $20, back_button_label = $21, submit_button_label = $22, submitting_button_label = $23, detail_ui = $24, quick_contact_title = $25, quick_contact_subtitle = $26, telegram_label = $27, telegram_sublabel = $28, call_label = $29, email_label = $30, quick_phone = $31, quick_email = $32 WHERE id = 1 AND lang = $33`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.introEyebrow), asString(content.introTitle), asString(content.introContent), asString(content.introImage), JSON.stringify(Array.isArray(content.introFacts) ? content.introFacts : []), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
       await syncProductsPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1 AND lang = $17`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
+      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, operations_image = $4, operations_eyebrow = $5, destination_eyebrow = $6, map_section_title = $7, supply_routes = $8, logistics_content = $9, packaging_title = $10, packaging_methods = $11, transportation_title = $12, transportation_methods = $13, documentation_title = $14, documentation_content = $15, quality_title = $16, technical_specs = $17, quality_checks = $18, certifications_gallery = $19 WHERE id = 1 AND lang = $20`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.operationsImage), asString(content.operationsEyebrow), asString(content.destinationEyebrow), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
       await syncExportPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
+      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, direct_contact_eyebrow = $3, form_destination_email = $4, contact_form_title = $5, response_label_prefix = $6, form_name_label = $7, form_company_label = $8, form_email_label = $9, form_message_label = $10, submit_button_label = $11, submitting_button_label = $12, email = $13, phone = $14, office_address = $15, working_hours = $16, map_pin_label = $17, info_email_label = $18, info_phone_label = $19, info_address_label = $20, info_hours_label = $21, social_section_title = $22, telegram_url = $23, instagram_url = $24, whatsapp_url = $25, facebook_url = $26, headquarters_image = $27, google_maps_url = $28 WHERE id = 1 AND lang = $29`, [asString(content.pageTitle), asString(content.introText), asString(content.directContactEyebrow), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
       await syncContactsPageSharedMedia(content);
       return res.json({ success: true });
     }
@@ -1774,7 +1835,7 @@ if (fs.existsSync(distDir)) {
 const port = process.env.PORT || 10000;
 
 initDb().then(async () => {
-  await purgeDeprecatedHomeProgressSlider();
+  await purgeDeprecatedHomeContentFields();
   app.listen(port, () => {
     console.log(`✅ Server listening on: ${port}`);
   });

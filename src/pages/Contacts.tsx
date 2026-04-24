@@ -264,7 +264,7 @@ export function Contacts() {
           <div className="lg:col-span-5">
             <div className="flex flex-col gap-6 p-1">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">{t("contactsDirectContactEyebrow")}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">{content?.directContactEyebrow || t("contactsDirectContactEyebrow")}</p>
                 <h2 className="mt-3 font-display text-3xl font-bold text-earth-900">
                   {t("contactsDetailsTitle")}
                 </h2>

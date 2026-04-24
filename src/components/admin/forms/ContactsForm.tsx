@@ -33,6 +33,16 @@ export function ContactsForm({ content, updateContent }: Props) {
                 </div>
 
                 <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Direct Contact Eyebrow</label>
+                    <input
+                        type="text"
+                        value={content.directContactEyebrow || ""}
+                        onChange={e => updateContent({ directContactEyebrow: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
+                <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Form Destination Email</label>
                     <input
                         type="email"

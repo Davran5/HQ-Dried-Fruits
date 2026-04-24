@@ -131,7 +131,9 @@ export function Products() {
 
   const pageData = pages.find((page) => page.id === "products");
   const content: ProductsContent = pageData?.content;
-  const introShowcaseImage = orderedProducts[0]?.image || content?.heroBgImage || "";
+  const introShowcaseImage = content?.introImage || orderedProducts[0]?.image || content?.heroBgImage || "";
+  const fallbackIntroContent =
+    "<p>Compare origin, packaging, and buyer-ready details across every core product line from one focused catalogue.</p><p>Use this product hub to review the portfolio before sending a wholesale inquiry or opening a detailed product profile.</p>";
   const volumeOptions =
     content?.volumeOptions?.length > 0
       ? content.volumeOptions
@@ -292,7 +294,7 @@ export function Products() {
           <div className="absolute inset-0 bg-gradient-to-br from-earth-100 via-white to-earth-50" />
         )}
 
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8">
           <div className="mx-auto max-w-5xl text-center">
             <div className="mb-6 overflow-hidden">
               <motion.h1
@@ -323,16 +325,14 @@ export function Products() {
         <div className="rounded-[3rem] border border-earth-100 bg-white px-5 py-6 shadow-xl shadow-earth-200/60 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="grid items-stretch gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
             <div className="flex flex-col justify-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{t("productsOriginEyebrow")}</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{content?.introEyebrow || t("productsOriginEyebrow")}</p>
               <h2 className="mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl">
-                {t("productsIntroTitle")}
+                {content?.introTitle || t("productsIntroTitle")}
               </h2>
               <div
                 className="mt-4 space-y-3 text-base leading-7 text-earth-700 sm:mt-5 sm:space-y-4 sm:text-lg sm:leading-relaxed"
                 dangerouslySetInnerHTML={{
-                  __html:
-                    content?.introContent ||
-                    `<p>${t("productsIntroP1")}</p><p>${t("productsIntroP2")}</p>`,
+                  __html: content?.introContent || fallbackIntroContent,
                 }}
               />
             </div>
@@ -341,7 +341,7 @@ export function Products() {
               {introShowcaseImage ? (
                 <img
                   src={introShowcaseImage}
-                  alt={t("productsOriginEyebrow")}
+                  alt={content?.introEyebrow || t("productsOriginEyebrow")}
                   className="h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]"
                   referrerPolicy="no-referrer"
                 />

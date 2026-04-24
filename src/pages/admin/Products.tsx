@@ -31,10 +31,24 @@ const emptyProduct: Omit<Product, "id"> = {
   nutrition: { energy: "", protein: "", fat: "", carbs: "" }
 };
 
-export function AdminProducts() {
+interface FloatingAction {
+  label: string;
+  formId?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  isLoading?: boolean;
+}
+
+interface ProductCatalogManagerProps {
+  embedded?: boolean;
+  onFloatingActionChange?: (action: FloatingAction | null) => void;
+}
+
+export function ProductCatalogManager({ embedded = false, onFloatingActionChange }: ProductCatalogManagerProps) {
   const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
+  const setFloatingAction = onFloatingActionChange || setAction;
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null); // null = closed, "new" = adding new, "ID" = editing existing
   const [formData, setFormData] = useState<Omit<Product, "id">>(emptyProduct);
@@ -101,19 +115,19 @@ export function AdminProducts() {
 
   useEffect(() => {
     if (!editingId) {
-      setAction(null);
+      setFloatingAction(null);
       return undefined;
     }
 
-    setAction({
+    setFloatingAction({
       label: editingId === "new" ? "Create Product" : "Save Product",
       formId: `form-product-${editingId}`,
       isLoading: isSaving,
       disabled: isSaving,
     });
 
-    return () => setAction(null);
-  }, [editingId, isSaving, setAction]);
+    return () => setFloatingAction(null);
+  }, [editingId, isSaving, setFloatingAction]);
 
   const confirmDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Prevents opening the accordion
@@ -346,8 +360,12 @@ export function AdminProducts() {
       </AnimatePresence>
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Products Catalog ({editingLang.toUpperCase()})</h2>
-          <p className="text-sm text-slate-500">Manage your dried fruits inventory for the {editingLang.toUpperCase()} version.</p>
+          <h2 className={embedded ? "text-lg font-bold text-slate-900" : "text-2xl font-bold text-slate-900"}>
+            {embedded ? "3. Product Catalog Items" : `Products Catalog (${editingLang.toUpperCase()})`}
+          </h2>
+          <p className="text-sm text-slate-500">
+            Manage the product cards and detail pages for the {editingLang.toUpperCase()} version.
+          </p>
         </div>
         <Button
           onClick={() => handleToggleAccordion("new")}
@@ -485,4 +503,8 @@ export function AdminProducts() {
       </AnimatePresence>
     </div>
   );
+}
+
+export function AdminProducts() {
+  return <ProductCatalogManager />;
 }

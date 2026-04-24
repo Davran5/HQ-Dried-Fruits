@@ -1,19 +1,108 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { AboutContent, AboutProductionItem, StatBox } from "@/src/types/page";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { RichTextEditor } from "./RichTextEditor";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
+import { useMedia } from "@/src/contexts/MediaContext";
+import { Loader2, Plus, Trash2 } from "lucide-react";
 
 interface Props {
     content: AboutContent;
     updateContent: (updates: Partial<AboutContent>) => void;
 }
 
+function PartnerLogoGrid({ items, onUpdate }: { items: string[]; onUpdate: (items: string[]) => void }) {
+    const { uploadMedia } = useMedia();
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [targetIndex, setTargetIndex] = useState<number | null>(null);
+    const [isUploading, setIsUploading] = useState(false);
+
+    const openPicker = (index: number | null) => {
+        setTargetIndex(index);
+        inputRef.current?.click();
+    };
+
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        event.target.value = "";
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const url = await uploadMedia(file);
+            const nextItems = [...items];
+            if (targetIndex === null) {
+                nextItems.push(url);
+            } else {
+                nextItems[targetIndex] = url;
+            }
+            onUpdate(nextItems);
+        } catch {
+            alert("Upload failed.");
+        } finally {
+            setIsUploading(false);
+            setTargetIndex(null);
+        }
+    };
+
+    const removeLogo = (index: number) => {
+        const nextItems = [...items];
+        nextItems.splice(index, 1);
+        onUpdate(nextItems);
+    };
+
+    return (
+        <div className="space-y-3">
+            <label className="block text-sm font-bold text-slate-800">Partner Logos & Certifications</label>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+                {items.map((logo, index) => (
+                    <div key={`${logo}-${index}`} className="group relative aspect-square overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                        <button
+                            type="button"
+                            onClick={() => openPicker(index)}
+                            className="flex h-full w-full items-center justify-center p-3"
+                        >
+                            {logo ? (
+                                <img src={logo} alt={`Partner logo ${index + 1}`} className="max-h-full max-w-full object-contain" referrerPolicy="no-referrer" />
+                            ) : (
+                                <Plus className="h-6 w-6 text-slate-300" />
+                            )}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => removeLogo(index)}
+                            className="absolute right-2 top-2 rounded-full bg-white/90 p-1.5 text-slate-400 opacity-0 shadow-sm transition-all hover:text-red-500 group-hover:opacity-100"
+                            aria-label="Remove logo"
+                        >
+                            <Trash2 size={14} />
+                        </button>
+                    </div>
+                ))}
+
+                <button
+                    type="button"
+                    onClick={() => openPicker(null)}
+                    className="flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50 text-slate-400 transition-colors hover:border-earth-300 hover:bg-earth-50 hover:text-earth-600"
+                >
+                    {isUploading ? <Loader2 className="h-6 w-6 animate-spin" /> : <Plus className="h-7 w-7" />}
+                    <span className="text-xs font-bold uppercase tracking-wide">Add Logo</span>
+                </button>
+            </div>
+            <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+        </div>
+    );
+}
+
 export function AboutForm({ content, updateContent }: Props) {
     return (
         <div className="space-y-4">
-            <FormSection title="1. Marquee Hero">
+            <FormSection title="1. About Hero">
+                <ImageUploader
+                    label="Main Hero Background Image"
+                    value={(content.heroBgImage ?? content.productionMarqueeImages?.[0]) || ""}
+                    onChange={url => updateContent({ heroBgImage: url })}
+                />
 
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Large Top Title</label>
@@ -25,47 +114,27 @@ export function AboutForm({ content, updateContent }: Props) {
                     />
                 </div>
 
-                <Repeater<string>
-                    label="Orchard/Production Marquee Images"
-                    items={content.productionMarqueeImages || []}
-                    emptyItem={""}
-                    onUpdate={(items) => updateContent({ productionMarqueeImages: items })}
-                    renderItem={(item, index, updateItem, replaceItem) => (
-                        <ImageUploader
-                            label={`Image ${index + 1}`}
-                            value={item}
-                            onChange={url => replaceItem(index, url)}
-                        />
-                    )}
-                />
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Hero Subtitle / Body Text</label>
+                    <textarea
+                        rows={3}
+                        value={(content.heroSubtitle ?? content.heritageSubtitle) || ""}
+                        onChange={e => updateContent({ heroSubtitle: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+                    />
+                </div>
             </FormSection>
 
-            <FormSection title="2. Partner / Trust Marquee" defaultOpen={false}>
+            <FormSection title="2. About The Company" defaultOpen={false}>
                 <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Section Label</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow Text Above Title</label>
                     <input
                         type="text"
-                        value={content.partnerSectionLabel || ""}
-                        onChange={e => updateContent({ partnerSectionLabel: e.target.value })}
+                        value={content.companyEyebrow || ""}
+                        onChange={e => updateContent({ companyEyebrow: e.target.value })}
                         className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
                     />
                 </div>
-                <Repeater<string>
-                    label="Partner Logos & Certifications"
-                    items={content.partnerLogos || []}
-                    emptyItem={""}
-                    onUpdate={(items) => updateContent({ partnerLogos: items })}
-                    renderItem={(item, index, updateItem, replaceItem) => (
-                        <ImageUploader
-                            label={`Logo ${index + 1}`}
-                            value={item}
-                            onChange={url => replaceItem(index, url)}
-                        />
-                    )}
-                />
-            </FormSection>
-
-            <FormSection title="3. Company Heritage" defaultOpen={false}>
 
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Section Title</label>
@@ -150,7 +219,32 @@ export function AboutForm({ content, updateContent }: Props) {
                 />
             </FormSection>
 
+            <FormSection title="3. Partner / Trust Marquee" defaultOpen={false}>
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Section Label</label>
+                    <input
+                        type="text"
+                        value={content.partnerSectionLabel || ""}
+                        onChange={e => updateContent({ partnerSectionLabel: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+                <PartnerLogoGrid
+                    items={content.partnerLogos || []}
+                    onUpdate={(items) => updateContent({ partnerLogos: items })}
+                />
+            </FormSection>
+
             <FormSection title="4. Mission & Logistics" defaultOpen={false}>
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Mission Narrative Eyebrow</label>
+                    <input
+                        type="text"
+                        value={content.missionNarrativeEyebrow || ""}
+                        onChange={e => updateContent({ missionNarrativeEyebrow: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
 
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Mission Section Title</label>
@@ -216,6 +310,16 @@ export function AboutForm({ content, updateContent }: Props) {
             </FormSection>
 
             <FormSection title="5. Own Production" defaultOpen={false}>
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow Text Above Title</label>
+                    <input
+                        type="text"
+                        value={content.facilityEyebrow || ""}
+                        onChange={e => updateContent({ facilityEyebrow: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Section Title</label>
                     <input

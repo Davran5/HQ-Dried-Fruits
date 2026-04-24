@@ -11,7 +11,6 @@ import { LocaleSelectorPage } from "./pages/LocaleSelector";
 import { ProductDetail } from "./pages/ProductDetail";
 import { AdminLayout } from "./components/layout/AdminLayout";
 import { Dashboard } from "./pages/admin/Dashboard";
-import { AdminProducts } from "./pages/admin/Products";
 import { AdminPages } from "./pages/admin/Pages";
 import { AdminLeads } from "./pages/admin/Leads";
 import { AdminSeoSettings } from "./pages/admin/SeoSettings";
@@ -154,7 +153,7 @@ export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload
               <Routes>
                 <Route path="/control-room" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
-                  <Route path="products" element={<AdminProducts />} />
+                  <Route path="products" element={<Navigate to="/control-room/pages" replace />} />
                   <Route path="pages" element={<AdminPages />} />
                   <Route path="leads" element={<AdminLeads />} />
                   <Route path="media" element={<AdminMedia />} />

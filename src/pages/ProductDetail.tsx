@@ -134,7 +134,7 @@ export function ProductDetail() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8"
+        className="mx-auto max-w-7xl px-4 pb-12 pt-28 sm:px-6 sm:pt-32 lg:px-8"
       >
         <div className="grid gap-16 lg:grid-cols-2">
           <div className="relative flex flex-col gap-6 lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]">
@@ -206,28 +206,28 @@ export function ProductDetail() {
               </h3>
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
                 <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
                     <Flame size={24} />
                   </div>
                   <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.energy}</div>
                   <div className="text-sm text-earth-600">{detailUi.caloriesLabel || "Calories"}</div>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
                     <Dumbbell size={24} />
                   </div>
                   <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.protein}</div>
                   <div className="text-sm text-earth-600">{detailUi.proteinLabel || "Protein"}</div>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
                     <Droplets size={24} />
                   </div>
                   <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.fat}</div>
                   <div className="text-sm text-earth-600">{detailUi.fatLabel || "Fat"}</div>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
                     <Wheat size={24} />
                   </div>
                   <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.carbs}</div>

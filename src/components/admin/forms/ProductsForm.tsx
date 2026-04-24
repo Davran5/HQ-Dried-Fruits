@@ -3,18 +3,20 @@ import { ProductsContent } from "@/src/types/page";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
+import { RichTextEditor } from "@/src/components/admin/forms/RichTextEditor";
 
 interface Props {
     content: ProductsContent;
     updateContent: (updates: Partial<ProductsContent>) => void;
+    catalogSlot?: React.ReactNode;
 }
 
-export function ProductsForm({ content, updateContent }: Props) {
+export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
     return (
         <div className="space-y-4">
-            <FormSection title="1. Header / Intro">
+            <FormSection title="1. Hero">
                 <ImageUploader
-                    label="Header / Intro Background Image"
+                    label="Hero Background Image"
                     value={content.heroBgImage || ""}
                     onChange={url => updateContent({ heroBgImage: url })}
                     placeholder="Upload the full-width image shown behind the page title"
@@ -39,11 +41,76 @@ export function ProductsForm({ content, updateContent }: Props) {
                         className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
                     />
                 </div>
+
             </FormSection>
 
+            <FormSection title="2. Intro / Origin Card" defaultOpen={false}>
+                <ImageUploader
+                    label="Intro Showcase Image"
+                    value={content.introImage || ""}
+                    onChange={url => updateContent({ introImage: url })}
+                    placeholder="Optional. If empty, the first product image is used."
+                />
 
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow Text Above Title</label>
+                    <input
+                        type="text"
+                        value={content.introEyebrow || ""}
+                        onChange={e => updateContent({ introEyebrow: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
 
-            <FormSection title="3. Ordering Hub (Bulk Requests)">
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Intro Title</label>
+                    <input
+                        type="text"
+                        value={content.introTitle || ""}
+                        onChange={e => updateContent({ introTitle: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
+                <RichTextEditor
+                    label="Intro Body Text"
+                    value={content.introContent || ""}
+                    onChange={val => updateContent({ introContent: val })}
+                />
+
+                <Repeater
+                    label="Three Intro Fact Cards"
+                    items={content.introFacts || []}
+                    emptyItem={{ title: "", description: "" }}
+                    onUpdate={(items) => updateContent({ introFacts: items.slice(0, 3) })}
+                    renderItem={(item, index, updateItem) => (
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-xs font-medium text-slate-500 mb-1">Card Title</label>
+                                <input
+                                    type="text"
+                                    value={item.title}
+                                    onChange={e => updateItem(index, "title", e.target.value)}
+                                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-slate-500 mb-1">Card Description</label>
+                                <textarea
+                                    rows={2}
+                                    value={item.description}
+                                    onChange={e => updateItem(index, "description", e.target.value)}
+                                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                                />
+                            </div>
+                        </div>
+                    )}
+                />
+            </FormSection>
+
+            {catalogSlot}
+
+            <FormSection title="4. Ordering Hub (Bulk Requests)" defaultOpen={false}>
                 <ImageUploader
                     label="Background Image"
                     value={content.orderingBgImage || ""}
@@ -193,7 +260,97 @@ export function ProductsForm({ content, updateContent }: Props) {
                 />
             </FormSection>
 
-            <FormSection title="4. Product Detail UI" defaultOpen={false}>
+            <FormSection title="5. Quick Contacts" defaultOpen={false}>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Section Title</label>
+                        <input
+                            type="text"
+                            value={content.quickContactTitle || ""}
+                            onChange={e => updateContent({ quickContactTitle: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="e.g. Need it faster?"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Section Subtitle</label>
+                        <input
+                            type="text"
+                            value={content.quickContactSubtitle || ""}
+                            onChange={e => updateContent({ quickContactSubtitle: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="e.g. Skip the form..."
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Telegram Label</label>
+                        <input
+                            type="text"
+                            value={content.telegramLabel || ""}
+                            onChange={e => updateContent({ telegramLabel: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="e.g. Telegram Bot"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Telegram Sublabel</label>
+                        <input
+                            type="text"
+                            value={content.telegramSublabel || ""}
+                            onChange={e => updateContent({ telegramSublabel: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="e.g. Instant quotes..."
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Call Card Label</label>
+                        <input
+                            type="text"
+                            value={content.callLabel || ""}
+                            onChange={e => updateContent({ callLabel: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Email Card Label</label>
+                        <input
+                            type="text"
+                            value={content.emailLabel || ""}
+                            onChange={e => updateContent({ emailLabel: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Dedicated Phone Number</label>
+                        <input
+                            type="text"
+                            value={content.quickPhone || ""}
+                            onChange={e => updateContent({ quickPhone: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Dedicated Sales Email</label>
+                        <input
+                            type="text"
+                            value={content.quickEmail || ""}
+                            onChange={e => updateContent({ quickEmail: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                        />
+                    </div>
+                </div>
+            </FormSection>
+
+            <FormSection title="6. Product Detail UI" defaultOpen={false}>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-slate-700 mb-1">Loading Label</label>
@@ -352,95 +509,6 @@ export function ProductsForm({ content, updateContent }: Props) {
                 </div>
             </FormSection>
 
-            <FormSection title="5. Quick Contacts" defaultOpen={false}>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Section Title</label>
-                        <input
-                            type="text"
-                            value={content.quickContactTitle || ""}
-                            onChange={e => updateContent({ quickContactTitle: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                            placeholder="e.g. Need it faster?"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Section Subtitle</label>
-                        <input
-                            type="text"
-                            value={content.quickContactSubtitle || ""}
-                            onChange={e => updateContent({ quickContactSubtitle: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                            placeholder="e.g. Skip the form..."
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Telegram Label</label>
-                        <input
-                            type="text"
-                            value={content.telegramLabel || ""}
-                            onChange={e => updateContent({ telegramLabel: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                            placeholder="e.g. Telegram Bot"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Telegram Sublabel</label>
-                        <input
-                            type="text"
-                            value={content.telegramSublabel || ""}
-                            onChange={e => updateContent({ telegramSublabel: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                            placeholder="e.g. Instant quotes..."
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Call Card Label</label>
-                        <input
-                            type="text"
-                            value={content.callLabel || ""}
-                            onChange={e => updateContent({ callLabel: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Email Card Label</label>
-                        <input
-                            type="text"
-                            value={content.emailLabel || ""}
-                            onChange={e => updateContent({ emailLabel: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Dedicated Phone Number</label>
-                        <input
-                            type="text"
-                            value={content.quickPhone || ""}
-                            onChange={e => updateContent({ quickPhone: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Dedicated Sales Email</label>
-                        <input
-                            type="text"
-                            value={content.quickEmail || ""}
-                            onChange={e => updateContent({ quickEmail: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                        />
-                    </div>
-                </div>
-            </FormSection>
         </div>
     );
 }

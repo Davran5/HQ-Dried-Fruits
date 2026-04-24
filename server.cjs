@@ -52602,7 +52602,7 @@ var require_react = __commonJS({
 var require_react_dom_production = __commonJS({
   "node_modules/react-dom/cjs/react-dom.production.js"(exports2) {
     "use strict";
-    var React40 = require_react();
+    var React41 = require_react();
     function formatProdErrorMessage(code) {
       var url = "https://react.dev/errors/" + code;
       if (1 < arguments.length) {
@@ -52642,7 +52642,7 @@ var require_react_dom_production = __commonJS({
         implementation
       };
     }
-    var ReactSharedInternals = React40.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var ReactSharedInternals = React41.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     function getCrossOriginStringAs(as, input) {
       if ("font" === as) return "";
       if ("string" === typeof input)
@@ -52796,7 +52796,7 @@ var require_react_dom_development = __commonJS({
         return dispatcher;
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React40 = require_react(), Internals = {
+      var React41 = require_react(), Internals = {
         d: {
           f: noop2,
           r: function() {
@@ -52814,7 +52814,7 @@ var require_react_dom_development = __commonJS({
         },
         p: 0,
         findDOMNode: null
-      }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React40.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+      }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React41.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
       "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
         "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
       );
@@ -53021,7 +53021,7 @@ var require_react_dom = __commonJS({
 var require_react_dom_server_legacy_node_production = __commonJS({
   "node_modules/react-dom/cjs/react-dom-server-legacy.node.production.js"(exports2) {
     "use strict";
-    var React40 = require_react();
+    var React41 = require_react();
     var ReactDOM3 = require_react_dom();
     var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element");
     var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
@@ -53221,7 +53221,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
     function sanitizeURL(url) {
       return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
     }
-    var ReactSharedInternals = React40.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var ReactSharedInternals = React41.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var ReactDOMSharedInternals = ReactDOM3.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var sharedNotPendingObject = {
       pending: false,
@@ -53582,7 +53582,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
     }
     function flattenOptionChildren(children) {
       var content = "";
-      React40.Children.forEach(children, function(child) {
+      React41.Children.forEach(children, function(child) {
         null != child && (content += child);
       });
       return content;
@@ -57962,7 +57962,7 @@ var require_react_dom_server_node_production = __commonJS({
     var util = require("util");
     var crypto2 = require("crypto");
     var async_hooks = require("async_hooks");
-    var React40 = require_react();
+    var React41 = require_react();
     var ReactDOM3 = require_react_dom();
     var stream = require("stream");
     var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element");
@@ -58189,7 +58189,7 @@ var require_react_dom_server_node_production = __commonJS({
     function sanitizeURL(url) {
       return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
     }
-    var ReactSharedInternals = React40.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var ReactSharedInternals = React41.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var ReactDOMSharedInternals = ReactDOM3.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var sharedNotPendingObject = {
       pending: false,
@@ -58765,7 +58765,7 @@ var require_react_dom_server_node_production = __commonJS({
     }
     function flattenOptionChildren(children) {
       var content = "";
-      React40.Children.forEach(children, function(child) {
+      React41.Children.forEach(children, function(child) {
         null != child && (content += child);
       });
       return content;
@@ -63269,7 +63269,7 @@ var require_react_dom_server_node_production = __commonJS({
       };
     }
     function ensureCorrectIsomorphicReactVersion() {
-      var isomorphicReactPackageVersion = React40.version;
+      var isomorphicReactPackageVersion = React41.version;
       if ("19.2.4" !== isomorphicReactPackageVersion)
         throw Error(
           'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -64803,7 +64803,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
       }
       function flattenOptionChildren(children) {
         var content = "";
-        React40.Children.forEach(children, function(child) {
+        React41.Children.forEach(children, function(child) {
           null != child && (content += child, didWarnInvalidOptionChildren || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || (didWarnInvalidOptionChildren = true, console.error(
             "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
           )));
@@ -69858,7 +69858,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
           );
         return result;
       }
-      var React40 = require_react(), ReactDOM3 = require_react_dom(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
+      var React41 = require_react(), ReactDOM3 = require_react_dom(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
         "^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), illegalAttributeNameCache = {}, validatedAttributeNameCache = {}, unitlessNumbers = new Set(
         "animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(
@@ -70506,7 +70506,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         "^(aria)-[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), rARIACamel = RegExp(
         "^(aria)[A-Z][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
-      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React40.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM3.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React41.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM3.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
         pending: false,
         data: null,
         method: null,
@@ -72082,7 +72082,7 @@ var require_react_dom_server_node_development = __commonJS({
       }
       function flattenOptionChildren(children) {
         var content = "";
-        React40.Children.forEach(children, function(child) {
+        React41.Children.forEach(children, function(child) {
           null != child && (content += child, didWarnInvalidOptionChildren || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || (didWarnInvalidOptionChildren = true, console.error(
             "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
           )));
@@ -77178,7 +77178,7 @@ var require_react_dom_server_node_development = __commonJS({
         };
       }
       function ensureCorrectIsomorphicReactVersion() {
-        var isomorphicReactPackageVersion = React40.version;
+        var isomorphicReactPackageVersion = React41.version;
         if ("19.2.4" !== isomorphicReactPackageVersion)
           throw Error(
             'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -77288,7 +77288,7 @@ var require_react_dom_server_node_development = __commonJS({
           }
         };
       }
-      var util = require("util"), crypto2 = require("crypto"), async_hooks = require("async_hooks"), React40 = require_react(), ReactDOM3 = require_react_dom(), stream = require("stream"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), scheduleMicrotask = queueMicrotask, currentView = null, writtenBytes = 0, destinationHasCapacity$1 = true, textEncoder = new util.TextEncoder(), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
+      var util = require("util"), crypto2 = require("crypto"), async_hooks = require("async_hooks"), React41 = require_react(), ReactDOM3 = require_react_dom(), stream = require("stream"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), scheduleMicrotask = queueMicrotask, currentView = null, writtenBytes = 0, destinationHasCapacity$1 = true, textEncoder = new util.TextEncoder(), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
         "^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), illegalAttributeNameCache = {}, validatedAttributeNameCache = {}, unitlessNumbers = new Set(
         "animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(
@@ -77936,7 +77936,7 @@ var require_react_dom_server_node_development = __commonJS({
         "^(aria)-[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), rARIACamel = RegExp(
         "^(aria)[A-Z][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
-      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React40.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM3.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React41.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM3.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
         pending: false,
         data: null,
         method: null,
@@ -93958,18 +93958,18 @@ var require_react_jsx_runtime_development = __commonJS({
       function isValidElement3(object) {
         return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
       }
-      var React40 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React40.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+      var React41 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React41.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
         return null;
       };
-      React40 = {
+      React41 = {
         react_stack_bottom_frame: function(callStackForError) {
           return callStackForError();
         }
       };
       var specialPropKeyWarningShown;
       var didWarnAboutElementRef = {};
-      var unknownOwnerDebugStack = React40.react_stack_bottom_frame.bind(
-        React40,
+      var unknownOwnerDebugStack = React41.react_stack_bottom_frame.bind(
+        React41,
         UnknownOwner
       )();
       var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -104331,7 +104331,7 @@ var require_lucide_react = __commonJS({
       ["polyline", { points: "3.29 7 12 12 20.71 7", key: "ousv84" }],
       ["path", { d: "m7.5 4.27 9 5.15", key: "1c824w" }]
     ];
-    var Package5 = createLucideIcon("package", __iconNode$93);
+    var Package4 = createLucideIcon("package", __iconNode$93);
     var __iconNode$92 = [
       [
         "path",
@@ -105095,7 +105095,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M5 12h14", key: "1ays0h" }],
       ["path", { d: "M12 5v14", key: "s699le" }]
     ];
-    var Plus3 = createLucideIcon("plus", __iconNode$7T);
+    var Plus4 = createLucideIcon("plus", __iconNode$7T);
     var __iconNode$7S = [
       ["path", { d: "M3 2v1c0 1 2 1 2 2S3 6 3 7s2 1 2 2-2 1-2 2 2 1 2 2", key: "19w3oe" }],
       ["path", { d: "M18 6h.01", key: "1v4wsw" }],
@@ -108656,7 +108656,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M3 6h18", key: "d0wm0j" }],
       ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
     ];
-    var Trash24 = createLucideIcon("trash-2", __iconNode$1Z);
+    var Trash25 = createLucideIcon("trash-2", __iconNode$1Z);
     var __iconNode$1Y = [
       ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
       ["path", { d: "M3 6h18", key: "d0wm0j" }],
@@ -110951,7 +110951,7 @@ var require_lucide_react = __commonJS({
       Option,
       Orbit,
       Origami,
-      Package: Package5,
+      Package: Package4,
       Package2: Package22,
       PackageCheck: PackageCheck2,
       PackageMinus,
@@ -111034,7 +111034,7 @@ var require_lucide_react = __commonJS({
       Plug,
       Plug2,
       PlugZap,
-      Plus: Plus3,
+      Plus: Plus4,
       Pocket,
       PocketKnife,
       Podcast,
@@ -111413,7 +111413,7 @@ var require_lucide_react = __commonJS({
       TramFront,
       Transgender,
       Trash,
-      Trash2: Trash24,
+      Trash2: Trash25,
       TreeDeciduous,
       TreePalm,
       TreePine,
@@ -114803,7 +114803,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideOrbit = Orbit;
     exports2.LucideOrigami = Origami;
     exports2.LucideOutdent = ListIndentDecrease;
-    exports2.LucidePackage = Package5;
+    exports2.LucidePackage = Package4;
     exports2.LucidePackage2 = Package22;
     exports2.LucidePackageCheck = PackageCheck2;
     exports2.LucidePackageMinus = PackageMinus;
@@ -114911,7 +114911,7 @@ var require_lucide_react = __commonJS({
     exports2.LucidePlug2 = Plug2;
     exports2.LucidePlugZap = PlugZap;
     exports2.LucidePlugZap2 = PlugZap;
-    exports2.LucidePlus = Plus3;
+    exports2.LucidePlus = Plus4;
     exports2.LucidePlusCircle = CirclePlus;
     exports2.LucidePlusSquare = SquarePlus;
     exports2.LucidePocket = Pocket;
@@ -115324,7 +115324,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideTramFront = TramFront;
     exports2.LucideTransgender = Transgender;
     exports2.LucideTrash = Trash;
-    exports2.LucideTrash2 = Trash24;
+    exports2.LucideTrash2 = Trash25;
     exports2.LucideTreeDeciduous = TreeDeciduous;
     exports2.LucideTreePalm = TreePalm;
     exports2.LucideTreePine = TreePine;
@@ -115793,12 +115793,12 @@ var require_lucide_react = __commonJS({
     exports2.OrigamiIcon = Origami;
     exports2.Outdent = ListIndentDecrease;
     exports2.OutdentIcon = ListIndentDecrease;
-    exports2.Package = Package5;
+    exports2.Package = Package4;
     exports2.Package2 = Package22;
     exports2.Package2Icon = Package22;
     exports2.PackageCheck = PackageCheck2;
     exports2.PackageCheckIcon = PackageCheck2;
-    exports2.PackageIcon = Package5;
+    exports2.PackageIcon = Package4;
     exports2.PackageMinus = PackageMinus;
     exports2.PackageMinusIcon = PackageMinus;
     exports2.PackageOpen = PackageOpen;
@@ -116009,10 +116009,10 @@ var require_lucide_react = __commonJS({
     exports2.PlugZap2 = PlugZap;
     exports2.PlugZap2Icon = PlugZap;
     exports2.PlugZapIcon = PlugZap;
-    exports2.Plus = Plus3;
+    exports2.Plus = Plus4;
     exports2.PlusCircle = CirclePlus;
     exports2.PlusCircleIcon = CirclePlus;
-    exports2.PlusIcon = Plus3;
+    exports2.PlusIcon = Plus4;
     exports2.PlusSquare = SquarePlus;
     exports2.PlusSquareIcon = SquarePlus;
     exports2.Pocket = Pocket;
@@ -116834,8 +116834,8 @@ var require_lucide_react = __commonJS({
     exports2.Transgender = Transgender;
     exports2.TransgenderIcon = Transgender;
     exports2.Trash = Trash;
-    exports2.Trash2 = Trash24;
-    exports2.Trash2Icon = Trash24;
+    exports2.Trash2 = Trash25;
+    exports2.Trash2Icon = Trash25;
     exports2.TrashIcon = Trash;
     exports2.TreeDeciduous = TreeDeciduous;
     exports2.TreeDeciduousIcon = TreeDeciduous;
@@ -117141,12 +117141,12 @@ var import_path2 = __toESM(require("path"), 1);
 var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
 var import_promise = __toESM(require_promise(), 1);
-var import_react76 = __toESM(require_react(), 1);
+var import_react77 = __toESM(require_react(), 1);
 var import_server = __toESM(require_server_node(), 1);
 var import_react_router_dom12 = __toESM(require_dist2(), 1);
 
 // src/App.tsx
-var import_react75 = __toESM(require_react(), 1);
+var import_react76 = __toESM(require_react(), 1);
 var import_react_router_dom11 = __toESM(require_dist2(), 1);
 
 // src/pages/FrontPage.tsx
@@ -130919,19 +130919,7 @@ var initialPages = [
           statValue: "Road + rail",
           image: "https://images.unsplash.com/photo-1502920514313-52581002a659?q=80&w=1600&auto=format&fit=crop"
         }
-      ],
-      supplyReachTitle: "Seamless Global Supply",
-      supplyReachOverview: "From FCA Tashkent logistics to DAP warehouse deliveries, our in-house export team manages all customs, transit certificates, and phytosanitary requirements.",
-      supplyReachBgImage: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000",
-      supplyReachButtonLabel: "Explore Our Supply Chain",
-      ctaBgImage: "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000",
-      ctaHeading: "Start Your Bulk Order",
-      ctaSubheading: "Connect with our export sales team to discuss tonnage, packaging, and logistics schedules.",
-      ctaButtonText: "Request Pricing PDF",
-      ctaButtonUrl: "/contacts",
-      ctaLinkLabel: "Contact Sales directly",
-      ctaEmailPlaceholder: "Enter your work email",
-      ctaSubmittingLabel: "Sending..."
+      ]
     }
   },
   {
@@ -130939,10 +130927,13 @@ var initialPages = [
     name: "About Us",
     path: "/about",
     content: {
+      heroBgImage: "",
       marqueeTitle: "Global Partners & Facilities",
+      heroSubtitle: "A journey of quality and tradition.",
       productionMarqueeImages: [],
       partnerLogos: [],
       partnerSectionLabel: "Certified Quality & Trusted Partners",
+      companyEyebrow: "About The Company",
       heritageTitle: "Our Roots in the Silk Road",
       heritageSubtitle: "A journey of quality and tradition.",
       whoWeAreContent: "<p>Deeply embedded in the agricultural heart of Central Asia, HQ Dried Fruits was built around long-term orchard relationships, disciplined processing, and export execution that works for wholesale buyers year after year.</p><p>Our team operates across cultivation, sorting, packing, and shipment preparation so buyers are not dealing with fragmented supply. That structure gives us tighter control over product consistency, moisture profile, documentation, and dispatch planning.</p><p>What began with local agricultural know-how has evolved into a buyer-facing export operation that understands not just dried fruit quality, but also the operational realities of importers, distributors, and private-label partners.</p>",
@@ -130958,6 +130949,8 @@ var initialPages = [
       productionStandardsTitle: "Production Standards",
       productionStandards: "Our production standards are built around export readiness, not just factory output. We work with controlled intake, calibrated sorting, food-safety procedures, and buyer-specific packing formats so product quality holds from the line to final dispatch. ISO, HACCP, and certification-led controls are part of that framework, but the real goal is practical consistency that importers can rely on across repeat orders.",
       missionPhotography: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000",
+      missionNarrativeEyebrow: "Mission Narrative",
+      facilityEyebrow: "Inside The Facility",
       ownProductionTitle: "Own Production",
       ownProductionIntro: "From orchard intake to final export packing, each production stage is managed inside our own operation for consistency, traceability, and buyer-ready execution.",
       ownProductionItems: [
@@ -130996,6 +130989,15 @@ var initialPages = [
       pageTitle: "Wholesale Dried Fruits from Uzbekistan",
       pageSubtitle: "Explore export-ready apricots, raisins, prunes, and mixed assortments with buyer-focused origin, processing, and application details in one catalog.",
       heroBgImage: "",
+      introEyebrow: "Uzbekistan Origin",
+      introTitle: "One Page. Four Core Product Lines. Real Buyer Context.",
+      introContent: "<p>Compare origin, processing, nutrition, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
+      introImage: "",
+      introFacts: [
+        { title: "Orchard Base", description: "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
+        { title: "Growing Conditions", description: "Hot, dry summers and sunlight help apricots, grapes, and plums build sugar." },
+        { title: "Export Readiness", description: "Every line is positioned for buyer-specific cartons and repeat wholesale programs." }
+      ],
       orderingBgImage: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2000",
       orderingFormTitle: "Wholesale Inquiry",
       orderingFormSubtitle: "Submit your container schedule.",
@@ -131047,6 +131049,9 @@ var initialPages = [
       heroTitle: "Our Global Export Network",
       heroSubtitle: "Seamless global logistics from the heart of the Silk Road to your warehouse.",
       heroBgImage: "",
+      operationsImage: "",
+      operationsEyebrow: "Export Operations",
+      destinationEyebrow: "Export Geography",
       mapSectionTitle: "Our Global Export Network",
       supplyRoutes: [],
       logisticsContent: "<p>We handle end-to-end multi-modal transport routing.</p>",
@@ -131073,6 +131078,7 @@ var initialPages = [
     content: {
       pageTitle: "Let's Connect",
       introText: "Whether you need a mixed container or a dedicated harvest line, our B2B team is available 24/7.",
+      directContactEyebrow: "Direct Contact",
       formDestinationEmail: "sales@hqdriedfruits.com",
       contactFormTitle: "Send an Inquiry",
       responseLabelPrefix: "Replies are monitored at",
@@ -132541,7 +132547,6 @@ function About() {
   const pageData = pages.find((p) => p.id === "about");
   const content = pageData?.content;
   const [activeProductionIndex, setActiveProductionIndex] = (0, import_react39.useState)(0);
-  const [revealedProductionIndex, setRevealedProductionIndex] = (0, import_react39.useState)(0);
   const [isDesktopFacilityViewport, setIsDesktopFacilityViewport] = (0, import_react39.useState)(false);
   const heritageStats = content?.heritageStats || [
     { boxNumber: "1994", title: t2("heritageStat1Title"), description: t2("heritageStat1Desc") },
@@ -132580,9 +132585,9 @@ function About() {
       description: t2("prodStep4Desc")
     }
   ];
-  const aboutHeroImage = content?.missionPhotography || content?.productionMarqueeImages?.[0] || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop";
+  const aboutHeroImage = content?.heroBgImage || content?.productionMarqueeImages?.[0] || content?.missionPhotography || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop";
   const aboutHeroTitle = content?.marqueeTitle || t2("aboutHeroTitle");
-  const aboutHeroSubtitle = content?.heritageSubtitle || t2("aboutHeroSubtitle");
+  const aboutHeroSubtitle = content?.heroSubtitle || content?.heritageSubtitle || t2("aboutHeroSubtitle");
   const missionPanels = [
     {
       eyebrow: t2("missionPurposeLabel"),
@@ -132631,18 +132636,6 @@ function About() {
     window.addEventListener("resize", updateViewport);
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
-  (0, import_react39.useEffect)(() => {
-    if (isDesktopFacilityViewport) {
-      return;
-    }
-    if (revealedProductionIndex === activeProductionIndex) {
-      return;
-    }
-    const timer = window.setTimeout(() => {
-      setRevealedProductionIndex(activeProductionIndex);
-    }, 340);
-    return () => window.clearTimeout(timer);
-  }, [activeProductionIndex, isDesktopFacilityViewport, revealedProductionIndex]);
   return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(PageLayout, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "relative h-[38rem] overflow-hidden rounded-b-[4rem] md:h-[36rem] sm:rounded-b-[6rem]", children: [
       /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
@@ -132699,7 +132692,7 @@ function About() {
           transition: { duration: 0.65 },
           className: "relative p-0 sm:pr-4 lg:pr-10",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.28em] text-earth-500", children: t2("aboutCompanyLabel") }),
+            /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.28em] text-earth-500", children: content?.companyEyebrow || t2("aboutCompanyLabel") }),
             /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h2", { className: "mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:mt-5 sm:text-5xl", children: content?.heritageTitle || t2("aboutHeritageTitle") }),
             /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "mt-3 max-w-2xl text-base leading-7 text-earth-700 sm:mt-4 sm:text-lg sm:leading-8", children: content?.heritageSubtitle || t2("aboutHeritageSubtitle") }),
             /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
@@ -132779,7 +132772,7 @@ function About() {
       /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "absolute bottom-[-5rem] right-[-3rem] h-64 w-64 rounded-full bg-mint-100/30 blur-3xl" }),
       /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", children: [
         /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "mb-12 max-w-3xl", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: t2("missionNarrativeEyebrow") }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content?.missionNarrativeEyebrow || t2("missionNarrativeEyebrow") }),
           /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h2", { className: "mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: t2("missionNarrativeTitle") }),
           /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "mt-5 text-lg leading-8 text-earth-700", children: t2("missionNarrativeSublabel") })
         ] }),
@@ -132883,7 +132876,7 @@ function About() {
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "mx-auto max-w-7xl px-4 pb-32 sm:px-6 lg:px-8", children: [
       /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "mb-12 max-w-3xl", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: t2("insideFacilityEyebrow") }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content?.facilityEyebrow || t2("insideFacilityEyebrow") }),
         /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h2", { className: "mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: content?.ownProductionTitle || t2("aboutOwnProductionTitle") }),
         /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "mt-5 text-lg leading-8 text-earth-700", children: content?.ownProductionIntro || t2("aboutOwnProductionIntro") })
       ] }),
@@ -132894,10 +132887,6 @@ function About() {
           {
             type: "button",
             onClick: () => {
-              if (!isDesktopFacilityViewport && index === activeProductionIndex) {
-                return;
-              }
-              setRevealedProductionIndex(-1);
               setActiveProductionIndex(index);
             },
             className: `group relative overflow-hidden rounded-[2.5rem] text-left transition-[height] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isActive ? "h-[28rem]" : "h-[9rem]"} ${isActive ? "lg:flex-[2.2]" : "lg:flex-1"} lg:h-full`,
@@ -132905,11 +132894,6 @@ function About() {
             animate: { flexGrow: isDesktopFacilityViewport ? isActive ? 2.2 : 1 : 1 },
             transition: { duration: 0.58, ease: [0.16, 1, 0.3, 1] },
             style: { flexBasis: isDesktopFacilityViewport ? 0 : "auto" },
-            onAnimationComplete: () => {
-              if (isDesktopFacilityViewport && isActive) {
-                setRevealedProductionIndex(index);
-              }
-            },
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "absolute inset-0", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
@@ -132924,18 +132908,18 @@ function About() {
                 /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: `absolute inset-0 transition-all duration-500 ${isActive ? "bg-gradient-to-t from-earth-900/88 via-earth-900/36 to-transparent" : "bg-gradient-to-t from-earth-900/80 via-earth-900/30 to-transparent"}` })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "relative flex h-full flex-col justify-end p-6 sm:p-8 lg:min-h-[26rem]", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: `transition-[padding] duration-500 ${isActive ? "pb-20 sm:pb-[9.5rem] lg:pb-32" : "pb-0"}`, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "max-w-md", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: `text-xs font-bold uppercase tracking-[0.24em] transition-colors ${isActive ? "text-earth-100" : "text-earth-200/80"}`, children: item.subtitle }),
                   /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h3", { className: "mt-3 font-display text-3xl font-bold text-white", children: item.title })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(AnimatePresence, { initial: false, children: isActive && revealedProductionIndex === index && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(AnimatePresence, { initial: false, children: isActive && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
                   motion.div,
                   {
-                    initial: { opacity: 0, y: 30, filter: "blur(10px)" },
+                    initial: { opacity: 0, y: 18, filter: "blur(6px)" },
                     animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-                    exit: { opacity: 0, y: 28, filter: "blur(2px)" },
-                    transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
-                    className: "absolute inset-x-6 bottom-6 overflow-hidden sm:inset-x-8 sm:bottom-8",
+                    exit: { opacity: 0, y: 12, filter: "blur(2px)" },
+                    transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
+                    className: "mt-4 overflow-hidden",
                     children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "max-w-md text-sm leading-6 text-earth-100 sm:text-base sm:leading-7", children: item.description })
                   },
                   `${item.title}-details`
@@ -133053,7 +133037,8 @@ function Products() {
   }, [location2.hash, orderedProducts.length]);
   const pageData = pages.find((page) => page.id === "products");
   const content = pageData?.content;
-  const introShowcaseImage = orderedProducts[0]?.image || content?.heroBgImage || "";
+  const introShowcaseImage = content?.introImage || orderedProducts[0]?.image || content?.heroBgImage || "";
+  const fallbackIntroContent = "<p>Compare origin, packaging, and buyer-ready details across every core product line from one focused catalogue.</p><p>Use this product hub to review the portfolio before sending a wholesale inquiry or opening a detailed product profile.</p>";
   const volumeOptions = content?.volumeOptions?.length > 0 ? content.volumeOptions : [t2("volOption1"), t2("volOption2"), t2("volOption3"), t2("volOption4")];
   const telegramUrl = globalSettings.telegramUrl?.trim();
   const quickPhoneHref = (content?.quickPhone || "+998 90 123 45 67").replace(/[^\d+]/g, "");
@@ -133186,7 +133171,7 @@ Selections: ${tonnageSummary}`
           ]
         }
       ) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "absolute inset-0 bg-gradient-to-br from-earth-100 via-white to-earth-50" }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
         /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mb-6 overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
           motion.h1,
           {
@@ -133212,14 +133197,14 @@ Selections: ${tonnageSummary}`
     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("section", { className: "relative z-10 mx-auto -mt-12 max-w-7xl px-4 sm:-mt-16 sm:px-6 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "rounded-[3rem] border border-earth-100 bg-white px-5 py-6 shadow-xl shadow-earth-200/60 sm:px-8 sm:py-8 lg:px-10 lg:py-10", children: [
       /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "grid items-stretch gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8", children: [
         /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col justify-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.32em] text-earth-400", children: t2("productsOriginEyebrow") }),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl", children: t2("productsIntroTitle") }),
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.32em] text-earth-400", children: content?.introEyebrow || t2("productsOriginEyebrow") }),
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl", children: content?.introTitle || t2("productsIntroTitle") }),
           /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
             "div",
             {
               className: "mt-4 space-y-3 text-base leading-7 text-earth-700 sm:mt-5 sm:space-y-4 sm:text-lg sm:leading-relaxed",
               dangerouslySetInnerHTML: {
-                __html: content?.introContent || `<p>${t2("productsIntroP1")}</p><p>${t2("productsIntroP2")}</p>`
+                __html: content?.introContent || fallbackIntroContent
               }
             }
           )
@@ -133228,7 +133213,7 @@ Selections: ${tonnageSummary}`
           "img",
           {
             src: introShowcaseImage,
-            alt: t2("productsOriginEyebrow"),
+            alt: content?.introEyebrow || t2("productsOriginEyebrow"),
             className: "h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]",
             referrerPolicy: "no-referrer"
           }
@@ -133747,7 +133732,7 @@ function Export() {
   });
   const pageData = pages.find((page) => page.id === "export");
   const content = pageData?.content;
-  const exportIntroImage = content?.heroBgImage || certificationsFallbackImage();
+  const exportIntroImage = content?.operationsImage || content?.heroBgImage || certificationsFallbackImage();
   const qualityChecks = content?.qualityChecks?.length > 0 ? content.qualityChecks : [
     { title: t2("exportMoistureLabel"), description: t2("exportMoistureDesc") },
     { title: t2("exportCalibrationLabel"), description: t2("exportCalibrationDesc") },
@@ -133895,7 +133880,7 @@ function Export() {
     /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("section", { className: "relative z-10 mx-auto -mt-12 max-w-7xl px-4 sm:-mt-16 sm:px-6 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "rounded-[3rem] border border-earth-100 bg-white px-5 py-6 shadow-xl shadow-earth-200/60 sm:px-8 sm:py-8 lg:px-10 lg:py-10", children: [
       /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "grid items-stretch gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8", children: [
         /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col justify-center", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.32em] text-earth-400", children: t2("exportOpsEyebrow") }),
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.32em] text-earth-400", children: content?.operationsEyebrow || t2("exportOpsEyebrow") }),
           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl", children: t2("exportOpsTitle") }),
           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
             "div",
@@ -133911,7 +133896,7 @@ function Export() {
           "img",
           {
             src: exportIntroImage,
-            alt: t2("exportOpsEyebrow"),
+            alt: content?.operationsEyebrow || t2("exportOpsEyebrow"),
             className: "h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]",
             referrerPolicy: "no-referrer"
           }
@@ -133949,7 +133934,7 @@ function Export() {
         className: "relative",
         children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch lg:gap-8", children: [
           /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: t2("exportDestinationEyebrow") }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content?.destinationEyebrow || t2("exportDestinationEyebrow") }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl", children: t2("exportDestinationTitle") }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: t2("exportDestinationDesc") }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2", children: routeMarkets.map((route, index) => {
@@ -133971,7 +133956,7 @@ function Export() {
               "img",
               {
                 src: activeRoute?.image || exportIntroImage,
-                alt: t2("exportDestinationEyebrow"),
+                alt: content?.destinationEyebrow || t2("exportDestinationEyebrow"),
                 className: "absolute inset-0 h-full w-full object-cover",
                 referrerPolicy: "no-referrer"
               }
@@ -133979,7 +133964,7 @@ function Export() {
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-0 bg-[linear-gradient(180deg,rgba(255,250,252,0.08)_0%,rgba(79,37,66,0.28)_46%,rgba(79,37,66,0.86)_100%)]" }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-0 bg-[radial-gradient(circle_at_24%_26%,rgba(255,255,255,0.42),transparent_30%),radial-gradient(circle_at_76%_18%,rgba(255,255,255,0.16),transparent_24%),radial-gradient(circle_at_62%_62%,rgba(255,255,255,0.14),transparent_28%)]" }),
             activeRoute && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-x-0 bottom-0", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "bg-gradient-to-t from-earth-900/88 via-earth-900/46 to-transparent px-6 pb-6 pt-16 text-white sm:px-8 sm:pb-8 sm:pt-20", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-xs font-bold uppercase tracking-[0.24em] text-earth-100", children: t2("exportDestinationEyebrow") }),
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-xs font-bold uppercase tracking-[0.24em] text-earth-100", children: content?.destinationEyebrow || t2("exportDestinationEyebrow") }),
               /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-3 flex items-center gap-3", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h3", { className: "font-display text-3xl font-bold sm:text-[2.5rem]", children: activeRoute.displayName }) }),
               /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "mt-4 max-w-xl text-sm leading-7 text-earth-100 sm:text-base", children: activeRoute.tooltipDescription })
             ] }) })
@@ -134295,7 +134280,7 @@ function Contacts() {
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "lg:col-span-5", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "flex flex-col gap-6 p-1", children: [
         /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.24em] text-earth-400", children: t2("contactsDirectContactEyebrow") }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.24em] text-earth-400", children: content?.directContactEyebrow || t2("contactsDirectContactEyebrow") }),
           /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { className: "mt-3 font-display text-3xl font-bold text-earth-900", children: t2("contactsDetailsTitle") }),
           /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "mt-3 text-base leading-7 text-earth-700", children: t2("contactsDetailsDesc") })
         ] }),
@@ -134739,7 +134724,7 @@ function ProductDetail() {
       initial: { opacity: 0, scale: 0.95 },
       animate: { opacity: 1, scale: 1 },
       transition: { duration: 0.6, ease: "easeOut" },
-      className: "mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8",
+      className: "mx-auto max-w-7xl px-4 pb-12 pt-28 sm:px-6 sm:pt-32 lg:px-8",
       children: /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "grid gap-16 lg:grid-cols-2", children: [
         /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "relative flex flex-col gap-6 lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]", children: [
           /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "relative flex-1 overflow-hidden rounded-[3rem] bg-amber-50 group", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
@@ -134804,22 +134789,22 @@ function ProductDetail() {
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "grid grid-cols-2 gap-6 sm:grid-cols-4", children: [
               /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Flame, { size: 24 }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Flame, { size: 24 }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.energy }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.caloriesLabel || "Calories" })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Dumbbell, { size: 24 }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Dumbbell, { size: 24 }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.protein }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.proteinLabel || "Protein" })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100 text-yellow-600", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Droplets, { size: 24 }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Droplets, { size: 24 }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.fat }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.fatLabel || "Fat" })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Wheat, { size: 24 }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react10.Wheat, { size: 24 }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.carbs }),
                 /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.carbsLabel || "Carbs" })
               ] })
@@ -134938,7 +134923,6 @@ var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
 var AdminSidebarActionContext = (0, import_react53.createContext)(void 0);
 var sidebarLinks = [
   { name: "Dashboard", path: "/control-room", icon: import_lucide_react11.LayoutDashboard },
-  { name: "Products", path: "/control-room/products", icon: import_lucide_react11.Package },
   { name: "Pages", path: "/control-room/pages", icon: import_lucide_react11.FileText },
   { name: "Global Settings", path: "/control-room/globals", icon: import_lucide_react11.Globe },
   { name: "Media", path: "/control-room/media", icon: import_lucide_react11.ImageIcon },
@@ -135826,9 +135810,9 @@ function Dashboard() {
   ] });
 }
 
-// src/pages/admin/Products.tsx
-var import_react59 = __toESM(require_react(), 1);
-var import_lucide_react15 = __toESM(require_lucide_react(), 1);
+// src/pages/admin/Pages.tsx
+var import_react64 = __toESM(require_react(), 1);
+var import_lucide_react18 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/ImageUploader.tsx
 var import_react57 = __toESM(require_react(), 1);
@@ -136146,24 +136130,457 @@ function Repeater({ label, items, onUpdate, emptyItem, renderItem }) {
   ] });
 }
 
-// src/components/admin/forms/RichTextEditor.tsx
+// src/components/admin/forms/FormSection.tsx
+var import_react59 = __toESM(require_react(), 1);
+var import_lucide_react15 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
+function FormSection({ title, children, defaultOpen = true, actions }) {
+  const [isOpen, setIsOpen] = (0, import_react59.useState)(defaultOpen);
+  return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "overflow-hidden rounded-lg border border-slate-200 bg-white/70", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+      "div",
+      {
+        className: `flex items-center justify-between gap-3 px-3 py-2.5 transition-colors ${isOpen ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+            "button",
+            {
+              type: "button",
+              onClick: () => setIsOpen((value) => !value),
+              className: "flex flex-1 items-center justify-between gap-4 text-left",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: title }),
+                /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+                  "div",
+                  {
+                    className: `rounded-md p-1.5 transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-100 text-earth-700" : "text-slate-400"}`,
+                    children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(import_lucide_react15.ChevronDown, { size: 16 })
+                  }
+                )
+              ]
+            }
+          ),
+          actions
+        ]
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(AnimatePresence, { initial: false, children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+      motion.div,
+      {
+        initial: { height: 0, opacity: 0 },
+        animate: { height: "auto", opacity: 1 },
+        exit: { height: 0, opacity: 0 },
+        transition: { duration: 0.25, ease: "easeInOut" },
+        className: "overflow-hidden border-t border-slate-100",
+        children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { className: "space-y-3 p-3", children })
+      }
+    ) })
+  ] });
+}
+
+// src/components/admin/forms/HomeForm.tsx
+var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+function HomeForm({ content, updateContent }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(FormSection, { title: "1. Hero Orchard Section", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        ImageUploader,
+        {
+          label: "Background Image/Video",
+          value: content.heroBgImage || "",
+          onChange: (url) => updateContent({ heroBgImage: url })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Welcome Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.heroTitle || "",
+            onChange: (e) => updateContent({ heroTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Subtitle" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.heroSubtitle || "",
+            onChange: (e) => updateContent({ heroSubtitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Primary CTA Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.heroPrimaryCtaLabel || "",
+              onChange: (e) => updateContent({ heroPrimaryCtaLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Secondary CTA Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.heroSecondaryCtaLabel || "",
+              onChange: (e) => updateContent({ heroSecondaryCtaLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(FormSection, { title: "2. Introduction (About Us)", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        ImageUploader,
+        {
+          label: "About Section Image",
+          value: content.introImage || "",
+          onChange: (url) => updateContent({ introImage: url })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Text Above Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.introEyebrow || "",
+            onChange: (e) => updateContent({ introEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Side-Label" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.introLabel || "",
+            onChange: (e) => updateContent({ introLabel: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Main Introduction Text" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "textarea",
+          {
+            rows: 4,
+            value: content.introText || "",
+            onChange: (e) => updateContent({ introText: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        Repeater,
+        {
+          label: "2x2 Stats Grid (Maximum 4)",
+          items: content.statsGrid || [],
+          emptyItem: { value: "", label: "" },
+          onUpdate: (items) => updateContent({ statsGrid: items.slice(0, 4) }),
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Number/Value" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.value,
+                  onChange: (e) => updateItem(index, "value", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Label" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.label,
+                  onChange: (e) => updateItem(index, "label", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
+            ] })
+          ] })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(FormSection, { title: "3. Product Preview", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.productPreviewTitle || "",
+            onChange: (e) => updateContent({ productPreviewTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Button Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.productPreviewButtonLabel || "",
+              onChange: (e) => updateContent({ productPreviewButtonLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Card CTA Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.productPreviewItemCtaLabel || "",
+              onChange: (e) => updateContent({ productPreviewItemCtaLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        Repeater,
+        {
+          label: "Product Categories Grid (Exactly 3 items)",
+          items: content.productCategories || [],
+          emptyItem: { categoryName: "", image: "", shortDescription: "", url: "", nutrition: { energy: "", protein: "", fat: "", carbs: "" } },
+          onUpdate: (items) => updateContent({ productCategories: items.slice(0, 3) }),
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.categoryName,
+                  onChange: (e) => updateItem(index, "categoryName", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+              ImageUploader,
+              {
+                label: `Thumbnail Image ${index + 1}`,
+                value: item.image,
+                onChange: (url) => updateItem(index, "image", url)
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "textarea",
+                {
+                  rows: 2,
+                  value: item.shortDescription,
+                  onChange: (e) => updateItem(index, "shortDescription", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Learn More URL" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.url,
+                  onChange: (e) => updateItem(index, "url", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/70 p-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-500", children: "Nutritional Facts (per 100g)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "grid grid-cols-2 gap-3 lg:grid-cols-4", children: [
+                ["energy", "Energy"],
+                ["protein", "Protein"],
+                ["fat", "Fat"],
+                ["carbs", "Carbs"]
+              ].map(([key, label]) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1", children: label }),
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.nutrition?.[key] || "",
+                    onChange: (e) => replaceItem(index, {
+                      ...item,
+                      nutrition: {
+                        energy: item.nutrition?.energy || "",
+                        protein: item.nutrition?.protein || "",
+                        fat: item.nutrition?.fat || "",
+                        carbs: item.nutrition?.carbs || "",
+                        [key]: e.target.value
+                      }
+                    }),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500",
+                    placeholder: key === "energy" ? "280 kcal" : "2.5 g"
+                  }
+                )
+              ] }, key)) })
+            ] })
+          ] })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(FormSection, { title: "4. Export Markets", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Label" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.exportMarketsEyebrow || "",
+            onChange: (e) => updateContent({ exportMarketsEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.exportMarketsTitle || "",
+            onChange: (e) => updateContent({ exportMarketsTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Intro Text" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          "textarea",
+          {
+            rows: 4,
+            value: content.exportMarketsIntro || "",
+            onChange: (e) => updateContent({ exportMarketsIntro: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        Repeater,
+        {
+          label: "Country Buttons / Map States",
+          items: content.exportMarkets || [],
+          emptyItem: { countryName: "", shortDescription: "", statLabel: "", statValue: "", image: "" },
+          onUpdate: (items) => updateContent({ exportMarkets: items }),
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Country Name" }),
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.countryName,
+                    onChange: (e) => updateItem(index, "countryName", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Label" }),
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.statLabel,
+                    onChange: (e) => updateItem(index, "statLabel", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "textarea",
+                {
+                  rows: 3,
+                  value: item.shortDescription,
+                  onChange: (e) => updateItem(index, "shortDescription", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Value" }),
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.statValue,
+                    onChange: (e) => updateItem(index, "statValue", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                ImageUploader,
+                {
+                  label: "Map / Market Image",
+                  value: item.image,
+                  onChange: (url) => updateItem(index, "image", url)
+                }
+              )
+            ] })
+          ] })
+        }
+      )
+    ] })
+  ] });
+}
+
+// src/components/admin/forms/AboutForm.tsx
+var import_react61 = __toESM(require_react(), 1);
+
+// src/components/admin/forms/RichTextEditor.tsx
+var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
 function RichTextEditor({ label, value, onChange, rows = 6 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: [
       label,
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { className: "text-xs text-earth-500 font-normal ml-2", children: "(Rich Text / HTML Supported)" })
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("span", { className: "text-xs text-earth-500 font-normal ml-2", children: "(Rich Text / HTML Supported)" })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rounded-lg border border-slate-300 overflow-hidden focus-within:ring-2 focus-within:ring-earth-500/20 focus-within:border-earth-500 transition-all", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "bg-slate-50 border-b border-slate-200 px-3 py-2 flex items-center gap-2 text-slate-500", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded font-bold", children: "B" }),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded italic", children: "I" }),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded underline", children: "U" }),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { className: "w-px h-4 bg-slate-300 mx-1" }),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded text-sm", children: "</>" })
+    /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "rounded-lg border border-slate-300 overflow-hidden focus-within:ring-2 focus-within:ring-earth-500/20 focus-within:border-earth-500 transition-all", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "bg-slate-50 border-b border-slate-200 px-3 py-2 flex items-center gap-2 text-slate-500", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded font-bold", children: "B" }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded italic", children: "I" }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded underline", children: "U" }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "w-px h-4 bg-slate-300 mx-1" }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { type: "button", className: "px-2 hover:bg-slate-200 rounded text-sm", children: "</>" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
         "textarea",
         {
           rows,
@@ -136177,8 +136594,1780 @@ function RichTextEditor({ label, value, onChange, rows = 6 }) {
   ] });
 }
 
+// src/components/admin/forms/AboutForm.tsx
+var import_lucide_react16 = __toESM(require_lucide_react(), 1);
+var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
+function PartnerLogoGrid({ items, onUpdate }) {
+  const { uploadMedia } = useMedia();
+  const inputRef = (0, import_react61.useRef)(null);
+  const [targetIndex, setTargetIndex] = (0, import_react61.useState)(null);
+  const [isUploading, setIsUploading] = (0, import_react61.useState)(false);
+  const openPicker = (index) => {
+    setTargetIndex(index);
+    inputRef.current?.click();
+  };
+  const handleFileChange = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setIsUploading(true);
+    try {
+      const url = await uploadMedia(file);
+      const nextItems = [...items];
+      if (targetIndex === null) {
+        nextItems.push(url);
+      } else {
+        nextItems[targetIndex] = url;
+      }
+      onUpdate(nextItems);
+    } catch {
+      alert("Upload failed.");
+    } finally {
+      setIsUploading(false);
+      setTargetIndex(null);
+    }
+  };
+  const removeLogo = (index) => {
+    const nextItems = [...items];
+    nextItems.splice(index, 1);
+    onUpdate(nextItems);
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-3", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-bold text-slate-800", children: "Partner Logos & Certifications" }),
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6", children: [
+      items.map((logo, index) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "group relative aspect-square overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "button",
+          {
+            type: "button",
+            onClick: () => openPicker(index),
+            className: "flex h-full w-full items-center justify-center p-3",
+            children: logo ? /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("img", { src: logo, alt: `Partner logo ${index + 1}`, className: "max-h-full max-w-full object-contain", referrerPolicy: "no-referrer" }) : /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_lucide_react16.Plus, { className: "h-6 w-6 text-slate-300" })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "button",
+          {
+            type: "button",
+            onClick: () => removeLogo(index),
+            className: "absolute right-2 top-2 rounded-full bg-white/90 p-1.5 text-slate-400 opacity-0 shadow-sm transition-all hover:text-red-500 group-hover:opacity-100",
+            "aria-label": "Remove logo",
+            children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_lucide_react16.Trash2, { size: 14 })
+          }
+        )
+      ] }, `${logo}-${index}`)),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(
+        "button",
+        {
+          type: "button",
+          onClick: () => openPicker(null),
+          className: "flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50 text-slate-400 transition-colors hover:border-earth-300 hover:bg-earth-50 hover:text-earth-600",
+          children: [
+            isUploading ? /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_lucide_react16.Loader2, { className: "h-6 w-6 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(import_lucide_react16.Plus, { className: "h-7 w-7" }),
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("span", { className: "text-xs font-bold uppercase tracking-wide", children: "Add Logo" })
+          ]
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("input", { ref: inputRef, type: "file", accept: "image/*", className: "hidden", onChange: handleFileChange })
+  ] });
+}
+function AboutForm({ content, updateContent }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "1. About Hero", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        ImageUploader,
+        {
+          label: "Main Hero Background Image",
+          value: (content.heroBgImage ?? content.productionMarqueeImages?.[0]) || "",
+          onChange: (url) => updateContent({ heroBgImage: url })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Large Top Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.marqueeTitle || "",
+            onChange: (e) => updateContent({ marqueeTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Hero Subtitle / Body Text" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "textarea",
+          {
+            rows: 3,
+            value: (content.heroSubtitle ?? content.heritageSubtitle) || "",
+            onChange: (e) => updateContent({ heroSubtitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "2. About The Company", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Text Above Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.companyEyebrow || "",
+            onChange: (e) => updateContent({ companyEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.heritageTitle || "",
+            onChange: (e) => updateContent({ heritageTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Subtitle" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.heritageSubtitle || "",
+            onChange: (e) => updateContent({ heritageSubtitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        RichTextEditor,
+        {
+          label: '"Who We Are" Content',
+          value: content.whoWeAreContent || "",
+          onChange: (val) => updateContent({ whoWeAreContent: val })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        Repeater,
+        {
+          label: "Numbered Stats Boxes",
+          items: content.heritageStats || [],
+          emptyItem: { boxNumber: "", title: "", description: "" },
+          onUpdate: (items) => updateContent({ heritageStats: items }),
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-2", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Box Number" }),
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.boxNumber,
+                    onChange: (e) => updateItem(index, "boxNumber", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                    placeholder: "e.g. 01"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Box Title" }),
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.title,
+                    onChange: (e) => updateItem(index, "title", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                    placeholder: "e.g. Global Scale"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                "textarea",
+                {
+                  rows: 2,
+                  value: item.description,
+                  onChange: (e) => updateItem(index, "description", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                }
+              )
+            ] })
+          ] })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        Repeater,
+        {
+          label: "Featured Heritage Imagery (Gallery)",
+          items: content.heritageImagery || [],
+          emptyItem: "",
+          onUpdate: (items) => updateContent({ heritageImagery: items }),
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+            ImageUploader,
+            {
+              label: `Heritage Image ${index + 1}`,
+              value: item,
+              onChange: (url) => replaceItem(index, url)
+            }
+          )
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "3. Partner / Trust Marquee", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Label" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.partnerSectionLabel || "",
+            onChange: (e) => updateContent({ partnerSectionLabel: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        PartnerLogoGrid,
+        {
+          items: content.partnerLogos || [],
+          onUpdate: (items) => updateContent({ partnerLogos: items })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "4. Mission & Logistics", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mission Narrative Eyebrow" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.missionNarrativeEyebrow || "",
+            onChange: (e) => updateContent({ missionNarrativeEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mission Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.missionTitle || "",
+            onChange: (e) => updateContent({ missionTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        RichTextEditor,
+        {
+          label: "Mission Statement",
+          value: content.missionStatement || "",
+          onChange: (val) => updateContent({ missionStatement: val })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Philosophy Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.philosophyTitle || "",
+            onChange: (e) => updateContent({ philosophyTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Orchard Philosophy" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "textarea",
+          {
+            rows: 4,
+            value: content.orchardPhilosophy || "",
+            onChange: (e) => updateContent({ orchardPhilosophy: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Production Standards Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.productionStandardsTitle || "",
+            onChange: (e) => updateContent({ productionStandardsTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Production Standards" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "textarea",
+          {
+            rows: 4,
+            value: content.productionStandards || "",
+            onChange: (e) => updateContent({ productionStandards: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        ImageUploader,
+        {
+          label: "Large-Scale Mission Photography",
+          value: content.missionPhotography || "",
+          onChange: (url) => updateContent({ missionPhotography: url })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "5. Own Production", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Text Above Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.facilityEyebrow || "",
+            onChange: (e) => updateContent({ facilityEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.ownProductionTitle || "",
+            onChange: (e) => updateContent({ ownProductionTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Intro Text" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "textarea",
+          {
+            rows: 4,
+            value: content.ownProductionIntro || "",
+            onChange: (e) => updateContent({ ownProductionIntro: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        Repeater,
+        {
+          label: "Production Columns",
+          items: content.ownProductionItems || [],
+          emptyItem: { image: "", title: "", subtitle: "", description: "" },
+          onUpdate: (items) => updateContent({ ownProductionItems: items }),
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+              ImageUploader,
+              {
+                label: `Production Image ${index + 1}`,
+                value: item.image,
+                onChange: (url) => updateItem(index, "image", url)
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Title" }),
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.title,
+                    onChange: (e) => updateItem(index, "title", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Subtitle" }),
+                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.subtitle,
+                    onChange: (e) => updateItem(index, "subtitle", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                "textarea",
+                {
+                  rows: 3,
+                  value: item.description,
+                  onChange: (e) => updateItem(index, "description", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                }
+              )
+            ] })
+          ] })
+        }
+      )
+    ] })
+  ] });
+}
+
+// src/components/admin/forms/ExportForm.tsx
+var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
+var suggestedRoutes = [
+  { countryName: "Germany", mapCoordinatesId: "DE", tooltipDescription: "Central Europe pallet and container distribution.", image: "" },
+  { countryName: "Poland", mapCoordinatesId: "PL", tooltipDescription: "Fast Eastern Europe routing for wholesale fulfillment.", image: "" },
+  { countryName: "UAE", mapCoordinatesId: "AE", tooltipDescription: "Regional trade hub for GCC importers and re-export buyers.", image: "" },
+  { countryName: "Saudi Arabia", mapCoordinatesId: "SA", tooltipDescription: "Retail and foodservice volume routed through Gulf distribution partners.", image: "" },
+  { countryName: "India", mapCoordinatesId: "IN", tooltipDescription: "High-volume dried fruit demand with flexible multimodal delivery.", image: "" },
+  { countryName: "China", mapCoordinatesId: "CN", tooltipDescription: "Containerized supply lanes for repeat industrial buyers.", image: "" },
+  { countryName: "Turkey", mapCoordinatesId: "TR", tooltipDescription: "Cross-regional trade flow connecting Europe and the Middle East.", image: "" },
+  { countryName: "Kazakhstan", mapCoordinatesId: "KZ", tooltipDescription: "Land-linked regional route for rapid replenishment.", image: "" }
+];
+function ExportForm({ content, updateContent }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
+      FormSection,
+      {
+        title: "1. Hero",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+            ImageUploader,
+            {
+              label: "Hero Background Image",
+              value: content.heroBgImage || "",
+              onChange: (url) => updateContent({ heroBgImage: url })
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Hero Title" }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+              "input",
+              {
+                type: "text",
+                value: content.heroTitle || "",
+                onChange: (e) => updateContent({ heroTitle: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Hero Subtitle" }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+              "textarea",
+              {
+                rows: 3,
+                value: content.heroSubtitle || "",
+                onChange: (e) => updateContent({ heroSubtitle: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 outline-none resize-none focus:border-earth-500"
+              }
+            )
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "2. Operational Standards", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+        ImageUploader,
+        {
+          label: "Operational Standards Image",
+          value: content.operationsImage || "",
+          onChange: (url) => updateContent({ operationsImage: url }),
+          placeholder: "Shown beside the operational standards text. Falls back to the hero image if empty."
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Operations Eyebrow" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.operationsEyebrow || "",
+            onChange: (e) => updateContent({ operationsEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+        RichTextEditor,
+        {
+          label: "Export Content",
+          value: content.logisticsContent || "",
+          onChange: (val) => updateContent({ logisticsContent: val })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Packaging Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.packagingTitle || "",
+            onChange: (e) => updateContent({ packagingTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+        RichTextEditor,
+        {
+          label: "Packaging Methods",
+          value: content.packagingMethods || "",
+          onChange: (val) => updateContent({ packagingMethods: val })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Transportation Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.transportationTitle || "",
+            onChange: (e) => updateContent({ transportationTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+        RichTextEditor,
+        {
+          label: "Transportation Methods",
+          value: content.transportationMethods || "",
+          onChange: (val) => updateContent({ transportationMethods: val })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Documentation Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.documentationTitle || "",
+            onChange: (e) => updateContent({ documentationTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+        RichTextEditor,
+        {
+          label: "Documentation Content",
+          value: content.documentationContent || "",
+          onChange: (val) => updateContent({ documentationContent: val })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
+      FormSection,
+      {
+        title: "3. Global Supply Map",
+        actions: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+          "button",
+          {
+            type: "button",
+            onClick: () => updateContent({ supplyRoutes: suggestedRoutes.map((route) => ({ ...route })) }),
+            className: "rounded-full border border-earth-200 bg-earth-50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-earth-700 transition-colors hover:border-earth-300 hover:bg-earth-100",
+            children: "Load Suggested Countries"
+          }
+        ),
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("p", { className: "text-sm leading-6 text-slate-500", children: [
+            "Use ISO 2-letter country codes like ",
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "DE" }),
+            " or custom map points as ",
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "52.52,13.40" }),
+            "."
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Destination / Map Eyebrow" }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+              "input",
+              {
+                type: "text",
+                value: content.destinationEyebrow || "",
+                onChange: (e) => updateContent({ destinationEyebrow: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Section Title" }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+              "input",
+              {
+                type: "text",
+                value: content.mapSectionTitle || "",
+                onChange: (e) => updateContent({ mapSectionTitle: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+            Repeater,
+            {
+              label: "Supply Routes/Countries",
+              items: content.supplyRoutes || [],
+              emptyItem: { countryName: "", mapCoordinatesId: "", tooltipDescription: "", image: "" },
+              onUpdate: (items) => updateContent({ supplyRoutes: items }),
+              renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Country Name" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                      "input",
+                      {
+                        type: "text",
+                        placeholder: "e.g. Germany",
+                        value: item.countryName,
+                        onChange: (e) => updateItem(index, "countryName", e.target.value),
+                        className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "mb-1 flex items-center justify-between", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Coordinate/Map ID" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "text-[10px] font-normal text-slate-400", children: "ISO code or lat,lng" })
+                    ] }),
+                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                      "input",
+                      {
+                        type: "text",
+                        placeholder: "DE or 52.52,13.40",
+                        value: item.mapCoordinatesId,
+                        onChange: (e) => updateItem(index, "mapCoordinatesId", e.target.value),
+                        className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500 uppercase"
+                      }
+                    )
+                  ] })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Short Tooltip Description" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                    "textarea",
+                    {
+                      rows: 2,
+                      value: item.tooltipDescription,
+                      onChange: (e) => updateItem(index, "tooltipDescription", e.target.value),
+                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none focus:border-earth-500"
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                  ImageUploader,
+                  {
+                    label: "Destination Image",
+                    value: item.image || "",
+                    onChange: (url) => updateItem(index, "image", url)
+                  }
+                )
+              ] })
+            }
+          )
+        ]
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "4. Quality Guarantee", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.qualityTitle || "",
+            onChange: (e) => updateContent({ qualityTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+        RichTextEditor,
+        {
+          label: "Technical Specifications",
+          value: content.technicalSpecs || "",
+          onChange: (val) => updateContent({ technicalSpecs: val })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+        Repeater,
+        {
+          label: "Quality Checklist Items",
+          items: content.qualityChecks || [],
+          emptyItem: { title: "", description: "" },
+          onUpdate: (items) => updateContent({ qualityChecks: items }),
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Title" }),
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.title,
+                  onChange: (e) => updateItem(index, "title", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                "textarea",
+                {
+                  rows: 2,
+                  value: item.description,
+                  onChange: (e) => updateItem(index, "description", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none focus:border-earth-500"
+                }
+              )
+            ] })
+          ] })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(FormSection, { title: "5. Certifications Gallery", defaultOpen: false, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+      Repeater,
+      {
+        label: "Gallery Grid",
+        items: content.certificationsGallery || [],
+        emptyItem: { image: "", caption: "" },
+        onUpdate: (items) => updateContent({ certificationsGallery: items }),
+        renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+            ImageUploader,
+            {
+              label: "Certificate Image",
+              value: item.image,
+              onChange: (url) => updateItem(index, "image", url)
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Title/Caption (e.g. HACCP, ISO)" }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+              "input",
+              {
+                type: "text",
+                value: item.caption,
+                onChange: (e) => updateItem(index, "caption", e.target.value),
+                className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
+              }
+            )
+          ] })
+        ] })
+      }
+    ) })
+  ] });
+}
+
+// src/components/admin/forms/ContactsForm.tsx
+var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
+function ContactsForm({ content, updateContent }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-8", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(FormSection, { title: "1. Split Interaction Grid - Communication Hub", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.pageTitle || "",
+            onChange: (e) => updateContent({ pageTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "High-level Introduction" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "textarea",
+          {
+            rows: 4,
+            value: content.introText || "",
+            onChange: (e) => updateContent({ introText: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Direct Contact Eyebrow" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.directContactEyebrow || "",
+            onChange: (e) => updateContent({ directContactEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Destination Email" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "email",
+            value: content.formDestinationEmail || "",
+            onChange: (e) => updateContent({ formDestinationEmail: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.contactFormTitle || "",
+            onChange: (e) => updateContent({ contactFormTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Response Prefix" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.responseLabelPrefix || "",
+            onChange: (e) => updateContent({ responseLabelPrefix: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Name Field Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.formNameLabel || "",
+              onChange: (e) => updateContent({ formNameLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Company Field Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.formCompanyLabel || "",
+              onChange: (e) => updateContent({ formCompanyLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Field Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.formEmailLabel || "",
+              onChange: (e) => updateContent({ formEmailLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Message Field Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.formMessageLabel || "",
+              onChange: (e) => updateContent({ formMessageLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submit Button Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.submitButtonLabel || "",
+              onChange: (e) => updateContent({ submitButtonLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submitting Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.submittingButtonLabel || "",
+              onChange: (e) => updateContent({ submittingButtonLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(FormSection, { title: "2. Info Blocks (2x2 Grid)", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Card Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.infoEmailLabel || "",
+              onChange: (e) => updateContent({ infoEmailLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Phone Card Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.infoPhoneLabel || "",
+              onChange: (e) => updateContent({ infoPhoneLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Address Card Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.infoAddressLabel || "",
+              onChange: (e) => updateContent({ infoAddressLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Hours Card Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.infoHoursLabel || "",
+              onChange: (e) => updateContent({ infoHoursLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Address" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "email",
+              value: content.emailAddress || "",
+              onChange: (e) => updateContent({ emailAddress: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Phone Number" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.phoneNumber || "",
+              onChange: (e) => updateContent({ phoneNumber: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Office Address" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.officeAddress || "",
+              onChange: (e) => updateContent({ officeAddress: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Working Hours" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.workingHours || "",
+              onChange: (e) => updateContent({ workingHours: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(FormSection, { title: "3. Brand Imagery & Local Map", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Social Section Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.socialSectionTitle || "",
+            onChange: (e) => updateContent({ socialSectionTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Telegram URL" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.telegramUrl || "",
+              onChange: (e) => updateContent({ telegramUrl: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
+              placeholder: "https://t.me/yourhandle"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Instagram URL" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.instagramUrl || "",
+              onChange: (e) => updateContent({ instagramUrl: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
+              placeholder: "https://instagram.com/yourhandle"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "WhatsApp URL" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.whatsappUrl || "",
+              onChange: (e) => updateContent({ whatsappUrl: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
+              placeholder: "https://wa.me/998..."
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Facebook URL" }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.facebookUrl || "",
+              onChange: (e) => updateContent({ facebookUrl: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
+              placeholder: "https://facebook.com/yourpage"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+        ImageUploader,
+        {
+          label: "Large-Scale Headquarters Image",
+          value: content.headquartersImage || "",
+          onChange: (url) => updateContent({ headquartersImage: url })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Map Pin Label" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.mapPinLabel || "",
+            onChange: (e) => updateContent({ mapPinLabel: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Google Maps Embed URL / iframe SRC" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.googleMapsUrl || "",
+            onChange: (e) => {
+              let val = e.target.value;
+              const match = val.match(/src="([^"]+)"/i);
+              if (match) val = match[1];
+              updateContent({ googleMapsUrl: val });
+            },
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
+            placeholder: "https://www.google.com/maps/embed?..."
+          }
+        )
+      ] })
+    ] })
+  ] });
+}
+
+// src/components/admin/forms/ProductsForm.tsx
+var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
+function ProductsForm({ content, updateContent, catalogSlot }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "1. Hero", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        ImageUploader,
+        {
+          label: "Hero Background Image",
+          value: content.heroBgImage || "",
+          onChange: (url) => updateContent({ heroBgImage: url }),
+          placeholder: "Upload the full-width image shown behind the page title"
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.pageTitle || "",
+            onChange: (e) => updateContent({ pageTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Subtitle" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.pageSubtitle || "",
+            onChange: (e) => updateContent({ pageSubtitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "2. Intro / Origin Card", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        ImageUploader,
+        {
+          label: "Intro Showcase Image",
+          value: content.introImage || "",
+          onChange: (url) => updateContent({ introImage: url }),
+          placeholder: "Optional. If empty, the first product image is used."
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Text Above Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.introEyebrow || "",
+            onChange: (e) => updateContent({ introEyebrow: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Intro Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.introTitle || "",
+            onChange: (e) => updateContent({ introTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        RichTextEditor,
+        {
+          label: "Intro Body Text",
+          value: content.introContent || "",
+          onChange: (val) => updateContent({ introContent: val })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        Repeater,
+        {
+          label: "Three Intro Fact Cards",
+          items: content.introFacts || [],
+          emptyItem: { title: "", description: "" },
+          onUpdate: (items) => updateContent({ introFacts: items.slice(0, 3) }),
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Card Title" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.title,
+                  onChange: (e) => updateItem(index, "title", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Card Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+                "textarea",
+                {
+                  rows: 2,
+                  value: item.description,
+                  onChange: (e) => updateItem(index, "description", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                }
+              )
+            ] })
+          ] })
+        }
+      )
+    ] }),
+    catalogSlot,
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "4. Ordering Hub (Bulk Requests)", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        ImageUploader,
+        {
+          label: "Background Image",
+          value: content.orderingBgImage || "",
+          onChange: (url) => updateContent({ orderingBgImage: url })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.orderingFormTitle || "",
+            onChange: (e) => updateContent({ orderingFormTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Subtitle" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.orderingFormSubtitle || "",
+            onChange: (e) => updateContent({ orderingFormSubtitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-1 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 1 Prompt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.stepOneLabel || "",
+              onChange: (e) => updateContent({ stepOneLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 2 Prompt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.stepTwoLabel || "",
+              onChange: (e) => updateContent({ stepTwoLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 3 Prompt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.stepThreeLabel || "",
+              onChange: (e) => updateContent({ stepThreeLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mixed Container Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.mixedContainerLabel || "",
+              onChange: (e) => updateContent({ mixedContainerLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Catalog Button Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.viewSpecsLabel || "",
+              onChange: (e) => updateContent({ viewSpecsLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 1 Placeholder" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.stepOnePlaceholder || "",
+              onChange: (e) => updateContent({ stepOnePlaceholder: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 3 Placeholder" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.stepThreePlaceholder || "",
+              onChange: (e) => updateContent({ stepThreePlaceholder: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step Button Label" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+              "input",
+              {
+                type: "text",
+                value: content.nextStepButtonLabel || "",
+                onChange: (e) => updateContent({ nextStepButtonLabel: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Back Button Label" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+              "input",
+              {
+                type: "text",
+                value: content.backButtonLabel || "",
+                onChange: (e) => updateContent({ backButtonLabel: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submit Button Label" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+              "input",
+              {
+                type: "text",
+                value: content.submitButtonLabel || "",
+                onChange: (e) => updateContent({ submitButtonLabel: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submitting Label" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+              "input",
+              {
+                type: "text",
+                value: content.submittingButtonLabel || "",
+                onChange: (e) => updateContent({ submittingButtonLabel: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+              }
+            )
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        Repeater,
+        {
+          label: "Volume Options",
+          items: content.volumeOptions || [],
+          emptyItem: "",
+          onUpdate: (items) => updateContent({ volumeOptions: items }),
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: item,
+              onChange: (e) => replaceItem(index, e.target.value),
+              className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+              placeholder: "e.g. 1 FCL (20ft)"
+            }
+          )
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "5. Quick Contacts", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.quickContactTitle || "",
+              onChange: (e) => updateContent({ quickContactTitle: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
+              placeholder: "e.g. Need it faster?"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Subtitle" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.quickContactSubtitle || "",
+              onChange: (e) => updateContent({ quickContactSubtitle: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
+              placeholder: "e.g. Skip the form..."
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Telegram Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.telegramLabel || "",
+              onChange: (e) => updateContent({ telegramLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
+              placeholder: "e.g. Telegram Bot"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Telegram Sublabel" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.telegramSublabel || "",
+              onChange: (e) => updateContent({ telegramSublabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
+              placeholder: "e.g. Instant quotes..."
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Call Card Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.callLabel || "",
+              onChange: (e) => updateContent({ callLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Card Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.emailLabel || "",
+              onChange: (e) => updateContent({ emailLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Dedicated Phone Number" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.quickPhone || "",
+              onChange: (e) => updateContent({ quickPhone: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Dedicated Sales Email" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.quickEmail || "",
+              onChange: (e) => updateContent({ quickEmail: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "6. Product Detail UI", defaultOpen: false, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Loading Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.loadingLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, loadingLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Not Found Title" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.notFoundTitle || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, notFoundTitle: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "col-span-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Not Found Description" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.notFoundBody || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, notFoundBody: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Back to Catalog Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.backToCatalogLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, backToCatalogLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Nutrition Title" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.nutritionTitle || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, nutritionTitle: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Nutrition Subtitle" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.nutritionPerLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, nutritionPerLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Inquiry Title" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.inquiryTitle || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, inquiryTitle: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Calories Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.caloriesLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, caloriesLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Protein Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.proteinLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, proteinLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Fat Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.fatLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, fatLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Carbs Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.carbsLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, carbsLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Company Placeholder" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.companyPlaceholder || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, companyPlaceholder: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Placeholder" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.emailPlaceholder || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, emailPlaceholder: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Volume Placeholder" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.volumePlaceholder || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, volumePlaceholder: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Inquiry Button Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.detailUi?.inquiryButtonLabel || "",
+              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, inquiryButtonLabel: e.target.value } }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Inquiry Submitting Label" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.detailUi?.inquirySubmittingLabel || "",
+            onChange: (e) => updateContent({ detailUi: { ...content.detailUi, inquirySubmittingLabel: e.target.value } }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] })
+    ] })
+  ] });
+}
+
 // src/pages/admin/Products.tsx
-var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+var import_react62 = __toESM(require_react(), 1);
+var import_lucide_react17 = __toESM(require_lucide_react(), 1);
+var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
 var emptyProduct = {
   name: "",
   category: "",
@@ -136198,18 +138387,19 @@ var emptyProduct = {
   tonnageOptions: ["5 Tons", "10 Tons (20ft FCL)", "20 Tons (40ft FCL)"],
   nutrition: { energy: "", protein: "", fat: "", carbs: "" }
 };
-function AdminProducts() {
+function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
   const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
-  const [isDeleteOpen, setIsDeleteOpen] = (0, import_react59.useState)(false);
-  const [editingId, setEditingId] = (0, import_react59.useState)(null);
-  const [formData, setFormData] = (0, import_react59.useState)(emptyProduct);
-  const [itemToDelete, setItemToDelete] = (0, import_react59.useState)(null);
-  const [successMessage, setSuccessMessage] = (0, import_react59.useState)(null);
-  const [isRefreshing, setIsRefreshing] = (0, import_react59.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react59.useState)(false);
-  (0, import_react59.useEffect)(() => {
+  const setFloatingAction = onFloatingActionChange || setAction;
+  const [isDeleteOpen, setIsDeleteOpen] = (0, import_react62.useState)(false);
+  const [editingId, setEditingId] = (0, import_react62.useState)(null);
+  const [formData, setFormData] = (0, import_react62.useState)(emptyProduct);
+  const [itemToDelete, setItemToDelete] = (0, import_react62.useState)(null);
+  const [successMessage, setSuccessMessage] = (0, import_react62.useState)(null);
+  const [isRefreshing, setIsRefreshing] = (0, import_react62.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react62.useState)(false);
+  (0, import_react62.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -136258,19 +138448,19 @@ function AdminProducts() {
       setIsSaving(false);
     }
   };
-  (0, import_react59.useEffect)(() => {
+  (0, import_react62.useEffect)(() => {
     if (!editingId) {
-      setAction(null);
+      setFloatingAction(null);
       return void 0;
     }
-    setAction({
+    setFloatingAction({
       label: editingId === "new" ? "Create Product" : "Save Product",
       formId: `form-product-${editingId}`,
       isLoading: isSaving,
       disabled: isSaving
     });
-    return () => setAction(null);
-  }, [editingId, isSaving, setAction]);
+    return () => setFloatingAction(null);
+  }, [editingId, isSaving, setFloatingAction]);
   const confirmDelete = (e, id3) => {
     e.stopPropagation();
     setItemToDelete(id3);
@@ -136283,12 +138473,12 @@ function AdminProducts() {
     setIsDeleteOpen(false);
     setItemToDelete(null);
   };
-  const renderProductForm = (id3) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "border-t border-slate-100 p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-4 lg:grid-cols-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Product Name *" }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+  const renderProductForm = (id3) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "border-t border-slate-100 p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid gap-4 lg:grid-cols-2", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Product Name *" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
               required: true,
@@ -136300,10 +138490,10 @@ function AdminProducts() {
             }
           )
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Category *" }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Category *" }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
               "input",
               {
                 required: true,
@@ -136315,9 +138505,9 @@ function AdminProducts() {
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Status" }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Status" }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
               Select,
               {
                 value: formData.status || "Active",
@@ -136331,9 +138521,9 @@ function AdminProducts() {
             )
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Short Description *" }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Short Description *" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "textarea",
             {
               required: true,
@@ -136346,8 +138536,8 @@ function AdminProducts() {
           )
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
           ImageUploader,
           {
             label: "Primary Feature Image",
@@ -136355,12 +138545,12 @@ function AdminProducts() {
             onChange: (url) => setFormData({ ...formData, image: url })
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/60 p-3", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h4", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-400", children: "Nutritional Facts (per 100g)" }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Energy (kcal)" }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/60 p-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h4", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-400", children: "Nutritional Facts (per 100g)" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Energy (kcal)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                 "input",
                 {
                   required: true,
@@ -136371,9 +138561,9 @@ function AdminProducts() {
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Proteins" }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Proteins" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                 "input",
                 {
                   required: true,
@@ -136384,9 +138574,9 @@ function AdminProducts() {
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Fat" }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Fat" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                 "input",
                 {
                   required: true,
@@ -136397,9 +138587,9 @@ function AdminProducts() {
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Carbs" }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Carbs" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                 "input",
                 {
                   required: true,
@@ -136414,8 +138604,8 @@ function AdminProducts() {
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-3", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
         RichTextEditor,
         {
           label: "Product Storytelling / Long Description",
@@ -136423,17 +138613,17 @@ function AdminProducts() {
           onChange: (val) => setFormData({ ...formData, longDescription: val })
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
         Repeater,
         {
           label: "Structured Product Sections",
           items: formData.contentSections || [],
           emptyItem: { title: "", body: "" },
           onUpdate: (items) => setFormData({ ...formData, contentSections: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "mb-2 block text-xs font-bold uppercase tracking-widest text-slate-500", children: "Section Title" }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "mb-2 block text-xs font-bold uppercase tracking-widest text-slate-500", children: "Section Title" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                 "input",
                 {
                   type: "text",
@@ -136444,7 +138634,7 @@ function AdminProducts() {
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
               RichTextEditor,
               {
                 label: "Section Body",
@@ -136456,15 +138646,15 @@ function AdminProducts() {
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid gap-4 pt-1 lg:grid-cols-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid gap-4 pt-1 lg:grid-cols-2", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
         Repeater,
         {
           label: "Product Highlights",
           items: formData.highlights || [],
           emptyItem: "",
           onUpdate: (items) => setFormData({ ...formData, highlights: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
               type: "text",
@@ -136476,14 +138666,14 @@ function AdminProducts() {
           )
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
         Repeater,
         {
           label: "Gallery Images",
           items: formData.imageGallery || [],
           emptyItem: "",
           onUpdate: (items) => setFormData({ ...formData, imageGallery: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             ImageUploader,
             {
               label: `Gallery Item ${index + 1}`,
@@ -136494,20 +138684,20 @@ function AdminProducts() {
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200 font-bold", children: "Discard Changes" }) })
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200 font-bold", children: "Discard Changes" }) })
   ] }) });
   if (isRefreshing) {
-    return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "text-sm text-slate-500 font-medium", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("p", { className: "text-sm text-slate-500 font-medium", children: [
         "Switching to ",
         editingLang.toUpperCase(),
         " products..."
       ] })
     ] }) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
       motion.div,
       {
         initial: { opacity: 0, y: -20 },
@@ -136515,38 +138705,34 @@ function AdminProducts() {
         exit: { opacity: 0, y: -20 },
         className: "fixed top-4 right-4 z-[100] flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg border border-emerald-200",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.CheckCircle2, { size: 20, className: "text-emerald-500" }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: "text-sm font-medium", children: successMessage })
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.CheckCircle2, { size: 20, className: "text-emerald-500" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "text-sm font-medium", children: successMessage })
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex flex-col justify-between gap-3 sm:flex-row sm:items-center", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("h2", { className: "text-2xl font-bold text-slate-900", children: [
-          "Products Catalog (",
-          editingLang.toUpperCase(),
-          ")"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "text-sm text-slate-500", children: [
-          "Manage your dried fruits inventory for the ",
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "flex flex-col justify-between gap-3 sm:flex-row sm:items-center", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h2", { className: embedded ? "text-lg font-bold text-slate-900" : "text-2xl font-bold text-slate-900", children: embedded ? "3. Product Catalog Items" : `Products Catalog (${editingLang.toUpperCase()})` }),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("p", { className: "text-sm text-slate-500", children: [
+          "Manage the product cards and detail pages for the ",
           editingLang.toUpperCase(),
           " version."
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
         Button,
         {
           onClick: () => handleToggleAccordion("new"),
           className: `${editingId === "new" ? "bg-slate-200 text-slate-600 hover:bg-slate-300" : "bg-earth-600 hover:bg-earth-700 text-white"} transition-all shrink-0 font-bold`,
           children: [
-            editingId === "new" ? /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.X, { size: 18, className: "mr-2" }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Plus, { size: 18, className: "mr-2" }),
+            editingId === "new" ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.X, { size: 18, className: "mr-2" }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.Plus, { size: 18, className: "mr-2" }),
             editingId === "new" ? "Cancel Adding" : "Add New Product"
           ]
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(AnimatePresence, { children: editingId === "new" && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-3", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(AnimatePresence, { children: editingId === "new" && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
         motion.div,
         {
           initial: { height: 0, opacity: 0, y: -20 },
@@ -136554,8 +138740,8 @@ function AdminProducts() {
           exit: { height: 0, opacity: 0, y: -20 },
           className: "overflow-hidden rounded-lg border border-dashed border-earth-300 bg-earth-50/30",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "border-b border-earth-200 bg-earth-50 px-4 py-3", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("h3", { className: "font-bold text-earth-900 flex items-center gap-2", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Plus, { size: 18 }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "border-b border-earth-200 bg-earth-50 px-4 py-3", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("h3", { className: "font-bold text-earth-900 flex items-center gap-2", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.Plus, { size: 18 }),
               " New ",
               editingLang.toUpperCase(),
               " Product Drafting"
@@ -136566,43 +138752,43 @@ function AdminProducts() {
       ) }),
       products.map((product) => {
         const isExpanded = editingId === product.id;
-        return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+        return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
           "div",
           {
             className: `overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
                 "div",
                 {
                   onClick: () => handleToggleAccordion(product.id, product),
                   className: `group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
                   children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex items-center gap-4 min-w-0", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: `h-14 w-14 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${isExpanded ? "border-earth-600 shadow-md" : "border-slate-100 group-hover:border-earth-200"}`, children: product.image ? /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("img", { src: product.image, alt: product.name, className: "h-full w-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "w-full h-full bg-slate-100 flex items-center justify-center text-slate-300", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Package, { size: 24 }) }) }),
-                      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "truncate", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h3", { className: `font-bold transition-colors ${isExpanded ? "text-earth-900" : "text-slate-900"}`, children: product.name }),
-                        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex items-center gap-2 mt-1", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: "text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100", children: product.category }),
-                          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: `px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${product.status === "Active" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`, children: product.status })
+                    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "flex items-center gap-4 min-w-0", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: `h-14 w-14 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${isExpanded ? "border-earth-600 shadow-md" : "border-slate-100 group-hover:border-earth-200"}`, children: product.image ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("img", { src: product.image, alt: product.name, className: "h-full w-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "w-full h-full bg-slate-100 flex items-center justify-center text-slate-300", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.Package, { size: 24 }) }) }),
+                      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "truncate", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h3", { className: `font-bold transition-colors ${isExpanded ? "text-earth-900" : "text-slate-900"}`, children: product.name }),
+                        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "flex items-center gap-2 mt-1", children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100", children: product.category }),
+                          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: `px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${product.status === "Active" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`, children: product.status })
                         ] })
                       ] })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex items-center gap-2", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "flex items-center gap-2", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                         "button",
                         {
                           onClick: (e) => confirmDelete(e, product.id),
                           className: "p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all",
                           title: "Permanently Delete Product",
-                          children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Trash2, { size: 18 })
+                          children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.Trash2, { size: 18 })
                         }
                       ),
-                      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isExpanded ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`, children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.ChevronDown, { size: 20 }) })
+                      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isExpanded ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`, children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.ChevronDown, { size: 20 }) })
                     ] })
                   ]
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(AnimatePresence, { initial: false, children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(AnimatePresence, { initial: false, children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                 motion.div,
                 {
                   initial: { height: 0, opacity: 0 },
@@ -136617,22 +138803,22 @@ function AdminProducts() {
           product.id
         );
       }),
-      products.length === 0 && editingId !== "new" && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "py-20 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.Package, { size: 48, className: "mx-auto text-slate-200 mb-4" }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "text-slate-500 font-medium", children: [
+      products.length === 0 && editingId !== "new" && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "py-20 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.Package, { size: 48, className: "mx-auto text-slate-200 mb-4" }),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("p", { className: "text-slate-500 font-medium", children: [
           "Your ",
           editingLang.toUpperCase(),
           " product catalog is currently empty."
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(Button, { onClick: () => handleToggleAccordion("new"), variant: "ghost", className: "mt-4 text-earth-600", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(Button, { onClick: () => handleToggleAccordion("new"), variant: "ghost", className: "mt-4 text-earth-600", children: [
           "Add your first ",
           editingLang.toUpperCase(),
           " product"
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(AnimatePresence, { children: isDeleteOpen && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "fixed inset-0 z-[100] flex items-center justify-center p-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(AnimatePresence, { children: isDeleteOpen && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "fixed inset-0 z-[100] flex items-center justify-center p-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
         motion.div,
         {
           initial: { opacity: 0 },
@@ -136642,7 +138828,7 @@ function AdminProducts() {
           className: "absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
         motion.div,
         {
           initial: { opacity: 0, scale: 0.95 },
@@ -136650,2136 +138836,17 @@ function AdminProducts() {
           exit: { opacity: 0, scale: 0.95 },
           className: "relative w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 text-center",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100 mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(import_lucide_react15.AlertTriangle, { className: "h-8 w-8 text-red-600" }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h3", { className: "text-xl font-bold text-slate-900 mb-2", children: "Confirm Destruction" }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "text-slate-500 mb-8 leading-relaxed", children: "Are you sure you want to delete this product? This will remove all associated gallery data and descriptions permanently." }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "flex gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Button, { variant: "outline", className: "flex-1 font-bold py-3", onClick: () => setIsDeleteOpen(false), children: "Go Back" }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Button, { className: "flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 shadow-lg shadow-red-500/20", onClick: handleDelete, children: "Yes, Delete it" })
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100 mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_lucide_react17.AlertTriangle, { className: "h-8 w-8 text-red-600" }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h3", { className: "text-xl font-bold text-slate-900 mb-2", children: "Confirm Destruction" }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { className: "text-slate-500 mb-8 leading-relaxed", children: "Are you sure you want to delete this product? This will remove all associated gallery data and descriptions permanently." }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "flex gap-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Button, { variant: "outline", className: "flex-1 font-bold py-3", onClick: () => setIsDeleteOpen(false), children: "Go Back" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Button, { className: "flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 shadow-lg shadow-red-500/20", onClick: handleDelete, children: "Yes, Delete it" })
             ] })
           ]
         }
       )
     ] }) })
-  ] });
-}
-
-// src/pages/admin/Pages.tsx
-var import_react63 = __toESM(require_react(), 1);
-var import_lucide_react17 = __toESM(require_lucide_react(), 1);
-
-// src/components/admin/forms/FormSection.tsx
-var import_react61 = __toESM(require_react(), 1);
-var import_lucide_react16 = __toESM(require_lucide_react(), 1);
-var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
-function FormSection({ title, children, defaultOpen = true, actions }) {
-  const [isOpen, setIsOpen] = (0, import_react61.useState)(defaultOpen);
-  return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "overflow-hidden rounded-lg border border-slate-200 bg-white/70", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
-      "div",
-      {
-        className: `flex items-center justify-between gap-3 px-3 py-2.5 transition-colors ${isOpen ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
-            "button",
-            {
-              type: "button",
-              onClick: () => setIsOpen((value) => !value),
-              className: "flex flex-1 items-center justify-between gap-4 text-left",
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: title }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                  "div",
-                  {
-                    className: `rounded-md p-1.5 transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-100 text-earth-700" : "text-slate-400"}`,
-                    children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react16.ChevronDown, { size: 16 })
-                  }
-                )
-              ]
-            }
-          ),
-          actions
-        ]
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(AnimatePresence, { initial: false, children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-      motion.div,
-      {
-        initial: { height: 0, opacity: 0 },
-        animate: { height: "auto", opacity: 1 },
-        exit: { height: 0, opacity: 0 },
-        transition: { duration: 0.25, ease: "easeInOut" },
-        className: "overflow-hidden border-t border-slate-100",
-        children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "space-y-3 p-3", children })
-      }
-    ) })
-  ] });
-}
-
-// src/components/admin/forms/HomeForm.tsx
-var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
-function HomeForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "1. Hero Orchard Section", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        ImageUploader,
-        {
-          label: "Background Image/Video",
-          value: content.heroBgImage || "",
-          onChange: (url) => updateContent({ heroBgImage: url })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Welcome Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.heroTitle || "",
-            onChange: (e) => updateContent({ heroTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Subtitle" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.heroSubtitle || "",
-            onChange: (e) => updateContent({ heroSubtitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Primary CTA Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.heroPrimaryCtaLabel || "",
-              onChange: (e) => updateContent({ heroPrimaryCtaLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Secondary CTA Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.heroSecondaryCtaLabel || "",
-              onChange: (e) => updateContent({ heroSecondaryCtaLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "2. Introduction (About Us)", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        ImageUploader,
-        {
-          label: "About Section Image",
-          value: content.introImage || "",
-          onChange: (url) => updateContent({ introImage: url })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Text Above Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.introEyebrow || "",
-            onChange: (e) => updateContent({ introEyebrow: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Side-Label" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.introLabel || "",
-            onChange: (e) => updateContent({ introLabel: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Main Introduction Text" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "textarea",
-          {
-            rows: 4,
-            value: content.introText || "",
-            onChange: (e) => updateContent({ introText: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        Repeater,
-        {
-          label: "2x2 Stats Grid (Maximum 4)",
-          items: content.statsGrid || [],
-          emptyItem: { value: "", label: "" },
-          onUpdate: (items) => updateContent({ statsGrid: items.slice(0, 4) }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Number/Value" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.value,
-                  onChange: (e) => updateItem(index, "value", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Label" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.label,
-                  onChange: (e) => updateItem(index, "label", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                }
-              )
-            ] })
-          ] })
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "3. Product Preview", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.productPreviewTitle || "",
-            onChange: (e) => updateContent({ productPreviewTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Button Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.productPreviewButtonLabel || "",
-              onChange: (e) => updateContent({ productPreviewButtonLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Card CTA Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.productPreviewItemCtaLabel || "",
-              onChange: (e) => updateContent({ productPreviewItemCtaLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        Repeater,
-        {
-          label: "Product Categories Grid (Exactly 3 items)",
-          items: content.productCategories || [],
-          emptyItem: { categoryName: "", image: "", shortDescription: "", url: "", nutrition: { energy: "", protein: "", fat: "", carbs: "" } },
-          onUpdate: (items) => updateContent({ productCategories: items.slice(0, 3) }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.categoryName,
-                  onChange: (e) => updateItem(index, "categoryName", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-              ImageUploader,
-              {
-                label: `Thumbnail Image ${index + 1}`,
-                value: item.image,
-                onChange: (url) => updateItem(index, "image", url)
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "textarea",
-                {
-                  rows: 2,
-                  value: item.shortDescription,
-                  onChange: (e) => updateItem(index, "shortDescription", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Learn More URL" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.url,
-                  onChange: (e) => updateItem(index, "url", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/70 p-3", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-500", children: "Nutritional Facts (per 100g)" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "grid grid-cols-2 gap-3 lg:grid-cols-4", children: [
-                ["energy", "Energy"],
-                ["protein", "Protein"],
-                ["fat", "Fat"],
-                ["carbs", "Carbs"]
-              ].map(([key, label]) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1", children: label }),
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.nutrition?.[key] || "",
-                    onChange: (e) => replaceItem(index, {
-                      ...item,
-                      nutrition: {
-                        energy: item.nutrition?.energy || "",
-                        protein: item.nutrition?.protein || "",
-                        fat: item.nutrition?.fat || "",
-                        carbs: item.nutrition?.carbs || "",
-                        [key]: e.target.value
-                      }
-                    }),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500",
-                    placeholder: key === "energy" ? "280 kcal" : "2.5 g"
-                  }
-                )
-              ] }, key)) })
-            ] })
-          ] })
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "4. Export Markets", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Label" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.exportMarketsEyebrow || "",
-            onChange: (e) => updateContent({ exportMarketsEyebrow: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.exportMarketsTitle || "",
-            onChange: (e) => updateContent({ exportMarketsTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Intro Text" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "textarea",
-          {
-            rows: 4,
-            value: content.exportMarketsIntro || "",
-            onChange: (e) => updateContent({ exportMarketsIntro: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        Repeater,
-        {
-          label: "Country Buttons / Map States",
-          items: content.exportMarkets || [],
-          emptyItem: { countryName: "", shortDescription: "", statLabel: "", statValue: "", image: "" },
-          onUpdate: (items) => updateContent({ exportMarkets: items }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Country Name" }),
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.countryName,
-                    onChange: (e) => updateItem(index, "countryName", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Label" }),
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.statLabel,
-                    onChange: (e) => updateItem(index, "statLabel", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "textarea",
-                {
-                  rows: 3,
-                  value: item.shortDescription,
-                  onChange: (e) => updateItem(index, "shortDescription", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Value" }),
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.statValue,
-                    onChange: (e) => updateItem(index, "statValue", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                ImageUploader,
-                {
-                  label: "Map / Market Image",
-                  value: item.image,
-                  onChange: (url) => updateItem(index, "image", url)
-                }
-              )
-            ] })
-          ] })
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "5. Supply Reach", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        ImageUploader,
-        {
-          label: "Background Image",
-          value: content.supplyReachBgImage || "",
-          onChange: (url) => updateContent({ supplyReachBgImage: url })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.supplyReachTitle || "",
-            onChange: (e) => updateContent({ supplyReachTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Global Reach Overview" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "textarea",
-          {
-            rows: 4,
-            value: content.supplyReachOverview || "",
-            onChange: (e) => updateContent({ supplyReachOverview: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Button Label" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.supplyReachButtonLabel || "",
-            onChange: (e) => updateContent({ supplyReachButtonLabel: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "6. Final Order CTA", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        ImageUploader,
-        {
-          label: "Background Image",
-          value: content.ctaBgImage || "",
-          onChange: (url) => updateContent({ ctaBgImage: url })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Main Heading" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.ctaHeading || "",
-            onChange: (e) => updateContent({ ctaHeading: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Subheading" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.ctaSubheading || "",
-            onChange: (e) => updateContent({ ctaSubheading: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Button Text" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.ctaButtonText || "",
-              onChange: (e) => updateContent({ ctaButtonText: e.target.value }),
-              className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Button URL" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.ctaButtonUrl || "",
-              onChange: (e) => updateContent({ ctaButtonUrl: e.target.value }),
-              className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Secondary Link Label" }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.ctaLinkLabel || "",
-            onChange: (e) => updateContent({ ctaLinkLabel: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Email Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.ctaEmailPlaceholder || "",
-              onChange: (e) => updateContent({ ctaEmailPlaceholder: e.target.value }),
-              className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Submitting Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.ctaSubmittingLabel || "",
-              onChange: (e) => updateContent({ ctaSubmittingLabel: e.target.value }),
-              className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-            }
-          )
-        ] })
-      ] })
-    ] })
-  ] });
-}
-
-// src/components/admin/forms/AboutForm.tsx
-var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
-function AboutForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "1. Marquee Hero", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Large Top Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.marqueeTitle || "",
-            onChange: (e) => updateContent({ marqueeTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        Repeater,
-        {
-          label: "Orchard/Production Marquee Images",
-          items: content.productionMarqueeImages || [],
-          emptyItem: "",
-          onUpdate: (items) => updateContent({ productionMarqueeImages: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-            ImageUploader,
-            {
-              label: `Image ${index + 1}`,
-              value: item,
-              onChange: (url) => replaceItem(index, url)
-            }
-          )
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "2. Partner / Trust Marquee", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Label" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.partnerSectionLabel || "",
-            onChange: (e) => updateContent({ partnerSectionLabel: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        Repeater,
-        {
-          label: "Partner Logos & Certifications",
-          items: content.partnerLogos || [],
-          emptyItem: "",
-          onUpdate: (items) => updateContent({ partnerLogos: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-            ImageUploader,
-            {
-              label: `Logo ${index + 1}`,
-              value: item,
-              onChange: (url) => replaceItem(index, url)
-            }
-          )
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "3. Company Heritage", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.heritageTitle || "",
-            onChange: (e) => updateContent({ heritageTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Subtitle" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.heritageSubtitle || "",
-            onChange: (e) => updateContent({ heritageSubtitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        RichTextEditor,
-        {
-          label: '"Who We Are" Content',
-          value: content.whoWeAreContent || "",
-          onChange: (val) => updateContent({ whoWeAreContent: val })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        Repeater,
-        {
-          label: "Numbered Stats Boxes",
-          items: content.heritageStats || [],
-          emptyItem: { boxNumber: "", title: "", description: "" },
-          onUpdate: (items) => updateContent({ heritageStats: items }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-2", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Box Number" }),
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.boxNumber,
-                    onChange: (e) => updateItem(index, "boxNumber", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                    placeholder: "e.g. 01"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Box Title" }),
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.title,
-                    onChange: (e) => updateItem(index, "title", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                    placeholder: "e.g. Global Scale"
-                  }
-                )
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                "textarea",
-                {
-                  rows: 2,
-                  value: item.description,
-                  onChange: (e) => updateItem(index, "description", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
-                }
-              )
-            ] })
-          ] })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        Repeater,
-        {
-          label: "Featured Heritage Imagery (Gallery)",
-          items: content.heritageImagery || [],
-          emptyItem: "",
-          onUpdate: (items) => updateContent({ heritageImagery: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-            ImageUploader,
-            {
-              label: `Heritage Image ${index + 1}`,
-              value: item,
-              onChange: (url) => replaceItem(index, url)
-            }
-          )
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "4. Mission & Logistics", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mission Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.missionTitle || "",
-            onChange: (e) => updateContent({ missionTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        RichTextEditor,
-        {
-          label: "Mission Statement",
-          value: content.missionStatement || "",
-          onChange: (val) => updateContent({ missionStatement: val })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Philosophy Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.philosophyTitle || "",
-            onChange: (e) => updateContent({ philosophyTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Orchard Philosophy" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "textarea",
-          {
-            rows: 4,
-            value: content.orchardPhilosophy || "",
-            onChange: (e) => updateContent({ orchardPhilosophy: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Production Standards Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.productionStandardsTitle || "",
-            onChange: (e) => updateContent({ productionStandardsTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Production Standards" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "textarea",
-          {
-            rows: 4,
-            value: content.productionStandards || "",
-            onChange: (e) => updateContent({ productionStandards: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        ImageUploader,
-        {
-          label: "Large-Scale Mission Photography",
-          value: content.missionPhotography || "",
-          onChange: (url) => updateContent({ missionPhotography: url })
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "5. Own Production", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.ownProductionTitle || "",
-            onChange: (e) => updateContent({ ownProductionTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Intro Text" }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-          "textarea",
-          {
-            rows: 4,
-            value: content.ownProductionIntro || "",
-            onChange: (e) => updateContent({ ownProductionIntro: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-        Repeater,
-        {
-          label: "Production Columns",
-          items: content.ownProductionItems || [],
-          emptyItem: { image: "", title: "", subtitle: "", description: "" },
-          onUpdate: (items) => updateContent({ ownProductionItems: items }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-              ImageUploader,
-              {
-                label: `Production Image ${index + 1}`,
-                value: item.image,
-                onChange: (url) => updateItem(index, "image", url)
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Title" }),
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.title,
-                    onChange: (e) => updateItem(index, "title", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Subtitle" }),
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.subtitle,
-                    onChange: (e) => updateItem(index, "subtitle", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Description" }),
-              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                "textarea",
-                {
-                  rows: 3,
-                  value: item.description,
-                  onChange: (e) => updateItem(index, "description", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
-                }
-              )
-            ] })
-          ] })
-        }
-      )
-    ] })
-  ] });
-}
-
-// src/components/admin/forms/ExportForm.tsx
-var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
-var suggestedRoutes = [
-  { countryName: "Germany", mapCoordinatesId: "DE", tooltipDescription: "Central Europe pallet and container distribution.", image: "" },
-  { countryName: "Poland", mapCoordinatesId: "PL", tooltipDescription: "Fast Eastern Europe routing for wholesale fulfillment.", image: "" },
-  { countryName: "UAE", mapCoordinatesId: "AE", tooltipDescription: "Regional trade hub for GCC importers and re-export buyers.", image: "" },
-  { countryName: "Saudi Arabia", mapCoordinatesId: "SA", tooltipDescription: "Retail and foodservice volume routed through Gulf distribution partners.", image: "" },
-  { countryName: "India", mapCoordinatesId: "IN", tooltipDescription: "High-volume dried fruit demand with flexible multimodal delivery.", image: "" },
-  { countryName: "China", mapCoordinatesId: "CN", tooltipDescription: "Containerized supply lanes for repeat industrial buyers.", image: "" },
-  { countryName: "Turkey", mapCoordinatesId: "TR", tooltipDescription: "Cross-regional trade flow connecting Europe and the Middle East.", image: "" },
-  { countryName: "Kazakhstan", mapCoordinatesId: "KZ", tooltipDescription: "Land-linked regional route for rapid replenishment.", image: "" }
-];
-function ExportForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(
-      FormSection,
-      {
-        title: "1. Hero",
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-            ImageUploader,
-            {
-              label: "Hero Background Image",
-              value: content.heroBgImage || "",
-              onChange: (url) => updateContent({ heroBgImage: url })
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Hero Title" }),
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.heroTitle || "",
-                onChange: (e) => updateContent({ heroTitle: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Hero Subtitle" }),
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-              "textarea",
-              {
-                rows: 3,
-                value: content.heroSubtitle || "",
-                onChange: (e) => updateContent({ heroSubtitle: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 outline-none resize-none focus:border-earth-500"
-              }
-            )
-          ] })
-        ]
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(
-      FormSection,
-      {
-        title: "2. Global Supply Map",
-        actions: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-          "button",
-          {
-            type: "button",
-            onClick: () => updateContent({ supplyRoutes: suggestedRoutes.map((route) => ({ ...route })) }),
-            className: "rounded-full border border-earth-200 bg-earth-50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-earth-700 transition-colors hover:border-earth-300 hover:bg-earth-100",
-            children: "Load Suggested Countries"
-          }
-        ),
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("p", { className: "text-sm leading-6 text-slate-500", children: [
-            "Use ISO 2-letter country codes like ",
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { className: "font-semibold text-slate-700", children: "DE" }),
-            " or custom map points as ",
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { className: "font-semibold text-slate-700", children: "52.52,13.40" }),
-            "."
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Section Title" }),
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.mapSectionTitle || "",
-                onChange: (e) => updateContent({ mapSectionTitle: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-            Repeater,
-            {
-              label: "Supply Routes/Countries",
-              items: content.supplyRoutes || [],
-              emptyItem: { countryName: "", mapCoordinatesId: "", tooltipDescription: "", image: "" },
-              onUpdate: (items) => updateContent({ supplyRoutes: items }),
-              renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-4", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Country Name" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "e.g. Germany",
-                        value: item.countryName,
-                        onChange: (e) => updateItem(index, "countryName", e.target.value),
-                        className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
-                      }
-                    )
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "mb-1 flex items-center justify-between", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Coordinate/Map ID" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { className: "text-[10px] font-normal text-slate-400", children: "ISO code or lat,lng" })
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "DE or 52.52,13.40",
-                        value: item.mapCoordinatesId,
-                        onChange: (e) => updateItem(index, "mapCoordinatesId", e.target.value),
-                        className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500 uppercase"
-                      }
-                    )
-                  ] })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Short Tooltip Description" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-                    "textarea",
-                    {
-                      rows: 2,
-                      value: item.tooltipDescription,
-                      onChange: (e) => updateItem(index, "tooltipDescription", e.target.value),
-                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none focus:border-earth-500"
-                    }
-                  )
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-                  ImageUploader,
-                  {
-                    label: "Destination Image",
-                    value: item.image || "",
-                    onChange: (url) => updateItem(index, "image", url)
-                  }
-                )
-              ] })
-            }
-          )
-        ]
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(FormSection, { title: "3. Operational Standards", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-        RichTextEditor,
-        {
-          label: "Export Content",
-          value: content.logisticsContent || "",
-          onChange: (val) => updateContent({ logisticsContent: val })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Packaging Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.packagingTitle || "",
-            onChange: (e) => updateContent({ packagingTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-        RichTextEditor,
-        {
-          label: "Packaging Methods",
-          value: content.packagingMethods || "",
-          onChange: (val) => updateContent({ packagingMethods: val })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Transportation Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.transportationTitle || "",
-            onChange: (e) => updateContent({ transportationTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-        RichTextEditor,
-        {
-          label: "Transportation Methods",
-          value: content.transportationMethods || "",
-          onChange: (val) => updateContent({ transportationMethods: val })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Documentation Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.documentationTitle || "",
-            onChange: (e) => updateContent({ documentationTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-        RichTextEditor,
-        {
-          label: "Documentation Content",
-          value: content.documentationContent || "",
-          onChange: (val) => updateContent({ documentationContent: val })
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(FormSection, { title: "4. Quality Guarantee", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.qualityTitle || "",
-            onChange: (e) => updateContent({ qualityTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-        RichTextEditor,
-        {
-          label: "Technical Specifications",
-          value: content.technicalSpecs || "",
-          onChange: (val) => updateContent({ technicalSpecs: val })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-        Repeater,
-        {
-          label: "Quality Checklist Items",
-          items: content.qualityChecks || [],
-          emptyItem: { title: "", description: "" },
-          onUpdate: (items) => updateContent({ qualityChecks: items }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Title" }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.title,
-                  onChange: (e) => updateItem(index, "title", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Description" }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-                "textarea",
-                {
-                  rows: 2,
-                  value: item.description,
-                  onChange: (e) => updateItem(index, "description", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none focus:border-earth-500"
-                }
-              )
-            ] })
-          ] })
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(FormSection, { title: "5. Certifications Gallery", defaultOpen: false, children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-      Repeater,
-      {
-        label: "Gallery Grid",
-        items: content.certificationsGallery || [],
-        emptyItem: { image: "", caption: "" },
-        onUpdate: (items) => updateContent({ certificationsGallery: items }),
-        renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-            ImageUploader,
-            {
-              label: "Certificate Image",
-              value: item.image,
-              onChange: (url) => updateItem(index, "image", url)
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Title/Caption (e.g. HACCP, ISO)" }),
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-              "input",
-              {
-                type: "text",
-                value: item.caption,
-                onChange: (e) => updateItem(index, "caption", e.target.value),
-                className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
-              }
-            )
-          ] })
-        ] })
-      }
-    ) })
-  ] });
-}
-
-// src/components/admin/forms/ContactsForm.tsx
-var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
-function ContactsForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "space-y-8", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "1. Split Interaction Grid - Communication Hub", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.pageTitle || "",
-            onChange: (e) => updateContent({ pageTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "High-level Introduction" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "textarea",
-          {
-            rows: 4,
-            value: content.introText || "",
-            onChange: (e) => updateContent({ introText: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Destination Email" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "email",
-            value: content.formDestinationEmail || "",
-            onChange: (e) => updateContent({ formDestinationEmail: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.contactFormTitle || "",
-            onChange: (e) => updateContent({ contactFormTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Response Prefix" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.responseLabelPrefix || "",
-            onChange: (e) => updateContent({ responseLabelPrefix: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Name Field Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.formNameLabel || "",
-              onChange: (e) => updateContent({ formNameLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Company Field Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.formCompanyLabel || "",
-              onChange: (e) => updateContent({ formCompanyLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Field Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.formEmailLabel || "",
-              onChange: (e) => updateContent({ formEmailLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Message Field Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.formMessageLabel || "",
-              onChange: (e) => updateContent({ formMessageLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submit Button Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.submitButtonLabel || "",
-              onChange: (e) => updateContent({ submitButtonLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submitting Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.submittingButtonLabel || "",
-              onChange: (e) => updateContent({ submittingButtonLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "2. Info Blocks (2x2 Grid)", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Card Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.infoEmailLabel || "",
-              onChange: (e) => updateContent({ infoEmailLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Phone Card Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.infoPhoneLabel || "",
-              onChange: (e) => updateContent({ infoPhoneLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Address Card Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.infoAddressLabel || "",
-              onChange: (e) => updateContent({ infoAddressLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Hours Card Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.infoHoursLabel || "",
-              onChange: (e) => updateContent({ infoHoursLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Address" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "email",
-              value: content.emailAddress || "",
-              onChange: (e) => updateContent({ emailAddress: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Phone Number" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.phoneNumber || "",
-              onChange: (e) => updateContent({ phoneNumber: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Office Address" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.officeAddress || "",
-              onChange: (e) => updateContent({ officeAddress: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Working Hours" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.workingHours || "",
-              onChange: (e) => updateContent({ workingHours: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "3. Brand Imagery & Local Map", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Social Section Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.socialSectionTitle || "",
-            onChange: (e) => updateContent({ socialSectionTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-6", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Telegram URL" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.telegramUrl || "",
-              onChange: (e) => updateContent({ telegramUrl: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
-              placeholder: "https://t.me/yourhandle"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Instagram URL" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.instagramUrl || "",
-              onChange: (e) => updateContent({ instagramUrl: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
-              placeholder: "https://instagram.com/yourhandle"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "WhatsApp URL" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.whatsappUrl || "",
-              onChange: (e) => updateContent({ whatsappUrl: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
-              placeholder: "https://wa.me/998..."
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Facebook URL" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.facebookUrl || "",
-              onChange: (e) => updateContent({ facebookUrl: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
-              placeholder: "https://facebook.com/yourpage"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-        ImageUploader,
-        {
-          label: "Large-Scale Headquarters Image",
-          value: content.headquartersImage || "",
-          onChange: (url) => updateContent({ headquartersImage: url })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Map Pin Label" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.mapPinLabel || "",
-            onChange: (e) => updateContent({ mapPinLabel: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Google Maps Embed URL / iframe SRC" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.googleMapsUrl || "",
-            onChange: (e) => {
-              let val = e.target.value;
-              const match = val.match(/src="([^"]+)"/i);
-              if (match) val = match[1];
-              updateContent({ googleMapsUrl: val });
-            },
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none block",
-            placeholder: "https://www.google.com/maps/embed?..."
-          }
-        )
-      ] })
-    ] })
-  ] });
-}
-
-// src/components/admin/forms/ProductsForm.tsx
-var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
-function ProductsForm({ content, updateContent }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(FormSection, { title: "1. Header / Intro", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-        ImageUploader,
-        {
-          label: "Header / Intro Background Image",
-          value: content.heroBgImage || "",
-          onChange: (url) => updateContent({ heroBgImage: url }),
-          placeholder: "Upload the full-width image shown behind the page title"
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.pageTitle || "",
-            onChange: (e) => updateContent({ pageTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Subtitle" }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.pageSubtitle || "",
-            onChange: (e) => updateContent({ pageSubtitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(FormSection, { title: "3. Ordering Hub (Bulk Requests)", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-        ImageUploader,
-        {
-          label: "Background Image",
-          value: content.orderingBgImage || "",
-          onChange: (url) => updateContent({ orderingBgImage: url })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.orderingFormTitle || "",
-            onChange: (e) => updateContent({ orderingFormTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Subtitle" }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.orderingFormSubtitle || "",
-            onChange: (e) => updateContent({ orderingFormSubtitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-1 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 1 Prompt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepOneLabel || "",
-              onChange: (e) => updateContent({ stepOneLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 2 Prompt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepTwoLabel || "",
-              onChange: (e) => updateContent({ stepTwoLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 3 Prompt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepThreeLabel || "",
-              onChange: (e) => updateContent({ stepThreeLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mixed Container Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.mixedContainerLabel || "",
-              onChange: (e) => updateContent({ mixedContainerLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Catalog Button Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.viewSpecsLabel || "",
-              onChange: (e) => updateContent({ viewSpecsLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 1 Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepOnePlaceholder || "",
-              onChange: (e) => updateContent({ stepOnePlaceholder: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 3 Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepThreePlaceholder || "",
-              onChange: (e) => updateContent({ stepThreePlaceholder: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step Button Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.nextStepButtonLabel || "",
-                onChange: (e) => updateContent({ nextStepButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Back Button Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.backButtonLabel || "",
-                onChange: (e) => updateContent({ backButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submit Button Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.submitButtonLabel || "",
-                onChange: (e) => updateContent({ submitButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submitting Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.submittingButtonLabel || "",
-                onChange: (e) => updateContent({ submittingButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] })
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-        Repeater,
-        {
-          label: "Volume Options",
-          items: content.volumeOptions || [],
-          emptyItem: "",
-          onUpdate: (items) => updateContent({ volumeOptions: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: item,
-              onChange: (e) => replaceItem(index, e.target.value),
-              className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-              placeholder: "e.g. 1 FCL (20ft)"
-            }
-          )
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(FormSection, { title: "4. Product Detail UI", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Loading Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.loadingLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, loadingLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Not Found Title" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.notFoundTitle || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, notFoundTitle: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "col-span-2", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Not Found Description" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.notFoundBody || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, notFoundBody: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Back to Catalog Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.backToCatalogLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, backToCatalogLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Nutrition Title" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.nutritionTitle || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, nutritionTitle: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Nutrition Subtitle" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.nutritionPerLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, nutritionPerLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Inquiry Title" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.inquiryTitle || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, inquiryTitle: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Calories Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.caloriesLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, caloriesLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Protein Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.proteinLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, proteinLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Fat Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.fatLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, fatLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Carbs Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.carbsLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, carbsLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Company Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.companyPlaceholder || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, companyPlaceholder: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.emailPlaceholder || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, emailPlaceholder: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Volume Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.volumePlaceholder || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, volumePlaceholder: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Inquiry Button Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.detailUi?.inquiryButtonLabel || "",
-              onChange: (e) => updateContent({ detailUi: { ...content.detailUi, inquiryButtonLabel: e.target.value } }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Inquiry Submitting Label" }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.detailUi?.inquirySubmittingLabel || "",
-            onChange: (e) => updateContent({ detailUi: { ...content.detailUi, inquirySubmittingLabel: e.target.value } }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(FormSection, { title: "5. Quick Contacts", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.quickContactTitle || "",
-              onChange: (e) => updateContent({ quickContactTitle: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
-              placeholder: "e.g. Need it faster?"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Subtitle" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.quickContactSubtitle || "",
-              onChange: (e) => updateContent({ quickContactSubtitle: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
-              placeholder: "e.g. Skip the form..."
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Telegram Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.telegramLabel || "",
-              onChange: (e) => updateContent({ telegramLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
-              placeholder: "e.g. Telegram Bot"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Telegram Sublabel" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.telegramSublabel || "",
-              onChange: (e) => updateContent({ telegramSublabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
-              placeholder: "e.g. Instant quotes..."
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Call Card Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.callLabel || "",
-              onChange: (e) => updateContent({ callLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Email Card Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.emailLabel || "",
-              onChange: (e) => updateContent({ emailLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Dedicated Phone Number" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.quickPhone || "",
-              onChange: (e) => updateContent({ quickPhone: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Dedicated Sales Email" }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.quickEmail || "",
-              onChange: (e) => updateContent({ quickEmail: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] })
-      ] })
-    ] })
   ] });
 }
 
@@ -138821,20 +138888,21 @@ function AdminPages() {
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const { setHeaderTabs } = useAdminHeaderTabs();
-  const [selectedPageId, setSelectedPageId] = (0, import_react63.useState)("home");
-  const [editingPage, setEditingPage] = (0, import_react63.useState)(null);
-  const [successMessage, setSuccessMessage] = (0, import_react63.useState)(null);
-  const [isRefreshing, setIsRefreshing] = (0, import_react63.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react63.useState)(false);
-  const selectedSourcePage = (0, import_react63.useMemo)(
+  const [selectedPageId, setSelectedPageId] = (0, import_react64.useState)("home");
+  const [editingPage, setEditingPage] = (0, import_react64.useState)(null);
+  const [successMessage, setSuccessMessage] = (0, import_react64.useState)(null);
+  const [isRefreshing, setIsRefreshing] = (0, import_react64.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react64.useState)(false);
+  const [productAction, setProductAction] = (0, import_react64.useState)(null);
+  const selectedSourcePage = (0, import_react64.useMemo)(
     () => pages.find((page) => page.id === selectedPageId) || pages[0] || null,
     [pages, selectedPageId]
   );
-  (0, import_react63.useEffect)(() => {
+  (0, import_react64.useEffect)(() => {
     if (!selectedSourcePage) return;
     setEditingPage(clonePage(selectedSourcePage));
   }, [selectedSourcePage]);
-  (0, import_react63.useEffect)(() => {
+  (0, import_react64.useEffect)(() => {
     setHeaderTabs(
       pages.map((page) => {
         const pageId = page.id;
@@ -138849,7 +138917,7 @@ function AdminPages() {
     );
     return () => setHeaderTabs(null);
   }, [editingLang, pageSeo, pages, selectedPageId, setHeaderTabs]);
-  (0, import_react63.useEffect)(() => {
+  (0, import_react64.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -138877,19 +138945,23 @@ function AdminPages() {
       setIsSaving(false);
     }
   };
-  (0, import_react63.useEffect)(() => {
+  (0, import_react64.useEffect)(() => {
     if (!editingPage) {
-      setAction(null);
+      setAction(productAction || null);
       return void 0;
     }
-    setAction({
-      label: `Save ${editingPage.name}`,
-      formId: `form-${editingPage.id}`,
-      isLoading: isSaving,
-      disabled: isSaving || isRefreshing
-    });
+    if (productAction) {
+      setAction(productAction);
+    } else {
+      setAction({
+        label: `Save ${editingPage.name}`,
+        formId: `form-${editingPage.id}`,
+        isLoading: isSaving,
+        disabled: isSaving || isRefreshing
+      });
+    }
     return () => setAction(null);
-  }, [editingPage, isRefreshing, isSaving, setAction]);
+  }, [editingPage, isRefreshing, isSaving, productAction, setAction]);
   const updateContent = (updates) => {
     setEditingPage((current) => {
       if (!current) return current;
@@ -138899,7 +138971,7 @@ function AdminPages() {
       };
     });
   };
-  const renderFormContent = () => {
+  const renderFormContent = (catalogSlot) => {
     if (!editingPage) return null;
     switch (editingPage.id) {
       case "home":
@@ -138907,7 +138979,7 @@ function AdminPages() {
       case "about":
         return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(AboutForm, { content: editingPage.content, updateContent });
       case "products":
-        return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(ProductsForm, { content: editingPage.content, updateContent });
+        return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(ProductsForm, { content: editingPage.content, updateContent, catalogSlot });
       case "export":
         return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(ExportForm, { content: editingPage.content, updateContent });
       case "contacts":
@@ -138924,7 +138996,7 @@ function AdminPages() {
   };
   if (isRefreshing && !editingPage) {
     return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react18.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
       /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { className: "text-sm font-medium text-slate-500", children: [
         "Switching to ",
         editingLang.toUpperCase(),
@@ -138941,21 +139013,27 @@ function AdminPages() {
         exit: { opacity: 0, y: -10 },
         className: "fixed right-4 top-4 z-[100] flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.CheckCircle2, { size: 18 }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react18.CheckCircle2, { size: 18 }),
           /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "text-sm font-medium", children: successMessage })
         ]
       }
     ) }),
-    editingPage && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-${editingPage.id}`, onSubmit: handleSave, className: "space-y-4", children: [
+    editingPage && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children: editingPage.id === "products" ? /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("form", { id: `form-${editingPage.id}`, onSubmit: handleSave, className: "hidden", "aria-hidden": "true" }),
+      renderFormContent(
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "rounded-xl border border-slate-200 bg-white p-4", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(ProductCatalogManager, { embedded: true, onFloatingActionChange: setProductAction }) })
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex justify-end border-t border-slate-200 pt-3", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: restoreCurrentPage, className: "text-slate-600 hover:bg-slate-200", children: "Discard Changes" }) })
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-${editingPage.id}`, onSubmit: handleSave, className: "space-y-4", children: [
       renderFormContent(),
       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex justify-end border-t border-slate-200 pt-3", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: restoreCurrentPage, className: "text-slate-600 hover:bg-slate-200", children: "Discard Changes" }) })
-    ] })
+    ] }) })
   ] });
 }
 
 // src/pages/admin/Leads.tsx
-var import_react65 = __toESM(require_react(), 1);
-var import_lucide_react18 = __toESM(require_lucide_react(), 1);
+var import_react66 = __toESM(require_react(), 1);
+var import_lucide_react19 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
 var statusColors = {
   New: "bg-blue-100 text-blue-800 border-blue-200",
@@ -138990,30 +139068,30 @@ function safeValue(value) {
   return value?.trim() || "Not provided";
 }
 function AdminLeads() {
-  const [leads, setLeads] = (0, import_react65.useState)([]);
-  const [expandedId, setExpandedId] = (0, import_react65.useState)(null);
-  const [searchTerm, setSearchTerm] = (0, import_react65.useState)("");
-  const [filterStatus, setFilterStatus] = (0, import_react65.useState)("All");
-  const [ageFilter, setAgeFilter] = (0, import_react65.useState)("all");
-  const [noteFilter, setNoteFilter] = (0, import_react65.useState)("all");
-  const [sortOption, setSortOption] = (0, import_react65.useState)("newest");
-  const [selectedIds, setSelectedIds] = (0, import_react65.useState)([]);
-  const [draftNotes, setDraftNotes] = (0, import_react65.useState)({});
-  const [savingNoteIds, setSavingNoteIds] = (0, import_react65.useState)([]);
-  const [updatingStatusIds, setUpdatingStatusIds] = (0, import_react65.useState)([]);
-  const [bulkStatus, setBulkStatus] = (0, import_react65.useState)("");
-  const [isBulkUpdating, setIsBulkUpdating] = (0, import_react65.useState)(false);
-  const [isLoading, setIsLoading] = (0, import_react65.useState)(true);
-  const [toastMessage, setToastMessage] = (0, import_react65.useState)(null);
-  const showToast = (0, import_react65.useCallback)((message) => {
+  const [leads, setLeads] = (0, import_react66.useState)([]);
+  const [expandedId, setExpandedId] = (0, import_react66.useState)(null);
+  const [searchTerm, setSearchTerm] = (0, import_react66.useState)("");
+  const [filterStatus, setFilterStatus] = (0, import_react66.useState)("All");
+  const [ageFilter, setAgeFilter] = (0, import_react66.useState)("all");
+  const [noteFilter, setNoteFilter] = (0, import_react66.useState)("all");
+  const [sortOption, setSortOption] = (0, import_react66.useState)("newest");
+  const [selectedIds, setSelectedIds] = (0, import_react66.useState)([]);
+  const [draftNotes, setDraftNotes] = (0, import_react66.useState)({});
+  const [savingNoteIds, setSavingNoteIds] = (0, import_react66.useState)([]);
+  const [updatingStatusIds, setUpdatingStatusIds] = (0, import_react66.useState)([]);
+  const [bulkStatus, setBulkStatus] = (0, import_react66.useState)("");
+  const [isBulkUpdating, setIsBulkUpdating] = (0, import_react66.useState)(false);
+  const [isLoading, setIsLoading] = (0, import_react66.useState)(true);
+  const [toastMessage, setToastMessage] = (0, import_react66.useState)(null);
+  const showToast = (0, import_react66.useCallback)((message) => {
     setToastMessage(message);
   }, []);
-  (0, import_react65.useEffect)(() => {
+  (0, import_react66.useEffect)(() => {
     if (!toastMessage) return;
     const timeout = window.setTimeout(() => setToastMessage(null), 2500);
     return () => window.clearTimeout(timeout);
   }, [toastMessage]);
-  const fetchLeads = (0, import_react65.useCallback)(async () => {
+  const fetchLeads = (0, import_react66.useCallback)(async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/leads");
@@ -139036,7 +139114,7 @@ function AdminLeads() {
       setIsLoading(false);
     }
   }, [showToast]);
-  (0, import_react65.useEffect)(() => {
+  (0, import_react66.useEffect)(() => {
     void fetchLeads();
   }, [fetchLeads]);
   const persistLead = async (id3, payload) => {
@@ -139047,15 +139125,15 @@ function AdminLeads() {
     });
     if (!response.ok) throw new Error("Failed to update lead.");
   };
-  const selectedSet = (0, import_react65.useMemo)(() => new Set(selectedIds), [selectedIds]);
-  const summaryStats = (0, import_react65.useMemo)(() => {
+  const selectedSet = (0, import_react66.useMemo)(() => new Set(selectedIds), [selectedIds]);
+  const summaryStats = (0, import_react66.useMemo)(() => {
     const open = leads.filter((lead) => lead.status === "New" || lead.status === "Contacted" || lead.status === "In Progress").length;
     const converted = leads.filter((lead) => lead.status === "Converted").length;
     const stale = leads.filter((lead) => isStaleLead(lead)).length;
     const withoutNotes = leads.filter((lead) => !(draftNotes[lead.id] ?? lead.notes ?? "").trim()).length;
     return { total: leads.length, open, converted, stale, withoutNotes };
   }, [draftNotes, leads]);
-  const filteredAndSortedLeads = (0, import_react65.useMemo)(() => {
+  const filteredAndSortedLeads = (0, import_react66.useMemo)(() => {
     const now2 = Date.now();
     const today = now2 - 24 * 60 * 60 * 1e3;
     const last7d = now2 - 7 * 24 * 60 * 60 * 1e3;
@@ -139216,7 +139294,7 @@ ${nextLine}` : nextLine };
         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("label", { className: "mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400", children: "Search" }),
           /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "relative", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Search, { size: 16, className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Search, { size: 16, className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" }),
             /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
               "input",
               {
@@ -139369,7 +139447,7 @@ ${nextLine}` : nextLine };
     ] }) }),
     selectedIds.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "rounded-2xl border border-earth-200 bg-earth-50 p-5 shadow-sm", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between", children: [
       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex items-center gap-3 text-sm font-medium text-earth-800", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Users, { size: 18 }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Users, { size: 18 }),
         selectedIds.length,
         " lead",
         selectedIds.length === 1 ? "" : "s",
@@ -139387,14 +139465,14 @@ ${nextLine}` : nextLine };
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Button, { onClick: applyBulkStatus, disabled: !bulkStatus || isBulkUpdating, className: "rounded-xl", children: [
-          isBulkUpdating ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Loader2, { size: 16, className: "mr-2 animate-spin" }) : null,
+          isBulkUpdating ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Loader2, { size: 16, className: "mr-2 animate-spin" }) : null,
           "Apply Status"
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Button, { variant: "ghost", className: "rounded-xl", onClick: () => setSelectedIds([]), children: "Clear Selection" })
       ] })
     ] }) }) : null,
     /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "space-y-4", children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "flex min-h-[40vh] items-center justify-center rounded-2xl border border-slate-200 bg-white", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex flex-col items-center gap-4 text-slate-600", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Loader2, { className: "h-10 w-10 animate-spin text-earth-500" }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Loader2, { className: "h-10 w-10 animate-spin text-earth-500" }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "font-medium", children: "Loading leads..." })
     ] }) }) : filteredAndSortedLeads.length > 0 ? filteredAndSortedLeads.map((lead) => {
       const isExpanded = expandedId === lead.id;
@@ -139422,7 +139500,7 @@ ${nextLine}` : nextLine };
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("button", { type: "button", onClick: () => setExpandedId(isExpanded ? null : lead.id), className: "flex min-w-0 flex-1 items-start gap-4 text-left", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", isExpanded ? "bg-earth-600 text-white" : "bg-slate-100 text-slate-500"), children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.User, { size: 22 }) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-xl", isExpanded ? "bg-earth-600 text-white" : "bg-slate-100 text-slate-500"), children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.User, { size: 22 }) }),
                   /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "min-w-0 flex-1", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex flex-wrap items-center gap-3", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { className: "truncate text-base font-bold text-slate-900", children: lead.company || lead.name || lead.id }),
@@ -139432,22 +139510,22 @@ ${nextLine}` : nextLine };
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mt-2 grid gap-2 text-xs text-slate-500 sm:grid-cols-2 xl:grid-cols-4", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: "flex items-center gap-1", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Hash, { size: 12 }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Hash, { size: 12 }),
                         " ",
                         lead.id
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: "flex items-center gap-1 break-all", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Mail, { size: 12 }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Mail, { size: 12 }),
                         " ",
                         lead.email
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: "flex items-center gap-1", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.CalendarDays, { size: 12 }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.CalendarDays, { size: 12 }),
                         " ",
                         formatRelativeTime2(lead.date)
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: "flex items-center gap-1", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.MessageSquareText, { size: 12 }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.MessageSquareText, { size: 12 }),
                         " ",
                         lead.productInterest || "General inquiry"
                       ] })
@@ -139487,7 +139565,7 @@ ${nextLine}` : nextLine };
                       "Lead summary"
                     ),
                     children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Clipboard, { size: 15, className: "mr-2" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Clipboard, { size: 15, className: "mr-2" }),
                       "Copy"
                     ]
                   }
@@ -139498,7 +139576,7 @@ ${nextLine}` : nextLine };
                     type: "button",
                     onClick: () => setExpandedId(isExpanded ? null : lead.id),
                     className: "flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-colors hover:border-earth-200 hover:text-earth-700",
-                    children: isUpdatingStatus ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Loader2, { size: 18, className: "animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.ChevronDown, { size: 20, className: cn("transition-transform", isExpanded ? "rotate-180" : "") })
+                    children: isUpdatingStatus ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Loader2, { size: 18, className: "animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.ChevronDown, { size: 20, className: cn("transition-transform", isExpanded ? "rotate-180" : "") })
                   }
                 )
               ] })
@@ -139515,14 +139593,14 @@ ${nextLine}` : nextLine };
                   /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "grid gap-6 lg:grid-cols-3", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-4 flex items-center gap-2", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.User, { size: 16, className: "text-earth-600" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.User, { size: 16, className: "text-earth-600" }),
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h4", { className: "font-bold text-slate-900", children: "Contact Details" })
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "space-y-4 text-sm text-slate-600", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-xl border border-slate-200 bg-slate-50 p-3", children: [
                           /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-2 flex items-center justify-between gap-3", children: [
                             /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: "flex items-center gap-2 font-semibold text-slate-700", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Mail, { size: 14 }),
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Mail, { size: 14 }),
                               "Email"
                             ] }),
                             /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", onClick: () => void copyToClipboard(lead.email || "", "Email"), className: "text-xs font-semibold text-earth-700 hover:text-earth-800", children: "Copy" })
@@ -139532,7 +139610,7 @@ ${nextLine}` : nextLine };
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-xl border border-slate-200 bg-slate-50 p-3", children: [
                           /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-2 flex items-center justify-between gap-3", children: [
                             /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: "flex items-center gap-2 font-semibold text-slate-700", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Phone, { size: 14 }),
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Phone, { size: 14 }),
                               "Phone"
                             ] }),
                             /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", onClick: () => void copyToClipboard(lead.phone || "", "Phone"), className: "text-xs font-semibold text-earth-700 hover:text-earth-800", children: "Copy" })
@@ -139542,7 +139620,7 @@ ${nextLine}` : nextLine };
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-xl border border-slate-200 bg-slate-50 p-3", children: [
                           /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-2 flex items-center justify-between gap-3", children: [
                             /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: "flex items-center gap-2 font-semibold text-slate-700", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.MessageSquareText, { size: 14 }),
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.MessageSquareText, { size: 14 }),
                               "Telegram"
                             ] }),
                             /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", onClick: () => void copyToClipboard(lead.telegram || "", "Telegram"), className: "text-xs font-semibold text-earth-700 hover:text-earth-800", children: "Copy" })
@@ -139553,7 +139631,7 @@ ${nextLine}` : nextLine };
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-4 flex items-center gap-2", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.CalendarDays, { size: 16, className: "text-earth-600" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.CalendarDays, { size: 16, className: "text-earth-600" }),
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h4", { className: "font-bold text-slate-900", children: "Inquiry Snapshot" })
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "space-y-3 text-sm", children: [
@@ -139574,7 +139652,7 @@ ${nextLine}` : nextLine };
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-4 flex items-center gap-2", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.NotebookPen, { size: 16, className: "text-earth-600" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.NotebookPen, { size: 16, className: "text-earth-600" }),
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h4", { className: "font-bold text-slate-900", children: "Internal Shortcuts" })
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "space-y-3", children: [
@@ -139586,7 +139664,7 @@ ${nextLine}` : nextLine };
                             className: "flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:border-earth-200 hover:bg-earth-50",
                             children: [
                               /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { children: "Log first response" }),
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.CheckCircle2, { size: 16, className: "text-earth-600" })
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.CheckCircle2, { size: 16, className: "text-earth-600" })
                             ]
                           }
                         ),
@@ -139598,7 +139676,7 @@ ${nextLine}` : nextLine };
                             className: "flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:border-earth-200 hover:bg-earth-50",
                             children: [
                               /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { children: "Mark samples requested" }),
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Clipboard, { size: 16, className: "text-earth-600" })
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Clipboard, { size: 16, className: "text-earth-600" })
                             ]
                           }
                         ),
@@ -139610,7 +139688,7 @@ ${nextLine}` : nextLine };
                             className: "flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:border-earth-200 hover:bg-earth-50",
                             children: [
                               /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { children: "Waiting on buyer feedback" }),
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.AlertTriangle, { size: 16, className: "text-amber-600" })
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.AlertTriangle, { size: 16, className: "text-amber-600" })
                             ]
                           }
                         ),
@@ -139622,7 +139700,7 @@ ${nextLine}` : nextLine };
                             className: "flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:border-earth-200 hover:bg-earth-50",
                             children: [
                               /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { children: "Qualified for pricing review" }),
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Users, { size: 16, className: "text-earth-600" })
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Users, { size: 16, className: "text-earth-600" })
                             ]
                           }
                         )
@@ -139633,7 +139711,7 @@ ${nextLine}` : nextLine };
                     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-4 flex items-center justify-between gap-3", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex items-center gap-2", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.MessageSquareText, { size: 16, className: "text-earth-600" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.MessageSquareText, { size: 16, className: "text-earth-600" }),
                           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h4", { className: "font-bold text-slate-900", children: "Incoming Message" })
                         ] }),
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
@@ -139644,7 +139722,7 @@ ${nextLine}` : nextLine };
                             className: "rounded-xl bg-white",
                             onClick: () => void copyToClipboard(lead.message || "", "Message"),
                             children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Clipboard, { size: 14, className: "mr-2" }),
+                              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Clipboard, { size: 14, className: "mr-2" }),
                               "Copy Message"
                             ]
                           }
@@ -139655,13 +139733,13 @@ ${nextLine}` : nextLine };
                     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-4 flex items-center justify-between gap-3", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex items-center gap-2", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.NotebookPen, { size: 16, className: "text-earth-600" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.NotebookPen, { size: 16, className: "text-earth-600" }),
                           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h4", { className: "font-bold text-slate-900", children: "Internal Notes" })
                         ] }),
                         notesChanged ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { className: "rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] font-bold uppercase tracking-widest text-amber-700", children: "Unsaved" }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { className: "rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-[11px] font-bold uppercase tracking-widest text-emerald-700", children: "Saved" })
                       ] }),
                       isStaleLead(lead) ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.AlertTriangle, { size: 16, className: "mt-0.5 shrink-0" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.AlertTriangle, { size: 16, className: "mt-0.5 shrink-0" }),
                         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "This lead is stale. Add a note and move the status if it is still active." })
                       ] }) : null,
                       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
@@ -139694,7 +139772,7 @@ ${nextLine}` : nextLine };
                               onClick: () => handleSaveNotes(lead.id),
                               disabled: !notesChanged || isSavingNotes,
                               children: [
-                                isSavingNotes ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Loader2, { size: 16, className: "mr-2 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.CheckCircle2, { size: 16, className: "mr-2" }),
+                                isSavingNotes ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Loader2, { size: 16, className: "mr-2 animate-spin" }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.CheckCircle2, { size: 16, className: "mr-2" }),
                                 "Save Notes"
                               ]
                             }
@@ -139712,7 +139790,7 @@ ${nextLine}` : nextLine };
         lead.id
       );
     }) : leads.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mx-auto flex max-w-md flex-col items-center gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-500", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Users, { size: 22 }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-500", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Users, { size: 22 }) }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "space-y-2", children: [
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { className: "text-lg font-bold text-slate-900", children: "No leads yet" }),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "text-sm text-slate-500", children: "New inquiries from the website will appear here as soon as visitors submit a form." })
@@ -139727,7 +139805,7 @@ ${nextLine}` : nextLine };
         }
       )
     ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mx-auto flex max-w-md flex-col items-center gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-500", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.Filter, { size: 22 }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-500", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.Filter, { size: 22 }) }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "space-y-2", children: [
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { className: "text-lg font-bold text-slate-900", children: "No leads match the current filters" }),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "text-sm text-slate-500", children: "Adjust the search, status, age, or notes filters to bring leads back into view." })
@@ -139749,15 +139827,15 @@ ${nextLine}` : nextLine };
       )
     ] }) }) }),
     /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex items-start gap-3 text-sm text-slate-600", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react18.AlertTriangle, { size: 16, className: "mt-0.5 shrink-0 text-earth-600" }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_lucide_react19.AlertTriangle, { size: 16, className: "mt-0.5 shrink-0 text-earth-600" }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Internal-only workflow tools enabled. No outbound email, call, or Telegram actions are exposed from this page." })
     ] }) })
   ] });
 }
 
 // src/pages/admin/SeoSettings.tsx
-var import_react67 = __toESM(require_react(), 1);
-var import_lucide_react19 = __toESM(require_lucide_react(), 1);
+var import_react68 = __toESM(require_react(), 1);
+var import_lucide_react20 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/SeoFormSection.tsx
 var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
@@ -139851,12 +139929,12 @@ function AdminSeoSettings() {
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const { setHeaderTabs } = useAdminHeaderTabs();
-  const [selectedSeoId, setSelectedSeoId] = (0, import_react67.useState)("home");
-  const [editingPage, setEditingPage] = (0, import_react67.useState)(null);
-  const [showToast, setShowToast] = (0, import_react67.useState)(false);
-  const [isRefreshing, setIsRefreshing] = (0, import_react67.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react67.useState)(false);
-  (0, import_react67.useEffect)(() => {
+  const [selectedSeoId, setSelectedSeoId] = (0, import_react68.useState)("home");
+  const [editingPage, setEditingPage] = (0, import_react68.useState)(null);
+  const [showToast, setShowToast] = (0, import_react68.useState)(false);
+  const [isRefreshing, setIsRefreshing] = (0, import_react68.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react68.useState)(false);
+  (0, import_react68.useEffect)(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -139872,7 +139950,7 @@ function AdminSeoSettings() {
     };
     loadLangData();
   }, [editingLang]);
-  const staticPages = (0, import_react67.useMemo)(
+  const staticPages = (0, import_react68.useMemo)(
     () => staticPageMetadata.map((page) => ({
       ...page,
       path: getManagedPagePath(page.id, pageSeo, editingLang),
@@ -139880,7 +139958,7 @@ function AdminSeoSettings() {
     })),
     [editingLang, pageSeo]
   );
-  const combinedPages = (0, import_react67.useMemo)(
+  const combinedPages = (0, import_react68.useMemo)(
     () => [
       ...staticPages,
       ...products.map((product) => ({
@@ -139898,15 +139976,15 @@ function AdminSeoSettings() {
     ],
     [editingLang, pageSeo, products, staticPages]
   );
-  const selectedSourcePage = (0, import_react67.useMemo)(
+  const selectedSourcePage = (0, import_react68.useMemo)(
     () => combinedPages.find((page) => page.id === selectedSeoId) || combinedPages[0] || null,
     [combinedPages, selectedSeoId]
   );
-  (0, import_react67.useEffect)(() => {
+  (0, import_react68.useEffect)(() => {
     if (!selectedSourcePage) return;
     setEditingPage(JSON.parse(JSON.stringify(selectedSourcePage)));
   }, [selectedSourcePage]);
-  (0, import_react67.useEffect)(() => {
+  (0, import_react68.useEffect)(() => {
     setHeaderTabs(
       combinedPages.map((page) => ({
         id: page.id,
@@ -139918,7 +139996,7 @@ function AdminSeoSettings() {
     );
     return () => setHeaderTabs(null);
   }, [combinedPages, selectedSeoId, setHeaderTabs]);
-  (0, import_react67.useEffect)(() => {
+  (0, import_react68.useEffect)(() => {
     if (!showToast) return;
     const timer = window.setTimeout(() => setShowToast(false), 3e3);
     return () => window.clearTimeout(timer);
@@ -139945,7 +140023,7 @@ function AdminSeoSettings() {
       setIsSaving(false);
     }
   };
-  (0, import_react67.useEffect)(() => {
+  (0, import_react68.useEffect)(() => {
     if (!editingPage) {
       setAction(null);
       return void 0;
@@ -139960,7 +140038,7 @@ function AdminSeoSettings() {
   }, [editingPage, isSaving, setAction]);
   if (isRefreshing) {
     return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react20.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
       /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("p", { className: "text-sm text-slate-500 font-medium", children: [
         "Switching to ",
         editingLang.toUpperCase(),
@@ -139977,7 +140055,7 @@ function AdminSeoSettings() {
         exit: { opacity: 0, y: -20 },
         className: "fixed top-4 right-4 z-[100] flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg border border-emerald-200",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react19.CheckCircle2, { size: 20, className: "text-emerald-500" }),
+          /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(import_lucide_react20.CheckCircle2, { size: 20, className: "text-emerald-500" }),
           /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("span", { className: "text-sm font-medium", children: [
             "SEO settings (",
             editingLang.toUpperCase(),
@@ -140009,20 +140087,20 @@ function AdminSeoSettings() {
 }
 
 // src/pages/admin/GlobalSettings.tsx
-var import_react69 = __toESM(require_react(), 1);
-var import_lucide_react20 = __toESM(require_lucide_react(), 1);
+var import_react70 = __toESM(require_react(), 1);
+var import_lucide_react21 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
 function AdminGlobalSettings() {
   const { globalSettings, updateGlobalSettings, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const { setHeaderTabs } = useAdminHeaderTabs();
-  const [settings, setSettings] = (0, import_react69.useState)(globalSettings);
-  const [successMessage, setSuccessMessage] = (0, import_react69.useState)(null);
-  const [activeSection, setActiveSection] = (0, import_react69.useState)("branding");
-  const [isRefreshing, setIsRefreshing] = (0, import_react69.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react69.useState)(false);
-  import_react69.default.useEffect(() => {
+  const [settings, setSettings] = (0, import_react70.useState)(globalSettings);
+  const [successMessage, setSuccessMessage] = (0, import_react70.useState)(null);
+  const [activeSection, setActiveSection] = (0, import_react70.useState)("branding");
+  const [isRefreshing, setIsRefreshing] = (0, import_react70.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react70.useState)(false);
+  import_react70.default.useEffect(() => {
     const loadLangData = async () => {
       setIsRefreshing(true);
       try {
@@ -140035,7 +140113,7 @@ function AdminGlobalSettings() {
     };
     loadLangData();
   }, [editingLang]);
-  import_react69.default.useEffect(() => {
+  import_react70.default.useEffect(() => {
     setSettings(globalSettings);
   }, [globalSettings]);
   const handleSave = async (e) => {
@@ -140052,7 +140130,7 @@ function AdminGlobalSettings() {
       setIsSaving(false);
     }
   };
-  import_react69.default.useEffect(() => {
+  import_react70.default.useEffect(() => {
     setAction({
       label: `Save Settings`,
       formId: "global-settings-form",
@@ -140069,28 +140147,28 @@ function AdminGlobalSettings() {
       id: "branding",
       title: "Header & Branding",
       description: "Customize your site logo and navigation menu.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Layout, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react21.Layout, { className: "text-earth-500", size: 20 })
     },
     {
       id: "footer",
       title: "Footer & Contact",
       description: "Manage footer information, contact details, and CTA forms.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Mail, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react21.Mail, { className: "text-earth-500", size: 20 })
     },
     {
       id: "seo",
       title: "SEO & Integrations",
       description: "Configure Google verification and global search settings.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Globe, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react21.Globe, { className: "text-earth-500", size: 20 })
     },
     {
       id: "translations",
       title: "UI Labels & Translations",
       description: "Translate buttons, form labels, and small UI strings.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Languages, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react21.Languages, { className: "text-earth-500", size: 20 })
     }
   ];
-  import_react69.default.useEffect(() => {
+  import_react70.default.useEffect(() => {
     setHeaderTabs(
       sections.map((section) => ({
         id: section.id,
@@ -140103,7 +140181,7 @@ function AdminGlobalSettings() {
   }, [activeSection, setHeaderTabs]);
   if (isRefreshing) {
     return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react21.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
       /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { className: "text-sm text-slate-500 font-medium", children: [
         "Switching to ",
         editingLang.toUpperCase(),
@@ -140120,7 +140198,7 @@ function AdminGlobalSettings() {
         exit: { opacity: 0, y: -20 },
         className: "fixed top-4 right-4 z-[100] flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg border border-emerald-200",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.CheckCircle2, { size: 20, className: "text-emerald-500" }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react21.CheckCircle2, { size: 20, className: "text-emerald-500" }),
           /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "text-sm font-medium", children: successMessage })
         ]
       }
@@ -140145,7 +140223,7 @@ function AdminGlobalSettings() {
                       /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { className: "text-xs text-slate-500 mt-0.5", children: section.description })
                     ] })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`, children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react20.ChevronDown, { size: 20 }) })
+                  /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`, children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_lucide_react21.ChevronDown, { size: 20 }) })
                 ]
               }
             ),
@@ -140422,15 +140500,15 @@ function UIField({ label, field, settings, setSettings }) {
 }
 
 // src/pages/admin/Media.tsx
-var import_react71 = __toESM(require_react(), 1);
-var import_lucide_react21 = __toESM(require_lucide_react(), 1);
+var import_react72 = __toESM(require_react(), 1);
+var import_lucide_react22 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
 function AdminMedia() {
   const { images, uploadMedia, deleteMedia, isLoading } = useMedia();
-  const [isDragging2, setIsDragging] = (0, import_react71.useState)(false);
-  const [uploading, setUploading] = (0, import_react71.useState)(false);
-  const fileInputRef = (0, import_react71.useRef)(null);
-  const [copiedId, setCopiedId] = (0, import_react71.useState)(null);
+  const [isDragging2, setIsDragging] = (0, import_react72.useState)(false);
+  const [uploading, setUploading] = (0, import_react72.useState)(false);
+  const fileInputRef = (0, import_react72.useRef)(null);
+  const [copiedId, setCopiedId] = (0, import_react72.useState)(null);
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
@@ -140508,7 +140586,7 @@ function AdminMedia() {
             }
           ),
           /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "flex flex-col items-center justify-center gap-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react21.UploadCloud, { size: 32 }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react22.UploadCloud, { size: 32 }) }),
             /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "text-lg font-medium text-slate-900", children: "Drag & drop files here" }),
               /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "text-sm text-slate-500 mb-4", children: "Support for Images (JPG, PNG, WebP) and PDFs (Max 10MB)" }),
@@ -140546,7 +140624,7 @@ function AdminMedia() {
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "h-40 w-full bg-slate-200 flex items-center justify-center overflow-hidden relative", children: [
                 isImage2 ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("img", { src: url, alt: name, className: "w-full h-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "flex flex-col items-center text-slate-400", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react21.File, { size: 48, className: "mb-2" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react22.File, { size: 48, className: "mb-2" }),
                   /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("span", { className: "text-xs font-bold uppercase tracking-wider", children: "FILE" })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2", children: [
@@ -140556,7 +140634,7 @@ function AdminMedia() {
                       onClick: () => copyToClipboard(url, url),
                       className: "p-2 bg-white text-slate-700 rounded-lg hover:bg-earth-50 hover:text-earth-600 transition-colors",
                       title: "Copy Data URL",
-                      children: copiedId === url ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react21.Check, { size: 18, className: "text-emerald-500" }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react21.Copy, { size: 18 })
+                      children: copiedId === url ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react22.Check, { size: 18, className: "text-emerald-500" }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react22.Copy, { size: 18 })
                     }
                   ),
                   /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
@@ -140569,7 +140647,7 @@ function AdminMedia() {
                       },
                       className: "p-2 bg-white text-slate-700 rounded-lg hover:bg-red-50 hover:text-red-500 transition-colors",
                       title: "Delete File",
-                      children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react21.Trash2, { size: 18 })
+                      children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_lucide_react22.Trash2, { size: 18 })
                     }
                   )
                 ] })
@@ -140585,21 +140663,21 @@ function AdminMedia() {
 }
 
 // src/components/ScrollToTop.tsx
-var import_react73 = __toESM(require_react(), 1);
+var import_react74 = __toESM(require_react(), 1);
 var import_react_router_dom10 = __toESM(require_dist2(), 1);
 function ScrollToTop() {
   const { pathname } = (0, import_react_router_dom10.useLocation)();
-  (0, import_react73.useEffect)(() => {
+  (0, import_react74.useEffect)(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 }
 
 // src/components/ErrorBoundary.jsx
-var import_react74 = __toESM(require_react(), 1);
-var import_lucide_react22 = __toESM(require_lucide_react(), 1);
+var import_react75 = __toESM(require_react(), 1);
+var import_lucide_react23 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
-var ErrorBoundary = class extends import_react74.default.Component {
+var ErrorBoundary = class extends import_react75.default.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -140622,7 +140700,7 @@ var ErrorBoundary = class extends import_react74.default.Component {
       }
       return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8 text-slate-800", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "max-w-4xl w-full bg-white rounded-2xl shadow-xl p-8 border border-red-100 flex flex-col max-h-[90vh]", children: [
         /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("h1", { className: "text-2xl font-bold text-red-600 mb-4 flex items-center gap-2 shrink-0", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(import_lucide_react22.AlertTriangle, { size: 28 }),
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(import_lucide_react23.AlertTriangle, { size: 28 }),
           "React Rendering Error Intercepted"
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "text-slate-600 mb-6 shrink-0", children: "A critical error occurred while attempting to render the component tree. The application was halted to prevent further corruption." }),
@@ -140651,14 +140729,14 @@ var ErrorBoundary = class extends import_react74.default.Component {
 };
 
 // src/App.tsx
-var import_lucide_react23 = __toESM(require_lucide_react(), 1);
+var import_lucide_react24 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
 function RouteLoading() {
   const { globalSettings } = usePages();
   const { t: t2 } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
   return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "flex min-h-screen items-center justify-center bg-earth-50", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "flex flex-col items-center gap-4 text-earth-700", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react23.Loader2, { className: "h-10 w-10 animate-spin text-earth-500" }),
+    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react24.Loader2, { className: "h-10 w-10 animate-spin text-earth-500" }),
     /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { className: "font-medium", children: t2("routeLoadingLabel") })
   ] }) });
 }
@@ -140675,7 +140753,7 @@ function NotFoundPage() {
 function FaviconUpdater() {
   const { globalSettings } = usePages();
   const faviconUrl = globalSettings.headerLogo || "";
-  (0, import_react75.useEffect)(() => {
+  (0, import_react76.useEffect)(() => {
     document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]').forEach((link) => link.remove());
     if (!faviconUrl) return;
     ["icon", "apple-touch-icon"].forEach((rel) => {
@@ -140740,7 +140818,7 @@ function AppShell({ initialData }) {
     /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(import_react_router_dom11.Routes, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(import_react_router_dom11.Route, { path: "/control-room", element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AdminLayout, {}), children: [
         /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Dashboard, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Route, { path: "products", element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AdminProducts, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Route, { path: "products", element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Navigate, { to: "/control-room/pages", replace: true }) }),
         /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Route, { path: "pages", element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AdminPages, {}) }),
         /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Route, { path: "leads", element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AdminLeads, {}) }),
         /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_react_router_dom11.Route, { path: "media", element: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AdminMedia, {}) }),
@@ -140810,7 +140888,8 @@ async function initDb() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
     await conn.execute(`CREATE TABLE IF NOT EXISTS products_page (
       id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
-      page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, ordering_bg_image TEXT,
+      page_title TEXT, page_subtitle TEXT, hero_bg_image TEXT, intro_eyebrow TEXT,
+      intro_title TEXT, intro_content LONGTEXT, intro_image TEXT, intro_facts LONGTEXT, ordering_bg_image TEXT,
       ordering_form_title TEXT, ordering_form_subtitle TEXT, step_one_label TEXT,
       step_two_label TEXT, step_three_label TEXT, mixed_container_label TEXT,
       volume_options TEXT, view_specs_label TEXT, step_one_placeholder TEXT,
@@ -140822,7 +140901,8 @@ async function initDb() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
     await conn.execute(`CREATE TABLE IF NOT EXISTS export_page (
       id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
-      hero_title TEXT, hero_subtitle TEXT, hero_bg_image TEXT, map_section_title TEXT,
+      hero_title TEXT, hero_subtitle TEXT, hero_bg_image TEXT, operations_image TEXT, map_section_title TEXT,
+      operations_eyebrow TEXT, destination_eyebrow TEXT,
       supply_routes LONGTEXT, logistics_content LONGTEXT, packaging_title TEXT,
       packaging_methods LONGTEXT, transportation_title TEXT, transportation_methods LONGTEXT,
       documentation_title TEXT, documentation_content LONGTEXT, quality_title TEXT,
@@ -140832,6 +140912,7 @@ async function initDb() {
     await conn.execute(`CREATE TABLE IF NOT EXISTS contacts_page (
       id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
       page_title TEXT, intro_text TEXT, form_destination_email TEXT, contact_form_title TEXT,
+      direct_contact_eyebrow TEXT,
       response_label_prefix TEXT, form_name_label TEXT, form_company_label TEXT,
       form_email_label TEXT, form_message_label TEXT, submit_button_label TEXT,
       submitting_button_label TEXT, email TEXT, phone TEXT, office_address TEXT,
@@ -140848,6 +140929,22 @@ async function initDb() {
         PRIMARY KEY (id, lang)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
     }
+    const addColumnIfMissing = async (table, column, definition) => {
+      try {
+        await conn.execute(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+      } catch (err) {
+        if (err?.code !== "ER_DUP_FIELDNAME") throw err;
+      }
+    };
+    await addColumnIfMissing("products_page", "intro_eyebrow", "TEXT");
+    await addColumnIfMissing("products_page", "intro_title", "TEXT");
+    await addColumnIfMissing("products_page", "intro_content", "LONGTEXT");
+    await addColumnIfMissing("products_page", "intro_image", "TEXT");
+    await addColumnIfMissing("products_page", "intro_facts", "LONGTEXT");
+    await addColumnIfMissing("export_page", "operations_image", "TEXT");
+    await addColumnIfMissing("export_page", "operations_eyebrow", "TEXT");
+    await addColumnIfMissing("export_page", "destination_eyebrow", "TEXT");
+    await addColumnIfMissing("contacts_page", "direct_contact_eyebrow", "TEXT");
     await conn.execute(`CREATE TABLE IF NOT EXISTS products (
       id VARCHAR(255) NOT NULL, lang VARCHAR(10) NOT NULL DEFAULT 'en',
       name TEXT, category TEXT, status TEXT, image TEXT, image_gallery LONGTEXT,
@@ -141041,6 +141138,15 @@ var defaultProductsPage = {
   pageTitle: "Wholesale Dried Fruits from Uzbekistan",
   pageSubtitle: "Explore export-ready apricots, raisins, prunes, and mixed assortments with buyer-focused origin, processing, and application details in one catalog.",
   heroBgImage: "",
+  introEyebrow: "Uzbekistan Origin",
+  introTitle: "One Page. Four Core Product Lines. Real Buyer Context.",
+  introContent: "<p>Compare origin, processing, nutrition, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
+  introImage: "",
+  introFacts: [
+    { title: "Orchard Base", description: "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
+    { title: "Growing Conditions", description: "Hot, dry summers and sunlight help apricots, grapes, and plums build sugar." },
+    { title: "Export Readiness", description: "Every line is positioned for buyer-specific cartons and repeat wholesale programs." }
+  ],
   orderingBgImage: "",
   orderingFormTitle: "Wholesale Inquiry",
   orderingFormSubtitle: "Share your target volume and timeline. We will respond with pricing and logistics details.",
@@ -141070,6 +141176,9 @@ var defaultExportPage = {
   heroTitle: "Our Global Export Network",
   heroSubtitle: "Seamless global logistics from the heart of the Silk Road to your warehouse.",
   heroBgImage: "",
+  operationsImage: "",
+  operationsEyebrow: "Export Operations",
+  destinationEyebrow: "Export Geography",
   mapSectionTitle: "Our Global Export Network",
   supplyRoutes: [],
   logisticsContent: "<p>End-to-end multi-modal transport routing.</p>",
@@ -141087,6 +141196,7 @@ var defaultExportPage = {
 var defaultContactsPage = {
   pageTitle: "Let's Connect",
   introText: "Whether you need a mixed container or a dedicated harvest line, our B2B team is available 24/7.",
+  directContactEyebrow: "Direct Contact",
   formDestinationEmail: "sales@hqdriedfruits.com",
   contactFormTitle: "Send an Inquiry",
   responseLabelPrefix: "Replies are monitored at",
@@ -141203,19 +141313,19 @@ function safeParseJson(value, fallback) {
 }
 var sharedMediaConfigs = {
   home: {
-    scalar: ["heroBgImage", "introImage", "supplyReachBgImage", "ctaBgImage"],
+    scalar: ["heroBgImage", "introImage"],
     mixedImageArrays: ["productCategories", "exportMarkets"]
   },
   about: {
-    scalar: ["missionPhotography"],
+    scalar: ["heroBgImage", "missionPhotography"],
     imageOnlyArrays: ["productionMarqueeImages", "partnerLogos", "heritageImagery"],
     mixedImageArrays: ["ownProductionItems"]
   },
   products: {
-    scalar: ["heroBgImage", "orderingBgImage"]
+    scalar: ["heroBgImage", "introImage", "orderingBgImage"]
   },
   export: {
-    scalar: ["heroBgImage"],
+    scalar: ["heroBgImage", "operationsImage"],
     mixedImageArrays: ["supplyRoutes", "certificationsGallery"]
   },
   contacts: {
@@ -141227,6 +141337,18 @@ function sanitizeFlexiblePageContent(pageId, content) {
   const next = { ...content };
   if (pageId === "home") {
     delete next.progressSlider;
+    delete next.supplyReachTitle;
+    delete next.supplyReachOverview;
+    delete next.supplyReachBgImage;
+    delete next.supplyReachButtonLabel;
+    delete next.ctaBgImage;
+    delete next.ctaHeading;
+    delete next.ctaSubheading;
+    delete next.ctaButtonText;
+    delete next.ctaButtonUrl;
+    delete next.ctaLinkLabel;
+    delete next.ctaEmailPlaceholder;
+    delete next.ctaSubmittingLabel;
   }
   return next;
 }
@@ -141488,6 +141610,11 @@ function mapProductsPage(row) {
     pageTitle: asString(row?.page_title, defaultProductsPage.pageTitle),
     pageSubtitle: asString(row?.page_subtitle, defaultProductsPage.pageSubtitle),
     heroBgImage: asString(row?.hero_bg_image, defaultProductsPage.heroBgImage),
+    introEyebrow: asString(row?.intro_eyebrow, defaultProductsPage.introEyebrow),
+    introTitle: asString(row?.intro_title, defaultProductsPage.introTitle),
+    introContent: asContentString(row?.intro_content, defaultProductsPage.introContent),
+    introImage: asString(row?.intro_image, defaultProductsPage.introImage),
+    introFacts: safeParseJson(row?.intro_facts, defaultProductsPage.introFacts),
     orderingBgImage: asString(row?.ordering_bg_image, defaultProductsPage.orderingBgImage),
     orderingFormTitle: asString(row?.ordering_form_title, defaultProductsPage.orderingFormTitle),
     orderingFormSubtitle: asString(row?.ordering_form_subtitle, defaultProductsPage.orderingFormSubtitle),
@@ -141519,6 +141646,9 @@ function mapExportPage(row) {
     heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle),
     heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle),
     heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage),
+    operationsImage: asString(row?.operations_image, defaultExportPage.operationsImage),
+    operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow),
+    destinationEyebrow: asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow),
     mapSectionTitle: asString(row?.map_section_title, defaultExportPage.mapSectionTitle),
     supplyRoutes: safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes),
     logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent),
@@ -141538,6 +141668,7 @@ function mapContactsPage(row) {
   return {
     pageTitle: asString(row?.page_title, defaultContactsPage.pageTitle),
     introText: asString(row?.intro_text, defaultContactsPage.introText),
+    directContactEyebrow: asString(row?.direct_contact_eyebrow, defaultContactsPage.directContactEyebrow),
     formDestinationEmail: asString(row?.form_destination_email, defaultContactsPage.formDestinationEmail),
     contactFormTitle: asString(row?.contact_form_title, defaultContactsPage.contactFormTitle),
     responseLabelPrefix: asString(row?.response_label_prefix, defaultContactsPage.responseLabelPrefix),
@@ -141597,12 +141728,29 @@ async function syncFlexiblePageSharedMedia(pageId, sourceContent) {
     await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(nextContent), locale]);
   }));
 }
-async function purgeDeprecatedHomeProgressSlider() {
+async function purgeDeprecatedHomeContentFields() {
   const res = await db.query("SELECT lang, content FROM home_page WHERE id = 1");
+  const deprecatedKeys = [
+    "progressSlider",
+    "supplyReachTitle",
+    "supplyReachOverview",
+    "supplyReachBgImage",
+    "supplyReachButtonLabel",
+    "ctaBgImage",
+    "ctaHeading",
+    "ctaSubheading",
+    "ctaButtonText",
+    "ctaButtonUrl",
+    "ctaLinkLabel",
+    "ctaEmailPlaceholder",
+    "ctaSubmittingLabel"
+  ];
   await Promise.all(res.rows.map(async (row) => {
     const content = safeParseJson(row?.content, null);
-    if (!content || typeof content !== "object" || Array.isArray(content) || !hasOwn(content, "progressSlider")) return;
-    delete content.progressSlider;
+    if (!content || typeof content !== "object" || Array.isArray(content)) return;
+    const hasDeprecatedKey = deprecatedKeys.some((key) => hasOwn(content, key));
+    if (!hasDeprecatedKey) return;
+    for (const key of deprecatedKeys) delete content[key];
     await db.query("UPDATE home_page SET content = $1 WHERE id = 1 AND lang = $2", [
       JSON.stringify(content),
       asString(row?.lang, "en")
@@ -141631,9 +141779,10 @@ async function syncExportPageSharedMedia(content) {
     };
     const nextContent = applySharedMedia(existingContent, content, sharedMediaConfigs.export);
     await db.query(
-      "UPDATE export_page SET hero_bg_image = $1, supply_routes = $2, certifications_gallery = $3 WHERE id = 1 AND lang = $4",
+      "UPDATE export_page SET hero_bg_image = $1, operations_image = $2, supply_routes = $3, certifications_gallery = $4 WHERE id = 1 AND lang = $5",
       [
         asString(content.heroBgImage),
+        asString(content.operationsImage),
         JSON.stringify(Array.isArray(nextContent.supplyRoutes) ? nextContent.supplyRoutes : []),
         JSON.stringify(Array.isArray(nextContent.certificationsGallery) ? nextContent.certificationsGallery : []),
         locale
@@ -142258,17 +142407,17 @@ app.post("/api/pages/:id", async (req, res) => {
     const locale = getRequestLocale(req);
     const content = req.body ?? {};
     if (pageId === "products") {
-      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, ordering_bg_image = $4, ordering_form_title = $5, ordering_form_subtitle = $6, step_one_label = $7, step_two_label = $8, step_three_label = $9, mixed_container_label = $10, volume_options = $11, view_specs_label = $12, step_one_placeholder = $13, step_three_placeholder = $14, next_step_button_label = $15, back_button_label = $16, submit_button_label = $17, submitting_button_label = $18, detail_ui = $19, quick_contact_title = $20, quick_contact_subtitle = $21, telegram_label = $22, telegram_sublabel = $23, call_label = $24, email_label = $25, quick_phone = $26, quick_email = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
+      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, intro_eyebrow = $4, intro_title = $5, intro_content = $6, intro_image = $7, intro_facts = $8, ordering_bg_image = $9, ordering_form_title = $10, ordering_form_subtitle = $11, step_one_label = $12, step_two_label = $13, step_three_label = $14, mixed_container_label = $15, volume_options = $16, view_specs_label = $17, step_one_placeholder = $18, step_three_placeholder = $19, next_step_button_label = $20, back_button_label = $21, submit_button_label = $22, submitting_button_label = $23, detail_ui = $24, quick_contact_title = $25, quick_contact_subtitle = $26, telegram_label = $27, telegram_sublabel = $28, call_label = $29, email_label = $30, quick_phone = $31, quick_email = $32 WHERE id = 1 AND lang = $33`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.introEyebrow), asString(content.introTitle), asString(content.introContent), asString(content.introImage), JSON.stringify(Array.isArray(content.introFacts) ? content.introFacts : []), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
       await syncProductsPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, map_section_title = $4, supply_routes = $5, logistics_content = $6, packaging_title = $7, packaging_methods = $8, transportation_title = $9, transportation_methods = $10, documentation_title = $11, documentation_content = $12, quality_title = $13, technical_specs = $14, quality_checks = $15, certifications_gallery = $16 WHERE id = 1 AND lang = $17`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
+      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, operations_image = $4, operations_eyebrow = $5, destination_eyebrow = $6, map_section_title = $7, supply_routes = $8, logistics_content = $9, packaging_title = $10, packaging_methods = $11, transportation_title = $12, transportation_methods = $13, documentation_title = $14, documentation_content = $15, quality_title = $16, technical_specs = $17, quality_checks = $18, certifications_gallery = $19 WHERE id = 1 AND lang = $20`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.operationsImage), asString(content.operationsEyebrow), asString(content.destinationEyebrow), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
       await syncExportPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, form_destination_email = $3, contact_form_title = $4, response_label_prefix = $5, form_name_label = $6, form_company_label = $7, form_email_label = $8, form_message_label = $9, submit_button_label = $10, submitting_button_label = $11, email = $12, phone = $13, office_address = $14, working_hours = $15, map_pin_label = $16, info_email_label = $17, info_phone_label = $18, info_address_label = $19, info_hours_label = $20, social_section_title = $21, telegram_url = $22, instagram_url = $23, whatsapp_url = $24, facebook_url = $25, headquarters_image = $26, google_maps_url = $27 WHERE id = 1 AND lang = $28`, [asString(content.pageTitle), asString(content.introText), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
+      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, direct_contact_eyebrow = $3, form_destination_email = $4, contact_form_title = $5, response_label_prefix = $6, form_name_label = $7, form_company_label = $8, form_email_label = $9, form_message_label = $10, submit_button_label = $11, submitting_button_label = $12, email = $13, phone = $14, office_address = $15, working_hours = $16, map_pin_label = $17, info_email_label = $18, info_phone_label = $19, info_address_label = $20, info_hours_label = $21, social_section_title = $22, telegram_url = $23, instagram_url = $24, whatsapp_url = $25, facebook_url = $26, headquarters_image = $27, google_maps_url = $28 WHERE id = 1 AND lang = $29`, [asString(content.pageTitle), asString(content.introText), asString(content.directContactEyebrow), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
       await syncContactsPageSharedMedia(content);
       return res.json({ success: true });
     }
@@ -142433,10 +142582,10 @@ if (import_fs.default.existsSync(distDir)) {
       const meta = await buildRenderMeta(req);
       if (meta.redirectTo) return res.redirect(301, meta.redirectTo);
       const appHtml = (0, import_server.renderToString)(
-        import_react76.default.createElement(
+        import_react77.default.createElement(
           import_react_router_dom12.StaticRouter,
           { location: req.originalUrl },
-          import_react76.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
+          import_react77.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
         )
       );
       const html = renderHtmlWithSeo(getIndexTemplate(), { ...meta, appHtml });
@@ -142449,7 +142598,7 @@ if (import_fs.default.existsSync(distDir)) {
 }
 var port = process.env.PORT || 1e4;
 initDb().then(async () => {
-  await purgeDeprecatedHomeProgressSlider();
+  await purgeDeprecatedHomeContentFields();
   app.listen(port, () => {
     console.log(`\u2705 Server listening on: ${port}`);
   });

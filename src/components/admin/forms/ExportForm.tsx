@@ -54,8 +54,81 @@ export function ExportForm({ content, updateContent }: Props) {
                 </div>
             </FormSection>
 
+            <FormSection title="2. Operational Standards" defaultOpen={false}>
+                <ImageUploader
+                    label="Operational Standards Image"
+                    value={content.operationsImage || ""}
+                    onChange={url => updateContent({ operationsImage: url })}
+                    placeholder="Shown beside the operational standards text. Falls back to the hero image if empty."
+                />
+
+                <div>
+                    <label className="mb-1 block text-sm font-medium text-slate-700">Operations Eyebrow</label>
+                    <input
+                        type="text"
+                        value={content.operationsEyebrow || ""}
+                        onChange={e => updateContent({ operationsEyebrow: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
+                <RichTextEditor
+                    label="Export Content"
+                    value={content.logisticsContent || ""}
+                    onChange={val => updateContent({ logisticsContent: val })}
+                />
+
+                <div>
+                    <label className="mb-1 block text-sm font-medium text-slate-700">Packaging Title</label>
+                    <input
+                        type="text"
+                        value={content.packagingTitle || ""}
+                        onChange={e => updateContent({ packagingTitle: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
+                <RichTextEditor
+                    label="Packaging Methods"
+                    value={content.packagingMethods || ""}
+                    onChange={val => updateContent({ packagingMethods: val })}
+                />
+
+                <div>
+                    <label className="mb-1 block text-sm font-medium text-slate-700">Transportation Title</label>
+                    <input
+                        type="text"
+                        value={content.transportationTitle || ""}
+                        onChange={e => updateContent({ transportationTitle: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
+                <RichTextEditor
+                    label="Transportation Methods"
+                    value={content.transportationMethods || ""}
+                    onChange={val => updateContent({ transportationMethods: val })}
+                />
+
+                <div>
+                    <label className="mb-1 block text-sm font-medium text-slate-700">Documentation Title</label>
+                    <input
+                        type="text"
+                        value={content.documentationTitle || ""}
+                        onChange={e => updateContent({ documentationTitle: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
+                <RichTextEditor
+                    label="Documentation Content"
+                    value={content.documentationContent || ""}
+                    onChange={val => updateContent({ documentationContent: val })}
+                />
+            </FormSection>
+
             <FormSection
-                title="2. Global Supply Map"
+                title="3. Global Supply Map"
                 actions={
                     <button
                         type="button"
@@ -70,6 +143,16 @@ export function ExportForm({ content, updateContent }: Props) {
                 <p className="text-sm leading-6 text-slate-500">
                     Use ISO 2-letter country codes like <span className="font-semibold text-slate-700">DE</span> or custom map points as <span className="font-semibold text-slate-700">52.52,13.40</span>.
                 </p>
+
+                <div>
+                    <label className="mb-1 block text-sm font-medium text-slate-700">Destination / Map Eyebrow</label>
+                    <input
+                        type="text"
+                        value={content.destinationEyebrow || ""}
+                        onChange={e => updateContent({ destinationEyebrow: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
 
                 <div>
                     <label className="mb-1 block text-sm font-medium text-slate-700">Section Title</label>
@@ -134,65 +217,7 @@ export function ExportForm({ content, updateContent }: Props) {
                 />
             </FormSection>
 
-            <FormSection title="3. Operational Standards" defaultOpen={false}>
-
-                <RichTextEditor
-                    label="Export Content"
-                    value={content.logisticsContent || ""}
-                    onChange={val => updateContent({ logisticsContent: val })}
-                />
-
-                <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-700">Packaging Title</label>
-                    <input
-                        type="text"
-                        value={content.packagingTitle || ""}
-                        onChange={e => updateContent({ packagingTitle: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                    />
-                </div>
-
-                <RichTextEditor
-                    label="Packaging Methods"
-                    value={content.packagingMethods || ""}
-                    onChange={val => updateContent({ packagingMethods: val })}
-                />
-
-                <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-700">Transportation Title</label>
-                    <input
-                        type="text"
-                        value={content.transportationTitle || ""}
-                        onChange={e => updateContent({ transportationTitle: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                    />
-                </div>
-
-                <RichTextEditor
-                    label="Transportation Methods"
-                    value={content.transportationMethods || ""}
-                    onChange={val => updateContent({ transportationMethods: val })}
-                />
-
-                <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-700">Documentation Title</label>
-                    <input
-                        type="text"
-                        value={content.documentationTitle || ""}
-                        onChange={e => updateContent({ documentationTitle: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                    />
-                </div>
-
-                <RichTextEditor
-                    label="Documentation Content"
-                    value={content.documentationContent || ""}
-                    onChange={val => updateContent({ documentationContent: val })}
-                />
-            </FormSection>
-
             <FormSection title="4. Quality Guarantee" defaultOpen={false}>
-
                 <div>
                     <label className="mb-1 block text-sm font-medium text-slate-700">Section Title</label>
                     <input

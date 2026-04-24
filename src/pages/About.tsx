@@ -23,7 +23,6 @@ export function About() {
   const pageData = pages.find(p => p.id === "about");
   const content: AboutContent = pageData?.content;
   const [activeProductionIndex, setActiveProductionIndex] = useState(0);
-  const [revealedProductionIndex, setRevealedProductionIndex] = useState(0);
   const [isDesktopFacilityViewport, setIsDesktopFacilityViewport] = useState(false);
   const heritageStats = content?.heritageStats || [
     { boxNumber: "1994", title: t("heritageStat1Title"), description: t("heritageStat1Desc") },
@@ -69,12 +68,13 @@ export function About() {
           },
         ];
   const aboutHeroImage =
-    content?.missionPhotography ||
+    content?.heroBgImage ||
     content?.productionMarqueeImages?.[0] ||
+    content?.missionPhotography ||
     "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop";
   const aboutHeroTitle = content?.marqueeTitle || t("aboutHeroTitle");
   const aboutHeroSubtitle =
-    content?.heritageSubtitle || t("aboutHeroSubtitle");
+    content?.heroSubtitle || content?.heritageSubtitle || t("aboutHeroSubtitle");
   const missionPanels = [
     {
       eyebrow: t("missionPurposeLabel"),
@@ -139,22 +139,6 @@ export function About() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
-  useEffect(() => {
-    if (isDesktopFacilityViewport) {
-      return;
-    }
-
-    if (revealedProductionIndex === activeProductionIndex) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setRevealedProductionIndex(activeProductionIndex);
-    }, 340);
-
-    return () => window.clearTimeout(timer);
-  }, [activeProductionIndex, isDesktopFacilityViewport, revealedProductionIndex]);
-
   return (
     <PageLayout>
       <section className="relative h-[38rem] overflow-hidden rounded-b-[4rem] md:h-[36rem] sm:rounded-b-[6rem]">
@@ -210,7 +194,7 @@ export function About() {
               className="relative p-0 sm:pr-4 lg:pr-10"
             >
               <p className="text-sm font-bold uppercase tracking-[0.28em] text-earth-500">
-                {t("aboutCompanyLabel")}
+                {content?.companyEyebrow || t("aboutCompanyLabel")}
               </p>
               <h2 className="mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:mt-5 sm:text-5xl">
                 {content?.heritageTitle || t("aboutHeritageTitle")}
@@ -289,7 +273,7 @@ export function About() {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{t("missionNarrativeEyebrow")}</p>
+            <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{content?.missionNarrativeEyebrow || t("missionNarrativeEyebrow")}</p>
             <h2 className="mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
               {t("missionNarrativeTitle")}
             </h2>
@@ -396,7 +380,7 @@ export function About() {
 
       <section className="mx-auto max-w-7xl px-4 pb-32 sm:px-6 lg:px-8">
         <div className="mb-12 max-w-3xl">
-          <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{t("insideFacilityEyebrow")}</p>
+          <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{content?.facilityEyebrow || t("insideFacilityEyebrow")}</p>
           <h2 className="mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
             {content?.ownProductionTitle || t("aboutOwnProductionTitle")}
           </h2>
@@ -414,10 +398,6 @@ export function About() {
                 key={`${item.title}-${index}`}
                 type="button"
                 onClick={() => {
-                  if (!isDesktopFacilityViewport && index === activeProductionIndex) {
-                    return;
-                  }
-                  setRevealedProductionIndex(-1);
                   setActiveProductionIndex(index);
                 }}
                 className={`group relative overflow-hidden rounded-[2.5rem] text-left transition-[height] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
@@ -429,11 +409,6 @@ export function About() {
                 animate={{ flexGrow: isDesktopFacilityViewport ? (isActive ? 2.2 : 1) : 1 }}
                 transition={{ duration: 0.58, ease: [0.16, 1, 0.3, 1] }}
                 style={{ flexBasis: isDesktopFacilityViewport ? 0 : "auto" }}
-                onAnimationComplete={() => {
-                  if (isDesktopFacilityViewport && isActive) {
-                    setRevealedProductionIndex(index);
-                  }
-                }}
               >
                 <div className="absolute inset-0">
                   <img
@@ -446,23 +421,23 @@ export function About() {
                 </div>
 
                 <div className="relative flex h-full flex-col justify-end p-6 sm:p-8 lg:min-h-[26rem]">
-                  <div className={`transition-[padding] duration-500 ${isActive ? "pb-20 sm:pb-[9.5rem] lg:pb-32" : "pb-0"}`}>
-                  <p className={`text-xs font-bold uppercase tracking-[0.24em] transition-colors ${isActive ? "text-earth-100" : "text-earth-200/80"}`}>
-                    {item.subtitle}
-                  </p>
-                  <h3 className="mt-3 font-display text-3xl font-bold text-white">
-                    {item.title}
-                  </h3>
+                  <div className="max-w-md">
+                    <p className={`text-xs font-bold uppercase tracking-[0.24em] transition-colors ${isActive ? "text-earth-100" : "text-earth-200/80"}`}>
+                      {item.subtitle}
+                    </p>
+                    <h3 className="mt-3 font-display text-3xl font-bold text-white">
+                      {item.title}
+                    </h3>
                   </div>
                   <AnimatePresence initial={false}>
-                    {isActive && revealedProductionIndex === index && (
+                    {isActive && (
                       <motion.div
                         key={`${item.title}-details`}
-                        initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+                        initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
                         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, y: 28, filter: "blur(2px)" }}
-                        transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute inset-x-6 bottom-6 overflow-hidden sm:inset-x-8 sm:bottom-8"
+                        exit={{ opacity: 0, y: 12, filter: "blur(2px)" }}
+                        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                        className="mt-4 overflow-hidden"
                       >
                         <p className="max-w-md text-sm leading-6 text-earth-100 sm:text-base sm:leading-7">
                           {item.description}

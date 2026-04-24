@@ -72,7 +72,7 @@ export function Export() {
 
   const pageData = pages.find((page) => page.id === "export");
   const content = pageData?.content as ExportContent | undefined;
-  const exportIntroImage = content?.heroBgImage || certificationsFallbackImage();
+  const exportIntroImage = content?.operationsImage || content?.heroBgImage || certificationsFallbackImage();
   const qualityChecks =
     content?.qualityChecks?.length > 0
       ? content.qualityChecks
@@ -255,7 +255,7 @@ export function Export() {
         <div className="rounded-[3rem] border border-earth-100 bg-white px-5 py-6 shadow-xl shadow-earth-200/60 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="grid items-stretch gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
             <div className="flex flex-col justify-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{t("exportOpsEyebrow")}</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-earth-400">{content?.operationsEyebrow || t("exportOpsEyebrow")}</p>
               <h2 className="mt-3 font-display text-[2.25rem] font-bold text-earth-900 sm:text-4xl">
                 {t("exportOpsTitle")}
               </h2>
@@ -272,7 +272,7 @@ export function Export() {
             <div className="overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70">
               <img
                 src={exportIntroImage}
-                alt={t("exportOpsEyebrow")}
+                alt={content?.operationsEyebrow || t("exportOpsEyebrow")}
                 className="h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]"
                 referrerPolicy="no-referrer"
               />
@@ -316,7 +316,7 @@ export function Export() {
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch lg:gap-8">
             <div className="flex flex-col">
               <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">
-                {t("exportDestinationEyebrow")}
+                  {content?.destinationEyebrow || t("exportDestinationEyebrow")}
               </p>
               <h2 className="mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl">
                 {t("exportDestinationTitle")}
@@ -353,7 +353,7 @@ export function Export() {
               <div className="relative min-h-[25.2rem] overflow-hidden rounded-[3.5rem] shadow-[0_32px_60px_rgba(84,39,70,0.12)] sm:min-h-[24rem] lg:h-full lg:min-h-0">
                 <img
                   src={activeRoute?.image || exportIntroImage}
-                  alt={t("exportDestinationEyebrow")}
+                    alt={content?.destinationEyebrow || t("exportDestinationEyebrow")}
                   className="absolute inset-0 h-full w-full object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -363,7 +363,7 @@ export function Export() {
                   <div className="absolute inset-x-0 bottom-0">
                     <div className="bg-gradient-to-t from-earth-900/88 via-earth-900/46 to-transparent px-6 pb-6 pt-16 text-white sm:px-8 sm:pb-8 sm:pt-20">
                       <p className="text-xs font-bold uppercase tracking-[0.24em] text-earth-100">
-                        {t("exportDestinationEyebrow")}
+                    {content?.destinationEyebrow || t("exportDestinationEyebrow")}
                       </p>
                       <div className="mt-3 flex items-center gap-3">
                         <h3 className="font-display text-3xl font-bold sm:text-[2.5rem]">{activeRoute.displayName}</h3>

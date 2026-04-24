@@ -10,6 +10,7 @@ import { AboutForm } from "@/src/components/admin/forms/AboutForm";
 import { ExportForm } from "@/src/components/admin/forms/ExportForm";
 import { ContactsForm } from "@/src/components/admin/forms/ContactsForm";
 import { ProductsForm } from "@/src/components/admin/forms/ProductsForm";
+import { ProductCatalogManager } from "@/src/pages/admin/Products";
 import { SimplePageForm } from "@/src/components/admin/forms/SimplePageForm";
 import { getManagedPagePath, type ManagedPageId } from "@/src/lib/routes";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
@@ -28,6 +29,7 @@ export function AdminPages() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [productAction, setProductAction] = useState<any>(null);
 
   const selectedSourcePage = useMemo(
     () => pages.find((page) => page.id === selectedPageId) || pages[0] || null,
@@ -90,19 +92,23 @@ export function AdminPages() {
 
   useEffect(() => {
     if (!editingPage) {
-      setAction(null);
+      setAction(productAction || null);
       return undefined;
     }
 
-    setAction({
-      label: `Save ${editingPage.name}`,
-      formId: `form-${editingPage.id}`,
-      isLoading: isSaving,
-      disabled: isSaving || isRefreshing,
-    });
+    if (productAction) {
+      setAction(productAction);
+    } else {
+      setAction({
+        label: `Save ${editingPage.name}`,
+        formId: `form-${editingPage.id}`,
+        isLoading: isSaving,
+        disabled: isSaving || isRefreshing,
+      });
+    }
 
     return () => setAction(null);
-  }, [editingPage, isRefreshing, isSaving, setAction]);
+  }, [editingPage, isRefreshing, isSaving, productAction, setAction]);
 
   const updateContent = (updates: any) => {
     setEditingPage((current) => {
@@ -114,7 +120,7 @@ export function AdminPages() {
     });
   };
 
-  const renderFormContent = () => {
+  const renderFormContent = (catalogSlot?: React.ReactNode) => {
     if (!editingPage) return null;
 
     switch (editingPage.id) {
@@ -123,7 +129,7 @@ export function AdminPages() {
       case "about":
         return <AboutForm content={editingPage.content as AboutContent} updateContent={updateContent} />;
       case "products":
-        return <ProductsForm content={editingPage.content as ProductsContent} updateContent={updateContent} />;
+        return <ProductsForm content={editingPage.content as ProductsContent} updateContent={updateContent} catalogSlot={catalogSlot} />;
       case "export":
         return <ExportForm content={editingPage.content as ExportContent} updateContent={updateContent} />;
       case "contacts":
@@ -168,15 +174,34 @@ export function AdminPages() {
       </AnimatePresence>
 
       {editingPage && (
-        <form id={`form-${editingPage.id}`} onSubmit={handleSave} className="space-y-4">
-          {renderFormContent()}
+        <>
+          {editingPage.id === "products" ? (
+            <div className="space-y-4">
+              <form id={`form-${editingPage.id}`} onSubmit={handleSave} className="hidden" aria-hidden="true" />
+              {renderFormContent(
+                <div className="rounded-xl border border-slate-200 bg-white p-4">
+                  <ProductCatalogManager embedded onFloatingActionChange={setProductAction} />
+                </div>,
+              )}
 
-          <div className="flex justify-end border-t border-slate-200 pt-3">
-            <Button type="button" variant="ghost" onClick={restoreCurrentPage} className="text-slate-600 hover:bg-slate-200">
-              Discard Changes
-            </Button>
-          </div>
-        </form>
+              <div className="flex justify-end border-t border-slate-200 pt-3">
+                <Button type="button" variant="ghost" onClick={restoreCurrentPage} className="text-slate-600 hover:bg-slate-200">
+                  Discard Changes
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <form id={`form-${editingPage.id}`} onSubmit={handleSave} className="space-y-4">
+              {renderFormContent()}
+
+              <div className="flex justify-end border-t border-slate-200 pt-3">
+                <Button type="button" variant="ghost" onClick={restoreCurrentPage} className="text-slate-600 hover:bg-slate-200">
+                  Discard Changes
+                </Button>
+              </div>
+            </form>
+          )}
+        </>
       )}
     </div>
   );

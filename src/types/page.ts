@@ -222,20 +222,6 @@ export interface HomeContent {
     exportMarketsTitle: string;
     exportMarketsIntro: string;
     exportMarkets: HomeExportMarketItem[];
-
-    supplyReachTitle: string;
-    supplyReachOverview: string;
-    supplyReachBgImage: string;
-    supplyReachButtonLabel: string;
-
-    ctaBgImage: string;
-    ctaHeading: string;
-    ctaSubheading: string;
-    ctaButtonText: string;
-    ctaButtonUrl: string;
-    ctaLinkLabel: string;
-    ctaEmailPlaceholder: string;
-    ctaSubmittingLabel: string;
 }
 
 export interface ProductDetailUIContent {
@@ -258,11 +244,14 @@ export interface ProductDetailUIContent {
 }
 
 export interface AboutContent {
+    heroBgImage: string;
     marqueeTitle: string;
+    heroSubtitle: string;
     productionMarqueeImages: string[];
     partnerLogos: string[];
     partnerSectionLabel: string;
 
+    companyEyebrow: string;
     heritageTitle: string;
     heritageSubtitle: string;
     whoWeAreContent: string;
@@ -276,6 +265,8 @@ export interface AboutContent {
     productionStandardsTitle: string;
     productionStandards: string;
     missionPhotography: string;
+    missionNarrativeEyebrow: string;
+    facilityEyebrow: string;
     ownProductionTitle: string;
     ownProductionIntro: string;
     ownProductionItems: AboutProductionItem[];
@@ -285,7 +276,10 @@ export interface ProductsContent {
     pageTitle: string;
     pageSubtitle: string;
     heroBgImage: string;
+    introEyebrow?: string;
+    introTitle?: string;
     introContent?: string;
+    introImage?: string;
     introFacts?: TextBlockItem[];
 
     orderingBgImage: string;
@@ -319,6 +313,9 @@ export interface ExportContent {
     heroTitle: string;
     heroSubtitle: string;
     heroBgImage: string;
+    operationsImage?: string;
+    operationsEyebrow?: string;
+    destinationEyebrow?: string;
     mapSectionTitle: string;
     supplyRoutes: SupplyRoute[];
 
@@ -340,6 +337,7 @@ export interface ExportContent {
 export interface ContactsContent {
     pageTitle: string;
     introText: string;
+    directContactEyebrow?: string;
     formDestinationEmail: string;
     contactFormTitle: string;
     responseLabelPrefix: string;
