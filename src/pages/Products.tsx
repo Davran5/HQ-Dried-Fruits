@@ -274,7 +274,7 @@ export function Products() {
 
   return (
     <PageLayout>
-      <section className="relative h-[38rem] overflow-hidden rounded-b-[4rem] md:h-[36rem] sm:rounded-b-[6rem]">
+      <section className="relative h-[42rem] overflow-hidden rounded-b-[4rem] md:h-[40rem] sm:rounded-b-[6rem]">
         {content?.heroBgImage ? (
           <motion.div
             initial={{ scale: 1.0 }}
@@ -294,14 +294,14 @@ export function Products() {
           <div className="absolute inset-0 bg-gradient-to-br from-earth-100 via-white to-earth-50" />
         )}
 
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8">
+        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-32 sm:px-6 sm:pb-20 sm:pt-36 lg:px-8">
           <div className="mx-auto max-w-5xl text-center">
-            <div className="mb-6 overflow-hidden">
+            <div className="mb-6 overflow-visible py-2">
               <motion.h1
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: springEasing }}
-                className={`font-display text-[2.7rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[5.2rem] md:text-[6.3rem]`}
+                className={`font-display text-[clamp(2.5rem,8vw,5.8rem)] font-bold leading-[1.02] ${content?.heroBgImage ? "text-white" : "text-earth-900"}`}
               >
                 {content?.pageTitle || t("productsTitle")}
               </motion.h1>

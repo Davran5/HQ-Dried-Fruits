@@ -139,7 +139,7 @@ export function Contacts() {
 
   return (
     <PageLayout>
-      <section className="relative h-[27rem] overflow-hidden rounded-b-[4rem] md:h-[25rem] sm:rounded-b-[6rem]">
+      <section className="relative h-[34rem] overflow-hidden rounded-b-[4rem] md:h-[31rem] sm:rounded-b-[6rem]">
         <motion.div
           initial={{ scale: 1.0 }}
           animate={{ scale: 1.12 }}
@@ -155,14 +155,14 @@ export function Contacts() {
           <div className="absolute inset-0 bg-gradient-to-t from-earth-900/84 via-earth-900/52 to-transparent" />
         </motion.div>
 
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-10 sm:px-6 sm:pb-12 lg:px-8">
+        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-10 pt-32 sm:px-6 sm:pb-12 sm:pt-36 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="mb-6 overflow-hidden">
+            <div className="mb-6 overflow-visible py-2">
               <motion.h1
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: springEasing }}
-                className="font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[4.9rem] md:text-[5.6rem]"
+                className="font-display text-[clamp(2.5rem,8vw,5.2rem)] font-bold leading-[1.02] text-white"
               >
                 {content?.pageTitle || t("contactsTitle")}
               </motion.h1>

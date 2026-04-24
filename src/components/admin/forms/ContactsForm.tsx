@@ -1,6 +1,5 @@
 import React from "react";
 import { ContactsContent } from "@/src/types/page";
-import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
 
 interface Props {
@@ -262,12 +261,6 @@ export function ContactsForm({ content, updateContent }: Props) {
                         />
                     </div>
                 </div>
-
-                <ImageUploader
-                    label="Large-Scale Headquarters Image"
-                    value={content.headquartersImage || ""}
-                    onChange={url => updateContent({ headquartersImage: url })}
-                />
 
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Map Pin Label</label>

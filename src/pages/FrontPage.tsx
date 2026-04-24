@@ -169,7 +169,7 @@ export function FrontPage() {
 
     return (
         <PageLayout>
-            <section className="relative h-[45rem] w-full overflow-hidden rounded-b-[4rem] md:h-[42rem] sm:rounded-b-[6rem]">
+            <section className="relative h-[48rem] w-full overflow-hidden rounded-b-[4rem] md:h-[45rem] sm:rounded-b-[6rem]">
                 <motion.div
                     initial={{ scale: 1.0 }}
                     animate={{ scale: 1.15 }}
@@ -184,14 +184,14 @@ export function FrontPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent" />
                 </motion.div>
-                <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 sm:px-6 sm:pb-24 lg:px-8">
-                    <div className="max-w-3xl">
-                        <div className="mb-5 overflow-hidden py-2">
+                <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 pt-32 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8">
+                    <div className="max-w-4xl">
+                        <div className="mb-5 overflow-visible py-2">
                             <motion.h1
                                 initial={{ y: "100%", opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, ease: springEasing }}
-                                className="font-display text-[2.7rem] font-bold leading-[1.04] text-white sm:text-[5.2rem] md:text-[6.3rem]"
+                                className="font-display text-[clamp(2.5rem,8vw,5.9rem)] font-bold leading-[1.04] text-white"
                             >
                                 {content.heroTitle || t("homeHeroTitle")}
                             </motion.h1>

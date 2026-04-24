@@ -132074,7 +132074,7 @@ function FrontPage() {
     scrollToCertificateIndex(currentIndex + direction);
   };
   return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(PageLayout, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("section", { className: "relative h-[45rem] w-full overflow-hidden rounded-b-[4rem] md:h-[42rem] sm:rounded-b-[6rem]", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("section", { className: "relative h-[48rem] w-full overflow-hidden rounded-b-[4rem] md:h-[45rem] sm:rounded-b-[6rem]", children: [
       /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
         motion.div,
         {
@@ -132096,14 +132096,14 @@ function FrontPage() {
           ]
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 sm:px-6 sm:pb-24 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "max-w-3xl", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mb-5 overflow-hidden py-2", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 pt-32 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "max-w-4xl", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mb-5 overflow-visible py-2", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
           motion.h1,
           {
             initial: { y: "100%", opacity: 0 },
             animate: { y: 0, opacity: 1 },
             transition: { duration: 0.8, ease: springEasing },
-            className: "font-display text-[2.7rem] font-bold leading-[1.04] text-white sm:text-[5.2rem] md:text-[6.3rem]",
+            className: "font-display text-[clamp(2.5rem,8vw,5.9rem)] font-bold leading-[1.04] text-white",
             children: content.heroTitle || t2("homeHeroTitle")
           }
         ) }),
@@ -132637,7 +132637,7 @@ function About() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
   return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(PageLayout, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "relative h-[38rem] overflow-hidden rounded-b-[4rem] md:h-[36rem] sm:rounded-b-[6rem]", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "relative h-[42rem] overflow-hidden rounded-b-[4rem] md:h-[40rem] sm:rounded-b-[6rem]", children: [
       /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
         motion.div,
         {
@@ -132659,14 +132659,14 @@ function About() {
           ]
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "mb-6 overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-32 sm:px-6 sm:pb-20 sm:pt-36 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "mb-6 overflow-visible py-2", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
           motion.h1,
           {
             initial: { y: "100%", opacity: 0 },
             animate: { y: 0, opacity: 1 },
             transition: { duration: 0.8, ease: springEasing },
-            className: "font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[5.2rem] md:text-[6.3rem]",
+            className: "font-display text-[clamp(2.5rem,8vw,5.8rem)] font-bold leading-[1.02] text-white",
             children: aboutHeroTitle
           }
         ) }),
@@ -133149,7 +133149,7 @@ Selections: ${tonnageSummary}`
   };
   const currentStepText = t2("productsStepIndicator").replace("{step}", formStep.toString());
   return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(PageLayout, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("section", { className: "relative h-[38rem] overflow-hidden rounded-b-[4rem] md:h-[36rem] sm:rounded-b-[6rem]", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("section", { className: "relative h-[42rem] overflow-hidden rounded-b-[4rem] md:h-[40rem] sm:rounded-b-[6rem]", children: [
       content?.heroBgImage ? /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
         motion.div,
         {
@@ -133171,14 +133171,14 @@ Selections: ${tonnageSummary}`
           ]
         }
       ) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "absolute inset-0 bg-gradient-to-br from-earth-100 via-white to-earth-50" }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mb-6 overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-32 sm:px-6 sm:pb-20 sm:pt-36 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mb-6 overflow-visible py-2", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
           motion.h1,
           {
             initial: { y: "100%", opacity: 0 },
             animate: { y: 0, opacity: 1 },
             transition: { duration: 0.8, ease: springEasing },
-            className: `font-display text-[2.7rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[5.2rem] md:text-[6.3rem]`,
+            className: `font-display text-[clamp(2.5rem,8vw,5.8rem)] font-bold leading-[1.02] ${content?.heroBgImage ? "text-white" : "text-earth-900"}`,
             children: content?.pageTitle || t2("productsTitle")
           }
         ) }),
@@ -133832,7 +133832,7 @@ function Export() {
     scrollToCertificateIndex(currentIndex + direction);
   };
   return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(PageLayout, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("section", { className: "relative h-[38rem] overflow-hidden rounded-b-[4rem] md:h-[36rem] sm:rounded-b-[6rem]", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("section", { className: "relative h-[42rem] overflow-hidden rounded-b-[4rem] md:h-[40rem] sm:rounded-b-[6rem]", children: [
       content?.heroBgImage ? /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
         motion.div,
         {
@@ -133854,14 +133854,14 @@ function Export() {
           ]
         }
       ) : /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-0 bg-gradient-to-br from-earth-100 via-white to-earth-50" }),
-      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mb-6 overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 pt-32 sm:px-6 sm:pb-20 sm:pt-36 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "mx-auto max-w-5xl text-center", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mb-6 overflow-visible py-2", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
           motion.h1,
           {
             initial: { y: "100%", opacity: 0 },
             animate: { y: 0, opacity: 1 },
             transition: { duration: 0.8, ease: springEasing },
-            className: `font-display text-[2.7rem] font-bold leading-[0.92] ${content?.heroBgImage ? "text-white" : "text-earth-900"} sm:text-[5.2rem] md:text-[6.3rem]`,
+            className: `font-display text-[clamp(2.5rem,8vw,5.8rem)] font-bold leading-[1.02] ${content?.heroBgImage ? "text-white" : "text-earth-900"}`,
             children: content?.heroTitle || t2("exportHeroTitle")
           }
         ) }),
@@ -134171,7 +134171,7 @@ function Contacts() {
     }
   };
   return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(PageLayout, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("section", { className: "relative h-[27rem] overflow-hidden rounded-b-[4rem] md:h-[25rem] sm:rounded-b-[6rem]", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("section", { className: "relative h-[34rem] overflow-hidden rounded-b-[4rem] md:h-[31rem] sm:rounded-b-[6rem]", children: [
       /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
         motion.div,
         {
@@ -134193,14 +134193,14 @@ function Contacts() {
           ]
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-10 sm:px-6 sm:pb-12 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "mx-auto max-w-4xl text-center", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "mb-6 overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-10 pt-32 sm:px-6 sm:pb-12 sm:pt-36 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "mx-auto max-w-4xl text-center", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "mb-6 overflow-visible py-2", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
           motion.h1,
           {
             initial: { y: "100%", opacity: 0 },
             animate: { y: 0, opacity: 1 },
             transition: { duration: 0.8, ease: springEasing },
-            className: "font-display text-[2.7rem] font-bold leading-[0.92] text-white sm:text-[4.9rem] md:text-[5.6rem]",
+            className: "font-display text-[clamp(2.5rem,8vw,5.2rem)] font-bold leading-[1.02] text-white",
             children: content?.pageTitle || t2("contactsTitle")
           }
         ) }),
@@ -137698,14 +137698,6 @@ function ContactsForm({ content, updateContent }) {
           )
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-        ImageUploader,
-        {
-          label: "Large-Scale Headquarters Image",
-          value: content.headquartersImage || "",
-          onChange: (url) => updateContent({ headquartersImage: url })
-        }
-      ),
       /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Map Pin Label" }),
         /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
