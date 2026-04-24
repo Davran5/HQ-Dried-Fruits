@@ -40,9 +40,10 @@ export function FrontPage() {
     }
 
     const springEasing = [0.25, 1, 0.5, 1]; // Custom cubic-bezier equivalent
+    const configuredExportMarkets = (content.exportMarkets || []).filter((market) => market.countryName?.trim());
     const exportMarkets =
-        content.exportMarkets?.length > 0
-            ? content.exportMarkets
+        configuredExportMarkets.length > 0
+            ? configuredExportMarkets
             : [
                 {
                     countryName: "Germany",

@@ -131952,7 +131952,8 @@ function FrontPage() {
     ] });
   }
   const springEasing = [0.25, 1, 0.5, 1];
-  const exportMarkets = content.exportMarkets?.length > 0 ? content.exportMarkets : [
+  const configuredExportMarkets = (content.exportMarkets || []).filter((market) => market.countryName?.trim());
+  const exportMarkets = configuredExportMarkets.length > 0 ? configuredExportMarkets : [
     {
       countryName: "Germany",
       shortDescription: t2("homeExportMarketGermanyDesc"),
@@ -141255,15 +141256,19 @@ function hasSharedMedia(content, config) {
   return false;
 }
 function mergeMixedImageArray(sourceItems, targetItems) {
-  if (!Array.isArray(sourceItems)) return Array.isArray(targetItems) ? targetItems : [];
   const existingItems = Array.isArray(targetItems) ? targetItems : [];
-  return sourceItems.map((sourceItem, index) => {
-    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
-      return sourceItem;
+  if (!Array.isArray(sourceItems)) return existingItems;
+  return existingItems.map((existingItem, index) => {
+    if (!existingItem || typeof existingItem !== "object" || Array.isArray(existingItem)) {
+      return existingItem;
     }
-    const existingItem = existingItems[index];
-    const base = existingItem && typeof existingItem === "object" && !Array.isArray(existingItem) ? { ...existingItem } : { ...sourceItem };
-    base.image = asString(sourceItem.image);
+    const base = { ...existingItem };
+    const sourceItem = sourceItems[index];
+    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
+      return base;
+    }
+    const sharedImage = asString(sourceItem.image);
+    if (sharedImage) base.image = sharedImage;
     return base;
   });
 }

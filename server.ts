@@ -503,20 +503,22 @@ function hasSharedMedia(content: any, config?: SharedMediaConfig) {
 }
 
 function mergeMixedImageArray(sourceItems: unknown, targetItems: unknown) {
-  if (!Array.isArray(sourceItems)) return Array.isArray(targetItems) ? targetItems : [];
   const existingItems = Array.isArray(targetItems) ? targetItems : [];
+  if (!Array.isArray(sourceItems)) return existingItems;
 
-  return sourceItems.map((sourceItem, index) => {
-    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
-      return sourceItem;
+  return existingItems.map((existingItem, index) => {
+    if (!existingItem || typeof existingItem !== "object" || Array.isArray(existingItem)) {
+      return existingItem;
     }
 
-    const existingItem = existingItems[index];
-    const base = existingItem && typeof existingItem === "object" && !Array.isArray(existingItem)
-      ? { ...(existingItem as Record<string, unknown>) }
-      : { ...(sourceItem as Record<string, unknown>) };
+    const base = { ...(existingItem as Record<string, unknown>) };
+    const sourceItem = sourceItems[index];
+    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
+      return base;
+    }
 
-    base.image = asString((sourceItem as any).image);
+    const sharedImage = asString((sourceItem as any).image);
+    if (sharedImage) base.image = sharedImage;
     return base;
   });
 }
