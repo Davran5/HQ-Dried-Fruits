@@ -66,9 +66,8 @@ export function Header() {
                   <Leaf size={20} />
                 </div>
               )}
-              <span className="font-display text-xl font-bold tracking-tight">
-                <span className="text-[#4b2240]">HQ Dried</span>{" "}
-                <span className="text-[#8b5a89]">Fruits</span>
+              <span className="font-display text-xl font-bold tracking-tight text-[#4b2240]">
+                {siteName}
               </span>
             </div>
           </Link>

@@ -131437,11 +131437,7 @@ function Header() {
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom2.Link, { to: getManagedPagePath("home", pageSeo, language), className: "flex items-center gap-2 group", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "flex items-center gap-3", children: [
                 globalSettings.headerLogo ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("img", { src: globalSettings.headerLogo, alt: `${siteName} logo`, className: "h-10 w-auto" }) : /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "flex h-10 w-10 items-center justify-center rounded-full bg-earth-600 text-white transition-all group-hover:bg-earth-500 group-hover:scale-110 shadow-lg shadow-earth-500/20", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_lucide_react.Leaf, { size: 20 }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("span", { className: "font-display text-xl font-bold tracking-tight", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "text-[#4b2240]", children: "HQ Dried" }),
-                  " ",
-                  /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "text-[#8b5a89]", children: "Fruits" })
-                ] })
+                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "font-display text-xl font-bold tracking-tight text-[#4b2240]", children: siteName })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("nav", { className: "hidden md:flex items-center gap-8", children: activeLinks?.map((link) => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
                 import_react_router_dom2.Link,
