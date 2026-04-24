@@ -97212,7 +97212,7 @@ var require_lucide_react = __commonJS({
     ];
     var Cherry = createLucideIcon("cherry", __iconNode$kE);
     var __iconNode$kD = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-    var ChevronDown8 = createLucideIcon("chevron-down", __iconNode$kD);
+    var ChevronDown7 = createLucideIcon("chevron-down", __iconNode$kD);
     var __iconNode$kC = [
       ["path", { d: "m17 18-6-6 6-6", key: "1yerx2" }],
       ["path", { d: "M7 6v12", key: "1p53r6" }]
@@ -103135,7 +103135,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M4 12h16", key: "1lakjw" }],
       ["path", { d: "M4 19h16", key: "1djgab" }]
     ];
-    var Menu3 = createLucideIcon("menu", __iconNode$aU);
+    var Menu2 = createLucideIcon("menu", __iconNode$aU);
     var __iconNode$aT = [
       ["path", { d: "m8 6 4-4 4 4", key: "ybng9g" }],
       ["path", { d: "M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22", key: "1hyw0i" }],
@@ -110218,7 +110218,7 @@ var require_lucide_react = __commonJS({
       CheckLine,
       ChefHat,
       Cherry,
-      ChevronDown: ChevronDown8,
+      ChevronDown: ChevronDown7,
       ChevronFirst,
       ChevronLast,
       ChevronLeft: ChevronLeft3,
@@ -110841,7 +110841,7 @@ var require_lucide_react = __commonJS({
       MegaphoneOff,
       Meh,
       MemoryStick,
-      Menu: Menu3,
+      Menu: Menu2,
       Merge,
       MessageCircle: MessageCircle2,
       MessageCircleCode,
@@ -112285,10 +112285,10 @@ var require_lucide_react = __commonJS({
     exports2.ChefHatIcon = ChefHat;
     exports2.Cherry = Cherry;
     exports2.CherryIcon = Cherry;
-    exports2.ChevronDown = ChevronDown8;
+    exports2.ChevronDown = ChevronDown7;
     exports2.ChevronDownCircle = CircleChevronDown;
     exports2.ChevronDownCircleIcon = CircleChevronDown;
-    exports2.ChevronDownIcon = ChevronDown8;
+    exports2.ChevronDownIcon = ChevronDown7;
     exports2.ChevronDownSquare = SquareChevronDown;
     exports2.ChevronDownSquareIcon = SquareChevronDown;
     exports2.ChevronFirst = ChevronFirst;
@@ -113981,7 +113981,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideCheckSquare2 = SquareCheck;
     exports2.LucideChefHat = ChefHat;
     exports2.LucideCherry = Cherry;
-    exports2.LucideChevronDown = ChevronDown8;
+    exports2.LucideChevronDown = ChevronDown7;
     exports2.LucideChevronDownCircle = CircleChevronDown;
     exports2.LucideChevronDownSquare = SquareChevronDown;
     exports2.LucideChevronFirst = ChevronFirst;
@@ -114683,7 +114683,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideMegaphoneOff = MegaphoneOff;
     exports2.LucideMeh = Meh;
     exports2.LucideMemoryStick = MemoryStick;
-    exports2.LucideMenu = Menu3;
+    exports2.LucideMenu = Menu2;
     exports2.LucideMenuSquare = SquareMenu;
     exports2.LucideMerge = Merge;
     exports2.LucideMessageCircle = MessageCircle2;
@@ -115553,8 +115553,8 @@ var require_lucide_react = __commonJS({
     exports2.MehIcon = Meh;
     exports2.MemoryStick = MemoryStick;
     exports2.MemoryStickIcon = MemoryStick;
-    exports2.Menu = Menu3;
-    exports2.MenuIcon = Menu3;
+    exports2.Menu = Menu2;
+    exports2.MenuIcon = Menu2;
     exports2.MenuSquare = SquareMenu;
     exports2.MenuSquareIcon = SquareMenu;
     exports2.Merge = Merge;
@@ -130337,7 +130337,6 @@ var localeFullNames = Object.fromEntries(
   Object.values(localeRegistry).map((definition) => [definition.code, definition.label])
 );
 var languageNames = localeNames;
-var languageFull = localeFullNames;
 function isSupportedLocale(value) {
   return Boolean(value && value in localeRegistry);
 }
@@ -131395,7 +131394,7 @@ function Header() {
   const { language, setLanguage, t: t2 } = useLanguage();
   const [isScrolled, setIsScrolled] = (0, import_react30.useState)(false);
   const [mobileMenuOpen, setMobileMenuOpen] = (0, import_react30.useState)(false);
-  const [langDropdownOpen, setLangDropdownOpen] = (0, import_react30.useState)(false);
+  const [languageMenuOpen, setLanguageMenuOpen] = (0, import_react30.useState)(false);
   const location2 = (0, import_react_router_dom2.useLocation)();
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const activeLinks = (globalSettings.navLinks || []).map((link) => ({
@@ -131412,14 +131411,8 @@ function Header() {
   }, []);
   (0, import_react30.useEffect)(() => {
     setMobileMenuOpen(false);
-    setLangDropdownOpen(false);
+    setLanguageMenuOpen(false);
   }, [location2.pathname]);
-  (0, import_react30.useEffect)(() => {
-    if (!langDropdownOpen) return;
-    const handler = () => setLangDropdownOpen(false);
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [langDropdownOpen]);
   return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
     "header",
     {
@@ -131463,51 +131456,60 @@ function Header() {
                 link.label
               )) }),
               /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "flex items-center gap-3", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "relative", onMouseDown: (e) => e.stopPropagation(), children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
-                    "button",
-                    {
-                      onClick: () => setLangDropdownOpen((o) => !o),
-                      className: cn(
-                        "hidden md:flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold tracking-wider transition-all border",
-                        langDropdownOpen ? "bg-earth-600 text-white border-earth-600" : "bg-white/60 text-earth-700 border-earth-200 hover:bg-white hover:border-earth-300"
-                      ),
-                      "aria-label": t2("langSwitcherLabel"),
-                      children: [
-                        languageNames[language],
-                        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_lucide_react.ChevronDown, { size: 12, className: cn("transition-transform", langDropdownOpen && "rotate-180") })
-                      ]
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(AnimatePresence, { children: langDropdownOpen && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-                    motion.div,
-                    {
-                      initial: { opacity: 0, y: -8, scale: 0.95 },
-                      animate: { opacity: 1, y: 0, scale: 1 },
-                      exit: { opacity: 0, y: -8, scale: 0.95 },
-                      transition: { duration: 0.15 },
-                      className: "absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-[9rem] overflow-hidden rounded-2xl border border-earth-100 bg-white shadow-xl shadow-earth-200/50",
-                      children: SUPPORTED_LANGUAGES.map((lang) => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+                /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
+                  "div",
+                  {
+                    className: "relative hidden h-9 w-12 md:block",
+                    "aria-label": t2("langSwitcherLabel"),
+                    onMouseEnter: () => setLanguageMenuOpen(true),
+                    onMouseLeave: () => setLanguageMenuOpen(false),
+                    onFocus: () => setLanguageMenuOpen(true),
+                    onBlur: (event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget)) {
+                        setLanguageMenuOpen(false);
+                      }
+                    },
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
                         "button",
                         {
-                          onClick: () => {
-                            setLanguage(lang);
-                            setLangDropdownOpen(false);
-                          },
+                          type: "button",
+                          onClick: () => setLanguageMenuOpen((open) => !open),
+                          className: "relative z-10 flex h-9 w-12 items-center justify-center rounded-full border border-[#8b5a89]/25 bg-white/70 text-[11px] font-extrabold tracking-[0.16em] text-[#4b2240] shadow-[0_8px_24px_rgba(75,34,64,0.08)] backdrop-blur-md transition-all hover:border-[#8b5a89]/40 hover:bg-white",
+                          "aria-expanded": languageMenuOpen,
+                          children: languageNames[language]
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+                        "div",
+                        {
                           className: cn(
-                            "flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium transition-colors",
-                            language === lang ? "bg-earth-600 text-white" : "text-earth-800 hover:bg-earth-50"
+                            "absolute right-0 top-0 z-20 grid h-9 w-[9.75rem] origin-right grid-cols-3 gap-1 rounded-full border border-[#8b5a89]/20 bg-white/90 p-1 shadow-[0_14px_38px_rgba(75,34,64,0.16)] backdrop-blur-xl transition-all duration-200",
+                            languageMenuOpen ? "pointer-events-auto translate-x-0 scale-100 opacity-100" : "pointer-events-none translate-x-1 scale-95 opacity-0"
                           ),
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: languageFull[lang] }),
-                            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "text-xs opacity-60", children: languageNames[lang] })
-                          ]
-                        },
-                        lang
-                      ))
-                    }
-                  ) })
-                ] }),
+                          children: SUPPORTED_LANGUAGES.map((lang) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+                            "button",
+                            {
+                              type: "button",
+                              onClick: () => {
+                                setLanguage(lang);
+                                setLanguageMenuOpen(false);
+                              },
+                              className: cn(
+                                "flex h-7 items-center justify-center rounded-full text-[11px] font-extrabold tracking-[0.16em] transition-all duration-150",
+                                language === lang ? "bg-[#4b2240] text-white shadow-md shadow-[#4b2240]/20" : "text-[#4b2240]/65 hover:bg-[#f4edf2] hover:text-[#4b2240]"
+                              ),
+                              "aria-pressed": language === lang,
+                              tabIndex: languageMenuOpen ? 0 : -1,
+                              children: languageNames[lang]
+                            },
+                            lang
+                          ))
+                        }
+                      )
+                    ]
+                  }
+                ),
                 /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom2.Link, { to: ctaUrl, className: "hidden md:flex", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Button, { size: "sm", className: "rounded-full px-8 shadow-earth-500/10 hover:shadow-earth-500/30", children: globalSettings.ctaText || t2("navCta") }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
                   motion.button,
@@ -131606,8 +131608,8 @@ function Header() {
                       {
                         onClick: () => setLanguage(lang),
                         className: cn(
-                          "flex-1 rounded-xl py-2 text-sm font-bold transition-all border",
-                          language === lang ? "bg-earth-600 text-white border-earth-600" : "bg-earth-50 text-earth-700 border-earth-200 hover:border-earth-400"
+                          "flex-1 rounded-full border py-2 text-sm font-extrabold tracking-[0.14em] transition-all",
+                          language === lang ? "border-[#4b2240] bg-[#4b2240] text-white" : "border-[#8b5a89]/20 bg-[#f8f3f6] text-[#4b2240] hover:border-[#8b5a89]/40"
                         ),
                         children: languageNames[lang]
                       },

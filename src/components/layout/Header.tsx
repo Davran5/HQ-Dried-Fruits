@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, Leaf, ChevronDown } from "lucide-react";
+import { X, Leaf } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { cn } from "@/src/lib/utils";
 import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { canonicalizeManagedUrl, getManagedPagePath, pathsMatch } from "@/src/lib/routes";
 import { useLanguage } from "@/src/contexts/LanguageContext";
-import { ACTIVE_LOCALES, languageNames, languageFull, getNavLabel, type Language } from "@/src/i18n";
+import { ACTIVE_LOCALES, languageNames, getNavLabel, type Language } from "@/src/i18n";
 import type { TranslationKey } from "@/src/i18n/en";
 
 const SUPPORTED_LANGUAGES: Language[] = [...ACTIVE_LOCALES];
@@ -19,7 +19,7 @@ export function Header() {
   const { language, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const location = useLocation();
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const activeLinks = (globalSettings.navLinks || []).map((link) => ({
@@ -38,16 +38,8 @@ export function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
-    setLangDropdownOpen(false);
+    setLanguageMenuOpen(false);
   }, [location.pathname]);
-
-  // Close lang dropdown on outside click
-  useEffect(() => {
-    if (!langDropdownOpen) return;
-    const handler = () => setLangDropdownOpen(false);
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [langDropdownOpen]);
 
   return (
     <header
@@ -104,48 +96,56 @@ export function Header() {
 
           <div className="flex items-center gap-3">
             {/* Language Switcher */}
-            <div className="relative" onMouseDown={(e) => e.stopPropagation()}>
+            <div
+              className="relative hidden h-9 w-12 md:block"
+              aria-label={t("langSwitcherLabel")}
+              onMouseEnter={() => setLanguageMenuOpen(true)}
+              onMouseLeave={() => setLanguageMenuOpen(false)}
+              onFocus={() => setLanguageMenuOpen(true)}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                  setLanguageMenuOpen(false);
+                }
+              }}
+            >
               <button
-                onClick={() => setLangDropdownOpen((o) => !o)}
-                className={cn(
-                  "hidden md:flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold tracking-wider transition-all border",
-                  langDropdownOpen
-                    ? "bg-earth-600 text-white border-earth-600"
-                    : "bg-white/60 text-earth-700 border-earth-200 hover:bg-white hover:border-earth-300"
-                )}
-                aria-label={t("langSwitcherLabel")}
+                type="button"
+                onClick={() => setLanguageMenuOpen((open) => !open)}
+                className="relative z-10 flex h-9 w-12 items-center justify-center rounded-full border border-[#8b5a89]/25 bg-white/70 text-[11px] font-extrabold tracking-[0.16em] text-[#4b2240] shadow-[0_8px_24px_rgba(75,34,64,0.08)] backdrop-blur-md transition-all hover:border-[#8b5a89]/40 hover:bg-white"
+                aria-expanded={languageMenuOpen}
               >
                 {languageNames[language]}
-                <ChevronDown size={12} className={cn("transition-transform", langDropdownOpen && "rotate-180")} />
               </button>
 
-              <AnimatePresence>
-                {langDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-[9rem] overflow-hidden rounded-2xl border border-earth-100 bg-white shadow-xl shadow-earth-200/50"
-                  >
-                    {SUPPORTED_LANGUAGES.map((lang) => (
-                      <button
-                        key={lang}
-                        onClick={() => { setLanguage(lang); setLangDropdownOpen(false); }}
-                        className={cn(
-                          "flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium transition-colors",
-                          language === lang
-                            ? "bg-earth-600 text-white"
-                            : "text-earth-800 hover:bg-earth-50"
-                        )}
-                      >
-                        <span>{languageFull[lang]}</span>
-                        <span className="text-xs opacity-60">{languageNames[lang]}</span>
-                      </button>
-                    ))}
-                  </motion.div>
+              <div
+                className={cn(
+                  "absolute right-0 top-0 z-20 grid h-9 w-[9.75rem] origin-right grid-cols-3 gap-1 rounded-full border border-[#8b5a89]/20 bg-white/90 p-1 shadow-[0_14px_38px_rgba(75,34,64,0.16)] backdrop-blur-xl transition-all duration-200",
+                  languageMenuOpen
+                    ? "pointer-events-auto translate-x-0 scale-100 opacity-100"
+                    : "pointer-events-none translate-x-1 scale-95 opacity-0"
                 )}
-              </AnimatePresence>
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <button
+                    key={lang}
+                    type="button"
+                    onClick={() => {
+                      setLanguage(lang);
+                      setLanguageMenuOpen(false);
+                    }}
+                    className={cn(
+                      "flex h-7 items-center justify-center rounded-full text-[11px] font-extrabold tracking-[0.16em] transition-all duration-150",
+                      language === lang
+                        ? "bg-[#4b2240] text-white shadow-md shadow-[#4b2240]/20"
+                        : "text-[#4b2240]/65 hover:bg-[#f4edf2] hover:text-[#4b2240]"
+                    )}
+                    aria-pressed={language === lang}
+                    tabIndex={languageMenuOpen ? 0 : -1}
+                  >
+                    {languageNames[lang]}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <Link to={ctaUrl} className="hidden md:flex">
@@ -245,10 +245,10 @@ export function Header() {
                       key={lang}
                       onClick={() => setLanguage(lang)}
                       className={cn(
-                        "flex-1 rounded-xl py-2 text-sm font-bold transition-all border",
+                        "flex-1 rounded-full border py-2 text-sm font-extrabold tracking-[0.14em] transition-all",
                         language === lang
-                          ? "bg-earth-600 text-white border-earth-600"
-                          : "bg-earth-50 text-earth-700 border-earth-200 hover:border-earth-400"
+                          ? "border-[#4b2240] bg-[#4b2240] text-white"
+                          : "border-[#8b5a89]/20 bg-[#f8f3f6] text-[#4b2240] hover:border-[#8b5a89]/40"
                       )}
                     >
                       {languageNames[lang]}
