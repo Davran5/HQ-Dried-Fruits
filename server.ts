@@ -7,7 +7,7 @@ import fs from "fs";
 import mysql from "mysql2/promise";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router-dom";
+import { StaticRouter } from "react-router-dom/server";
 import { AppShell } from "./src/App";
 
 dotenv.config();
