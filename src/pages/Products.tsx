@@ -412,18 +412,18 @@ export function Products() {
                       }`}
                     >
                         <div className="flex flex-col gap-4 border-b border-earth-100 pb-5 lg:h-full lg:justify-between lg:gap-5 lg:pb-6">
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                           <div>
                             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">
                               {product.category}
                             </p>
-                            <h2 className="mt-2 font-display text-[2.6rem] font-bold text-earth-900 sm:text-5xl">
+                            <h2 className="mt-2 font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-5xl">
                               {product.name}
                             </h2>
                           </div>
-                          <div className="flex flex-wrap gap-3">
-                            <Link to={getManagedProductPath(product, pageSeo, locale)}>
-                              <Button type="button" variant="outline" className="border-earth-200 bg-white">
+                          <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:flex-wrap lg:justify-end">
+                            <Link to={getManagedProductPath(product, pageSeo, locale)} className="w-full sm:w-auto">
+                              <Button type="button" variant="outline" className="w-full border-earth-200 bg-white sm:w-auto">
                                 {content?.viewSpecsLabel || t("productsViewSpecs")}
                               </Button>
                             </Link>
@@ -431,7 +431,7 @@ export function Products() {
                               type="button"
                               variant="outline"
                               onClick={() => handleScrollToInquiry(product.id)}
-                              className="border-earth-200 bg-white"
+                              className="w-full border-earth-200 bg-white sm:w-auto"
                             >
                               {uiLabels.requestQuoteBtn || t("productsRequestQuote")} <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
@@ -578,7 +578,7 @@ export function Products() {
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.32fr)_minmax(20rem,0.68fr)]">
           <div
             className="flex flex-col rounded-[3rem] border border-earth-100 bg-white p-8 shadow-xl shadow-earth-200/50 sm:p-10"
-            style={isDesktopViewport && directContactHeight ? { height: `${Math.max(directContactHeight - 18, 0)}px` } : undefined}
+            style={isDesktopViewport && directContactHeight ? { minHeight: `${Math.max(directContactHeight - 18, 0)}px` } : undefined}
           >
             <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
               <h2 className="font-display text-3xl font-bold text-earth-900">
@@ -609,7 +609,7 @@ export function Products() {
                       </Button>
                     </div>
 
-                    <div className="grid gap-2.5 md:grid-cols-3">
+                    <div className="grid gap-3 sm:grid-cols-2">
                       {orderedProducts.map((product) => {
                         const isSelected = formData.products.includes(product.id);
 
@@ -618,14 +618,14 @@ export function Products() {
                             key={product.id}
                             type="button"
                             onClick={() => toggleInquiryProduct(product.id)}
-                            className={`rounded-[1.6rem] border px-4 py-3.5 text-left transition-all ${
+                            className={`flex min-h-[7.25rem] items-center rounded-[1.6rem] border px-4 py-4 text-left transition-all ${
                               isSelected
                                 ? "border-earth-600 bg-[#fffcfb] shadow-[0_16px_28px_rgba(84,39,70,0.08)]"
                                 : "border-earth-100 bg-earth-50 hover:border-earth-200 hover:bg-white"
                             }`}
                           >
-                            <div className="flex items-center justify-between gap-4">
-                              <h3 className="min-w-0 break-words font-display text-[1.3rem] font-bold text-earth-900 sm:text-[1.7rem]">
+                            <div className="flex w-full items-center justify-between gap-4">
+                              <h3 className="min-w-0 break-words font-display text-[1.15rem] font-bold leading-tight text-earth-900 sm:text-[1.35rem] lg:text-[1.45rem]">
                                 {product.name}
                               </h3>
                               <CheckCircle2
@@ -673,7 +673,7 @@ export function Products() {
                       </div>
                     </div>
 
-                    <div className="grid gap-2.5 md:grid-cols-3">
+                    <div className="grid gap-3 sm:grid-cols-2">
                       {formData.products.map((productId) => {
                         const selectedProduct = orderedProducts.find((product) => product.id === productId);
                         if (!selectedProduct) {
@@ -683,10 +683,10 @@ export function Products() {
                         return (
                           <div
                             key={productId}
-                            className="rounded-[1.6rem] border border-earth-100 bg-[#fffcfb] px-4 py-3.5"
+                            className="rounded-[1.6rem] border border-earth-100 bg-[#fffcfb] px-4 py-4"
                           >
                             <div className="mb-2">
-                              <h3 className="min-w-0 break-words font-display text-[1.3rem] font-bold text-earth-900 sm:text-[1.7rem]">
+                              <h3 className="min-w-0 break-words font-display text-[1.15rem] font-bold leading-tight text-earth-900 sm:text-[1.35rem] lg:text-[1.45rem]">
                                 {selectedProduct.name}
                               </h3>
                             </div>
@@ -793,7 +793,7 @@ export function Products() {
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-earth-400">
                         {t("productsInquirySummary")}
                       </p>
-                      <div className="mt-3 grid gap-2.5 md:grid-cols-3">
+                      <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
                         {formData.products.map((productId) => {
                           const selectedProduct = orderedProducts.find((product) => product.id === productId);
                           if (!selectedProduct) {

@@ -126489,20 +126489,20 @@ Selections: ${tonnageSummary}`
                 className: `min-w-0 lg:grid lg:h-[38.5rem] lg:min-h-0 lg:grid-rows-[14rem_22.5rem] ${isReversed ? "lg:order-2" : ""}`,
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4 border-b border-earth-100 pb-5 lg:h-full lg:justify-between lg:gap-5 lg:pb-6", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { children: [
                         /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-2 font-display text-[2.6rem] font-bold text-earth-900 sm:text-5xl", children: product.name })
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-2 font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-5xl", children: product.name })
                       ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-wrap gap-3", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom5.Link, { to: getManagedProductPath(product, pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "border-earth-200 bg-white", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
+                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:flex-wrap lg:justify-end", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom5.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full sm:w-auto", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "w-full border-earth-200 bg-white sm:w-auto", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
                         /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
                           Button,
                           {
                             type: "button",
                             variant: "outline",
                             onClick: () => handleScrollToInquiry(product.id),
-                            className: "border-earth-200 bg-white",
+                            className: "w-full border-earth-200 bg-white sm:w-auto",
                             children: [
                               uiLabels.requestQuoteBtn || t2("productsRequestQuote"),
                               " ",
@@ -126638,7 +126638,7 @@ Selections: ${tonnageSummary}`
             "div",
             {
               className: "flex flex-col rounded-[3rem] border border-earth-100 bg-white p-8 shadow-xl shadow-earth-200/50 sm:p-10",
-              style: isDesktopViewport && directContactHeight ? { height: `${Math.max(directContactHeight - 18, 0)}px` } : void 0,
+              style: isDesktopViewport && directContactHeight ? { minHeight: `${Math.max(directContactHeight - 18, 0)}px` } : void 0,
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mb-6 flex flex-wrap items-start justify-between gap-4", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "font-display text-3xl font-bold text-earth-900", children: content?.orderingFormTitle || t2("productsWholesaleInquiry") }),
@@ -126662,16 +126662,16 @@ Selections: ${tonnageSummary}`
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-5 w-5" })
                           ] })
                         ] }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "grid gap-2.5 md:grid-cols-3", children: orderedProducts.map((product) => {
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "grid gap-3 sm:grid-cols-2", children: orderedProducts.map((product) => {
                           const isSelected = formData.products.includes(product.id);
                           return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
                             "button",
                             {
                               type: "button",
                               onClick: () => toggleInquiryProduct(product.id),
-                              className: `rounded-[1.6rem] border px-4 py-3.5 text-left transition-all ${isSelected ? "border-earth-600 bg-[#fffcfb] shadow-[0_16px_28px_rgba(84,39,70,0.08)]" : "border-earth-100 bg-earth-50 hover:border-earth-200 hover:bg-white"}`,
-                              children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center justify-between gap-4", children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h3", { className: "min-w-0 break-words font-display text-[1.3rem] font-bold text-earth-900 sm:text-[1.7rem]", children: product.name }),
+                              className: `flex min-h-[7.25rem] items-center rounded-[1.6rem] border px-4 py-4 text-left transition-all ${isSelected ? "border-earth-600 bg-[#fffcfb] shadow-[0_16px_28px_rgba(84,39,70,0.08)]" : "border-earth-100 bg-earth-50 hover:border-earth-200 hover:bg-white"}`,
+                              children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex w-full items-center justify-between gap-4", children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h3", { className: "min-w-0 break-words font-display text-[1.15rem] font-bold leading-tight text-earth-900 sm:text-[1.35rem] lg:text-[1.45rem]", children: product.name }),
                                 /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
                                   import_lucide_react5.CheckCircle2,
                                   {
@@ -126715,7 +126715,7 @@ Selections: ${tonnageSummary}`
                             )
                           ] })
                         ] }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "grid gap-2.5 md:grid-cols-3", children: formData.products.map((productId) => {
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "grid gap-3 sm:grid-cols-2", children: formData.products.map((productId) => {
                           const selectedProduct = orderedProducts.find((product) => product.id === productId);
                           if (!selectedProduct) {
                             return null;
@@ -126723,9 +126723,9 @@ Selections: ${tonnageSummary}`
                           return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
                             "div",
                             {
-                              className: "rounded-[1.6rem] border border-earth-100 bg-[#fffcfb] px-4 py-3.5",
+                              className: "rounded-[1.6rem] border border-earth-100 bg-[#fffcfb] px-4 py-4",
                               children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mb-2", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h3", { className: "min-w-0 break-words font-display text-[1.3rem] font-bold text-earth-900 sm:text-[1.7rem]", children: selectedProduct.name }) }),
+                                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mb-2", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h3", { className: "min-w-0 break-words font-display text-[1.15rem] font-bold leading-tight text-earth-900 sm:text-[1.35rem] lg:text-[1.45rem]", children: selectedProduct.name }) }),
                                 /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "relative", "data-volume-dropdown": "true", children: [
                                   /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
                                     "button",
@@ -126819,7 +126819,7 @@ Selections: ${tonnageSummary}`
                         ] }),
                         /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "rounded-[1.75rem] border border-earth-100 bg-earth-50 px-4 py-3.5", children: [
                           /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-xs font-semibold uppercase tracking-[0.22em] text-earth-400", children: t2("productsInquirySummary") }),
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-3 grid gap-2.5 md:grid-cols-3", children: formData.products.map((productId) => {
+                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-3 grid gap-2.5 sm:grid-cols-2", children: formData.products.map((productId) => {
                             const selectedProduct = orderedProducts.find((product) => product.id === productId);
                             if (!selectedProduct) {
                               return null;
