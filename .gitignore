@@ -1,10 +1,8 @@
 node_modules/
 build/
-dist/
 .vite/
 .gemini/
 server.js
-server.cjs
 database.json
 error.txt
 public/uploads/
