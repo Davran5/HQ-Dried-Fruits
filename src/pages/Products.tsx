@@ -407,23 +407,23 @@ export function Products() {
                 >
                   <div className="grid items-stretch gap-5 rounded-none border-0 bg-transparent p-0 shadow-none sm:gap-6 sm:rounded-[3rem] sm:border sm:border-earth-100 sm:bg-white sm:p-8 sm:shadow-sm sm:shadow-earth-100/70 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:p-10">
                     <div
-                      className={`min-w-0 lg:grid lg:h-[38.5rem] lg:min-h-0 lg:grid-rows-[14rem_22.5rem] ${
+                      className={`min-w-0 flex flex-col ${
                         isReversed ? "lg:order-2" : ""
                       }`}
                     >
-                        <div className="flex flex-col gap-4 border-b border-earth-100 pb-5 lg:h-full lg:justify-between lg:gap-5 lg:pb-6">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                        <div className="flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6">
+                        <div className="flex flex-col gap-4">
                           <div>
                             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">
                               {product.category}
                             </p>
-                            <h2 className="mt-2 font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-5xl">
+                            <h2 className="mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]">
                               {product.name}
                             </h2>
                           </div>
-                          <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:flex-wrap lg:justify-end">
-                            <Link to={getManagedProductPath(product, pageSeo, locale)} className="w-full sm:w-auto">
-                              <Button type="button" variant="outline" className="w-full border-earth-200 bg-white sm:w-auto">
+                          <div className="grid w-full gap-3 sm:grid-cols-2">
+                            <Link to={getManagedProductPath(product, pageSeo, locale)} className="w-full">
+                              <Button type="button" variant="outline" className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight">
                                 {content?.viewSpecsLabel || t("productsViewSpecs")}
                               </Button>
                             </Link>
@@ -431,9 +431,9 @@ export function Products() {
                               type="button"
                               variant="outline"
                               onClick={() => handleScrollToInquiry(product.id)}
-                              className="w-full border-earth-200 bg-white sm:w-auto"
+                              className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight"
                             >
-                              {uiLabels.requestQuoteBtn || t("productsRequestQuote")} <ArrowRight className="ml-2 h-4 w-4" />
+                              {t("productsRequestQuote")} <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
                             </Button>
                           </div>
                         </div>
@@ -443,7 +443,7 @@ export function Products() {
                         </p>
                       </div>
 
-                      <div className="mt-5 min-h-0 overflow-hidden px-0 py-0 sm:px-1 sm:py-1 lg:mt-5 lg:h-[22.5rem]">
+                      <div className="mt-5 min-h-0 overflow-hidden px-0 py-0 sm:px-1 sm:py-1 lg:mt-6">
                         <div className="flex flex-wrap gap-2 border-b border-earth-100 pb-4">
                           {contentSections.map((section) => {
                             const isActive = section.title === selectedTitle;
@@ -473,7 +473,7 @@ export function Products() {
                           })}
                         </div>
 
-                        <div className="mt-5 min-h-0 lg:h-[calc(100%-4.5rem)] lg:max-w-[38rem] lg:overflow-visible">
+                        <div className="mt-5 min-h-0 lg:max-w-[38rem] lg:overflow-visible">
                           <AnimatePresence mode="wait">
                             <motion.div
                               key={`${product.id}-${selectedSection?.title}`}

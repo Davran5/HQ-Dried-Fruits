@@ -122766,7 +122766,7 @@ var en = {
   productsOverview: "Overview",
   productsBenefits: "Benefits",
   productsExport: "Export",
-  productsRequestQuote: "Request Quote",
+  productsRequestQuote: "Request Wholesale Quote",
   productsNoInfo: "No additional information added yet.",
   productsStepIndicator: "Step {step} of 3",
   productsSelectToContinue: "Select one or more products to continue.",
@@ -123024,7 +123024,7 @@ var ru = {
   productsOverview: "\u041E\u0431\u0437\u043E\u0440",
   productsBenefits: "\u041F\u0440\u0435\u0438\u043C\u0443\u0449\u0435\u0441\u0442\u0432\u0430",
   productsExport: "\u042D\u043A\u0441\u043F\u043E\u0440\u0442",
-  productsRequestQuote: "\u0417\u0430\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u0446\u0435\u043D\u0443",
+  productsRequestQuote: "\u0417\u0430\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u043E\u043F\u0442\u043E\u0432\u0443\u044E \u0446\u0435\u043D\u0443",
   productsNoInfo: "\u0414\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u043F\u043E\u043A\u0430 \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0430.",
   productsStepIndicator: "\u0428\u0430\u0433 {step} \u0438\u0437 3",
   productsSelectToContinue: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u0438\u043D \u0438\u043B\u0438 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u0432, \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C.",
@@ -123282,7 +123282,7 @@ var uz = {
   productsOverview: "Umumiy ko'rinish",
   productsBenefits: "Afzalliklar",
   productsExport: "Eksport",
-  productsRequestQuote: "Narx so'rash",
+  productsRequestQuote: "Ulgurji narx so'rash",
   productsNoInfo: "Hozircha qo'shimcha ma'lumot qo'shilmagan.",
   productsStepIndicator: "{step}-qadam / 3",
   productsSelectToContinue: "Davom etish uchun bir yoki bir nechta mahsulotni tanlang.",
@@ -126486,27 +126486,27 @@ Selections: ${tonnageSummary}`
             /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
               "div",
               {
-                className: `min-w-0 lg:grid lg:h-[38.5rem] lg:min-h-0 lg:grid-rows-[14rem_22.5rem] ${isReversed ? "lg:order-2" : ""}`,
+                className: `min-w-0 flex flex-col ${isReversed ? "lg:order-2" : ""}`,
                 children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4 border-b border-earth-100 pb-5 lg:h-full lg:justify-between lg:gap-5 lg:pb-6", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { children: [
                         /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-2 font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-5xl", children: product.name })
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
                       ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:flex-wrap lg:justify-end", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom5.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full sm:w-auto", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "w-full border-earth-200 bg-white sm:w-auto", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
+                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "grid w-full gap-3 sm:grid-cols-2", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom5.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
                         /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
                           Button,
                           {
                             type: "button",
                             variant: "outline",
                             onClick: () => handleScrollToInquiry(product.id),
-                            className: "w-full border-earth-200 bg-white sm:w-auto",
+                            className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
                             children: [
-                              uiLabels.requestQuoteBtn || t2("productsRequestQuote"),
+                              t2("productsRequestQuote"),
                               " ",
-                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4" })
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4 shrink-0" })
                             ]
                           }
                         )
@@ -126514,7 +126514,7 @@ Selections: ${tonnageSummary}`
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "max-w-3xl text-base leading-7 text-earth-700 sm:text-lg sm:leading-relaxed", children: stripHtml(product.shortDescription) })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-5 min-h-0 overflow-hidden px-0 py-0 sm:px-1 sm:py-1 lg:mt-5 lg:h-[22.5rem]", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-5 min-h-0 overflow-hidden px-0 py-0 sm:px-1 sm:py-1 lg:mt-6", children: [
                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex flex-wrap gap-2 border-b border-earth-100 pb-4", children: contentSections.map((section) => {
                       const isActive = section.title === selectedTitle;
                       const labelMap = {
@@ -126535,7 +126535,7 @@ Selections: ${tonnageSummary}`
                         section.title
                       );
                     }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-5 min-h-0 lg:h-[calc(100%-4.5rem)] lg:max-w-[38rem] lg:overflow-visible", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-5 min-h-0 lg:max-w-[38rem] lg:overflow-visible", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
                       motion.div,
                       {
                         initial: { opacity: 0, y: 12 },

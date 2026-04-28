@@ -55,7 +55,7 @@ export const ru: typeof en = {
   productsOverview: "Обзор",
   productsBenefits: "Преимущества",
   productsExport: "Экспорт",
-  productsRequestQuote: "Запросить цену",
+  productsRequestQuote: "Запросить оптовую цену",
   productsNoInfo: "Дополнительная информация пока не добавлена.",
   productsStepIndicator: "Шаг {step} из 3",
   productsSelectToContinue: "Выберите один или несколько продуктов, чтобы продолжить.",

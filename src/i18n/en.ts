@@ -53,7 +53,7 @@ export const en = {
   productsOverview: "Overview",
   productsBenefits: "Benefits",
   productsExport: "Export",
-  productsRequestQuote: "Request Quote",
+  productsRequestQuote: "Request Wholesale Quote",
   productsNoInfo: "No additional information added yet.",
   productsStepIndicator: "Step {step} of 3",
   productsSelectToContinue: "Select one or more products to continue.",

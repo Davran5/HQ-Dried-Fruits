@@ -55,7 +55,7 @@ export const uz: typeof en = {
   productsOverview: "Umumiy ko'rinish",
   productsBenefits: "Afzalliklar",
   productsExport: "Eksport",
-  productsRequestQuote: "Narx so'rash",
+  productsRequestQuote: "Ulgurji narx so'rash",
   productsNoInfo: "Hozircha qo'shimcha ma'lumot qo'shilmagan.",
   productsStepIndicator: "{step}-qadam / 3",
   productsSelectToContinue: "Davom etish uchun bir yoki bir nechta mahsulotni tanlang.",
