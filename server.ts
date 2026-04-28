@@ -12,22 +12,48 @@ import { AppShell } from "./src/App";
 
 dotenv.config();
 
-console.log("🛠️  Server environment initializing...");
-console.log(process.env.TELEGRAM_BOT_TOKEN ? "✅ TELEGRAM_BOT_TOKEN found" : "❌ TELEGRAM_BOT_TOKEN missing");
-console.log(process.env.TELEGRAM_CHAT_ID ? "✅ TELEGRAM_CHAT_ID found" : "❌ TELEGRAM_CHAT_ID missing");
-console.log(process.env.DB_HOST ? `✅ DB_HOST: ${process.env.DB_HOST}` : "❌ DB_HOST missing — check .env");
-console.log(process.env.DB_NAME ? `✅ DB_NAME: ${process.env.DB_NAME}` : "❌ DB_NAME missing — check .env");
-
 const uploadsDir = path.join(process.cwd(), "public", "uploads");
 const distDir = path.join(process.cwd(), "dist");
 
 // ---------- MySQL Connection Pool ----------
-const pool = mysql.createPool({
+const parseDbPort = (value?: string) => {
+  const port = Number.parseInt(value || "3306", 10);
+  return Number.isFinite(port) ? port : 3306;
+};
+
+const dbConfig = {
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
-  password: process.env.DB_PASS || "",
+  password: process.env.DB_PASS ?? process.env.DB_PASSWORD ?? "",
   database: process.env.DB_NAME || "hq_dried_fruits",
-  port: parseInt(process.env.DB_PORT || "3306"),
+  port: parseDbPort(process.env.DB_PORT),
+};
+
+const publicDbConfig = () => ({
+  host: dbConfig.host,
+  port: dbConfig.port,
+  database: dbConfig.database,
+  user: dbConfig.user,
+  passwordConfigured: dbConfig.password.length > 0,
+});
+
+const getDbErrorDetails = (err: any) => ({
+  message: err?.message || String(err),
+  code: err?.code,
+  errno: err?.errno,
+  sqlState: err?.sqlState,
+  sqlMessage: err?.sqlMessage,
+  fatal: err?.fatal,
+  config: publicDbConfig(),
+});
+
+console.log("[Startup] Server environment initializing...");
+console.log(process.env.TELEGRAM_BOT_TOKEN ? "[Startup] TELEGRAM_BOT_TOKEN found" : "[Startup] TELEGRAM_BOT_TOKEN missing");
+console.log(process.env.TELEGRAM_CHAT_ID ? "[Startup] TELEGRAM_CHAT_ID found" : "[Startup] TELEGRAM_CHAT_ID missing");
+console.log("[Startup] MySQL config:", publicDbConfig());
+
+const pool = mysql.createPool({
+  ...dbConfig,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -61,7 +87,7 @@ const db = {
         insertId: Number(header.insertId ?? 0),
       };
     } catch (err: any) {
-      console.error(`[DB Error] ${err?.message}`);
+      console.error("[DB Error]", getDbErrorDetails(err));
       throw err;
     }
   },
@@ -69,9 +95,11 @@ const db = {
 
 // ---------- Schema Bootstrap ----------
 async function initDb() {
-  const conn = await pool.getConnection();
+  let conn: mysql.PoolConnection | undefined;
   try {
-    console.log("🗄️  Bootstrapping MySQL schema...");
+    console.log("[DB Startup] Connecting to MySQL...");
+    conn = await pool.getConnection();
+    console.log("[DB Startup] Bootstrapping MySQL schema...");
 
     // Singleton-page tables with lang support
     await conn.execute(`CREATE TABLE IF NOT EXISTS global_settings (
@@ -183,12 +211,12 @@ async function initDb() {
       }
     }
 
-    console.log("✅ MySQL database initialized");
+    console.log("[DB Startup] MySQL database initialized");
   } catch (err) {
-    console.error("❌ MySQL schema bootstrap failed:", err);
+    console.error("[DB Startup Error] MySQL schema bootstrap failed:", getDbErrorDetails(err));
     throw err;
   } finally {
-    conn.release();
+    conn?.release();
   }
 }
 type SeoRecord = { metaTitle: string; metaDescription: string; slug: string; ogTitle: string; imageAlt: string; };
@@ -1840,6 +1868,6 @@ initDb().then(async () => {
     console.log(`✅ Server listening on: ${port}`);
   });
 }).catch((err) => {
-  console.error('❌ Failed to initialize database, server not started:', err);
+  console.error("[Startup Error] Failed to initialize database, server not started:", getDbErrorDetails(err));
   process.exit(1);
 });
