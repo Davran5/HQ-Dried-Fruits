@@ -126482,148 +126482,154 @@ Selections: ${tonnageSummary}`
           viewport: { once: true, margin: "-120px" },
           transition: { duration: 0.6, ease: "easeOut" },
           className: "scroll-mt-28",
-          children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "grid items-stretch gap-5 rounded-none border-0 bg-transparent p-0 shadow-none sm:gap-6 sm:rounded-[3rem] sm:border sm:border-earth-100 sm:bg-white sm:p-8 sm:shadow-sm sm:shadow-earth-100/70 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:p-10", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
-              "div",
-              {
-                className: `min-w-0 flex flex-col ${isReversed ? "lg:order-2" : ""}`,
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
+          children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+            "div",
+            {
+              className: `grid items-start gap-5 rounded-none border-0 bg-transparent p-0 shadow-none sm:gap-6 sm:rounded-[3rem] sm:border sm:border-earth-100 sm:bg-white sm:p-8 sm:shadow-sm sm:shadow-earth-100/70 lg:p-10 ${isReversed ? "lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]" : "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"}`,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+                  "div",
+                  {
+                    className: `min-w-0 flex flex-col ${isReversed ? "lg:order-2" : ""}`,
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col gap-4", children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
+                          ] }),
+                          /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "grid w-full gap-3 sm:grid-cols-2", children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom5.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+                              Button,
+                              {
+                                type: "button",
+                                variant: "outline",
+                                onClick: () => handleScrollToInquiry(product.id),
+                                className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
+                                children: [
+                                  t2("productsRequestQuote"),
+                                  " ",
+                                  /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4 shrink-0" })
+                                ]
+                              }
+                            )
+                          ] })
+                        ] }),
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "max-w-3xl text-base leading-7 text-earth-700 sm:text-lg sm:leading-relaxed", children: stripHtml(product.shortDescription) })
                       ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "grid w-full gap-3 sm:grid-cols-2", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom5.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
-                          Button,
-                          {
-                            type: "button",
-                            variant: "outline",
-                            onClick: () => handleScrollToInquiry(product.id),
-                            className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
-                            children: [
-                              t2("productsRequestQuote"),
-                              " ",
-                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4 shrink-0" })
-                            ]
-                          }
-                        )
-                      ] })
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "max-w-3xl text-base leading-7 text-earth-700 sm:text-lg sm:leading-relaxed", children: stripHtml(product.shortDescription) })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-5 min-h-0 overflow-hidden px-0 py-0 sm:px-1 sm:py-1 lg:mt-6", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex flex-wrap gap-2 border-b border-earth-100 pb-4", children: contentSections.map((section) => {
-                      const isActive = section.title === selectedTitle;
-                      const labelMap = {
-                        "Origin & Growing Conditions": t2("productsOverview"),
-                        "Benefits & Buyer Uses": t2("productsBenefits"),
-                        "Export & Handling": t2("productsExport"),
-                        "Assembly & Sourcing": t2("productsOverview")
-                      };
-                      const displayLabel = labelMap[section.title] || section.title;
-                      return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-                        "button",
-                        {
-                          type: "button",
-                          onClick: () => setSelectedSections((prev) => ({ ...prev, [product.id]: section.title })),
-                          className: `rounded-full px-4 py-2 text-sm font-medium transition-colors ${isActive ? "bg-earth-900 text-white" : "bg-transparent text-earth-700 hover:bg-earth-50"}`,
-                          children: displayLabel
-                        },
-                        section.title
-                      );
-                    }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-5 min-h-0 lg:max-w-[38rem] lg:overflow-visible", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
-                      motion.div,
-                      {
-                        initial: { opacity: 0, y: 12 },
-                        animate: { opacity: 1, y: 0 },
-                        exit: { opacity: 0, y: -12 },
-                        transition: { duration: 0.28, ease: "easeOut" },
-                        children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-xs font-semibold uppercase tracking-[0.28em] text-earth-400", children: {
+                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-5 min-h-0 overflow-hidden px-0 py-0 sm:px-1 sm:py-1 lg:mt-6", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex flex-wrap gap-2 border-b border-earth-100 pb-4", children: contentSections.map((section) => {
+                          const isActive = section.title === selectedTitle;
+                          const labelMap = {
                             "Origin & Growing Conditions": t2("productsOverview"),
                             "Benefits & Buyer Uses": t2("productsBenefits"),
                             "Export & Handling": t2("productsExport"),
                             "Assembly & Sourcing": t2("productsOverview")
-                          }[selectedSection?.title || ""] || selectedSection?.title }),
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+                          };
+                          const displayLabel = labelMap[section.title] || section.title;
+                          return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+                            "button",
+                            {
+                              type: "button",
+                              onClick: () => setSelectedSections((prev) => ({ ...prev, [product.id]: section.title })),
+                              className: `rounded-full px-4 py-2 text-sm font-medium transition-colors ${isActive ? "bg-earth-900 text-white" : "bg-transparent text-earth-700 hover:bg-earth-50"}`,
+                              children: displayLabel
+                            },
+                            section.title
+                          );
+                        }) }),
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-5 min-h-0 lg:max-w-[38rem] lg:overflow-visible", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+                          motion.div,
+                          {
+                            initial: { opacity: 0, y: 12 },
+                            animate: { opacity: 1, y: 0 },
+                            exit: { opacity: 0, y: -12 },
+                            transition: { duration: 0.28, ease: "easeOut" },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-xs font-semibold uppercase tracking-[0.28em] text-earth-400", children: {
+                                "Origin & Growing Conditions": t2("productsOverview"),
+                                "Benefits & Buyer Uses": t2("productsBenefits"),
+                                "Export & Handling": t2("productsExport"),
+                                "Assembly & Sourcing": t2("productsOverview")
+                              }[selectedSection?.title || ""] || selectedSection?.title }),
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+                                "div",
+                                {
+                                  className: "prose prose-sm mt-4 max-w-none break-words text-earth-700 prose-p:leading-relaxed prose-p:text-earth-700 prose-strong:text-earth-900 prose-li:leading-relaxed prose-li:text-earth-700",
+                                  dangerouslySetInnerHTML: {
+                                    __html: selectedSection?.body || `<p>${t2("productsNoInfo")}</p>`
+                                  }
+                                }
+                              )
+                            ]
+                          },
+                          `${product.id}-${selectedSection?.title}`
+                        ) }) })
+                      ] })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+                  "div",
+                  {
+                    className: `min-w-0 flex flex-col ${isReversed ? "lg:order-1" : ""}`,
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "relative overflow-hidden rounded-[2.5rem] bg-earth-100", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+                          "img",
+                          {
+                            src: galleryImages[0] || product.image,
+                            alt: product.seo?.imageAlt || product.name,
+                            className: "h-[14rem] w-full object-cover sm:h-[20rem] lg:h-[18rem]",
+                            referrerPolicy: "no-referrer"
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/28 via-transparent to-transparent" })
+                      ] }),
+                      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-4 flex-1 lg:mt-5", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "p-1", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsNutritionalSnapshot") }),
+                          /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-3 grid grid-cols-4 gap-1.5 lg:grid-cols-4", children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsEnergyLabel") }),
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.energy })
+                            ] }),
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsProteinLabel") }),
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.protein })
+                            ] }),
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsFatLabel") }),
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.fat })
+                            ] }),
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsCarbsLabel") }),
+                              /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.carbs })
+                            ] })
+                          ] })
+                        ] }),
+                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-4 border-t border-earth-100 pt-4", children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsSellingPoints") }),
+                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5", children: product.highlights.map((highlight) => /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
                             "div",
                             {
-                              className: "prose prose-sm mt-4 max-w-none break-words text-earth-700 prose-p:leading-relaxed prose-p:text-earth-700 prose-strong:text-earth-900 prose-li:leading-relaxed prose-li:text-earth-700",
-                              dangerouslySetInnerHTML: {
-                                __html: selectedSection?.body || `<p>${t2("productsNoInfo")}</p>`
-                              }
-                            }
-                          )
-                        ]
-                      },
-                      `${product.id}-${selectedSection?.title}`
-                    ) }) })
-                  ] })
-                ]
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
-              "div",
-              {
-                className: `min-w-0 flex flex-col lg:grid lg:h-[38.5rem] lg:min-h-0 lg:grid-rows-[14rem_22.5rem] ${isReversed ? "lg:order-1" : ""}`,
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "relative overflow-hidden rounded-[2.5rem] bg-earth-100", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-                      "img",
-                      {
-                        src: galleryImages[0] || product.image,
-                        alt: product.seo?.imageAlt || product.name,
-                        className: "h-[14rem] w-full object-cover sm:h-[20rem] lg:h-full",
-                        referrerPolicy: "no-referrer"
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/28 via-transparent to-transparent" })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-4 flex-1 lg:mt-5 lg:h-[22.5rem]", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "p-1 lg:flex lg:h-[22.5rem] lg:flex-col", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsNutritionalSnapshot") }),
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-3 grid grid-cols-4 gap-1.5 lg:grid-cols-4", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsEnergyLabel") }),
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.energy })
-                        ] }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsProteinLabel") }),
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.protein })
-                        ] }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsFatLabel") }),
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.fat })
-                        ] }),
-                        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsCarbsLabel") }),
-                          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.carbs })
+                              className: "flex items-start gap-3 px-1 py-1 text-sm leading-relaxed text-earth-800",
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.CheckCircle2, { className: "mt-0.5 h-4 w-4 shrink-0 text-earth-500" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { children: highlight })
+                              ]
+                            },
+                            highlight
+                          )) })
                         ] })
-                      ] })
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "mt-4 border-t border-earth-100 pt-4", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsSellingPoints") }),
-                      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5", children: product.highlights.map((highlight) => /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
-                        "div",
-                        {
-                          className: "flex items-start gap-3 px-1 py-1 text-sm leading-relaxed text-earth-800",
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react5.CheckCircle2, { className: "mt-0.5 h-4 w-4 shrink-0 text-earth-500" }),
-                            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { children: highlight })
-                          ]
-                        },
-                        highlight
-                      )) })
-                    ] })
-                  ] }) })
-                ]
-              }
-            )
-          ] })
+                      ] }) })
+                    ]
+                  }
+                )
+              ]
+            }
+          )
         },
         product.id
       );

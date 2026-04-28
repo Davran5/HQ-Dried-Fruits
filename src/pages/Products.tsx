@@ -405,7 +405,13 @@ export function Products() {
                   transition={{ duration: 0.6, ease: "easeOut" }}
                   className="scroll-mt-28"
                 >
-                  <div className="grid items-stretch gap-5 rounded-none border-0 bg-transparent p-0 shadow-none sm:gap-6 sm:rounded-[3rem] sm:border sm:border-earth-100 sm:bg-white sm:p-8 sm:shadow-sm sm:shadow-earth-100/70 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:p-10">
+                  <div
+                    className={`grid items-start gap-5 rounded-none border-0 bg-transparent p-0 shadow-none sm:gap-6 sm:rounded-[3rem] sm:border sm:border-earth-100 sm:bg-white sm:p-8 sm:shadow-sm sm:shadow-earth-100/70 lg:p-10 ${
+                      isReversed
+                        ? "lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"
+                        : "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
+                    }`}
+                  >
                     <div
                       className={`min-w-0 flex flex-col ${
                         isReversed ? "lg:order-2" : ""
@@ -504,7 +510,7 @@ export function Products() {
                     </div>
 
                     <div
-                      className={`min-w-0 flex flex-col lg:grid lg:h-[38.5rem] lg:min-h-0 lg:grid-rows-[14rem_22.5rem] ${
+                      className={`min-w-0 flex flex-col ${
                         isReversed ? "lg:order-1" : ""
                       }`}
                     >
@@ -512,14 +518,14 @@ export function Products() {
                         <img
                           src={galleryImages[0] || product.image}
                           alt={product.seo?.imageAlt || product.name}
-                          className="h-[14rem] w-full object-cover sm:h-[20rem] lg:h-full"
+                          className="h-[14rem] w-full object-cover sm:h-[20rem] lg:h-[18rem]"
                           referrerPolicy="no-referrer"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-earth-900/28 via-transparent to-transparent" />
                       </div>
 
-                      <div className="mt-4 flex-1 lg:mt-5 lg:h-[22.5rem]">
-                        <div className="p-1 lg:flex lg:h-[22.5rem] lg:flex-col">
+                      <div className="mt-4 flex-1 lg:mt-5">
+                        <div className="p-1">
                           <div>
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
                               {t("productsNutritionalSnapshot")}
