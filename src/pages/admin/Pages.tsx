@@ -48,6 +48,17 @@ export function AdminPages() {
     pageDraftsRef.current = pageDrafts;
   }, [pageDrafts]);
 
+  useEffect(() => {
+    const handleSelectPage = (event: Event) => {
+      const pageId = (event as CustomEvent<{ pageId?: string }>).detail?.pageId as ManagedPageId | undefined;
+      if (!pageId || !pages.some((page) => page.id === pageId)) return;
+      setSelectedPageId(pageId);
+    };
+
+    window.addEventListener("admin:select-page", handleSelectPage as EventListener);
+    return () => window.removeEventListener("admin:select-page", handleSelectPage as EventListener);
+  }, [pages]);
+
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
   const activeDraftKey = draftKey(editingLang, selectedPageId);
   const unsavedDraftLocales = useMemo(() => unsavedLocalesFromDrafts(pageDrafts), [pageDrafts]);

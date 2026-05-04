@@ -128362,11 +128362,88 @@ function getAdminSearchSnippet(source, query, fallback) {
   const end = Math.min(cleanSource.length, matchIndex + 82);
   return trimAdminSearchDetail(`${start > 0 ? "..." : ""}${cleanSource.slice(start, end)}${end < cleanSource.length ? "..." : ""}`);
 }
+function humanizeAdminSearchKey(value) {
+  if (/^\d+$/.test(value)) {
+    return `Item ${Number(value) + 1}`;
+  }
+  return value.replace(/[_-]+/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").replace(/\bBg\b/g, "Background").replace(/\bCta\b/g, "CTA").replace(/\bUi\b/g, "UI").replace(/\bSeo\b/g, "SEO").replace(/\s+/g, " ").trim().replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+function formatAdminSearchPath(path2) {
+  return path2.map(humanizeAdminSearchKey).filter(Boolean).join(" / ");
+}
+function sanitizeAdminDataSearchValue(value) {
+  const cleanValue = String(value ?? "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (!cleanValue || cleanValue.startsWith("data:")) return "";
+  if (/^(https?:\/\/|\/uploads\/)/i.test(cleanValue)) return "";
+  return cleanValue.length > 1600 ? `${cleanValue.slice(0, 1600)}...` : cleanValue;
+}
+function collectAdminDataSearchFields(value, path2 = [], output = [], seen = /* @__PURE__ */ new WeakSet()) {
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    const label = formatAdminSearchPath(path2);
+    const searchableValue = sanitizeAdminDataSearchValue(value);
+    if (label || searchableValue) {
+      output.push({ label: label || "Value", value: searchableValue });
+    }
+    return output;
+  }
+  if (!value || typeof value !== "object") {
+    return output;
+  }
+  if (seen.has(value)) {
+    return output;
+  }
+  seen.add(value);
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectAdminDataSearchFields(item, [...path2, String(index)], output, seen));
+    return output;
+  }
+  Object.entries(value).forEach(([key, childValue]) => {
+    collectAdminDataSearchFields(childValue, [...path2, key], output, seen);
+  });
+  return output;
+}
 function adminSearchMatches(query, haystack) {
   const tokens = normalizeAdminSearchText(query).split(" ").filter(Boolean);
   return tokens.every((token) => haystack.includes(token));
 }
-function buildAdminSearchResults(root, query, headerTabs) {
+function findBestAdminDomSearchTarget(root, query, preferredTitle) {
+  if (!root || normalizeAdminSearchText(query).length < ADMIN_SEARCH_MIN_LENGTH) return null;
+  const normalizedQuery = normalizeAdminSearchText(query);
+  const normalizedPreferredTitle = normalizeAdminSearchText(preferredTitle || "");
+  let bestMatch = null;
+  const updateBestMatch = (element, source, title, baseScore) => {
+    const haystack = normalizeAdminSearchText(source);
+    if (!adminSearchMatches(normalizedQuery, haystack)) return;
+    const normalizedTitle = normalizeAdminSearchText(title);
+    const score = baseScore + (normalizedPreferredTitle && normalizedTitle.includes(normalizedPreferredTitle) ? 3 : 0) + (normalizedTitle.includes(normalizedQuery) ? 2 : 0);
+    if (!bestMatch || score > bestMatch.score) {
+      bestMatch = { element, score };
+    }
+  };
+  root.querySelectorAll("[data-admin-search-section]").forEach((section) => {
+    updateBestMatch(
+      section,
+      getAdminSectionSearchSource(section, root),
+      section.dataset.adminSearchTitle || "",
+      3
+    );
+  });
+  root.querySelectorAll(ADMIN_SEARCH_CONTROL_SELECTOR).forEach((control) => {
+    const source = getAdminElementSearchSource(control, root);
+    updateBestMatch(
+      findAdminSearchTarget(control, root),
+      source.source,
+      source.fieldLabel || source.sectionTitle,
+      8
+    );
+  });
+  root.querySelectorAll("[data-admin-search-content]").forEach((element) => {
+    const source = getAdminElementSearchSource(element, root);
+    updateBestMatch(element, source.source, source.fieldLabel || element.dataset.adminSearchTitle || "", 5);
+  });
+  return bestMatch?.element || null;
+}
+function buildAdminSearchResults(root, query, headerTabs, dataEntries = []) {
   const normalizedQuery = normalizeAdminSearchText(query);
   if (normalizedQuery.length < ADMIN_SEARCH_MIN_LENGTH) return [];
   const results = /* @__PURE__ */ new Map();
@@ -128381,6 +128458,22 @@ function buildAdminSearchResults(root, query, headerTabs) {
       element: root,
       score: titleScore,
       onSelect: tab.onClick
+    });
+  });
+  dataEntries.forEach((entry) => {
+    const haystack = normalizeAdminSearchText(`${entry.title} ${entry.detail} ${entry.source}`);
+    if (!adminSearchMatches(normalizedQuery, haystack)) return;
+    const titleText = normalizeAdminSearchText(entry.title);
+    const detailText = normalizeAdminSearchText(entry.detail);
+    const score = (entry.score || 0) + (titleText === normalizedQuery ? 9 : titleText.startsWith(normalizedQuery) ? 8 : titleText.includes(normalizedQuery) ? 7 : detailText.includes(normalizedQuery) ? 5 : 4);
+    results.set(`data-${entry.id}`, {
+      id: `data-${entry.id}`,
+      title: entry.title,
+      detail: getAdminSearchSnippet(entry.source, normalizedQuery, entry.detail),
+      element: null,
+      score,
+      onSelect: entry.onSelect,
+      resolveElement: entry.resolveElement ? () => entry.resolveElement?.(normalizedQuery, entry.title) || null : void 0
     });
   });
   const sections = Array.from(root.querySelectorAll("[data-admin-search-section]"));
@@ -128566,7 +128659,8 @@ function AdminLayoutContent() {
   const [isAdminSearchOpen, setIsAdminSearchOpen] = (0, import_react52.useState)(false);
   const adminMainRef = (0, import_react52.useRef)(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
-  const { globalSettings } = usePages();
+  const { globalSettings, pages, pageSeo } = usePages();
+  const { products } = useProducts();
   const location = (0, import_react_router_dom10.useLocation)();
   const navigate = (0, import_react_router_dom10.useNavigate)();
   const setHeaderTabs = (0, import_react52.useCallback)((tabs, activeId = null) => {
@@ -128579,6 +128673,84 @@ function AdminLayoutContent() {
   );
   const brandLogo = globalSettings.headerLogo || "";
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
+  const adminDataSearchEntries = (0, import_react52.useMemo)(() => {
+    const entries = [];
+    const currentPath = location.pathname;
+    const findPageTab = (pageId) => headerTabs?.find((tab) => tab.id === pageId);
+    const selectPage = (pageId) => {
+      if (currentPath !== "/control-room/pages") {
+        navigate("/control-room/pages");
+      }
+      findPageTab(pageId)?.onClick();
+      window.setTimeout(() => {
+        window.dispatchEvent(new CustomEvent("admin:select-page", { detail: { pageId } }));
+      }, currentPath === "/control-room/pages" ? 0 : 140);
+    };
+    pages.forEach((page) => {
+      collectAdminDataSearchFields(page.content).forEach((field, index) => {
+        const source = [page.name, field.label, field.value].filter(Boolean).join(" ");
+        if (normalizeAdminSearchText(source).length < ADMIN_SEARCH_MIN_LENGTH) return;
+        entries.push({
+          id: `page-${page.id}-${index}`,
+          title: `${page.name}: ${field.label}`,
+          detail: `Pages / ${page.name}`,
+          source,
+          score: currentPath === "/control-room/pages" ? 2 : 0,
+          onSelect: () => selectPage(page.id),
+          resolveElement: (query, title) => findBestAdminDomSearchTarget(adminMainRef.current, query, title)
+        });
+      });
+    });
+    products.forEach((product) => {
+      collectAdminDataSearchFields(product).forEach((field, index) => {
+        const source = [product.name, field.label, field.value].filter(Boolean).join(" ");
+        if (normalizeAdminSearchText(source).length < ADMIN_SEARCH_MIN_LENGTH) return;
+        entries.push({
+          id: `product-${product.id}-${index}`,
+          title: `Product: ${product.name}${field.label ? ` / ${field.label}` : ""}`,
+          detail: "Pages / Products / Product Catalog",
+          source,
+          score: currentPath === "/control-room/pages" ? 2 : 0,
+          onSelect: () => selectPage("products"),
+          resolveElement: (query, title) => {
+            const productRow = adminMainRef.current?.querySelector(`[data-admin-product-id="${escapeCssIdentifier(product.id)}"]`);
+            return productRow || findBestAdminDomSearchTarget(adminMainRef.current, query, title);
+          }
+        });
+      });
+    });
+    collectAdminDataSearchFields(globalSettings).forEach((field, index) => {
+      const source = ["Global Settings", field.label, field.value].filter(Boolean).join(" ");
+      if (normalizeAdminSearchText(source).length < ADMIN_SEARCH_MIN_LENGTH) return;
+      entries.push({
+        id: `globals-${index}`,
+        title: `Global Settings: ${field.label}`,
+        detail: "Global Settings",
+        source,
+        score: currentPath === "/control-room/globals" ? 2 : 0,
+        onSelect: () => {
+          if (currentPath !== "/control-room/globals") navigate("/control-room/globals");
+        },
+        resolveElement: (query, title) => findBestAdminDomSearchTarget(adminMainRef.current, query, title)
+      });
+    });
+    collectAdminDataSearchFields(pageSeo).forEach((field, index) => {
+      const source = ["SEO Settings", field.label, field.value].filter(Boolean).join(" ");
+      if (normalizeAdminSearchText(source).length < ADMIN_SEARCH_MIN_LENGTH) return;
+      entries.push({
+        id: `seo-${index}`,
+        title: `SEO Settings: ${field.label}`,
+        detail: "SEO Settings",
+        source,
+        score: currentPath === "/control-room/seo" ? 2 : 0,
+        onSelect: () => {
+          if (currentPath !== "/control-room/seo") navigate("/control-room/seo");
+        },
+        resolveElement: (query, title) => findBestAdminDomSearchTarget(adminMainRef.current, query, title)
+      });
+    });
+    return entries;
+  }, [globalSettings, headerTabs, location.pathname, navigate, pageSeo, pages, products]);
   const runAdminSearch = (0, import_react52.useCallback)((query) => {
     setAdminSearchQuery(query);
     setIsAdminSearchOpen(true);
@@ -128586,8 +128758,8 @@ function AdminLayoutContent() {
       setAdminSearchResults([]);
       return;
     }
-    setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, query, headerTabs));
-  }, [headerTabs]);
+    setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, query, headerTabs, adminDataSearchEntries));
+  }, [adminDataSearchEntries, headerTabs]);
   const closeAdminSearch = (0, import_react52.useCallback)(() => {
     setIsAdminSearchOpen(false);
   }, []);
@@ -128596,18 +128768,29 @@ function AdminLayoutContent() {
     setAdminSearchQuery("");
     setAdminSearchResults([]);
     result.onSelect?.();
-    window.dispatchEvent(new CustomEvent("admin:open-section", { detail: { target: result.element } }));
-    window.setTimeout(() => {
-      const target = result.element;
-      if (!target) return;
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
-      target.classList.add("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
-      const focusTarget = getAdminSearchFocusTarget(target);
-      focusTarget?.focus({ preventScroll: true });
+    const revealTarget = (target) => {
+      window.dispatchEvent(new CustomEvent("admin:open-section", { detail: { target } }));
       window.setTimeout(() => {
-        target.classList.remove("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
-      }, 1800);
-    }, result.onSelect ? 260 : 160);
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.classList.add("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
+        const focusTarget = getAdminSearchFocusTarget(target);
+        focusTarget?.focus({ preventScroll: true });
+        window.setTimeout(() => {
+          target.classList.remove("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
+        }, 1800);
+      }, 180);
+    };
+    const resolveAndReveal = (attempt = 0) => {
+      const target = result.resolveElement?.() || result.element;
+      if (target) {
+        revealTarget(target);
+        return;
+      }
+      if (attempt < 8) {
+        window.setTimeout(() => resolveAndReveal(attempt + 1), 180);
+      }
+    };
+    window.setTimeout(resolveAndReveal, result.onSelect ? 220 : 80);
   }, []);
   (0, import_react52.useEffect)(() => {
     const token = getStoredToken();
@@ -128653,7 +128836,7 @@ function AdminLayoutContent() {
     }
     const refreshSearch = () => {
       if (!adminMainRef.current) return;
-      setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, adminSearchQuery, headerTabs));
+      setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, adminSearchQuery, headerTabs, adminDataSearchEntries));
     };
     let refreshTimer = window.setTimeout(refreshSearch, 80);
     const scheduleRefreshSearch = () => {
@@ -128676,7 +128859,7 @@ function AdminLayoutContent() {
       window.clearTimeout(refreshTimer);
       observer2.disconnect();
     };
-  }, [adminSearchQuery, headerTabs, isAdminSearchOpen]);
+  }, [adminDataSearchEntries, adminSearchQuery, headerTabs, isAdminSearchOpen]);
   if (isAuthenticated === null) {
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex min-h-screen items-center justify-center bg-slate-950", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "h-10 w-10 animate-spin rounded-full border-4 border-earth-600 border-t-transparent" }) });
   }
@@ -132771,6 +132954,15 @@ function AdminPages() {
   (0, import_react63.useEffect)(() => {
     pageDraftsRef.current = pageDrafts;
   }, [pageDrafts]);
+  (0, import_react63.useEffect)(() => {
+    const handleSelectPage = (event) => {
+      const pageId = event.detail?.pageId;
+      if (!pageId || !pages.some((page) => page.id === pageId)) return;
+      setSelectedPageId(pageId);
+    };
+    window.addEventListener("admin:select-page", handleSelectPage);
+    return () => window.removeEventListener("admin:select-page", handleSelectPage);
+  }, [pages]);
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
   const activeDraftKey = draftKey(editingLang, selectedPageId);
   const unsavedDraftLocales = (0, import_react63.useMemo)(() => unsavedLocalesFromDrafts(pageDrafts), [pageDrafts]);
