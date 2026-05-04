@@ -79,7 +79,7 @@ export const uz: typeof en = {
   productsGrowingConditionsDesc: "Issiq, quruq yoz va kuchli quyosh nuri o'riklar, uzum va olxo'rilarga qurishdan oldin shakar yig'ishga yordam beradi.",
   productsExportReadinessTitle: "Eksportga tayyorlik",
   productsExportReadinessDesc: "Har bir liniya xaridorga xos kartонлар, aralash yuklar va muntazam ulgurji dasturlarga mo'ljallangan.",
-  productsNutritionalSnapshot: "Ozuqaviy qiymat",
+  productsNutritionalSnapshot: "Mahsulot tafsilotlari",
   productsEnergyLabel: "Energiya",
   productsProteinLabel: "Oqsil",
   productsFatLabel: "Yog'",

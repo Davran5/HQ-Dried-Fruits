@@ -430,7 +430,7 @@ export function AdminGlobalSettings() {
                                                              <div className="grid gap-3 md:grid-cols-3">
                                                                  <UIToggle label="Show category label" field="homeCategoryEyebrowVisible" settings={settings} setSettings={setSettings} />
                                                                  <UIToggle label="Show export badges" field="homeCategoryBadgesVisible" settings={settings} setSettings={setSettings} />
-                                                                 <UIToggle label="Show info column" field="homeCategoryInfoVisible" settings={settings} setSettings={setSettings} />
+                                                                 <UIToggle label="Show types column" field="homeCategoryTypesVisible" settings={settings} setSettings={setSettings} />
                                                              </div>
                                                          </div>
                                                          <div className="col-span-full border-b border-slate-200 pb-2 pt-4">

@@ -308,7 +308,7 @@ const defaultGlobalSettings = {
     inquiryFailureMsg: "Submission failed. Please try again.",
     directContactEyebrow: "Direct Contact", contactDetailsTitle: "Contact Details", contactDetailsDesc: "Reach our sales and export coordination team through the fastest channel for your request.",
     emailLabel: "Email", phoneLabel: "Phone", headquartersLabel: "Headquarters", workingHoursLabel: "Working Hours",
-    homeCategoryEyebrowVisible: true, homeCategoryBadgesVisible: true, homeCategoryInfoVisible: true, homeCategoryTypesVisible: true,
+    homeCategoryEyebrowVisible: true, homeCategoryBadgesVisible: true, homeCategoryTypesVisible: true,
     
     // Footer Labels
     footerLinksTitle: "Company", 
@@ -337,7 +337,7 @@ const defaultProductsPage = {
   pageTitle: "Wholesale Dried Fruits from Uzbekistan",
   pageSubtitle: "Explore export-ready apricots, raisins, prunes, and mixed assortments with buyer-focused origin, processing, and application details in one catalog.",
   heroBgImage: "", introEyebrow: "Uzbekistan Origin", introTitle: "One Page. Four Core Product Lines. Real Buyer Context.",
-  introContent: "<p>Compare origin, processing, nutrition, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
+  introContent: "<p>Compare origin, processing, specifications, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
   introImage: "",
   introFacts: [
     { title: "Orchard Base", description: "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
@@ -350,7 +350,7 @@ const defaultProductsPage = {
   mixedContainerLabel: "Mixed Container", volumeOptions: ["1-5 Tons", "5-20 Tons", "1 FCL (20ft)", "Multiple FCLs"],
   viewSpecsLabel: "View Specifications", stepOnePlaceholder: "Select a product...", stepThreePlaceholder: "Work Email Address",
   nextStepButtonLabel: "Next Step", backButtonLabel: "Back", submitButtonLabel: "Get Instant Quote", submittingButtonLabel: "Sending...",
-  detailUi: { loadingLabel: "Loading Specifications...", notFoundTitle: "Product Not Found", notFoundBody: "The product you're looking for doesn't exist.", backToCatalogLabel: "Back to Catalog", nutritionTitle: "Nutritional Profile", nutritionPerLabel: "(per 100g)", caloriesLabel: "Calories", proteinLabel: "Protein", fatLabel: "Fat", carbsLabel: "Carbs", inquiryTitle: "Request a Sample or Quote", companyPlaceholder: "Company Name", emailPlaceholder: "Work Email", volumePlaceholder: "Select Volume...", inquiryButtonLabel: "Send Inquiry", inquirySubmittingLabel: "Sending Inquiry..." },
+  detailUi: { loadingLabel: "Loading Specifications...", notFoundTitle: "Product Not Found", notFoundBody: "The product you're looking for doesn't exist.", backToCatalogLabel: "Back to Catalog", nutritionTitle: "Product Information", nutritionPerLabel: "", caloriesLabel: "Field 1", proteinLabel: "Field 2", fatLabel: "Field 3", carbsLabel: "Field 4", inquiryTitle: "Request a Sample or Quote", companyPlaceholder: "Company Name", emailPlaceholder: "Work Email", volumePlaceholder: "Select Volume...", inquiryButtonLabel: "Send Inquiry", inquirySubmittingLabel: "Sending Inquiry..." },
   quickContactTitle: "Need it faster?", quickContactSubtitle: "Skip the form. Connect with our export sales team directly for immediate assistance.",
   telegramLabel: "Telegram Bot", telegramSublabel: "Instant quotes & catalog PDF", callLabel: "Call Sales", emailLabel: "Email Us",
   quickPhone: "+998 90 123 45 67", quickEmail: "sales@hqdriedfruits.com",
@@ -866,12 +866,20 @@ function mapSeoRecord(row: any, pageId: PageId): SeoRecord {
 
 function mapProduct(row: any) {
   const parsedSeo = safeParseJson<Partial<SeoRecord>>(row?.seo, {});
+  const parsedNutrition = safeParseJson<Record<string, any>>(row?.nutrition, { energy: "", protein: "", fat: "", carbs: "" });
+  const customFields = Array.isArray(parsedNutrition.customFields)
+    ? parsedNutrition.customFields
+        .map((field: any) => ({ label: asString(field?.label), value: asString(field?.value) }))
+        .filter((field: any) => field.label || field.value)
+        .slice(0, 5)
+    : [];
   const seoFallback = { metaTitle: `${asString(row?.name)} | HQ Dried Fruits`, metaDescription: asString(row?.short_description), slug: normalizeSlug(asString(row?.id), asString(row?.id)), ogTitle: asString(row?.name), imageAlt: asString(row?.name) };
   return {
     id: asString(row?.id), name: asString(row?.name), category: asString(row?.category), status: asString(row?.status, "Active"), image: asString(row?.image),
     imageGallery: safeParseJson<string[]>(row?.image_gallery, []), shortDescription: asString(row?.short_description), longDescription: asString(row?.long_description),
     highlights: safeParseJson<string[]>(row?.highlights, []), contentSections: safeParseJson<ProductSectionRecord[]>(row?.content_sections, []),
-    nutrition: safeParseJson<Record<string, string>>(row?.nutrition, { energy: "", protein: "", fat: "", carbs: "" }),
+    nutrition: { energy: asString(parsedNutrition.energy), protein: asString(parsedNutrition.protein), fat: asString(parsedNutrition.fat), carbs: asString(parsedNutrition.carbs) },
+    customFields,
     inquirySubjectLine: asString(row?.inquiry_subject_line), tonnageOptions: safeParseJson<string[]>(row?.tonnage_options, []),
     seo: { ...seoFallback, ...parsedSeo, slug: normalizeSlug(asString(parsedSeo.slug), seoFallback.slug) },
   };
@@ -1196,12 +1204,25 @@ async function validateProductPayload(product: any, existingId = "", locale: str
 
   if (duplicate) throw new Error(`The product slug "${normalizedSeoSlug}" is already in use.`);
   const seoPayload = product?.seo ?? {};
+  const customFields = Array.isArray(product.customFields)
+    ? product.customFields
+        .map((field: any) => ({ label: asString(field?.label), value: asString(field?.value) }))
+        .filter((field: any) => field.label || field.value)
+        .slice(0, 5)
+    : [];
+  const nutritionPayload = {
+    energy: asString(product?.nutrition?.energy),
+    protein: asString(product?.nutrition?.protein),
+    fat: asString(product?.nutrition?.fat),
+    carbs: asString(product?.nutrition?.carbs),
+    customFields,
+  };
   return {
     id: fallbackId, name: asString(product.name), category: asString(product.category), status: asString(product.status, "Active"), image: asString(product.image),
     imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [], shortDescription: asString(product.shortDescription), longDescription: asString(product.longDescription),
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section: any) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
-    nutrition: product.nutrition ?? {}, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
+    nutrition: nutritionPayload, customFields, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
     seo: { metaTitle: asString(seoPayload.metaTitle, `${asString(product.name)} | HQ Dried Fruits`), metaDescription: asString(seoPayload.metaDescription, asString(product.shortDescription)), slug: normalizedSeoSlug, ogTitle: asString(seoPayload.ogTitle, asString(product.name)), imageAlt: asString(seoPayload.imageAlt, asString(product.name)) },
   };
 }

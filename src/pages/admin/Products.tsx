@@ -7,7 +7,7 @@ import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { RichTextEditor } from "@/src/components/admin/forms/RichTextEditor";
 import { useProducts } from "@/src/contexts/ProductContext";
-import { Product, ProductContentSection } from "@/src/types/product";
+import { Product, ProductContentSection, ProductCustomField } from "@/src/types/product";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
@@ -31,7 +31,8 @@ const emptyProduct: Omit<Product, "id"> = {
   ],
   inquirySubjectLine: "Wholesale Inquiry: ",
   tonnageOptions: ["5 Tons", "10 Tons (20ft FCL)", "20 Tons (40ft FCL)"],
-  nutrition: { energy: "", protein: "", fat: "", carbs: "" }
+  nutrition: { energy: "", protein: "", fat: "", carbs: "" },
+  customFields: [],
 };
 
 interface FloatingAction {
@@ -266,7 +267,13 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     setItemToDelete(null);
   };
 
-  const renderProductForm = (id: string) => (
+  const renderProductForm = (id: string) => {
+    const customFields = (formData.customFields || []).slice(0, 5);
+    const replaceCustomFields = (nextFields: ProductCustomField[]) => {
+      setFormData({ ...formData, customFields: nextFields.slice(0, 5) });
+    };
+
+    return (
     <div className="border-t border-slate-100 p-3 sm:p-4">
       <form id={`form-product-${id}`} onSubmit={handleSaveProduct} className="space-y-4">
         <div className="grid gap-4 lg:grid-cols-2">
@@ -331,49 +338,59 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
             />
 
             <div className="rounded-lg border border-slate-200 bg-white/60 p-3">
-              <h4 className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">Nutritional Facts (per 100g)</h4>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Energy (kcal)</label>
-                  <input
-                    required
-                    type="text"
-                    value={formData.nutrition?.energy || ""}
-                    onChange={e => setFormData({ ...formData, nutrition: { ...formData.nutrition, energy: e.target.value } })}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Proteins</label>
-                  <input
-                    required
-                    type="text"
-                    value={formData.nutrition?.protein || ""}
-                    onChange={e => setFormData({ ...formData, nutrition: { ...formData.nutrition, protein: e.target.value } })}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Fat</label>
-                  <input
-                    required
-                    type="text"
-                    value={formData.nutrition?.fat || ""}
-                    onChange={e => setFormData({ ...formData, nutrition: { ...formData.nutrition, fat: e.target.value } })}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Carbs</label>
-                  <input
-                    required
-                    type="text"
-                    value={formData.nutrition?.carbs || ""}
-                    onChange={e => setFormData({ ...formData, nutrition: { ...formData.nutrition, carbs: e.target.value } })}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
-                  />
-                </div>
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400">Custom Product Fields (maximum 5)</h4>
+                <button
+                  type="button"
+                  onClick={() => replaceCustomFields([...customFields, { label: "", value: "" }])}
+                  disabled={customFields.length >= 5}
+                  className="rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Add Field
+                </button>
               </div>
+              <div className="space-y-2">
+                {customFields.length === 0 ? (
+                  <div className="rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500">
+                    No custom fields added yet.
+                  </div>
+                ) : (
+                  customFields.map((field, fieldIndex) => (
+                    <div key={fieldIndex} className="grid gap-2 rounded-lg border border-slate-200 bg-white/70 p-2 md:grid-cols-[0.85fr_1.15fr_auto]">
+                      <input
+                        type="text"
+                        value={field.label}
+                        onChange={e => {
+                          const next = [...customFields];
+                          next[fieldIndex] = { ...field, label: e.target.value };
+                          replaceCustomFields(next);
+                        }}
+                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                        placeholder="Label, e.g. Grade"
+                      />
+                      <input
+                        type="text"
+                        value={field.value}
+                        onChange={e => {
+                          const next = [...customFields];
+                          next[fieldIndex] = { ...field, value: e.target.value };
+                          replaceCustomFields(next);
+                        }}
+                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                        placeholder="Text, e.g. Highest"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => replaceCustomFields(customFields.filter((_, candidateIndex) => candidateIndex !== fieldIndex))}
+                        className="rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+              <p className="mt-2 text-xs text-slate-500">These fields appear on the public product hub and detail pages.</p>
             </div>
           </div>
         </div>
@@ -454,6 +471,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
       </form>
     </div>
   );
+  };
 
   if (!isLocaleReady) {
     return (

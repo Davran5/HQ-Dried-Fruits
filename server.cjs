@@ -92195,7 +92195,7 @@ var require_lucide_react = __commonJS({
         }
       ]
     ];
-    var Droplets2 = createLucideIcon("droplets", __iconNode$hf);
+    var Droplets = createLucideIcon("droplets", __iconNode$hf);
     var __iconNode$he = [
       ["path", { d: "m2 2 8 8", key: "1v6059" }],
       ["path", { d: "m22 2-8 8", key: "173r8a" }],
@@ -92239,7 +92239,7 @@ var require_lucide_react = __commonJS({
       ],
       ["path", { d: "m9.6 14.4 4.8-4.8", key: "6umqxw" }]
     ];
-    var Dumbbell2 = createLucideIcon("dumbbell", __iconNode$hc);
+    var Dumbbell = createLucideIcon("dumbbell", __iconNode$hc);
     var __iconNode$hb = [
       ["path", { d: "M6 18.5a3.5 3.5 0 1 0 7 0c0-1.57.92-2.52 2.04-3.46", key: "1qngmn" }],
       ["path", { d: "M6 8.5c0-.75.13-1.47.36-2.14", key: "b06bma" }],
@@ -93202,7 +93202,7 @@ var require_lucide_react = __commonJS({
         }
       ]
     ];
-    var Flame2 = createLucideIcon("flame", __iconNode$fC);
+    var Flame = createLucideIcon("flame", __iconNode$fC);
     var __iconNode$fB = [
       ["path", { d: "M16 16v4a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V10c0-2-2-2-2-4", key: "1r120k" }],
       ["path", { d: "M7 2h11v4c0 2-2 2-2 4v1", key: "dz1920" }],
@@ -102938,7 +102938,7 @@ var require_lucide_react = __commonJS({
         }
       ]
     ];
-    var Wheat2 = createLucideIcon("wheat", __iconNode$m);
+    var Wheat = createLucideIcon("wheat", __iconNode$m);
     var __iconNode$l = [
       ["circle", { cx: "7", cy: "12", r: "3", key: "12clwm" }],
       ["path", { d: "M10 9v6", key: "17i7lo" }],
@@ -103668,10 +103668,10 @@ var require_lucide_react = __commonJS({
       Drone,
       Droplet,
       DropletOff,
-      Droplets: Droplets2,
+      Droplets,
       Drum,
       Drumstick,
-      Dumbbell: Dumbbell2,
+      Dumbbell,
       Ear,
       EarOff,
       Earth,
@@ -103772,7 +103772,7 @@ var require_lucide_react = __commonJS({
       FlagOff,
       FlagTriangleLeft,
       FlagTriangleRight,
-      Flame: Flame2,
+      Flame,
       FlameKindling,
       Flashlight,
       FlashlightOff,
@@ -104748,7 +104748,7 @@ var require_lucide_react = __commonJS({
       Webhook,
       WebhookOff,
       Weight,
-      Wheat: Wheat2,
+      Wheat,
       WheatOff,
       WholeWord,
       Wifi,
@@ -105997,14 +105997,14 @@ var require_lucide_react = __commonJS({
     exports2.DropletIcon = Droplet;
     exports2.DropletOff = DropletOff;
     exports2.DropletOffIcon = DropletOff;
-    exports2.Droplets = Droplets2;
-    exports2.DropletsIcon = Droplets2;
+    exports2.Droplets = Droplets;
+    exports2.DropletsIcon = Droplets;
     exports2.Drum = Drum;
     exports2.DrumIcon = Drum;
     exports2.Drumstick = Drumstick;
     exports2.DrumstickIcon = Drumstick;
-    exports2.Dumbbell = Dumbbell2;
-    exports2.DumbbellIcon = Dumbbell2;
+    exports2.Dumbbell = Dumbbell;
+    exports2.DumbbellIcon = Dumbbell;
     exports2.Ear = Ear;
     exports2.EarIcon = Ear;
     exports2.EarOff = EarOff;
@@ -106239,8 +106239,8 @@ var require_lucide_react = __commonJS({
     exports2.FlagTriangleLeftIcon = FlagTriangleLeft;
     exports2.FlagTriangleRight = FlagTriangleRight;
     exports2.FlagTriangleRightIcon = FlagTriangleRight;
-    exports2.Flame = Flame2;
-    exports2.FlameIcon = Flame2;
+    exports2.Flame = Flame;
+    exports2.FlameIcon = Flame;
     exports2.FlameKindling = FlameKindling;
     exports2.FlameKindlingIcon = FlameKindling;
     exports2.Flashlight = Flashlight;
@@ -107454,10 +107454,10 @@ var require_lucide_react = __commonJS({
     exports2.LucideDrone = Drone;
     exports2.LucideDroplet = Droplet;
     exports2.LucideDropletOff = DropletOff;
-    exports2.LucideDroplets = Droplets2;
+    exports2.LucideDroplets = Droplets;
     exports2.LucideDrum = Drum;
     exports2.LucideDrumstick = Drumstick;
-    exports2.LucideDumbbell = Dumbbell2;
+    exports2.LucideDumbbell = Dumbbell;
     exports2.LucideEar = Ear;
     exports2.LucideEarOff = EarOff;
     exports2.LucideEarth = Earth;
@@ -107575,7 +107575,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideFlagOff = FlagOff;
     exports2.LucideFlagTriangleLeft = FlagTriangleLeft;
     exports2.LucideFlagTriangleRight = FlagTriangleRight;
-    exports2.LucideFlame = Flame2;
+    exports2.LucideFlame = Flame;
     exports2.LucideFlameKindling = FlameKindling;
     exports2.LucideFlashlight = Flashlight;
     exports2.LucideFlashlightOff = FlashlightOff;
@@ -108677,7 +108677,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideWebhook = Webhook;
     exports2.LucideWebhookOff = WebhookOff;
     exports2.LucideWeight = Weight;
-    exports2.LucideWheat = Wheat2;
+    exports2.LucideWheat = Wheat;
     exports2.LucideWheatOff = WheatOff;
     exports2.LucideWholeWord = WholeWord;
     exports2.LucideWifi = Wifi;
@@ -110307,8 +110307,8 @@ var require_lucide_react = __commonJS({
     exports2.WebhookOffIcon = WebhookOff;
     exports2.Weight = Weight;
     exports2.WeightIcon = Weight;
-    exports2.Wheat = Wheat2;
-    exports2.WheatIcon = Wheat2;
+    exports2.Wheat = Wheat;
+    exports2.WheatIcon = Wheat;
     exports2.WheatOff = WheatOff;
     exports2.WheatOffIcon = WheatOff;
     exports2.WholeWord = WholeWord;
@@ -123017,7 +123017,7 @@ var en = {
   productsGrowingConditionsDesc: "Hot, dry summers and strong sunlight help apricots, grapes, and plums build sugar before drying.",
   productsExportReadinessTitle: "Export Readiness",
   productsExportReadinessDesc: "Every line is positioned for buyer-specific cartons, mixed loads, and repeat wholesale programs.",
-  productsNutritionalSnapshot: "Nutritional Snapshot",
+  productsNutritionalSnapshot: "Product Details",
   productsEnergyLabel: "Energy",
   productsProteinLabel: "Protein",
   productsFatLabel: "Fat",
@@ -123275,7 +123275,7 @@ var ru = {
   productsGrowingConditionsDesc: "\u0416\u0430\u0440\u043A\u043E\u0435, \u0441\u0443\u0445\u043E\u0435 \u043B\u0435\u0442\u043E \u0438 \u0438\u043D\u0442\u0435\u043D\u0441\u0438\u0432\u043D\u043E\u0435 \u0441\u043E\u043B\u043D\u0435\u0447\u043D\u043E\u0435 \u043E\u0431\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043F\u043E\u043C\u043E\u0433\u0430\u044E\u0442 \u0430\u0431\u0440\u0438\u043A\u043E\u0441\u0430\u043C, \u0432\u0438\u043D\u043E\u0433\u0440\u0430\u0434\u0443 \u0438 \u0441\u043B\u0438\u0432\u0430\u043C \u043D\u0430\u043A\u0430\u043F\u043B\u0438\u0432\u0430\u0442\u044C \u0441\u0430\u0445\u0430\u0440 \u043F\u0435\u0440\u0435\u0434 \u0441\u0443\u0448\u043A\u043E\u0439.",
   productsExportReadinessTitle: "\u0413\u043E\u0442\u043E\u0432\u043D\u043E\u0441\u0442\u044C \u043A \u044D\u043A\u0441\u043F\u043E\u0440\u0442\u0443",
   productsExportReadinessDesc: "\u041A\u0430\u0436\u0434\u0430\u044F \u043B\u0438\u043D\u0435\u0439\u043A\u0430 \u043E\u0440\u0438\u0435\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0430 \u043D\u0430 \u0441\u043F\u0435\u0446\u0438\u0444\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u043F\u043E\u043A\u0443\u043F\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u0438\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u044B \u043A\u0430\u0440tons, \u0441\u043C\u0435\u0448\u0430\u043D\u043D\u044B\u0435 \u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0438 \u0438 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u044B\u0435 \u043E\u043F\u0442\u043E\u0432\u044B\u0435 \u043F\u0440\u043E\u0433\u0440\u0430\u043C\u043C\u044B.",
-  productsNutritionalSnapshot: "\u041F\u0438\u0449\u0435\u0432\u0430\u044F \u0446\u0435\u043D\u043D\u043E\u0441\u0442\u044C",
+  productsNutritionalSnapshot: "\u0421\u0432\u0435\u0434\u0435\u043D\u0438\u044F \u043E \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u0435",
   productsEnergyLabel: "\u042D\u043D\u0435\u0440\u0433\u0438\u044F",
   productsProteinLabel: "\u0411\u0435\u043B\u043E\u043A",
   productsFatLabel: "\u0416\u0438\u0440\u044B",
@@ -123533,7 +123533,7 @@ var uz = {
   productsGrowingConditionsDesc: "Issiq, quruq yoz va kuchli quyosh nuri o'riklar, uzum va olxo'rilarga qurishdan oldin shakar yig'ishga yordam beradi.",
   productsExportReadinessTitle: "Eksportga tayyorlik",
   productsExportReadinessDesc: "Har bir liniya xaridorga xos kart\u043E\u043D\u043B\u0430\u0440, aralash yuklar va muntazam ulgurji dasturlarga mo'ljallangan.",
-  productsNutritionalSnapshot: "Ozuqaviy qiymat",
+  productsNutritionalSnapshot: "Mahsulot tafsilotlari",
   productsEnergyLabel: "Energiya",
   productsProteinLabel: "Oqsil",
   productsFatLabel: "Yog'",
@@ -124241,7 +124241,6 @@ var defaultUiLabels = {
   workingHoursLabel: "Working Hours",
   homeCategoryEyebrowVisible: true,
   homeCategoryBadgesVisible: true,
-  homeCategoryInfoVisible: true,
   homeCategoryTypesVisible: true
 };
 var initialGlobalSettings = {
@@ -124350,10 +124349,10 @@ var initialPages = [
       productPreviewButtonLabel: "View Full Catalog",
       productPreviewItemCtaLabel: "View in Catalog",
       productCategories: [
-        { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", infoItems: [{ label: "Types", value: "Golden, Sultana, Soyaki, Black-Red" }], url: "/products" },
-        { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", infoItems: [{ label: "Types", value: "Subhana 3-4, Subhana 4-5, Subhana confectioner" }], url: "/products" },
-        { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", infoItems: [{ label: "Types", value: "Spain, Hungarian Unpitted, Ashlock" }], url: "/products" },
-        { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", infoItems: [{ label: "Types", value: "In shell, Unshelled, Bird Feed" }], url: "/products" }
+        { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+        { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+        { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+        { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
       ],
       exportMarketsEyebrow: "Export Focus",
       exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
@@ -124461,7 +124460,7 @@ var initialPages = [
       heroBgImage: "",
       introEyebrow: "Uzbekistan Origin",
       introTitle: "One Page. Four Core Product Lines. Real Buyer Context.",
-      introContent: "<p>Compare origin, processing, nutrition, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
+      introContent: "<p>Compare origin, processing, specifications, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
       introImage: "",
       introFacts: [
         { title: "Orchard Base", description: "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
@@ -124488,12 +124487,12 @@ var initialPages = [
         notFoundTitle: "Product Not Found",
         notFoundBody: "The product you're looking for doesn't exist.",
         backToCatalogLabel: "Back to Catalog",
-        nutritionTitle: "Nutritional Profile",
-        nutritionPerLabel: "(per 100g)",
-        caloriesLabel: "Calories",
-        proteinLabel: "Protein",
-        fatLabel: "Fat",
-        carbsLabel: "Carbs",
+        nutritionTitle: "Product Information",
+        nutritionPerLabel: "",
+        caloriesLabel: "Field 1",
+        proteinLabel: "Field 2",
+        fatLabel: "Field 3",
+        carbsLabel: "Field 4",
         inquiryTitle: "Request a Sample or Quote",
         companyPlaceholder: "Company Name",
         emailPlaceholder: "Work Email",
@@ -125445,7 +125444,7 @@ function FrontPage() {
   const uiLabels = globalSettings.uiLabels || {};
   const showCategoryEyebrow = uiLabels.homeCategoryEyebrowVisible !== false;
   const showCategoryBadges = uiLabels.homeCategoryBadgesVisible !== false;
-  const showCategoryInfo = (uiLabels.homeCategoryInfoVisible ?? uiLabels.homeCategoryTypesVisible) !== false;
+  const showCategoryTypes = (uiLabels.homeCategoryTypesVisible ?? uiLabels.homeCategoryInfoVisible) !== false;
   useSEO({
     title: seo?.metaTitle || "HQ Dried Fruits",
     description: seo?.metaDescription || "High-quality sun-dried fruits from Uzbekistan.",
@@ -125530,10 +125529,10 @@ function FrontPage() {
     return sorted;
   }, [content.statsGrid]);
   const productCategoryCards = (content.productCategories?.length ? content.productCategories : [
-    { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", infoItems: [{ label: "Types", value: "Golden, Sultana, Soyaki, Black-Red" }], url: "/products" },
-    { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", infoItems: [{ label: "Types", value: "Subhana 3-4, Subhana 4-5, Subhana confectioner" }], url: "/products" },
-    { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", infoItems: [{ label: "Types", value: "Spain, Hungarian Unpitted, Ashlock" }], url: "/products" },
-    { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", infoItems: [{ label: "Types", value: "In shell, Unshelled, Bird Feed" }], url: "/products" }
+    { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+    { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+    { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+    { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
   ]).slice(0, 4);
   const getCertificateCards = () => {
     const scroller = certificateScrollerRef.current;
@@ -125717,7 +125716,7 @@ function FrontPage() {
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), className: "hidden lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid gap-5 sm:gap-6", children: productCategoryCards.map((product, i) => {
-        const categoryInfoItems = (product.infoItems?.length ? product.infoItems : product.variantSummary ? [{ label: "Types", value: product.variantSummary }] : [{ label: "Category", value: product.categoryName }]).filter((item) => item.label?.trim() || item.value?.trim()).slice(0, 5);
+        const categoryTypes = (product.variantSummary || product.categoryName).split(",").map((item) => item.trim()).filter(Boolean).slice(0, 5);
         return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
           motion.div,
           {
@@ -125726,7 +125725,7 @@ function FrontPage() {
             viewport: { once: true, margin: "-100px" },
             transition: { duration: 0.6, delay: i * 0.1, ease: springEasing },
             className: "group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]",
-            children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: `grid h-full gap-4 lg:items-stretch lg:gap-5 ${showCategoryInfo ? "lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(7.5rem,0.28fr)]" : "lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)]"}`, children: [
+            children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: `grid h-full gap-4 lg:items-stretch lg:gap-5 ${showCategoryTypes ? "lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(7.5rem,0.28fr)]" : "lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)]"}`, children: [
               /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex h-full min-w-0 flex-col justify-center", children: [
                 showCategoryEyebrow && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mb-5 flex items-center gap-3", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "h-px w-10 bg-earth-300" }),
@@ -125766,18 +125765,15 @@ function FrontPage() {
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/24 via-earth-900/4 to-transparent" })
               ] }),
-              showCategoryInfo && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mb-3 text-center lg:text-left", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400", children: "Info" }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 lg:content-center", children: categoryInfoItems.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
+              showCategoryTypes && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mb-3 text-center lg:text-left", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400", children: "Types" }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 lg:content-center", children: categoryTypes.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
                   "div",
                   {
                     className: "flex min-h-[3.25rem] flex-col justify-center rounded-2xl bg-white px-3 py-2 text-center shadow-sm shadow-earth-100/80",
-                    children: [
-                      item.label && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.56rem] font-bold uppercase tracking-[0.16em] text-earth-400", children: item.label }),
-                      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-1 text-[0.78rem] font-bold leading-tight text-earth-800 lg:text-[0.86rem]", children: item.value })
-                    ]
+                    children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.78rem] font-bold leading-tight text-earth-800 lg:text-[0.86rem]", children: item })
                   },
-                  `${item.label}-${index}`
+                  `${item}-${index}`
                 )) })
               ] })
             ] })
@@ -126729,6 +126725,7 @@ Selections: ${tonnageSummary}`
       const galleryImages = Array.from(
         new Set([product.image, ...product.imageGallery || []].filter(Boolean))
       ).slice(0, 3);
+      const productCustomFields = (product.customFields || []).filter((field) => field.label?.trim() || field.value?.trim()).slice(0, 5);
       return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
         motion.section,
         {
@@ -126844,26 +126841,12 @@ Selections: ${tonnageSummary}`
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/28 via-transparent to-transparent" })
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-4 flex-1 lg:mt-5", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "p-1", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { children: [
+                        productCustomFields.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { children: [
                           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsNutritionalSnapshot") }),
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "mt-3 grid grid-cols-4 gap-1.5 lg:grid-cols-4", children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsEnergyLabel") }),
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.energy })
-                            ] }),
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsProteinLabel") }),
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.protein })
-                            ] }),
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsFatLabel") }),
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.fat })
-                            ] }),
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: t2("productsCarbsLabel") }),
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]", children: product.nutrition.carbs })
-                            ] })
-                          ] })
+                          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-3 grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5", children: productCustomFields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex min-h-[3.35rem] flex-col items-center justify-center px-2 py-1.5 text-center", children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: field.label }),
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-tight text-earth-900 lg:text-[0.95rem]", children: field.value })
+                          ] }, `${field.label}-${fieldIndex}`)) })
                         ] }),
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "mt-4 border-t border-earth-100 pt-4", children: [
                           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsSellingPoints") }),
@@ -128210,6 +128193,7 @@ function ProductDetail() {
       /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_react_router_dom9.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Button, { children: detailUi.backToCatalogLabel || "Back to Catalog" }) })
     ] }) });
   }
+  const productCustomFields = (product.customFields || []).filter((field) => field.label?.trim() || field.value?.trim()).slice(0, 5);
   return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
     motion.div,
     {
@@ -128273,34 +128257,16 @@ function ProductDetail() {
             " ",
             benefit
           ] }, i)) }),
-          /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "mb-16 rounded-[2rem] bg-earth-50 p-8", children: [
+          productCustomFields.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "mb-16 rounded-[2rem] bg-earth-50 p-8", children: [
             /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("h3", { className: "mb-6 font-display text-2xl font-bold text-earth-900", children: [
-              detailUi.nutritionTitle || "Nutritional Profile",
+              detailUi.nutritionTitle || "Product Information",
               " ",
-              /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { className: "text-sm font-normal text-earth-500", children: detailUi.nutritionPerLabel || "(per 100g)" })
+              detailUi.nutritionPerLabel && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { className: "text-sm font-normal text-earth-500", children: detailUi.nutritionPerLabel })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "grid grid-cols-2 gap-6 sm:grid-cols-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react10.Flame, { size: 24 }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.energy }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.caloriesLabel || "Calories" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react10.Dumbbell, { size: 24 }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.protein }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.proteinLabel || "Protein" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react10.Droplets, { size: 24 }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.fat }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.fatLabel || "Fat" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "flex flex-col items-center text-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react10.Wheat, { size: 24 }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "font-display text-xl font-bold text-earth-900", children: product.nutrition.carbs }),
-                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "text-sm text-earth-600", children: detailUi.carbsLabel || "Carbs" })
-              ] })
-            ] })
+            /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "grid grid-cols-1 gap-4 sm:grid-cols-2", children: productCustomFields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "rounded-2xl bg-white px-5 py-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "text-xs font-bold uppercase tracking-[0.18em] text-earth-400", children: field.label }),
+              /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "mt-2 font-display text-xl font-bold leading-tight text-earth-900", children: field.value })
+            ] }, `${field.label}-${fieldIndex}`)) })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "rounded-[2rem] border border-earth-200 bg-white p-8 shadow-sm", children: [
             /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("h3", { className: "mb-6 font-display text-2xl font-bold text-earth-900", children: detailUi.inquiryTitle || "Request a Sample or Quote" }),
@@ -130436,128 +130402,67 @@ function HomeForm({ content, updateContent }) {
         {
           label: "Product Categories Grid (Maximum 4 items)",
           items: content.productCategories || [],
-          emptyItem: { categoryName: "", image: "", shortDescription: "", variantSummary: "", infoItems: [], url: "" },
+          emptyItem: { categoryName: "", image: "", shortDescription: "", variantSummary: "", url: "" },
           onUpdate: (items) => updateContent({ productCategories: items.slice(0, 4) }),
-          renderItem: (item, index, updateItem, replaceItem) => {
-            const infoItems = (item.infoItems || []).slice(0, 5);
-            const replaceInfoItems = (nextInfoItems) => {
-              replaceItem(index, { ...item, infoItems: nextInfoItems.slice(0, 5) });
-            };
-            return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "space-y-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.categoryName,
-                    onChange: (e) => updateItem(index, "categoryName", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] }),
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "space-y-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
               /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                ImageUploader,
+                "input",
                 {
-                  label: `Thumbnail Image ${index + 1}`,
-                  value: item.image,
-                  onChange: (url) => updateItem(index, "image", url)
+                  type: "text",
+                  value: item.categoryName,
+                  onChange: (e) => updateItem(index, "categoryName", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                 }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                  "textarea",
-                  {
-                    rows: 2,
-                    value: item.shortDescription,
-                    onChange: (e) => updateItem(index, "shortDescription", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "mb-2 flex items-center justify-between gap-3", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Card Info Labels (Maximum 5)" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                    "button",
-                    {
-                      type: "button",
-                      onClick: () => replaceInfoItems([...infoItems, { label: "", value: "" }]),
-                      disabled: infoItems.length >= 5,
-                      className: "rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50",
-                      children: "Add Info"
-                    }
-                  )
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "space-y-2", children: infoItems.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500", children: "No card info added yet." }) : infoItems.map((info, infoIndex) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "grid gap-2 rounded-lg border border-slate-200 bg-white/70 p-2 md:grid-cols-[0.85fr_1.15fr_auto]", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                    "input",
-                    {
-                      type: "text",
-                      value: info.label,
-                      onChange: (e) => {
-                        const next = [...infoItems];
-                        next[infoIndex] = { ...info, label: e.target.value };
-                        replaceInfoItems(next);
-                      },
-                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                      placeholder: "Label, e.g. Grade"
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                    "input",
-                    {
-                      type: "text",
-                      value: info.value,
-                      onChange: (e) => {
-                        const next = [...infoItems];
-                        next[infoIndex] = { ...info, value: e.target.value };
-                        replaceInfoItems(next);
-                      },
-                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                      placeholder: "Info, e.g. Highest"
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                    "button",
-                    {
-                      type: "button",
-                      onClick: () => replaceInfoItems(infoItems.filter((_, candidateIndex) => candidateIndex !== infoIndex)),
-                      className: "rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50",
-                      children: "Remove"
-                    }
-                  )
-                ] }, infoIndex)) }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { className: "mt-2 text-xs text-slate-500", children: "These rows replace the old nutritional facts on the public homepage card." })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Legacy Variant Summary / Fallback" }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.variantSummary || "",
-                    onChange: (e) => updateItem(index, "variantSummary", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                    placeholder: "Used only if no info rows are added"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Learn More URL" }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.url,
-                    onChange: (e) => updateItem(index, "url", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] })
-            ] });
-          }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+              ImageUploader,
+              {
+                label: `Thumbnail Image ${index + 1}`,
+                value: item.image,
+                onChange: (url) => updateItem(index, "image", url)
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                "textarea",
+                {
+                  rows: 2,
+                  value: item.shortDescription,
+                  onChange: (e) => updateItem(index, "shortDescription", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Variant Summary / Examples" }),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.variantSummary || "",
+                  onChange: (e) => updateItem(index, "variantSummary", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                  placeholder: "e.g. Golden, Sultana, Soyaki, Black-Red"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Learn More URL" }),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.url,
+                  onChange: (e) => updateItem(index, "url", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
+            ] })
+          ] })
         }
       )
     ] }),
@@ -132345,7 +132250,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
           )
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Nutrition Title" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Product Info Title" }),
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
@@ -132359,7 +132264,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Nutrition Subtitle" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Product Info Subtitle" }),
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
@@ -132385,7 +132290,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Calories Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Legacy Field 1 Label" }),
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
@@ -132397,7 +132302,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
           )
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Protein Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Legacy Field 2 Label" }),
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
@@ -132409,7 +132314,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
           )
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Fat Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Legacy Field 3 Label" }),
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
@@ -132421,7 +132326,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
           )
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Carbs Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Legacy Field 4 Label" }),
           /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
             "input",
             {
@@ -132580,7 +132485,8 @@ var emptyProduct = {
   ],
   inquirySubjectLine: "Wholesale Inquiry: ",
   tonnageOptions: ["5 Tons", "10 Tons (20ft FCL)", "20 Tons (40ft FCL)"],
-  nutrition: { energy: "", protein: "", fat: "", carbs: "" }
+  nutrition: { energy: "", protein: "", fat: "", carbs: "" },
+  customFields: []
 };
 function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
   const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
@@ -132776,219 +132682,223 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     setIsDeleteOpen(false);
     setItemToDelete(null);
   };
-  const renderProductForm = (id3) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "border-t border-slate-100 p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-4 lg:grid-cols-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-3", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Product Name *" }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-            "input",
-            {
-              required: true,
-              type: "text",
-              value: formData.name,
-              onChange: (e) => setFormData({ ...formData, name: e.target.value }),
-              className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 focus:ring-4 focus:ring-earth-500/10 outline-none transition-all",
-              placeholder: "e.g. Sun-Dried Apricots"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+  const renderProductForm = (id3) => {
+    const customFields = (formData.customFields || []).slice(0, 5);
+    const replaceCustomFields = (nextFields) => {
+      setFormData({ ...formData, customFields: nextFields.slice(0, 5) });
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "border-t border-slate-100 p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-4 lg:grid-cols-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-3", children: [
           /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Category *" }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Product Name *" }),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
               "input",
               {
                 required: true,
                 type: "text",
-                value: formData.category,
-                onChange: (e) => setFormData({ ...formData, category: e.target.value }),
-                className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all",
-                placeholder: "e.g. Jumbo"
+                value: formData.name,
+                onChange: (e) => setFormData({ ...formData, name: e.target.value }),
+                className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 focus:ring-4 focus:ring-earth-500/10 outline-none transition-all",
+                placeholder: "e.g. Sun-Dried Apricots"
               }
             )
           ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Category *" }),
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                "input",
+                {
+                  required: true,
+                  type: "text",
+                  value: formData.category,
+                  onChange: (e) => setFormData({ ...formData, category: e.target.value }),
+                  className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all",
+                  placeholder: "e.g. Jumbo"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Status" }),
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                Select,
+                {
+                  value: formData.status || "Active",
+                  onChange: (val) => setFormData({ ...formData, status: val }),
+                  options: [
+                    { value: "Active", label: "Active" },
+                    { value: "Inactive", label: "Inactive" }
+                  ],
+                  className: "py-3 bg-white border-slate-300 rounded-xl"
+                }
+              )
+            ] })
+          ] }),
           /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Status" }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Short Description *" }),
             /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-              Select,
+              "textarea",
               {
-                value: formData.status || "Active",
-                onChange: (val) => setFormData({ ...formData, status: val }),
-                options: [
-                  { value: "Active", label: "Active" },
-                  { value: "Inactive", label: "Inactive" }
-                ],
-                className: "py-3 bg-white border-slate-300 rounded-xl"
+                required: true,
+                rows: 3,
+                value: formData.shortDescription || "",
+                onChange: (e) => setFormData({ ...formData, shortDescription: e.target.value }),
+                className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-none transition-all",
+                placeholder: "Brief description for the catalog grid..."
               }
             )
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Short Description *" }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-3", children: [
           /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-            "textarea",
+            ImageUploader,
             {
-              required: true,
-              rows: 3,
-              value: formData.shortDescription || "",
-              onChange: (e) => setFormData({ ...formData, shortDescription: e.target.value }),
-              className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-none transition-all",
-              placeholder: "Brief description for the catalog grid..."
+              label: "Primary Feature Image",
+              value: formData.image,
+              onChange: (url) => setFormData({ ...formData, image: url })
             }
-          )
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/60 p-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "mb-3 flex items-center justify-between gap-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h4", { className: "text-xs font-bold uppercase tracking-widest text-slate-400", children: "Custom Product Fields (maximum 5)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => replaceCustomFields([...customFields, { label: "", value: "" }]),
+                  disabled: customFields.length >= 5,
+                  className: "rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50",
+                  children: "Add Field"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "space-y-2", children: customFields.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500", children: "No custom fields added yet." }) : customFields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-2 rounded-lg border border-slate-200 bg-white/70 p-2 md:grid-cols-[0.85fr_1.15fr_auto]", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: field.label,
+                  onChange: (e) => {
+                    const next = [...customFields];
+                    next[fieldIndex] = { ...field, label: e.target.value };
+                    replaceCustomFields(next);
+                  },
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                  placeholder: "Label, e.g. Grade"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: field.value,
+                  onChange: (e) => {
+                    const next = [...customFields];
+                    next[fieldIndex] = { ...field, value: e.target.value };
+                    replaceCustomFields(next);
+                  },
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                  placeholder: "Text, e.g. Highest"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => replaceCustomFields(customFields.filter((_, candidateIndex) => candidateIndex !== fieldIndex)),
+                  className: "rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50",
+                  children: "Remove"
+                }
+              )
+            ] }, fieldIndex)) }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "mt-2 text-xs text-slate-500", children: "These fields appear on the public product hub and detail pages." })
+          ] })
         ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-3", children: [
         /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-          ImageUploader,
+          RichTextEditor,
           {
-            label: "Primary Feature Image",
-            value: formData.image,
-            onChange: (url) => setFormData({ ...formData, image: url })
+            label: "Product Storytelling / Long Description",
+            value: formData.longDescription || "",
+            onChange: (val) => setFormData({ ...formData, longDescription: val })
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/60 p-3", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h4", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-400", children: "Nutritional Facts (per 100g)" }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid grid-cols-2 gap-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Energy (kcal)" }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+          Repeater,
+          {
+            label: "Structured Product Sections",
+            items: formData.contentSections || [],
+            emptyItem: { title: "", body: "" },
+            onUpdate: (items) => setFormData({ ...formData, contentSections: items }),
+            renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "mb-2 block text-xs font-bold uppercase tracking-widest text-slate-500", children: "Section Title" }),
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.title,
+                    onChange: (e) => replaceItem(index, { ...item, title: e.target.value }),
+                    className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-900 outline-none focus:border-earth-500",
+                    placeholder: `Section ${index + 1} title`
+                  }
+                )
+              ] }),
               /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                "input",
+                RichTextEditor,
                 {
-                  required: true,
-                  type: "text",
-                  value: formData.nutrition?.energy || "",
-                  onChange: (e) => setFormData({ ...formData, nutrition: { ...formData.nutrition, energy: e.target.value } }),
-                  className: "w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Proteins" }),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                "input",
-                {
-                  required: true,
-                  type: "text",
-                  value: formData.nutrition?.protein || "",
-                  onChange: (e) => setFormData({ ...formData, nutrition: { ...formData.nutrition, protein: e.target.value } }),
-                  className: "w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Fat" }),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                "input",
-                {
-                  required: true,
-                  type: "text",
-                  value: formData.nutrition?.fat || "",
-                  onChange: (e) => setFormData({ ...formData, nutrition: { ...formData.nutrition, fat: e.target.value } }),
-                  className: "w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "block text-[10px] font-bold text-slate-500 mb-1 uppercase", children: "Carbs" }),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                "input",
-                {
-                  required: true,
-                  type: "text",
-                  value: formData.nutrition?.carbs || "",
-                  onChange: (e) => setFormData({ ...formData, nutrition: { ...formData.nutrition, carbs: e.target.value } }),
-                  className: "w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-earth-500 outline-none"
+                  label: "Section Body",
+                  value: item.body,
+                  onChange: (val) => replaceItem(index, { ...item, body: val })
                 }
               )
             ] })
-          ] })
-        ] })
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-3", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-        RichTextEditor,
-        {
-          label: "Product Storytelling / Long Description",
-          value: formData.longDescription || "",
-          onChange: (val) => setFormData({ ...formData, longDescription: val })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-        Repeater,
-        {
-          label: "Structured Product Sections",
-          items: formData.contentSections || [],
-          emptyItem: { title: "", body: "" },
-          onUpdate: (items) => setFormData({ ...formData, contentSections: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "space-y-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("label", { className: "mb-2 block text-xs font-bold uppercase tracking-widest text-slate-500", children: "Section Title" }),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.title,
-                  onChange: (e) => replaceItem(index, { ...item, title: e.target.value }),
-                  className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-900 outline-none focus:border-earth-500",
-                  placeholder: `Section ${index + 1} title`
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-              RichTextEditor,
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-4 pt-1 lg:grid-cols-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+          Repeater,
+          {
+            label: "Product Highlights",
+            items: formData.highlights || [],
+            emptyItem: "",
+            onUpdate: (items) => setFormData({ ...formData, highlights: items }),
+            renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+              "input",
               {
-                label: "Section Body",
-                value: item.body,
-                onChange: (val) => replaceItem(index, { ...item, body: val })
+                type: "text",
+                value: item,
+                onChange: (e) => replaceItem(index, e.target.value),
+                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-sm outline-none focus:border-earth-500",
+                placeholder: "e.g. 100% Natural"
               }
             )
-          ] })
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-4 pt-1 lg:grid-cols-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-        Repeater,
-        {
-          label: "Product Highlights",
-          items: formData.highlights || [],
-          emptyItem: "",
-          onUpdate: (items) => setFormData({ ...formData, highlights: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-            "input",
-            {
-              type: "text",
-              value: item,
-              onChange: (e) => replaceItem(index, e.target.value),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-sm outline-none focus:border-earth-500",
-              placeholder: "e.g. 100% Natural"
-            }
-          )
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-        Repeater,
-        {
-          label: "Gallery Images",
-          items: formData.imageGallery || [],
-          emptyItem: "",
-          onUpdate: (items) => setFormData({ ...formData, imageGallery: items }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-            ImageUploader,
-            {
-              label: `Gallery Item ${index + 1}`,
-              value: item,
-              onChange: (url) => replaceItem(index, url)
-            }
-          )
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200 font-bold", children: "Discard Changes" }) })
-  ] }) });
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+          Repeater,
+          {
+            label: "Gallery Images",
+            items: formData.imageGallery || [],
+            emptyItem: "",
+            onUpdate: (items) => setFormData({ ...formData, imageGallery: items }),
+            renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+              ImageUploader,
+              {
+                label: `Gallery Item ${index + 1}`,
+                value: item,
+                onChange: (url) => replaceItem(index, url)
+              }
+            )
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex items-center justify-end gap-3 pt-4 border-t border-slate-200", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Button, { type: "button", variant: "ghost", onClick: handleClose, className: "text-slate-600 hover:bg-slate-200 font-bold", children: "Discard Changes" }) })
+    ] }) });
+  };
   if (!isLocaleReady) {
     return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
@@ -134965,7 +134875,7 @@ function AdminGlobalSettings() {
                       /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "grid gap-3 md:grid-cols-3", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIToggle, { label: "Show category label", field: "homeCategoryEyebrowVisible", settings, setSettings }),
                         /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIToggle, { label: "Show export badges", field: "homeCategoryBadgesVisible", settings, setSettings }),
-                        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIToggle, { label: "Show info column", field: "homeCategoryInfoVisible", settings, setSettings })
+                        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIToggle, { label: "Show types column", field: "homeCategoryTypesVisible", settings, setSettings })
                       ] })
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "About Page" }) }),
@@ -135692,7 +135602,6 @@ var defaultGlobalSettings = {
     workingHoursLabel: "Working Hours",
     homeCategoryEyebrowVisible: true,
     homeCategoryBadgesVisible: true,
-    homeCategoryInfoVisible: true,
     homeCategoryTypesVisible: true,
     // Footer Labels
     footerLinksTitle: "Company",
@@ -135727,7 +135636,7 @@ var defaultProductsPage = {
   heroBgImage: "",
   introEyebrow: "Uzbekistan Origin",
   introTitle: "One Page. Four Core Product Lines. Real Buyer Context.",
-  introContent: "<p>Compare origin, processing, nutrition, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
+  introContent: "<p>Compare origin, processing, specifications, packing, and use cases without jumping between separate catalog pages.</p><p>Each product profile is structured for wholesale buyers who need practical sourcing information, not only marketing copy.</p>",
   introImage: "",
   introFacts: [
     { title: "Orchard Base", description: "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty." },
@@ -135749,7 +135658,7 @@ var defaultProductsPage = {
   backButtonLabel: "Back",
   submitButtonLabel: "Get Instant Quote",
   submittingButtonLabel: "Sending...",
-  detailUi: { loadingLabel: "Loading Specifications...", notFoundTitle: "Product Not Found", notFoundBody: "The product you're looking for doesn't exist.", backToCatalogLabel: "Back to Catalog", nutritionTitle: "Nutritional Profile", nutritionPerLabel: "(per 100g)", caloriesLabel: "Calories", proteinLabel: "Protein", fatLabel: "Fat", carbsLabel: "Carbs", inquiryTitle: "Request a Sample or Quote", companyPlaceholder: "Company Name", emailPlaceholder: "Work Email", volumePlaceholder: "Select Volume...", inquiryButtonLabel: "Send Inquiry", inquirySubmittingLabel: "Sending Inquiry..." },
+  detailUi: { loadingLabel: "Loading Specifications...", notFoundTitle: "Product Not Found", notFoundBody: "The product you're looking for doesn't exist.", backToCatalogLabel: "Back to Catalog", nutritionTitle: "Product Information", nutritionPerLabel: "", caloriesLabel: "Field 1", proteinLabel: "Field 2", fatLabel: "Field 3", carbsLabel: "Field 4", inquiryTitle: "Request a Sample or Quote", companyPlaceholder: "Company Name", emailPlaceholder: "Work Email", volumePlaceholder: "Select Volume...", inquiryButtonLabel: "Send Inquiry", inquirySubmittingLabel: "Sending Inquiry..." },
   quickContactTitle: "Need it faster?",
   quickContactSubtitle: "Skip the form. Connect with our export sales team directly for immediate assistance.",
   telegramLabel: "Telegram Bot",
@@ -136197,6 +136106,8 @@ function mapSeoRecord(row, pageId) {
 }
 function mapProduct(row) {
   const parsedSeo = safeParseJson(row?.seo, {});
+  const parsedNutrition = safeParseJson(row?.nutrition, { energy: "", protein: "", fat: "", carbs: "" });
+  const customFields = Array.isArray(parsedNutrition.customFields) ? parsedNutrition.customFields.map((field) => ({ label: asString(field?.label), value: asString(field?.value) })).filter((field) => field.label || field.value).slice(0, 5) : [];
   const seoFallback = { metaTitle: `${asString(row?.name)} | HQ Dried Fruits`, metaDescription: asString(row?.short_description), slug: normalizeSlug2(asString(row?.id), asString(row?.id)), ogTitle: asString(row?.name), imageAlt: asString(row?.name) };
   return {
     id: asString(row?.id),
@@ -136209,7 +136120,8 @@ function mapProduct(row) {
     longDescription: asString(row?.long_description),
     highlights: safeParseJson(row?.highlights, []),
     contentSections: safeParseJson(row?.content_sections, []),
-    nutrition: safeParseJson(row?.nutrition, { energy: "", protein: "", fat: "", carbs: "" }),
+    nutrition: { energy: asString(parsedNutrition.energy), protein: asString(parsedNutrition.protein), fat: asString(parsedNutrition.fat), carbs: asString(parsedNutrition.carbs) },
+    customFields,
     inquirySubjectLine: asString(row?.inquiry_subject_line),
     tonnageOptions: safeParseJson(row?.tonnage_options, []),
     seo: { ...seoFallback, ...parsedSeo, slug: normalizeSlug2(asString(parsedSeo.slug), seoFallback.slug) }
@@ -136563,6 +136475,14 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
   });
   if (duplicate) throw new Error(`The product slug "${normalizedSeoSlug}" is already in use.`);
   const seoPayload = product?.seo ?? {};
+  const customFields = Array.isArray(product.customFields) ? product.customFields.map((field) => ({ label: asString(field?.label), value: asString(field?.value) })).filter((field) => field.label || field.value).slice(0, 5) : [];
+  const nutritionPayload = {
+    energy: asString(product?.nutrition?.energy),
+    protein: asString(product?.nutrition?.protein),
+    fat: asString(product?.nutrition?.fat),
+    carbs: asString(product?.nutrition?.carbs),
+    customFields
+  };
   return {
     id: fallbackId,
     name: asString(product.name),
@@ -136574,7 +136494,8 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
     longDescription: asString(product.longDescription),
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
-    nutrition: product.nutrition ?? {},
+    nutrition: nutritionPayload,
+    customFields,
     inquirySubjectLine: asString(product.inquirySubjectLine),
     tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
     seo: { metaTitle: asString(seoPayload.metaTitle, `${asString(product.name)} | HQ Dried Fruits`), metaDescription: asString(seoPayload.metaDescription, asString(product.shortDescription)), slug: normalizedSeoSlug, ogTitle: asString(seoPayload.ogTitle, asString(product.name)), imageAlt: asString(seoPayload.imageAlt, asString(product.name)) }

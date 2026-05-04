@@ -79,7 +79,7 @@ export const ru: typeof en = {
   productsGrowingConditionsDesc: "Жаркое, сухое лето и интенсивное солнечное облучение помогают абрикосам, винограду и сливам накапливать сахар перед сушкой.",
   productsExportReadinessTitle: "Готовность к экспорту",
   productsExportReadinessDesc: "Каждая линейка ориентирована на специфические покупательские форматы карtons, смешанные загрузки и регулярные оптовые программы.",
-  productsNutritionalSnapshot: "Пищевая ценность",
+  productsNutritionalSnapshot: "Сведения о продукте",
   productsEnergyLabel: "Энергия",
   productsProteinLabel: "Белок",
   productsFatLabel: "Жиры",

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { CheckCircle2, Flame, Droplets, Dumbbell, Wheat, ArrowRight, Loader2 } from "lucide-react";
+import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
@@ -128,6 +128,10 @@ export function ProductDetail() {
     );
   }
 
+  const productCustomFields = (product.customFields || [])
+    .filter((field) => field.label?.trim() || field.value?.trim())
+    .slice(0, 5);
+
   return (
     <PageLayout>
       <motion.div
@@ -199,42 +203,24 @@ export function ProductDetail() {
                 </div>
               ))}
             </div>
-            <div className="mb-16 rounded-[2rem] bg-earth-50 p-8">
-              <h3 className="mb-6 font-display text-2xl font-bold text-earth-900">
-                {detailUi.nutritionTitle || "Nutritional Profile"}{" "}
-                <span className="text-sm font-normal text-earth-500">{detailUi.nutritionPerLabel || "(per 100g)"}</span>
-              </h3>
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
-                    <Flame size={24} />
-                  </div>
-                  <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.energy}</div>
-                  <div className="text-sm text-earth-600">{detailUi.caloriesLabel || "Calories"}</div>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
-                    <Dumbbell size={24} />
-                  </div>
-                  <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.protein}</div>
-                  <div className="text-sm text-earth-600">{detailUi.proteinLabel || "Protein"}</div>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
-                    <Droplets size={24} />
-                  </div>
-                  <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.fat}</div>
-                  <div className="text-sm text-earth-600">{detailUi.fatLabel || "Fat"}</div>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-[#8b5a89]/15 bg-[#f7f0f5] text-[#4b2240]">
-                    <Wheat size={24} />
-                  </div>
-                  <div className="font-display text-xl font-bold text-earth-900">{product.nutrition.carbs}</div>
-                  <div className="text-sm text-earth-600">{detailUi.carbsLabel || "Carbs"}</div>
+            {productCustomFields.length > 0 && (
+              <div className="mb-16 rounded-[2rem] bg-earth-50 p-8">
+                <h3 className="mb-6 font-display text-2xl font-bold text-earth-900">
+                  {detailUi.nutritionTitle || "Product Information"}{" "}
+                  {detailUi.nutritionPerLabel && (
+                    <span className="text-sm font-normal text-earth-500">{detailUi.nutritionPerLabel}</span>
+                  )}
+                </h3>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {productCustomFields.map((field, fieldIndex) => (
+                    <div key={`${field.label}-${fieldIndex}`} className="rounded-2xl bg-white px-5 py-4">
+                      <div className="text-xs font-bold uppercase tracking-[0.18em] text-earth-400">{field.label}</div>
+                      <div className="mt-2 font-display text-xl font-bold leading-tight text-earth-900">{field.value}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
             <div className="rounded-[2rem] border border-earth-200 bg-white p-8 shadow-sm">
               <h3 className="mb-6 font-display text-2xl font-bold text-earth-900">
                 {detailUi.inquiryTitle || "Request a Sample or Quote"}

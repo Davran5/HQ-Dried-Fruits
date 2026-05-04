@@ -159,17 +159,11 @@ export interface ImageLabelPair {
     label: string;
 }
 
-export interface ProductCategoryInfoItem {
-    label: string;
-    value: string;
-}
-
 export interface ProductCategoryItem {
     categoryName: string;
     image: string;
     shortDescription: string;
     variantSummary?: string;
-    infoItems?: ProductCategoryInfoItem[];
     url: string;
     nutrition?: Nutrition;
 }

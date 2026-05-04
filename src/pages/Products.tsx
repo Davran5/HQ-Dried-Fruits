@@ -394,6 +394,9 @@ export function Products() {
               const galleryImages = Array.from(
                 new Set([product.image, ...(product.imageGallery || [])].filter(Boolean)),
               ).slice(0, 3);
+              const productCustomFields = (product.customFields || [])
+                .filter((field) => field.label?.trim() || field.value?.trim())
+                .slice(0, 5);
 
               return (
                 <motion.section
@@ -526,29 +529,21 @@ export function Products() {
 
                       <div className="mt-4 flex-1 lg:mt-5">
                         <div className="p-1">
-                          <div>
-                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
-                              {t("productsNutritionalSnapshot")}
-                            </p>
-                            <div className="mt-3 grid grid-cols-4 gap-1.5 lg:grid-cols-4">
-                              <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsEnergyLabel")}</div>
-                                <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.energy}</div>
-                              </div>
-                              <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsProteinLabel")}</div>
-                                <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.protein}</div>
-                              </div>
-                              <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsFatLabel")}</div>
-                                <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.fat}</div>
-                              </div>
-                              <div className="flex flex-col items-center justify-center px-2 py-1.5 text-center">
-                                <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{t("productsCarbsLabel")}</div>
-                                <div className="mt-1 text-center text-[0.82rem] font-semibold leading-none text-earth-900 lg:text-[0.95rem]">{product.nutrition.carbs}</div>
+                          {productCustomFields.length > 0 && (
+                            <div>
+                              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
+                                {t("productsNutritionalSnapshot")}
+                              </p>
+                              <div className="mt-3 grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5">
+                                {productCustomFields.map((field, fieldIndex) => (
+                                  <div key={`${field.label}-${fieldIndex}`} className="flex min-h-[3.35rem] flex-col items-center justify-center px-2 py-1.5 text-center">
+                                    <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{field.label}</div>
+                                    <div className="mt-1 text-center text-[0.82rem] font-semibold leading-tight text-earth-900 lg:text-[0.95rem]">{field.value}</div>
+                                  </div>
+                                ))}
                               </div>
                             </div>
-                          </div>
+                          )}
 
                           <div className="mt-4 border-t border-earth-100 pt-4">
                             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">

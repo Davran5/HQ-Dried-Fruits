@@ -389,7 +389,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Nutrition Title</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Product Info Title</label>
                         <input
                             type="text"
                             value={content.detailUi?.nutritionTitle || ""}
@@ -401,7 +401,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Nutrition Subtitle</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Product Info Subtitle</label>
                         <input
                             type="text"
                             value={content.detailUi?.nutritionPerLabel || ""}
@@ -422,7 +422,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Calories Label</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Legacy Field 1 Label</label>
                         <input
                             type="text"
                             value={content.detailUi?.caloriesLabel || ""}
@@ -431,7 +431,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Protein Label</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Legacy Field 2 Label</label>
                         <input
                             type="text"
                             value={content.detailUi?.proteinLabel || ""}
@@ -440,7 +440,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Fat Label</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Legacy Field 3 Label</label>
                         <input
                             type="text"
                             value={content.detailUi?.fatLabel || ""}
@@ -449,7 +449,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Carbs Label</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Legacy Field 4 Label</label>
                         <input
                             type="text"
                             value={content.detailUi?.carbsLabel || ""}

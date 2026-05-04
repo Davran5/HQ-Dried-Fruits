@@ -77,7 +77,7 @@ export const en = {
   productsGrowingConditionsDesc: "Hot, dry summers and strong sunlight help apricots, grapes, and plums build sugar before drying.",
   productsExportReadinessTitle: "Export Readiness",
   productsExportReadinessDesc: "Every line is positioned for buyer-specific cartons, mixed loads, and repeat wholesale programs.",
-  productsNutritionalSnapshot: "Nutritional Snapshot",
+  productsNutritionalSnapshot: "Product Details",
   productsEnergyLabel: "Energy",
   productsProteinLabel: "Protein",
   productsFatLabel: "Fat",

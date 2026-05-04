@@ -5,6 +5,11 @@ export interface Nutrition {
   carbs: string;
 }
 
+export interface ProductCustomField {
+  label: string;
+  value: string;
+}
+
 export interface ProductContentSection {
   title: string;
   body: string;
@@ -30,6 +35,7 @@ export interface Product {
   highlights: string[];
   contentSections: ProductContentSection[];
   nutrition: Nutrition;
+  customFields?: ProductCustomField[];
   inquirySubjectLine: string;
   tonnageOptions: string[];
   seo?: SEOData;
