@@ -158,6 +158,7 @@ export interface ProductCategoryItem {
     categoryName: string;
     image: string;
     shortDescription: string;
+    variantSummary?: string;
     url: string;
     nutrition?: Nutrition;
 }

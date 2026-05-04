@@ -5,7 +5,8 @@ build/
 server.js
 database.json
 error.txt
-public/uploads/
+public/uploads/*
+!public/uploads/category-*.png
 dist/uploads/
 coverage/
 .DS_Store

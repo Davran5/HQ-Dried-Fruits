@@ -6,14 +6,12 @@ import { Button } from "@/src/components/ui/Button";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
-import { useProducts } from "@/src/contexts/ProductContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ExportContent, HomeContent } from "@/src/types/page";
-import { canonicalizeManagedUrl, getManagedPagePath } from "@/src/lib/routes";
+import { getManagedPagePath } from "@/src/lib/routes";
 
 export function FrontPage() {
     const { pages, globalSettings, pageSeo } = usePages();
-    const { products } = useProducts();
     const { locale, t } = useLanguage();
     const pageData = pages.find(p => p.id === "home");
     const content = pageData?.content as HomeContent;
@@ -118,17 +116,16 @@ export function FrontPage() {
         });
         return sorted;
     }, [content.statsGrid]);
-    const findPreviewProduct = (categoryName: string) => {
-        const normalized = categoryName.toLowerCase();
-
-        return products.find((product) => {
-            const haystack = `${product.name} ${product.category} ${product.id}`.toLowerCase();
-            return haystack.includes(normalized) ||
-                (normalized.includes("apricot") && haystack.includes("apricot")) ||
-                (normalized.includes("raisin") && haystack.includes("raisin")) ||
-                (normalized.includes("prune") && haystack.includes("prune"));
-        });
-    };
+    const productCategoryCards = (
+        content.productCategories?.length
+            ? content.productCategories
+            : [
+                { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+                { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+                { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+                { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" },
+            ]
+    ).slice(0, 4);
     const getCertificateCards = (): HTMLElement[] => {
         const scroller = certificateScrollerRef.current;
         if (!scroller) {
@@ -318,7 +315,7 @@ export function FrontPage() {
                     <div className="mb-10 flex flex-col items-center justify-between gap-5 sm:mb-16 sm:flex-row sm:gap-6">
                         <div>
                             <h2 className="font-display text-[2.3rem] font-bold text-earth-900 sm:text-4xl">
-                                {content.productPreviewTitle}
+                                {content.productPreviewTitle || "Product Categories"}
                             </h2>
                         </div>
                         <Link to={getManagedPagePath("products", pageSeo, locale)} className="hidden lg:block">
@@ -326,99 +323,48 @@ export function FrontPage() {
                         </Link>
                     </div>
 
-                    <div className="grid gap-5 sm:gap-6">
-                        {(content.productCategories || []).slice(0, 4).map((product, i) => (
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+                        {productCategoryCards.map((product, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 40 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 0.6, delay: i * 0.1, ease: springEasing }}
-                                className="group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]"
+                                className="group flex min-h-full flex-col overflow-hidden rounded-[2rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf7fa_100%)] shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)]"
                             >
-                                {(() => {
-                                    const previewProduct = findPreviewProduct(product.categoryName);
-                                    const nutrition = product.nutrition || previewProduct?.nutrition || {
-                                        energy: "280 kcal",
-                                        protein: "2.5 g",
-                                        fat: "0.4 g",
-                                        carbs: "72 g",
-                                    };
-
-                                    return (
-                                <div className="grid h-full gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(4.8rem,0.16fr)] lg:items-stretch lg:gap-5">
-                                    <div className="flex h-full min-w-0 flex-col justify-center">
-                                        <div className="mb-5 flex items-center gap-3">
-                                            <span className="h-px w-10 bg-earth-300" />
-                                            <p className="text-sm font-semibold uppercase tracking-[0.26em] text-earth-400">
-                                                {t("homeFeaturedHarvest")}
-                                            </p>
-                                        </div>
-                                        <h3 className="font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]">
-                                            {product.categoryName}
-                                        </h3>
-                                        <p className="mt-3 max-w-[34ch] text-base leading-6 text-earth-700 sm:mt-4 sm:text-lg sm:leading-7">
-                                            {product.shortDescription}
-                                        </p>
-
-                                        <div className="mt-5 flex flex-wrap gap-3 text-sm">
-                                            <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
-                                                {t("homeExportReady")}
-                                            </span>
-                                            <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
-                                                {t("homeWholesaleSupply")}
-                                            </span>
-                                        </div>
-
-                                        <div className="mt-6 flex items-center gap-4">
-                                            <Link
-                                            to={canonicalizeManagedUrl(product.url, pageSeo, products, locale)}
-                                                className="inline-flex items-center text-earth-700 font-medium transition-colors hover:text-earth-900"
-                                            >
-                                                {content.productPreviewItemCtaLabel || t("homeRequestSample")} <ArrowRight className="ml-2 h-4 w-4" />
-                                            </Link>
-                                            <div className="h-px flex-1 bg-earth-100" />
-                                        </div>
-                                    </div>
-
-                                    <div className="relative overflow-hidden rounded-[2.6rem] bg-earth-100">
-                                        <img
-                                            src={product.image}
-                                            alt={product.categoryName}
-                                            className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105 lg:h-full"
-                                            referrerPolicy="no-referrer"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-earth-900/30 via-earth-900/4 to-transparent" />
-                                    </div>
-
-                                    <div className="flex flex-col justify-between border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
-                                        <div className="mb-3 text-center lg:text-left">
-                                            <p className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-earth-400">
-                                                {t("homeNutritionPer100g")}
-                                            </p>
-                                        </div>
-                                        <div className="grid grid-cols-4 gap-1.5 lg:grid-cols-1 lg:grid-rows-4 lg:justify-items-center">
-                                            <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionEnergy")}</p>
-                                                <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.energy}</p>
-                                            </div>
-                                            <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionProtein")}</p>
-                                                <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.protein}</p>
-                                            </div>
-                                            <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionFat")}</p>
-                                                <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.fat}</p>
-                                            </div>
-                                            <div className="px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center">
-                                                <p className="text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400">{t("nutritionCarbs")}</p>
-                                                <p className="mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]">{nutrition.carbs}</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div className="relative aspect-[4/3] overflow-hidden bg-earth-100">
+                                    <img
+                                        src={product.image}
+                                        alt={product.categoryName}
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        referrerPolicy="no-referrer"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-earth-900/18 via-transparent to-transparent" />
                                 </div>
-                                    );
-                                })()}
+
+                                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                                    <h3 className="font-display text-[2rem] font-bold leading-tight text-earth-900">
+                                        {product.categoryName}
+                                    </h3>
+                                    <p className="mt-3 flex-1 text-base leading-6 text-earth-700">
+                                        {product.shortDescription}
+                                    </p>
+
+                                    {product.variantSummary && (
+                                        <p className="mt-4 rounded-2xl bg-white px-4 py-3 text-sm font-medium leading-5 text-earth-700 shadow-sm shadow-earth-100/80">
+                                            {product.variantSummary}
+                                        </p>
+                                    )}
+
+                                    <Link
+                                        to={getManagedPagePath("products", pageSeo, locale)}
+                                        className="mt-5 inline-flex items-center font-medium text-earth-700 transition-colors hover:text-earth-900"
+                                    >
+                                        {content.productPreviewItemCtaLabel || "View in Catalog"}
+                                        <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Link>
+                                </div>
                             </motion.div>
                         ))}
                     </div>

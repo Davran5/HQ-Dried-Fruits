@@ -124342,14 +124342,14 @@ var initialPages = [
         { value: "40+", label: "Countries Served" },
         { value: "99.9%", label: "Sorting Purity" }
       ],
-      productPreviewTitle: "Featured Harvests",
+      productPreviewTitle: "Product Categories",
       productPreviewButtonLabel: "View Full Catalog",
-      productPreviewItemCtaLabel: "Request Sample",
+      productPreviewItemCtaLabel: "View in Catalog",
       productCategories: [
-        { categoryName: "Dried Apricots", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800", shortDescription: "High-quality dark and golden varieties.", url: "/products/sun-dried-apricots", nutrition: { energy: "280 kcal", protein: "2.5 g", fat: "0.4 g", carbs: "72 g" } },
-        { categoryName: "Dried Prunes", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=800", shortDescription: "Pitted and unpitted sweet plums.", url: "/products/pitted-prunes", nutrition: { energy: "240 kcal", protein: "2.2 g", fat: "0.4 g", carbs: "64 g" } },
-        { categoryName: "Shadow-Dried Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Traditional drying process for max flavor.", url: "/products/black-raisins", nutrition: { energy: "299 kcal", protein: "3.1 g", fat: "0.5 g", carbs: "79 g" } },
-        { categoryName: "Mixed Dried Fruits", image: "https://images.unsplash.com/photo-1606914469633-bd39206ea739?q=80&w=800&auto=format&fit=crop", shortDescription: "Buyer-ready assortments for retail, foodservice, and mixed container programs.", url: "/products/mixed-dried-fruits", nutrition: { energy: "285 kcal", protein: "2.7 g", fat: "0.5 g", carbs: "73 g" } }
+        { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+        { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+        { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+        { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
       ],
       exportMarketsEyebrow: "Export Focus",
       exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
@@ -125431,7 +125431,6 @@ function useSEO({
 var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
 function FrontPage() {
   const { pages, globalSettings, pageSeo } = usePages();
-  const { products } = useProducts();
   const { locale, t: t2 } = useLanguage();
   const pageData = pages.find((p) => p.id === "home");
   const content = pageData?.content;
@@ -125522,13 +125521,12 @@ function FrontPage() {
     });
     return sorted;
   }, [content.statsGrid]);
-  const findPreviewProduct = (categoryName) => {
-    const normalized = categoryName.toLowerCase();
-    return products.find((product) => {
-      const haystack = `${product.name} ${product.category} ${product.id}`.toLowerCase();
-      return haystack.includes(normalized) || normalized.includes("apricot") && haystack.includes("apricot") || normalized.includes("raisin") && haystack.includes("raisin") || normalized.includes("prune") && haystack.includes("prune");
-    });
-  };
+  const productCategoryCards = (content.productCategories?.length ? content.productCategories : [
+    { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+    { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+    { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+    { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
+  ]).slice(0, 4);
   const getCertificateCards = () => {
     const scroller = certificateScrollerRef.current;
     if (!scroller) {
@@ -125707,88 +125705,47 @@ function FrontPage() {
     ) }),
     /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("section", { className: "bg-white py-16 sm:py-24", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", children: [
       /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mb-10 flex flex-col items-center justify-between gap-5 sm:mb-16 sm:flex-row sm:gap-6", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { className: "font-display text-[2.3rem] font-bold text-earth-900 sm:text-4xl", children: content.productPreviewTitle }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { className: "font-display text-[2.3rem] font-bold text-earth-900 sm:text-4xl", children: content.productPreviewTitle || "Product Categories" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), className: "hidden lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid gap-5 sm:gap-6", children: (content.productCategories || []).slice(0, 4).map((product, i) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6", children: productCategoryCards.map((product, i) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
         motion.div,
         {
           initial: { opacity: 0, y: 40 },
           whileInView: { opacity: 1, y: 0 },
           viewport: { once: true, margin: "-100px" },
           transition: { duration: 0.6, delay: i * 0.1, ease: springEasing },
-          className: "group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]",
-          children: (() => {
-            const previewProduct = findPreviewProduct(product.categoryName);
-            const nutrition = product.nutrition || previewProduct?.nutrition || {
-              energy: "280 kcal",
-              protein: "2.5 g",
-              fat: "0.4 g",
-              carbs: "72 g"
-            };
-            return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "grid h-full gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(4.8rem,0.16fr)] lg:items-stretch lg:gap-5", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex h-full min-w-0 flex-col justify-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mb-5 flex items-center gap-3", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "h-px w-10 bg-earth-300" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.26em] text-earth-400", children: t2("homeFeaturedHarvest") })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { className: "font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]", children: product.categoryName }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-3 max-w-[34ch] text-base leading-6 text-earth-700 sm:mt-4 sm:text-lg sm:leading-7", children: product.shortDescription }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mt-5 flex flex-wrap gap-3 text-sm", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80", children: t2("homeExportReady") }),
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80", children: t2("homeWholesaleSupply") })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mt-6 flex items-center gap-4", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
-                    import_react_router_dom6.Link,
-                    {
-                      to: canonicalizeManagedUrl(product.url, pageSeo, products, locale),
-                      className: "inline-flex items-center text-earth-700 font-medium transition-colors hover:text-earth-900",
-                      children: [
-                        content.productPreviewItemCtaLabel || t2("homeRequestSample"),
-                        " ",
-                        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react3.ArrowRight, { className: "ml-2 h-4 w-4" })
-                      ]
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "h-px flex-1 bg-earth-100" })
-                ] })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "relative overflow-hidden rounded-[2.6rem] bg-earth-100", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
-                  "img",
-                  {
-                    src: product.image,
-                    alt: product.categoryName,
-                    className: "h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105 lg:h-full",
-                    referrerPolicy: "no-referrer"
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/30 via-earth-900/4 to-transparent" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex flex-col justify-between border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mb-3 text-center lg:text-left", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.58rem] font-bold uppercase tracking-[0.22em] text-earth-400", children: t2("homeNutritionPer100g") }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "grid grid-cols-4 gap-1.5 lg:grid-cols-1 lg:grid-rows-4 lg:justify-items-center", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400", children: t2("nutritionEnergy") }),
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]", children: nutrition.energy })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400", children: t2("nutritionProtein") }),
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]", children: nutrition.protein })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400", children: t2("nutritionFat") }),
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]", children: nutrition.fat })
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "px-1 py-1.5 text-center lg:flex lg:h-full lg:w-[4.5rem] lg:flex-col lg:items-center lg:justify-center", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-center text-[0.56rem] font-bold uppercase tracking-[0.18em] text-earth-400", children: t2("nutritionCarbs") }),
-                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-1 text-center text-[0.82rem] font-bold text-earth-900 lg:text-[0.95rem]", children: nutrition.carbs })
-                  ] })
-                ] })
-              ] })
-            ] });
-          })()
+          className: "group flex min-h-full flex-col overflow-hidden rounded-[2rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf7fa_100%)] shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)]",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "relative aspect-[4/3] overflow-hidden bg-earth-100", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+                "img",
+                {
+                  src: product.image,
+                  alt: product.categoryName,
+                  className: "h-full w-full object-cover transition-transform duration-500 group-hover:scale-105",
+                  referrerPolicy: "no-referrer"
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/18 via-transparent to-transparent" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex flex-1 flex-col p-5 sm:p-6", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { className: "font-display text-[2rem] font-bold leading-tight text-earth-900", children: product.categoryName }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-3 flex-1 text-base leading-6 text-earth-700", children: product.shortDescription }),
+              product.variantSummary && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-4 rounded-2xl bg-white px-4 py-3 text-sm font-medium leading-5 text-earth-700 shadow-sm shadow-earth-100/80", children: product.variantSummary }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
+                import_react_router_dom6.Link,
+                {
+                  to: getManagedPagePath("products", pageSeo, locale),
+                  className: "mt-5 inline-flex items-center font-medium text-earth-700 transition-colors hover:text-earth-900",
+                  children: [
+                    content.productPreviewItemCtaLabel || "View in Catalog",
+                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react3.ArrowRight, { className: "ml-2 h-4 w-4" })
+                  ]
+                }
+              )
+            ] })
+          ]
         },
         i
       )) }),
@@ -130443,9 +130400,9 @@ function HomeForm({ content, updateContent }) {
         {
           label: "Product Categories Grid (Maximum 4 items)",
           items: content.productCategories || [],
-          emptyItem: { categoryName: "", image: "", shortDescription: "", url: "", nutrition: { energy: "", protein: "", fat: "", carbs: "" } },
+          emptyItem: { categoryName: "", image: "", shortDescription: "", variantSummary: "", url: "" },
           onUpdate: (items) => updateContent({ productCategories: items.slice(0, 4) }),
-          renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "space-y-4", children: [
+          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "space-y-4", children: [
             /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
               /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
@@ -130479,6 +130436,19 @@ function HomeForm({ content, updateContent }) {
               )
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Variant Summary / Examples" }),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.variantSummary || "",
+                  onChange: (e) => updateItem(index, "variantSummary", e.target.value),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                  placeholder: "Golden, Sultana, Soyaki, Black-Red"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Learn More URL" }),
               /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
                 "input",
@@ -130489,36 +130459,6 @@ function HomeForm({ content, updateContent }) {
                   className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                 }
               )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/70 p-3", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-widest text-slate-500", children: "Nutritional Facts (per 100g)" }),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "grid grid-cols-2 gap-3 lg:grid-cols-4", children: [
-                ["energy", "Energy"],
-                ["protein", "Protein"],
-                ["fat", "Fat"],
-                ["carbs", "Carbs"]
-              ].map(([key, label]) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1", children: label }),
-                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.nutrition?.[key] || "",
-                    onChange: (e) => replaceItem(index, {
-                      ...item,
-                      nutrition: {
-                        energy: item.nutrition?.energy || "",
-                        protein: item.nutrition?.protein || "",
-                        fat: item.nutrition?.fat || "",
-                        carbs: item.nutrition?.carbs || "",
-                        [key]: e.target.value
-                      }
-                    }),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500",
-                    placeholder: key === "energy" ? "280 kcal" : "2.5 g"
-                  }
-                )
-              ] }, key)) })
             ] })
           ] })
         }
