@@ -4,9 +4,12 @@ import { CheckCircle2, Globe, Layout, Mail, ChevronDown, Loader2, Languages } fr
 import { usePages } from "@/src/contexts/PageContext";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
-import { NavLink } from "@/src/types/page";
+import { GlobalSettings, NavLink } from "@/src/types/page";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { useAdminHeaderTabs, useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
+import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
+import { cloneDraft, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
+import type { ActiveLocaleCode } from "@/src/i18n";
 
 export function AdminGlobalSettings() {
     const { globalSettings, updateGlobalSettings, refreshData } = usePages();
@@ -18,17 +21,35 @@ export function AdminGlobalSettings() {
     const [activeSection, setActiveSection] = useState<string | null>("branding");
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [settingsLocale, setSettingsLocale] = useState<ActiveLocaleCode | null>(null);
+    const [loadedEditingLang, setLoadedEditingLang] = useState<ActiveLocaleCode | null>(null);
+    const [settingsDrafts, setSettingsDrafts] = useState<Record<string, GlobalSettings>>({});
+    const settingsDraftsRef = React.useRef(settingsDrafts);
+    const refreshRequestIdRef = React.useRef(0);
+    const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
+    const unsavedDraftLocales = React.useMemo(() => unsavedLocalesFromDrafts(settingsDrafts), [settingsDrafts]);
+    const hasActiveDraft = Boolean(settingsDrafts[editingLang]);
+
+    React.useEffect(() => {
+        settingsDraftsRef.current = settingsDrafts;
+    }, [settingsDrafts]);
 
     // Refresh data whenever the editing language changes
     React.useEffect(() => {
         const loadLangData = async () => {
+            const requestId = refreshRequestIdRef.current + 1;
+            refreshRequestIdRef.current = requestId;
             setIsRefreshing(true);
+            setLoadedEditingLang(null);
             try {
                 await refreshData(editingLang);
             } catch (err) {
                 console.error("Failed to load language data:", err);
             } finally {
-                setIsRefreshing(false);
+                if (requestId === refreshRequestIdRef.current) {
+                    setLoadedEditingLang(editingLang);
+                    setIsRefreshing(false);
+                }
             }
         };
         loadLangData();
@@ -36,14 +57,55 @@ export function AdminGlobalSettings() {
 
     // Sync local state with context data
     React.useEffect(() => {
-        setSettings(globalSettings);
-    }, [globalSettings]);
+        if (!isLocaleReady) return;
+        setSettings(cloneDraft(settingsDraftsRef.current[editingLang] || globalSettings));
+        setSettingsLocale(editingLang);
+    }, [editingLang, globalSettings, isLocaleReady]);
+
+    React.useEffect(() => {
+        if (!isLocaleReady || settingsLocale !== editingLang) return;
+        setSettingsDrafts((drafts) => {
+            if (isSameDraft(settings, globalSettings)) {
+                if (!drafts[editingLang]) return drafts;
+                const nextDrafts = { ...drafts };
+                delete nextDrafts[editingLang];
+                return nextDrafts;
+            }
+
+            if (drafts[editingLang] && isSameDraft(drafts[editingLang], settings)) {
+                return drafts;
+            } else {
+                const nextDrafts = { ...drafts };
+                nextDrafts[editingLang] = cloneDraft(settings);
+                return nextDrafts;
+            }
+        });
+    }, [editingLang, globalSettings, isLocaleReady, settings, settingsLocale]);
+
+    const discardActiveDraft = () => {
+        setSettingsDrafts((drafts) => {
+            const nextDrafts = { ...drafts };
+            delete nextDrafts[editingLang];
+            return nextDrafts;
+        });
+        setSettings(cloneDraft(globalSettings));
+        setSettingsLocale(editingLang);
+    };
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!isLocaleReady || settingsLocale !== editingLang) {
+            alert(`Still loading ${editingLang.toUpperCase()} settings. Please wait before saving.`);
+            return;
+        }
         setIsSaving(true);
         try {
             await updateGlobalSettings(settings, editingLang);
+            setSettingsDrafts((drafts) => {
+                const nextDrafts = { ...drafts };
+                delete nextDrafts[editingLang];
+                return nextDrafts;
+            });
             setSuccessMessage(`Global settings (${editingLang.toUpperCase()}) saved successfully!`);
             setTimeout(() => setSuccessMessage(null), 3000);
         } catch (error) {
@@ -59,11 +121,11 @@ export function AdminGlobalSettings() {
             label: `Save Settings`,
             formId: "global-settings-form",
             isLoading: isSaving,
-            disabled: isSaving || isRefreshing,
+            disabled: isSaving || isRefreshing || !isLocaleReady || settingsLocale !== editingLang,
         });
 
         return () => setAction(null);
-    }, [isRefreshing, isSaving, setAction]);
+    }, [editingLang, isLocaleReady, isRefreshing, isSaving, setAction, settingsLocale]);
 
     const toggleSection = (id: string) => {
         setActiveSection(id);
@@ -109,7 +171,7 @@ export function AdminGlobalSettings() {
         return () => setHeaderTabs(null);
     }, [activeSection, setHeaderTabs]);
 
-    if (isRefreshing) {
+    if (!isLocaleReady) {
         return (
             <div className="flex h-64 items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
@@ -135,6 +197,12 @@ export function AdminGlobalSettings() {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <LocaleDraftStatus
+                activeLocale={editingLang}
+                unsavedLocales={unsavedDraftLocales}
+                onDiscardActive={hasActiveDraft ? discardActiveDraft : undefined}
+            />
 
             <form id="global-settings-form" onSubmit={handleSave} className="space-y-3">
                 {sections.map((section) => {

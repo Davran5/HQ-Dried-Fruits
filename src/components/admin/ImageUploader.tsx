@@ -10,7 +10,8 @@ interface ImageUploaderProps {
     placeholder?: string;
 }
 
-export function ImageUploader({ label, value, onChange, placeholder }: ImageUploaderProps) {
+export function ImageUploader({ label: rawLabel, value, onChange, placeholder }: ImageUploaderProps) {
+    const label = `${rawLabel} - Shared across all languages`;
     const { uploadMedia, images: contextImages, isLoading: contextLoading } = useMedia();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isUploading, setIsUploading] = useState(false);
@@ -42,7 +43,7 @@ export function ImageUploader({ label, value, onChange, placeholder }: ImageUplo
     };
 
     return (
-        <div className="space-y-2.5">
+        <div className="space-y-2.5" data-shared-media-field="true">
             <label className="block text-sm font-bold text-slate-700">{label}</label>            <div className="flex items-start gap-4">
                 <div className="relative h-24 w-24 shrink-0 rounded-xl border-2 border-slate-200 bg-slate-50 overflow-hidden shadow-inner flex items-center justify-center">
                     {isInternalImage(value) ? (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
@@ -10,6 +10,9 @@ import { useProducts } from "@/src/contexts/ProductContext";
 import { Product, ProductContentSection } from "@/src/types/product";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
+import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
+import { cloneDraft, draftKey, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
+import type { ActiveLocaleCode } from "@/src/i18n";
 
 const emptyProduct: Omit<Product, "id"> = {
   name: "",
@@ -56,51 +59,155 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [formLocale, setFormLocale] = useState<ActiveLocaleCode | null>(null);
+  const [loadedEditingLang, setLoadedEditingLang] = useState<ActiveLocaleCode | null>(null);
+  const [productDrafts, setProductDrafts] = useState<Record<string, Omit<Product, "id">>>({});
+  const [openEditorByLocale, setOpenEditorByLocale] = useState<Record<string, string | null>>({});
+  const productDraftsRef = useRef(productDrafts);
+  const openEditorByLocaleRef = useRef(openEditorByLocale);
+  const refreshRequestIdRef = useRef(0);
+  const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
+  const unsavedDraftLocales = useMemo(() => unsavedLocalesFromDrafts(productDrafts), [productDrafts]);
+  const activeDraftKey = editingId ? draftKey(editingLang, editingId) : "";
+  const hasActiveDraft = Boolean(activeDraftKey && productDrafts[activeDraftKey]);
+
+  useEffect(() => {
+    productDraftsRef.current = productDrafts;
+  }, [productDrafts]);
+
+  useEffect(() => {
+    openEditorByLocaleRef.current = openEditorByLocale;
+  }, [openEditorByLocale]);
+
+  const getSourceFormData = (id: string | null): Omit<Product, "id"> => {
+    if (!id || id === "new") return cloneDraft(emptyProduct);
+    const product = products.find((item) => item.id === id);
+    if (!product) return cloneDraft(emptyProduct);
+    const { id: _id, ...sourceData } = product;
+    return cloneDraft(sourceData);
+  };
 
   // Refresh products whenever the editing language changes
   useEffect(() => {
     const loadLangData = async () => {
+      const requestId = refreshRequestIdRef.current + 1;
+      refreshRequestIdRef.current = requestId;
       setIsRefreshing(true);
+      setLoadedEditingLang(null);
+      setEditingId(null);
+      setFormLocale(null);
       try {
         await refreshProducts(editingLang);
       } catch (err) {
         console.error("Failed to load language data:", err);
       } finally {
-        setIsRefreshing(false);
+        if (requestId === refreshRequestIdRef.current) {
+          setLoadedEditingLang(editingLang);
+          setIsRefreshing(false);
+        }
       }
     };
     loadLangData();
-    handleClose(); // Close any open editor when switching languages
   }, [editingLang]);
+
+  useEffect(() => {
+    if (!isLocaleReady) return;
+    const openId = openEditorByLocaleRef.current[editingLang] || null;
+    if (!openId) {
+      setEditingId(null);
+      setFormData(cloneDraft(emptyProduct));
+      setFormLocale(editingLang);
+      return;
+    }
+
+    const draft = productDraftsRef.current[draftKey(editingLang, openId)];
+    setEditingId(openId);
+    setFormData(cloneDraft(draft || getSourceFormData(openId)));
+    setFormLocale(editingLang);
+  }, [editingLang, isLocaleReady, products]);
+
+  useEffect(() => {
+    if (!isLocaleReady || formLocale !== editingLang || !editingId) return;
+    const key = draftKey(editingLang, editingId);
+    const sourceData = getSourceFormData(editingId);
+
+    setProductDrafts((drafts) => {
+      if (isSameDraft(formData, sourceData)) {
+        if (!drafts[key]) return drafts;
+        const nextDrafts = { ...drafts };
+        delete nextDrafts[key];
+        return nextDrafts;
+      }
+
+      if (drafts[key] && isSameDraft(drafts[key], formData)) {
+        return drafts;
+      }
+
+      return { ...drafts, [key]: cloneDraft(formData) };
+    });
+  }, [editingId, editingLang, formData, formLocale, isLocaleReady, products]);
 
   const handleToggleAccordion = (id: string, product?: Product) => {
     if (editingId === id) {
-      setEditingId(null);
-      setFormData(emptyProduct);
+      handleClose();
     } else {
+      const draft = productDraftsRef.current[draftKey(editingLang, id)];
       setEditingId(id);
-      setFormData(product ? JSON.parse(JSON.stringify(product)) : emptyProduct);
+      setFormData(cloneDraft(draft || (product ? (() => {
+        const { id: _id, ...sourceData } = product;
+        return sourceData;
+      })() : emptyProduct)));
+      setFormLocale(editingLang);
+      setOpenEditorByLocale((current) => ({ ...current, [editingLang]: id }));
     }
   };
 
   const handleClose = () => {
+    if (editingId) {
+      const key = draftKey(editingLang, editingId);
+      setProductDrafts((drafts) => {
+        if (!drafts[key]) return drafts;
+        const nextDrafts = { ...drafts };
+        delete nextDrafts[key];
+        return nextDrafts;
+      });
+    }
     setEditingId(null);
-    setFormData(emptyProduct);
+    setFormData(cloneDraft(emptyProduct));
+    setFormLocale(editingLang);
+    setOpenEditorByLocale((current) => ({ ...current, [editingLang]: null }));
   };
 
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isLocaleReady || formLocale !== editingLang) {
+      alert(`Still loading ${editingLang.toUpperCase()} products. Please wait before saving.`);
+      return;
+    }
 
     setIsSaving(true);
     try {
       if (editingId === "new") {
         const createdProduct = await addProduct(formData, editingLang);
         const { id: createdId, ...createdFormData } = createdProduct;
+        setProductDrafts((drafts) => {
+          const nextDrafts = { ...drafts };
+          delete nextDrafts[draftKey(editingLang, "new")];
+          return nextDrafts;
+        });
         setEditingId(createdId);
         setFormData(createdFormData);
+        setFormLocale(editingLang);
+        setOpenEditorByLocale((current) => ({ ...current, [editingLang]: createdId }));
         setSuccessMessage(`New product (${editingLang.toUpperCase()}) created successfully!`);
       } else if (editingId) {
         await updateProduct(editingId, formData, editingLang);
+        const savedId = editingId;
+        setProductDrafts((drafts) => {
+          const nextDrafts = { ...drafts };
+          delete nextDrafts[draftKey(editingLang, savedId)];
+          return nextDrafts;
+        });
         setSuccessMessage(`Product (${editingLang.toUpperCase()}) updated successfully!`);
       }
 
@@ -123,11 +230,11 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
       label: editingId === "new" ? "Create Product" : "Save Product",
       formId: `form-product-${editingId}`,
       isLoading: isSaving,
-      disabled: isSaving,
+      disabled: isSaving || !isLocaleReady || formLocale !== editingLang,
     });
 
     return () => setFloatingAction(null);
-  }, [editingId, isSaving, setFloatingAction]);
+  }, [editingId, editingLang, formLocale, isLocaleReady, isSaving, setFloatingAction]);
 
   const confirmDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Prevents opening the accordion
@@ -332,7 +439,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     </div>
   );
 
-  if (isRefreshing) {
+  if (!isLocaleReady) {
     return (
       <div className="flex h-64 items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -358,6 +465,11 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
           </motion.div>
         )}
       </AnimatePresence>
+      <LocaleDraftStatus
+        activeLocale={editingLang}
+        unsavedLocales={unsavedDraftLocales}
+        onDiscardActive={hasActiveDraft ? handleClose : undefined}
+      />
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h2 className={embedded ? "text-lg font-bold text-slate-900" : "text-2xl font-bold text-slate-900"}>

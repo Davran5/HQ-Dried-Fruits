@@ -118,7 +118,14 @@ const ADMIN_FOCUS_SELECTOR = [
 ].join(",");
 
 function normalizeAdminSearchText(value?: string | null) {
-  return (value || "").toLowerCase().replace(/\s+/g, " ").trim();
+  return (value || "")
+    .normalize("NFKC")
+    .toLocaleLowerCase()
+    .replace(/ё/g, "е")
+    .replace(/[‘’`´ʻʼʹ]/g, "'")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function trimAdminSearchDetail(value: string, maxLength = 110) {
@@ -137,7 +144,7 @@ function escapeCssIdentifier(value: string) {
 
 function getAdminElementValue(element: HTMLElement) {
   if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
-    return element.value;
+    return element.value || element.getAttribute("value") || "";
   }
 
   if (element instanceof HTMLSelectElement) {
@@ -251,7 +258,7 @@ function buildAdminSearchResults(root: HTMLElement, query: string, headerTabs: A
         sectionTitle && sectionTitle !== title ? sectionTitle : "",
         fieldValue && fieldValue !== title ? fieldValue : "",
         placeholder && placeholder !== title ? placeholder : "",
-      ].filter(Boolean).join(" · ") || "Jump to field",
+      ].filter(Boolean).join(" - ") || "Jump to field",
     );
     const targetIndex = target === element ? index : candidates.indexOf(target);
     const id = `${targetIndex >= 0 ? targetIndex : index}-${title}-${detail}`;
@@ -508,6 +515,35 @@ function AdminLayoutContent() {
     setAdminSearchResults([]);
     setIsAdminSearchOpen(false);
   }, [editingLang, location.pathname]);
+
+  useEffect(() => {
+    if (!isAdminSearchOpen || normalizeAdminSearchText(adminSearchQuery).length < ADMIN_SEARCH_MIN_LENGTH) {
+      return undefined;
+    }
+
+    const refreshSearch = () => {
+      if (!adminMainRef.current) return;
+      setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, adminSearchQuery, headerTabs));
+    };
+    let refreshTimer = window.setTimeout(refreshSearch, 80);
+    const observer = new MutationObserver(() => {
+      window.clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(refreshSearch, 80);
+    });
+
+    if (adminMainRef.current) {
+      observer.observe(adminMainRef.current, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      });
+    }
+
+    return () => {
+      window.clearTimeout(refreshTimer);
+      observer.disconnect();
+    };
+  }, [adminSearchQuery, headerTabs, isAdminSearchOpen]);
 
   // Still checking auth
   if (isAuthenticated === null) {

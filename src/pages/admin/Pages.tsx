@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
@@ -14,9 +14,12 @@ import { ProductCatalogManager } from "@/src/pages/admin/Products";
 import { SimplePageForm } from "@/src/components/admin/forms/SimplePageForm";
 import { getManagedPagePath, type ManagedPageId } from "@/src/lib/routes";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
+import { cloneDraft, draftKey, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
+import type { ActiveLocaleCode } from "@/src/i18n";
 
 function clonePage(page: PageData) {
-  return JSON.parse(JSON.stringify(page)) as PageData;
+  return cloneDraft(page);
 }
 
 export function AdminPages() {
@@ -30,6 +33,11 @@ export function AdminPages() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [productAction, setProductAction] = useState<any>(null);
+  const [editingPageLocale, setEditingPageLocale] = useState<ActiveLocaleCode | null>(null);
+  const [loadedEditingLang, setLoadedEditingLang] = useState<ActiveLocaleCode | null>(null);
+  const [pageDrafts, setPageDrafts] = useState<Record<string, PageData>>({});
+  const pageDraftsRef = useRef(pageDrafts);
+  const refreshRequestIdRef = useRef(0);
 
   const selectedSourcePage = useMemo(
     () => pages.find((page) => page.id === selectedPageId) || pages[0] || null,
@@ -37,9 +45,20 @@ export function AdminPages() {
   );
 
   useEffect(() => {
-    if (!selectedSourcePage) return;
-    setEditingPage(clonePage(selectedSourcePage));
-  }, [selectedSourcePage]);
+    pageDraftsRef.current = pageDrafts;
+  }, [pageDrafts]);
+
+  const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
+  const activeDraftKey = draftKey(editingLang, selectedPageId);
+  const unsavedDraftLocales = useMemo(() => unsavedLocalesFromDrafts(pageDrafts), [pageDrafts]);
+  const hasActiveDraft = Boolean(pageDrafts[activeDraftKey]);
+
+  useEffect(() => {
+    if (!isLocaleReady || !selectedSourcePage) return;
+    const draft = pageDraftsRef.current[draftKey(editingLang, selectedPageId)];
+    setEditingPage(clonePage(draft || selectedSourcePage));
+    setEditingPageLocale(editingLang);
+  }, [editingLang, isLocaleReady, selectedPageId, selectedSourcePage]);
 
   useEffect(() => {
     setHeaderTabs(
@@ -60,13 +79,19 @@ export function AdminPages() {
 
   useEffect(() => {
     const loadLangData = async () => {
+      const requestId = refreshRequestIdRef.current + 1;
+      refreshRequestIdRef.current = requestId;
       setIsRefreshing(true);
+      setLoadedEditingLang(null);
       try {
         await refreshData(editingLang);
       } catch (err) {
         console.error("Failed to load language data:", err);
       } finally {
-        setIsRefreshing(false);
+        if (requestId === refreshRequestIdRef.current) {
+          setLoadedEditingLang(editingLang);
+          setIsRefreshing(false);
+        }
       }
     };
 
@@ -76,10 +101,19 @@ export function AdminPages() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingPage) return;
+    if (!isLocaleReady || editingPageLocale !== editingLang) {
+      alert(`Still loading ${editingLang.toUpperCase()} content. Please wait before saving.`);
+      return;
+    }
 
     setIsSaving(true);
     try {
       await updatePage(editingPage.id, editingPage, editingLang);
+      setPageDrafts((current) => {
+        const next = { ...current };
+        delete next[draftKey(editingLang, editingPage.id)];
+        return next;
+      });
       setSuccessMessage(`${editingPage.name} page (${editingLang.toUpperCase()}) updated successfully!`);
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
@@ -91,6 +125,11 @@ export function AdminPages() {
   };
 
   useEffect(() => {
+    if (!isLocaleReady) {
+      setAction(null);
+      return undefined;
+    }
+
     if (!editingPage) {
       setAction(productAction || null);
       return undefined;
@@ -103,20 +142,34 @@ export function AdminPages() {
         label: `Save ${editingPage.name}`,
         formId: `form-${editingPage.id}`,
         isLoading: isSaving,
-        disabled: isSaving || isRefreshing,
+        disabled: isSaving || isRefreshing || editingPageLocale !== editingLang,
       });
     }
 
     return () => setAction(null);
-  }, [editingPage, isRefreshing, isSaving, productAction, setAction]);
+  }, [editingLang, editingPage, editingPageLocale, isLocaleReady, isRefreshing, isSaving, productAction, setAction]);
 
   const updateContent = (updates: any) => {
     setEditingPage((current) => {
-      if (!current) return current;
-      return {
+      if (!current || editingPageLocale !== editingLang || !isLocaleReady) return current;
+      const nextPage = {
         ...current,
         content: { ...current.content, ...updates },
       };
+
+      const source = pages.find((page) => page.id === nextPage.id);
+      setPageDrafts((drafts) => {
+        const key = draftKey(editingLang, nextPage.id);
+        const nextDrafts = { ...drafts };
+        if (source && isSameDraft(nextPage.content, source.content)) {
+          delete nextDrafts[key];
+        } else {
+          nextDrafts[key] = clonePage(nextPage);
+        }
+        return nextDrafts;
+      });
+
+      return nextPage;
     });
   };
 
@@ -143,10 +196,18 @@ export function AdminPages() {
   };
 
   const restoreCurrentPage = () => {
-    if (selectedSourcePage) setEditingPage(clonePage(selectedSourcePage));
+    setPageDrafts((drafts) => {
+      const nextDrafts = { ...drafts };
+      delete nextDrafts[activeDraftKey];
+      return nextDrafts;
+    });
+    if (selectedSourcePage) {
+      setEditingPage(clonePage(selectedSourcePage));
+      setEditingPageLocale(editingLang);
+    }
   };
 
-  if (isRefreshing && !editingPage) {
+  if (!isLocaleReady) {
     return (
       <div className="flex h-64 items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -172,6 +233,12 @@ export function AdminPages() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <LocaleDraftStatus
+        activeLocale={editingLang}
+        unsavedLocales={unsavedDraftLocales}
+        onDiscardActive={hasActiveDraft ? restoreCurrentPage : undefined}
+      />
 
       {editingPage && (
         <>

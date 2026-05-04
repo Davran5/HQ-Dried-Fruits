@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
 import { Product } from "../types/product";
 import { useLanguage } from "./LanguageContext";
 import { getActiveLocale, type ActiveLocaleCode, type LocaleCode } from "../i18n";
@@ -25,24 +25,34 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
     const [products, setProducts] = useState<Product[]>(bootstrapData?.products ?? []);
     const [productsLoaded, setProductsLoaded] = useState(Boolean(bootstrapData));
     const [loadedLocale, setLoadedLocale] = useState<ActiveLocaleCode | null>(bootstrapData?.locale ?? null);
+    const refreshRequestIdRef = useRef(0);
 
     const refreshProducts = async (requestedLocale?: LocaleCode) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
+        const requestId = refreshRequestIdRef.current + 1;
+        refreshRequestIdRef.current = requestId;
         setProductsLoaded(false);
 
         try {
             const response = await fetch(`/api/products?locale=${encodeURIComponent(targetLocale)}&v=${Date.now()}`);
             if (response.ok) {
                 const data = await response.json();
+                if (requestId !== refreshRequestIdRef.current) {
+                    return;
+                }
                 if (Array.isArray(data)) {
                     setProducts(data);
                 }
             }
-            setLoadedLocale(targetLocale);
+            if (requestId === refreshRequestIdRef.current) {
+                setLoadedLocale(targetLocale);
+            }
         } catch (err) {
             console.error("Error loading products:", err);
         } finally {
-            setProductsLoaded(true);
+            if (requestId === refreshRequestIdRef.current) {
+                setProductsLoaded(true);
+            }
         }
     };
 

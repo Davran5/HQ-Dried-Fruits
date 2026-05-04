@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
 import { useLanguage } from "./LanguageContext";
 import { getActiveLocale, type ActiveLocaleCode, type LocaleCode } from "../i18n";
 import {
@@ -525,9 +525,12 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
     const [pageSeoLoaded, setPageSeoLoaded] = useState(Boolean(bootstrapData));
     const [pageDataLoaded, setPageDataLoaded] = useState(Boolean(bootstrapData));
     const [loadedLocale, setLoadedLocale] = useState<ActiveLocaleCode | null>(bootstrapData?.locale ?? null);
+    const refreshRequestIdRef = useRef(0);
 
     const refreshData = async (requestedLocale?: LocaleCode) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
+        const requestId = refreshRequestIdRef.current + 1;
+        refreshRequestIdRef.current = requestId;
         setPageDataLoaded(false);
         setPageSeoLoaded(false);
 
@@ -538,15 +541,10 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
                 fetch(`/api/seo/pages${localeQuery}`),
             ]);
 
-            if (globalsRes.ok) {
-                const data = await globalsRes.json();
-                setGlobalSettings(data);
-            }
-
-            if (seoRes.ok) {
-                const data = await seoRes.json();
-                setPageSeo(data);
-            }
+            const [globalsData, seoData] = await Promise.all([
+                globalsRes.ok ? globalsRes.json() : Promise.resolve(null),
+                seoRes.ok ? seoRes.json() : Promise.resolve(null),
+            ]);
 
             const pagePromises = managedPageIds.map(async (id) => {
                 const res = await fetch(`/api/pages/${id}${localeQuery}`);
@@ -558,6 +556,18 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
             });
             const results = await Promise.all(pagePromises);
 
+            if (requestId !== refreshRequestIdRef.current) {
+                return;
+            }
+
+            if (globalsData) {
+                setGlobalSettings(globalsData);
+            }
+
+            if (seoData) {
+                setPageSeo(seoData);
+            }
+
             setPages(
                 initialPages.map((page) => {
                     const match = results.find((result) => result?.id === page.id);
@@ -568,8 +578,10 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
         } catch (error) {
             console.error("Failed to refresh page data:", error);
         } finally {
-            setPageDataLoaded(true);
-            setPageSeoLoaded(true);
+            if (requestId === refreshRequestIdRef.current) {
+                setPageDataLoaded(true);
+                setPageSeoLoaded(true);
+            }
         }
     };
 

@@ -55,7 +55,9 @@ function PartnerLogoGrid({ items, onUpdate }: { items: string[]; onUpdate: (item
 
     return (
         <div className="space-y-3">
-            <label className="block text-sm font-bold text-slate-800">Partner Logos & Certifications</label>
+            <label className="block text-sm font-bold text-slate-800">
+                Partner Logos & Certifications - Shared across all languages
+            </label>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
                 {items.map((logo, index) => (
                     <div key={`${logo}-${index}`} className="group relative aspect-square overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
