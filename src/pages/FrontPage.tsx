@@ -323,50 +323,90 @@ export function FrontPage() {
                         </Link>
                     </div>
 
-                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-                        {productCategoryCards.map((product, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.6, delay: i * 0.1, ease: springEasing }}
-                                className="group flex min-h-full flex-col overflow-hidden rounded-[2rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf7fa_100%)] shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)]"
-                            >
-                                <div className="relative aspect-[4/3] overflow-hidden bg-earth-100">
-                                    <img
-                                        src={product.image}
-                                        alt={product.categoryName}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                        referrerPolicy="no-referrer"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-earth-900/18 via-transparent to-transparent" />
-                                </div>
+                    <div className="grid gap-5 sm:gap-6">
+                        {productCategoryCards.map((product, i) => {
+                            const categoryTypes = (product.variantSummary || "")
+                                .split(",")
+                                .map((type) => type.trim())
+                                .filter(Boolean);
 
-                                <div className="flex flex-1 flex-col p-5 sm:p-6">
-                                    <h3 className="font-display text-[2rem] font-bold leading-tight text-earth-900">
-                                        {product.categoryName}
-                                    </h3>
-                                    <p className="mt-3 flex-1 text-base leading-6 text-earth-700">
-                                        {product.shortDescription}
-                                    </p>
+                            return (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 40 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.6, delay: i * 0.1, ease: springEasing }}
+                                    className="group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]"
+                                >
+                                    <div className="grid h-full gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(6rem,0.22fr)] lg:items-stretch lg:gap-5">
+                                        <div className="flex h-full min-w-0 flex-col justify-center">
+                                            <div className="mb-5 flex items-center gap-3">
+                                                <span className="h-px w-10 bg-earth-300" />
+                                                <p className="text-sm font-semibold uppercase tracking-[0.26em] text-earth-400">
+                                                    Product Category
+                                                </p>
+                                            </div>
+                                            <h3 className="font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]">
+                                                {product.categoryName}
+                                            </h3>
+                                            <p className="mt-3 max-w-[34ch] text-base leading-6 text-earth-700 sm:mt-4 sm:text-lg sm:leading-7">
+                                                {product.shortDescription}
+                                            </p>
 
-                                    {product.variantSummary && (
-                                        <p className="mt-4 rounded-2xl bg-white px-4 py-3 text-sm font-medium leading-5 text-earth-700 shadow-sm shadow-earth-100/80">
-                                            {product.variantSummary}
-                                        </p>
-                                    )}
+                                            <div className="mt-5 flex flex-wrap gap-3 text-sm">
+                                                <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
+                                                    {t("homeExportReady")}
+                                                </span>
+                                                <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
+                                                    {t("homeWholesaleSupply")}
+                                                </span>
+                                            </div>
 
-                                    <Link
-                                        to={getManagedPagePath("products", pageSeo, locale)}
-                                        className="mt-5 inline-flex items-center font-medium text-earth-700 transition-colors hover:text-earth-900"
-                                    >
-                                        {content.productPreviewItemCtaLabel || "View in Catalog"}
-                                        <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Link>
-                                </div>
-                            </motion.div>
-                        ))}
+                                            <div className="mt-6 flex items-center gap-4">
+                                                <Link
+                                                    to={getManagedPagePath("products", pageSeo, locale)}
+                                                    className="inline-flex items-center font-medium text-earth-700 transition-colors hover:text-earth-900"
+                                                >
+                                                    {content.productPreviewItemCtaLabel || "View in Catalog"} <ArrowRight className="ml-2 h-4 w-4" />
+                                                </Link>
+                                                <div className="h-px flex-1 bg-earth-100" />
+                                            </div>
+                                        </div>
+
+                                        <div className="relative overflow-hidden rounded-[2.6rem] bg-earth-100">
+                                            <img
+                                                src={product.image}
+                                                alt={product.categoryName}
+                                                className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105 lg:h-full"
+                                                referrerPolicy="no-referrer"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-earth-900/24 via-earth-900/4 to-transparent" />
+                                        </div>
+
+                                        <div className="flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
+                                            <div className="mb-3 text-center lg:text-left">
+                                                <p className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400">
+                                                    Types
+                                                </p>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1 lg:content-center">
+                                                {(categoryTypes.length > 0 ? categoryTypes : [product.categoryName]).map((type) => (
+                                                    <div
+                                                        key={type}
+                                                        className="flex min-h-[2.9rem] items-center justify-center rounded-2xl bg-white px-2 py-2 text-center shadow-sm shadow-earth-100/80 lg:min-h-[3.3rem]"
+                                                    >
+                                                        <p className="text-[0.78rem] font-bold leading-tight text-earth-800 lg:text-[0.86rem]">
+                                                            {type}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                     <div className="mt-8 flex justify-center lg:hidden">
                         <Link to={getManagedPagePath("products", pageSeo, locale)}>
