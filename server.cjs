@@ -124348,7 +124348,8 @@ var initialPages = [
       productCategories: [
         { categoryName: "Dried Apricots", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800", shortDescription: "High-quality dark and golden varieties.", url: "/products/sun-dried-apricots", nutrition: { energy: "280 kcal", protein: "2.5 g", fat: "0.4 g", carbs: "72 g" } },
         { categoryName: "Dried Prunes", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=800", shortDescription: "Pitted and unpitted sweet plums.", url: "/products/pitted-prunes", nutrition: { energy: "240 kcal", protein: "2.2 g", fat: "0.4 g", carbs: "64 g" } },
-        { categoryName: "Shadow-Dried Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Traditional drying process for max flavor.", url: "/products/black-raisins", nutrition: { energy: "299 kcal", protein: "3.1 g", fat: "0.5 g", carbs: "79 g" } }
+        { categoryName: "Shadow-Dried Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Traditional drying process for max flavor.", url: "/products/black-raisins", nutrition: { energy: "299 kcal", protein: "3.1 g", fat: "0.5 g", carbs: "79 g" } },
+        { categoryName: "Mixed Dried Fruits", image: "https://images.unsplash.com/photo-1606914469633-bd39206ea739?q=80&w=800&auto=format&fit=crop", shortDescription: "Buyer-ready assortments for retail, foodservice, and mixed container programs.", url: "/products/mixed-dried-fruits", nutrition: { energy: "285 kcal", protein: "2.7 g", fat: "0.5 g", carbs: "73 g" } }
       ],
       exportMarketsEyebrow: "Export Focus",
       exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
@@ -125709,7 +125710,7 @@ function FrontPage() {
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { className: "font-display text-[2.3rem] font-bold text-earth-900 sm:text-4xl", children: content.productPreviewTitle }) }),
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), className: "hidden lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid gap-5 sm:gap-6", children: (content.productCategories || []).map((product, i) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid gap-5 sm:gap-6", children: (content.productCategories || []).slice(0, 4).map((product, i) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
         motion.div,
         {
           initial: { opacity: 0, y: 40 },
@@ -130440,10 +130441,10 @@ function HomeForm({ content, updateContent }) {
       /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
         Repeater,
         {
-          label: "Product Categories Grid (Exactly 3 items)",
+          label: "Product Categories Grid (Maximum 4 items)",
           items: content.productCategories || [],
           emptyItem: { categoryName: "", image: "", shortDescription: "", url: "", nutrition: { energy: "", protein: "", fat: "", carbs: "" } },
-          onUpdate: (items) => updateContent({ productCategories: items.slice(0, 3) }),
+          onUpdate: (items) => updateContent({ productCategories: items.slice(0, 4) }),
           renderItem: (item, index, updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "space-y-4", children: [
             /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),

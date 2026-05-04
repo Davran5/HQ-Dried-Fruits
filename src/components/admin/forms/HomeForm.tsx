@@ -165,10 +165,10 @@ export function HomeForm({ content, updateContent }: Props) {
                 </div>
 
                 <Repeater<ProductCategoryItem>
-                    label="Product Categories Grid (Exactly 3 items)"
+                    label="Product Categories Grid (Maximum 4 items)"
                     items={content.productCategories || []}
                     emptyItem={{ categoryName: "", image: "", shortDescription: "", url: "", nutrition: { energy: "", protein: "", fat: "", carbs: "" } }}
-                    onUpdate={(items) => updateContent({ productCategories: items.slice(0, 3) })}
+                    onUpdate={(items) => updateContent({ productCategories: items.slice(0, 4) })}
                     renderItem={(item, index, updateItem, replaceItem) => (
                         <div className="space-y-4">
                             <div>

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type FormEvent } from "react";
 
 const UNLOCK_KEY = "hq_site_unlocked";
 
@@ -38,7 +38,7 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
     }
   }
 
-  async function handlePasswordSubmit(e: React.FormEvent) {
+  async function handlePasswordSubmit(e: FormEvent) {
     e.preventDefault();
     if (!password) return;
     
@@ -70,7 +70,7 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
     }
   }
 
-  async function handleFormSubmit(e: React.FormEvent) {
+  async function handleFormSubmit(e: FormEvent) {
     e.preventDefault();
     setFormState("sending");
     try {

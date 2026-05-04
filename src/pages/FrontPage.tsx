@@ -327,7 +327,7 @@ export function FrontPage() {
                     </div>
 
                     <div className="grid gap-5 sm:gap-6">
-                        {(content.productCategories || []).map((product, i) => (
+                        {(content.productCategories || []).slice(0, 4).map((product, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 40 }}

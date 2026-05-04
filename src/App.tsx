@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 import { ComingSoon, isUnlocked } from "./pages/ComingSoon";
 import { FrontPage } from "./pages/FrontPage";
@@ -142,7 +142,7 @@ function PublicRouteResolver() {
   }
 }
 
-function ComingSoonGate({ children }: { children: React.ReactNode }) {
+function ComingSoonGate({ children }: { children: ReactNode }) {
   const [unlocked, setUnlocked] = useState<boolean>(() => isUnlocked());
   if (!unlocked) {
     return <ComingSoon onUnlock={() => setUnlocked(true)} />;

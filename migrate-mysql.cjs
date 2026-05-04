@@ -300,6 +300,7 @@ const pageContentDefaults = {
         { categoryName: "Dried Apricots", image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800", shortDescription: "Golden and natural dried apricot lines.", url: "/products/sun-dried-apricots", nutrition: { energy: "280 kcal", protein: "2.5 g", fat: "0.4 g", carbs: "72 g" } },
         { categoryName: "Black Raisins", image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=800", shortDescription: "Sweet raisins for retail and ingredient use.", url: "/products/black-raisins", nutrition: { energy: "299 kcal", protein: "3.1 g", fat: "0.5 g", carbs: "79 g" } },
         { categoryName: "Pitted Prunes", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=800", shortDescription: "Soft pitted and unpitted prune options.", url: "/products/pitted-prunes", nutrition: { energy: "240 kcal", protein: "2.2 g", fat: "0.4 g", carbs: "64 g" } },
+        { categoryName: "Mixed Dried Fruits", image: "https://images.unsplash.com/photo-1606914469633-bd39206ea739?q=80&w=800&auto=format&fit=crop", shortDescription: "Buyer-ready assortments for retail, foodservice, and mixed container programs.", url: "/products/mixed-dried-fruits", nutrition: { energy: "285 kcal", protein: "2.7 g", fat: "0.5 g", carbs: "73 g" } },
       ],
       exportMarketsEyebrow: "Export Focus",
       exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
