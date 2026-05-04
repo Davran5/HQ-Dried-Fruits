@@ -5,6 +5,7 @@ import { Repeater } from "@/src/components/admin/Repeater";
 import { RichTextEditor } from "./RichTextEditor";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
 import { useMedia } from "@/src/contexts/MediaContext";
+import { usePages } from "@/src/contexts/PageContext";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 
 interface Props {
@@ -95,6 +96,11 @@ function PartnerLogoGrid({ items, onUpdate }: { items: string[]; onUpdate: (item
 }
 
 export function AboutForm({ content, updateContent }: Props) {
+    const { globalSettings } = usePages();
+    const uiLabels = globalSettings.uiLabels || {};
+    const missionNarrativeTitleFallback = uiLabels.missionNarrativeTitle || "What guides the way we grow, process, and deliver";
+    const missionNarrativeSublabelFallback = uiLabels.missionNarrativeSublabel || "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.";
+
     return (
         <div className="space-y-4">
             <FormSection title="1. About Hero">
@@ -243,6 +249,28 @@ export function AboutForm({ content, updateContent }: Props) {
                         value={content.missionNarrativeEyebrow || ""}
                         onChange={e => updateContent({ missionNarrativeEyebrow: e.target.value })}
                         className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Mission Narrative Main Title</label>
+                    <input
+                        type="text"
+                        value={content.missionNarrativeTitle ?? missionNarrativeTitleFallback}
+                        onChange={e => updateContent({ missionNarrativeTitle: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                        placeholder="What guides the way we grow, process, and deliver"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Mission Narrative Text Below Title</label>
+                    <textarea
+                        rows={3}
+                        value={content.missionNarrativeSublabel ?? missionNarrativeSublabelFallback}
+                        onChange={e => updateContent({ missionNarrativeSublabel: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+                        placeholder="A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section."
                     />
                 </div>
 

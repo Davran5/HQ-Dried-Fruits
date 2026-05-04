@@ -87,8 +87,8 @@ const defaultUiLabels = {
     missionStandardsLabel: "Standards",
     orchardPhilosophyLabel: "Orchard Philosophy",
     missionNarrativeEyebrow: "Mission",
-    missionNarrativeTitle: "What drives us in cultivation and processing",
-    missionNarrativeSublabel: "A closer look at the mission, heritage, philosophy, and standards of the company.",
+    missionNarrativeTitle: "What guides the way we grow, process, and deliver",
+    missionNarrativeSublabel: "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.",
 
     // Facility & Standards
     insideFacilityEyebrow: "Inside the Facility",
@@ -312,6 +312,8 @@ const initialPages: PageData[] = [
             productionStandards: "Our production standards are built around export readiness, not just factory output. We work with controlled intake, calibrated sorting, food-safety procedures, and buyer-specific packing formats so product quality holds from the line to final dispatch. ISO, HACCP, and certification-led controls are part of that framework, but the real goal is practical consistency that importers can rely on across repeat orders.",
             missionPhotography: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000",
             missionNarrativeEyebrow: "Mission Narrative",
+            missionNarrativeTitle: "What guides the way we grow, process, and deliver",
+            missionNarrativeSublabel: "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.",
             facilityEyebrow: "Inside The Facility",
             ownProductionTitle: "Own Production",
             ownProductionIntro: "From orchard intake to final export packing, each production stage is managed inside our own operation for consistency, traceability, and buyer-ready execution.",

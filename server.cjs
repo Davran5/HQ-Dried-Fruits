@@ -99476,7 +99476,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
       ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
     ];
-    var Search2 = createLucideIcon("search", __iconNode$61);
+    var Search3 = createLucideIcon("search", __iconNode$61);
     var __iconNode$60 = [
       ["path", { d: "M16 5a4 3 0 0 0-8 0c0 4 8 3 8 7a4 3 0 0 1-8 0", key: "vqan6v" }],
       ["path", { d: "M8 19a4 3 0 0 0 8 0c0-4-8-3-8-7a4 3 0 0 1 8 0", key: "wdjd8o" }]
@@ -104383,7 +104383,7 @@ var require_lucide_react = __commonJS({
       ScreenShareOff,
       Scroll,
       ScrollText,
-      Search: Search2,
+      Search: Search3,
       SearchCheck,
       SearchCode,
       SearchSlash,
@@ -108271,7 +108271,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideScreenShareOff = ScreenShareOff;
     exports2.LucideScroll = Scroll;
     exports2.LucideScrollText = ScrollText;
-    exports2.LucideSearch = Search2;
+    exports2.LucideSearch = Search3;
     exports2.LucideSearchCheck = SearchCheck;
     exports2.LucideSearchCode = SearchCode;
     exports2.LucideSearchSlash = SearchSlash;
@@ -109495,12 +109495,12 @@ var require_lucide_react = __commonJS({
     exports2.ScrollIcon = Scroll;
     exports2.ScrollText = ScrollText;
     exports2.ScrollTextIcon = ScrollText;
-    exports2.Search = Search2;
+    exports2.Search = Search3;
     exports2.SearchCheck = SearchCheck;
     exports2.SearchCheckIcon = SearchCheck;
     exports2.SearchCode = SearchCode;
     exports2.SearchCodeIcon = SearchCode;
-    exports2.SearchIcon = Search2;
+    exports2.SearchIcon = Search3;
     exports2.SearchSlash = SearchSlash;
     exports2.SearchSlashIcon = SearchSlash;
     exports2.SearchX = SearchX;
@@ -123967,8 +123967,8 @@ var defaultUiLabels = {
   missionStandardsLabel: "Standards",
   orchardPhilosophyLabel: "Orchard Philosophy",
   missionNarrativeEyebrow: "Mission",
-  missionNarrativeTitle: "What drives us in cultivation and processing",
-  missionNarrativeSublabel: "A closer look at the mission, heritage, philosophy, and standards of the company.",
+  missionNarrativeTitle: "What guides the way we grow, process, and deliver",
+  missionNarrativeSublabel: "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.",
   // Facility & Standards
   insideFacilityEyebrow: "Inside the Facility",
   haccpLabel: "HACCP Certified",
@@ -124184,6 +124184,8 @@ var initialPages = [
       productionStandards: "Our production standards are built around export readiness, not just factory output. We work with controlled intake, calibrated sorting, food-safety procedures, and buyer-specific packing formats so product quality holds from the line to final dispatch. ISO, HACCP, and certification-led controls are part of that framework, but the real goal is practical consistency that importers can rely on across repeat orders.",
       missionPhotography: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000",
       missionNarrativeEyebrow: "Mission Narrative",
+      missionNarrativeTitle: "What guides the way we grow, process, and deliver",
+      missionNarrativeSublabel: "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.",
       facilityEyebrow: "Inside The Facility",
       ownProductionTitle: "Own Production",
       ownProductionIntro: "From orchard intake to final export packing, each production stage is managed inside our own operation for consistency, traceability, and buyer-ready execution.",
@@ -126003,8 +126005,8 @@ function About() {
       /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", children: [
         /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "mb-12 max-w-3xl", children: [
           /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content?.missionNarrativeEyebrow || t2("missionNarrativeEyebrow") }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h2", { className: "mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: t2("missionNarrativeTitle") }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "mt-5 text-lg leading-8 text-earth-700", children: t2("missionNarrativeSublabel") })
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h2", { className: "mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: content?.missionNarrativeTitle || t2("missionNarrativeTitle") }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "mt-5 text-lg leading-8 text-earth-700", children: content?.missionNarrativeSublabel || t2("missionNarrativeSublabel") })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1fr)_minmax(0,0.92fr)] lg:items-stretch", children: [
           /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "grid gap-6", children: [
@@ -128191,6 +128193,144 @@ function AdminBrandMark({ logo, className }) {
   }
   return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: cn("flex items-center justify-center rounded-xl bg-earth-600 text-white", className), children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Leaf, { size: 20 }) });
 }
+var ADMIN_SEARCH_MIN_LENGTH = 2;
+var ADMIN_SEARCH_SELECTOR = [
+  "[data-admin-search-section]",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "label",
+  "input:not([type='hidden'])",
+  "textarea",
+  "select",
+  "[contenteditable='true']"
+].join(",");
+var ADMIN_FOCUS_SELECTOR = [
+  "input:not([type='hidden'])",
+  "textarea",
+  "select",
+  "button",
+  "[contenteditable='true']"
+].join(",");
+function normalizeAdminSearchText(value) {
+  return (value || "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+function trimAdminSearchDetail(value, maxLength = 110) {
+  const cleanValue = value.replace(/\s+/g, " ").trim();
+  if (cleanValue.length <= maxLength) return cleanValue;
+  return `${cleanValue.slice(0, maxLength - 1).trim()}...`;
+}
+function escapeCssIdentifier(value) {
+  if (typeof CSS !== "undefined" && typeof CSS.escape === "function") {
+    return CSS.escape(value);
+  }
+  return value.replace(/["\\]/g, "\\$&");
+}
+function getAdminElementValue(element) {
+  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+    return element.value;
+  }
+  if (element instanceof HTMLSelectElement) {
+    return Array.from(element.selectedOptions).map((option) => option.textContent || option.value).join(" ");
+  }
+  return element.getAttribute("aria-label") || "";
+}
+function findAdminFieldLabel(element, root) {
+  if (element.matches("[data-admin-search-section]")) {
+    return element.dataset.adminSearchTitle || element.textContent || "";
+  }
+  if (element.id) {
+    const label = root.querySelector(`label[for="${escapeCssIdentifier(element.id)}"]`);
+    if (label?.textContent?.trim()) return label.textContent.trim();
+  }
+  const wrappingLabel = element.closest("label");
+  if (wrappingLabel?.textContent?.trim()) return wrappingLabel.textContent.trim();
+  const previousLabel = element.previousElementSibling;
+  if (previousLabel?.tagName.toLowerCase() === "label" && previousLabel.textContent?.trim()) {
+    return previousLabel.textContent.trim();
+  }
+  const nearbyLabel = element.parentElement?.querySelector("label");
+  if (nearbyLabel?.textContent?.trim()) return nearbyLabel.textContent.trim();
+  return element.getAttribute("placeholder") || element.getAttribute("aria-label") || element.getAttribute("name") || element.textContent || "";
+}
+function findAdminSearchTarget(element, root) {
+  if (element instanceof HTMLLabelElement && element.htmlFor) {
+    const control = root.querySelector(`#${escapeCssIdentifier(element.htmlFor)}`);
+    if (control) return control;
+  }
+  if (element.matches(ADMIN_FOCUS_SELECTOR) || element.matches("[data-admin-search-section]")) {
+    return element;
+  }
+  return element.querySelector(ADMIN_FOCUS_SELECTOR) || element;
+}
+function findAdminSectionTitle(element) {
+  const section = element.closest("[data-admin-search-title]");
+  return section?.dataset.adminSearchTitle || "";
+}
+function adminSearchMatches(query, haystack) {
+  const tokens = normalizeAdminSearchText(query).split(" ").filter(Boolean);
+  return tokens.every((token) => haystack.includes(token));
+}
+function buildAdminSearchResults(root, query, headerTabs) {
+  const normalizedQuery = normalizeAdminSearchText(query);
+  if (normalizedQuery.length < ADMIN_SEARCH_MIN_LENGTH) return [];
+  const results = /* @__PURE__ */ new Map();
+  headerTabs?.forEach((tab) => {
+    const haystack = normalizeAdminSearchText(`${tab.label} ${tab.sublabel || ""}`);
+    if (!adminSearchMatches(normalizedQuery, haystack)) return;
+    const titleScore = haystack.startsWith(normalizedQuery) ? 8 : 5;
+    results.set(`tab-${tab.id}`, {
+      id: `tab-${tab.id}`,
+      title: `Open ${tab.label}`,
+      detail: tab.sublabel || "Admin tab",
+      element: root,
+      score: titleScore,
+      onSelect: tab.onClick
+    });
+  });
+  const candidates = Array.from(root.querySelectorAll(ADMIN_SEARCH_SELECTOR));
+  candidates.forEach((element, index) => {
+    const target = findAdminSearchTarget(element, root);
+    const sectionTitle = findAdminSectionTitle(element);
+    const fieldLabel = findAdminFieldLabel(element, root);
+    const fieldValue = getAdminElementValue(element);
+    const placeholder = element.getAttribute("placeholder") || "";
+    const visibleText = element.matches("input, textarea, select") ? "" : element.textContent || "";
+    const title = trimAdminSearchDetail(fieldLabel || sectionTitle || visibleText || "Admin field", 80);
+    if (!title || normalizeAdminSearchText(title).length < ADMIN_SEARCH_MIN_LENGTH) return;
+    const haystack = normalizeAdminSearchText(`${title} ${sectionTitle} ${fieldValue} ${placeholder} ${visibleText}`);
+    if (!adminSearchMatches(normalizedQuery, haystack)) return;
+    const titleText = normalizeAdminSearchText(title);
+    const valueText = normalizeAdminSearchText(fieldValue);
+    const score = titleText === normalizedQuery ? 10 : titleText.startsWith(normalizedQuery) ? 9 : titleText.includes(normalizedQuery) ? 7 : valueText.includes(normalizedQuery) ? 6 : 3;
+    const detail = trimAdminSearchDetail(
+      [
+        sectionTitle && sectionTitle !== title ? sectionTitle : "",
+        fieldValue && fieldValue !== title ? fieldValue : "",
+        placeholder && placeholder !== title ? placeholder : ""
+      ].filter(Boolean).join(" \xB7 ") || "Jump to field"
+    );
+    const targetIndex = target === element ? index : candidates.indexOf(target);
+    const id3 = `${targetIndex >= 0 ? targetIndex : index}-${title}-${detail}`;
+    if (!results.has(id3) || (results.get(id3)?.score || 0) < score) {
+      results.set(id3, {
+        id: id3,
+        title,
+        detail,
+        element: target,
+        score
+      });
+    }
+  });
+  return Array.from(results.values()).sort((first, second) => second.score - first.score || first.title.localeCompare(second.title)).slice(0, 10);
+}
+function getAdminSearchFocusTarget(element) {
+  if (!element) return null;
+  if (element.matches(ADMIN_FOCUS_SELECTOR)) return element;
+  return element.querySelector(ADMIN_FOCUS_SELECTOR);
+}
 function LoginScreen({ onSuccess, brandLogo }) {
   const [username, setUsername] = (0, import_react52.useState)("");
   const [password, setPassword] = (0, import_react52.useState)("");
@@ -128306,6 +128446,10 @@ function AdminLayoutContent() {
   const [headerTabs, setHeaderTabsState] = (0, import_react52.useState)(null);
   const [activeHeaderTabId, setActiveHeaderTabId] = (0, import_react52.useState)(null);
   const [isAuthenticated, setIsAuthenticated] = (0, import_react52.useState)(null);
+  const [adminSearchQuery, setAdminSearchQuery] = (0, import_react52.useState)("");
+  const [adminSearchResults, setAdminSearchResults] = (0, import_react52.useState)([]);
+  const [isAdminSearchOpen, setIsAdminSearchOpen] = (0, import_react52.useState)(false);
+  const adminMainRef = (0, import_react52.useRef)(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
   const { globalSettings } = usePages();
   const location = (0, import_react_router_dom8.useLocation)();
@@ -128320,6 +128464,36 @@ function AdminLayoutContent() {
   );
   const brandLogo = globalSettings.headerLogo || "";
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
+  const runAdminSearch = (0, import_react52.useCallback)((query) => {
+    setAdminSearchQuery(query);
+    setIsAdminSearchOpen(true);
+    if (!adminMainRef.current) {
+      setAdminSearchResults([]);
+      return;
+    }
+    setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, query, headerTabs));
+  }, [headerTabs]);
+  const closeAdminSearch = (0, import_react52.useCallback)(() => {
+    setIsAdminSearchOpen(false);
+  }, []);
+  const handleAdminSearchSelect = (0, import_react52.useCallback)((result) => {
+    setIsAdminSearchOpen(false);
+    setAdminSearchQuery("");
+    setAdminSearchResults([]);
+    result.onSelect?.();
+    window.dispatchEvent(new CustomEvent("admin:open-section", { detail: { target: result.element } }));
+    window.setTimeout(() => {
+      const target = result.element;
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
+      const focusTarget = getAdminSearchFocusTarget(target);
+      focusTarget?.focus({ preventScroll: true });
+      window.setTimeout(() => {
+        target.classList.remove("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
+      }, 1800);
+    }, result.onSelect ? 260 : 160);
+  }, []);
   (0, import_react52.useEffect)(() => {
     const token = getStoredToken();
     if (!token) {
@@ -128353,6 +128527,11 @@ function AdminLayoutContent() {
     window.addEventListener("keydown", handleSaveShortcut);
     return () => window.removeEventListener("keydown", handleSaveShortcut);
   }, [action]);
+  (0, import_react52.useEffect)(() => {
+    setAdminSearchQuery("");
+    setAdminSearchResults([]);
+    setIsAdminSearchOpen(false);
+  }, [editingLang, location.pathname]);
   if (isAuthenticated === null) {
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex min-h-screen items-center justify-center bg-slate-950", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "h-10 w-10 animate-spin rounded-full border-4 border-earth-600 border-t-transparent" }) });
   }
@@ -128455,7 +128634,89 @@ function AdminLayoutContent() {
             );
           }) }) : /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h1", { className: "truncate text-xl font-semibold text-slate-900", children: currentLink.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex shrink-0 items-center gap-3 sm:gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex shrink-0 items-center gap-2 sm:gap-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "relative w-36 sm:w-52 lg:w-72", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+              import_lucide_react11.Search,
+              {
+                size: 16,
+                className: "pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-slate-400"
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+              "input",
+              {
+                type: "search",
+                value: adminSearchQuery,
+                onChange: (event) => runAdminSearch(event.target.value),
+                onFocus: () => {
+                  setIsAdminSearchOpen(true);
+                  if (adminSearchQuery) {
+                    runAdminSearch(adminSearchQuery);
+                  }
+                },
+                onBlur: () => window.setTimeout(closeAdminSearch, 140),
+                onKeyDown: (event) => {
+                  if (event.key === "Escape") {
+                    event.currentTarget.blur();
+                    closeAdminSearch();
+                  }
+                  if (event.key === "Enter" && adminSearchResults[0]) {
+                    event.preventDefault();
+                    handleAdminSearchSelect(adminSearchResults[0]);
+                  }
+                },
+                placeholder: "Search fields",
+                "aria-label": "Search admin fields",
+                className: "h-9 w-full rounded-xl border border-slate-200 bg-slate-50 px-9 text-sm font-medium text-slate-800 outline-none transition focus:border-earth-300 focus:bg-white focus:ring-2 focus:ring-earth-100"
+              }
+            ),
+            adminSearchQuery ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+              "button",
+              {
+                type: "button",
+                onClick: () => {
+                  setAdminSearchQuery("");
+                  setAdminSearchResults([]);
+                  setIsAdminSearchOpen(false);
+                },
+                className: "absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-md p-1 text-slate-400 transition hover:bg-slate-200 hover:text-slate-700",
+                "aria-label": "Clear admin search",
+                children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.X, { size: 14 })
+              }
+            ) : null,
+            /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AnimatePresence, { children: isAdminSearchOpen && adminSearchQuery && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
+              motion.div,
+              {
+                initial: { opacity: 0, y: 8, scale: 0.98 },
+                animate: { opacity: 1, y: 0, scale: 1 },
+                exit: { opacity: 0, y: 8, scale: 0.98 },
+                transition: { duration: 0.16, ease: "easeOut" },
+                className: "absolute right-0 top-full z-[90] mt-2 w-[min(28rem,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/15",
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "border-b border-slate-100 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400", children: "Admin Search" }),
+                  normalizeAdminSearchText(adminSearchQuery).length < ADMIN_SEARCH_MIN_LENGTH ? /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "px-3 py-4 text-sm text-slate-500", children: [
+                    "Type at least ",
+                    ADMIN_SEARCH_MIN_LENGTH,
+                    " characters."
+                  ] }) : adminSearchResults.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "max-h-80 overflow-y-auto p-1.5", children: adminSearchResults.map((result) => /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
+                    "button",
+                    {
+                      type: "button",
+                      onMouseDown: (event) => event.preventDefault(),
+                      onClick: () => handleAdminSearchSelect(result),
+                      className: "block w-full rounded-xl px-3 py-2.5 text-left transition hover:bg-earth-50 focus:bg-earth-50 focus:outline-none",
+                      children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "block truncate text-sm font-bold text-slate-900", children: result.title }),
+                        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "mt-0.5 block truncate text-xs text-slate-500", children: result.detail })
+                      ]
+                    },
+                    result.id
+                  )) }) : /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "px-3 py-4 text-sm text-slate-500", children: "No matching field on this admin screen." })
+                ]
+              }
+            ) })
+          ] }),
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex items-center rounded-lg bg-slate-100 p-1", children: SUPPORTED_EDIT_LANGUAGES.map((lang) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
             "button",
             {
@@ -128471,7 +128732,7 @@ function AdminLayoutContent() {
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.CircleUserRound, { size: 18 }) })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("main", { className: "flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_react_router_dom8.Outlet, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("main", { ref: adminMainRef, className: "flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_react_router_dom8.Outlet, {}) })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AnimatePresence, { children: action && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
       motion.div,
@@ -129372,46 +129633,67 @@ var import_lucide_react15 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
 function FormSection({ title, children, defaultOpen = true, actions }) {
   const [isOpen, setIsOpen] = (0, import_react58.useState)(defaultOpen);
-  return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "overflow-hidden rounded-lg border border-slate-200 bg-white/70", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
-      "div",
-      {
-        className: `flex items-center justify-between gap-3 px-3 py-2.5 transition-colors ${isOpen ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
-            "button",
-            {
-              type: "button",
-              onClick: () => setIsOpen((value) => !value),
-              className: "flex flex-1 items-center justify-between gap-4 text-left",
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: title }),
-                /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
-                  "div",
-                  {
-                    className: `rounded-md p-1.5 transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-100 text-earth-700" : "text-slate-400"}`,
-                    children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(import_lucide_react15.ChevronDown, { size: 16 })
-                  }
-                )
-              ]
-            }
-          ),
-          actions
-        ]
+  const sectionRef = (0, import_react58.useRef)(null);
+  (0, import_react58.useEffect)(() => {
+    const handleOpenSection = (event) => {
+      const target = event.detail?.target;
+      if (target && sectionRef.current?.contains(target)) {
+        setIsOpen(true);
       }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(AnimatePresence, { initial: false, children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
-      motion.div,
-      {
-        initial: { height: 0, opacity: 0 },
-        animate: { height: "auto", opacity: 1 },
-        exit: { height: 0, opacity: 0 },
-        transition: { duration: 0.25, ease: "easeInOut" },
-        className: "overflow-hidden border-t border-slate-100",
-        children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { className: "space-y-3 p-3", children })
-      }
-    ) })
-  ] });
+    };
+    window.addEventListener("admin:open-section", handleOpenSection);
+    return () => window.removeEventListener("admin:open-section", handleOpenSection);
+  }, []);
+  return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+    "div",
+    {
+      ref: sectionRef,
+      "data-admin-search-section": "true",
+      "data-admin-search-title": title,
+      className: "overflow-hidden rounded-lg border border-slate-200 bg-white/70",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+          "div",
+          {
+            className: `flex items-center justify-between gap-3 px-3 py-2.5 transition-colors ${isOpen ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => setIsOpen((value) => !value),
+                  "aria-expanded": isOpen,
+                  className: "flex flex-1 items-center justify-between gap-4 text-left",
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: title }),
+                    /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+                      "div",
+                      {
+                        className: `rounded-md p-1.5 transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-100 text-earth-700" : "text-slate-400"}`,
+                        children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(import_lucide_react15.ChevronDown, { size: 16 })
+                      }
+                    )
+                  ]
+                }
+              ),
+              actions
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+          motion.div,
+          {
+            initial: false,
+            animate: isOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 },
+            "aria-hidden": !isOpen,
+            transition: { duration: 0.25, ease: "easeInOut" },
+            className: "overflow-hidden border-t border-slate-100",
+            children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { className: `space-y-3 p-3 ${isOpen ? "visible" : "pointer-events-none invisible"}`, children })
+          }
+        )
+      ]
+    }
+  );
 }
 
 // src/components/admin/forms/HomeForm.tsx
@@ -129909,6 +130191,10 @@ function PartnerLogoGrid({ items, onUpdate }) {
   ] });
 }
 function AboutForm({ content, updateContent }) {
+  const { globalSettings } = usePages();
+  const uiLabels = globalSettings.uiLabels || {};
+  const missionNarrativeTitleFallback = uiLabels.missionNarrativeTitle || "What guides the way we grow, process, and deliver";
+  const missionNarrativeSublabelFallback = uiLabels.missionNarrativeSublabel || "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.";
   return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(FormSection, { title: "1. About Hero", children: [
       /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
@@ -130089,6 +130375,32 @@ function AboutForm({ content, updateContent }) {
             value: content.missionNarrativeEyebrow || "",
             onChange: (e) => updateContent({ missionNarrativeEyebrow: e.target.value }),
             className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mission Narrative Main Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "input",
+          {
+            type: "text",
+            value: content.missionNarrativeTitle ?? missionNarrativeTitleFallback,
+            onChange: (e) => updateContent({ missionNarrativeTitle: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
+            placeholder: "What guides the way we grow, process, and deliver"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mission Narrative Text Below Title" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          "textarea",
+          {
+            rows: 3,
+            value: content.missionNarrativeSublabel ?? missionNarrativeSublabelFallback,
+            onChange: (e) => updateContent({ missionNarrativeSublabel: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none",
+            placeholder: "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section."
           }
         )
       ] }),

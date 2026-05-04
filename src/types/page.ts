@@ -266,6 +266,8 @@ export interface AboutContent {
     productionStandards: string;
     missionPhotography: string;
     missionNarrativeEyebrow: string;
+    missionNarrativeTitle: string;
+    missionNarrativeSublabel: string;
     facilityEyebrow: string;
     ownProductionTitle: string;
     ownProductionIntro: string;

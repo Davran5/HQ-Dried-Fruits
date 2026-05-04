@@ -275,10 +275,10 @@ export function About() {
           <div className="mb-12 max-w-3xl">
             <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">{content?.missionNarrativeEyebrow || t("missionNarrativeEyebrow")}</p>
             <h2 className="mt-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
-              {t("missionNarrativeTitle")}
+              {content?.missionNarrativeTitle || t("missionNarrativeTitle")}
             </h2>
             <p className="mt-5 text-lg leading-8 text-earth-700">
-              {t("missionNarrativeSublabel")}
+              {content?.missionNarrativeSublabel || t("missionNarrativeSublabel")}
             </p>
           </div>
 

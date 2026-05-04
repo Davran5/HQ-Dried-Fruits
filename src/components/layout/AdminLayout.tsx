@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, useEffect, type FormEvent, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, useState, useEffect, type FormEvent, type ReactNode } from "react";
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -16,6 +16,7 @@ import {
   Save,
   Loader2,
   CircleUserRound,
+  Search,
 } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
@@ -82,6 +83,199 @@ function AdminBrandMark({ logo, className }: { logo?: string; className?: string
       <Leaf size={20} />
     </span>
   );
+}
+
+interface AdminSearchResult {
+  id: string;
+  title: string;
+  detail: string;
+  element: HTMLElement | null;
+  score: number;
+  onSelect?: () => void;
+}
+
+const ADMIN_SEARCH_MIN_LENGTH = 2;
+const ADMIN_SEARCH_SELECTOR = [
+  "[data-admin-search-section]",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "label",
+  "input:not([type='hidden'])",
+  "textarea",
+  "select",
+  "[contenteditable='true']",
+].join(",");
+
+const ADMIN_FOCUS_SELECTOR = [
+  "input:not([type='hidden'])",
+  "textarea",
+  "select",
+  "button",
+  "[contenteditable='true']",
+].join(",");
+
+function normalizeAdminSearchText(value?: string | null) {
+  return (value || "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function trimAdminSearchDetail(value: string, maxLength = 110) {
+  const cleanValue = value.replace(/\s+/g, " ").trim();
+  if (cleanValue.length <= maxLength) return cleanValue;
+  return `${cleanValue.slice(0, maxLength - 1).trim()}...`;
+}
+
+function escapeCssIdentifier(value: string) {
+  if (typeof CSS !== "undefined" && typeof CSS.escape === "function") {
+    return CSS.escape(value);
+  }
+
+  return value.replace(/["\\]/g, "\\$&");
+}
+
+function getAdminElementValue(element: HTMLElement) {
+  if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+    return element.value;
+  }
+
+  if (element instanceof HTMLSelectElement) {
+    return Array.from(element.selectedOptions).map((option) => option.textContent || option.value).join(" ");
+  }
+
+  return element.getAttribute("aria-label") || "";
+}
+
+function findAdminFieldLabel(element: HTMLElement, root: HTMLElement) {
+  if (element.matches("[data-admin-search-section]")) {
+    return element.dataset.adminSearchTitle || element.textContent || "";
+  }
+
+  if (element.id) {
+    const label = root.querySelector<HTMLLabelElement>(`label[for="${escapeCssIdentifier(element.id)}"]`);
+    if (label?.textContent?.trim()) return label.textContent.trim();
+  }
+
+  const wrappingLabel = element.closest("label");
+  if (wrappingLabel?.textContent?.trim()) return wrappingLabel.textContent.trim();
+
+  const previousLabel = element.previousElementSibling;
+  if (previousLabel?.tagName.toLowerCase() === "label" && previousLabel.textContent?.trim()) {
+    return previousLabel.textContent.trim();
+  }
+
+  const nearbyLabel = element.parentElement?.querySelector<HTMLLabelElement>("label");
+  if (nearbyLabel?.textContent?.trim()) return nearbyLabel.textContent.trim();
+
+  return (
+    element.getAttribute("placeholder") ||
+    element.getAttribute("aria-label") ||
+    element.getAttribute("name") ||
+    element.textContent ||
+    ""
+  );
+}
+
+function findAdminSearchTarget(element: HTMLElement, root: HTMLElement) {
+  if (element instanceof HTMLLabelElement && element.htmlFor) {
+    const control = root.querySelector<HTMLElement>(`#${escapeCssIdentifier(element.htmlFor)}`);
+    if (control) return control;
+  }
+
+  if (element.matches(ADMIN_FOCUS_SELECTOR) || element.matches("[data-admin-search-section]")) {
+    return element;
+  }
+
+  return element.querySelector<HTMLElement>(ADMIN_FOCUS_SELECTOR) || element;
+}
+
+function findAdminSectionTitle(element: HTMLElement) {
+  const section = element.closest<HTMLElement>("[data-admin-search-title]");
+  return section?.dataset.adminSearchTitle || "";
+}
+
+function adminSearchMatches(query: string, haystack: string) {
+  const tokens = normalizeAdminSearchText(query).split(" ").filter(Boolean);
+  return tokens.every((token) => haystack.includes(token));
+}
+
+function buildAdminSearchResults(root: HTMLElement, query: string, headerTabs: AdminHeaderTab[] | null) {
+  const normalizedQuery = normalizeAdminSearchText(query);
+  if (normalizedQuery.length < ADMIN_SEARCH_MIN_LENGTH) return [];
+
+  const results = new Map<string, AdminSearchResult>();
+
+  headerTabs?.forEach((tab) => {
+    const haystack = normalizeAdminSearchText(`${tab.label} ${tab.sublabel || ""}`);
+    if (!adminSearchMatches(normalizedQuery, haystack)) return;
+
+    const titleScore = haystack.startsWith(normalizedQuery) ? 8 : 5;
+    results.set(`tab-${tab.id}`, {
+      id: `tab-${tab.id}`,
+      title: `Open ${tab.label}`,
+      detail: tab.sublabel || "Admin tab",
+      element: root,
+      score: titleScore,
+      onSelect: tab.onClick,
+    });
+  });
+
+  const candidates = Array.from(root.querySelectorAll<HTMLElement>(ADMIN_SEARCH_SELECTOR));
+
+  candidates.forEach((element, index) => {
+    const target = findAdminSearchTarget(element, root);
+    const sectionTitle = findAdminSectionTitle(element);
+    const fieldLabel = findAdminFieldLabel(element, root);
+    const fieldValue = getAdminElementValue(element);
+    const placeholder = element.getAttribute("placeholder") || "";
+    const visibleText = element.matches("input, textarea, select") ? "" : element.textContent || "";
+    const title = trimAdminSearchDetail(fieldLabel || sectionTitle || visibleText || "Admin field", 80);
+
+    if (!title || normalizeAdminSearchText(title).length < ADMIN_SEARCH_MIN_LENGTH) return;
+
+    const haystack = normalizeAdminSearchText(`${title} ${sectionTitle} ${fieldValue} ${placeholder} ${visibleText}`);
+    if (!adminSearchMatches(normalizedQuery, haystack)) return;
+
+    const titleText = normalizeAdminSearchText(title);
+    const valueText = normalizeAdminSearchText(fieldValue);
+    const score =
+      titleText === normalizedQuery ? 10 :
+      titleText.startsWith(normalizedQuery) ? 9 :
+      titleText.includes(normalizedQuery) ? 7 :
+      valueText.includes(normalizedQuery) ? 6 :
+      3;
+
+    const detail = trimAdminSearchDetail(
+      [
+        sectionTitle && sectionTitle !== title ? sectionTitle : "",
+        fieldValue && fieldValue !== title ? fieldValue : "",
+        placeholder && placeholder !== title ? placeholder : "",
+      ].filter(Boolean).join(" · ") || "Jump to field",
+    );
+    const targetIndex = target === element ? index : candidates.indexOf(target);
+    const id = `${targetIndex >= 0 ? targetIndex : index}-${title}-${detail}`;
+
+    if (!results.has(id) || (results.get(id)?.score || 0) < score) {
+      results.set(id, {
+        id,
+        title,
+        detail,
+        element: target,
+        score,
+      });
+    }
+  });
+
+  return Array.from(results.values())
+    .sort((first, second) => second.score - first.score || first.title.localeCompare(second.title))
+    .slice(0, 10);
+}
+
+function getAdminSearchFocusTarget(element: HTMLElement | null) {
+  if (!element) return null;
+  if (element.matches(ADMIN_FOCUS_SELECTOR)) return element;
+  return element.querySelector<HTMLElement>(ADMIN_FOCUS_SELECTOR);
 }
 
 // ---------- Login Screen ----------
@@ -207,6 +401,10 @@ function AdminLayoutContent() {
   const [headerTabs, setHeaderTabsState] = useState<AdminHeaderTab[] | null>(null);
   const [activeHeaderTabId, setActiveHeaderTabId] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [adminSearchQuery, setAdminSearchQuery] = useState("");
+  const [adminSearchResults, setAdminSearchResults] = useState<AdminSearchResult[]>([]);
+  const [isAdminSearchOpen, setIsAdminSearchOpen] = useState(false);
+  const adminMainRef = useRef<HTMLElement | null>(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
   const { globalSettings } = usePages();
   const location = useLocation();
@@ -221,6 +419,46 @@ function AdminLayoutContent() {
   );
   const brandLogo = globalSettings.headerLogo || "";
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
+
+  const runAdminSearch = useCallback((query: string) => {
+    setAdminSearchQuery(query);
+    setIsAdminSearchOpen(true);
+
+    if (!adminMainRef.current) {
+      setAdminSearchResults([]);
+      return;
+    }
+
+    setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, query, headerTabs));
+  }, [headerTabs]);
+
+  const closeAdminSearch = useCallback(() => {
+    setIsAdminSearchOpen(false);
+  }, []);
+
+  const handleAdminSearchSelect = useCallback((result: AdminSearchResult) => {
+    setIsAdminSearchOpen(false);
+    setAdminSearchQuery("");
+    setAdminSearchResults([]);
+
+    result.onSelect?.();
+    window.dispatchEvent(new CustomEvent("admin:open-section", { detail: { target: result.element } }));
+
+    window.setTimeout(() => {
+      const target = result.element;
+      if (!target) return;
+
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
+
+      const focusTarget = getAdminSearchFocusTarget(target);
+      focusTarget?.focus({ preventScroll: true });
+
+      window.setTimeout(() => {
+        target.classList.remove("ring-4", "ring-earth-300", "ring-offset-2", "rounded-lg");
+      }, 1800);
+    }, result.onSelect ? 260 : 160);
+  }, []);
 
   // Verify stored token with the server on mount
   useEffect(() => {
@@ -264,6 +502,12 @@ function AdminLayoutContent() {
     window.addEventListener("keydown", handleSaveShortcut);
     return () => window.removeEventListener("keydown", handleSaveShortcut);
   }, [action]);
+
+  useEffect(() => {
+    setAdminSearchQuery("");
+    setAdminSearchResults([]);
+    setIsAdminSearchOpen(false);
+  }, [editingLang, location.pathname]);
 
   // Still checking auth
   if (isAuthenticated === null) {
@@ -387,7 +631,95 @@ function AdminLayoutContent() {
               )}
             </div>
             
-            <div className="flex shrink-0 items-center gap-3 sm:gap-4">
+            <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+              <div className="relative w-36 sm:w-52 lg:w-72">
+                <Search
+                  size={16}
+                  className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-slate-400"
+                />
+                <input
+                  type="search"
+                  value={adminSearchQuery}
+                  onChange={(event) => runAdminSearch(event.target.value)}
+                  onFocus={() => {
+                    setIsAdminSearchOpen(true);
+                    if (adminSearchQuery) {
+                      runAdminSearch(adminSearchQuery);
+                    }
+                  }}
+                  onBlur={() => window.setTimeout(closeAdminSearch, 140)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      event.currentTarget.blur();
+                      closeAdminSearch();
+                    }
+
+                    if (event.key === "Enter" && adminSearchResults[0]) {
+                      event.preventDefault();
+                      handleAdminSearchSelect(adminSearchResults[0]);
+                    }
+                  }}
+                  placeholder="Search fields"
+                  aria-label="Search admin fields"
+                  className="h-9 w-full rounded-xl border border-slate-200 bg-slate-50 px-9 text-sm font-medium text-slate-800 outline-none transition focus:border-earth-300 focus:bg-white focus:ring-2 focus:ring-earth-100"
+                />
+                {adminSearchQuery ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAdminSearchQuery("");
+                      setAdminSearchResults([]);
+                      setIsAdminSearchOpen(false);
+                    }}
+                    className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-md p-1 text-slate-400 transition hover:bg-slate-200 hover:text-slate-700"
+                    aria-label="Clear admin search"
+                  >
+                    <X size={14} />
+                  </button>
+                ) : null}
+
+                <AnimatePresence>
+                  {isAdminSearchOpen && adminSearchQuery && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                      transition={{ duration: 0.16, ease: "easeOut" }}
+                      className="absolute right-0 top-full z-[90] mt-2 w-[min(28rem,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/15"
+                    >
+                      <div className="border-b border-slate-100 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                        Admin Search
+                      </div>
+
+                      {normalizeAdminSearchText(adminSearchQuery).length < ADMIN_SEARCH_MIN_LENGTH ? (
+                        <div className="px-3 py-4 text-sm text-slate-500">
+                          Type at least {ADMIN_SEARCH_MIN_LENGTH} characters.
+                        </div>
+                      ) : adminSearchResults.length > 0 ? (
+                        <div className="max-h-80 overflow-y-auto p-1.5">
+                          {adminSearchResults.map((result) => (
+                            <button
+                              key={result.id}
+                              type="button"
+                              onMouseDown={(event) => event.preventDefault()}
+                              onClick={() => handleAdminSearchSelect(result)}
+                              className="block w-full rounded-xl px-3 py-2.5 text-left transition hover:bg-earth-50 focus:bg-earth-50 focus:outline-none"
+                            >
+                              <span className="block truncate text-sm font-bold text-slate-900">{result.title}</span>
+                              <span className="mt-0.5 block truncate text-xs text-slate-500">{result.detail}</span>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="px-3 py-4 text-sm text-slate-500">
+                          No matching field on this admin screen.
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               <div className="flex items-center rounded-lg bg-slate-100 p-1">
                 {SUPPORTED_EDIT_LANGUAGES.map((lang) => (
                   <button
@@ -410,7 +742,7 @@ function AdminLayoutContent() {
               </div>
             </div>
           </header>
-          <main className="flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8">
+          <main ref={adminMainRef} className="flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8">
             <Outlet />
           </main>
         </div>
