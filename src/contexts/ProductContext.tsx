@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { Product } from "../types/product";
 import { useLanguage } from "./LanguageContext";
 import { getActiveLocale, type ActiveLocaleCode, type LocaleCode } from "../i18n";
@@ -18,6 +19,8 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export function ProductProvider({ children, initialData }: { children: ReactNode; initialData?: PublicBootstrapPayload | null }) {
     const { locale } = useLanguage();
+    const location = useLocation();
+    const isAdminRoute = location.pathname === "/control-room" || location.pathname.startsWith("/control-room/");
     const bootstrapData = useMemo(
         () => (initialData && initialData.locale === locale ? initialData : null),
         [initialData, locale],
@@ -57,6 +60,10 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
     };
 
     useEffect(() => {
+        if (isAdminRoute) {
+            return;
+        }
+
         if (bootstrapData) {
             setProducts(Array.isArray(bootstrapData.products) ? bootstrapData.products : []);
             setProductsLoaded(true);
@@ -69,7 +76,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
         }
 
         void refreshProducts(locale);
-    }, [bootstrapData, loadedLocale, locale]);
+    }, [bootstrapData, isAdminRoute, loadedLocale, locale]);
 
     const addProduct = async (productDetails: Omit<Product, "id">, requestedLocale?: LocaleCode) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);

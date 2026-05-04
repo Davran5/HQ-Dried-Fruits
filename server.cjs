@@ -83446,7 +83446,7 @@ var require_react_router_development = __commonJS({
       function useInRouterContext() {
         return React__namespace.useContext(LocationContext) != null;
       }
-      function useLocation8() {
+      function useLocation10() {
         !useInRouterContext() ? router.UNSAFE_invariant(
           false,
           // TODO: This error is probably because they somehow have 2 versions of the
@@ -83467,7 +83467,7 @@ var require_react_router_development = __commonJS({
         ) : void 0;
         let {
           pathname
-        } = useLocation8();
+        } = useLocation10();
         return React__namespace.useMemo(() => router.matchPath(pattern, router.UNSAFE_decodePath(pathname)), [pathname, pattern]);
       }
       const navigateEffectWarning = "You should call navigate() in a React.useEffect(), not when your component is first rendered.";
@@ -83501,7 +83501,7 @@ var require_react_router_development = __commonJS({
         } = React__namespace.useContext(RouteContext);
         let {
           pathname: locationPathname
-        } = useLocation8();
+        } = useLocation10();
         let routePathnamesJson = JSON.stringify(router.UNSAFE_getResolveToMatches(matches, future.v7_relativeSplatPath));
         let activeRef = React__namespace.useRef(false);
         useIsomorphicLayoutEffect2(() => {
@@ -83557,7 +83557,7 @@ var require_react_router_development = __commonJS({
         } = React__namespace.useContext(RouteContext);
         let {
           pathname: locationPathname
-        } = useLocation8();
+        } = useLocation10();
         let routePathnamesJson = JSON.stringify(router.UNSAFE_getResolveToMatches(matches, future.v7_relativeSplatPath));
         return React__namespace.useMemo(() => router.resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [to, routePathnamesJson, locationPathname, relative]);
       }
@@ -83588,7 +83588,7 @@ var require_react_router_development = __commonJS({
 
 ` + ('Please change the parent <Route path="' + parentPath + '"> to <Route ') + ('path="' + (parentPath === "/" ? "*" : parentPath + "/*") + '">.'));
         }
-        let locationFromContext = useLocation8();
+        let locationFromContext = useLocation10();
         let location;
         if (locationArg) {
           var _parsedLocationArg$pa;
@@ -84179,7 +84179,7 @@ var require_react_router_development = __commonJS({
         } = React__namespace.useContext(RouteContext);
         let {
           pathname: locationPathname
-        } = useLocation8();
+        } = useLocation10();
         let navigate = useNavigate5();
         let path2 = router.resolveTo(to, router.UNSAFE_getResolveToMatches(matches, future.v7_relativeSplatPath), locationPathname, relative === "path");
         let jsonPath = JSON.stringify(path2);
@@ -84577,7 +84577,7 @@ var require_react_router_development = __commonJS({
       exports3.useHref = useHref;
       exports3.useInRouterContext = useInRouterContext;
       exports3.useLoaderData = useLoaderData;
-      exports3.useLocation = useLocation8;
+      exports3.useLocation = useLocation10;
       exports3.useMatch = useMatch;
       exports3.useMatches = useMatches;
       exports3.useNavigate = useNavigate5;
@@ -110381,7 +110381,7 @@ var import_server2 = __toESM(require_server(), 1);
 
 // src/App.tsx
 var import_react75 = __toESM(require_react(), 1);
-var import_react_router_dom11 = __toESM(require_main3(), 1);
+var import_react_router_dom13 = __toESM(require_main3(), 1);
 
 // src/pages/FrontPage.tsx
 var import_react35 = __toESM(require_react(), 1);
@@ -119467,7 +119467,7 @@ function useInView(ref, { root, margin, amount, once = false, initial = false } 
 }
 
 // src/pages/FrontPage.tsx
-var import_react_router_dom4 = __toESM(require_main3(), 1);
+var import_react_router_dom6 = __toESM(require_main3(), 1);
 var import_lucide_react3 = __toESM(require_lucide_react(), 1);
 
 // src/components/ui/Button.tsx
@@ -122707,11 +122707,12 @@ var import_react32 = __toESM(require_react(), 1);
 
 // src/components/layout/Header.tsx
 var import_react29 = __toESM(require_react(), 1);
-var import_react_router_dom2 = __toESM(require_main3(), 1);
+var import_react_router_dom4 = __toESM(require_main3(), 1);
 var import_lucide_react = __toESM(require_lucide_react(), 1);
 
 // src/contexts/PageContext.tsx
 var import_react27 = __toESM(require_react(), 1);
+var import_react_router_dom2 = __toESM(require_main3(), 1);
 
 // src/contexts/LanguageContext.tsx
 var import_react26 = __toESM(require_react(), 1);
@@ -124381,6 +124382,8 @@ function mergePagesWithDefaults(pages) {
 var PageContext = (0, import_react27.createContext)(void 0);
 var PageProvider = ({ children, initialData }) => {
   const { locale } = useLanguage();
+  const location = (0, import_react_router_dom2.useLocation)();
+  const isAdminRoute = location.pathname === "/control-room" || location.pathname.startsWith("/control-room/");
   const bootstrapData = (0, import_react27.useMemo)(
     () => initialData && initialData.locale === locale ? initialData : null,
     [initialData, locale]
@@ -124442,6 +124445,9 @@ var PageProvider = ({ children, initialData }) => {
     }
   };
   (0, import_react27.useEffect)(() => {
+    if (isAdminRoute) {
+      return;
+    }
     if (bootstrapData) {
       setGlobalSettings(bootstrapData.globalSettings);
       setPages(mergePagesWithDefaults(bootstrapData.pages));
@@ -124455,7 +124461,7 @@ var PageProvider = ({ children, initialData }) => {
       return;
     }
     void refreshData(locale);
-  }, [bootstrapData, loadedLocale, locale]);
+  }, [bootstrapData, isAdminRoute, loadedLocale, locale]);
   const updateGlobalSettings = async (settings, requestedLocale) => {
     const targetLocale = getActiveLocale(requestedLocale || locale);
     const response = await fetch(`/api/globals?locale=${encodeURIComponent(targetLocale)}`, {
@@ -124524,10 +124530,13 @@ function usePages() {
 
 // src/contexts/ProductContext.tsx
 var import_react28 = __toESM(require_react(), 1);
+var import_react_router_dom3 = __toESM(require_main3(), 1);
 var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
 var ProductContext = (0, import_react28.createContext)(void 0);
 function ProductProvider({ children, initialData }) {
   const { locale } = useLanguage();
+  const location = (0, import_react_router_dom3.useLocation)();
+  const isAdminRoute = location.pathname === "/control-room" || location.pathname.startsWith("/control-room/");
   const bootstrapData = (0, import_react28.useMemo)(
     () => initialData && initialData.locale === locale ? initialData : null,
     [initialData, locale]
@@ -124564,6 +124573,9 @@ function ProductProvider({ children, initialData }) {
     }
   };
   (0, import_react28.useEffect)(() => {
+    if (isAdminRoute) {
+      return;
+    }
     if (bootstrapData) {
       setProducts(Array.isArray(bootstrapData.products) ? bootstrapData.products : []);
       setProductsLoaded(true);
@@ -124574,7 +124586,7 @@ function ProductProvider({ children, initialData }) {
       return;
     }
     void refreshProducts(locale);
-  }, [bootstrapData, loadedLocale, locale]);
+  }, [bootstrapData, isAdminRoute, loadedLocale, locale]);
   const addProduct = async (productDetails, requestedLocale) => {
     const targetLocale = getActiveLocale(requestedLocale || locale);
     const baseSlug = productDetails.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
@@ -124657,7 +124669,7 @@ function Header() {
   const [isScrolled, setIsScrolled] = (0, import_react29.useState)(false);
   const [mobileMenuOpen, setMobileMenuOpen] = (0, import_react29.useState)(false);
   const [languageMenuOpen, setLanguageMenuOpen] = (0, import_react29.useState)(false);
-  const location = (0, import_react_router_dom2.useLocation)();
+  const location = (0, import_react_router_dom4.useLocation)();
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const activeLinks = (globalSettings.navLinks || []).map((link) => ({
     ...link,
@@ -124691,12 +124703,12 @@ function Header() {
               isScrolled ? "bg-white/70 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-xl border-white/20" : "bg-white/30 backdrop-blur-md border-white/10 shadow-none"
             ),
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom2.Link, { to: getManagedPagePath("home", pageSeo, language), className: "flex items-center gap-2 group", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "flex items-center gap-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("home", pageSeo, language), className: "flex items-center gap-2 group", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "flex items-center gap-3", children: [
                 globalSettings.headerLogo ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("img", { src: globalSettings.headerLogo, alt: `${siteName} logo`, className: "h-10 w-auto" }) : /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "flex h-10 w-10 items-center justify-center rounded-full bg-earth-600 text-white transition-all group-hover:bg-earth-500 group-hover:scale-110 shadow-lg shadow-earth-500/20", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_lucide_react.Leaf, { size: 20 }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "font-display text-xl font-bold tracking-tight text-[#4b2240]", children: siteName })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("nav", { className: "hidden md:flex items-center gap-8", children: activeLinks?.map((link) => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
-                import_react_router_dom2.Link,
+                import_react_router_dom4.Link,
                 {
                   to: link.resolvedUrl,
                   className: cn(
@@ -124768,7 +124780,7 @@ function Header() {
                     ]
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom2.Link, { to: ctaUrl, className: "hidden md:flex", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Button, { size: "sm", className: "rounded-full px-8 shadow-earth-500/10 hover:shadow-earth-500/30", children: globalSettings.ctaText || t2("navCta") }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom4.Link, { to: ctaUrl, className: "hidden md:flex", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Button, { size: "sm", className: "rounded-full px-8 shadow-earth-500/10 hover:shadow-earth-500/30", children: globalSettings.ctaText || t2("navCta") }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
                   motion.button,
                   {
@@ -124839,7 +124851,7 @@ function Header() {
                         animate: { opacity: 1, x: 0 },
                         transition: { delay: i * 0.1 },
                         children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
-                          import_react_router_dom2.Link,
+                          import_react_router_dom4.Link,
                           {
                             to: link.resolvedUrl,
                             className: cn(
@@ -124880,7 +124892,7 @@ function Header() {
                       /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { className: "text-earth-900 font-medium", children: globalSettings.emailAddress || "export@hqdriedfruits.com" }),
                       /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { className: "text-earth-900 font-medium", children: globalSettings.phoneNumber || "+998 90 123 45 67" })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom2.Link, { to: ctaUrl, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Button, { size: "lg", className: "w-full h-16 text-lg rounded-2xl shadow-lg shadow-earth-500/20", children: globalSettings.ctaText || t2("navCta") }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom4.Link, { to: ctaUrl, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Button, { size: "lg", className: "w-full h-16 text-lg rounded-2xl shadow-lg shadow-earth-500/20", children: globalSettings.ctaText || t2("navCta") }) }),
                     /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "mt-8 pt-8 border-t border-slate-100 flex gap-6", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "h-10 w-10 flex items-center justify-center rounded-full bg-earth-50 text-earth-600 hover:bg-earth-600 hover:text-white transition-colors cursor-pointer", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_lucide_react.Leaf, { size: 20 }) }) })
                   ] })
                 ]
@@ -124895,7 +124907,7 @@ function Header() {
 
 // src/components/layout/Footer.tsx
 var import_react31 = __toESM(require_react(), 1);
-var import_react_router_dom3 = __toESM(require_main3(), 1);
+var import_react_router_dom5 = __toESM(require_main3(), 1);
 var import_lucide_react2 = __toESM(require_lucide_react(), 1);
 
 // src/lib/leads.ts
@@ -124972,7 +124984,7 @@ function Footer() {
     /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", children: [
       /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "grid gap-12 lg:grid-cols-12", children: [
         /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "lg:col-span-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react_router_dom3.Link, { to: getManagedPagePath("home", pageSeo, language), className: "group mb-6 flex items-center gap-2", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "flex items-center gap-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react_router_dom5.Link, { to: getManagedPagePath("home", pageSeo, language), className: "group mb-6 flex items-center gap-2", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "flex items-center gap-3", children: [
             globalSettings.footerLogo ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
               "img",
               {
@@ -125002,7 +125014,7 @@ function Footer() {
         /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "hidden md:block lg:col-span-2 lg:col-start-6", children: [
           /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h3", { className: "mb-6 font-display text-lg font-semibold text-white", children: t2("footerLinksTitle") }),
           /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("ul", { className: "flex flex-col gap-3", children: globalSettings.quickLinks?.map((link) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
-            import_react_router_dom3.Link,
+            import_react_router_dom5.Link,
             {
               to: canonicalizeManagedUrl(link.url, pageSeo, products, language),
               className: "text-earth-200 transition-colors hover:text-earth-500",
@@ -125065,8 +125077,8 @@ function Footer() {
           footerCopyrightText
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "mt-4 flex gap-4 sm:mt-0", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react_router_dom3.Link, { to: getManagedPagePath("privacy", pageSeo, language), className: "text-sm text-earth-400 hover:text-earth-200", children: t2("footerPrivacyLinkLabel") }),
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react_router_dom3.Link, { to: getManagedPagePath("terms", pageSeo, language), className: "text-sm text-earth-400 hover:text-earth-200", children: t2("footerTermsLinkLabel") })
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react_router_dom5.Link, { to: getManagedPagePath("privacy", pageSeo, language), className: "text-sm text-earth-400 hover:text-earth-200", children: t2("footerPrivacyLinkLabel") }),
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_react_router_dom5.Link, { to: getManagedPagePath("terms", pageSeo, language), className: "text-sm text-earth-400 hover:text-earth-200", children: t2("footerTermsLinkLabel") })
         ] })
       ] })
     ] })
@@ -125377,11 +125389,11 @@ function FrontPage() {
             transition: { duration: 0.8, delay: 0.3, ease: springEasing },
             className: "flex flex-wrap gap-4",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Button, { size: "lg", variant: "primary", className: "shadow-xl shadow-earth-900/20", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Button, { size: "lg", variant: "primary", className: "shadow-xl shadow-earth-900/20", children: [
                 content.heroPrimaryCtaLabel || t2("homeHeroPrimaryCta"),
                 /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react3.ArrowRight, { className: "ml-2 h-5 w-5" })
               ] }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("about", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { size: "lg", variant: "outline", className: "border-white/80 bg-white/8 text-white hover:bg-white/14", children: content.heroSecondaryCtaLabel || t2("homeHeroSecondaryCta") }) })
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("about", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { size: "lg", variant: "outline", className: "border-white/80 bg-white/8 text-white hover:bg-white/14", children: content.heroSecondaryCtaLabel || t2("homeHeroSecondaryCta") }) })
             ]
           }
         )
@@ -125442,7 +125454,7 @@ function FrontPage() {
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { className: "mt-4 max-w-2xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: t2("homeIntroExtraParagraph") })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 hidden sm:mt-8 lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("about", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: t2("homeLearnMore") }) }) })
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 hidden sm:mt-8 lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("about", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: t2("homeLearnMore") }) }) })
             ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-8 grid grid-cols-3 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4", children: orderedAboutStats.map((stat, i) => /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
@@ -125460,14 +125472,14 @@ function FrontPage() {
             },
             i
           )) }),
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 flex justify-center lg:hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("about", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: t2("homeLearnMore") }) }) })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 flex justify-center lg:hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("about", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: t2("homeLearnMore") }) }) })
         ]
       }
     ) }),
     /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("section", { className: "bg-white py-16 sm:py-24", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", children: [
       /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "mb-10 flex flex-col items-center justify-between gap-5 sm:mb-16 sm:flex-row sm:gap-6", children: [
         /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h2", { className: "font-display text-[2.3rem] font-bold text-earth-900 sm:text-4xl", children: content.productPreviewTitle }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("products", pageSeo, locale), className: "hidden lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) })
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), className: "hidden lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "grid gap-5 sm:gap-6", children: (content.productCategories || []).map((product, i) => /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
         motion.div,
@@ -125499,7 +125511,7 @@ function FrontPage() {
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "mt-6 flex items-center gap-4", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
-                    import_react_router_dom4.Link,
+                    import_react_router_dom6.Link,
                     {
                       to: canonicalizeManagedUrl(product.url, pageSeo, products, locale),
                       className: "inline-flex items-center text-earth-700 font-medium transition-colors hover:text-earth-900",
@@ -125551,7 +125563,7 @@ function FrontPage() {
         },
         i
       )) }),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-8 flex justify-center lg:hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) }) })
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-8 flex justify-center lg:hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) }) })
     ] }) }),
     /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("section", { className: "mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
       motion.section,
@@ -125567,7 +125579,7 @@ function FrontPage() {
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content.exportMarketsEyebrow || t2("homeExportFocusEyebrow") }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h2", { className: "mt-4 max-w-[13ch] font-display text-[2.45rem] font-bold leading-tight text-earth-900 sm:text-5xl", children: content.exportMarketsTitle || t2("homeExportMarketsTitle") }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { className: "mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: content.exportMarketsIntro || t2("homeExportMarketsIntro") }),
-              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 sm:mt-7", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("export", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: t2("homeExportExplore") }) }) })
+              /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 sm:mt-7", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("export", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: t2("homeExportExplore") }) }) })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2", children: exportMarkets.map((market, index) => {
               const isActive = index === safeExportMarketIndex;
@@ -126189,7 +126201,7 @@ function About() {
 
 // src/pages/Products.tsx
 var import_react40 = __toESM(require_react(), 1);
-var import_react_router_dom5 = __toESM(require_main3(), 1);
+var import_react_router_dom7 = __toESM(require_main3(), 1);
 var import_lucide_react5 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
 var preferredProductOrder = ["sun-dried-apricots", "black-raisins", "pitted-prunes"];
@@ -126209,7 +126221,7 @@ function getFallbackSections(product, t2) {
   ];
 }
 function Products() {
-  const location = (0, import_react_router_dom5.useLocation)();
+  const location = (0, import_react_router_dom7.useLocation)();
   const { pages, pageSeo, globalSettings } = usePages();
   const { products, productsLoaded } = useProducts();
   const { locale, t: t2 } = useLanguage();
@@ -126521,7 +126533,7 @@ Selections: ${tonnageSummary}`
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
                           ] }),
                           /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "grid w-full gap-3 sm:grid-cols-2", children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom5.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
+                            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_react_router_dom7.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
                               Button,
                               {
@@ -127758,7 +127770,7 @@ function Terms() {
 
 // src/pages/LocaleSelector.tsx
 var import_react46 = __toESM(require_react(), 1);
-var import_react_router_dom6 = __toESM(require_main3(), 1);
+var import_react_router_dom8 = __toESM(require_main3(), 1);
 var import_lucide_react8 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
 var loadingCopy = {
@@ -127776,7 +127788,7 @@ var loadingCopy = {
   }
 };
 function LocaleSelectorPage() {
-  const navigate = (0, import_react_router_dom6.useNavigate)();
+  const navigate = (0, import_react_router_dom8.useNavigate)();
   const { globalSettings } = usePages();
   const detectedLocale = (0, import_react46.useMemo)(() => detectDeviceLocale(), []);
   const detectedDefinition = activeLocaleDefinitions.find((entry) => entry.code === detectedLocale) ?? activeLocaleDefinitions[0];
@@ -127817,7 +127829,7 @@ function LocaleSelectorPage() {
 // src/pages/ProductDetail.tsx
 var import_react49 = __toESM(require_react(), 1);
 var import_lucide_react10 = __toESM(require_lucide_react(), 1);
-var import_react_router_dom7 = __toESM(require_main3(), 1);
+var import_react_router_dom9 = __toESM(require_main3(), 1);
 
 // src/components/ui/Select.tsx
 var import_react47 = __toESM(require_react(), 1);
@@ -127893,8 +127905,8 @@ function Select({ options, value, onChange, placeholder = "Select an option...",
 // src/pages/ProductDetail.tsx
 var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
 function ProductDetail() {
-  const location = (0, import_react_router_dom7.useLocation)();
-  const navigate = (0, import_react_router_dom7.useNavigate)();
+  const location = (0, import_react_router_dom9.useLocation)();
+  const navigate = (0, import_react_router_dom9.useNavigate)();
   const { locale } = useLanguage();
   const { pages, pageSeo } = usePages();
   const { products, productsLoaded } = useProducts();
@@ -127973,7 +127985,7 @@ function ProductDetail() {
     return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "flex min-h-[50vh] flex-col items-center justify-center text-center", children: [
       /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h1", { className: "mb-4 font-display text-4xl font-bold text-earth-900", children: detailUi.notFoundTitle || "Product Not Found" }),
       /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "mb-8 text-earth-600", children: detailUi.notFoundBody || "The product you're looking for doesn't exist." }),
-      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_react_router_dom7.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(Button, { children: detailUi.backToCatalogLabel || "Back to Catalog" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_react_router_dom9.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(Button, { children: detailUi.backToCatalogLabel || "Back to Catalog" }) })
     ] }) });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
@@ -128119,7 +128131,7 @@ function ProductDetail() {
 
 // src/components/layout/AdminLayout.tsx
 var import_react52 = __toESM(require_react(), 1);
-var import_react_router_dom8 = __toESM(require_main3(), 1);
+var import_react_router_dom10 = __toESM(require_main3(), 1);
 var import_lucide_react11 = __toESM(require_lucide_react(), 1);
 
 // src/contexts/AdminLanguageContext.tsx
@@ -128472,8 +128484,8 @@ function AdminLayoutContent() {
   const adminMainRef = (0, import_react52.useRef)(null);
   const { editingLang, setEditingLang } = useAdminLanguage();
   const { globalSettings } = usePages();
-  const location = (0, import_react_router_dom8.useLocation)();
-  const navigate = (0, import_react_router_dom8.useNavigate)();
+  const location = (0, import_react_router_dom10.useLocation)();
+  const navigate = (0, import_react_router_dom10.useNavigate)();
   const setHeaderTabs = (0, import_react52.useCallback)((tabs, activeId = null) => {
     setHeaderTabsState(tabs);
     setActiveHeaderTabId(activeId);
@@ -128604,7 +128616,7 @@ function AdminLayoutContent() {
         ),
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "flex h-16 items-center justify-between px-6 border-b border-slate-800", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(import_react_router_dom8.Link, { to: "/", className: "flex items-center gap-2 text-white", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(import_react_router_dom10.Link, { to: "/", className: "flex items-center gap-2 text-white", children: [
               /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AdminBrandMark, { logo: brandLogo, className: "h-9 w-9" }),
               /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("span", { className: "font-display text-lg font-bold tracking-tight", children: [
                 siteName,
@@ -128618,7 +128630,7 @@ function AdminLayoutContent() {
             const Icon = link.icon;
             const isActive = location.pathname === link.path;
             return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
-              import_react_router_dom8.Link,
+              import_react_router_dom10.Link,
               {
                 to: link.path,
                 onClick: () => setSidebarOpen(false),
@@ -128777,7 +128789,7 @@ function AdminLayoutContent() {
           /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.CircleUserRound, { size: 18 }) })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("main", { ref: adminMainRef, className: "flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_react_router_dom8.Outlet, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("main", { ref: adminMainRef, className: "flex-1 overflow-y-auto px-4 pt-4 pb-28 sm:px-6 sm:pt-6 sm:pb-32 lg:px-8 lg:pt-8", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_react_router_dom10.Outlet, {}) })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(AnimatePresence, { children: action && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(
       motion.div,
@@ -128830,7 +128842,7 @@ function useAdminHeaderTabs() {
 
 // src/pages/admin/Dashboard.tsx
 var import_react54 = __toESM(require_react(), 1);
-var import_react_router_dom9 = __toESM(require_main3(), 1);
+var import_react_router_dom11 = __toESM(require_main3(), 1);
 var import_lucide_react12 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
 var statusConfig = {
@@ -129242,7 +129254,7 @@ function Dashboard() {
                 /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { className: "mt-2 text-2xl font-bold text-slate-900", children: dashboardStats.missingDirectContact.length })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: "flex gap-3", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_react_router_dom9.Link, { to: "/admin/leads", className: "flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Button, { className: "w-full rounded-xl", children: "Review Leads" }) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: "flex gap-3", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_react_router_dom11.Link, { to: "/admin/leads", className: "flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Button, { className: "w-full rounded-xl", children: "Review Leads" }) }) })
           ] })
         }
       ),
@@ -129270,8 +129282,8 @@ function Dashboard() {
               /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { className: "text-sm font-bold text-slate-900", children: dashboardStats.pageCustomSlugs })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "flex gap-3 pt-1", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_react_router_dom9.Link, { to: "/admin/products", className: "flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Button, { variant: "outline", className: "w-full rounded-xl bg-white", children: "Catalog" }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_react_router_dom9.Link, { to: "/admin/seo", className: "flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Button, { variant: "outline", className: "w-full rounded-xl bg-white", children: "SEO" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_react_router_dom11.Link, { to: "/admin/products", className: "flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Button, { variant: "outline", className: "w-full rounded-xl bg-white", children: "Catalog" }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_react_router_dom11.Link, { to: "/admin/seo", className: "flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Button, { variant: "outline", className: "w-full rounded-xl bg-white", children: "SEO" }) })
             ] })
           ] })
         }
@@ -134610,9 +134622,9 @@ function AdminMedia() {
 
 // src/components/ScrollToTop.tsx
 var import_react73 = __toESM(require_react(), 1);
-var import_react_router_dom10 = __toESM(require_main3(), 1);
+var import_react_router_dom12 = __toESM(require_main3(), 1);
 function ScrollToTop() {
-  const { pathname } = (0, import_react_router_dom10.useLocation)();
+  const { pathname } = (0, import_react_router_dom12.useLocation)();
   (0, import_react73.useEffect)(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -134693,7 +134705,7 @@ function NotFoundPage() {
   return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8", children: [
     /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h1", { className: "mb-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: t2("notFoundTitle") }),
     /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "mb-8 text-lg text-earth-600", children: t2("notFoundBody") }),
-    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Link, { to: getManagedPagePath("home", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Button, { children: t2("notFoundButtonLabel") }) })
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Link, { to: getManagedPagePath("home", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Button, { children: t2("notFoundButtonLabel") }) })
   ] }) });
 }
 function FaviconUpdater() {
@@ -134712,7 +134724,7 @@ function FaviconUpdater() {
   return null;
 }
 function PublicRouteResolver() {
-  const location = (0, import_react_router_dom11.useLocation)();
+  const location = (0, import_react_router_dom13.useLocation)();
   const normalizedPath = normalizePath(location.pathname);
   const { locale } = useLanguage();
   const { pageSeo, pageSeoLoaded, pageDataLoaded } = usePages();
@@ -134727,7 +134739,7 @@ function PublicRouteResolver() {
   const productMatch = resolveManagedProductPath(normalizedPath, pageSeo, locale);
   if (productMatch) {
     if (productMatch.canonicalPath !== normalizedPath) {
-      return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Navigate, { to: productMatch.canonicalPath, replace: true });
+      return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Navigate, { to: productMatch.canonicalPath, replace: true });
     }
     return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(ProductDetail, {});
   }
@@ -134736,7 +134748,7 @@ function PublicRouteResolver() {
     return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(NotFoundPage, {});
   }
   if (staticMatch.canonicalPath !== normalizedPath) {
-    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Navigate, { to: staticMatch.canonicalPath, replace: true });
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Navigate, { to: staticMatch.canonicalPath, replace: true });
   }
   switch (staticMatch.pageId) {
     case "home":
@@ -134761,17 +134773,17 @@ function AppShell({ initialData }) {
   return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(LanguageProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(MediaProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(PageProvider, { initialData, children: /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(ProductProvider, { initialData, children: [
     /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(FaviconUpdater, {}),
     /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(ScrollToTop, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(import_react_router_dom11.Routes, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(import_react_router_dom11.Route, { path: "/control-room", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminLayout, {}), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Dashboard, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { path: "products", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Navigate, { to: "/control-room/pages", replace: true }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { path: "pages", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminPages, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { path: "leads", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminLeads, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { path: "media", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminMedia, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { path: "seo", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminSeoSettings, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { path: "globals", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminGlobalSettings, {}) })
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(import_react_router_dom13.Routes, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(import_react_router_dom13.Route, { path: "/control-room", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminLayout, {}), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Dashboard, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { path: "products", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Navigate, { to: "/control-room/pages", replace: true }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { path: "pages", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminPages, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { path: "leads", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminLeads, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { path: "media", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminMedia, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { path: "seo", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminSeoSettings, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { path: "globals", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AdminGlobalSettings, {}) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom11.Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(PublicRouteResolver, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_react_router_dom13.Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(PublicRouteResolver, {}) })
     ] })
   ] }) }) }) }) });
 }

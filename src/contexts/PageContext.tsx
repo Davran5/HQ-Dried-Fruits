@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { useLanguage } from "./LanguageContext";
 import { getActiveLocale, type ActiveLocaleCode, type LocaleCode } from "../i18n";
 import {
@@ -515,6 +516,8 @@ const PageContext = createContext<PageContextType | undefined>(undefined);
 
 export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicBootstrapPayload | null }> = ({ children, initialData }) => {
     const { locale } = useLanguage();
+    const location = useLocation();
+    const isAdminRoute = location.pathname === "/control-room" || location.pathname.startsWith("/control-room/");
     const bootstrapData = useMemo(
         () => (initialData && initialData.locale === locale ? initialData : null),
         [initialData, locale],
@@ -586,6 +589,10 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
     };
 
     useEffect(() => {
+        if (isAdminRoute) {
+            return;
+        }
+
         if (bootstrapData) {
             setGlobalSettings(bootstrapData.globalSettings);
             setPages(mergePagesWithDefaults(bootstrapData.pages));
@@ -601,7 +608,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
         }
 
         void refreshData(locale);
-    }, [bootstrapData, loadedLocale, locale]);
+    }, [bootstrapData, isAdminRoute, loadedLocale, locale]);
 
     const updateGlobalSettings = async (settings: GlobalSettings, requestedLocale?: LocaleCode) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
