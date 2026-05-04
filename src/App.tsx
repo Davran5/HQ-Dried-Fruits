@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
+import { ComingSoon, isUnlocked } from "./pages/ComingSoon";
 import { FrontPage } from "./pages/FrontPage";
 import { About } from "./pages/About";
 import { Products } from "./pages/Products";
@@ -141,6 +142,14 @@ function PublicRouteResolver() {
   }
 }
 
+function ComingSoonGate({ children }: { children: React.ReactNode }) {
+  const [unlocked, setUnlocked] = useState<boolean>(() => isUnlocked());
+  if (!unlocked) {
+    return <ComingSoon onUnlock={() => setUnlocked(true)} />;
+  }
+  return <>{children}</>;
+}
+
 export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload | null }) {
   return (
     <ErrorBoundary>
@@ -160,7 +169,14 @@ export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload
                   <Route path="seo" element={<AdminSeoSettings />} />
                   <Route path="globals" element={<AdminGlobalSettings />} />
                 </Route>
-                <Route path="*" element={<PublicRouteResolver />} />
+                <Route
+                  path="*"
+                  element={
+                    <ComingSoonGate>
+                      <PublicRouteResolver />
+                    </ComingSoonGate>
+                  }
+                />
               </Routes>
             </ProductProvider>
           </PageProvider>

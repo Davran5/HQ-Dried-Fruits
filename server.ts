@@ -732,7 +732,60 @@ app.post("/api/auth/logout", (req, res) => {
   return res.json({ success: true });
 });
 
+// POST /api/coming-soon-inquiry — forwards to Telegram (no auth required)
+app.post("/api/coming-soon-inquiry", async (req, res) => {
+  const { name, email, message } = req.body ?? {};
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
 
+  if (!botToken || !chatId) {
+    console.warn("[ComingSoon] Telegram not configured, inquiry received but not forwarded.");
+    return res.json({ success: true });
+  }
+
+  const text = [
+    "🌱 *New Coming Soon Inquiry*",
+    `👤 *Name:* ${name || "—"}`,
+    `📧 *Email:* ${email || "—"}`,
+    `💬 *Message:*\n${message || "—"}`,
+    `🕐 ${new Date().toISOString()}`,
+  ].join("\n");
+
+  try {
+    const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" }),
+    });
+    if (!tgRes.ok) {
+      const body = await tgRes.text();
+      console.error("[ComingSoon] Telegram API error:", body);
+    } else {
+      console.log("[ComingSoon] Inquiry forwarded to Telegram.");
+    }
+  } catch (err) {
+    console.error("[ComingSoon] Failed to send to Telegram:", err);
+  }
+
+  return res.json({ success: true });
+});
+
+// POST /api/verify-password — checks the coming soon password from .env
+app.post("/api/verify-password", (req, res) => {
+  const { password } = req.body ?? {};
+  const actualPassword = process.env.COMING_SOON_PASSWORD;
+  
+  if (!actualPassword) {
+    console.error("[ComingSoon] COMING_SOON_PASSWORD is not set in .env!");
+    return res.json({ success: false, error: "Configuration error" });
+  }
+
+  if (password === actualPassword) {
+    return res.json({ success: true });
+  }
+  
+  return res.json({ success: false });
+});
 
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
