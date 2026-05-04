@@ -136,6 +136,10 @@ const defaultUiLabels = {
     phoneLabel: "Phone",
     headquartersLabel: "Headquarters",
     workingHoursLabel: "Working Hours",
+    homeCategoryEyebrowVisible: true,
+    homeCategoryBadgesVisible: true,
+    homeCategoryInfoVisible: true,
+    homeCategoryTypesVisible: true,
 };
 
 const initialGlobalSettings: GlobalSettings = {
@@ -246,10 +250,10 @@ const initialPages: PageData[] = [
             productPreviewButtonLabel: "View Full Catalog",
             productPreviewItemCtaLabel: "View in Catalog",
             productCategories: [
-                { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
-                { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
-                { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
-                { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" },
+                { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", infoItems: [{ label: "Types", value: "Golden, Sultana, Soyaki, Black-Red" }], url: "/products" },
+                { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", infoItems: [{ label: "Types", value: "Subhana 3-4, Subhana 4-5, Subhana confectioner" }], url: "/products" },
+                { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", infoItems: [{ label: "Types", value: "Spain, Hungarian Unpitted, Ashlock" }], url: "/products" },
+                { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", infoItems: [{ label: "Types", value: "In shell, Unshelled, Bird Feed" }], url: "/products" },
             ],
             exportMarketsEyebrow: "Export Focus",
             exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",

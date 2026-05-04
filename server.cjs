@@ -124238,7 +124238,11 @@ var defaultUiLabels = {
   emailLabel: "Email",
   phoneLabel: "Phone",
   headquartersLabel: "Headquarters",
-  workingHoursLabel: "Working Hours"
+  workingHoursLabel: "Working Hours",
+  homeCategoryEyebrowVisible: true,
+  homeCategoryBadgesVisible: true,
+  homeCategoryInfoVisible: true,
+  homeCategoryTypesVisible: true
 };
 var initialGlobalSettings = {
   headerLogo: "",
@@ -124346,10 +124350,10 @@ var initialPages = [
       productPreviewButtonLabel: "View Full Catalog",
       productPreviewItemCtaLabel: "View in Catalog",
       productCategories: [
-        { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
-        { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
-        { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
-        { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
+        { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", infoItems: [{ label: "Types", value: "Golden, Sultana, Soyaki, Black-Red" }], url: "/products" },
+        { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", infoItems: [{ label: "Types", value: "Subhana 3-4, Subhana 4-5, Subhana confectioner" }], url: "/products" },
+        { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", infoItems: [{ label: "Types", value: "Spain, Hungarian Unpitted, Ashlock" }], url: "/products" },
+        { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", infoItems: [{ label: "Types", value: "In shell, Unshelled, Bird Feed" }], url: "/products" }
       ],
       exportMarketsEyebrow: "Export Focus",
       exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
@@ -125438,6 +125442,10 @@ function FrontPage() {
   const exportContent = exportPageData?.content;
   const seo = pageSeo.home;
   const certificateScrollerRef = (0, import_react36.useRef)(null);
+  const uiLabels = globalSettings.uiLabels || {};
+  const showCategoryEyebrow = uiLabels.homeCategoryEyebrowVisible !== false;
+  const showCategoryBadges = uiLabels.homeCategoryBadgesVisible !== false;
+  const showCategoryInfo = (uiLabels.homeCategoryInfoVisible ?? uiLabels.homeCategoryTypesVisible) !== false;
   useSEO({
     title: seo?.metaTitle || "HQ Dried Fruits",
     description: seo?.metaDescription || "High-quality sun-dried fruits from Uzbekistan.",
@@ -125522,10 +125530,10 @@ function FrontPage() {
     return sorted;
   }, [content.statsGrid]);
   const productCategoryCards = (content.productCategories?.length ? content.productCategories : [
-    { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
-    { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
-    { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
-    { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
+    { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", infoItems: [{ label: "Types", value: "Golden, Sultana, Soyaki, Black-Red" }], url: "/products" },
+    { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", infoItems: [{ label: "Types", value: "Subhana 3-4, Subhana 4-5, Subhana confectioner" }], url: "/products" },
+    { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", infoItems: [{ label: "Types", value: "Spain, Hungarian Unpitted, Ashlock" }], url: "/products" },
+    { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", infoItems: [{ label: "Types", value: "In shell, Unshelled, Bird Feed" }], url: "/products" }
   ]).slice(0, 4);
   const getCertificateCards = () => {
     const scroller = certificateScrollerRef.current;
@@ -125709,7 +125717,7 @@ function FrontPage() {
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), className: "hidden lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid gap-5 sm:gap-6", children: productCategoryCards.map((product, i) => {
-        const categoryTypes = (product.variantSummary || "").split(",").map((type) => type.trim()).filter(Boolean);
+        const categoryInfoItems = (product.infoItems?.length ? product.infoItems : product.variantSummary ? [{ label: "Types", value: product.variantSummary }] : [{ label: "Category", value: product.categoryName }]).filter((item) => item.label?.trim() || item.value?.trim()).slice(0, 5);
         return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
           motion.div,
           {
@@ -125718,15 +125726,15 @@ function FrontPage() {
             viewport: { once: true, margin: "-100px" },
             transition: { duration: 0.6, delay: i * 0.1, ease: springEasing },
             className: "group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]",
-            children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "grid h-full gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(6rem,0.22fr)] lg:items-stretch lg:gap-5", children: [
+            children: /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: `grid h-full gap-4 lg:items-stretch lg:gap-5 ${showCategoryInfo ? "lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(7.5rem,0.28fr)]" : "lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)]"}`, children: [
               /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex h-full min-w-0 flex-col justify-center", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mb-5 flex items-center gap-3", children: [
+                showCategoryEyebrow && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mb-5 flex items-center gap-3", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "h-px w-10 bg-earth-300" }),
                   /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.26em] text-earth-400", children: "Product Category" })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { className: "font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]", children: product.categoryName }),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-3 max-w-[34ch] text-base leading-6 text-earth-700 sm:mt-4 sm:text-lg sm:leading-7", children: product.shortDescription }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mt-5 flex flex-wrap gap-3 text-sm", children: [
+                showCategoryBadges && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mt-5 flex flex-wrap gap-3 text-sm", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80", children: t2("homeExportReady") }),
                   /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80", children: t2("homeWholesaleSupply") })
                 ] }),
@@ -125758,15 +125766,18 @@ function FrontPage() {
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/24 via-earth-900/4 to-transparent" })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mb-3 text-center lg:text-left", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400", children: "Types" }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1 lg:content-center", children: (categoryTypes.length > 0 ? categoryTypes : [product.categoryName]).map((type) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+              showCategoryInfo && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mb-3 text-center lg:text-left", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400", children: "Info" }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 lg:content-center", children: categoryInfoItems.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
                   "div",
                   {
-                    className: "flex min-h-[2.9rem] items-center justify-center rounded-2xl bg-white px-2 py-2 text-center shadow-sm shadow-earth-100/80 lg:min-h-[3.3rem]",
-                    children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.78rem] font-bold leading-tight text-earth-800 lg:text-[0.86rem]", children: type })
+                    className: "flex min-h-[3.25rem] flex-col justify-center rounded-2xl bg-white px-3 py-2 text-center shadow-sm shadow-earth-100/80",
+                    children: [
+                      item.label && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.56rem] font-bold uppercase tracking-[0.16em] text-earth-400", children: item.label }),
+                      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-1 text-[0.78rem] font-bold leading-tight text-earth-800 lg:text-[0.86rem]", children: item.value })
+                    ]
                   },
-                  type
+                  `${item.label}-${index}`
                 )) })
               ] })
             ] })
@@ -130425,67 +130436,128 @@ function HomeForm({ content, updateContent }) {
         {
           label: "Product Categories Grid (Maximum 4 items)",
           items: content.productCategories || [],
-          emptyItem: { categoryName: "", image: "", shortDescription: "", variantSummary: "", url: "" },
+          emptyItem: { categoryName: "", image: "", shortDescription: "", variantSummary: "", infoItems: [], url: "" },
           onUpdate: (items) => updateContent({ productCategories: items.slice(0, 4) }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "space-y-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
+          renderItem: (item, index, updateItem, replaceItem) => {
+            const infoItems = (item.infoItems || []).slice(0, 5);
+            const replaceInfoItems = (nextInfoItems) => {
+              replaceItem(index, { ...item, infoItems: nextInfoItems.slice(0, 5) });
+            };
+            return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "space-y-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Category Name" }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.categoryName,
+                    onChange: (e) => updateItem(index, "categoryName", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  }
+                )
+              ] }),
               /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                "input",
+                ImageUploader,
                 {
-                  type: "text",
-                  value: item.categoryName,
-                  onChange: (e) => updateItem(index, "categoryName", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  label: `Thumbnail Image ${index + 1}`,
+                  value: item.image,
+                  onChange: (url) => updateItem(index, "image", url)
                 }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-              ImageUploader,
-              {
-                label: `Thumbnail Image ${index + 1}`,
-                value: item.image,
-                onChange: (url) => updateItem(index, "image", url)
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                "textarea",
-                {
-                  rows: 2,
-                  value: item.shortDescription,
-                  onChange: (e) => updateItem(index, "shortDescription", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Variant Summary / Examples" }),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.variantSummary || "",
-                  onChange: (e) => updateItem(index, "variantSummary", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                  placeholder: "Golden, Sultana, Soyaki, Black-Red"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Learn More URL" }),
-              /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: item.url,
-                  onChange: (e) => updateItem(index, "url", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                }
-              )
-            ] })
-          ] })
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                  "textarea",
+                  {
+                    rows: 2,
+                    value: item.shortDescription,
+                    onChange: (e) => updateItem(index, "shortDescription", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "mb-2 flex items-center justify-between gap-3", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Card Info Labels (Maximum 5)" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: () => replaceInfoItems([...infoItems, { label: "", value: "" }]),
+                      disabled: infoItems.length >= 5,
+                      className: "rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50",
+                      children: "Add Info"
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "space-y-2", children: infoItems.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500", children: "No card info added yet." }) : infoItems.map((info, infoIndex) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "grid gap-2 rounded-lg border border-slate-200 bg-white/70 p-2 md:grid-cols-[0.85fr_1.15fr_auto]", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                    "input",
+                    {
+                      type: "text",
+                      value: info.label,
+                      onChange: (e) => {
+                        const next = [...infoItems];
+                        next[infoIndex] = { ...info, label: e.target.value };
+                        replaceInfoItems(next);
+                      },
+                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                      placeholder: "Label, e.g. Grade"
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                    "input",
+                    {
+                      type: "text",
+                      value: info.value,
+                      onChange: (e) => {
+                        const next = [...infoItems];
+                        next[infoIndex] = { ...info, value: e.target.value };
+                        replaceInfoItems(next);
+                      },
+                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                      placeholder: "Info, e.g. Highest"
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: () => replaceInfoItems(infoItems.filter((_, candidateIndex) => candidateIndex !== infoIndex)),
+                      className: "rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50",
+                      children: "Remove"
+                    }
+                  )
+                ] }, infoIndex)) }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { className: "mt-2 text-xs text-slate-500", children: "These rows replace the old nutritional facts on the public homepage card." })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Legacy Variant Summary / Fallback" }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.variantSummary || "",
+                    onChange: (e) => updateItem(index, "variantSummary", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                    placeholder: "Used only if no info rows are added"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Learn More URL" }),
+                /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: item.url,
+                    onChange: (e) => updateItem(index, "url", e.target.value),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                  }
+                )
+              ] })
+            ] });
+          }
         }
       )
     ] }),
@@ -134888,6 +134960,14 @@ function AdminGlobalSettings() {
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Request Sample Link", field: "requestSampleLabel", settings, setSettings }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Learn More Btn", field: "learnMoreLabel", settings, setSettings }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Pricing CTA Btn", field: "getPricingLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "col-span-full rounded-xl border border-slate-200 bg-slate-50 p-4", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-wider text-earth-700", children: "Homepage Category Card Visibility" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "grid gap-3 md:grid-cols-3", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIToggle, { label: "Show category label", field: "homeCategoryEyebrowVisible", settings, setSettings }),
+                        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIToggle, { label: "Show export badges", field: "homeCategoryBadgesVisible", settings, setSettings }),
+                        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIToggle, { label: "Show info column", field: "homeCategoryInfoVisible", settings, setSettings })
+                      ] })
+                    ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "About Page" }) }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Mission Narrative Eyebrow", field: "missionNarrativeEyebrow", settings, setSettings }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Mission Narrative Title", field: "missionNarrativeTitle", settings, setSettings }),
@@ -134944,6 +135024,24 @@ function UIField({ label, field, settings, setSettings }) {
         placeholder: `Enter ${label.toLowerCase()}...`
       }
     )
+  ] });
+}
+function UIToggle({ label, field, settings, setSettings }) {
+  const checked = settings.uiLabels?.[field] !== false;
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("label", { className: "flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-earth-200", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+      "input",
+      {
+        type: "checkbox",
+        checked,
+        onChange: (e) => {
+          const newLabels = { ...settings.uiLabels || {}, [field]: e.target.checked };
+          setSettings({ ...settings, uiLabels: newLabels });
+        },
+        className: "h-4 w-4 rounded border-slate-300 text-earth-600 focus:ring-earth-500"
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { children: label })
   ] });
 }
 
@@ -135592,6 +135690,10 @@ var defaultGlobalSettings = {
     phoneLabel: "Phone",
     headquartersLabel: "Headquarters",
     workingHoursLabel: "Working Hours",
+    homeCategoryEyebrowVisible: true,
+    homeCategoryBadgesVisible: true,
+    homeCategoryInfoVisible: true,
+    homeCategoryTypesVisible: true,
     // Footer Labels
     footerLinksTitle: "Company",
     footerCompanyPlaceholder: "Company Name",

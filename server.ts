@@ -308,6 +308,7 @@ const defaultGlobalSettings = {
     inquiryFailureMsg: "Submission failed. Please try again.",
     directContactEyebrow: "Direct Contact", contactDetailsTitle: "Contact Details", contactDetailsDesc: "Reach our sales and export coordination team through the fastest channel for your request.",
     emailLabel: "Email", phoneLabel: "Phone", headquartersLabel: "Headquarters", workingHoursLabel: "Working Hours",
+    homeCategoryEyebrowVisible: true, homeCategoryBadgesVisible: true, homeCategoryInfoVisible: true, homeCategoryTypesVisible: true,
     
     // Footer Labels
     footerLinksTitle: "Company", 

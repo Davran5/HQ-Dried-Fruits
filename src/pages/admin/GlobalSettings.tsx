@@ -424,7 +424,16 @@ export function AdminGlobalSettings() {
                                                          <UIField label="View Catalog Btn" field="viewFullCatalogLabel" settings={settings} setSettings={setSettings} />
                                                          <UIField label="Request Sample Link" field="requestSampleLabel" settings={settings} setSettings={setSettings} />
                                                          <UIField label="Learn More Btn" field="learnMoreLabel" settings={settings} setSettings={setSettings} />
-                                                         <UIField label="Pricing CTA Btn" field="getPricingLabel" settings={settings} setSettings={setSettings} /><div className="col-span-full border-b border-slate-200 pb-2 pt-4">
+                                                         <UIField label="Pricing CTA Btn" field="getPricingLabel" settings={settings} setSettings={setSettings} />
+                                                         <div className="col-span-full rounded-xl border border-slate-200 bg-slate-50 p-4">
+                                                             <h5 className="mb-3 text-xs font-bold uppercase tracking-wider text-earth-700">Homepage Category Card Visibility</h5>
+                                                             <div className="grid gap-3 md:grid-cols-3">
+                                                                 <UIToggle label="Show category label" field="homeCategoryEyebrowVisible" settings={settings} setSettings={setSettings} />
+                                                                 <UIToggle label="Show export badges" field="homeCategoryBadgesVisible" settings={settings} setSettings={setSettings} />
+                                                                 <UIToggle label="Show info column" field="homeCategoryInfoVisible" settings={settings} setSettings={setSettings} />
+                                                             </div>
+                                                         </div>
+                                                         <div className="col-span-full border-b border-slate-200 pb-2 pt-4">
                                                              <h4 className="text-sm font-bold text-earth-700 uppercase tracking-wider">About Page</h4>
                                                          </div>
                                                          <UIField label="Mission Narrative Eyebrow" field="missionNarrativeEyebrow" settings={settings} setSettings={setSettings} />
@@ -487,5 +496,23 @@ function UIField({ label, field, settings, setSettings }: { label: string, field
                 placeholder={`Enter ${label.toLowerCase()}...`}
             />
         </div>
+    );
+}
+
+function UIToggle({ label, field, settings, setSettings }: { label: string, field: string, settings: any, setSettings: any }) {
+    const checked = settings.uiLabels?.[field] !== false;
+    return (
+        <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-earth-200">
+            <input
+                type="checkbox"
+                checked={checked}
+                onChange={e => {
+                    const newLabels = { ...(settings.uiLabels || {}), [field]: e.target.checked };
+                    setSettings({ ...settings, uiLabels: newLabels });
+                }}
+                className="h-4 w-4 rounded border-slate-300 text-earth-600 focus:ring-earth-500"
+            />
+            <span>{label}</span>
+        </label>
     );
 }

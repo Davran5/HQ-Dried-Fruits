@@ -113,6 +113,11 @@ export interface GlobalUILabels {
     phoneLabel: string;
     headquartersLabel: string;
     workingHoursLabel: string;
+
+    homeCategoryEyebrowVisible?: boolean;
+    homeCategoryBadgesVisible?: boolean;
+    homeCategoryInfoVisible?: boolean;
+    homeCategoryTypesVisible?: boolean;
 }
 
 export interface SocialLink {
@@ -154,11 +159,17 @@ export interface ImageLabelPair {
     label: string;
 }
 
+export interface ProductCategoryInfoItem {
+    label: string;
+    value: string;
+}
+
 export interface ProductCategoryItem {
     categoryName: string;
     image: string;
     shortDescription: string;
     variantSummary?: string;
+    infoItems?: ProductCategoryInfoItem[];
     url: string;
     nutrition?: Nutrition;
 }

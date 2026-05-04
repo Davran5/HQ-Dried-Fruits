@@ -19,6 +19,10 @@ export function FrontPage() {
     const exportContent = exportPageData?.content as ExportContent | undefined;
     const seo = pageSeo.home;
     const certificateScrollerRef = useRef<HTMLDivElement | null>(null);
+    const uiLabels = globalSettings.uiLabels || {};
+    const showCategoryEyebrow = uiLabels.homeCategoryEyebrowVisible !== false;
+    const showCategoryBadges = uiLabels.homeCategoryBadgesVisible !== false;
+    const showCategoryInfo = (uiLabels.homeCategoryInfoVisible ?? uiLabels.homeCategoryTypesVisible) !== false;
 
     useSEO({
         title: seo?.metaTitle || "HQ Dried Fruits",
@@ -120,10 +124,10 @@ export function FrontPage() {
         content.productCategories?.length
             ? content.productCategories
             : [
-                { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
-                { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
-                { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
-                { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" },
+                { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", infoItems: [{ label: "Types", value: "Golden, Sultana, Soyaki, Black-Red" }], url: "/products" },
+                { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", infoItems: [{ label: "Types", value: "Subhana 3-4, Subhana 4-5, Subhana confectioner" }], url: "/products" },
+                { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", infoItems: [{ label: "Types", value: "Spain, Hungarian Unpitted, Ashlock" }], url: "/products" },
+                { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", infoItems: [{ label: "Types", value: "In shell, Unshelled, Bird Feed" }], url: "/products" },
             ]
     ).slice(0, 4);
     const getCertificateCards = (): HTMLElement[] => {
@@ -325,10 +329,15 @@ export function FrontPage() {
 
                     <div className="grid gap-5 sm:gap-6">
                         {productCategoryCards.map((product, i) => {
-                            const categoryTypes = (product.variantSummary || "")
-                                .split(",")
-                                .map((type) => type.trim())
-                                .filter(Boolean);
+                            const categoryInfoItems = (
+                                product.infoItems?.length
+                                    ? product.infoItems
+                                    : product.variantSummary
+                                        ? [{ label: "Types", value: product.variantSummary }]
+                                        : [{ label: "Category", value: product.categoryName }]
+                            )
+                                .filter((item) => item.label?.trim() || item.value?.trim())
+                                .slice(0, 5);
 
                             return (
                                 <motion.div
@@ -339,14 +348,16 @@ export function FrontPage() {
                                     transition={{ duration: 0.6, delay: i * 0.1, ease: springEasing }}
                                     className="group relative overflow-hidden rounded-[3rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-4 shadow-[0_18px_38px_rgba(84,39,70,0.06)] transition-all hover:shadow-[0_26px_54px_rgba(84,39,70,0.1)] sm:p-6 lg:h-[22rem]"
                                 >
-                                    <div className="grid h-full gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(6rem,0.22fr)] lg:items-stretch lg:gap-5">
+                                    <div className={`grid h-full gap-4 lg:items-stretch lg:gap-5 ${showCategoryInfo ? "lg:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.82fr)_minmax(7.5rem,0.28fr)]" : "lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)]"}`}>
                                         <div className="flex h-full min-w-0 flex-col justify-center">
-                                            <div className="mb-5 flex items-center gap-3">
-                                                <span className="h-px w-10 bg-earth-300" />
-                                                <p className="text-sm font-semibold uppercase tracking-[0.26em] text-earth-400">
-                                                    Product Category
-                                                </p>
-                                            </div>
+                                            {showCategoryEyebrow && (
+                                                <div className="mb-5 flex items-center gap-3">
+                                                    <span className="h-px w-10 bg-earth-300" />
+                                                    <p className="text-sm font-semibold uppercase tracking-[0.26em] text-earth-400">
+                                                        Product Category
+                                                    </p>
+                                                </div>
+                                            )}
                                             <h3 className="font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]">
                                                 {product.categoryName}
                                             </h3>
@@ -354,14 +365,16 @@ export function FrontPage() {
                                                 {product.shortDescription}
                                             </p>
 
-                                            <div className="mt-5 flex flex-wrap gap-3 text-sm">
-                                                <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
-                                                    {t("homeExportReady")}
-                                                </span>
-                                                <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
-                                                    {t("homeWholesaleSupply")}
-                                                </span>
-                                            </div>
+                                            {showCategoryBadges && (
+                                                <div className="mt-5 flex flex-wrap gap-3 text-sm">
+                                                    <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
+                                                        {t("homeExportReady")}
+                                                    </span>
+                                                    <span className="rounded-full bg-white px-4 py-2 font-medium text-earth-700 shadow-sm shadow-earth-100/80">
+                                                        {t("homeWholesaleSupply")}
+                                                    </span>
+                                                </div>
+                                            )}
 
                                             <div className="mt-6 flex items-center gap-4">
                                                 <Link
@@ -384,25 +397,32 @@ export function FrontPage() {
                                             <div className="absolute inset-0 bg-gradient-to-t from-earth-900/24 via-earth-900/4 to-transparent" />
                                         </div>
 
-                                        <div className="flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
-                                            <div className="mb-3 text-center lg:text-left">
-                                                <p className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400">
-                                                    Types
-                                                </p>
+                                        {showCategoryInfo && (
+                                            <div className="flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
+                                                <div className="mb-3 text-center lg:text-left">
+                                                    <p className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400">
+                                                        Info
+                                                    </p>
+                                                </div>
+                                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 lg:content-center">
+                                                    {categoryInfoItems.map((item, index) => (
+                                                        <div
+                                                            key={`${item.label}-${index}`}
+                                                            className="flex min-h-[3.25rem] flex-col justify-center rounded-2xl bg-white px-3 py-2 text-center shadow-sm shadow-earth-100/80"
+                                                        >
+                                                            {item.label && (
+                                                                <p className="text-[0.56rem] font-bold uppercase tracking-[0.16em] text-earth-400">
+                                                                    {item.label}
+                                                                </p>
+                                                            )}
+                                                            <p className="mt-1 text-[0.78rem] font-bold leading-tight text-earth-800 lg:text-[0.86rem]">
+                                                                {item.value}
+                                                            </p>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1 lg:content-center">
-                                                {(categoryTypes.length > 0 ? categoryTypes : [product.categoryName]).map((type) => (
-                                                    <div
-                                                        key={type}
-                                                        className="flex min-h-[2.9rem] items-center justify-center rounded-2xl bg-white px-2 py-2 text-center shadow-sm shadow-earth-100/80 lg:min-h-[3.3rem]"
-                                                    >
-                                                        <p className="text-[0.78rem] font-bold leading-tight text-earth-800 lg:text-[0.86rem]">
-                                                            {type}
-                                                        </p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </motion.div>
                             );
