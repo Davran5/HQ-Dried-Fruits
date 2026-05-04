@@ -178,6 +178,22 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     setOpenEditorByLocale((current) => ({ ...current, [editingLang]: null }));
   };
 
+  useEffect(() => {
+    const handleOpenProductFromSearch = (event: Event) => {
+      const target = (event as CustomEvent<{ target?: HTMLElement | null }>).detail?.target;
+      const productId = target?.closest<HTMLElement>("[data-admin-product-id]")?.dataset.adminProductId;
+      if (!productId || productId === editingId) return;
+
+      const product = products.find((candidate) => candidate.id === productId);
+      if (product) {
+        handleToggleAccordion(productId, product);
+      }
+    };
+
+    window.addEventListener("admin:open-section", handleOpenProductFromSearch as EventListener);
+    return () => window.removeEventListener("admin:open-section", handleOpenProductFromSearch as EventListener);
+  }, [editingId, products]);
+
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLocaleReady || formLocale !== editingLang) {
@@ -511,6 +527,9 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
           return (
             <div
               key={product.id}
+              data-admin-product-id={product.id}
+              data-admin-search-title={`Product: ${product.name}`}
+              data-admin-search-content={JSON.stringify(product)}
               className={`overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? 'border-earth-300 bg-white ring-1 ring-earth-500/10' : 'border-slate-200 bg-white hover:border-earth-200'}`}
             >
               <div

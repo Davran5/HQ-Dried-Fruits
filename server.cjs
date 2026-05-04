@@ -128226,28 +128226,26 @@ function AdminBrandMark({ logo, className }) {
   return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: cn("flex items-center justify-center rounded-xl bg-earth-600 text-white", className), children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(import_lucide_react11.Leaf, { size: 20 }) });
 }
 var ADMIN_SEARCH_MIN_LENGTH = 2;
+var ADMIN_SEARCH_CONTROL_SELECTOR = [
+  "input:not([type='hidden'])",
+  "textarea",
+  "select",
+  "[contenteditable='true']"
+].join(",");
 var ADMIN_SEARCH_SELECTOR = [
   "[data-admin-search-section]",
+  "[data-admin-search-content]",
   "h1",
   "h2",
   "h3",
   "h4",
   "h5",
   "label",
-  "input:not([type='hidden'])",
-  "textarea",
-  "select",
-  "[contenteditable='true']"
+  ADMIN_SEARCH_CONTROL_SELECTOR
 ].join(",");
-var ADMIN_FOCUS_SELECTOR = [
-  "input:not([type='hidden'])",
-  "textarea",
-  "select",
-  "button",
-  "[contenteditable='true']"
-].join(",");
+var ADMIN_FOCUS_SELECTOR = `${ADMIN_SEARCH_CONTROL_SELECTOR},button`;
 function normalizeAdminSearchText(value) {
-  return (value || "").normalize("NFKC").toLocaleLowerCase().replace(/ё/g, "\u0435").replace(/[‘’`´ʻʼʹ]/g, "'").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  return (value || "").normalize("NFKC").toLocaleLowerCase().replace(/\u0451/g, "\u0435").replace(/[\u2018\u2019`\u00b4\u02bb\u02bc\u02b9]/g, "'").replace(/ё/g, "\u0435").replace(/[‘’`´ʻʼʹ]/g, "'").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
 function trimAdminSearchDetail(value, maxLength = 110) {
   const cleanValue = value.replace(/\s+/g, " ").trim();
@@ -128285,6 +128283,18 @@ function findAdminFieldLabel(element, root) {
   }
   const nearbyLabel = element.parentElement?.querySelector("label");
   if (nearbyLabel?.textContent?.trim()) return nearbyLabel.textContent.trim();
+  let cursor = element.parentElement;
+  while (cursor && cursor !== root) {
+    const previousSibling = cursor.previousElementSibling;
+    if (previousSibling instanceof HTMLLabelElement && previousSibling.textContent?.trim()) {
+      return previousSibling.textContent.trim();
+    }
+    const directLabel = Array.from(cursor.children).find((child) => child instanceof HTMLLabelElement);
+    if (directLabel?.textContent?.trim()) {
+      return directLabel.textContent.trim();
+    }
+    cursor = cursor.parentElement;
+  }
   return element.getAttribute("placeholder") || element.getAttribute("aria-label") || element.getAttribute("name") || element.textContent || "";
 }
 function findAdminSearchTarget(element, root) {
@@ -128292,7 +128302,7 @@ function findAdminSearchTarget(element, root) {
     const control = root.querySelector(`#${escapeCssIdentifier(element.htmlFor)}`);
     if (control) return control;
   }
-  if (element.matches(ADMIN_FOCUS_SELECTOR) || element.matches("[data-admin-search-section]")) {
+  if (element.matches(ADMIN_FOCUS_SELECTOR) || element.matches("[data-admin-search-section]") || element.matches("[data-admin-search-content]")) {
     return element;
   }
   return element.querySelector(ADMIN_FOCUS_SELECTOR) || element;
@@ -128300,6 +128310,57 @@ function findAdminSearchTarget(element, root) {
 function findAdminSectionTitle(element) {
   const section = element.closest("[data-admin-search-title]");
   return section?.dataset.adminSearchTitle || "";
+}
+function getAdminElementSearchSource(element, root) {
+  const sectionTitle = findAdminSectionTitle(element);
+  const fieldLabel = findAdminFieldLabel(element, root);
+  const fieldValue = getAdminElementValue(element);
+  const placeholder = element.getAttribute("placeholder") || "";
+  const name = element.getAttribute("name") || "";
+  const ariaLabel = element.getAttribute("aria-label") || "";
+  const explicitSearchContent = element.dataset.adminSearchContent || "";
+  const visibleText = element.matches("input, textarea, select") ? "" : element.textContent || "";
+  return {
+    sectionTitle,
+    fieldLabel,
+    fieldValue,
+    placeholder,
+    visibleText,
+    source: [
+      sectionTitle,
+      fieldLabel,
+      fieldValue,
+      placeholder,
+      name,
+      ariaLabel,
+      explicitSearchContent,
+      visibleText
+    ].filter(Boolean).join(" ")
+  };
+}
+function getAdminSectionSearchSource(section, root) {
+  const sectionTitle = section.dataset.adminSearchTitle || "";
+  const explicitSearchContent = section.dataset.adminSearchContent || "";
+  const controlText = Array.from(section.querySelectorAll(ADMIN_SEARCH_CONTROL_SELECTOR)).map((control) => getAdminElementSearchSource(control, root).source).join(" ");
+  return [
+    sectionTitle,
+    explicitSearchContent,
+    section.textContent || "",
+    controlText
+  ].filter(Boolean).join(" ");
+}
+function getAdminSearchSnippet(source, query, fallback) {
+  const cleanSource = source.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (!cleanSource) return fallback;
+  const normalizedSource = normalizeAdminSearchText(cleanSource);
+  const firstToken = normalizeAdminSearchText(query).split(" ").filter(Boolean)[0] || "";
+  const matchIndex = firstToken ? normalizedSource.indexOf(firstToken) : -1;
+  if (matchIndex < 0) {
+    return trimAdminSearchDetail(cleanSource) || fallback;
+  }
+  const start = Math.max(0, matchIndex - 38);
+  const end = Math.min(cleanSource.length, matchIndex + 82);
+  return trimAdminSearchDetail(`${start > 0 ? "..." : ""}${cleanSource.slice(start, end)}${end < cleanSource.length ? "..." : ""}`);
 }
 function adminSearchMatches(query, haystack) {
   const tokens = normalizeAdminSearchText(query).split(" ").filter(Boolean);
@@ -128322,17 +128383,38 @@ function buildAdminSearchResults(root, query, headerTabs) {
       onSelect: tab.onClick
     });
   });
+  const sections = Array.from(root.querySelectorAll("[data-admin-search-section]"));
+  sections.forEach((section, index) => {
+    const title = trimAdminSearchDetail(section.dataset.adminSearchTitle || section.textContent || "Admin section", 80);
+    const source = getAdminSectionSearchSource(section, root);
+    const haystack = normalizeAdminSearchText(source);
+    if (!title || normalizeAdminSearchText(title).length < ADMIN_SEARCH_MIN_LENGTH) return;
+    if (!adminSearchMatches(normalizedQuery, haystack)) return;
+    const titleText = normalizeAdminSearchText(title);
+    const score = titleText === normalizedQuery ? 9 : titleText.startsWith(normalizedQuery) ? 8 : titleText.includes(normalizedQuery) ? 6 : 4;
+    results.set(`section-${index}-${title}`, {
+      id: `section-${index}-${title}`,
+      title,
+      detail: getAdminSearchSnippet(source, normalizedQuery, "Open section"),
+      element: section,
+      score
+    });
+  });
   const candidates = Array.from(root.querySelectorAll(ADMIN_SEARCH_SELECTOR));
   candidates.forEach((element, index) => {
+    if (element.matches("[data-admin-search-section]")) return;
     const target = findAdminSearchTarget(element, root);
-    const sectionTitle = findAdminSectionTitle(element);
-    const fieldLabel = findAdminFieldLabel(element, root);
-    const fieldValue = getAdminElementValue(element);
-    const placeholder = element.getAttribute("placeholder") || "";
-    const visibleText = element.matches("input, textarea, select") ? "" : element.textContent || "";
+    const {
+      sectionTitle,
+      fieldLabel,
+      fieldValue,
+      placeholder,
+      visibleText,
+      source
+    } = getAdminElementSearchSource(element, root);
     const title = trimAdminSearchDetail(fieldLabel || sectionTitle || visibleText || "Admin field", 80);
     if (!title || normalizeAdminSearchText(title).length < ADMIN_SEARCH_MIN_LENGTH) return;
-    const haystack = normalizeAdminSearchText(`${title} ${sectionTitle} ${fieldValue} ${placeholder} ${visibleText}`);
+    const haystack = normalizeAdminSearchText(source);
     if (!adminSearchMatches(normalizedQuery, haystack)) return;
     const titleText = normalizeAdminSearchText(title);
     const valueText = normalizeAdminSearchText(fieldValue);
@@ -128360,6 +128442,7 @@ function buildAdminSearchResults(root, query, headerTabs) {
 }
 function getAdminSearchFocusTarget(element) {
   if (!element) return null;
+  if (element.matches("[data-admin-search-content]") && !element.matches(ADMIN_FOCUS_SELECTOR)) return null;
   if (element.matches(ADMIN_FOCUS_SELECTOR)) return element;
   return element.querySelector(ADMIN_FOCUS_SELECTOR);
 }
@@ -128573,18 +128656,23 @@ function AdminLayoutContent() {
       setAdminSearchResults(buildAdminSearchResults(adminMainRef.current, adminSearchQuery, headerTabs));
     };
     let refreshTimer = window.setTimeout(refreshSearch, 80);
-    const observer2 = new MutationObserver(() => {
+    const scheduleRefreshSearch = () => {
       window.clearTimeout(refreshTimer);
       refreshTimer = window.setTimeout(refreshSearch, 80);
-    });
+    };
+    const observer2 = new MutationObserver(scheduleRefreshSearch);
     if (adminMainRef.current) {
       observer2.observe(adminMainRef.current, {
         childList: true,
         subtree: true,
         characterData: true
       });
+      adminMainRef.current.addEventListener("input", scheduleRefreshSearch);
+      adminMainRef.current.addEventListener("change", scheduleRefreshSearch);
     }
     return () => {
+      adminMainRef.current?.removeEventListener("input", scheduleRefreshSearch);
+      adminMainRef.current?.removeEventListener("change", scheduleRefreshSearch);
       window.clearTimeout(refreshTimer);
       observer2.disconnect();
     };
@@ -132162,6 +132250,19 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     setFormLocale(editingLang);
     setOpenEditorByLocale((current) => ({ ...current, [editingLang]: null }));
   };
+  (0, import_react61.useEffect)(() => {
+    const handleOpenProductFromSearch = (event) => {
+      const target = event.detail?.target;
+      const productId = target?.closest("[data-admin-product-id]")?.dataset.adminProductId;
+      if (!productId || productId === editingId) return;
+      const product = products.find((candidate) => candidate.id === productId);
+      if (product) {
+        handleToggleAccordion(productId, product);
+      }
+    };
+    window.addEventListener("admin:open-section", handleOpenProductFromSearch);
+    return () => window.removeEventListener("admin:open-section", handleOpenProductFromSearch);
+  }, [editingId, products]);
   const handleSaveProduct = async (e) => {
     e.preventDefault();
     if (!isLocaleReady || formLocale !== editingLang) {
@@ -132516,6 +132617,9 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
         return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
           "div",
           {
+            "data-admin-product-id": product.id,
+            "data-admin-search-title": `Product: ${product.name}`,
+            "data-admin-search-content": JSON.stringify(product),
             className: `overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
