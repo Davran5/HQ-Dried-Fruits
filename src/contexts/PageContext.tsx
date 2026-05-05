@@ -300,6 +300,13 @@ const initialPages: PageData[] = [
             productionMarqueeImages: [],
             partnerLogos: [],
             partnerSectionLabel: "Certified Quality & Trusted Partners",
+            aboutTrustItems: [
+                { key: "fda", label: "FDA Registered", visible: true },
+                { key: "haccp", label: "HACCP Certified", visible: true },
+                { key: "iso", label: "ISO 9001:2015", visible: true },
+                { key: "organic", label: "100% Organic", visible: true },
+                { key: "globalgap", label: "GlobalGAP", visible: true },
+            ],
             companyEyebrow: "About The Company",
             heritageTitle: "Our Roots in the Silk Road",
             heritageSubtitle: "A journey of quality and tradition.",

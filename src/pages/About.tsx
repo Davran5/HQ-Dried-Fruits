@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Marquee } from "@/src/components/ui/Marquee";
-import { Award, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Award, BadgeCheck, CheckCircle2, Leaf, ShieldCheck } from "lucide-react";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { AboutContent } from "@/src/types/page";
+import { normalizeAboutTrustItems } from "@/src/lib/aboutTrustItems";
 
 export function About() {
   const { pages, pageSeo, globalSettings } = usePages();
@@ -75,6 +76,26 @@ export function About() {
   const aboutHeroTitle = content?.marqueeTitle || t("aboutHeroTitle");
   const aboutHeroSubtitle =
     content?.heroSubtitle || content?.heritageSubtitle || t("aboutHeroSubtitle");
+  const partnerLogos = (content?.partnerLogos || []).filter(Boolean);
+  const aboutTrustItems = normalizeAboutTrustItems(content?.aboutTrustItems, uiLabels)
+    .filter((item) => item.visible !== false && item.label.trim());
+  const hasPartnerTrustMarquee = partnerLogos.length > 0 || aboutTrustItems.length > 0;
+  const renderTrustIcon = (key: string) => {
+    const iconClassName = "h-9 w-9 text-earth-500 sm:h-10 sm:w-10";
+    switch (key) {
+      case "haccp":
+        return <ShieldCheck className={iconClassName} />;
+      case "iso":
+        return <Award className={iconClassName} />;
+      case "organic":
+        return <Leaf className={iconClassName} />;
+      case "globalgap":
+        return <BadgeCheck className={iconClassName} />;
+      case "fda":
+      default:
+        return <CheckCircle2 className={iconClassName} />;
+    }
+  };
   const missionPanels = [
     {
       eyebrow: t("missionPurposeLabel"),
@@ -243,30 +264,28 @@ export function About() {
           </div>
         </div>
       </section>
-      <section className="border-b border-earth-100 bg-white py-16 sm:py-20">
-        <div className="mx-auto mb-8 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm font-bold uppercase tracking-widest text-earth-400">
-            {content?.partnerSectionLabel || t("aboutPartners")}
-          </p>
-        </div>
-        <Marquee speed={30} direction="right" className={content?.partnerLogos?.length > 0 ? "" : "opacity-60"}>
-          <div className="flex items-center gap-20 px-8">
-            {content?.partnerLogos?.length > 0 ? (
-              content.partnerLogos.map((logo, i) => (
-                <img key={i} src={logo} alt="Partner" className="h-16 w-auto grayscale contrast-125 hover:grayscale-0 transition-all sm:h-20" />
-              ))
-            ) : (
-              <>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><ShieldCheck className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> {t("haccpLabel")}</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><Award className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> {t("isoLabel")}</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]"><CheckCircle2 className="h-9 w-9 text-earth-500 sm:h-10 sm:w-10" /> {t("organicLabel")}</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">{t("globalGapLabel")}</div>
-                <div className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">{t("fdaLabel")}</div>
-              </>
-            )}
+      {hasPartnerTrustMarquee && (
+        <section className="border-b border-earth-100 bg-white py-16 sm:py-20">
+          <div className="mx-auto mb-8 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+            <p className="text-sm font-bold uppercase tracking-widest text-earth-400">
+              {content?.partnerSectionLabel || t("aboutPartners")}
+            </p>
           </div>
-        </Marquee>
-      </section>
+          <Marquee speed={30} direction="right">
+            <div className="flex items-center gap-20 px-8">
+              {partnerLogos.map((logo, i) => (
+                <img key={`${logo}-${i}`} src={logo} alt="Partner" className="h-16 w-auto grayscale contrast-125 transition-all hover:grayscale-0 sm:h-20" />
+              ))}
+              {aboutTrustItems.map((item) => (
+                <div key={item.key} className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">
+                  {renderTrustIcon(item.key)}
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          </Marquee>
+        </section>
+      )}
       <section className="relative overflow-hidden bg-[linear-gradient(180deg,#fffafc_0%,#fcf5fa_100%)] py-24 sm:py-28">
         <div className="absolute left-[-7rem] top-10 h-56 w-56 rounded-full bg-earth-200/40 blur-3xl" />
         <div className="absolute bottom-[-5rem] right-[-3rem] h-64 w-64 rounded-full bg-mint-100/30 blur-3xl" />

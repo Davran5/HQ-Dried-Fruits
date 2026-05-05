@@ -88239,7 +88239,7 @@ var require_lucide_react = __commonJS({
       ],
       ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
     ];
-    var BadgeCheck = createLucideIcon("badge-check", __iconNode$nV);
+    var BadgeCheck2 = createLucideIcon("badge-check", __iconNode$nV);
     var __iconNode$nU = [
       [
         "path",
@@ -95553,7 +95553,7 @@ var require_lucide_react = __commonJS({
       ],
       ["path", { d: "M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12", key: "mt58a7" }]
     ];
-    var Leaf4 = createLucideIcon("leaf", __iconNode$cg);
+    var Leaf5 = createLucideIcon("leaf", __iconNode$cg);
     var __iconNode$cf = [
       [
         "path",
@@ -103243,7 +103243,7 @@ var require_lucide_react = __commonJS({
       Badge,
       BadgeAlert,
       BadgeCent,
-      BadgeCheck,
+      BadgeCheck: BadgeCheck2,
       BadgeDollarSign,
       BadgeEuro,
       BadgeIndianRupee,
@@ -103987,7 +103987,7 @@ var require_lucide_react = __commonJS({
       LayoutPanelLeft,
       LayoutPanelTop,
       LayoutTemplate,
-      Leaf: Leaf4,
+      Leaf: Leaf5,
       LeafyGreen,
       Lectern,
       Library: Library2,
@@ -105066,8 +105066,8 @@ var require_lucide_react = __commonJS({
     exports2.BadgeAlertIcon = BadgeAlert;
     exports2.BadgeCent = BadgeCent;
     exports2.BadgeCentIcon = BadgeCent;
-    exports2.BadgeCheck = BadgeCheck;
-    exports2.BadgeCheckIcon = BadgeCheck;
+    exports2.BadgeCheck = BadgeCheck2;
+    exports2.BadgeCheckIcon = BadgeCheck2;
     exports2.BadgeDollarSign = BadgeDollarSign;
     exports2.BadgeDollarSignIcon = BadgeDollarSign;
     exports2.BadgeEuro = BadgeEuro;
@@ -106734,8 +106734,8 @@ var require_lucide_react = __commonJS({
     exports2.LayoutPanelTopIcon = LayoutPanelTop;
     exports2.LayoutTemplate = LayoutTemplate;
     exports2.LayoutTemplateIcon = LayoutTemplate;
-    exports2.Leaf = Leaf4;
-    exports2.LeafIcon = Leaf4;
+    exports2.Leaf = Leaf5;
+    exports2.LeafIcon = Leaf5;
     exports2.LeafyGreen = LeafyGreen;
     exports2.LeafyGreenIcon = LeafyGreen;
     exports2.Lectern = Lectern;
@@ -106989,7 +106989,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideBadge = Badge;
     exports2.LucideBadgeAlert = BadgeAlert;
     exports2.LucideBadgeCent = BadgeCent;
-    exports2.LucideBadgeCheck = BadgeCheck;
+    exports2.LucideBadgeCheck = BadgeCheck2;
     exports2.LucideBadgeDollarSign = BadgeDollarSign;
     exports2.LucideBadgeEuro = BadgeEuro;
     exports2.LucideBadgeHelp = BadgeQuestionMark;
@@ -107822,7 +107822,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideLayoutPanelLeft = LayoutPanelLeft;
     exports2.LucideLayoutPanelTop = LayoutPanelTop;
     exports2.LucideLayoutTemplate = LayoutTemplate;
-    exports2.LucideLeaf = Leaf4;
+    exports2.LucideLeaf = Leaf5;
     exports2.LucideLeafyGreen = LeafyGreen;
     exports2.LucideLectern = Lectern;
     exports2.LucideLetterText = TextInitial;
@@ -108644,7 +108644,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideVenetianMask = VenetianMask;
     exports2.LucideVenus = Venus;
     exports2.LucideVenusAndMars = VenusAndMars;
-    exports2.LucideVerified = BadgeCheck;
+    exports2.LucideVerified = BadgeCheck2;
     exports2.LucideVibrate = Vibrate;
     exports2.LucideVibrateOff = VibrateOff;
     exports2.LucideVideo = Video;
@@ -110241,8 +110241,8 @@ var require_lucide_react = __commonJS({
     exports2.VenusAndMars = VenusAndMars;
     exports2.VenusAndMarsIcon = VenusAndMars;
     exports2.VenusIcon = Venus;
-    exports2.Verified = BadgeCheck;
-    exports2.VerifiedIcon = BadgeCheck;
+    exports2.Verified = BadgeCheck2;
+    exports2.VerifiedIcon = BadgeCheck2;
     exports2.Vibrate = Vibrate;
     exports2.VibrateIcon = Vibrate;
     exports2.VibrateOff = VibrateOff;
@@ -124400,6 +124400,13 @@ var initialPages = [
       productionMarqueeImages: [],
       partnerLogos: [],
       partnerSectionLabel: "Certified Quality & Trusted Partners",
+      aboutTrustItems: [
+        { key: "fda", label: "FDA Registered", visible: true },
+        { key: "haccp", label: "HACCP Certified", visible: true },
+        { key: "iso", label: "ISO 9001:2015", visible: true },
+        { key: "organic", label: "100% Organic", visible: true },
+        { key: "globalgap", label: "GlobalGAP", visible: true }
+      ],
       companyEyebrow: "About The Company",
       heritageTitle: "Our Roots in the Silk Road",
       heritageSubtitle: "A journey of quality and tradition.",
@@ -126014,6 +126021,34 @@ function Marquee({ children, className, speed = 20, direction = "left" }) {
 
 // src/pages/About.tsx
 var import_lucide_react4 = __toESM(require_lucide_react(), 1);
+
+// src/lib/aboutTrustItems.ts
+function getDefaultAboutTrustItems(uiLabels = {}) {
+  return [
+    { key: "fda", label: uiLabels.fdaLabel || "FDA Registered", visible: true },
+    { key: "haccp", label: uiLabels.haccpLabel || "HACCP Certified", visible: true },
+    { key: "iso", label: uiLabels.isoLabel || "ISO 9001:2015", visible: true },
+    { key: "organic", label: uiLabels.organicLabel || "100% Organic", visible: true },
+    { key: "globalgap", label: uiLabels.globalGapLabel || "GlobalGAP", visible: true }
+  ];
+}
+function normalizeAboutTrustItems(items, uiLabels = {}) {
+  const defaults = getDefaultAboutTrustItems(uiLabels);
+  const byKey = new Map((items || []).map((item) => [item.key, item]));
+  return defaults.map((fallback) => {
+    const item = byKey.get(fallback.key);
+    if (!item) {
+      return fallback;
+    }
+    return {
+      key: fallback.key,
+      label: Object.prototype.hasOwnProperty.call(item, "label") ? item.label : fallback.label,
+      visible: item.visible !== false
+    };
+  });
+}
+
+// src/pages/About.tsx
 var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
 function About() {
   const { pages, pageSeo, globalSettings } = usePages();
@@ -126070,6 +126105,25 @@ function About() {
   const aboutHeroImage = content?.heroBgImage || content?.productionMarqueeImages?.[0] || content?.missionPhotography || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop";
   const aboutHeroTitle = content?.marqueeTitle || t2("aboutHeroTitle");
   const aboutHeroSubtitle = content?.heroSubtitle || content?.heritageSubtitle || t2("aboutHeroSubtitle");
+  const partnerLogos = (content?.partnerLogos || []).filter(Boolean);
+  const aboutTrustItems = normalizeAboutTrustItems(content?.aboutTrustItems, uiLabels).filter((item) => item.visible !== false && item.label.trim());
+  const hasPartnerTrustMarquee = partnerLogos.length > 0 || aboutTrustItems.length > 0;
+  const renderTrustIcon = (key) => {
+    const iconClassName = "h-9 w-9 text-earth-500 sm:h-10 sm:w-10";
+    switch (key) {
+      case "haccp":
+        return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ShieldCheck, { className: iconClassName });
+      case "iso":
+        return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Award, { className: iconClassName });
+      case "organic":
+        return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Leaf, { className: iconClassName });
+      case "globalgap":
+        return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.BadgeCheck, { className: iconClassName });
+      case "fda":
+      default:
+        return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.CheckCircle2, { className: iconClassName });
+    }
+  };
   const missionPanels = [
     {
       eyebrow: t2("missionPurposeLabel"),
@@ -126227,27 +126281,15 @@ function About() {
         }
       )
     ] }) }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("section", { className: "border-b border-earth-100 bg-white py-16 sm:py-20", children: [
+    hasPartnerTrustMarquee && /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("section", { className: "border-b border-earth-100 bg-white py-16 sm:py-20", children: [
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mx-auto mb-8 max-w-7xl px-4 text-center sm:px-6 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "text-sm font-bold uppercase tracking-widest text-earth-400", children: content?.partnerSectionLabel || t2("aboutPartners") }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Marquee, { speed: 30, direction: "right", className: content?.partnerLogos?.length > 0 ? "" : "opacity-60", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex items-center gap-20 px-8", children: content?.partnerLogos?.length > 0 ? content.partnerLogos.map((logo, i) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("img", { src: logo, alt: "Partner", className: "h-16 w-auto grayscale contrast-125 hover:grayscale-0 transition-all sm:h-20" }, i)) : /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_jsx_runtime16.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ShieldCheck, { className: "h-9 w-9 text-earth-500 sm:h-10 sm:w-10" }),
-          " ",
-          t2("haccpLabel")
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Award, { className: "h-9 w-9 text-earth-500 sm:h-10 sm:w-10" }),
-          " ",
-          t2("isoLabel")
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.CheckCircle2, { className: "h-9 w-9 text-earth-500 sm:h-10 sm:w-10" }),
-          " ",
-          t2("organicLabel")
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]", children: t2("globalGapLabel") }),
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]", children: t2("fdaLabel") })
-      ] }) }) })
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Marquee, { speed: 30, direction: "right", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center gap-20 px-8", children: [
+        partnerLogos.map((logo, i) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("img", { src: logo, alt: "Partner", className: "h-16 w-auto grayscale contrast-125 transition-all hover:grayscale-0 sm:h-20" }, `${logo}-${i}`)),
+        aboutTrustItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]", children: [
+          renderTrustIcon(item.key),
+          item.label
+        ] }, item.key))
+      ] }) })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("section", { className: "relative overflow-hidden bg-[linear-gradient(180deg,#fffafc_0%,#fcf5fa_100%)] py-24 sm:py-28", children: [
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "absolute left-[-7rem] top-10 h-56 w-56 rounded-full bg-earth-200/40 blur-3xl" }),
@@ -130695,6 +130737,14 @@ function AboutForm({ content, updateContent }) {
   const uiLabels = globalSettings.uiLabels || {};
   const missionNarrativeTitleFallback = uiLabels.missionNarrativeTitle || "What guides the way we grow, process, and deliver";
   const missionNarrativeSublabelFallback = uiLabels.missionNarrativeSublabel || "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.";
+  const aboutTrustItems = normalizeAboutTrustItems(content.aboutTrustItems, uiLabels);
+  const updateTrustItem = (index, updates) => {
+    updateContent({
+      aboutTrustItems: aboutTrustItems.map(
+        (item, candidateIndex) => candidateIndex === index ? { ...item, ...updates } : item
+      )
+    });
+  };
   return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "1. About Hero", children: [
       /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
@@ -130863,7 +130913,39 @@ function AboutForm({ content, updateContent }) {
           items: content.partnerLogos || [],
           onUpdate: (items) => updateContent({ partnerLogos: items })
         }
-      )
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-bold text-slate-800", children: "Trust Items" }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { className: "mt-1 text-xs text-slate-500", children: "Edit the labels shown in the About marquee. Use the toggles to hide or show each fixed item." })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { className: "space-y-2", children: aboutTrustItems.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "grid gap-3 rounded-xl border border-slate-200 bg-white p-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium uppercase tracking-wider text-slate-500", children: item.key }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+              "input",
+              {
+                type: "text",
+                value: item.label,
+                onChange: (e) => updateTrustItem(index, { label: e.target.value }),
+                className: "w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("label", { className: "flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+              "input",
+              {
+                type: "checkbox",
+                checked: item.visible !== false,
+                onChange: (e) => updateTrustItem(index, { visible: e.target.checked }),
+                className: "h-4 w-4 rounded border-slate-300 text-earth-600 focus:ring-earth-500"
+              }
+            ),
+            "Show"
+          ] })
+        ] }, item.key)) })
+      ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(FormSection, { title: "4. Mission & Logistics", defaultOpen: false, children: [
       /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [

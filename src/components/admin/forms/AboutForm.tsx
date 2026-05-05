@@ -6,6 +6,7 @@ import { RichTextEditor } from "./RichTextEditor";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
 import { useMedia } from "@/src/contexts/MediaContext";
 import { usePages } from "@/src/contexts/PageContext";
+import { normalizeAboutTrustItems } from "@/src/lib/aboutTrustItems";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 
 interface Props {
@@ -102,6 +103,14 @@ export function AboutForm({ content, updateContent }: Props) {
     const uiLabels = globalSettings.uiLabels || {};
     const missionNarrativeTitleFallback = uiLabels.missionNarrativeTitle || "What guides the way we grow, process, and deliver";
     const missionNarrativeSublabelFallback = uiLabels.missionNarrativeSublabel || "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.";
+    const aboutTrustItems = normalizeAboutTrustItems(content.aboutTrustItems, uiLabels);
+    const updateTrustItem = (index: number, updates: Partial<(typeof aboutTrustItems)[number]>) => {
+        updateContent({
+            aboutTrustItems: aboutTrustItems.map((item, candidateIndex) =>
+                candidateIndex === index ? { ...item, ...updates } : item,
+            ),
+        });
+    };
 
     return (
         <div className="space-y-4">
@@ -241,6 +250,40 @@ export function AboutForm({ content, updateContent }: Props) {
                     items={content.partnerLogos || []}
                     onUpdate={(items) => updateContent({ partnerLogos: items })}
                 />
+                <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div>
+                        <label className="block text-sm font-bold text-slate-800">Trust Items</label>
+                        <p className="mt-1 text-xs text-slate-500">
+                            Edit the labels shown in the About marquee. Use the toggles to hide or show each fixed item.
+                        </p>
+                    </div>
+                    <div className="space-y-2">
+                        {aboutTrustItems.map((item, index) => (
+                            <div key={item.key} className="grid gap-3 rounded-xl border border-slate-200 bg-white p-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+                                <div>
+                                    <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-slate-500">
+                                        {item.key}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={item.label}
+                                        onChange={e => updateTrustItem(index, { label: e.target.value })}
+                                        className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
+                                    />
+                                </div>
+                                <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700">
+                                    <input
+                                        type="checkbox"
+                                        checked={item.visible !== false}
+                                        onChange={e => updateTrustItem(index, { visible: e.target.checked })}
+                                        className="h-4 w-4 rounded border-slate-300 text-earth-600 focus:ring-earth-500"
+                                    />
+                                    Show
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </FormSection>
 
             <FormSection title="4. Mission & Logistics" defaultOpen={false}>

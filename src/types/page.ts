@@ -206,6 +206,14 @@ export interface AboutProductionItem {
     description: string;
 }
 
+export type AboutTrustItemKey = "fda" | "haccp" | "iso" | "organic" | "globalgap";
+
+export interface AboutTrustItem {
+    key: AboutTrustItemKey | string;
+    label: string;
+    visible: boolean;
+}
+
 export interface HomeContent {
     heroBgImage: string;
     heroTitle: string;
@@ -256,6 +264,7 @@ export interface AboutContent {
     productionMarqueeImages: string[];
     partnerLogos: string[];
     partnerSectionLabel: string;
+    aboutTrustItems?: AboutTrustItem[];
 
     companyEyebrow: string;
     heritageTitle: string;
