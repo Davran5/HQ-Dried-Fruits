@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2, Loader2 } from "lucide-react";
+import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2, Loader2, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { Select } from "@/src/components/ui/Select";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
@@ -49,7 +49,7 @@ interface ProductCatalogManagerProps {
 }
 
 export function ProductCatalogManager({ embedded = false, onFloatingActionChange }: ProductCatalogManagerProps) {
-  const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
+  const { products, addProduct, updateProduct, deleteProduct, reorderProducts, refreshProducts } = useProducts();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const setFloatingAction = onFloatingActionChange || setAction;
@@ -60,6 +60,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isReordering, setIsReordering] = useState(false);
   const [formLocale, setFormLocale] = useState<ActiveLocaleCode | null>(null);
   const [loadedEditingLang, setLoadedEditingLang] = useState<ActiveLocaleCode | null>(null);
   const [productDrafts, setProductDrafts] = useState<Record<string, Omit<Product, "id">>>({});
@@ -265,6 +266,26 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     }
     setIsDeleteOpen(false);
     setItemToDelete(null);
+  };
+
+  const handleMoveProduct = async (event: React.MouseEvent, index: number, direction: -1 | 1) => {
+    event.stopPropagation();
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= products.length || isReordering) {
+      return;
+    }
+
+    const nextProducts = [...products];
+    [nextProducts[index], nextProducts[targetIndex]] = [nextProducts[targetIndex], nextProducts[index]];
+
+    setIsReordering(true);
+    try {
+      await reorderProducts(nextProducts.map((product) => product.id));
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Failed to save product order.");
+    } finally {
+      setIsReordering(false);
+    }
   };
 
   const renderProductForm = (id: string) => {
@@ -540,7 +561,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
           )}
         </AnimatePresence>
 
-        {products.map((product) => {
+        {products.map((product, index) => {
           const isExpanded = editingId === product.id;
           return (
             <div
@@ -577,6 +598,24 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
                 </div>
 
                 <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={(e) => handleMoveProduct(e, index, -1)}
+                    disabled={index === 0 || isReordering}
+                    className="p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300"
+                    title="Move product up"
+                  >
+                    <ArrowUp size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => handleMoveProduct(e, index, 1)}
+                    disabled={index === products.length - 1 || isReordering}
+                    className="p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300"
+                    title="Move product down"
+                  >
+                    <ArrowDown size={18} />
+                  </button>
                   <button
                     onClick={(e) => confirmDelete(e, product.id)}
                     className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"

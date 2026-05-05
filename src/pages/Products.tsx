@@ -13,9 +13,6 @@ import { Product, ProductContentSection } from "@/src/types/product";
 import { submitLead } from "@/src/lib/leads";
 import { getManagedProductPath, getManagedProductSlug } from "@/src/lib/routes";
 
-const preferredProductOrder = ["sun-dried-apricots", "black-raisins", "pitted-prunes"];
-
-
 function stripHtml(value: string) {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -87,12 +84,7 @@ export function Products() {
   const directContactRef = useRef<HTMLDivElement | null>(null);
 
   const activeProducts = products.filter((product) => product.status === "Active");
-  const preferredProducts = preferredProductOrder
-    .map((id) => activeProducts.find((product) => product.id === id))
-    .filter((product): product is Product => Boolean(product));
-  
-  const otherProducts = activeProducts.filter((product) => !preferredProductOrder.includes(product.id));
-  const orderedProducts = [...preferredProducts, ...otherProducts];
+  const orderedProducts = activeProducts;
 
   useEffect(() => {
     if (products.length === 0) {

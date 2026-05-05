@@ -12,6 +12,7 @@ interface ProductContextType {
     addProduct: (product: Omit<Product, "id">, locale?: LocaleCode) => Promise<Product>;
     updateProduct: (id: string, product: Omit<Product, "id">, locale?: LocaleCode) => Promise<void>;
     deleteProduct: (id: string) => Promise<void>;
+    reorderProducts: (ids: string[]) => Promise<void>;
     refreshProducts: (locale?: LocaleCode) => Promise<void>;
 }
 
@@ -146,8 +147,52 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
         }
     };
 
+    const reorderProducts = async (ids: string[]) => {
+        const orderedIds = Array.from(new Set(ids.filter(Boolean)));
+        if (orderedIds.length === 0) {
+            return;
+        }
+
+        const previousProducts = products;
+        const orderIndexById = new Map(orderedIds.map((id, index) => [id, index]));
+
+        setProducts((currentProducts) => {
+            const productById = new Map<string, Product>();
+            currentProducts.forEach((product) => productById.set(product.id, product));
+            const orderedProducts = orderedIds
+                .map((id, index) => {
+                    const product = productById.get(id);
+                    if (!product) {
+                        return null;
+                    }
+                    const orderedProduct: Product = { ...product, displayOrder: index };
+                    return orderedProduct;
+                })
+                .filter((product): product is Product => Boolean(product));
+            const remainingProducts = currentProducts.filter((product) => !orderIndexById.has(product.id));
+            return [...orderedProducts, ...remainingProducts];
+        });
+
+        try {
+            const response = await fetch("/api/products/order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ids: orderedIds }),
+            });
+
+            if (!response.ok) {
+                const payload = await response.json().catch(() => null);
+                throw new Error(payload?.error || "Failed to save product order");
+            }
+        } catch (error) {
+            setProducts(previousProducts);
+            console.error("Error reordering products:", error);
+            throw error;
+        }
+    };
+
     return (
-        <ProductContext.Provider value={{ products, productsLoaded, currentLocale: locale, addProduct, updateProduct, deleteProduct, refreshProducts }}>
+        <ProductContext.Provider value={{ products, productsLoaded, currentLocale: locale, addProduct, updateProduct, deleteProduct, reorderProducts, refreshProducts }}>
             {children}
         </ProductContext.Provider>
     );

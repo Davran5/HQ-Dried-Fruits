@@ -36,6 +36,7 @@ export interface Product {
   contentSections: ProductContentSection[];
   nutrition: Nutrition;
   customFields?: ProductCustomField[];
+  displayOrder?: number;
   inquirySubjectLine: string;
   tonnageOptions: string[];
   seo?: SEOData;

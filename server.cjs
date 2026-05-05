@@ -87959,7 +87959,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M12 5v14", key: "s699le" }],
       ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
     ];
-    var ArrowDown = createLucideIcon("arrow-down", __iconNode$os);
+    var ArrowDown2 = createLucideIcon("arrow-down", __iconNode$os);
     var __iconNode$or = [
       ["path", { d: "m9 6-6 6 6 6", key: "7v63n9" }],
       ["path", { d: "M3 12h14", key: "13k4hi" }],
@@ -88095,7 +88095,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
       ["path", { d: "M12 19V5", key: "x0mq9r" }]
     ];
-    var ArrowUp = createLucideIcon("arrow-up", __iconNode$o7);
+    var ArrowUp2 = createLucideIcon("arrow-up", __iconNode$o7);
     var __iconNode$o6 = [
       ["path", { d: "m4 6 3-3 3 3", key: "9aidw8" }],
       ["path", { d: "M7 17V3", key: "19qxw1" }],
@@ -103195,7 +103195,7 @@ var require_lucide_react = __commonJS({
       ArrowBigRightDash,
       ArrowBigUp,
       ArrowBigUpDash,
-      ArrowDown,
+      ArrowDown: ArrowDown2,
       ArrowDown01,
       ArrowDown10,
       ArrowDownAZ,
@@ -103216,7 +103216,7 @@ var require_lucide_react = __commonJS({
       ArrowRightFromLine,
       ArrowRightLeft,
       ArrowRightToLine,
-      ArrowUp,
+      ArrowUp: ArrowUp2,
       ArrowUp01,
       ArrowUp10,
       ArrowUpAZ,
@@ -104919,7 +104919,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowBigUpDash = ArrowBigUpDash;
     exports2.ArrowBigUpDashIcon = ArrowBigUpDash;
     exports2.ArrowBigUpIcon = ArrowBigUp;
-    exports2.ArrowDown = ArrowDown;
+    exports2.ArrowDown = ArrowDown2;
     exports2.ArrowDown01 = ArrowDown01;
     exports2.ArrowDown01Icon = ArrowDown01;
     exports2.ArrowDown10 = ArrowDown10;
@@ -104932,7 +104932,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowDownCircleIcon = CircleArrowDown;
     exports2.ArrowDownFromLine = ArrowDownFromLine;
     exports2.ArrowDownFromLineIcon = ArrowDownFromLine;
-    exports2.ArrowDownIcon = ArrowDown;
+    exports2.ArrowDownIcon = ArrowDown2;
     exports2.ArrowDownLeft = ArrowDownLeft;
     exports2.ArrowDownLeftFromCircle = CircleArrowOutDownLeft;
     exports2.ArrowDownLeftFromCircleIcon = CircleArrowOutDownLeft;
@@ -104989,7 +104989,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowRightSquareIcon = SquareArrowRight;
     exports2.ArrowRightToLine = ArrowRightToLine;
     exports2.ArrowRightToLineIcon = ArrowRightToLine;
-    exports2.ArrowUp = ArrowUp;
+    exports2.ArrowUp = ArrowUp2;
     exports2.ArrowUp01 = ArrowUp01;
     exports2.ArrowUp01Icon = ArrowUp01;
     exports2.ArrowUp10 = ArrowUp10;
@@ -105006,7 +105006,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowUpFromDotIcon = ArrowUpFromDot;
     exports2.ArrowUpFromLine = ArrowUpFromLine;
     exports2.ArrowUpFromLineIcon = ArrowUpFromLine;
-    exports2.ArrowUpIcon = ArrowUp;
+    exports2.ArrowUpIcon = ArrowUp2;
     exports2.ArrowUpLeft = ArrowUpLeft;
     exports2.ArrowUpLeftFromCircle = CircleArrowOutUpLeft;
     exports2.ArrowUpLeftFromCircleIcon = CircleArrowOutUpLeft;
@@ -106915,7 +106915,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideArrowBigRightDash = ArrowBigRightDash;
     exports2.LucideArrowBigUp = ArrowBigUp;
     exports2.LucideArrowBigUpDash = ArrowBigUpDash;
-    exports2.LucideArrowDown = ArrowDown;
+    exports2.LucideArrowDown = ArrowDown2;
     exports2.LucideArrowDown01 = ArrowDown01;
     exports2.LucideArrowDown10 = ArrowDown10;
     exports2.LucideArrowDownAZ = ArrowDownAZ;
@@ -106950,7 +106950,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideArrowRightLeft = ArrowRightLeft;
     exports2.LucideArrowRightSquare = SquareArrowRight;
     exports2.LucideArrowRightToLine = ArrowRightToLine;
-    exports2.LucideArrowUp = ArrowUp;
+    exports2.LucideArrowUp = ArrowUp2;
     exports2.LucideArrowUp01 = ArrowUp01;
     exports2.LucideArrowUp10 = ArrowUp10;
     exports2.LucideArrowUpAZ = ArrowUpAZ;
@@ -124888,7 +124888,44 @@ function ProductProvider({ children, initialData }) {
       throw error;
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ProductContext.Provider, { value: { products, productsLoaded, currentLocale: locale, addProduct, updateProduct, deleteProduct, refreshProducts }, children });
+  const reorderProducts = async (ids) => {
+    const orderedIds = Array.from(new Set(ids.filter(Boolean)));
+    if (orderedIds.length === 0) {
+      return;
+    }
+    const previousProducts = products;
+    const orderIndexById = new Map(orderedIds.map((id3, index) => [id3, index]));
+    setProducts((currentProducts) => {
+      const productById = /* @__PURE__ */ new Map();
+      currentProducts.forEach((product) => productById.set(product.id, product));
+      const orderedProducts = orderedIds.map((id3, index) => {
+        const product = productById.get(id3);
+        if (!product) {
+          return null;
+        }
+        const orderedProduct = { ...product, displayOrder: index };
+        return orderedProduct;
+      }).filter((product) => Boolean(product));
+      const remainingProducts = currentProducts.filter((product) => !orderIndexById.has(product.id));
+      return [...orderedProducts, ...remainingProducts];
+    });
+    try {
+      const response = await fetch("/api/products/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: orderedIds })
+      });
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        throw new Error(payload?.error || "Failed to save product order");
+      }
+    } catch (error) {
+      setProducts(previousProducts);
+      console.error("Error reordering products:", error);
+      throw error;
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ProductContext.Provider, { value: { products, productsLoaded, currentLocale: locale, addProduct, updateProduct, deleteProduct, reorderProducts, refreshProducts }, children });
 }
 function useProducts() {
   const context = (0, import_react29.useContext)(ProductContext);
@@ -126464,7 +126501,6 @@ var import_react41 = __toESM(require_react(), 1);
 var import_react_router_dom7 = __toESM(require_main3(), 1);
 var import_lucide_react5 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
-var preferredProductOrder = ["sun-dried-apricots", "black-raisins", "pitted-prunes"];
 function stripHtml(value) {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -126526,9 +126562,7 @@ function Products() {
   const orderHubRef = (0, import_react41.useRef)(null);
   const directContactRef = (0, import_react41.useRef)(null);
   const activeProducts = products.filter((product) => product.status === "Active");
-  const preferredProducts = preferredProductOrder.map((id3) => activeProducts.find((product) => product.id === id3)).filter((product) => Boolean(product));
-  const otherProducts = activeProducts.filter((product) => !preferredProductOrder.includes(product.id));
-  const orderedProducts = [...preferredProducts, ...otherProducts];
+  const orderedProducts = activeProducts;
   (0, import_react41.useEffect)(() => {
     if (products.length === 0) {
       return;
@@ -132571,7 +132605,7 @@ var emptyProduct = {
   customFields: []
 };
 function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
-  const { products, addProduct, updateProduct, deleteProduct, refreshProducts } = useProducts();
+  const { products, addProduct, updateProduct, deleteProduct, reorderProducts, refreshProducts } = useProducts();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const setFloatingAction = onFloatingActionChange || setAction;
@@ -132582,6 +132616,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
   const [successMessage, setSuccessMessage] = (0, import_react62.useState)(null);
   const [isRefreshing, setIsRefreshing] = (0, import_react62.useState)(false);
   const [isSaving, setIsSaving] = (0, import_react62.useState)(false);
+  const [isReordering, setIsReordering] = (0, import_react62.useState)(false);
   const [formLocale, setFormLocale] = (0, import_react62.useState)(null);
   const [loadedEditingLang, setLoadedEditingLang] = (0, import_react62.useState)(null);
   const [productDrafts, setProductDrafts] = (0, import_react62.useState)({});
@@ -132763,6 +132798,23 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     }
     setIsDeleteOpen(false);
     setItemToDelete(null);
+  };
+  const handleMoveProduct = async (event, index, direction) => {
+    event.stopPropagation();
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= products.length || isReordering) {
+      return;
+    }
+    const nextProducts = [...products];
+    [nextProducts[index], nextProducts[targetIndex]] = [nextProducts[targetIndex], nextProducts[index]];
+    setIsReordering(true);
+    try {
+      await reorderProducts(nextProducts.map((product) => product.id));
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Failed to save product order.");
+    } finally {
+      setIsReordering(false);
+    }
   };
   const renderProductForm = (id3) => {
     const customFields = (formData.customFields || []).slice(0, 5);
@@ -133053,7 +133105,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
           ]
         }
       ) }),
-      products.map((product) => {
+      products.map((product, index) => {
         const isExpanded = editingId === product.id;
         return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
           "div",
@@ -133080,6 +133132,28 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
                       ] })
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "flex items-center gap-2", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                        "button",
+                        {
+                          type: "button",
+                          onClick: (e) => handleMoveProduct(e, index, -1),
+                          disabled: index === 0 || isReordering,
+                          className: "p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300",
+                          title: "Move product up",
+                          children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.ArrowUp, { size: 18 })
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                        "button",
+                        {
+                          type: "button",
+                          onClick: (e) => handleMoveProduct(e, index, 1),
+                          disabled: index === products.length - 1 || isReordering,
+                          className: "p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300",
+                          title: "Move product down",
+                          children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.ArrowDown, { size: 18 })
+                        }
+                      ),
                       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
                         "button",
                         {
@@ -135525,9 +135599,33 @@ async function initDb() {
       name TEXT, category TEXT, status TEXT, image TEXT, image_gallery LONGTEXT,
       short_description TEXT, long_description LONGTEXT, highlights LONGTEXT,
       content_sections LONGTEXT, nutrition LONGTEXT, inquiry_subject_line TEXT,
-      tonnage_options TEXT, seo LONGTEXT,
+      tonnage_options TEXT, seo LONGTEXT, display_order INT NULL,
       PRIMARY KEY (id, lang)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
+    await addColumnIfMissing("products", "display_order", "INT NULL");
+    const [productRows] = await conn.execute("SELECT id, display_order FROM products");
+    if (Array.isArray(productRows)) {
+      const firstSeenIds = [];
+      const seenIds = /* @__PURE__ */ new Set();
+      const existingOrderById = /* @__PURE__ */ new Map();
+      for (const row of productRows) {
+        const id3 = asString(row?.id);
+        if (!id3) continue;
+        if (!seenIds.has(id3)) {
+          seenIds.add(id3);
+          firstSeenIds.push(id3);
+        }
+        const displayOrder = Number(row?.display_order);
+        if (Number.isFinite(displayOrder) && !existingOrderById.has(id3)) {
+          existingOrderById.set(id3, displayOrder);
+        }
+      }
+      for (let index = 0; index < firstSeenIds.length; index += 1) {
+        const id3 = firstSeenIds[index];
+        const displayOrder = existingOrderById.get(id3) ?? index;
+        await conn.execute("UPDATE products SET display_order = ? WHERE id = ? AND display_order IS NULL", [displayOrder, id3]);
+      }
+    }
     await conn.execute(`CREATE TABLE IF NOT EXISTS leads (
       id VARCHAR(255) PRIMARY KEY, date TEXT, name TEXT, company TEXT, email TEXT,
       phone TEXT, telegram TEXT, product_interest TEXT, est_tonnage TEXT,
@@ -136204,6 +136302,7 @@ function mapProduct(row) {
     contentSections: safeParseJson(row?.content_sections, []),
     nutrition: { energy: asString(parsedNutrition.energy), protein: asString(parsedNutrition.protein), fat: asString(parsedNutrition.fat), carbs: asString(parsedNutrition.carbs) },
     customFields,
+    displayOrder: Number.isFinite(Number(row?.display_order)) ? Number(row?.display_order) : void 0,
     inquirySubjectLine: asString(row?.inquiry_subject_line),
     tonnageOptions: safeParseJson(row?.tonnage_options, []),
     seo: { ...seoFallback, ...parsedSeo, slug: normalizeSlug2(asString(parsedSeo.slug), seoFallback.slug) }
@@ -136447,7 +136546,12 @@ async function getProductsForLocale(locale = "en") {
   return Array.from(rowsById.values()).map((rows) => {
     const preferredRow = getPreferredProductRow(rows, resolvedLocale);
     return preferredRow ? mergeProductSharedMedia(preferredRow, rows) : null;
-  }).filter(Boolean).map(mapProduct);
+  }).filter(Boolean).map(mapProduct).sort((a, b) => {
+    const aOrder = Number.isFinite(a.displayOrder) ? Number(a.displayOrder) : Number.MAX_SAFE_INTEGER;
+    const bOrder = Number.isFinite(b.displayOrder) ? Number(b.displayOrder) : Number.MAX_SAFE_INTEGER;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    return `${a.name || ""}${a.id}`.localeCompare(`${b.name || ""}${b.id}`);
+  });
 }
 async function getSharedStructuredPageContent(tableName, locale, mapper, config) {
   const resolvedLocale = normalizeLocale(locale);
@@ -136565,6 +136669,7 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
     carbs: asString(product?.nutrition?.carbs),
     customFields
   };
+  const displayOrder = Number(product?.displayOrder);
   return {
     id: fallbackId,
     name: asString(product.name),
@@ -136578,10 +136683,16 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
     nutrition: nutritionPayload,
     customFields,
+    displayOrder: Number.isFinite(displayOrder) ? displayOrder : void 0,
     inquirySubjectLine: asString(product.inquirySubjectLine),
     tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
     seo: { metaTitle: asString(seoPayload.metaTitle, `${asString(product.name)} | HQ Dried Fruits`), metaDescription: asString(seoPayload.metaDescription, asString(product.shortDescription)), slug: normalizedSeoSlug, ogTitle: asString(seoPayload.ogTitle, asString(product.name)), imageAlt: asString(seoPayload.imageAlt, asString(product.name)) }
   };
+}
+async function getNextProductDisplayOrder() {
+  const result = await db.query("SELECT MAX(display_order) AS max_order FROM products");
+  const maxOrder = Number(result.rows[0]?.max_order);
+  return Number.isFinite(maxOrder) ? maxOrder + 1 : 0;
 }
 function getIndexTemplate() {
   return import_fs.default.readFileSync(import_path2.default.join(distDir, "index.html"), "utf8");
@@ -136971,11 +137082,25 @@ app.post("/api/products", async (req, res) => {
   try {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, "", locale);
-    await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), locale]);
-    await syncProductSharedMedia(product);
-    res.json({ success: true, id: product.id, product });
+    const displayOrder = product.displayOrder ?? await getNextProductDisplayOrder();
+    const productToSave = { ...product, displayOrder };
+    await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`, [productToSave.id, productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, locale]);
+    await syncProductSharedMedia(productToSave);
+    res.json({ success: true, id: productToSave.id, product: productToSave });
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" });
+  }
+});
+app.post("/api/products/order", async (req, res) => {
+  try {
+    const ids = Array.isArray(req.body?.ids) ? Array.from(new Set(req.body.ids.map((id3) => asString(id3)).filter(Boolean))) : [];
+    if (ids.length === 0) return res.status(400).json({ error: "Product order ids are required" });
+    await Promise.all(ids.map(
+      (id3, index) => db.query("UPDATE products SET display_order = $1 WHERE id = $2", [index, id3])
+    ));
+    res.json({ success: true });
+  } catch (error) {
+    res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product order" });
   }
 });
 app.post("/api/products/:id", async (req, res) => {
@@ -136983,37 +137108,40 @@ app.post("/api/products/:id", async (req, res) => {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, asString(req.params.id), locale);
     const existing = await findProductRowByIdentifier(asString(req.params.id), locale);
+    const displayOrder = product.displayOrder ?? (Number.isFinite(Number(existing?.display_order)) ? Number(existing?.display_order) : await getNextProductDisplayOrder());
+    const productToSave = { ...product, displayOrder };
     if (!existing || asString(existing?.lang, "en") !== locale || asString(existing?.id) !== asString(req.params.id)) {
       await db.query(
-        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
+        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
         [
           asString(req.params.id),
-          product.name,
-          product.category,
-          product.status,
-          product.image,
-          JSON.stringify(product.imageGallery),
-          product.shortDescription,
-          product.longDescription,
-          JSON.stringify(product.highlights),
-          JSON.stringify(product.contentSections),
-          JSON.stringify(product.nutrition ?? {}),
-          product.inquirySubjectLine,
-          JSON.stringify(product.tonnageOptions),
-          JSON.stringify(product.seo),
+          productToSave.name,
+          productToSave.category,
+          productToSave.status,
+          productToSave.image,
+          JSON.stringify(productToSave.imageGallery),
+          productToSave.shortDescription,
+          productToSave.longDescription,
+          JSON.stringify(productToSave.highlights),
+          JSON.stringify(productToSave.contentSections),
+          JSON.stringify(productToSave.nutrition ?? {}),
+          productToSave.inquirySubjectLine,
+          JSON.stringify(productToSave.tonnageOptions),
+          JSON.stringify(productToSave.seo),
+          productToSave.displayOrder,
           locale
         ]
       );
-      await syncProductSharedMedia({ ...product, id: asString(req.params.id) });
-      return res.json({ success: true, product: { ...product, id: asString(req.params.id) } });
+      await syncProductSharedMedia({ ...productToSave, id: asString(req.params.id) });
+      return res.json({ success: true, product: { ...productToSave, id: asString(req.params.id) } });
     }
     const result = await db.query(
-      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13 WHERE id = $14 AND lang = $15`,
-      [product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), asString(req.params.id), locale]
+      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13, display_order = $14 WHERE id = $15 AND lang = $16`,
+      [productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, asString(req.params.id), locale]
     );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
-    await syncProductSharedMedia(product);
-    res.json({ success: true, product });
+    await syncProductSharedMedia(productToSave);
+    res.json({ success: true, product: productToSave });
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" });
   }

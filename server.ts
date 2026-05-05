@@ -183,9 +183,37 @@ async function initDb() {
       name TEXT, category TEXT, status TEXT, image TEXT, image_gallery LONGTEXT,
       short_description TEXT, long_description LONGTEXT, highlights LONGTEXT,
       content_sections LONGTEXT, nutrition LONGTEXT, inquiry_subject_line TEXT,
-      tonnage_options TEXT, seo LONGTEXT,
+      tonnage_options TEXT, seo LONGTEXT, display_order INT NULL,
       PRIMARY KEY (id, lang)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
+
+    await addColumnIfMissing("products", "display_order", "INT NULL");
+
+    const [productRows] = await conn.execute("SELECT id, display_order FROM products");
+    if (Array.isArray(productRows)) {
+      const firstSeenIds: string[] = [];
+      const seenIds = new Set<string>();
+      const existingOrderById = new Map<string, number>();
+
+      for (const row of productRows as any[]) {
+        const id = asString(row?.id);
+        if (!id) continue;
+        if (!seenIds.has(id)) {
+          seenIds.add(id);
+          firstSeenIds.push(id);
+        }
+        const displayOrder = Number(row?.display_order);
+        if (Number.isFinite(displayOrder) && !existingOrderById.has(id)) {
+          existingOrderById.set(id, displayOrder);
+        }
+      }
+
+      for (let index = 0; index < firstSeenIds.length; index += 1) {
+        const id = firstSeenIds[index];
+        const displayOrder = existingOrderById.get(id) ?? index;
+        await conn.execute("UPDATE products SET display_order = ? WHERE id = ? AND display_order IS NULL", [displayOrder, id]);
+      }
+    }
 
     await conn.execute(`CREATE TABLE IF NOT EXISTS leads (
       id VARCHAR(255) PRIMARY KEY, date TEXT, name TEXT, company TEXT, email TEXT,
@@ -880,6 +908,7 @@ function mapProduct(row: any) {
     highlights: safeParseJson<string[]>(row?.highlights, []), contentSections: safeParseJson<ProductSectionRecord[]>(row?.content_sections, []),
     nutrition: { energy: asString(parsedNutrition.energy), protein: asString(parsedNutrition.protein), fat: asString(parsedNutrition.fat), carbs: asString(parsedNutrition.carbs) },
     customFields,
+    displayOrder: Number.isFinite(Number(row?.display_order)) ? Number(row?.display_order) : undefined,
     inquirySubjectLine: asString(row?.inquiry_subject_line), tonnageOptions: safeParseJson<string[]>(row?.tonnage_options, []),
     seo: { ...seoFallback, ...parsedSeo, slug: normalizeSlug(asString(parsedSeo.slug), seoFallback.slug) },
   };
@@ -1053,7 +1082,13 @@ async function getProductsForLocale(locale: string = "en") {
       return preferredRow ? mergeProductSharedMedia(preferredRow, rows) : null;
     })
     .filter(Boolean)
-    .map(mapProduct);
+    .map(mapProduct)
+    .sort((a, b) => {
+      const aOrder = Number.isFinite(a.displayOrder) ? Number(a.displayOrder) : Number.MAX_SAFE_INTEGER;
+      const bOrder = Number.isFinite(b.displayOrder) ? Number(b.displayOrder) : Number.MAX_SAFE_INTEGER;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return `${a.name || ""}${a.id}`.localeCompare(`${b.name || ""}${b.id}`);
+    });
 }
 
 async function getSharedStructuredPageContent(tableName: string, locale: string, mapper: (row: any) => any, config: SharedMediaConfig) {
@@ -1217,14 +1252,21 @@ async function validateProductPayload(product: any, existingId = "", locale: str
     carbs: asString(product?.nutrition?.carbs),
     customFields,
   };
+  const displayOrder = Number(product?.displayOrder);
   return {
     id: fallbackId, name: asString(product.name), category: asString(product.category), status: asString(product.status, "Active"), image: asString(product.image),
     imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [], shortDescription: asString(product.shortDescription), longDescription: asString(product.longDescription),
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section: any) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
-    nutrition: nutritionPayload, customFields, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
+    nutrition: nutritionPayload, customFields, displayOrder: Number.isFinite(displayOrder) ? displayOrder : undefined, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
     seo: { metaTitle: asString(seoPayload.metaTitle, `${asString(product.name)} | HQ Dried Fruits`), metaDescription: asString(seoPayload.metaDescription, asString(product.shortDescription)), slug: normalizedSeoSlug, ogTitle: asString(seoPayload.ogTitle, asString(product.name)), imageAlt: asString(seoPayload.imageAlt, asString(product.name)) },
   };
+}
+
+async function getNextProductDisplayOrder() {
+  const result = await db.query<{ max_order: number | null }>("SELECT MAX(display_order) AS max_order FROM products");
+  const maxOrder = Number(result.rows[0]?.max_order);
+  return Number.isFinite(maxOrder) ? maxOrder + 1 : 0;
 }
 
 function getIndexTemplate() { return fs.readFileSync(path.join(distDir, "index.html"), "utf8"); }
@@ -1671,10 +1713,25 @@ app.post("/api/products", async (req, res) => {
   try {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, "", locale);
-    await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`, [product.id, product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), locale]);
-    await syncProductSharedMedia(product);
-    res.json({ success: true, id: product.id, product });
+    const displayOrder = product.displayOrder ?? await getNextProductDisplayOrder();
+    const productToSave = { ...product, displayOrder };
+    await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`, [productToSave.id, productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, locale]);
+    await syncProductSharedMedia(productToSave);
+    res.json({ success: true, id: productToSave.id, product: productToSave });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" }); }
+});
+
+app.post("/api/products/order", async (req, res) => {
+  try {
+    const ids = Array.isArray(req.body?.ids) ? Array.from(new Set(req.body.ids.map((id: any) => asString(id)).filter(Boolean))) : [];
+    if (ids.length === 0) return res.status(400).json({ error: "Product order ids are required" });
+
+    await Promise.all(ids.map((id, index) =>
+      db.query("UPDATE products SET display_order = $1 WHERE id = $2", [index, id]),
+    ));
+
+    res.json({ success: true });
+  } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product order" }); }
 });
 
 app.post("/api/products/:id", async (req, res) => {
@@ -1682,39 +1739,42 @@ app.post("/api/products/:id", async (req, res) => {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, asString(req.params.id), locale);
     const existing = await findProductRowByIdentifier(asString(req.params.id), locale);
+    const displayOrder = product.displayOrder ?? (Number.isFinite(Number(existing?.display_order)) ? Number(existing?.display_order) : await getNextProductDisplayOrder());
+    const productToSave = { ...product, displayOrder };
 
     if (!existing || asString(existing?.lang, "en") !== locale || asString(existing?.id) !== asString(req.params.id)) {
       await db.query(
-        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
+        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
         [
           asString(req.params.id),
-          product.name,
-          product.category,
-          product.status,
-          product.image,
-          JSON.stringify(product.imageGallery),
-          product.shortDescription,
-          product.longDescription,
-          JSON.stringify(product.highlights),
-          JSON.stringify(product.contentSections),
-          JSON.stringify(product.nutrition ?? {}),
-          product.inquirySubjectLine,
-          JSON.stringify(product.tonnageOptions),
-          JSON.stringify(product.seo),
+          productToSave.name,
+          productToSave.category,
+          productToSave.status,
+          productToSave.image,
+          JSON.stringify(productToSave.imageGallery),
+          productToSave.shortDescription,
+          productToSave.longDescription,
+          JSON.stringify(productToSave.highlights),
+          JSON.stringify(productToSave.contentSections),
+          JSON.stringify(productToSave.nutrition ?? {}),
+          productToSave.inquirySubjectLine,
+          JSON.stringify(productToSave.tonnageOptions),
+          JSON.stringify(productToSave.seo),
+          productToSave.displayOrder,
           locale,
         ],
       );
-      await syncProductSharedMedia({ ...product, id: asString(req.params.id) });
-      return res.json({ success: true, product: { ...product, id: asString(req.params.id) } });
+      await syncProductSharedMedia({ ...productToSave, id: asString(req.params.id) });
+      return res.json({ success: true, product: { ...productToSave, id: asString(req.params.id) } });
     }
 
     const result = await db.query(
-      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13 WHERE id = $14 AND lang = $15`,
-      [product.name, product.category, product.status, product.image, JSON.stringify(product.imageGallery), product.shortDescription, product.longDescription, JSON.stringify(product.highlights), JSON.stringify(product.contentSections), JSON.stringify(product.nutrition ?? {}), product.inquirySubjectLine, JSON.stringify(product.tonnageOptions), JSON.stringify(product.seo), asString(req.params.id), locale],
+      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13, display_order = $14 WHERE id = $15 AND lang = $16`,
+      [productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, asString(req.params.id), locale],
     );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
-    await syncProductSharedMedia(product);
-    res.json({ success: true, product });
+    await syncProductSharedMedia(productToSave);
+    res.json({ success: true, product: productToSave });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" }); }
 });
 
