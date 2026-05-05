@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2, Loader2, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2, Loader2, GripVertical } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { Select } from "@/src/components/ui/Select";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
@@ -61,6 +61,8 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isReordering, setIsReordering] = useState(false);
+  const [draggedProductId, setDraggedProductId] = useState<string | null>(null);
+  const [dragOverProductId, setDragOverProductId] = useState<string | null>(null);
   const [formLocale, setFormLocale] = useState<ActiveLocaleCode | null>(null);
   const [loadedEditingLang, setLoadedEditingLang] = useState<ActiveLocaleCode | null>(null);
   const [productDrafts, setProductDrafts] = useState<Record<string, Omit<Product, "id">>>({});
@@ -268,16 +270,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     setItemToDelete(null);
   };
 
-  const handleMoveProduct = async (event: React.MouseEvent, index: number, direction: -1 | 1) => {
-    event.stopPropagation();
-    const targetIndex = index + direction;
-    if (targetIndex < 0 || targetIndex >= products.length || isReordering) {
-      return;
-    }
-
-    const nextProducts = [...products];
-    [nextProducts[index], nextProducts[targetIndex]] = [nextProducts[targetIndex], nextProducts[index]];
-
+  const persistProductOrder = async (nextProducts: Product[]) => {
     setIsReordering(true);
     try {
       await reorderProducts(nextProducts.map((product) => product.id));
@@ -286,6 +279,54 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     } finally {
       setIsReordering(false);
     }
+  };
+
+  const handleDragStart = (event: React.DragEvent, productId: string) => {
+    if (isReordering) {
+      event.preventDefault();
+      return;
+    }
+
+    setDraggedProductId(productId);
+    setDragOverProductId(productId);
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", productId);
+  };
+
+  const handleDragOver = (event: React.DragEvent, productId: string) => {
+    if (!draggedProductId || draggedProductId === productId) {
+      return;
+    }
+
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    setDragOverProductId(productId);
+  };
+
+  const clearDragState = () => {
+    setDraggedProductId(null);
+    setDragOverProductId(null);
+  };
+
+  const handleDrop = async (event: React.DragEvent, targetProductId: string) => {
+    event.preventDefault();
+    const sourceProductId = draggedProductId || event.dataTransfer.getData("text/plain");
+    clearDragState();
+
+    if (!sourceProductId || sourceProductId === targetProductId || isReordering) {
+      return;
+    }
+
+    const sourceIndex = products.findIndex((product) => product.id === sourceProductId);
+    const targetIndex = products.findIndex((product) => product.id === targetProductId);
+    if (sourceIndex === -1 || targetIndex === -1) {
+      return;
+    }
+
+    const nextProducts = [...products];
+    const [movedProduct] = nextProducts.splice(sourceIndex, 1);
+    nextProducts.splice(targetIndex, 0, movedProduct);
+    await persistProductOrder(nextProducts);
   };
 
   const renderProductForm = (id: string) => {
@@ -561,21 +602,39 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
           )}
         </AnimatePresence>
 
-        {products.map((product, index) => {
+        {products.map((product) => {
           const isExpanded = editingId === product.id;
+          const isDragging = draggedProductId === product.id;
+          const isDragTarget = dragOverProductId === product.id && draggedProductId !== product.id;
           return (
             <div
               key={product.id}
+              onDragOver={(event) => handleDragOver(event, product.id)}
+              onDrop={(event) => handleDrop(event, product.id)}
+              onDragLeave={() => setDragOverProductId((current) => current === product.id ? null : current)}
               data-admin-product-id={product.id}
               data-admin-search-title={`Product: ${product.name}`}
               data-admin-search-content={JSON.stringify(product)}
-              className={`overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? 'border-earth-300 bg-white ring-1 ring-earth-500/10' : 'border-slate-200 bg-white hover:border-earth-200'}`}
+              className={`overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? 'border-earth-300 bg-white ring-1 ring-earth-500/10' : 'border-slate-200 bg-white hover:border-earth-200'} ${isDragging ? 'opacity-55' : ''} ${isDragTarget ? 'border-earth-400 ring-2 ring-earth-500/20' : ''}`}
             >
               <div
                 onClick={() => handleToggleAccordion(product.id, product)}
                 className={`group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? 'bg-earth-50/70' : 'hover:bg-slate-50'}`}
               >
                 <div className="flex items-center gap-4 min-w-0">
+                  <button
+                    type="button"
+                    draggable={!isReordering}
+                    onDragStart={(event) => handleDragStart(event, product.id)}
+                    onDragEnd={clearDragState}
+                    onClick={(event) => event.stopPropagation()}
+                    className="cursor-grab rounded-full p-2 text-slate-300 transition-colors hover:bg-earth-50 hover:text-earth-600 active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-40"
+                    disabled={isReordering}
+                    title="Drag to reorder"
+                    aria-label={`Drag ${product.name} to reorder`}
+                  >
+                    <GripVertical size={18} />
+                  </button>
                   <div className={`h-14 w-14 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${isExpanded ? 'border-earth-600 shadow-md' : 'border-slate-100 group-hover:border-earth-200'}`}>
                     {product.image ? (
                       <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
@@ -598,24 +657,6 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={(e) => handleMoveProduct(e, index, -1)}
-                    disabled={index === 0 || isReordering}
-                    className="p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300"
-                    title="Move product up"
-                  >
-                    <ArrowUp size={18} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={(e) => handleMoveProduct(e, index, 1)}
-                    disabled={index === products.length - 1 || isReordering}
-                    className="p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300"
-                    title="Move product down"
-                  >
-                    <ArrowDown size={18} />
-                  </button>
                   <button
                     onClick={(e) => confirmDelete(e, product.id)}
                     className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"

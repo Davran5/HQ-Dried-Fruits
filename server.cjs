@@ -87959,7 +87959,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M12 5v14", key: "s699le" }],
       ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
     ];
-    var ArrowDown2 = createLucideIcon("arrow-down", __iconNode$os);
+    var ArrowDown = createLucideIcon("arrow-down", __iconNode$os);
     var __iconNode$or = [
       ["path", { d: "m9 6-6 6 6 6", key: "7v63n9" }],
       ["path", { d: "M3 12h14", key: "13k4hi" }],
@@ -88095,7 +88095,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
       ["path", { d: "M12 19V5", key: "x0mq9r" }]
     ];
-    var ArrowUp2 = createLucideIcon("arrow-up", __iconNode$o7);
+    var ArrowUp = createLucideIcon("arrow-up", __iconNode$o7);
     var __iconNode$o6 = [
       ["path", { d: "m4 6 3-3 3 3", key: "9aidw8" }],
       ["path", { d: "M7 17V3", key: "19qxw1" }],
@@ -94241,7 +94241,7 @@ var require_lucide_react = __commonJS({
       ["circle", { cx: "15", cy: "5", r: "1", key: "19l28e" }],
       ["circle", { cx: "15", cy: "19", r: "1", key: "f4zoj3" }]
     ];
-    var GripVertical2 = createLucideIcon("grip-vertical", __iconNode$e0);
+    var GripVertical3 = createLucideIcon("grip-vertical", __iconNode$e0);
     var __iconNode$d$ = [
       ["circle", { cx: "12", cy: "5", r: "1", key: "gxeob9" }],
       ["circle", { cx: "19", cy: "5", r: "1", key: "w8mnmm" }],
@@ -103195,7 +103195,7 @@ var require_lucide_react = __commonJS({
       ArrowBigRightDash,
       ArrowBigUp,
       ArrowBigUpDash,
-      ArrowDown: ArrowDown2,
+      ArrowDown,
       ArrowDown01,
       ArrowDown10,
       ArrowDownAZ,
@@ -103216,7 +103216,7 @@ var require_lucide_react = __commonJS({
       ArrowRightFromLine,
       ArrowRightLeft,
       ArrowRightToLine,
-      ArrowUp: ArrowUp2,
+      ArrowUp,
       ArrowUp01,
       ArrowUp10,
       ArrowUpAZ,
@@ -103876,7 +103876,7 @@ var require_lucide_react = __commonJS({
       Grid3x3,
       Grip,
       GripHorizontal,
-      GripVertical: GripVertical2,
+      GripVertical: GripVertical3,
       Group,
       Guitar,
       Ham,
@@ -104919,7 +104919,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowBigUpDash = ArrowBigUpDash;
     exports2.ArrowBigUpDashIcon = ArrowBigUpDash;
     exports2.ArrowBigUpIcon = ArrowBigUp;
-    exports2.ArrowDown = ArrowDown2;
+    exports2.ArrowDown = ArrowDown;
     exports2.ArrowDown01 = ArrowDown01;
     exports2.ArrowDown01Icon = ArrowDown01;
     exports2.ArrowDown10 = ArrowDown10;
@@ -104932,7 +104932,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowDownCircleIcon = CircleArrowDown;
     exports2.ArrowDownFromLine = ArrowDownFromLine;
     exports2.ArrowDownFromLineIcon = ArrowDownFromLine;
-    exports2.ArrowDownIcon = ArrowDown2;
+    exports2.ArrowDownIcon = ArrowDown;
     exports2.ArrowDownLeft = ArrowDownLeft;
     exports2.ArrowDownLeftFromCircle = CircleArrowOutDownLeft;
     exports2.ArrowDownLeftFromCircleIcon = CircleArrowOutDownLeft;
@@ -104989,7 +104989,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowRightSquareIcon = SquareArrowRight;
     exports2.ArrowRightToLine = ArrowRightToLine;
     exports2.ArrowRightToLineIcon = ArrowRightToLine;
-    exports2.ArrowUp = ArrowUp2;
+    exports2.ArrowUp = ArrowUp;
     exports2.ArrowUp01 = ArrowUp01;
     exports2.ArrowUp01Icon = ArrowUp01;
     exports2.ArrowUp10 = ArrowUp10;
@@ -105006,7 +105006,7 @@ var require_lucide_react = __commonJS({
     exports2.ArrowUpFromDotIcon = ArrowUpFromDot;
     exports2.ArrowUpFromLine = ArrowUpFromLine;
     exports2.ArrowUpFromLineIcon = ArrowUpFromLine;
-    exports2.ArrowUpIcon = ArrowUp2;
+    exports2.ArrowUpIcon = ArrowUp;
     exports2.ArrowUpLeft = ArrowUpLeft;
     exports2.ArrowUpLeftFromCircle = CircleArrowOutUpLeft;
     exports2.ArrowUpLeftFromCircleIcon = CircleArrowOutUpLeft;
@@ -106483,8 +106483,8 @@ var require_lucide_react = __commonJS({
     exports2.GripHorizontal = GripHorizontal;
     exports2.GripHorizontalIcon = GripHorizontal;
     exports2.GripIcon = Grip;
-    exports2.GripVertical = GripVertical2;
-    exports2.GripVerticalIcon = GripVertical2;
+    exports2.GripVertical = GripVertical3;
+    exports2.GripVerticalIcon = GripVertical3;
     exports2.Group = Group;
     exports2.GroupIcon = Group;
     exports2.Guitar = Guitar;
@@ -106915,7 +106915,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideArrowBigRightDash = ArrowBigRightDash;
     exports2.LucideArrowBigUp = ArrowBigUp;
     exports2.LucideArrowBigUpDash = ArrowBigUpDash;
-    exports2.LucideArrowDown = ArrowDown2;
+    exports2.LucideArrowDown = ArrowDown;
     exports2.LucideArrowDown01 = ArrowDown01;
     exports2.LucideArrowDown10 = ArrowDown10;
     exports2.LucideArrowDownAZ = ArrowDownAZ;
@@ -106950,7 +106950,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideArrowRightLeft = ArrowRightLeft;
     exports2.LucideArrowRightSquare = SquareArrowRight;
     exports2.LucideArrowRightToLine = ArrowRightToLine;
-    exports2.LucideArrowUp = ArrowUp2;
+    exports2.LucideArrowUp = ArrowUp;
     exports2.LucideArrowUp01 = ArrowUp01;
     exports2.LucideArrowUp10 = ArrowUp10;
     exports2.LucideArrowUpAZ = ArrowUpAZ;
@@ -107697,7 +107697,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideGrid3x3 = Grid3x3;
     exports2.LucideGrip = Grip;
     exports2.LucideGripHorizontal = GripHorizontal;
-    exports2.LucideGripVertical = GripVertical2;
+    exports2.LucideGripVertical = GripVertical3;
     exports2.LucideGroup = Group;
     exports2.LucideGuitar = Guitar;
     exports2.LucideHam = Ham;
@@ -132617,6 +132617,8 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
   const [isRefreshing, setIsRefreshing] = (0, import_react62.useState)(false);
   const [isSaving, setIsSaving] = (0, import_react62.useState)(false);
   const [isReordering, setIsReordering] = (0, import_react62.useState)(false);
+  const [draggedProductId, setDraggedProductId] = (0, import_react62.useState)(null);
+  const [dragOverProductId, setDragOverProductId] = (0, import_react62.useState)(null);
   const [formLocale, setFormLocale] = (0, import_react62.useState)(null);
   const [loadedEditingLang, setLoadedEditingLang] = (0, import_react62.useState)(null);
   const [productDrafts, setProductDrafts] = (0, import_react62.useState)({});
@@ -132799,14 +132801,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     setIsDeleteOpen(false);
     setItemToDelete(null);
   };
-  const handleMoveProduct = async (event, index, direction) => {
-    event.stopPropagation();
-    const targetIndex = index + direction;
-    if (targetIndex < 0 || targetIndex >= products.length || isReordering) {
-      return;
-    }
-    const nextProducts = [...products];
-    [nextProducts[index], nextProducts[targetIndex]] = [nextProducts[targetIndex], nextProducts[index]];
+  const persistProductOrder = async (nextProducts) => {
     setIsReordering(true);
     try {
       await reorderProducts(nextProducts.map((product) => product.id));
@@ -132815,6 +132810,45 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     } finally {
       setIsReordering(false);
     }
+  };
+  const handleDragStart = (event, productId) => {
+    if (isReordering) {
+      event.preventDefault();
+      return;
+    }
+    setDraggedProductId(productId);
+    setDragOverProductId(productId);
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", productId);
+  };
+  const handleDragOver = (event, productId) => {
+    if (!draggedProductId || draggedProductId === productId) {
+      return;
+    }
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    setDragOverProductId(productId);
+  };
+  const clearDragState = () => {
+    setDraggedProductId(null);
+    setDragOverProductId(null);
+  };
+  const handleDrop = async (event, targetProductId) => {
+    event.preventDefault();
+    const sourceProductId = draggedProductId || event.dataTransfer.getData("text/plain");
+    clearDragState();
+    if (!sourceProductId || sourceProductId === targetProductId || isReordering) {
+      return;
+    }
+    const sourceIndex = products.findIndex((product) => product.id === sourceProductId);
+    const targetIndex = products.findIndex((product) => product.id === targetProductId);
+    if (sourceIndex === -1 || targetIndex === -1) {
+      return;
+    }
+    const nextProducts = [...products];
+    const [movedProduct] = nextProducts.splice(sourceIndex, 1);
+    nextProducts.splice(targetIndex, 0, movedProduct);
+    await persistProductOrder(nextProducts);
   };
   const renderProductForm = (id3) => {
     const customFields = (formData.customFields || []).slice(0, 5);
@@ -133105,15 +133139,20 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
           ]
         }
       ) }),
-      products.map((product, index) => {
+      products.map((product) => {
         const isExpanded = editingId === product.id;
+        const isDragging2 = draggedProductId === product.id;
+        const isDragTarget = dragOverProductId === product.id && draggedProductId !== product.id;
         return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
           "div",
           {
+            onDragOver: (event) => handleDragOver(event, product.id),
+            onDrop: (event) => handleDrop(event, product.id),
+            onDragLeave: () => setDragOverProductId((current) => current === product.id ? null : current),
             "data-admin-product-id": product.id,
             "data-admin-search-title": `Product: ${product.name}`,
             "data-admin-search-content": JSON.stringify(product),
-            className: `overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"}`,
+            className: `overflow-hidden rounded-lg border transition-all duration-300 ${isExpanded ? "border-earth-300 bg-white ring-1 ring-earth-500/10" : "border-slate-200 bg-white hover:border-earth-200"} ${isDragging2 ? "opacity-55" : ""} ${isDragTarget ? "border-earth-400 ring-2 ring-earth-500/20" : ""}`,
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(
                 "div",
@@ -133122,6 +133161,21 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
                   className: `group flex cursor-pointer select-none items-center justify-between px-4 py-3 transition-colors ${isExpanded ? "bg-earth-50/70" : "hover:bg-slate-50"}`,
                   children: [
                     /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "flex items-center gap-4 min-w-0", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                        "button",
+                        {
+                          type: "button",
+                          draggable: !isReordering,
+                          onDragStart: (event) => handleDragStart(event, product.id),
+                          onDragEnd: clearDragState,
+                          onClick: (event) => event.stopPropagation(),
+                          className: "cursor-grab rounded-full p-2 text-slate-300 transition-colors hover:bg-earth-50 hover:text-earth-600 active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-40",
+                          disabled: isReordering,
+                          title: "Drag to reorder",
+                          "aria-label": `Drag ${product.name} to reorder`,
+                          children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.GripVertical, { size: 18 })
+                        }
+                      ),
                       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: `h-14 w-14 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${isExpanded ? "border-earth-600 shadow-md" : "border-slate-100 group-hover:border-earth-200"}`, children: product.image ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("img", { src: product.image, alt: product.name, className: "h-full w-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "w-full h-full bg-slate-100 flex items-center justify-center text-slate-300", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.Package, { size: 24 }) }) }),
                       /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "truncate", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h3", { className: `font-bold transition-colors ${isExpanded ? "text-earth-900" : "text-slate-900"}`, children: product.name }),
@@ -133132,28 +133186,6 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
                       ] })
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "flex items-center gap-2", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                        "button",
-                        {
-                          type: "button",
-                          onClick: (e) => handleMoveProduct(e, index, -1),
-                          disabled: index === 0 || isReordering,
-                          className: "p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300",
-                          title: "Move product up",
-                          children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.ArrowUp, { size: 18 })
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                        "button",
-                        {
-                          type: "button",
-                          onClick: (e) => handleMoveProduct(e, index, 1),
-                          disabled: index === products.length - 1 || isReordering,
-                          className: "p-2 text-slate-300 transition-all hover:rounded-full hover:bg-earth-50 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-300",
-                          title: "Move product down",
-                          children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_lucide_react17.ArrowDown, { size: 18 })
-                        }
-                      ),
                       /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
                         "button",
                         {
