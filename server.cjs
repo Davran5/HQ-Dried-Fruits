@@ -110374,7 +110374,7 @@ var import_express = __toESM(require_express2(), 1);
 var import_path2 = __toESM(require("path"), 1);
 var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
-var import_sharp = __toESM(require("sharp"), 1);
+var import_jimp = __toESM(require("jimp"), 1);
 var import_promise = __toESM(require_promise(), 1);
 var import_react79 = __toESM(require_react(), 1);
 var import_server = __toESM(require_server_node(), 1);
@@ -137277,7 +137277,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const filePath = import_path2.default.join(uploadsDir, filename);
     try {
       const MAX_BYTES = 250 * 1024;
-      if (uploadedFile.buffer.length <= MAX_BYTES || isSvg || isGif) {
+      if (uploadedFile.buffer.length <= MAX_BYTES || isSvg || isGif || isWebp) {
         import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
         console.log(`[Upload] Preserved original \u2192 ${filename} | ${(uploadedFile.buffer.length / 1024).toFixed(1)} KB`);
       } else {
@@ -137286,15 +137286,16 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
         let finalBuffer = null;
         let usedQuality = 80;
         let usedDimension = 1200;
+        const image = await import_jimp.default.read(uploadedFile.buffer);
         outer: for (const dim of dimensionSteps) {
           for (const q of qualitySteps) {
-            let pipeline = (0, import_sharp.default)(uploadedFile.buffer).resize(dim, dim, { fit: "inside", withoutEnlargement: true });
-            if (isPng) {
-              pipeline = pipeline.png({ quality: q, force: true });
-            } else {
-              pipeline = pipeline.webp({ quality: q, force: true });
+            const clone = image.clone();
+            if (clone.bitmap.width > dim || clone.bitmap.height > dim) {
+              clone.scaleToFit(dim, dim);
             }
-            const buf = await pipeline.toBuffer();
+            clone.quality(q);
+            const mime = isPng ? import_jimp.default.MIME_PNG : import_jimp.default.MIME_JPEG;
+            const buf = await clone.getBufferAsync(mime);
             finalBuffer = buf;
             usedQuality = q;
             usedDimension = dim;
@@ -137304,14 +137305,14 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
         if (finalBuffer) {
           import_fs.default.writeFileSync(filePath, finalBuffer);
           console.log(
-            `[Upload] Processed \u2192 ${filename} | ${(finalBuffer.length / 1024).toFixed(1)} KB | ${ext.toUpperCase().replace(".", "")} q${usedQuality} | max ${usedDimension}px`
+            `[Upload] Processed \u2192 ${filename} | ${(finalBuffer.length / 1024).toFixed(1)} KB | ${isPng ? "PNG" : "JPEG"} q${usedQuality} | max ${usedDimension}px`
           );
         } else {
           import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
         }
       }
     } catch (err) {
-      console.warn("\u26A0\uFE0F sharp processing failed, saving original file:", err);
+      console.warn("\u26A0\uFE0F Jimp processing failed, saving original file:", err);
       import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
     }
     res.json({ url: `/uploads/${filename}` });
@@ -137359,11 +137360,13 @@ app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
     const filename = `favicon-${Date.now()}-${Math.round(Math.random() * 1e9)}.png`;
     const filePath = import_path2.default.join(uploadsDir, filename);
     try {
-      const buf = await (0, import_sharp.default)(uploadedFile.buffer).resize(192, 192, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).png({ quality: 100, force: true }).toBuffer();
+      const image = await import_jimp.default.read(uploadedFile.buffer);
+      image.contain(192, 192);
+      const buf = await image.getBufferAsync(import_jimp.default.MIME_PNG);
       import_fs.default.writeFileSync(filePath, buf);
       console.log(`[Upload-Favicon] Processed \u2192 ${filename} | ${(buf.length / 1024).toFixed(1)} KB`);
     } catch (err) {
-      console.warn("\u26A0\uFE0F sharp processing failed for favicon, saving original file:", err);
+      console.warn("\u26A0\uFE0F Jimp processing failed for favicon, saving original file:", err);
       import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
     }
     res.json({ url: `/uploads/${filename}` });

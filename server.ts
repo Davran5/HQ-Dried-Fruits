@@ -3,7 +3,7 @@ import express, { Request } from "express";
 import path from "path";
 import multer from "multer";
 import fs from "fs";
-import sharp from "sharp";
+import Jimp from "jimp";
 import mysql from "mysql2/promise";
 import React from "react";
 import { renderToString } from "react-dom/server";
@@ -1874,8 +1874,8 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     try {
       const MAX_BYTES = 250 * 1024; // 250 KB hard limit
 
-      // If the file is already small enough, or it's a format we shouldn't compress (GIF/SVG)
-      if (uploadedFile.buffer.length <= MAX_BYTES || isSvg || isGif) {
+      // If the file is already small enough, or it's a format we shouldn't compress (GIF/SVG/WEBP)
+      if (uploadedFile.buffer.length <= MAX_BYTES || isSvg || isGif || isWebp) {
         fs.writeFileSync(filePath, uploadedFile.buffer);
         console.log(`[Upload] Preserved original → ${filename} | ${(uploadedFile.buffer.length / 1024).toFixed(1)} KB`);
       } else {
@@ -1885,19 +1885,20 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
         let finalBuffer: Buffer | null = null;
         let usedQuality = 80;
         let usedDimension = 1200;
+        
+        const image = await Jimp.read(uploadedFile.buffer);
 
         outer: for (const dim of dimensionSteps) {
           for (const q of qualitySteps) {
-            let pipeline = sharp(uploadedFile.buffer)
-              .resize(dim, dim, { fit: "inside", withoutEnlargement: true });
-            
-            if (isPng) {
-              pipeline = pipeline.png({ quality: q, force: true });
-            } else {
-              pipeline = pipeline.webp({ quality: q, force: true });
+            const clone = image.clone();
+            if (clone.bitmap.width > dim || clone.bitmap.height > dim) {
+              clone.scaleToFit(dim, dim);
             }
+            clone.quality(q);
 
-            const buf = await pipeline.toBuffer();
+            const mime = isPng ? Jimp.MIME_PNG : Jimp.MIME_JPEG;
+            const buf = await clone.getBufferAsync(mime);
+            
             finalBuffer = buf;
             usedQuality = q;
             usedDimension = dim;
@@ -1911,14 +1912,14 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
           console.log(
             `[Upload] Processed → ${filename} | ` +
             `${(finalBuffer.length / 1024).toFixed(1)} KB | ` +
-            `${ext.toUpperCase().replace(".", "")} q${usedQuality} | max ${usedDimension}px`
+            `${isPng ? 'PNG' : 'JPEG'} q${usedQuality} | max ${usedDimension}px`
           );
         } else {
           fs.writeFileSync(filePath, uploadedFile.buffer);
         }
       }
     } catch (err) {
-      console.warn("⚠️ sharp processing failed, saving original file:", err);
+      console.warn("⚠️ Jimp processing failed, saving original file:", err);
       fs.writeFileSync(filePath, uploadedFile.buffer);
     }
     
@@ -1968,15 +1969,14 @@ app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
     const filePath = path.join(uploadsDir, filename);
 
     try {
-      const buf = await sharp(uploadedFile.buffer)
-        .resize(192, 192, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
-        .png({ quality: 100, force: true })
-        .toBuffer();
+      const image = await Jimp.read(uploadedFile.buffer);
+      image.contain(192, 192);
+      const buf = await image.getBufferAsync(Jimp.MIME_PNG);
       
       fs.writeFileSync(filePath, buf);
       console.log(`[Upload-Favicon] Processed → ${filename} | ${(buf.length / 1024).toFixed(1)} KB`);
     } catch (err) {
-      console.warn("⚠️ sharp processing failed for favicon, saving original file:", err);
+      console.warn("⚠️ Jimp processing failed for favicon, saving original file:", err);
       fs.writeFileSync(filePath, uploadedFile.buffer);
     }
     
