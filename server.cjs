@@ -110374,7 +110374,7 @@ var import_express = __toESM(require_express2(), 1);
 var import_path2 = __toESM(require("path"), 1);
 var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
-var import_sharp = __toESM(require("sharp"), 1);
+var import_jimp = __toESM(require("jimp"), 1);
 var import_promise = __toESM(require_promise(), 1);
 var import_react78 = __toESM(require_react(), 1);
 var import_server = __toESM(require_server_node(), 1);
@@ -137141,7 +137141,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const uploadedFile = req.file;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
     const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
-    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.webp`;
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.jpg`;
     const filePath = import_path2.default.join(uploadsDir, filename);
     try {
       const MAX_BYTES = 250 * 1024;
@@ -137150,9 +137150,15 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
       let finalBuffer = null;
       let usedQuality = 80;
       let usedDimension = 1200;
+      const image = await import_jimp.default.read(uploadedFile.buffer);
       outer: for (const dim of dimensionSteps) {
         for (const q of qualitySteps) {
-          const buf = await (0, import_sharp.default)(uploadedFile.buffer).resize(dim, dim, { fit: "inside", withoutEnlargement: true }).webp({ quality: q }).toBuffer();
+          const clone = image.clone();
+          if (clone.bitmap.width > dim || clone.bitmap.height > dim) {
+            clone.scaleToFit(dim, dim);
+          }
+          clone.quality(q);
+          const buf = await clone.getBufferAsync(import_jimp.default.MIME_JPEG);
           finalBuffer = buf;
           usedQuality = q;
           usedDimension = dim;
@@ -137162,13 +137168,13 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
       if (finalBuffer) {
         import_fs.default.writeFileSync(filePath, finalBuffer);
         console.log(
-          `[Upload] Processed \u2192 ${filename} | ${(finalBuffer.length / 1024).toFixed(1)} KB | WebP q${usedQuality} | max ${usedDimension}px`
+          `[Upload] Processed \u2192 ${filename} | ${(finalBuffer.length / 1024).toFixed(1)} KB | JPG q${usedQuality} | max ${usedDimension}px`
         );
       } else {
         import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
       }
     } catch (err) {
-      console.warn("\u26A0\uFE0F sharp processing failed, saving original file:", err);
+      console.warn("\u26A0\uFE0F Jimp processing failed, saving original file:", err);
       import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
     }
     res.json({ url: `/uploads/${filename}` });

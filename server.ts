@@ -3,7 +3,7 @@ import express, { Request } from "express";
 import path from "path";
 import multer from "multer";
 import fs from "fs";
-import sharp from "sharp";
+import jimp from "jimp";
 import mysql from "mysql2/promise";
 import React from "react";
 import { renderToString } from "react-dom/server";
@@ -1858,7 +1858,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const uploadedFile = (req as any).file;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
     const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
-    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.webp`;
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.jpg`;
     const filePath = path.join(uploadsDir, filename);
 
     try {
@@ -1870,22 +1870,22 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
       let usedQuality = 80;
       let usedDimension = 1200;
 
+      const image = await jimp.read(uploadedFile.buffer);
+
       outer: for (const dim of dimensionSteps) {
         for (const q of qualitySteps) {
-          const buf = await sharp(uploadedFile.buffer)
-            .resize(dim, dim, { fit: "inside", withoutEnlargement: true })
-            .webp({ quality: q })
-            .toBuffer();
+          const clone = image.clone();
+          if (clone.bitmap.width > dim || clone.bitmap.height > dim) {
+            clone.scaleToFit(dim, dim);
+          }
+          clone.quality(q);
+          const buf = await clone.getBufferAsync(jimp.MIME_JPEG);
 
-          // Always keep the last result so we have something to write even if
-          // we exhaust all steps without hitting the target.
           finalBuffer = buf;
           usedQuality = q;
           usedDimension = dim;
 
           if (buf.length <= MAX_BYTES) break outer;
-
-          // Only move to smaller dimensions after exhausting quality at this dim.
         }
       }
 
@@ -1894,14 +1894,13 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
         console.log(
           `[Upload] Processed → ${filename} | ` +
           `${(finalBuffer.length / 1024).toFixed(1)} KB | ` +
-          `WebP q${usedQuality} | max ${usedDimension}px`
+          `JPG q${usedQuality} | max ${usedDimension}px`
         );
       } else {
-        // Shouldn't happen, but guard anyway.
         fs.writeFileSync(filePath, uploadedFile.buffer);
       }
     } catch (err) {
-      console.warn("⚠️ sharp processing failed, saving original file:", err);
+      console.warn("⚠️ Jimp processing failed, saving original file:", err);
       fs.writeFileSync(filePath, uploadedFile.buffer);
     }
     
