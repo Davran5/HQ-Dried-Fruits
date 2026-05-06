@@ -52594,7 +52594,7 @@ var require_react = __commonJS({
 var require_react_dom_production = __commonJS({
   "node_modules/react-dom/cjs/react-dom.production.js"(exports2) {
     "use strict";
-    var React25 = require_react();
+    var React26 = require_react();
     function formatProdErrorMessage(code) {
       var url = "https://react.dev/errors/" + code;
       if (1 < arguments.length) {
@@ -52634,7 +52634,7 @@ var require_react_dom_production = __commonJS({
         implementation
       };
     }
-    var ReactSharedInternals = React25.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var ReactSharedInternals = React26.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     function getCrossOriginStringAs(as, input) {
       if ("font" === as) return "";
       if ("string" === typeof input)
@@ -52788,7 +52788,7 @@ var require_react_dom_development = __commonJS({
         return dispatcher;
       }
       "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var React25 = require_react(), Internals = {
+      var React26 = require_react(), Internals = {
         d: {
           f: noop2,
           r: function() {
@@ -52806,7 +52806,7 @@ var require_react_dom_development = __commonJS({
         },
         p: 0,
         findDOMNode: null
-      }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React25.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+      }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React26.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
       "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
         "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
       );
@@ -53013,7 +53013,7 @@ var require_react_dom = __commonJS({
 var require_react_dom_server_legacy_node_production = __commonJS({
   "node_modules/react-dom/cjs/react-dom-server-legacy.node.production.js"(exports2) {
     "use strict";
-    var React25 = require_react();
+    var React26 = require_react();
     var ReactDOM = require_react_dom();
     var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element");
     var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
@@ -53213,7 +53213,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
     function sanitizeURL(url) {
       return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
     }
-    var ReactSharedInternals = React25.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var ReactSharedInternals = React26.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var sharedNotPendingObject = {
       pending: false,
@@ -53574,7 +53574,7 @@ var require_react_dom_server_legacy_node_production = __commonJS({
     }
     function flattenOptionChildren(children) {
       var content = "";
-      React25.Children.forEach(children, function(child) {
+      React26.Children.forEach(children, function(child) {
         null != child && (content += child);
       });
       return content;
@@ -57954,7 +57954,7 @@ var require_react_dom_server_node_production = __commonJS({
     var util = require("util");
     var crypto = require("crypto");
     var async_hooks = require("async_hooks");
-    var React25 = require_react();
+    var React26 = require_react();
     var ReactDOM = require_react_dom();
     var stream = require("stream");
     var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element");
@@ -58181,7 +58181,7 @@ var require_react_dom_server_node_production = __commonJS({
     function sanitizeURL(url) {
       return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
     }
-    var ReactSharedInternals = React25.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+    var ReactSharedInternals = React26.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
     var sharedNotPendingObject = {
       pending: false,
@@ -58757,7 +58757,7 @@ var require_react_dom_server_node_production = __commonJS({
     }
     function flattenOptionChildren(children) {
       var content = "";
-      React25.Children.forEach(children, function(child) {
+      React26.Children.forEach(children, function(child) {
         null != child && (content += child);
       });
       return content;
@@ -63261,7 +63261,7 @@ var require_react_dom_server_node_production = __commonJS({
       };
     }
     function ensureCorrectIsomorphicReactVersion() {
-      var isomorphicReactPackageVersion = React25.version;
+      var isomorphicReactPackageVersion = React26.version;
       if ("19.2.4" !== isomorphicReactPackageVersion)
         throw Error(
           'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -64795,7 +64795,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
       }
       function flattenOptionChildren(children) {
         var content = "";
-        React25.Children.forEach(children, function(child) {
+        React26.Children.forEach(children, function(child) {
           null != child && (content += child, didWarnInvalidOptionChildren || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || (didWarnInvalidOptionChildren = true, console.error(
             "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
           )));
@@ -69850,7 +69850,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
           );
         return result;
       }
-      var React25 = require_react(), ReactDOM = require_react_dom(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
+      var React26 = require_react(), ReactDOM = require_react_dom(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
         "^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), illegalAttributeNameCache = {}, validatedAttributeNameCache = {}, unitlessNumbers = new Set(
         "animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(
@@ -70498,7 +70498,7 @@ var require_react_dom_server_legacy_node_development = __commonJS({
         "^(aria)-[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), rARIACamel = RegExp(
         "^(aria)[A-Z][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
-      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React25.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React26.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
         pending: false,
         data: null,
         method: null,
@@ -72074,7 +72074,7 @@ var require_react_dom_server_node_development = __commonJS({
       }
       function flattenOptionChildren(children) {
         var content = "";
-        React25.Children.forEach(children, function(child) {
+        React26.Children.forEach(children, function(child) {
           null != child && (content += child, didWarnInvalidOptionChildren || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || (didWarnInvalidOptionChildren = true, console.error(
             "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
           )));
@@ -77170,7 +77170,7 @@ var require_react_dom_server_node_development = __commonJS({
         };
       }
       function ensureCorrectIsomorphicReactVersion() {
-        var isomorphicReactPackageVersion = React25.version;
+        var isomorphicReactPackageVersion = React26.version;
         if ("19.2.4" !== isomorphicReactPackageVersion)
           throw Error(
             'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -77280,7 +77280,7 @@ var require_react_dom_server_node_development = __commonJS({
           }
         };
       }
-      var util = require("util"), crypto = require("crypto"), async_hooks = require("async_hooks"), React25 = require_react(), ReactDOM = require_react_dom(), stream = require("stream"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), scheduleMicrotask = queueMicrotask, currentView = null, writtenBytes = 0, destinationHasCapacity$1 = true, textEncoder = new util.TextEncoder(), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
+      var util = require("util"), crypto = require("crypto"), async_hooks = require("async_hooks"), React26 = require_react(), ReactDOM = require_react_dom(), stream = require("stream"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden"), REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel"), REACT_VIEW_TRANSITION_TYPE = /* @__PURE__ */ Symbol.for("react.view_transition"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, isArrayImpl = Array.isArray, jsxPropsParents = /* @__PURE__ */ new WeakMap(), jsxChildrenParents = /* @__PURE__ */ new WeakMap(), CLIENT_REFERENCE_TAG = /* @__PURE__ */ Symbol.for("react.client.reference"), scheduleMicrotask = queueMicrotask, currentView = null, writtenBytes = 0, destinationHasCapacity$1 = true, textEncoder = new util.TextEncoder(), assign = Object.assign, hasOwnProperty = Object.prototype.hasOwnProperty, VALID_ATTRIBUTE_NAME_REGEX = RegExp(
         "^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), illegalAttributeNameCache = {}, validatedAttributeNameCache = {}, unitlessNumbers = new Set(
         "animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(
@@ -77928,7 +77928,7 @@ var require_react_dom_server_node_development = __commonJS({
         "^(aria)-[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
       ), rARIACamel = RegExp(
         "^(aria)[A-Z][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"
-      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React25.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+      ), badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = false, warnedForInfinityValue = false, matchHtmlRegExp = /["'&<>]/, uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i, ReactSharedInternals = React26.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
         pending: false,
         data: null,
         method: null,
@@ -83344,7 +83344,7 @@ var require_react_router_development = __commonJS({
   "node_modules/react-router/dist/umd/react-router.development.js"(exports2, module2) {
     (function(global2, factory) {
       typeof exports2 === "object" && typeof module2 !== "undefined" ? factory(exports2, require_react(), require_router_cjs()) : typeof define === "function" && define.amd ? define(["exports", "react", "@remix-run/router"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactRouter = {}, global2.React, global2.RemixRouter));
-    })(exports2, (function(exports3, React25, router) {
+    })(exports2, (function(exports3, React26, router) {
       "use strict";
       function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -83365,7 +83365,7 @@ var require_react_router_development = __commonJS({
         n["default"] = e;
         return Object.freeze(n);
       }
-      var React__namespace = /* @__PURE__ */ _interopNamespace(React25);
+      var React__namespace = /* @__PURE__ */ _interopNamespace(React26);
       function _extends() {
         _extends = Object.assign ? Object.assign.bind() : function(target) {
           for (var i = 1; i < arguments.length; i++) {
@@ -85117,7 +85117,7 @@ var require_react_router_dom_development = __commonJS({
   "node_modules/react-router-dom/dist/umd/react-router-dom.development.js"(exports2, module2) {
     (function(global2, factory) {
       typeof exports2 === "object" && typeof module2 !== "undefined" ? factory(exports2, require_react(), require_react_dom(), require_main2(), require_router_cjs()) : typeof define === "function" && define.amd ? define(["exports", "react", "react-dom", "react-router", "@remix-run/router"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactRouterDOM = {}, global2.React, global2.ReactDOM, global2.ReactRouter, global2.RemixRouter));
-    })(exports2, (function(exports3, React25, ReactDOM, reactRouter, router) {
+    })(exports2, (function(exports3, React26, ReactDOM, reactRouter, router) {
       "use strict";
       function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -85138,7 +85138,7 @@ var require_react_router_dom_development = __commonJS({
         n["default"] = e;
         return Object.freeze(n);
       }
-      var React__namespace = /* @__PURE__ */ _interopNamespace(React25);
+      var React__namespace = /* @__PURE__ */ _interopNamespace(React26);
       var ReactDOM__namespace = /* @__PURE__ */ _interopNamespace(ReactDOM);
       function _extends() {
         _extends = Object.assign ? Object.assign.bind() : function(target) {
@@ -86652,7 +86652,7 @@ var require_server = __commonJS({
   "node_modules/react-router-dom/server.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var React25 = require_react();
+    var React26 = require_react();
     var router = require_router_cjs();
     var reactRouter = require_main2();
     var reactRouterDom = require_main3();
@@ -86675,7 +86675,7 @@ var require_server = __commonJS({
       n["default"] = e;
       return Object.freeze(n);
     }
-    var React__namespace = /* @__PURE__ */ _interopNamespace(React25);
+    var React__namespace = /* @__PURE__ */ _interopNamespace(React26);
     function StaticRouter2({
       basename,
       children,
@@ -87192,18 +87192,18 @@ var require_react_jsx_runtime_development = __commonJS({
       function isValidElement2(object) {
         return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
       }
-      var React25 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React25.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+      var React26 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React26.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
         return null;
       };
-      React25 = {
+      React26 = {
         react_stack_bottom_frame: function(callStackForError) {
           return callStackForError();
         }
       };
       var specialPropKeyWarningShown;
       var didWarnAboutElementRef = {};
-      var unknownOwnerDebugStack = React25.react_stack_bottom_frame.bind(
-        React25,
+      var unknownOwnerDebugStack = React26.react_stack_bottom_frame.bind(
+        React26,
         UnknownOwner
       )();
       var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -102264,7 +102264,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "m17 8-5-5-5 5", key: "7q97r8" }],
       ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }]
     ];
-    var Upload3 = createLucideIcon("upload", __iconNode$1l);
+    var Upload4 = createLucideIcon("upload", __iconNode$1l);
     var __iconNode$1k = [
       ["circle", { cx: "10", cy: "7", r: "1", key: "dypaad" }],
       ["circle", { cx: "4", cy: "20", r: "1", key: "22iqad" }],
@@ -103084,7 +103084,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
       ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
     ];
-    var X6 = createLucideIcon("x", __iconNode$5);
+    var X7 = createLucideIcon("x", __iconNode$5);
     var __iconNode$4 = [
       [
         "path",
@@ -104686,7 +104686,7 @@ var require_lucide_react = __commonJS({
       Unlink,
       Unlink2,
       Unplug,
-      Upload: Upload3,
+      Upload: Upload4,
       Usb,
       User: User2,
       UserCheck,
@@ -104766,7 +104766,7 @@ var require_lucide_react = __commonJS({
       Workflow,
       Worm,
       Wrench,
-      X: X6,
+      X: X7,
       Youtube,
       Zap,
       ZapOff,
@@ -108600,7 +108600,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideUnlock = LockOpen;
     exports2.LucideUnlockKeyhole = LockKeyholeOpen;
     exports2.LucideUnplug = Unplug;
-    exports2.LucideUpload = Upload3;
+    exports2.LucideUpload = Upload4;
     exports2.LucideUploadCloud = CloudUpload;
     exports2.LucideUsb = Usb;
     exports2.LucideUser = User2;
@@ -108696,7 +108696,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideWorm = Worm;
     exports2.LucideWrapText = TextWrap;
     exports2.LucideWrench = Wrench;
-    exports2.LucideX = X6;
+    exports2.LucideX = X7;
     exports2.LucideXCircle = CircleX;
     exports2.LucideXOctagon = OctagonX;
     exports2.LucideXSquare = SquareX;
@@ -110153,10 +110153,10 @@ var require_lucide_react = __commonJS({
     exports2.UnlockKeyholeIcon = LockKeyholeOpen;
     exports2.Unplug = Unplug;
     exports2.UnplugIcon = Unplug;
-    exports2.Upload = Upload3;
+    exports2.Upload = Upload4;
     exports2.UploadCloud = CloudUpload;
     exports2.UploadCloudIcon = CloudUpload;
-    exports2.UploadIcon = Upload3;
+    exports2.UploadIcon = Upload4;
     exports2.Usb = Usb;
     exports2.UsbIcon = Usb;
     exports2.User = User2;
@@ -110345,10 +110345,10 @@ var require_lucide_react = __commonJS({
     exports2.WrapTextIcon = TextWrap;
     exports2.Wrench = Wrench;
     exports2.WrenchIcon = Wrench;
-    exports2.X = X6;
+    exports2.X = X7;
     exports2.XCircle = CircleX;
     exports2.XCircleIcon = CircleX;
-    exports2.XIcon = X6;
+    exports2.XIcon = X7;
     exports2.XOctagon = OctagonX;
     exports2.XOctagonIcon = OctagonX;
     exports2.XSquare = SquareX;
@@ -110376,12 +110376,12 @@ var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
 var import_sharp = __toESM(require("sharp"), 1);
 var import_promise = __toESM(require_promise(), 1);
-var import_react78 = __toESM(require_react(), 1);
+var import_react79 = __toESM(require_react(), 1);
 var import_server = __toESM(require_server_node(), 1);
 var import_server2 = __toESM(require_server(), 1);
 
 // src/App.tsx
-var import_react77 = __toESM(require_react(), 1);
+var import_react78 = __toESM(require_react(), 1);
 var import_react_router_dom13 = __toESM(require_main3(), 1);
 
 // src/pages/ComingSoon.tsx
@@ -134486,31 +134486,145 @@ function AdminSeoSettings() {
 }
 
 // src/pages/admin/GlobalSettings.tsx
+var import_react72 = __toESM(require_react(), 1);
+var import_lucide_react23 = __toESM(require_lucide_react(), 1);
+
+// src/components/admin/FaviconUploader.tsx
 var import_react71 = __toESM(require_react(), 1);
 var import_lucide_react22 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
+function FaviconUploader({ label, value, onChange, placeholder }) {
+  const fileInputRef = (0, import_react71.useRef)(null);
+  const [isUploading, setIsUploading] = (0, import_react71.useState)(false);
+  const [mode, setMode] = (0, import_react71.useState)("url");
+  const handleFileChange = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File too large. Max 5MB.");
+        return;
+      }
+      setIsUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/upload-favicon", {
+          method: "POST",
+          body: formData
+        });
+        if (!res.ok) throw new Error("Upload failed");
+        const data = await res.json();
+        onChange(data.url);
+        setMode("url");
+      } catch (err) {
+        alert("Upload failed.");
+      } finally {
+        setIsUploading(false);
+      }
+    }
+  };
+  const isInternalImage = (val) => {
+    return val && (val.startsWith("http") || val.startsWith("data:image") || val.startsWith("/"));
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "space-y-2.5", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700", children: label }),
+    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "flex items-start gap-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "relative h-24 w-24 shrink-0 rounded-xl border-2 border-slate-200 bg-slate-50 overflow-hidden shadow-inner flex items-center justify-center", children: [
+        isInternalImage(value) ? /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("img", { src: value, alt: "Preview", className: "h-full w-full object-contain p-2", referrerPolicy: "no-referrer" }) : /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "flex flex-col items-center gap-1 text-slate-300", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Image, { size: 24 }),
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("span", { className: "text-[10px] font-bold uppercase tracking-tighter", children: "No Favicon" })
+        ] }),
+        isUploading && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Loader2, { className: "animate-spin text-earth-600", size: 24 }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "flex-1 space-y-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "flex flex-wrap gap-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
+            "button",
+            {
+              type: "button",
+              onClick: () => fileInputRef.current?.click(),
+              className: "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:border-earth-400 hover:text-earth-600 transition-all shadow-sm",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Upload, { size: 14 }),
+                " ",
+                isUploading ? "Uploading..." : "Upload Local"
+              ]
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
+            "button",
+            {
+              type: "button",
+              onClick: () => setMode(mode === "url" ? "upload" : "url"),
+              className: `inline-flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all text-xs font-bold shadow-sm border ${mode === "url" ? "bg-earth-50 border-earth-200 text-earth-700" : "bg-white border-slate-200 text-slate-600"}`,
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Link, { size: 14 }),
+                " ",
+                mode === "url" ? "URL Mode: ON" : "Switcher"
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "relative", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+            "input",
+            {
+              type: "text",
+              value,
+              onChange: (e) => onChange(e.target.value),
+              className: "w-full rounded-lg border border-slate-300 pl-4 pr-10 py-2 text-sm text-slate-900 focus:border-earth-500 focus:ring-2 focus:ring-earth-500/10 outline-none transition-all",
+              placeholder: placeholder || "Paste image URL here..."
+            }
+          ),
+          value && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+            "button",
+            {
+              type: "button",
+              onClick: () => onChange(""),
+              className: "absolute right-2 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-red-500 transition-colors",
+              children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.X, { size: 14 })
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+      "input",
+      {
+        type: "file",
+        ref: fileInputRef,
+        onChange: handleFileChange,
+        className: "hidden",
+        accept: "image/*"
+      }
+    )
+  ] });
+}
+
+// src/pages/admin/GlobalSettings.tsx
+var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
 function AdminGlobalSettings() {
   const { globalSettings, updateGlobalSettings, refreshData } = usePages();
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const { setHeaderTabs } = useAdminHeaderTabs();
-  const [settings, setSettings] = (0, import_react71.useState)(globalSettings);
-  const [successMessage, setSuccessMessage] = (0, import_react71.useState)(null);
-  const [activeSection, setActiveSection] = (0, import_react71.useState)("branding");
-  const [isRefreshing, setIsRefreshing] = (0, import_react71.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react71.useState)(false);
-  const [settingsLocale, setSettingsLocale] = (0, import_react71.useState)(null);
-  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react71.useState)(null);
-  const [settingsDrafts, setSettingsDrafts] = (0, import_react71.useState)({});
-  const settingsDraftsRef = import_react71.default.useRef(settingsDrafts);
-  const refreshRequestIdRef = import_react71.default.useRef(0);
+  const [settings, setSettings] = (0, import_react72.useState)(globalSettings);
+  const [successMessage, setSuccessMessage] = (0, import_react72.useState)(null);
+  const [activeSection, setActiveSection] = (0, import_react72.useState)("branding");
+  const [isRefreshing, setIsRefreshing] = (0, import_react72.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react72.useState)(false);
+  const [settingsLocale, setSettingsLocale] = (0, import_react72.useState)(null);
+  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react72.useState)(null);
+  const [settingsDrafts, setSettingsDrafts] = (0, import_react72.useState)({});
+  const settingsDraftsRef = import_react72.default.useRef(settingsDrafts);
+  const refreshRequestIdRef = import_react72.default.useRef(0);
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
-  const unsavedDraftLocales = import_react71.default.useMemo(() => unsavedLocalesFromDrafts(settingsDrafts), [settingsDrafts]);
+  const unsavedDraftLocales = import_react72.default.useMemo(() => unsavedLocalesFromDrafts(settingsDrafts), [settingsDrafts]);
   const hasActiveDraft = Boolean(settingsDrafts[editingLang]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     settingsDraftsRef.current = settingsDrafts;
   }, [settingsDrafts]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     const loadLangData = async () => {
       const requestId = refreshRequestIdRef.current + 1;
       refreshRequestIdRef.current = requestId;
@@ -134529,12 +134643,12 @@ function AdminGlobalSettings() {
     };
     loadLangData();
   }, [editingLang]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     if (!isLocaleReady) return;
     setSettings(cloneDraft(settingsDraftsRef.current[editingLang] || globalSettings));
     setSettingsLocale(editingLang);
   }, [editingLang, globalSettings, isLocaleReady]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     if (!isLocaleReady || settingsLocale !== editingLang) return;
     setSettingsDrafts((drafts) => {
       if (isSameDraft(settings, globalSettings)) {
@@ -134584,7 +134698,7 @@ function AdminGlobalSettings() {
       setIsSaving(false);
     }
   };
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     setAction({
       label: `Save Settings`,
       formId: "global-settings-form",
@@ -134601,28 +134715,28 @@ function AdminGlobalSettings() {
       id: "branding",
       title: "Header & Branding",
       description: "Customize your site logo and navigation menu.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Layout, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Layout, { className: "text-earth-500", size: 20 })
     },
     {
       id: "footer",
       title: "Footer & Contact",
       description: "Manage footer information, contact details, and CTA forms.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Mail, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Mail, { className: "text-earth-500", size: 20 })
     },
     {
       id: "seo",
       title: "SEO & Integrations",
       description: "Configure Google verification and global search settings.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Globe, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Globe, { className: "text-earth-500", size: 20 })
     },
     {
       id: "translations",
       title: "UI Labels & Translations",
       description: "Translate buttons, form labels, and small UI strings.",
-      icon: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Languages, { className: "text-earth-500", size: 20 })
+      icon: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Languages, { className: "text-earth-500", size: 20 })
     }
   ];
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     setHeaderTabs(
       sections.map((section) => ({
         id: section.id,
@@ -134634,17 +134748,17 @@ function AdminGlobalSettings() {
     return () => setHeaderTabs(null);
   }, [activeSection, setHeaderTabs]);
   if (!isLocaleReady) {
-    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
-      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("p", { className: "text-sm text-slate-500 font-medium", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "flex h-64 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "flex flex-col items-center gap-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Loader2, { className: "h-8 w-8 animate-spin text-earth-600" }),
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("p", { className: "text-sm text-slate-500 font-medium", children: [
         "Switching to ",
         editingLang.toUpperCase(),
         " content..."
       ] })
     ] }) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AnimatePresence, { children: successMessage && /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
       motion.div,
       {
         initial: { opacity: 0, y: -20 },
@@ -134652,12 +134766,12 @@ function AdminGlobalSettings() {
         exit: { opacity: 0, y: -20 },
         className: "fixed top-4 right-4 z-[100] flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-3 text-emerald-800 shadow-lg border border-emerald-200",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.CheckCircle2, { size: 20, className: "text-emerald-500" }),
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("span", { className: "text-sm font-medium", children: successMessage })
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.CheckCircle2, { size: 20, className: "text-emerald-500" }),
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { className: "text-sm font-medium", children: successMessage })
         ]
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
       LocaleDraftStatus,
       {
         activeLocale: editingLang,
@@ -134665,40 +134779,40 @@ function AdminGlobalSettings() {
         onDiscardActive: hasActiveDraft ? discardActiveDraft : void 0
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("form", { id: "global-settings-form", onSubmit: handleSave, className: "space-y-3", children: sections.map((section) => {
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("form", { id: "global-settings-form", onSubmit: handleSave, className: "space-y-3", children: sections.map((section) => {
       const isOpen = activeSection === section.id;
-      return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
+      return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
         "div",
         {
           className: isOpen ? "contents" : "hidden",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)(
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
               "div",
               {
                 onClick: () => toggleSection(section.id),
                 className: "hidden",
                 children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "flex items-center gap-4", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: `h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20" : "bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600"}`, children: section.icon }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h3", { className: `font-bold transition-colors ${isOpen ? "text-earth-900" : "text-slate-900"}`, children: section.title }),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { className: "text-xs text-slate-500 mt-0.5", children: section.description })
+                  /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "flex items-center gap-4", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: `h-10 w-10 rounded-lg flex items-center justify-center transition-colors ${isOpen ? "bg-earth-600 text-white shadow-lg shadow-earth-500/20" : "bg-slate-100 text-slate-400 group-hover:bg-earth-100 group-hover:text-earth-600"}`, children: section.icon }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h3", { className: `font-bold transition-colors ${isOpen ? "text-earth-900" : "text-slate-900"}`, children: section.title }),
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-xs text-slate-500 mt-0.5", children: section.description })
                     ] })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_lucide_react22.ChevronDown, { size: 20 }) })
+                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: `p-2 rounded-full transition-all duration-300 ${isOpen ? "rotate-180 bg-earth-200 text-earth-700" : "text-slate-400 group-hover:text-earth-600"}`, children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.ChevronDown, { size: 20 }) })
                 ]
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(AnimatePresence, { initial: false, children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AnimatePresence, { initial: false, children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
               motion.div,
               {
                 initial: { height: 0, opacity: 0 },
                 animate: { height: "auto", opacity: 1 },
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3, ease: "easeInOut" },
-                children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "space-y-4", children: [
-                  section.id === "branding" && /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "space-y-4", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                children: /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "space-y-4", children: [
+                  section.id === "branding" && /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "space-y-4", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                       ImageUploader,
                       {
                         label: "Main Branding Logo",
@@ -134706,9 +134820,18 @@ function AdminGlobalSettings() {
                         onChange: (url) => setSettings({ ...settings, headerLogo: url })
                       }
                     ),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Site Name" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                      FaviconUploader,
+                      {
+                        label: "Site Favicon (Browser Icon)",
+                        value: settings.favicon || "",
+                        onChange: (url) => setSettings({ ...settings, favicon: url }),
+                        placeholder: "Upload or paste favicon URL..."
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Site Name" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                         "input",
                         {
                           type: "text",
@@ -134718,17 +134841,17 @@ function AdminGlobalSettings() {
                         }
                       )
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                       Repeater,
                       {
                         label: "Main Navigation Menu",
                         items: settings.navLinks || [],
                         emptyItem: { label: "", url: "" },
                         onUpdate: (items) => setSettings({ ...settings, navLinks: items }),
-                        renderItem: (item, index, updateItem, _replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "grid grid-cols-2 gap-3", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-[10px] font-bold text-slate-400 uppercase mb-1", children: "Display Label" }),
-                            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                        renderItem: (item, index, updateItem, _replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "grid grid-cols-2 gap-3", children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-[10px] font-bold text-slate-400 uppercase mb-1", children: "Display Label" }),
+                            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                               "input",
                               {
                                 type: "text",
@@ -134738,9 +134861,9 @@ function AdminGlobalSettings() {
                               }
                             )
                           ] }),
-                          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-[10px] font-bold text-slate-400 uppercase mb-1", children: "Target URL" }),
-                            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                          /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-[10px] font-bold text-slate-400 uppercase mb-1", children: "Target URL" }),
+                            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                               "input",
                               {
                                 type: "text",
@@ -134753,10 +134876,10 @@ function AdminGlobalSettings() {
                         ] })
                       }
                     ),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "grid grid-cols-1 gap-5 pt-2 md:grid-cols-2", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: '"Learn More" CTA Text' }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "grid grid-cols-1 gap-5 pt-2 md:grid-cols-2", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: '"Learn More" CTA Text' }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "input",
                           {
                             type: "text",
@@ -134766,9 +134889,9 @@ function AdminGlobalSettings() {
                           }
                         )
                       ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: '"Learn More" CTA Link' }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: '"Learn More" CTA Link' }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "input",
                           {
                             type: "text",
@@ -134780,9 +134903,9 @@ function AdminGlobalSettings() {
                       ] })
                     ] })
                   ] }),
-                  section.id === "footer" && /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "space-y-4", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                  section.id === "footer" && /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "space-y-4", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                         ImageUploader,
                         {
                           label: "Footer Logo",
@@ -134790,9 +134913,9 @@ function AdminGlobalSettings() {
                           onChange: (url) => setSettings({ ...settings, footerLogo: url })
                         }
                       ),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Footer Description" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Footer Description" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "textarea",
                           {
                             value: settings.footerDescription || "",
@@ -134803,10 +134926,10 @@ function AdminGlobalSettings() {
                         )
                       ] })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Office Address" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Office Address" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "input",
                           {
                             type: "text",
@@ -134816,9 +134939,9 @@ function AdminGlobalSettings() {
                           }
                         )
                       ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Phone Number" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Phone Number" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "input",
                           {
                             type: "text",
@@ -134829,10 +134952,10 @@ function AdminGlobalSettings() {
                         )
                       ] })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-5", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Contact Email" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-5", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Contact Email" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "input",
                           {
                             type: "email",
@@ -134842,9 +134965,9 @@ function AdminGlobalSettings() {
                           }
                         )
                       ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Telegram URL" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Telegram URL" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "input",
                           {
                             type: "text",
@@ -134854,9 +134977,9 @@ function AdminGlobalSettings() {
                           }
                         )
                       ] }),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Copyright Text" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Copyright Text" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                           "input",
                           {
                             type: "text",
@@ -134868,9 +134991,9 @@ function AdminGlobalSettings() {
                       ] })
                     ] })
                   ] }),
-                  section.id === "seo" && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "space-y-5", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Google Site Verification ID" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+                  section.id === "seo" && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "space-y-5", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Google Site Verification ID" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
                       "input",
                       {
                         type: "text",
@@ -134880,67 +135003,67 @@ function AdminGlobalSettings() {
                         className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
                       }
                     ),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { className: "text-xs text-slate-500 mt-2 italic", children: 'Found in the meta tag: content="YOUR_ID"' })
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-xs text-slate-500 mt-2 italic", children: 'Found in the meta tag: content="YOUR_ID"' })
                   ] }) }),
-                  section.id === "translations" && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "space-y-10", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "General & Navigation" }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Mobile Menu Title", field: "mobileNavigationTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Mobile Contact Title", field: "mobileContactTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Home Meta Title", field: "homeMetaTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Products Meta Title", field: "productsMetaTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Export Meta Title", field: "exportMetaTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Contacts Meta Title", field: "contactsMetaTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Homepage" }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Request Catalog", field: "requestCatalogLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Explore Products", field: "exploreProductsLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Heritage Slogan", field: "heritageSloganLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "About Company Title", field: "aboutCompanyLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Experience Years", field: "statYearsLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Tons Exported", field: "statTonsLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Product Selection Sub", field: "productSelectionSublabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "View Catalog Btn", field: "viewFullCatalogLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Request Sample Link", field: "requestSampleLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Learn More Btn", field: "learnMoreLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Pricing CTA Btn", field: "getPricingLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Products Page" }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Product Card View Specifications", field: "productCardViewSpecsLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Product Card Request Quote", field: "requestQuoteBtn", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "col-span-full rounded-xl border border-slate-200 bg-slate-50 p-4", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-wider text-earth-700", children: "Homepage Category Card Visibility" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "grid gap-3 md:grid-cols-3", children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIToggle, { label: "Show category label", field: "homeCategoryEyebrowVisible", settings, setSettings }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIToggle, { label: "Show export badges", field: "homeCategoryBadgesVisible", settings, setSettings }),
-                        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIToggle, { label: "Show types column", field: "homeCategoryTypesVisible", settings, setSettings })
+                  section.id === "translations" && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "space-y-10", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "General & Navigation" }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Mobile Menu Title", field: "mobileNavigationTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Mobile Contact Title", field: "mobileContactTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Home Meta Title", field: "homeMetaTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Products Meta Title", field: "productsMetaTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Export Meta Title", field: "exportMetaTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Contacts Meta Title", field: "contactsMetaTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Homepage" }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Request Catalog", field: "requestCatalogLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Explore Products", field: "exploreProductsLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Heritage Slogan", field: "heritageSloganLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "About Company Title", field: "aboutCompanyLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Experience Years", field: "statYearsLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Tons Exported", field: "statTonsLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Product Selection Sub", field: "productSelectionSublabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "View Catalog Btn", field: "viewFullCatalogLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Request Sample Link", field: "requestSampleLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Learn More Btn", field: "learnMoreLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Pricing CTA Btn", field: "getPricingLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Products Page" }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Product Card View Specifications", field: "productCardViewSpecsLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Product Card Request Quote", field: "requestQuoteBtn", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "col-span-full rounded-xl border border-slate-200 bg-slate-50 p-4", children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-wider text-earth-700", children: "Homepage Category Card Visibility" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "grid gap-3 md:grid-cols-3", children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIToggle, { label: "Show category label", field: "homeCategoryEyebrowVisible", settings, setSettings }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIToggle, { label: "Show export badges", field: "homeCategoryBadgesVisible", settings, setSettings }),
+                        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIToggle, { label: "Show types column", field: "homeCategoryTypesVisible", settings, setSettings })
                       ] })
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "About Page" }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Mission Narrative Eyebrow", field: "missionNarrativeEyebrow", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Mission Narrative Title", field: "missionNarrativeTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Mission Narrative Sub", field: "missionNarrativeSublabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Inside Facility Eyebrow", field: "insideFacilityEyebrow", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "HACCP Label", field: "haccpLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "ISO Label", field: "isoLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Organic Label", field: "organicLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "GlobalGap Label", field: "globalGapLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "FDA Label", field: "fdaLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Export Page" }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Ops Eyebrow", field: "exportOpsEyebrow", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Ops Title", field: "exportOpsTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Packaging Title", field: "packagingTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Transport Title", field: "transportationTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Clearance Title", field: "documentationTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Dest. Eyebrow", field: "destinationBreakdownEyebrow", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Dest. Title", field: "destinationBreakdownTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Quality Title", field: "qualityGuaranteeTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Moisture Label", field: "moistureControlLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Calibration Label", field: "sizeCalibrationLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Micro Safe Label", field: "microSafeLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Footer Labels" }) }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Links Section Title", field: "footerLinksTitle", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Copyright Text", field: "footerCopyright", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Privacy Link", field: "footerPrivacyLinkLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Terms Link", field: "footerTermsLinkLabel", settings, setSettings }),
-                    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(UIField, { label: "Success Message", field: "footerInquirySuccess", settings, setSettings })
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "About Page" }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Mission Narrative Eyebrow", field: "missionNarrativeEyebrow", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Mission Narrative Title", field: "missionNarrativeTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Mission Narrative Sub", field: "missionNarrativeSublabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Inside Facility Eyebrow", field: "insideFacilityEyebrow", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "HACCP Label", field: "haccpLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "ISO Label", field: "isoLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Organic Label", field: "organicLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "GlobalGap Label", field: "globalGapLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "FDA Label", field: "fdaLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Export Page" }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Ops Eyebrow", field: "exportOpsEyebrow", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Ops Title", field: "exportOpsTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Packaging Title", field: "packagingTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Transport Title", field: "transportationTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Clearance Title", field: "documentationTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Dest. Eyebrow", field: "destinationBreakdownEyebrow", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Dest. Title", field: "destinationBreakdownTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Quality Title", field: "qualityGuaranteeTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Moisture Label", field: "moistureControlLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Calibration Label", field: "sizeCalibrationLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Micro Safe Label", field: "microSafeLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Footer Labels" }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Links Section Title", field: "footerLinksTitle", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Copyright Text", field: "footerCopyright", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Privacy Link", field: "footerPrivacyLinkLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Terms Link", field: "footerTermsLinkLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(UIField, { label: "Success Message", field: "footerInquirySuccess", settings, setSettings })
                   ] }) })
                 ] })
               }
@@ -134954,9 +135077,9 @@ function AdminGlobalSettings() {
 }
 function UIField({ label, field, settings, setSettings }) {
   const value = settings.uiLabels?.[field] || "";
-  return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("label", { className: "block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide", children: label }),
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("label", { className: "block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide", children: label }),
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
       "input",
       {
         type: "text",
@@ -134973,8 +135096,8 @@ function UIField({ label, field, settings, setSettings }) {
 }
 function UIToggle({ label, field, settings, setSettings }) {
   const checked = settings.uiLabels?.[field] !== false;
-  return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { className: "flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-earth-200", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("label", { className: "flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-earth-200", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
       "input",
       {
         type: "checkbox",
@@ -134986,20 +135109,20 @@ function UIToggle({ label, field, settings, setSettings }) {
         className: "h-4 w-4 rounded border-slate-300 text-earth-600 focus:ring-earth-500"
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("span", { children: label })
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { children: label })
   ] });
 }
 
 // src/pages/admin/Media.tsx
-var import_react73 = __toESM(require_react(), 1);
-var import_lucide_react23 = __toESM(require_lucide_react(), 1);
-var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
+var import_react74 = __toESM(require_react(), 1);
+var import_lucide_react24 = __toESM(require_lucide_react(), 1);
+var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
 function AdminMedia() {
   const { images, uploadMedia, deleteMedia, isLoading } = useMedia();
-  const [isDragging2, setIsDragging] = (0, import_react73.useState)(false);
-  const [uploading, setUploading] = (0, import_react73.useState)(false);
-  const fileInputRef = (0, import_react73.useRef)(null);
-  const [copiedId, setCopiedId] = (0, import_react73.useState)(null);
+  const [isDragging2, setIsDragging] = (0, import_react74.useState)(false);
+  const [uploading, setUploading] = (0, import_react74.useState)(false);
+  const fileInputRef = (0, import_react74.useRef)(null);
+  const [copiedId, setCopiedId] = (0, import_react74.useState)(null);
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
@@ -135045,12 +135168,12 @@ function AdminMedia() {
       setTimeout(() => setCopiedId(null), 2e3);
     });
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Media Library" }),
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-sm text-slate-500", children: "Upload and manage local images and PDF files (Stored in IndexedDB)." })
+  return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Media Library" }),
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-sm text-slate-500", children: "Upload and manage local images and PDF files (Stored in IndexedDB)." })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
+    /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(
       "div",
       {
         className: `relative rounded-lg border border-dashed p-6 text-center transition-all ${isDragging2 ? "border-earth-500 bg-earth-50" : "border-slate-300 bg-white hover:border-earth-400"}`,
@@ -135058,7 +135181,7 @@ function AdminMedia() {
         onDragLeave: handleDragLeave,
         onDrop: handleDrop,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
             "input",
             {
               type: "file",
@@ -135069,12 +135192,12 @@ function AdminMedia() {
               accept: "image/*,application/pdf"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "flex flex-col items-center justify-center gap-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.UploadCloud, { size: 32 }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-lg font-medium text-slate-900", children: "Drag & drop files here" }),
-              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-sm text-slate-500 mb-4", children: "Support for Images (JPG, PNG, WebP) and PDFs (Max 10MB)" }),
-              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "flex flex-col items-center justify-center gap-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.UploadCloud, { size: 32 }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-lg font-medium text-slate-900", children: "Drag & drop files here" }),
+              /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-sm text-slate-500 mb-4", children: "Support for Images (JPG, PNG, WebP) and PDFs (Max 10MB)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
                 Button,
                 {
                   onClick: () => fileInputRef.current?.click(),
@@ -135088,16 +135211,16 @@ function AdminMedia() {
         ]
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden p-6", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("h3", { className: "mb-3 font-bold text-slate-900", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden p-6", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("h3", { className: "mb-3 font-bold text-slate-900", children: [
         "Uploaded Files (",
         (images || []).length,
         ")"
       ] }),
-      isLoading ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "py-12 text-center text-slate-500", children: "Loading media library..." }) : (images || []).length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "py-12 text-center text-slate-500", children: "No media files found. Upload some to get started." }) : /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AnimatePresence, { children: (images || []).map((url) => {
+      isLoading ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "py-12 text-center text-slate-500", children: "Loading media library..." }) : (images || []).length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "py-12 text-center text-slate-500", children: "No media files found. Upload some to get started." }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(AnimatePresence, { children: (images || []).map((url) => {
         const isImage2 = /\.(jpeg|jpg|png|webp|gif|svg)$/i.test(url);
         const name = url.split("/").pop() || "File";
-        return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
+        return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(
           motion.div,
           {
             layout: true,
@@ -135106,22 +135229,22 @@ function AdminMedia() {
             exit: { opacity: 0, scale: 0.9 },
             className: "group relative flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-slate-50",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "h-40 w-full bg-slate-200 flex items-center justify-center overflow-hidden relative", children: [
-                isImage2 ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("img", { src: url, alt: name, className: "w-full h-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "flex flex-col items-center text-slate-400", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.File, { size: 48, className: "mb-2" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { className: "text-xs font-bold uppercase tracking-wider", children: "FILE" })
+              /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "h-40 w-full bg-slate-200 flex items-center justify-center overflow-hidden relative", children: [
+                isImage2 ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("img", { src: url, alt: name, className: "w-full h-full object-cover" }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "flex flex-col items-center text-slate-400", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.File, { size: 48, className: "mb-2" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("span", { className: "text-xs font-bold uppercase tracking-wider", children: "FILE" })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
                     "button",
                     {
                       onClick: () => copyToClipboard(url, url),
                       className: "p-2 bg-white text-slate-700 rounded-lg hover:bg-earth-50 hover:text-earth-600 transition-colors",
                       title: "Copy Data URL",
-                      children: copiedId === url ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Check, { size: 18, className: "text-emerald-500" }) : /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Copy, { size: 18 })
+                      children: copiedId === url ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.Check, { size: 18, className: "text-emerald-500" }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.Copy, { size: 18 })
                     }
                   ),
-                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                  /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
                     "button",
                     {
                       onClick: () => {
@@ -135131,12 +135254,12 @@ function AdminMedia() {
                       },
                       className: "p-2 bg-white text-slate-700 rounded-lg hover:bg-red-50 hover:text-red-500 transition-colors",
                       title: "Delete File",
-                      children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Trash2, { size: 18 })
+                      children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.Trash2, { size: 18 })
                     }
                   )
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "p-3 border-t border-slate-200 bg-white", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-sm font-medium text-slate-900 truncate", title: name, children: name }) })
+              /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "p-3 border-t border-slate-200 bg-white", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-sm font-medium text-slate-900 truncate", title: name, children: name }) })
             ]
           },
           url
@@ -135147,21 +135270,21 @@ function AdminMedia() {
 }
 
 // src/components/ScrollToTop.tsx
-var import_react75 = __toESM(require_react(), 1);
+var import_react76 = __toESM(require_react(), 1);
 var import_react_router_dom12 = __toESM(require_main3(), 1);
 function ScrollToTop() {
   const { pathname } = (0, import_react_router_dom12.useLocation)();
-  (0, import_react75.useEffect)(() => {
+  (0, import_react76.useEffect)(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 }
 
 // src/components/ErrorBoundary.jsx
-var import_react76 = __toESM(require_react(), 1);
-var import_lucide_react24 = __toESM(require_lucide_react(), 1);
-var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
-var ErrorBoundary = class extends import_react76.default.Component {
+var import_react77 = __toESM(require_react(), 1);
+var import_lucide_react25 = __toESM(require_lucide_react(), 1);
+var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
+var ErrorBoundary = class extends import_react77.default.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -135182,23 +135305,23 @@ var ErrorBoundary = class extends import_react76.default.Component {
       if (this.props.fallback) {
         return this.props.fallback;
       }
-      return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8 text-slate-800", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "max-w-4xl w-full bg-white rounded-2xl shadow-xl p-8 border border-red-100 flex flex-col max-h-[90vh]", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("h1", { className: "text-2xl font-bold text-red-600 mb-4 flex items-center gap-2 shrink-0", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.AlertTriangle, { size: 28 }),
+      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8 text-slate-800", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "max-w-4xl w-full bg-white rounded-2xl shadow-xl p-8 border border-red-100 flex flex-col max-h-[90vh]", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("h1", { className: "text-2xl font-bold text-red-600 mb-4 flex items-center gap-2 shrink-0", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_lucide_react25.AlertTriangle, { size: 28 }),
           "React Rendering Error Intercepted"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-slate-600 mb-6 shrink-0", children: "A critical error occurred while attempting to render the component tree. The application was halted to prevent further corruption." }),
-        /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "flex-1 overflow-y-auto space-y-6", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "bg-red-50 text-red-900 p-4 rounded-lg font-mono text-sm border border-red-100/50", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("span", { className: "block font-bold mb-2 text-red-800 uppercase tracking-wide text-xs", children: "Error Message" }),
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "text-slate-600 mb-6 shrink-0", children: "A critical error occurred while attempting to render the component tree. The application was halted to prevent further corruption." }),
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "flex-1 overflow-y-auto space-y-6", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "bg-red-50 text-red-900 p-4 rounded-lg font-mono text-sm border border-red-100/50", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("span", { className: "block font-bold mb-2 text-red-800 uppercase tracking-wide text-xs", children: "Error Message" }),
             this.state.error?.message
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-xs border border-slate-800", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("span", { className: "block font-bold mb-2 text-slate-400 uppercase tracking-wide", children: "Component Stack Trace" }),
-            /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("pre", { className: "overflow-x-auto whitespace-pre-wrap leading-relaxed py-2", children: this.state.errorInfo?.componentStack })
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "bg-slate-900 text-slate-300 p-4 rounded-lg font-mono text-xs border border-slate-800", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("span", { className: "block font-bold mb-2 text-slate-400 uppercase tracking-wide", children: "Component Stack Trace" }),
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("pre", { className: "overflow-x-auto whitespace-pre-wrap leading-relaxed py-2", children: this.state.errorInfo?.componentStack })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "mt-6 pt-6 border-t border-slate-100 shrink-0", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "mt-6 pt-6 border-t border-slate-100 shrink-0", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
           "button",
           {
             onClick: () => window.location.reload(),
@@ -135213,28 +135336,28 @@ var ErrorBoundary = class extends import_react76.default.Component {
 };
 
 // src/App.tsx
-var import_lucide_react25 = __toESM(require_lucide_react(), 1);
-var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
+var import_lucide_react26 = __toESM(require_lucide_react(), 1);
+var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
 function RouteLoading() {
   const { t: t2 } = useLanguage();
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "flex min-h-screen items-center justify-center bg-earth-50", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "flex flex-col items-center gap-4 text-earth-700", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_lucide_react25.Loader2, { className: "h-10 w-10 animate-spin text-earth-500" }),
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "font-medium", children: t2("routeLoadingLabel") })
+  return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "flex min-h-screen items-center justify-center bg-earth-50", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "flex flex-col items-center gap-4 text-earth-700", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_lucide_react26.Loader2, { className: "h-10 w-10 animate-spin text-earth-500" }),
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "font-medium", children: t2("routeLoadingLabel") })
   ] }) });
 }
 function NotFoundPage() {
   const { pageSeo } = usePages();
   const { locale, t: t2 } = useLanguage();
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h1", { className: "mb-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: t2("notFoundTitle") }),
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "mb-8 text-lg text-earth-600", children: t2("notFoundBody") }),
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Link, { to: getManagedPagePath("home", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Button, { children: t2("notFoundButtonLabel") }) })
+  return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h1", { className: "mb-4 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: t2("notFoundTitle") }),
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "mb-8 text-lg text-earth-600", children: t2("notFoundBody") }),
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Link, { to: getManagedPagePath("home", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Button, { children: t2("notFoundButtonLabel") }) })
   ] }) });
 }
 function FaviconUpdater() {
   const { globalSettings } = usePages();
   const faviconUrl = globalSettings.headerLogo || "";
-  (0, import_react77.useEffect)(() => {
+  (0, import_react78.useEffect)(() => {
     document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]').forEach((link) => link.remove());
     if (!faviconUrl) return;
     ["icon", "apple-touch-icon"].forEach((rel) => {
@@ -135254,70 +135377,70 @@ function PublicRouteResolver() {
   const { productsLoaded } = useProducts();
   const parsedPath = parseLocalePath(normalizedPath);
   if (normalizedPath === "/") {
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(LocaleSelectorPage, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(LocaleSelectorPage, {});
   }
   if (parsedPath.isLocalePrefixed && (!pageDataLoaded || !pageSeoLoaded || !productsLoaded)) {
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(RouteLoading, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(RouteLoading, {});
   }
   const productMatch = resolveManagedProductPath(normalizedPath, pageSeo, locale);
   if (productMatch) {
     if (productMatch.canonicalPath !== normalizedPath) {
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Navigate, { to: productMatch.canonicalPath, replace: true });
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Navigate, { to: productMatch.canonicalPath, replace: true });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(ProductDetail, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(ProductDetail, {});
   }
   const staticMatch = resolveStaticPageByPath(normalizedPath, pageSeo, locale);
   if (!staticMatch) {
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(NotFoundPage, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(NotFoundPage, {});
   }
   if (staticMatch.canonicalPath !== normalizedPath) {
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Navigate, { to: staticMatch.canonicalPath, replace: true });
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Navigate, { to: staticMatch.canonicalPath, replace: true });
   }
   switch (staticMatch.pageId) {
     case "home":
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FrontPage, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(FrontPage, {});
     case "about":
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(About, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(About, {});
     case "products":
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Products, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Products, {});
     case "export":
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Export, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Export, {});
     case "contacts":
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Contacts, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Contacts, {});
     case "privacy":
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Privacy, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Privacy, {});
     case "terms":
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Terms, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Terms, {});
     default:
-      return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(NotFoundPage, {});
+      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(NotFoundPage, {});
   }
 }
 function ComingSoonGate({ children }) {
-  const [unlocked, setUnlocked] = (0, import_react77.useState)(() => isUnlocked());
+  const [unlocked, setUnlocked] = (0, import_react78.useState)(() => isUnlocked());
   if (!unlocked) {
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(ComingSoon, { onUnlock: () => setUnlocked(true) });
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(ComingSoon, { onUnlock: () => setUnlocked(true) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_jsx_runtime49.Fragment, { children });
+  return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_jsx_runtime50.Fragment, { children });
 }
 function AppShell({ initialData }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(LanguageProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(MediaProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(PageProvider, { initialData, children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(ProductProvider, { initialData, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FaviconUpdater, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(ScrollToTop, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_react_router_dom13.Routes, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_react_router_dom13.Route, { path: "/control-room", element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(AdminLayout, {}), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Dashboard, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Route, { path: "products", element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Navigate, { to: "/control-room/pages", replace: true }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Route, { path: "pages", element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(AdminPages, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Route, { path: "leads", element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(AdminLeads, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Route, { path: "media", element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(AdminMedia, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Route, { path: "seo", element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(AdminSeoSettings, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_react_router_dom13.Route, { path: "globals", element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(AdminGlobalSettings, {}) })
+  return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(ErrorBoundary, { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(LanguageProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(MediaProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(PageProvider, { initialData, children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(ProductProvider, { initialData, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(FaviconUpdater, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(ScrollToTop, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(import_react_router_dom13.Routes, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(import_react_router_dom13.Route, { path: "/control-room", element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(AdminLayout, {}), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Dashboard, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Route, { path: "products", element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Navigate, { to: "/control-room/pages", replace: true }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Route, { path: "pages", element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(AdminPages, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Route, { path: "leads", element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(AdminLeads, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Route, { path: "media", element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(AdminMedia, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Route, { path: "seo", element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(AdminSeoSettings, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(import_react_router_dom13.Route, { path: "globals", element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(AdminGlobalSettings, {}) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
         import_react_router_dom13.Route,
         {
           path: "*",
-          element: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(ComingSoonGate, { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(PublicRouteResolver, {}) })
+          element: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(ComingSoonGate, { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(PublicRouteResolver, {}) })
         }
       )
     ] })
@@ -135473,6 +135596,7 @@ async function initDb() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
     await addColumnIfMissing("products", "display_order", "INT NULL");
     await addColumnIfMissing("products", "technical_passport", "TEXT");
+    await addColumnIfMissing("global_settings", "favicon", "TEXT");
     const [productRows] = await conn.execute("SELECT id, display_order FROM products");
     if (Array.isArray(productRows)) {
       const firstSeenIds = [];
@@ -135530,6 +135654,7 @@ var defaultPageSlugs2 = { home: "", about: "about", products: "products", export
 var reservedPageSlugs = /* @__PURE__ */ new Set(["admin", "api", "uploads", "robots.txt", "sitemap.xml"]);
 var defaultGlobalSettings = {
   headerLogo: "",
+  favicon: "",
   siteName: "HQ Dried Fruits",
   navLinks: [{ label: "Home", url: "/" }, { label: "About", url: "/about" }, { label: "Products", url: "/products" }, { label: "Export", url: "/export" }, { label: "Contacts", url: "/contacts" }],
   ctaText: "Get Quote",
@@ -136182,6 +136307,7 @@ function mapProduct(row) {
 function mapGlobalSettings(row) {
   return {
     headerLogo: asString(row?.header_logo, defaultGlobalSettings.headerLogo),
+    favicon: asString(row?.favicon, defaultGlobalSettings.favicon),
     siteName: asString(row?.site_name, defaultGlobalSettings.siteName),
     navLinks: safeParseJson(row?.nav_links, defaultGlobalSettings.navLinks),
     ctaText: asString(row?.cta_text, defaultGlobalSettings.ctaText),
@@ -136749,7 +136875,7 @@ async function buildRenderMeta(req) {
       ogType: "website",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
-      faviconUrl: defaultImage2,
+      faviconUrl: toAbsoluteUrl(globals2.favicon, origin) || defaultImage2,
       alternateLinks: buildSelectorAlternates(origin)
     };
   }
@@ -136771,7 +136897,7 @@ async function buildRenderMeta(req) {
       ogType: "website",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
-      faviconUrl: defaultImage2,
+      faviconUrl: toAbsoluteUrl(globals2.favicon, origin) || defaultImage2,
       alternateLinks: []
     };
   }
@@ -136795,7 +136921,7 @@ async function buildRenderMeta(req) {
       ogType: "website",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
-      faviconUrl: defaultImage2,
+      faviconUrl: toAbsoluteUrl(globals2.favicon, origin) || defaultImage2,
       redirectTo: legacyStaticMatch.canonicalPath,
       alternateLinks: await buildPageAlternates(legacyStaticMatch.pageId, origin)
     };
@@ -136820,7 +136946,7 @@ async function buildRenderMeta(req) {
       ogType: "product",
       siteName: siteName2,
       googleSiteVerificationId: globals2.googleSiteVerificationId || "",
-      faviconUrl: defaultImage2,
+      faviconUrl: toAbsoluteUrl(globals2.favicon, origin) || defaultImage2,
       redirectTo: legacyProductMatch.canonicalPath,
       alternateLinks: await buildProductAlternates(legacyProductMatch.product.id, origin)
     };
@@ -136835,7 +136961,7 @@ async function buildRenderMeta(req) {
   const baseMeta = {
     siteName,
     googleSiteVerificationId,
-    faviconUrl: defaultImage
+    faviconUrl: toAbsoluteUrl(globals.favicon, origin) || defaultImage
   };
   const staticMatch = resolveStaticLocalePageByPath(normalizedPath, pageSeo, locale);
   if (staticMatch) {
@@ -136916,7 +137042,7 @@ app.post("/api/globals", async (req, res) => {
   try {
     const settings = req.body ?? {};
     const locale = getRequestLocale(req);
-    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1 AND lang = $19`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), locale]);
+    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18, favicon = $19 WHERE id = 1 AND lang = $20`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), asString(settings.favicon), locale]);
     await syncGlobalSharedMedia(settings);
     res.json({ success: true });
   } catch (error) {
@@ -137226,6 +137352,25 @@ app.post("/api/upload-document", documentUpload.single("file"), (req, res) => {
     res.status(500).json({ error: "Document upload failed on server" });
   }
 });
+app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
+  try {
+    const uploadedFile = req.file;
+    if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
+    const filename = `favicon-${Date.now()}-${Math.round(Math.random() * 1e9)}.png`;
+    const filePath = import_path2.default.join(uploadsDir, filename);
+    try {
+      const buf = await (0, import_sharp.default)(uploadedFile.buffer).resize(192, 192, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).png({ quality: 100, force: true }).toBuffer();
+      import_fs.default.writeFileSync(filePath, buf);
+      console.log(`[Upload-Favicon] Processed \u2192 ${filename} | ${(buf.length / 1024).toFixed(1)} KB`);
+    } catch (err) {
+      console.warn("\u26A0\uFE0F sharp processing failed for favicon, saving original file:", err);
+      import_fs.default.writeFileSync(filePath, uploadedFile.buffer);
+    }
+    res.json({ url: `/uploads/${filename}` });
+  } catch (error) {
+    res.status(500).json({ error: "Upload failed on server" });
+  }
+});
 app.post("/api/media/delete", (req, res) => {
   try {
     const url = asString(req.body?.url);
@@ -137297,10 +137442,10 @@ if (import_fs.default.existsSync(distDir)) {
       const meta = await buildRenderMeta(req);
       if (meta.redirectTo) return res.redirect(301, meta.redirectTo);
       const appHtml = (0, import_server.renderToString)(
-        import_react78.default.createElement(
+        import_react79.default.createElement(
           import_server2.StaticRouter,
           { location: req.originalUrl },
-          import_react78.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
+          import_react79.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
         )
       );
       const html = renderHtmlWithSeo(getIndexTemplate(), { ...meta, appHtml });

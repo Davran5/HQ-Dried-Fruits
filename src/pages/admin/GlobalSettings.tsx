@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, Globe, Layout, Mail, ChevronDown, Loader2, Languages } from "lucide-react";
 import { usePages } from "@/src/contexts/PageContext";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
+import { FaviconUploader } from "@/src/components/admin/FaviconUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { GlobalSettings, NavLink } from "@/src/types/page";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
@@ -243,6 +244,13 @@ export function AdminGlobalSettings() {
                                                         label="Main Branding Logo"
                                                         value={settings.headerLogo}
                                                         onChange={url => setSettings({ ...settings, headerLogo: url })}
+                                                    />
+
+                                                    <FaviconUploader
+                                                        label="Site Favicon (Browser Icon)"
+                                                        value={settings.favicon || ""}
+                                                        onChange={url => setSettings({ ...settings, favicon: url })}
+                                                        placeholder="Upload or paste favicon URL..."
                                                     />
 
                                                     <div>

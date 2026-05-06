@@ -183,6 +183,7 @@ async function initDb() {
 
     await addColumnIfMissing("products", "display_order", "INT NULL");
     await addColumnIfMissing("products", "technical_passport", "TEXT");
+    await addColumnIfMissing("global_settings", "favicon", "TEXT");
 
     const [productRows] = await conn.execute("SELECT id, display_order FROM products");
     if (Array.isArray(productRows)) {
@@ -255,7 +256,7 @@ const defaultPageSlugs: Record<PageId, string> = { home: "", about: "about", pro
 const reservedPageSlugs = new Set(["admin", "api", "uploads", "robots.txt", "sitemap.xml"]);
 
 const defaultGlobalSettings = {
-  headerLogo: "", siteName: "HQ Dried Fruits",
+  headerLogo: "", favicon: "", siteName: "HQ Dried Fruits",
   navLinks: [{ label: "Home", url: "/" }, { label: "About", url: "/about" }, { label: "Products", url: "/products" }, { label: "Export", url: "/export" }, { label: "Contacts", url: "/contacts" }],
   ctaText: "Get Quote", ctaUrl: "/contacts", footerLogo: "",
   footerDescription: "Quality sun-dried fruits from the heart of Uzbekistan. Exporting nature's sweetness to global B2B partners with uncompromising quality.",
@@ -908,7 +909,7 @@ function mapProduct(row: any) {
 
 function mapGlobalSettings(row: any) {
   return {
-    headerLogo: asString(row?.header_logo, defaultGlobalSettings.headerLogo), siteName: asString(row?.site_name, defaultGlobalSettings.siteName), navLinks: safeParseJson(row?.nav_links, defaultGlobalSettings.navLinks), ctaText: asString(row?.cta_text, defaultGlobalSettings.ctaText), ctaUrl: asString(row?.cta_url, defaultGlobalSettings.ctaUrl), footerLogo: asString(row?.footer_logo, defaultGlobalSettings.footerLogo), footerDescription: asString(row?.footer_description, defaultGlobalSettings.footerDescription), footerLeadText: asString(row?.footer_lead_text, defaultGlobalSettings.footerLeadText), quickLinks: safeParseJson(row?.quick_links, defaultGlobalSettings.quickLinks), officeAddress: asString(row?.office_address, defaultGlobalSettings.officeAddress), phoneNumber: asString(row?.phone_number, defaultGlobalSettings.phoneNumber), emailAddress: asString(row?.email_address, defaultGlobalSettings.emailAddress), telegramUrl: asString(row?.telegram_url, defaultGlobalSettings.telegramUrl), footerCtaTitle: asString(row?.footer_cta_title, defaultGlobalSettings.footerCtaTitle), footerCtaEmail: asString(row?.footer_cta_email, defaultGlobalSettings.footerCtaEmail), footerCopyrightText: asString(row?.footer_copyright_text, defaultGlobalSettings.footerCopyrightText),
+    headerLogo: asString(row?.header_logo, defaultGlobalSettings.headerLogo), favicon: asString(row?.favicon, defaultGlobalSettings.favicon), siteName: asString(row?.site_name, defaultGlobalSettings.siteName), navLinks: safeParseJson(row?.nav_links, defaultGlobalSettings.navLinks), ctaText: asString(row?.cta_text, defaultGlobalSettings.ctaText), ctaUrl: asString(row?.cta_url, defaultGlobalSettings.ctaUrl), footerLogo: asString(row?.footer_logo, defaultGlobalSettings.footerLogo), footerDescription: asString(row?.footer_description, defaultGlobalSettings.footerDescription), footerLeadText: asString(row?.footer_lead_text, defaultGlobalSettings.footerLeadText), quickLinks: safeParseJson(row?.quick_links, defaultGlobalSettings.quickLinks), officeAddress: asString(row?.office_address, defaultGlobalSettings.officeAddress), phoneNumber: asString(row?.phone_number, defaultGlobalSettings.phoneNumber), emailAddress: asString(row?.email_address, defaultGlobalSettings.emailAddress), telegramUrl: asString(row?.telegram_url, defaultGlobalSettings.telegramUrl), footerCtaTitle: asString(row?.footer_cta_title, defaultGlobalSettings.footerCtaTitle), footerCtaEmail: asString(row?.footer_cta_email, defaultGlobalSettings.footerCtaEmail), footerCopyrightText: asString(row?.footer_copyright_text, defaultGlobalSettings.footerCopyrightText),
     uiLabels: { ...defaultGlobalSettings.uiLabels, ...safeParseJson(row?.ui_labels, defaultGlobalSettings.uiLabels) },
     googleSiteVerificationId: asString(row?.google_site_verification_id, defaultGlobalSettings.googleSiteVerificationId),
   };
@@ -1473,7 +1474,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "website",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
-      faviconUrl: defaultImage,
+      faviconUrl: toAbsoluteUrl(globals.favicon, origin) || defaultImage,
       alternateLinks: buildSelectorAlternates(origin),
     };
   }
@@ -1497,7 +1498,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "website",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
-      faviconUrl: defaultImage,
+      faviconUrl: toAbsoluteUrl(globals.favicon, origin) || defaultImage,
       alternateLinks: [],
     };
   }
@@ -1523,7 +1524,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "website",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
-      faviconUrl: defaultImage,
+      faviconUrl: toAbsoluteUrl(globals.favicon, origin) || defaultImage,
       redirectTo: legacyStaticMatch.canonicalPath,
       alternateLinks: await buildPageAlternates(legacyStaticMatch.pageId, origin),
     };
@@ -1550,7 +1551,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
       ogType: "product",
       siteName,
       googleSiteVerificationId: globals.googleSiteVerificationId || "",
-      faviconUrl: defaultImage,
+      faviconUrl: toAbsoluteUrl(globals.favicon, origin) || defaultImage,
       redirectTo: legacyProductMatch.canonicalPath,
       alternateLinks: await buildProductAlternates(legacyProductMatch.product.id, origin),
     };
@@ -1566,7 +1567,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
   const baseMeta = {
     siteName,
     googleSiteVerificationId,
-    faviconUrl: defaultImage,
+    faviconUrl: toAbsoluteUrl(globals.favicon, origin) || defaultImage,
   };
 
   const staticMatch = resolveStaticLocalePageByPath(normalizedPath, pageSeo, locale);
@@ -1649,7 +1650,7 @@ app.post("/api/globals", async (req, res) => {
   try {
     const settings = req.body ?? {};
     const locale = getRequestLocale(req);
-    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18 WHERE id = 1 AND lang = $19`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), locale]);
+    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18, favicon = $19 WHERE id = 1 AND lang = $20`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), asString(settings.favicon), locale]);
     await syncGlobalSharedMedia(settings);
     res.json({ success: true });
   } catch (error) { res.status(500).json({ error: "Update failed" }); }
@@ -1956,6 +1957,31 @@ app.post("/api/upload-document", documentUpload.single("file"), (req, res) => {
     console.log(`[Upload-Doc] Saved → ${filename} (${(uploadedFile.buffer.length / 1024).toFixed(1)} KB)`);
     res.json({ url: `/uploads/${filename}`, originalName: uploadedFile.originalname });
   } catch (error) { res.status(500).json({ error: "Document upload failed on server" }); }
+});
+
+app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
+  try {
+    const uploadedFile = (req as any).file;
+    if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
+    
+    const filename = `favicon-${Date.now()}-${Math.round(Math.random() * 1e9)}.png`;
+    const filePath = path.join(uploadsDir, filename);
+
+    try {
+      const buf = await sharp(uploadedFile.buffer)
+        .resize(192, 192, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .png({ quality: 100, force: true })
+        .toBuffer();
+      
+      fs.writeFileSync(filePath, buf);
+      console.log(`[Upload-Favicon] Processed → ${filename} | ${(buf.length / 1024).toFixed(1)} KB`);
+    } catch (err) {
+      console.warn("⚠️ sharp processing failed for favicon, saving original file:", err);
+      fs.writeFileSync(filePath, uploadedFile.buffer);
+    }
+    
+    res.json({ url: `/uploads/${filename}` });
+  } catch (error) { res.status(500).json({ error: "Upload failed on server" }); }
 });
 
 app.post("/api/media/delete", (req, res) => {

@@ -139,6 +139,7 @@ export interface GlobalSettings {
     uiLabels: GlobalUILabels;
 
     googleSiteVerificationId?: string;
+    favicon?: string;
 }
 
 export interface StatItem {
