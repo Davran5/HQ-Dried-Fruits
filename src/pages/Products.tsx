@@ -34,7 +34,11 @@ function getProductCategoryKey(product: Product) {
 function getInitialCategoryKeys(search: string): ProductCategoryKey[] {
   const params = new URLSearchParams(search);
   const requestedCategory = params.get("category");
-  const requestedKey = requestedCategory ? resolveProductCategoryKey(requestedCategory) : null;
+  const requestedKey = isProductCategoryKey(requestedCategory)
+    ? requestedCategory
+    : requestedCategory
+      ? resolveProductCategoryKey(requestedCategory)
+      : null;
   return requestedKey ? [requestedKey] : [...PRODUCT_CATEGORY_KEYS];
 }
 

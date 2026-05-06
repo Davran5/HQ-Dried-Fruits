@@ -125505,6 +125505,21 @@ function buildProductCategoryCatalogPath(basePath, keyOrLabel) {
 
 // src/pages/FrontPage.tsx
 var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+var fallbackProductCategoryCards = [
+  { categoryKey: "raisins", categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+  { categoryKey: "dried-apricot", categoryName: "Dried Apricot", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+  { categoryKey: "prunes", categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+  { categoryKey: "peanuts", categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
+];
+function getHomeProductCategoryKey(product, index) {
+  if (isProductCategoryKey(product.categoryKey)) {
+    return product.categoryKey;
+  }
+  const keyFromContent = resolveProductCategoryKey(
+    [product.categoryKey, product.categoryName, product.variantSummary, product.image, product.url].filter(Boolean).join(" ")
+  );
+  return keyFromContent || PRODUCT_CATEGORY_KEYS[index] || null;
+}
 function FrontPage() {
   const { pages, globalSettings, pageSeo } = usePages();
   const { locale, t: t2 } = useLanguage();
@@ -125601,12 +125616,7 @@ function FrontPage() {
     });
     return sorted;
   }, [content.statsGrid]);
-  const productCategoryCards = (content.productCategories?.length ? content.productCategories : [
-    { categoryKey: "raisins", categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
-    { categoryKey: "dried-apricot", categoryName: "Dried Apricot", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
-    { categoryKey: "prunes", categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
-    { categoryKey: "peanuts", categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
-  ]).slice(0, 4);
+  const productCategoryCards = (content.productCategories?.length ? content.productCategories : fallbackProductCategoryCards).slice(0, 4);
   const getCertificateCards = () => {
     const scroller = certificateScrollerRef.current;
     if (!scroller) {
@@ -125789,7 +125799,7 @@ function FrontPage() {
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("products", pageSeo, locale), className: "hidden lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "outline", children: content.productPreviewButtonLabel || t2("homeViewFullCatalog") }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid gap-5 sm:gap-6", children: productCategoryCards.map((product, i) => {
-        const productCategoryKey = product.categoryKey || resolveProductCategoryKey(product.categoryName);
+        const productCategoryKey = getHomeProductCategoryKey(product, i);
         const categoryDisplayName = productCategoryKey ? getProductCategoryLabel(productCategoryKey, locale) : product.categoryName;
         const categoryTypes = (product.variantSummary || product.categoryName).split(",").map((item) => item.trim()).filter(Boolean).slice(0, 5);
         return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
@@ -126538,7 +126548,7 @@ function getProductCategoryKey(product) {
 function getInitialCategoryKeys(search) {
   const params = new URLSearchParams(search);
   const requestedCategory = params.get("category");
-  const requestedKey = requestedCategory ? resolveProductCategoryKey(requestedCategory) : null;
+  const requestedKey = isProductCategoryKey(requestedCategory) ? requestedCategory : requestedCategory ? resolveProductCategoryKey(requestedCategory) : null;
   return requestedKey ? [requestedKey] : [...PRODUCT_CATEGORY_KEYS];
 }
 function getSimpleContentLabel(value, legacyPattern, fallback) {

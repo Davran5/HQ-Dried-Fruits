@@ -7,9 +7,37 @@ import { PageLayout } from "@/src/components/layout/PageLayout";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
-import { ExportContent, HomeContent } from "@/src/types/page";
+import type { ExportContent, HomeContent, ProductCategoryItem } from "@/src/types/page";
 import { getManagedPagePath } from "@/src/lib/routes";
-import { buildProductCategoryCatalogPath, getProductCategoryLabel, resolveProductCategoryKey } from "@/src/lib/productCategories";
+import {
+    PRODUCT_CATEGORY_KEYS,
+    buildProductCategoryCatalogPath,
+    getProductCategoryLabel,
+    isProductCategoryKey,
+    resolveProductCategoryKey,
+    type ProductCategoryKey,
+} from "@/src/lib/productCategories";
+
+const fallbackProductCategoryCards: ProductCategoryItem[] = [
+    { categoryKey: "raisins", categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+    { categoryKey: "dried-apricot", categoryName: "Dried Apricot", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+    { categoryKey: "prunes", categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+    { categoryKey: "peanuts", categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" },
+];
+
+function getHomeProductCategoryKey(product: ProductCategoryItem, index: number): ProductCategoryKey | null {
+    if (isProductCategoryKey(product.categoryKey)) {
+        return product.categoryKey;
+    }
+
+    const keyFromContent = resolveProductCategoryKey(
+        [product.categoryKey, product.categoryName, product.variantSummary, product.image, product.url]
+            .filter(Boolean)
+            .join(" "),
+    );
+
+    return keyFromContent || PRODUCT_CATEGORY_KEYS[index] || null;
+}
 
 export function FrontPage() {
     const { pages, globalSettings, pageSeo } = usePages();
@@ -124,12 +152,7 @@ export function FrontPage() {
     const productCategoryCards = (
         content.productCategories?.length
             ? content.productCategories
-            : [
-                { categoryKey: "raisins", categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
-                { categoryKey: "dried-apricot", categoryName: "Dried Apricot", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
-                { categoryKey: "prunes", categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
-                { categoryKey: "peanuts", categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" },
-            ]
+            : fallbackProductCategoryCards
     ).slice(0, 4);
     const getCertificateCards = (): HTMLElement[] => {
         const scroller = certificateScrollerRef.current;
@@ -330,7 +353,7 @@ export function FrontPage() {
 
                     <div className="grid gap-5 sm:gap-6">
                         {productCategoryCards.map((product, i) => {
-                            const productCategoryKey = product.categoryKey || resolveProductCategoryKey(product.categoryName);
+                            const productCategoryKey = getHomeProductCategoryKey(product, i);
                             const categoryDisplayName = productCategoryKey
                                 ? getProductCategoryLabel(productCategoryKey, locale)
                                 : product.categoryName;
