@@ -128197,6 +128197,7 @@ function ProductDetail() {
   const [email, setEmail] = (0, import_react50.useState)("");
   const [isSubmitting, setIsSubmitting] = (0, import_react50.useState)(false);
   const [submitMessage, setSubmitMessage] = (0, import_react50.useState)(null);
+  const [selectedFieldGroupIndex, setSelectedFieldGroupIndex] = (0, import_react50.useState)(0);
   const productsPage = pages.find((page) => page.id === "products");
   const detailUi = productsPage?.content?.detailUi || {};
   const resolvedPath = (0, import_react50.useMemo)(
@@ -128232,6 +128233,25 @@ function ProductDetail() {
   });
   const galleryImages = product ? Array.from(new Set([product.image, ...product.imageGallery || []].filter(Boolean))) : [];
   const inquiryOptions = product?.tonnageOptions?.length && product.tonnageOptions.length > 0 ? product.tonnageOptions : ["Request Sample Box", "1 - 5 Tons", "Full Container Load (FCL)"];
+  const productCustomFieldGroups = (0, import_react50.useMemo)(() => {
+    if (!product) {
+      return [];
+    }
+    const groups = (product.customFieldGroups || []).map((group) => ({
+      title: group.title?.trim() || detailUi.nutritionTitle || "Product Information",
+      fields: (group.fields || []).filter((field) => field.label?.trim() || field.value?.trim()).slice(0, 5)
+    })).filter((group) => group.fields.length > 0).slice(0, 5);
+    if (groups.length > 0) {
+      return groups;
+    }
+    const legacyFields = (product.customFields || []).filter((field) => field.label?.trim() || field.value?.trim()).slice(0, 5);
+    return legacyFields.length > 0 ? [{ title: product.category || detailUi.nutritionTitle || "Product Information", fields: legacyFields }] : [];
+  }, [detailUi.nutritionTitle, product]);
+  const selectedFieldGroup = productCustomFieldGroups[Math.min(selectedFieldGroupIndex, Math.max(productCustomFieldGroups.length - 1, 0))];
+  const productCustomFields = selectedFieldGroup?.fields || [];
+  (0, import_react50.useEffect)(() => {
+    setSelectedFieldGroupIndex(0);
+  }, [product?.id, productCustomFieldGroups.length]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!product) return;
@@ -128269,7 +128289,6 @@ function ProductDetail() {
       /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_react_router_dom9.Link, { to: getManagedPagePath("products", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Button, { children: detailUi.backToCatalogLabel || "Back to Catalog" }) })
     ] }) });
   }
-  const productCustomFields = (product.customFields || []).filter((field) => field.label?.trim() || field.value?.trim()).slice(0, 5);
   return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
     motion.div,
     {
@@ -128334,10 +128353,25 @@ function ProductDetail() {
             benefit
           ] }, i)) }),
           productCustomFields.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "mb-16 rounded-[2rem] bg-earth-50 p-8", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("h3", { className: "mb-6 font-display text-2xl font-bold text-earth-900", children: [
-              detailUi.nutritionTitle || "Product Information",
-              " ",
-              detailUi.nutritionPerLabel && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { className: "text-sm font-normal text-earth-500", children: detailUi.nutritionPerLabel })
+            /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "mb-6 flex flex-wrap items-center justify-between gap-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("h3", { className: "font-display text-2xl font-bold text-earth-900", children: [
+                detailUi.nutritionTitle || "Product Information",
+                " ",
+                detailUi.nutritionPerLabel && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { className: "text-sm font-normal text-earth-500", children: detailUi.nutritionPerLabel })
+              ] }),
+              productCustomFieldGroups.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "flex max-w-full flex-wrap gap-2", children: productCustomFieldGroups.map((group, groupIndex) => {
+                const isActive = groupIndex === selectedFieldGroupIndex;
+                return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => setSelectedFieldGroupIndex(groupIndex),
+                    className: `rounded-full px-4 py-2 text-sm font-semibold transition-colors ${isActive ? "bg-earth-900 text-white" : "bg-white text-earth-700 hover:bg-earth-100"}`,
+                    children: group.title
+                  },
+                  `${group.title}-${groupIndex}`
+                );
+              }) })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "grid grid-cols-1 gap-4 sm:grid-cols-2", children: productCustomFields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "rounded-2xl bg-white px-5 py-4", children: [
               /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "text-xs font-bold uppercase tracking-[0.18em] text-earth-400", children: field.label }),
@@ -132602,8 +132636,20 @@ var emptyProduct = {
   inquirySubjectLine: "Wholesale Inquiry: ",
   tonnageOptions: ["5 Tons", "10 Tons (20ft FCL)", "20 Tons (40ft FCL)"],
   nutrition: { energy: "", protein: "", fat: "", carbs: "" },
-  customFields: []
+  customFields: [],
+  customFieldGroups: []
 };
+var MAX_CUSTOM_FIELD_CATEGORIES = 5;
+var MAX_CUSTOM_FIELDS_PER_CATEGORY = 5;
+function normalizeCustomFields(fields = []) {
+  return fields.map((field) => ({ label: field?.label || "", value: field?.value || "" })).slice(0, MAX_CUSTOM_FIELDS_PER_CATEGORY);
+}
+function normalizeCustomFieldGroups(groups = []) {
+  return groups.map((group) => ({
+    title: group?.title || "",
+    fields: normalizeCustomFields(group?.fields || [])
+  })).slice(0, MAX_CUSTOM_FIELD_CATEGORIES);
+}
 function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
   const { products, addProduct, updateProduct, deleteProduct, reorderProducts, refreshProducts } = useProducts();
   const { editingLang } = useAdminLanguage();
@@ -132851,9 +132897,15 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     await persistProductOrder(nextProducts);
   };
   const renderProductForm = (id3) => {
-    const customFields = (formData.customFields || []).slice(0, 5);
-    const replaceCustomFields = (nextFields) => {
-      setFormData({ ...formData, customFields: nextFields.slice(0, 5) });
+    const legacyCustomFields = normalizeCustomFields(formData.customFields || []);
+    const customFieldGroups = formData.customFieldGroups && formData.customFieldGroups.length > 0 ? normalizeCustomFieldGroups(formData.customFieldGroups) : legacyCustomFields.length > 0 ? [{ title: formData.category || formData.name || "Default", fields: legacyCustomFields }] : [];
+    const replaceCustomFieldGroups = (nextGroups) => {
+      const normalizedGroups = normalizeCustomFieldGroups(nextGroups);
+      setFormData({
+        ...formData,
+        customFieldGroups: normalizedGroups,
+        customFields: normalizedGroups[0]?.fields || []
+      });
     };
     return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "border-t border-slate-100 p-3 sm:p-4", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { id: `form-product-${id3}`, onSubmit: handleSaveProduct, className: "space-y-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-4 lg:grid-cols-2", children: [
@@ -132929,58 +132981,116 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
           ),
           /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/60 p-3", children: [
             /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "mb-3 flex items-center justify-between gap-3", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h4", { className: "text-xs font-bold uppercase tracking-widest text-slate-400", children: "Custom Product Fields (maximum 5)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h4", { className: "text-xs font-bold uppercase tracking-widest text-slate-400", children: "Custom Product Fields" }),
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "mt-1 text-xs text-slate-500", children: "Add up to 5 categories, with up to 5 details in each category." })
+              ] }),
               /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
                 "button",
                 {
                   type: "button",
-                  onClick: () => replaceCustomFields([...customFields, { label: "", value: "" }]),
-                  disabled: customFields.length >= 5,
+                  onClick: () => replaceCustomFieldGroups([...customFieldGroups, { title: "", fields: [{ label: "", value: "" }] }]),
+                  disabled: customFieldGroups.length >= MAX_CUSTOM_FIELD_CATEGORIES,
                   className: "rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50",
-                  children: "Add Field"
+                  children: "Add Category"
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "space-y-2", children: customFields.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500", children: "No custom fields added yet." }) : customFields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-2 rounded-lg border border-slate-200 bg-white/70 p-2 md:grid-cols-[0.85fr_1.15fr_auto]", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: field.label,
-                  onChange: (e) => {
-                    const next = [...customFields];
-                    next[fieldIndex] = { ...field, label: e.target.value };
-                    replaceCustomFields(next);
-                  },
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                  placeholder: "Label, e.g. Grade"
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-                "input",
-                {
-                  type: "text",
-                  value: field.value,
-                  onChange: (e) => {
-                    const next = [...customFields];
-                    next[fieldIndex] = { ...field, value: e.target.value };
-                    replaceCustomFields(next);
-                  },
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-                  placeholder: "Text, e.g. Highest"
-                }
-              ),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "space-y-2", children: customFieldGroups.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500", children: "No custom field categories added yet." }) : customFieldGroups.map((group, groupIndex) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rounded-lg border border-slate-200 bg-white/70 p-2", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "mb-2 grid gap-2 md:grid-cols-[1fr_auto]", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: group.title,
+                    onChange: (e) => {
+                      const next = [...customFieldGroups];
+                      next[groupIndex] = { ...group, title: e.target.value };
+                      replaceCustomFieldGroups(next);
+                    },
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-900 outline-none",
+                    placeholder: "Category title, e.g. Size 1"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => replaceCustomFieldGroups(customFieldGroups.filter((_, candidateIndex) => candidateIndex !== groupIndex)),
+                    className: "rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50",
+                    children: "Remove Category"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "space-y-2", children: group.fields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "grid gap-2 md:grid-cols-[0.85fr_1.15fr_auto]", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: field.label,
+                    onChange: (e) => {
+                      const next = [...customFieldGroups];
+                      const nextFields = [...group.fields];
+                      nextFields[fieldIndex] = { ...field, label: e.target.value };
+                      next[groupIndex] = { ...group, fields: nextFields };
+                      replaceCustomFieldGroups(next);
+                    },
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                    placeholder: "Label, e.g. Moisture"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    value: field.value,
+                    onChange: (e) => {
+                      const next = [...customFieldGroups];
+                      const nextFields = [...group.fields];
+                      nextFields[fieldIndex] = { ...field, value: e.target.value };
+                      next[groupIndex] = { ...group, fields: nextFields };
+                      replaceCustomFieldGroups(next);
+                    },
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
+                    placeholder: "Text, e.g. 16-18%"
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => {
+                      const next = [...customFieldGroups];
+                      next[groupIndex] = {
+                        ...group,
+                        fields: group.fields.filter((_, candidateIndex) => candidateIndex !== fieldIndex)
+                      };
+                      replaceCustomFieldGroups(next);
+                    },
+                    className: "rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50",
+                    children: "Remove"
+                  }
+                )
+              ] }, fieldIndex)) }),
               /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
                 "button",
                 {
                   type: "button",
-                  onClick: () => replaceCustomFields(customFields.filter((_, candidateIndex) => candidateIndex !== fieldIndex)),
-                  className: "rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50",
-                  children: "Remove"
+                  onClick: () => {
+                    const next = [...customFieldGroups];
+                    next[groupIndex] = {
+                      ...group,
+                      fields: [...group.fields, { label: "", value: "" }]
+                    };
+                    replaceCustomFieldGroups(next);
+                  },
+                  disabled: group.fields.length >= MAX_CUSTOM_FIELDS_PER_CATEGORY,
+                  className: "mt-2 rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50",
+                  children: "Add Detail"
                 }
               )
-            ] }, fieldIndex)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "mt-2 text-xs text-slate-500", children: "These fields appear on the public product hub and detail pages." })
+            ] }, groupIndex)) }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "mt-2 text-xs text-slate-500", children: "On the public product detail page, category titles appear as buttons beside the product information title." })
           ] })
         ] })
       ] }),
@@ -136320,6 +136430,10 @@ function mapProduct(row) {
   const parsedSeo = safeParseJson(row?.seo, {});
   const parsedNutrition = safeParseJson(row?.nutrition, { energy: "", protein: "", fat: "", carbs: "" });
   const customFields = Array.isArray(parsedNutrition.customFields) ? parsedNutrition.customFields.map((field) => ({ label: asString(field?.label), value: asString(field?.value) })).filter((field) => field.label || field.value).slice(0, 5) : [];
+  const customFieldGroups = Array.isArray(parsedNutrition.customFieldGroups) ? parsedNutrition.customFieldGroups.map((group) => ({
+    title: asString(group?.title),
+    fields: Array.isArray(group?.fields) ? group.fields.map((field) => ({ label: asString(field?.label), value: asString(field?.value) })).filter((field) => field.label || field.value).slice(0, 5) : []
+  })).filter((group) => group.fields.length > 0).slice(0, 5) : [];
   const seoFallback = { metaTitle: `${asString(row?.name)} | HQ Dried Fruits`, metaDescription: asString(row?.short_description), slug: normalizeSlug2(asString(row?.id), asString(row?.id)), ogTitle: asString(row?.name), imageAlt: asString(row?.name) };
   return {
     id: asString(row?.id),
@@ -136334,6 +136448,7 @@ function mapProduct(row) {
     contentSections: safeParseJson(row?.content_sections, []),
     nutrition: { energy: asString(parsedNutrition.energy), protein: asString(parsedNutrition.protein), fat: asString(parsedNutrition.fat), carbs: asString(parsedNutrition.carbs) },
     customFields,
+    customFieldGroups,
     displayOrder: Number.isFinite(Number(row?.display_order)) ? Number(row?.display_order) : void 0,
     inquirySubjectLine: asString(row?.inquiry_subject_line),
     tonnageOptions: safeParseJson(row?.tonnage_options, []),
@@ -136694,12 +136809,18 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
   if (duplicate) throw new Error(`The product slug "${normalizedSeoSlug}" is already in use.`);
   const seoPayload = product?.seo ?? {};
   const customFields = Array.isArray(product.customFields) ? product.customFields.map((field) => ({ label: asString(field?.label), value: asString(field?.value) })).filter((field) => field.label || field.value).slice(0, 5) : [];
+  const customFieldGroups = Array.isArray(product.customFieldGroups) ? product.customFieldGroups.map((group) => ({
+    title: asString(group?.title),
+    fields: Array.isArray(group?.fields) ? group.fields.map((field) => ({ label: asString(field?.label), value: asString(field?.value) })).filter((field) => field.label || field.value).slice(0, 5) : []
+  })).filter((group) => group.fields.length > 0).slice(0, 5) : [];
+  const primaryCustomFields = customFieldGroups[0]?.fields || customFields;
   const nutritionPayload = {
     energy: asString(product?.nutrition?.energy),
     protein: asString(product?.nutrition?.protein),
     fat: asString(product?.nutrition?.fat),
     carbs: asString(product?.nutrition?.carbs),
-    customFields
+    customFields: primaryCustomFields,
+    customFieldGroups
   };
   const displayOrder = Number(product?.displayOrder);
   return {
@@ -136714,7 +136835,8 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
     nutrition: nutritionPayload,
-    customFields,
+    customFields: primaryCustomFields,
+    customFieldGroups,
     displayOrder: Number.isFinite(displayOrder) ? displayOrder : void 0,
     inquirySubjectLine: asString(product.inquirySubjectLine),
     tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],

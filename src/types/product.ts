@@ -10,6 +10,11 @@ export interface ProductCustomField {
   value: string;
 }
 
+export interface ProductCustomFieldGroup {
+  title: string;
+  fields: ProductCustomField[];
+}
+
 export interface ProductContentSection {
   title: string;
   body: string;
@@ -36,6 +41,7 @@ export interface Product {
   contentSections: ProductContentSection[];
   nutrition: Nutrition;
   customFields?: ProductCustomField[];
+  customFieldGroups?: ProductCustomFieldGroup[];
   displayOrder?: number;
   inquirySubjectLine: string;
   tonnageOptions: string[];

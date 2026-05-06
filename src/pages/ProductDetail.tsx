@@ -24,6 +24,7 @@ export function ProductDetail() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [selectedFieldGroupIndex, setSelectedFieldGroupIndex] = useState(0);
   const productsPage = pages.find((page) => page.id === "products");
   const detailUi = productsPage?.content?.detailUi || {};
 
@@ -71,6 +72,40 @@ export function ProductDetail() {
     product?.tonnageOptions?.length && product.tonnageOptions.length > 0
       ? product.tonnageOptions
       : ["Request Sample Box", "1 - 5 Tons", "Full Container Load (FCL)"];
+  const productCustomFieldGroups = useMemo(() => {
+    if (!product) {
+      return [];
+    }
+
+    const groups = (product.customFieldGroups || [])
+      .map((group) => ({
+        title: group.title?.trim() || detailUi.nutritionTitle || "Product Information",
+        fields: (group.fields || [])
+          .filter((field) => field.label?.trim() || field.value?.trim())
+          .slice(0, 5),
+      }))
+      .filter((group) => group.fields.length > 0)
+      .slice(0, 5);
+
+    if (groups.length > 0) {
+      return groups;
+    }
+
+    const legacyFields = (product.customFields || [])
+      .filter((field) => field.label?.trim() || field.value?.trim())
+      .slice(0, 5);
+
+    return legacyFields.length > 0
+      ? [{ title: product.category || detailUi.nutritionTitle || "Product Information", fields: legacyFields }]
+      : [];
+  }, [detailUi.nutritionTitle, product]);
+  const selectedFieldGroup =
+    productCustomFieldGroups[Math.min(selectedFieldGroupIndex, Math.max(productCustomFieldGroups.length - 1, 0))];
+  const productCustomFields = selectedFieldGroup?.fields || [];
+
+  useEffect(() => {
+    setSelectedFieldGroupIndex(0);
+  }, [product?.id, productCustomFieldGroups.length]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,10 +162,6 @@ export function ProductDetail() {
       </PageLayout>
     );
   }
-
-  const productCustomFields = (product.customFields || [])
-    .filter((field) => field.label?.trim() || field.value?.trim())
-    .slice(0, 5);
 
   return (
     <PageLayout>
@@ -205,12 +236,35 @@ export function ProductDetail() {
             </div>
             {productCustomFields.length > 0 && (
               <div className="mb-16 rounded-[2rem] bg-earth-50 p-8">
-                <h3 className="mb-6 font-display text-2xl font-bold text-earth-900">
-                  {detailUi.nutritionTitle || "Product Information"}{" "}
-                  {detailUi.nutritionPerLabel && (
-                    <span className="text-sm font-normal text-earth-500">{detailUi.nutritionPerLabel}</span>
+                <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold text-earth-900">
+                    {detailUi.nutritionTitle || "Product Information"}{" "}
+                    {detailUi.nutritionPerLabel && (
+                      <span className="text-sm font-normal text-earth-500">{detailUi.nutritionPerLabel}</span>
+                    )}
+                  </h3>
+                  {productCustomFieldGroups.length > 1 && (
+                    <div className="flex max-w-full flex-wrap gap-2">
+                      {productCustomFieldGroups.map((group, groupIndex) => {
+                        const isActive = groupIndex === selectedFieldGroupIndex;
+                        return (
+                          <button
+                            key={`${group.title}-${groupIndex}`}
+                            type="button"
+                            onClick={() => setSelectedFieldGroupIndex(groupIndex)}
+                            className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                              isActive
+                                ? "bg-earth-900 text-white"
+                                : "bg-white text-earth-700 hover:bg-earth-100"
+                            }`}
+                          >
+                            {group.title}
+                          </button>
+                        );
+                      })}
+                    </div>
                   )}
-                </h3>
+                </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {productCustomFields.map((field, fieldIndex) => (
                     <div key={`${field.label}-${fieldIndex}`} className="rounded-2xl bg-white px-5 py-4">

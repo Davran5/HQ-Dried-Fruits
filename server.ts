@@ -901,6 +901,20 @@ function mapProduct(row: any) {
         .filter((field: any) => field.label || field.value)
         .slice(0, 5)
     : [];
+  const customFieldGroups = Array.isArray(parsedNutrition.customFieldGroups)
+    ? parsedNutrition.customFieldGroups
+        .map((group: any) => ({
+          title: asString(group?.title),
+          fields: Array.isArray(group?.fields)
+            ? group.fields
+                .map((field: any) => ({ label: asString(field?.label), value: asString(field?.value) }))
+                .filter((field: any) => field.label || field.value)
+                .slice(0, 5)
+            : [],
+        }))
+        .filter((group: any) => group.fields.length > 0)
+        .slice(0, 5)
+    : [];
   const seoFallback = { metaTitle: `${asString(row?.name)} | HQ Dried Fruits`, metaDescription: asString(row?.short_description), slug: normalizeSlug(asString(row?.id), asString(row?.id)), ogTitle: asString(row?.name), imageAlt: asString(row?.name) };
   return {
     id: asString(row?.id), name: asString(row?.name), category: asString(row?.category), status: asString(row?.status, "Active"), image: asString(row?.image),
@@ -908,6 +922,7 @@ function mapProduct(row: any) {
     highlights: safeParseJson<string[]>(row?.highlights, []), contentSections: safeParseJson<ProductSectionRecord[]>(row?.content_sections, []),
     nutrition: { energy: asString(parsedNutrition.energy), protein: asString(parsedNutrition.protein), fat: asString(parsedNutrition.fat), carbs: asString(parsedNutrition.carbs) },
     customFields,
+    customFieldGroups,
     displayOrder: Number.isFinite(Number(row?.display_order)) ? Number(row?.display_order) : undefined,
     inquirySubjectLine: asString(row?.inquiry_subject_line), tonnageOptions: safeParseJson<string[]>(row?.tonnage_options, []),
     seo: { ...seoFallback, ...parsedSeo, slug: normalizeSlug(asString(parsedSeo.slug), seoFallback.slug) },
@@ -1245,12 +1260,28 @@ async function validateProductPayload(product: any, existingId = "", locale: str
         .filter((field: any) => field.label || field.value)
         .slice(0, 5)
     : [];
+  const customFieldGroups = Array.isArray(product.customFieldGroups)
+    ? product.customFieldGroups
+        .map((group: any) => ({
+          title: asString(group?.title),
+          fields: Array.isArray(group?.fields)
+            ? group.fields
+                .map((field: any) => ({ label: asString(field?.label), value: asString(field?.value) }))
+                .filter((field: any) => field.label || field.value)
+                .slice(0, 5)
+            : [],
+        }))
+        .filter((group: any) => group.fields.length > 0)
+        .slice(0, 5)
+    : [];
+  const primaryCustomFields = customFieldGroups[0]?.fields || customFields;
   const nutritionPayload = {
     energy: asString(product?.nutrition?.energy),
     protein: asString(product?.nutrition?.protein),
     fat: asString(product?.nutrition?.fat),
     carbs: asString(product?.nutrition?.carbs),
-    customFields,
+    customFields: primaryCustomFields,
+    customFieldGroups,
   };
   const displayOrder = Number(product?.displayOrder);
   return {
@@ -1258,7 +1289,7 @@ async function validateProductPayload(product: any, existingId = "", locale: str
     imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [], shortDescription: asString(product.shortDescription), longDescription: asString(product.longDescription),
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section: any) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
-    nutrition: nutritionPayload, customFields, displayOrder: Number.isFinite(displayOrder) ? displayOrder : undefined, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
+    nutrition: nutritionPayload, customFields: primaryCustomFields, customFieldGroups, displayOrder: Number.isFinite(displayOrder) ? displayOrder : undefined, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
     seo: { metaTitle: asString(seoPayload.metaTitle, `${asString(product.name)} | HQ Dried Fruits`), metaDescription: asString(seoPayload.metaDescription, asString(product.shortDescription)), slug: normalizedSeoSlug, ogTitle: asString(seoPayload.ogTitle, asString(product.name)), imageAlt: asString(seoPayload.imageAlt, asString(product.name)) },
   };
 }

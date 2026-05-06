@@ -7,7 +7,7 @@ import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { RichTextEditor } from "@/src/components/admin/forms/RichTextEditor";
 import { useProducts } from "@/src/contexts/ProductContext";
-import { Product, ProductContentSection, ProductCustomField } from "@/src/types/product";
+import { Product, ProductContentSection, ProductCustomField, ProductCustomFieldGroup } from "@/src/types/product";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
@@ -33,7 +33,26 @@ const emptyProduct: Omit<Product, "id"> = {
   tonnageOptions: ["5 Tons", "10 Tons (20ft FCL)", "20 Tons (40ft FCL)"],
   nutrition: { energy: "", protein: "", fat: "", carbs: "" },
   customFields: [],
+  customFieldGroups: [],
 };
+
+const MAX_CUSTOM_FIELD_CATEGORIES = 5;
+const MAX_CUSTOM_FIELDS_PER_CATEGORY = 5;
+
+function normalizeCustomFields(fields: ProductCustomField[] = []) {
+  return fields
+    .map((field) => ({ label: field?.label || "", value: field?.value || "" }))
+    .slice(0, MAX_CUSTOM_FIELDS_PER_CATEGORY);
+}
+
+function normalizeCustomFieldGroups(groups: ProductCustomFieldGroup[] = []) {
+  return groups
+    .map((group) => ({
+      title: group?.title || "",
+      fields: normalizeCustomFields(group?.fields || []),
+    }))
+    .slice(0, MAX_CUSTOM_FIELD_CATEGORIES);
+}
 
 interface FloatingAction {
   label: string;
@@ -330,9 +349,20 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
   };
 
   const renderProductForm = (id: string) => {
-    const customFields = (formData.customFields || []).slice(0, 5);
-    const replaceCustomFields = (nextFields: ProductCustomField[]) => {
-      setFormData({ ...formData, customFields: nextFields.slice(0, 5) });
+    const legacyCustomFields = normalizeCustomFields(formData.customFields || []);
+    const customFieldGroups =
+      formData.customFieldGroups && formData.customFieldGroups.length > 0
+        ? normalizeCustomFieldGroups(formData.customFieldGroups)
+        : legacyCustomFields.length > 0
+          ? [{ title: formData.category || formData.name || "Default", fields: legacyCustomFields }]
+          : [];
+    const replaceCustomFieldGroups = (nextGroups: ProductCustomFieldGroup[]) => {
+      const normalizedGroups = normalizeCustomFieldGroups(nextGroups);
+      setFormData({
+        ...formData,
+        customFieldGroups: normalizedGroups,
+        customFields: normalizedGroups[0]?.fields || [],
+      });
     };
 
     return (
@@ -401,58 +431,113 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
 
             <div className="rounded-lg border border-slate-200 bg-white/60 p-3">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400">Custom Product Fields (maximum 5)</h4>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400">Custom Product Fields</h4>
+                  <p className="mt-1 text-xs text-slate-500">Add up to 5 categories, with up to 5 details in each category.</p>
+                </div>
                 <button
                   type="button"
-                  onClick={() => replaceCustomFields([...customFields, { label: "", value: "" }])}
-                  disabled={customFields.length >= 5}
+                  onClick={() => replaceCustomFieldGroups([...customFieldGroups, { title: "", fields: [{ label: "", value: "" }] }])}
+                  disabled={customFieldGroups.length >= MAX_CUSTOM_FIELD_CATEGORIES}
                   className="rounded-md border border-slate-300 px-3 py-1 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  Add Field
+                  Add Category
                 </button>
               </div>
               <div className="space-y-2">
-                {customFields.length === 0 ? (
+                {customFieldGroups.length === 0 ? (
                   <div className="rounded-md border border-dashed border-slate-300 py-3 text-center text-sm text-slate-500">
-                    No custom fields added yet.
+                    No custom field categories added yet.
                   </div>
                 ) : (
-                  customFields.map((field, fieldIndex) => (
-                    <div key={fieldIndex} className="grid gap-2 rounded-lg border border-slate-200 bg-white/70 p-2 md:grid-cols-[0.85fr_1.15fr_auto]">
-                      <input
-                        type="text"
-                        value={field.label}
-                        onChange={e => {
-                          const next = [...customFields];
-                          next[fieldIndex] = { ...field, label: e.target.value };
-                          replaceCustomFields(next);
-                        }}
-                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                        placeholder="Label, e.g. Grade"
-                      />
-                      <input
-                        type="text"
-                        value={field.value}
-                        onChange={e => {
-                          const next = [...customFields];
-                          next[fieldIndex] = { ...field, value: e.target.value };
-                          replaceCustomFields(next);
-                        }}
-                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                        placeholder="Text, e.g. Highest"
-                      />
+                  customFieldGroups.map((group, groupIndex) => (
+                    <div key={groupIndex} className="rounded-lg border border-slate-200 bg-white/70 p-2">
+                      <div className="mb-2 grid gap-2 md:grid-cols-[1fr_auto]">
+                        <input
+                          type="text"
+                          value={group.title}
+                          onChange={e => {
+                            const next = [...customFieldGroups];
+                            next[groupIndex] = { ...group, title: e.target.value };
+                            replaceCustomFieldGroups(next);
+                          }}
+                          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-900 outline-none"
+                          placeholder="Category title, e.g. Size 1"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => replaceCustomFieldGroups(customFieldGroups.filter((_, candidateIndex) => candidateIndex !== groupIndex))}
+                          className="rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50"
+                        >
+                          Remove Category
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        {group.fields.map((field, fieldIndex) => (
+                          <div key={fieldIndex} className="grid gap-2 md:grid-cols-[0.85fr_1.15fr_auto]">
+                            <input
+                              type="text"
+                              value={field.label}
+                              onChange={e => {
+                                const next = [...customFieldGroups];
+                                const nextFields = [...group.fields];
+                                nextFields[fieldIndex] = { ...field, label: e.target.value };
+                                next[groupIndex] = { ...group, fields: nextFields };
+                                replaceCustomFieldGroups(next);
+                              }}
+                              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                              placeholder="Label, e.g. Moisture"
+                            />
+                            <input
+                              type="text"
+                              value={field.value}
+                              onChange={e => {
+                                const next = [...customFieldGroups];
+                                const nextFields = [...group.fields];
+                                nextFields[fieldIndex] = { ...field, value: e.target.value };
+                                next[groupIndex] = { ...group, fields: nextFields };
+                                replaceCustomFieldGroups(next);
+                              }}
+                              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                              placeholder="Text, e.g. 16-18%"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const next = [...customFieldGroups];
+                                next[groupIndex] = {
+                                  ...group,
+                                  fields: group.fields.filter((_, candidateIndex) => candidateIndex !== fieldIndex),
+                                };
+                                replaceCustomFieldGroups(next);
+                              }}
+                              className="rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                       <button
                         type="button"
-                        onClick={() => replaceCustomFields(customFields.filter((_, candidateIndex) => candidateIndex !== fieldIndex))}
-                        className="rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition-colors hover:bg-red-50"
+                        onClick={() => {
+                          const next = [...customFieldGroups];
+                          next[groupIndex] = {
+                            ...group,
+                            fields: [...group.fields, { label: "", value: "" }],
+                          };
+                          replaceCustomFieldGroups(next);
+                        }}
+                        disabled={group.fields.length >= MAX_CUSTOM_FIELDS_PER_CATEGORY}
+                        className="mt-2 rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        Remove
+                        Add Detail
                       </button>
                     </div>
                   ))
                 )}
               </div>
-              <p className="mt-2 text-xs text-slate-500">These fields appear on the public product hub and detail pages.</p>
+              <p className="mt-2 text-xs text-slate-500">On the public product detail page, category titles appear as buttons beside the product information title.</p>
             </div>
           </div>
         </div>
