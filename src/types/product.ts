@@ -28,6 +28,11 @@ export interface SEOData {
   imageAlt: string;
 }
 
+export interface TechnicalPassport {
+  fileUrl: string;
+  buttonLabel: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -46,4 +51,5 @@ export interface Product {
   inquirySubjectLine: string;
   tonnageOptions: string[];
   seo?: SEOData;
+  technicalPassport?: TechnicalPassport;
 }

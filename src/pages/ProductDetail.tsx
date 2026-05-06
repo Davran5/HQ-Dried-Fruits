@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
+import { CheckCircle2, ArrowRight, Loader2, Download } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
@@ -166,6 +166,28 @@ export function ProductDetail() {
                 </button>
               ))}
             </div>
+
+            {/* Technical Passport Download Button */}
+            {product.technicalPassport?.fileUrl && (
+              <motion.a
+                href={product.technicalPassport.fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
+                className="group flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-earth-200 bg-earth-50 px-6 py-4 text-sm font-bold text-earth-800 shadow-sm transition-all duration-200 hover:border-earth-400 hover:bg-earth-100 hover:shadow-md active:scale-[0.98]"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-earth-200 transition-colors group-hover:bg-earth-300">
+                  <Download className="h-4 w-4 text-earth-700" />
+                </span>
+                <span className="flex-1 text-left">
+                  {product.technicalPassport.buttonLabel || "Download Technical Passport"}
+                </span>
+                <span className="text-xs font-normal text-earth-500 uppercase tracking-wider">PDF</span>
+              </motion.a>
+            )}
           </div>
           <div className="flex flex-col py-8">
             <div className="mb-4 text-sm font-bold uppercase tracking-wider text-earth-500">

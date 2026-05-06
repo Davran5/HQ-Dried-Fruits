@@ -3,6 +3,7 @@ import express, { Request } from "express";
 import path from "path";
 import multer from "multer";
 import fs from "fs";
+import sharp from "sharp";
 import mysql from "mysql2/promise";
 import React from "react";
 import { renderToString } from "react-dom/server";
@@ -181,6 +182,7 @@ async function initDb() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
 
     await addColumnIfMissing("products", "display_order", "INT NULL");
+    await addColumnIfMissing("products", "technical_passport", "TEXT");
 
     const [productRows] = await conn.execute("SELECT id, display_order FROM products");
     if (Array.isArray(productRows)) {
@@ -889,6 +891,7 @@ function mapProduct(row: any) {
         .slice(0, 5)
     : [];
   const seoFallback = { metaTitle: `${asString(row?.name)} | HQ Dried Fruits`, metaDescription: asString(row?.short_description), slug: normalizeSlug(asString(row?.id), asString(row?.id)), ogTitle: asString(row?.name), imageAlt: asString(row?.name) };
+  const parsedPassport = safeParseJson<{ fileUrl?: string; buttonLabel?: string }>(row?.technical_passport, {});
   return {
     id: asString(row?.id), name: asString(row?.name), category: asString(row?.category), status: asString(row?.status, "Active"), image: asString(row?.image),
     imageGallery: safeParseJson<string[]>(row?.image_gallery, []), shortDescription: asString(row?.short_description), longDescription: asString(row?.long_description),
@@ -899,6 +902,7 @@ function mapProduct(row: any) {
     displayOrder: Number.isFinite(Number(row?.display_order)) ? Number(row?.display_order) : undefined,
     inquirySubjectLine: asString(row?.inquiry_subject_line), tonnageOptions: safeParseJson<string[]>(row?.tonnage_options, []),
     seo: { ...seoFallback, ...parsedSeo, slug: normalizeSlug(asString(parsedSeo.slug), seoFallback.slug) },
+    technicalPassport: parsedPassport.fileUrl ? { fileUrl: asString(parsedPassport.fileUrl), buttonLabel: asString(parsedPassport.buttonLabel, "Download Technical Passport") } : undefined,
   };
 }
 
@@ -1231,6 +1235,10 @@ async function validateProductPayload(product: any, existingId = "", locale: str
     customFieldGroups,
   };
   const displayOrder = Number(product?.displayOrder);
+  const passportPayload = product?.technicalPassport;
+  const technicalPassport = passportPayload?.fileUrl
+    ? { fileUrl: asString(passportPayload.fileUrl), buttonLabel: asString(passportPayload.buttonLabel, "Download Technical Passport") }
+    : undefined;
   return {
     id: fallbackId, name: asString(product.name), category: asString(product.category), status: asString(product.status, "Active"), image: asString(product.image),
     imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [], shortDescription: asString(product.shortDescription), longDescription: asString(product.longDescription),
@@ -1238,6 +1246,7 @@ async function validateProductPayload(product: any, existingId = "", locale: str
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section: any) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
     nutrition: nutritionPayload, customFields: primaryCustomFields, customFieldGroups, displayOrder: Number.isFinite(displayOrder) ? displayOrder : undefined, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
     seo: { metaTitle: asString(seoPayload.metaTitle, `${asString(product.name)} | HQ Dried Fruits`), metaDescription: asString(seoPayload.metaDescription, asString(product.shortDescription)), slug: normalizedSeoSlug, ogTitle: asString(seoPayload.ogTitle, asString(product.name)), imageAlt: asString(seoPayload.imageAlt, asString(product.name)) },
+    technicalPassport,
   };
 }
 
@@ -1683,7 +1692,7 @@ app.post("/api/products", async (req, res) => {
     const product = await validateProductPayload(req.body ?? {}, "", locale);
     const displayOrder = product.displayOrder ?? await getNextProductDisplayOrder();
     const productToSave = { ...product, displayOrder };
-    await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`, [productToSave.id, productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, locale]);
+    await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`, [productToSave.id, productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, locale]);
     await syncProductSharedMedia(productToSave);
     res.json({ success: true, id: productToSave.id, product: productToSave });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" }); }
@@ -1712,7 +1721,7 @@ app.post("/api/products/:id", async (req, res) => {
 
     if (!existing || asString(existing?.lang, "en") !== locale || asString(existing?.id) !== asString(req.params.id)) {
       await db.query(
-        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
         [
           asString(req.params.id),
           productToSave.name,
@@ -1729,6 +1738,7 @@ app.post("/api/products/:id", async (req, res) => {
           JSON.stringify(productToSave.tonnageOptions),
           JSON.stringify(productToSave.seo),
           productToSave.displayOrder,
+          productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null,
           locale,
         ],
       );
@@ -1737,8 +1747,8 @@ app.post("/api/products/:id", async (req, res) => {
     }
 
     const result = await db.query(
-      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13, display_order = $14 WHERE id = $15 AND lang = $16`,
-      [productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, asString(req.params.id), locale],
+      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13, display_order = $14, technical_passport = $15 WHERE id = $16 AND lang = $17`,
+      [productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, asString(req.params.id), locale],
     );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
     await syncProductSharedMedia(productToSave);
@@ -1852,29 +1862,84 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const filePath = path.join(uploadsDir, filename);
 
     try {
-      type JimpImage = {
-        scaleToFit(width: number, height: number): JimpImage;
-        quality(value: number): JimpImage;
-        writeAsync(targetPath: string): Promise<void>;
-      };
-      type JimpModule = {
-        default: {
-          read(buffer: Buffer): Promise<JimpImage>;
-        };
-      };
-      const { default: Jimp } = (await import("jimp")) as unknown as JimpModule;
-      const image = await Jimp.read(uploadedFile.buffer);
-      await image
-        .scaleToFit(1200, 1200)
-        .quality(82)
-        .writeAsync(filePath);
+      const MAX_BYTES = 250 * 1024; // 250 KB hard limit
+      const qualitySteps = [80, 70, 60, 50, 40, 30];
+      const dimensionSteps = [1200, 1000, 800, 650];
+
+      let finalBuffer: Buffer | null = null;
+      let usedQuality = 80;
+      let usedDimension = 1200;
+
+      outer: for (const dim of dimensionSteps) {
+        for (const q of qualitySteps) {
+          const buf = await sharp(uploadedFile.buffer)
+            .resize(dim, dim, { fit: "inside", withoutEnlargement: true })
+            .webp({ quality: q })
+            .toBuffer();
+
+          // Always keep the last result so we have something to write even if
+          // we exhaust all steps without hitting the target.
+          finalBuffer = buf;
+          usedQuality = q;
+          usedDimension = dim;
+
+          if (buf.length <= MAX_BYTES) break outer;
+
+          // Only move to smaller dimensions after exhausting quality at this dim.
+        }
+      }
+
+      if (finalBuffer) {
+        fs.writeFileSync(filePath, finalBuffer);
+        console.log(
+          `[Upload] Processed → ${filename} | ` +
+          `${(finalBuffer.length / 1024).toFixed(1)} KB | ` +
+          `WebP q${usedQuality} | max ${usedDimension}px`
+        );
+      } else {
+        // Shouldn't happen, but guard anyway.
+        fs.writeFileSync(filePath, uploadedFile.buffer);
+      }
     } catch (err) {
-      console.warn("⚠️ Jimp resizing failed, saving original file:", err);
+      console.warn("⚠️ sharp processing failed, saving original file:", err);
       fs.writeFileSync(filePath, uploadedFile.buffer);
     }
     
     res.json({ url: `/uploads/${filename}` });
   } catch (error) { res.status(500).json({ error: "Upload failed on server" }); }
+});
+
+// Raw document upload (PDF, DOCX, etc.) — skips image processing
+const documentUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB for documents
+  fileFilter: (_req, file, cb) => {
+    const allowed = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-powerpoint",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "text/plain",
+    ];
+    cb(null, allowed.includes(file.mimetype));
+  },
+});
+
+app.post("/api/upload-document", documentUpload.single("file"), (req, res) => {
+  try {
+    const uploadedFile = (req as any).file;
+    if (!uploadedFile) return res.status(400).json({ error: "No document uploaded or file type not allowed" });
+    const ext = path.extname(uploadedFile.originalname).toLowerCase() || ".bin";
+    const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}${ext}`;
+    const filePath = path.join(uploadsDir, filename);
+    fs.writeFileSync(filePath, uploadedFile.buffer);
+    console.log(`[Upload-Doc] Saved → ${filename} (${(uploadedFile.buffer.length / 1024).toFixed(1)} KB)`);
+    res.json({ url: `/uploads/${filename}`, originalName: uploadedFile.originalname });
+  } catch (error) { res.status(500).json({ error: "Document upload failed on server" }); }
 });
 
 app.post("/api/media/delete", (req, res) => {

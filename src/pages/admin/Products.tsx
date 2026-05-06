@@ -4,6 +4,7 @@ import { Plus, Trash2, X, AlertTriangle, ChevronDown, Package, CheckCircle2, Loa
 import { Button } from "@/src/components/ui/Button";
 import { Select } from "@/src/components/ui/Select";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
+import { DocumentUploader } from "@/src/components/admin/DocumentUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { Product, ProductCustomField, ProductCustomFieldGroup } from "@/src/types/product";
@@ -33,6 +34,7 @@ const emptyProduct: Omit<Product, "id"> = {
   nutrition: { energy: "", protein: "", fat: "", carbs: "" },
   customFields: [],
   customFieldGroups: [],
+  technicalPassport: { fileUrl: "", buttonLabel: "Download Technical Passport" },
 };
 
 const MAX_CUSTOM_FIELD_CATEGORIES = 5;
@@ -569,6 +571,30 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
                 onChange={url => replaceItem(index, url)}
               />
             )}
+          />
+        </div>
+
+        {/* Technical Passport */}
+        <div className="rounded-lg border border-slate-200 bg-white/60 p-4 space-y-1">
+          <div className="mb-3">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400">Technical Passport / Datasheet</h4>
+            <p className="mt-1 text-xs text-slate-500">Upload a PDF or document. A download button will appear on the public product page.</p>
+          </div>
+          <DocumentUploader
+            fileUrl={formData.technicalPassport?.fileUrl || ""}
+            buttonLabel={formData.technicalPassport?.buttonLabel || "Download Technical Passport"}
+            onFileUrlChange={(url) =>
+              setFormData({
+                ...formData,
+                technicalPassport: { fileUrl: url, buttonLabel: formData.technicalPassport?.buttonLabel || "Download Technical Passport" },
+              })
+            }
+            onButtonLabelChange={(label) =>
+              setFormData({
+                ...formData,
+                technicalPassport: { fileUrl: formData.technicalPassport?.fileUrl || "", buttonLabel: label },
+              })
+            }
           />
         </div>
 
