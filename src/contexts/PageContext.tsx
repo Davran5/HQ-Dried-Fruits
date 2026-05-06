@@ -55,6 +55,8 @@ const defaultUiLabels = {
     getPricingLabel: "Pricing & Samples",
     viewFullCatalogLabel: "View Full Catalog",
     requestSampleLabel: "Request Samples",
+    productCardViewSpecsLabel: "View Specifications",
+    requestQuoteBtn: "Request Wholesale Quote",
     productSelectionSublabel: "Hand-selected and sun-dried.",
 
     // Meta/SEO

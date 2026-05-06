@@ -292,6 +292,8 @@ const defaultGlobalSettings = {
     productSelectionSublabel: "Hand-picked and naturally sun-dried.",
     viewFullCatalogLabel: "View Full Catalog",
     requestSampleLabel: "Request Sample",
+    productCardViewSpecsLabel: "View Specifications",
+    requestQuoteBtn: "Request Wholesale Quote",
     learnMoreLabel: "Learn About Our Export Process",
     getPricingLabel: "Get Pricing & Samples",
     
@@ -355,7 +357,7 @@ const defaultGlobalSettings = {
     // Products Page Labels
     productsTitle: "Wholesale Catalog", productsSubtitle: "Explore our export-ready collection.",
     overviewLabel: "Overview", originLabel: "Origin", benefitsLabel: "Benefits", exportLabel: "Export",
-    requestQuoteBtn: "Request Wholesale Quote", orderingFormStepLabel: "Step",
+    orderingFormStepLabel: "Step",
     privacyTitle: "Privacy Policy", termsTitle: "Terms of Service"
   },
   googleSiteVerificationId: "",

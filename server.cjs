@@ -124167,6 +124167,8 @@ var defaultUiLabels = {
   getPricingLabel: "Pricing & Samples",
   viewFullCatalogLabel: "View Full Catalog",
   requestSampleLabel: "Request Samples",
+  productCardViewSpecsLabel: "View Specifications",
+  requestQuoteBtn: "Request Wholesale Quote",
   productSelectionSublabel: "Hand-selected and sun-dried.",
   // Meta/SEO
   homeMetaTitle: "HQ Dried Fruits | High-Quality Organic Export",
@@ -126596,6 +126598,8 @@ function Products() {
   }, [location.hash, orderedProducts.length]);
   const pageData = pages.find((page) => page.id === "products");
   const content = pageData?.content;
+  const productCardViewSpecsLabel = uiLabels.productCardViewSpecsLabel || content?.viewSpecsLabel || t2("productsViewSpecs");
+  const productCardRequestQuoteLabel = uiLabels.requestQuoteBtn || t2("productsRequestQuote");
   const introShowcaseImage = content?.introImage || orderedProducts[0]?.image || content?.heroBgImage || "";
   const fallbackIntroContent = "<p>Compare origin, packaging, and buyer-ready details across every core product line from one focused catalogue.</p><p>Use this product hub to review the portfolio before sending a wholesale inquiry or opening a detailed product profile.</p>";
   const volumeOptions = content?.volumeOptions?.length > 0 ? content.volumeOptions : [t2("volOption1"), t2("volOption2"), t2("volOption3"), t2("volOption4")];
@@ -126935,7 +126939,7 @@ Selections: ${tonnageSummary}`
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-4 flex-1 lg:mt-5", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "p-1", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "grid w-full gap-3 sm:grid-cols-2", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react_router_dom7.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react_router_dom7.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: productCardViewSpecsLabel }) }),
                           /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
                             Button,
                             {
@@ -126944,7 +126948,7 @@ Selections: ${tonnageSummary}`
                               onClick: () => handleScrollToInquiry(product.id),
                               className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
                               children: [
-                                t2("productsRequestQuote"),
+                                productCardRequestQuoteLabel,
                                 " ",
                                 /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4 shrink-0" })
                               ]
@@ -135177,6 +135181,9 @@ function AdminGlobalSettings() {
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Request Sample Link", field: "requestSampleLabel", settings, setSettings }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Learn More Btn", field: "learnMoreLabel", settings, setSettings }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Pricing CTA Btn", field: "getPricingLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "col-span-full border-b border-slate-200 pb-2 pt-4", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h4", { className: "text-sm font-bold text-earth-700 uppercase tracking-wider", children: "Products Page" }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Product Card View Specifications", field: "productCardViewSpecsLabel", settings, setSettings }),
+                    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(UIField, { label: "Product Card Request Quote", field: "requestQuoteBtn", settings, setSettings }),
                     /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "col-span-full rounded-xl border border-slate-200 bg-slate-50 p-4", children: [
                       /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h5", { className: "mb-3 text-xs font-bold uppercase tracking-wider text-earth-700", children: "Homepage Category Card Visibility" }),
                       /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "grid gap-3 md:grid-cols-3", children: [
@@ -135848,6 +135855,8 @@ var defaultGlobalSettings = {
     productSelectionSublabel: "Hand-picked and naturally sun-dried.",
     viewFullCatalogLabel: "View Full Catalog",
     requestSampleLabel: "Request Sample",
+    productCardViewSpecsLabel: "View Specifications",
+    requestQuoteBtn: "Request Wholesale Quote",
     learnMoreLabel: "Learn About Our Export Process",
     getPricingLabel: "Get Pricing & Samples",
     // About Page Specifics
@@ -135954,7 +135963,6 @@ var defaultGlobalSettings = {
     originLabel: "Origin",
     benefitsLabel: "Benefits",
     exportLabel: "Export",
-    requestQuoteBtn: "Request Wholesale Quote",
     orderingFormStepLabel: "Step",
     privacyTitle: "Privacy Policy",
     termsTitle: "Terms of Service"

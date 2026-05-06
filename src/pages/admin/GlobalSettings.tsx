@@ -425,6 +425,11 @@ export function AdminGlobalSettings() {
                                                          <UIField label="Request Sample Link" field="requestSampleLabel" settings={settings} setSettings={setSettings} />
                                                          <UIField label="Learn More Btn" field="learnMoreLabel" settings={settings} setSettings={setSettings} />
                                                          <UIField label="Pricing CTA Btn" field="getPricingLabel" settings={settings} setSettings={setSettings} />
+                                                         <div className="col-span-full border-b border-slate-200 pb-2 pt-4">
+                                                             <h4 className="text-sm font-bold text-earth-700 uppercase tracking-wider">Products Page</h4>
+                                                         </div>
+                                                         <UIField label="Product Card View Specifications" field="productCardViewSpecsLabel" settings={settings} setSettings={setSettings} />
+                                                         <UIField label="Product Card Request Quote" field="requestQuoteBtn" settings={settings} setSettings={setSettings} />
                                                          <div className="col-span-full rounded-xl border border-slate-200 bg-slate-50 p-4">
                                                              <h5 className="mb-3 text-xs font-bold uppercase tracking-wider text-earth-700">Homepage Category Card Visibility</h5>
                                                              <div className="grid gap-3 md:grid-cols-3">

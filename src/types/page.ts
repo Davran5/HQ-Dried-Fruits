@@ -32,6 +32,8 @@ export interface GlobalUILabels {
     getPricingLabel: string;
     viewFullCatalogLabel: string;
     requestSampleLabel: string;
+    productCardViewSpecsLabel?: string;
+    requestQuoteBtn?: string;
     productSelectionSublabel: string;
     
     // Meta/SEO

@@ -124,6 +124,9 @@ export function Products() {
 
   const pageData = pages.find((page) => page.id === "products");
   const content: ProductsContent = pageData?.content;
+  const productCardViewSpecsLabel =
+    uiLabels.productCardViewSpecsLabel || content?.viewSpecsLabel || t("productsViewSpecs");
+  const productCardRequestQuoteLabel = uiLabels.requestQuoteBtn || t("productsRequestQuote");
   const introShowcaseImage = content?.introImage || orderedProducts[0]?.image || content?.heroBgImage || "";
   const fallbackIntroContent =
     "<p>Compare origin, packaging, and buyer-ready details across every core product line from one focused catalogue.</p><p>Use this product hub to review the portfolio before sending a wholesale inquiry or opening a detailed product profile.</p>";
@@ -569,7 +572,7 @@ export function Products() {
                           <div className="grid w-full gap-3 sm:grid-cols-2">
                             <Link to={getManagedProductPath(product, pageSeo, locale)} className="w-full">
                               <Button type="button" variant="outline" className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight">
-                                {content?.viewSpecsLabel || t("productsViewSpecs")}
+                                {productCardViewSpecsLabel}
                               </Button>
                             </Link>
                             <Button
@@ -578,7 +581,7 @@ export function Products() {
                               onClick={() => handleScrollToInquiry(product.id)}
                               className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight"
                             >
-                              {t("productsRequestQuote")} <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
+                              {productCardRequestQuoteLabel} <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
                             </Button>
                           </div>
 
