@@ -7,7 +7,7 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "server": "tsx server.ts",
     "build": "npm run clean && vite build && npm run build-server",
-    "build-server": "esbuild server.ts --bundle --platform=node --target=node18.20 --external:jimp --outfile=server.cjs --format=cjs",
+    "build-server": "esbuild server.ts --bundle --platform=node --target=node18.20 --external:jimp --external:sharp --outfile=server.cjs --format=cjs",
     "migrate:mysql": "node migrate-mysql.cjs",
     "migrate:mysql:offline": "node migrate-mysql.cjs --offline",
     "migrate:mysql:execute": "node migrate-mysql.cjs --execute --i-backed-up",
