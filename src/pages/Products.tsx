@@ -80,6 +80,7 @@ export function Products() {
   const [directContactHeight, setDirectContactHeight] = useState<number | null>(null);
   const [isDesktopViewport, setIsDesktopViewport] = useState(false);
   const [openVolumeProductId, setOpenVolumeProductId] = useState<string | null>(null);
+  const [selectedCustomFieldGroups, setSelectedCustomFieldGroups] = useState<Record<string, number>>({});
   const orderHubRef = useRef<HTMLElement | null>(null);
   const directContactRef = useRef<HTMLDivElement | null>(null);
 
@@ -386,9 +387,29 @@ export function Products() {
               const galleryImages = Array.from(
                 new Set([product.image, ...(product.imageGallery || [])].filter(Boolean)),
               ).slice(0, 3);
-              const productCustomFields = (product.customFields || [])
+              const productCustomFieldGroups = (product.customFieldGroups || [])
+                .map((group) => ({
+                  title: group.title?.trim() || product.category || product.name,
+                  fields: (group.fields || [])
+                    .filter((field) => field.label?.trim() || field.value?.trim())
+                    .slice(0, 5),
+                }))
+                .filter((group) => group.fields.length > 0)
+                .slice(0, 5);
+              const legacyCustomFields = (product.customFields || [])
                 .filter((field) => field.label?.trim() || field.value?.trim())
                 .slice(0, 5);
+              const availableCustomFieldGroups =
+                productCustomFieldGroups.length > 0
+                  ? productCustomFieldGroups
+                  : legacyCustomFields.length > 0
+                    ? [{ title: product.category || product.name, fields: legacyCustomFields }]
+                    : [];
+              const selectedCustomFieldGroupIndex = Math.min(
+                selectedCustomFieldGroups[product.id] || 0,
+                Math.max(availableCustomFieldGroups.length - 1, 0),
+              );
+              const productCustomFields = availableCustomFieldGroups[selectedCustomFieldGroupIndex]?.fields || [];
 
               return (
                 <motion.section
@@ -414,13 +435,41 @@ export function Products() {
                     >
                         <div className="flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6">
                         <div className="flex flex-col gap-4">
-                          <div>
+                          <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
+                            <div className="min-w-0">
                             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">
                               {product.category}
                             </p>
                             <h2 className="mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]">
                               {product.name}
                             </h2>
+                            </div>
+                            {availableCustomFieldGroups.length > 1 && (
+                              <div className="flex max-w-full flex-wrap gap-2 xl:justify-end">
+                                {availableCustomFieldGroups.map((group, groupIndex) => {
+                                  const isActive = groupIndex === selectedCustomFieldGroupIndex;
+                                  return (
+                                    <button
+                                      key={`${product.id}-${group.title}-${groupIndex}`}
+                                      type="button"
+                                      onClick={() =>
+                                        setSelectedCustomFieldGroups((prev) => ({
+                                          ...prev,
+                                          [product.id]: groupIndex,
+                                        }))
+                                      }
+                                      className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                                        isActive
+                                          ? "bg-earth-900 text-white"
+                                          : "bg-earth-50 text-earth-700 hover:bg-earth-100"
+                                      }`}
+                                    >
+                                      {group.title}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
                           </div>
                           <div className="grid w-full gap-3 sm:grid-cols-2">
                             <Link to={getManagedProductPath(product, pageSeo, locale)} className="w-full">
