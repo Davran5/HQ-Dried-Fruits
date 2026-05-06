@@ -12,7 +12,6 @@ import { submitLead } from "@/src/lib/leads";
 export function Contacts() {
   const { pages, pageSeo, globalSettings } = usePages();
   const { t } = useLanguage();
-  const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.contacts;
 
   useSEO({

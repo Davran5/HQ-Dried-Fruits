@@ -248,7 +248,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
                     items={content.volumeOptions || []}
                     emptyItem={""}
                     onUpdate={(items) => updateContent({ volumeOptions: items })}
-                    renderItem={(item, index, updateItem, replaceItem) => (
+                    renderItem={(item, index, _updateItem, replaceItem) => (
                         <input
                             type="text"
                             value={item}
@@ -479,7 +479,7 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Volume Placeholder</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Message Placeholder</label>
                         <input
                             type="text"
                             value={content.detailUi?.volumePlaceholder || ""}

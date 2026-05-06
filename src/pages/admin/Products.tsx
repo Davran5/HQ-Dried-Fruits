@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Edit2, Trash2, X, AlertTriangle, Image as ImageIcon, ChevronDown, Package, CheckCircle2, Loader2, GripVertical } from "lucide-react";
+import { Plus, Trash2, X, AlertTriangle, ChevronDown, Package, CheckCircle2, Loader2, GripVertical } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
 import { Select } from "@/src/components/ui/Select";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
-import { RichTextEditor } from "@/src/components/admin/forms/RichTextEditor";
 import { useProducts } from "@/src/contexts/ProductContext";
-import { Product, ProductContentSection, ProductCustomField, ProductCustomFieldGroup } from "@/src/types/product";
+import { Product, ProductCustomField, ProductCustomFieldGroup } from "@/src/types/product";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
@@ -110,7 +109,6 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     return cloneDraft(sourceData);
   };
 
-  // Refresh products whenever the editing language changes
   useEffect(() => {
     const loadLangData = async () => {
       const requestId = refreshRequestIdRef.current + 1;
@@ -542,49 +540,13 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
           </div>
         </div>
 
-        <div className="space-y-3">
-          <RichTextEditor
-            label="Product Storytelling / Long Description"
-            value={formData.longDescription || ""}
-            onChange={val => setFormData({ ...formData, longDescription: val })}
-          />
-
-          <Repeater<ProductContentSection>
-            label="Structured Product Sections"
-            items={formData.contentSections || []}
-            emptyItem={{ title: "", body: "" }}
-            onUpdate={(items) => setFormData({ ...formData, contentSections: items })}
-            renderItem={(item, index, updateItem, replaceItem) => (
-              <div className="space-y-3">
-                <div>
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-500">
-                    Section Title
-                  </label>
-                  <input
-                    type="text"
-                    value={item.title}
-                    onChange={(e) => replaceItem(index, { ...item, title: e.target.value })}
-                    className="w-full rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
-                    placeholder={`Section ${index + 1} title`}
-                  />
-                </div>
-                <RichTextEditor
-                  label="Section Body"
-                  value={item.body}
-                  onChange={(val) => replaceItem(index, { ...item, body: val })}
-                />
-              </div>
-            )}
-          />
-        </div>
-
         <div className="grid gap-4 pt-1 lg:grid-cols-2">
           <Repeater<string>
             label="Product Highlights"
             items={formData.highlights || []}
             emptyItem={""}
             onUpdate={(items) => setFormData({ ...formData, highlights: items })}
-            renderItem={(item, index, updateItem, replaceItem) => (
+            renderItem={(item, index, _updateItem, replaceItem) => (
               <input
                 type="text"
                 value={item}
@@ -600,7 +562,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
             items={formData.imageGallery || []}
             emptyItem={""}
             onUpdate={(items) => setFormData({ ...formData, imageGallery: items })}
-            renderItem={(item, index, updateItem, replaceItem) => (
+            renderItem={(item, index, _updateItem, replaceItem) => (
               <ImageUploader
                 label={`Gallery Item ${index + 1}`}
                 value={item}

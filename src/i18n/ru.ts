@@ -1,22 +1,15 @@
 import { en } from "./en";
 
 export const ru: typeof en = {
-  // Navigation
   navHome: "Главная",
   navAbout: "О нас",
   navProducts: "Продукты",
   navExport: "Экспорт",
   navContacts: "Контакты",
   navCta: "Получить цену",
-
-  // Header / Mobile menu
   mobileNavigationTitle: "Навигация",
   mobileContactTitle: "Связаться с нами",
-
-  // Language switcher
   langSwitcherLabel: "Язык",
-
-  // Footer
   footerLinksTitle: "Компания",
   footerCompanyPlaceholder: "Название компании",
   footerEmailPlaceholder: "Адрес электронной почты",
@@ -33,17 +26,11 @@ export const ru: typeof en = {
   footerInquirySuccess: "Запрос получен. Наша команда свяжется с вами в ближайшее время.",
   footerInquiryError: "Не удалось отправить запрос. Попробуйте ещё раз.",
   footerTelegramOr: "или",
-
-  // 404 / Not found
   notFoundTitle: "Страница не найдена",
   notFoundBody: "Запрошенная страница не существует или её адрес изменился.",
   notFoundButtonLabel: "На главную",
-
-  // Loading
   routeLoadingLabel: "Загрузка...",
   homeLoadingExperience: "Загрузка...",
-
-  // Products page form
   stepOneLabel: "Какие продукты вас интересуют?",
   stepTwoLabel: "Укажите объём для каждого продукта",
   stepThreeLabel: "Кому отправить коммерческое предложение?",
@@ -69,8 +56,6 @@ export const ru: typeof en = {
   productsTelegramSubtitle: "Мгновенные расчёты и PDF-каталог",
   productsCallSales: "Позвонить в отдел продаж",
   productsEmailUs: "Написать нам",
-
-  // Products page — intro cards / labels
   productsOriginEyebrow: "Происхождение: Узбекистан",
   productsIntroTitle: "Одна страница. Четыре основные линейки. Реальный контекст для покупателя.",
   productsOrchardBaseTitle: "База садоводства",
@@ -91,8 +76,6 @@ export const ru: typeof en = {
   productsWholesaleInquiry: "Оптовый запрос",
   productsViewSpecs: "Посмотреть характеристики",
   productsSelectedLabel: "{count} продукта выбрано",
-
-  // Contacts page
   contactsFormName: "Полное имя",
   contactsFormEmail: "Адрес электронной почты",
   contactsFormPhone: "Номер телефона",
@@ -115,15 +98,11 @@ export const ru: typeof en = {
   contactsPhoneLabel: "Телефон",
   contactsHeadquartersLabel: "Головной офис",
   contactsWorkingHoursLabel: "Часы работы",
-
-  // Privacy & Terms
   privacyTitle: "Политика конфиденциальности",
   privacyDescription: "Политика конфиденциальности HQ Dried Fruits.",
   termsTitle: "Условия использования",
   termsDescription: "Условия использования HQ Dried Fruits.",
   lastUpdatedLabel: "Последнее обновление",
-
-  // Home page
   homeHeroTitle: "Сладость природы, высушенная на солнце",
   homeHeroPrimaryCta: "Запросить оптовый каталог",
   homeHeroSecondaryCta: "Наши производственные мощности",
@@ -175,8 +154,6 @@ export const ru: typeof en = {
   homeExportStatBuyerReady: "Готовый комплект",
   homeExportStatTransportMode: "Вид транспорта",
   homeExportStatRoadRail: "Авто + ж/д",
-
-  // Export page
   exportHeroTitle: "Наша глобальная экспортная сеть",
   exportHeroSubtitle: "Бесперебойная глобальная логистика от сердца Шёлкового пути до вашего склада.",
   exportOpsEyebrow: "Экспортные операции",
@@ -207,8 +184,6 @@ export const ru: typeof en = {
   exportQualitySealLabel: "Знак качества продукта",
   exportCertificatesPrev: "Прокрутить сертификаты влево",
   exportCertificatesNext: "Прокрутить сертификаты вправо",
-
-  // About page
   aboutHeroTitle: "Глобальные партнёры и производственные мощности",
   aboutHeroSubtitle:
     "Более ясный взгляд на наши сады, стандарты производства и операционную инфраструктуру.",
@@ -218,8 +193,6 @@ export const ru: typeof en = {
   aboutOwnProductionTitle: "Собственное производство",
   aboutOwnProductionIntro:
     "От приёмки урожая до финальной экспортной упаковки каждый этап контролируется внутри нашей собственной операции для стабильности, прослеживаемости и готовности к требованиям покупателей.",
-
-  // Admin login
   adminLoginTitle: "Панель управления",
   adminLoginSubtitle: "Войдите для управления сайтом",
   adminLoginUsername: "Имя пользователя",

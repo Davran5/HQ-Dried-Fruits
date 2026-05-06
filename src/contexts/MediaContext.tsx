@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 interface MediaContextType {
     images: string[];
-    uploadMedia: (file: File) => Promise<string>; // Returns the backend URL string
+    uploadMedia: (file: File) => Promise<string>;
     deleteMedia: (url: string) => Promise<void>;
     refreshMedia: () => Promise<void>;
     isLoading: boolean;
@@ -23,7 +23,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
             setImages(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error("Failed to load /api/uploads", err);
-            setImages([]); // Always fallback to empty string array
+            setImages([]);
         } finally {
             setIsLoading(false);
         }
@@ -47,8 +47,8 @@ export function MediaProvider({ children }: { children: ReactNode }) {
                 }
 
                 const data = await response.json();
-                await fetchImages(); // Silently refresh the UI
-                resolve(data.url); // Returns the actual public path: e.g. /uploads/1234-image.jpg
+                await fetchImages();
+                resolve(data.url);
             } catch (error) {
                 console.error("Direct API Upload Process Failed:", error);
                 reject(error);

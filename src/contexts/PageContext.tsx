@@ -46,7 +46,6 @@ const defaultUiLabels = {
     notFoundBody: "The page you requested does not exist or its address has changed.",
     notFoundButtonLabel: "Back to Homepage",
 
-    // Core CTAs & Section Labels
     requestCatalogLabel: "Request Wholesale Catalog",
     exploreProductsLabel: "Explore Products",
     aboutCompanyLabel: "About The Company",
@@ -59,17 +58,14 @@ const defaultUiLabels = {
     requestQuoteBtn: "Request Wholesale Quote",
     productSelectionSublabel: "Hand-selected and sun-dried.",
 
-    // Meta/SEO
     homeMetaTitle: "HQ Dried Fruits | High-Quality Organic Export",
     productsMetaTitle: "Our Products | Wholesale Catalog",
     exportMetaTitle: "Global Export & Logistics",
     contactsMetaTitle: "Contact Us | Wholesale Inquiries",
 
-    // Stats
     statYearsLabel: "Years of Experience",
     statTonsLabel: "Tons Exported",
 
-    // Contact Form
     contactsTitle: "Let's Connect",
     sendInquiryTitle: "Send an Inquiry",
     formNameLabel: "Full Name",
@@ -83,7 +79,6 @@ const defaultUiLabels = {
     inquiryFailureMsg: "Submission failed. Please try again.",
     sendMessageLabel: "Send Message",
 
-    // About Section
     missionPurposeLabel: "Purpose",
     missionHeritageLabel: "Heritage",
     missionPhilosophyLabel: "Philosophy",
@@ -93,7 +88,6 @@ const defaultUiLabels = {
     missionNarrativeTitle: "What guides the way we grow, process, and deliver",
     missionNarrativeSublabel: "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.",
 
-    // Facility & Standards
     insideFacilityEyebrow: "Inside the Facility",
     haccpLabel: "HACCP Certified",
     isoLabel: "ISO 9001:2015",
@@ -101,7 +95,6 @@ const defaultUiLabels = {
     globalGapLabel: "GlobalGap",
     fdaLabel: "FDA Registered",
 
-    // Export Operations
     exportOpsEyebrow: "Export Operations",
     exportOpsTitle: "Logistics, Documentation & Packaging tailored for buyers",
     logisticsDesc1: "We provide full multimodal transport based on buyer requirements.",
@@ -113,12 +106,10 @@ const defaultUiLabels = {
     documentationTitle: "Customs Clearance",
     documentationDesc: "Full documentary support including phytosanitary and origin certificates.",
 
-    // Destination Breakdown
     destinationBreakdownEyebrow: "Export Geography",
     destinationBreakdownTitle: "Preparing every line for dispatch",
     destinationBreakdownDesc: "Export planning varies based on the destination market.",
 
-    // Quality & Harvest
     qualityGuaranteeTitle: "Quality Guarantee",
     qualityGuaranteeDesc: "Our facilities utilize laser sorting to ensure 99.9% purity across all exports.",
     qualitySealLabel: "Product Quality Seal",
@@ -129,7 +120,6 @@ const defaultUiLabels = {
     microSafeLabel: "Microbiological Safety",
     microSafeDesc: "Regular lab testing for aflatoxins and heavy metals.",
 
-    // Contacts Page Specifics
     contactsIntroFallback: "Whether you need pricing, samples, or logistics details, our team is ready to help.",
     directContactEyebrow: "Direct Contact",
     contactDetailsTitle: "Contact Details",
@@ -405,7 +395,7 @@ const initialPages: PageData[] = [
                 inquiryTitle: "Request a Sample or Quote",
                 companyPlaceholder: "Company Name",
                 emailPlaceholder: "Work Email",
-                volumePlaceholder: "Select Volume...",
+                volumePlaceholder: "Leave a message...",
                 inquiryButtonLabel: "Send Inquiry",
                 inquirySubmittingLabel: "Sending Inquiry...",
             },

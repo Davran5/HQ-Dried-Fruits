@@ -9,7 +9,6 @@ import { useProducts } from "@/src/contexts/ProductContext";
 import { canonicalizeManagedUrl, getManagedPagePath, pathsMatch } from "@/src/lib/routes";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ACTIVE_LOCALES, languageNames, getNavLabel, type Language } from "@/src/i18n";
-import type { TranslationKey } from "@/src/i18n/en";
 
 const SUPPORTED_LANGUAGES: Language[] = [...ACTIVE_LOCALES];
 
@@ -94,7 +93,6 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            {/* Language Switcher */}
             <div
               className="relative hidden h-9 w-12 md:block"
               aria-label={t("langSwitcherLabel")}
@@ -233,7 +231,6 @@ export function Header() {
                 </nav>
               </div>
 
-              {/* Mobile Language Switcher */}
               <div className="mb-8">
                 <p className="text-xs font-bold tracking-widest text-earth-400 uppercase mb-4">
                   {t("langSwitcherLabel")}

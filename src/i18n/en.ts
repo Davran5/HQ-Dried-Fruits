@@ -1,20 +1,13 @@
 export const en = {
-  // Navigation
   navHome: "Home",
   navAbout: "About",
   navProducts: "Products",
   navExport: "Export",
   navContacts: "Contacts",
   navCta: "Get Quote",
-
-  // Header / Mobile menu
   mobileNavigationTitle: "Navigation",
   mobileContactTitle: "Contact Us",
-
-  // Language switcher
   langSwitcherLabel: "Language",
-
-  // Footer
   footerLinksTitle: "Company",
   footerCompanyPlaceholder: "Company Name",
   footerEmailPlaceholder: "Email Address",
@@ -31,17 +24,11 @@ export const en = {
   footerInquirySuccess: "Request received. The sales team will contact you shortly.",
   footerInquiryError: "Submission failed. Please try again.",
   footerTelegramOr: "or",
-
-  // 404 / Not found
   notFoundTitle: "Page Not Found",
   notFoundBody: "The page you requested does not exist or its address has changed.",
   notFoundButtonLabel: "Back to Homepage",
-
-  // Loading
   routeLoadingLabel: "Loading route...",
   homeLoadingExperience: "Loading experience...",
-
-  // Products page form
   stepOneLabel: "Which products are you interested in?",
   stepTwoLabel: "Set tonnage for each selected product",
   stepThreeLabel: "Who should receive the quote?",
@@ -67,8 +54,6 @@ export const en = {
   productsTelegramSubtitle: "Instant quotes & catalog PDF",
   productsCallSales: "Call Sales",
   productsEmailUs: "Email Us",
-
-  // Products page — intro cards / labels
   productsOriginEyebrow: "Uzbekistan Origin",
   productsIntroTitle: "One Page. Four Core Product Lines. Real Buyer Context.",
   productsOrchardBaseTitle: "Orchard Base",
@@ -89,8 +74,6 @@ export const en = {
   productsWholesaleInquiry: "Wholesale Inquiry",
   productsViewSpecs: "View Specifications",
   productsSelectedLabel: "{count} products selected",
-
-  // Contacts page
   contactsFormName: "Full Name",
   contactsFormEmail: "Email Address",
   contactsFormPhone: "Phone Number",
@@ -113,15 +96,11 @@ export const en = {
   contactsPhoneLabel: "Phone",
   contactsHeadquartersLabel: "Headquarters",
   contactsWorkingHoursLabel: "Working Hours",
-
-  // Privacy & Terms
   privacyTitle: "Privacy Policy",
   privacyDescription: "Privacy policy for HQ Dried Fruits.",
   termsTitle: "Terms of Service",
   termsDescription: "Terms of service for HQ Dried Fruits.",
   lastUpdatedLabel: "Last updated",
-
-  // Home page
   homeHeroTitle: "Nature's Sweetness, Sun-Dried",
   homeHeroPrimaryCta: "Request Wholesale Catalog",
   homeHeroSecondaryCta: "Our Processing Facilities",
@@ -173,8 +152,6 @@ export const en = {
   homeExportStatBuyerReady: "Buyer-ready set",
   homeExportStatTransportMode: "Transport Mode",
   homeExportStatRoadRail: "Road + rail",
-
-  // Export page
   exportHeroTitle: "Our Global Export Network",
   exportHeroSubtitle: "Seamless global logistics from the heart of the Silk Road to your warehouse.",
   exportOpsEyebrow: "Export Operations",
@@ -205,8 +182,6 @@ export const en = {
   exportQualitySealLabel: "Product Quality Seal",
   exportCertificatesPrev: "Scroll certificates left",
   exportCertificatesNext: "Scroll certificates right",
-
-  // About page
   aboutHeroTitle: "Global Partners & Facilities",
   aboutHeroSubtitle:
     "A clearer look at the orchards, production standards, and operational infrastructure behind our export program.",
@@ -216,8 +191,6 @@ export const en = {
   aboutOwnProductionTitle: "Own Production",
   aboutOwnProductionIntro:
     "From orchard intake to final export packing, each production stage is managed inside our own operation for consistency, traceability, and buyer-ready execution.",
-
-  // Admin login
   adminLoginTitle: "Control Room",
   adminLoginSubtitle: "Sign in to manage your website",
   adminLoginUsername: "Username",

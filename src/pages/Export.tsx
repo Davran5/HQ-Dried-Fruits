@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, FileText, Package, ShieldCheck, Ship } from "lucide-react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
-import { BentoCard } from "@/src/components/ui/BentoCard";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
@@ -55,9 +54,8 @@ function getRouteLabel(route: SupplyRoute) {
 }
 
 export function Export() {
-  const { pages, pageSeo, globalSettings } = usePages();
+  const { pages, pageSeo } = usePages();
   const { t } = useLanguage();
-  const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.export;
   const springEasing = [0.25, 1, 0.5, 1];
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);

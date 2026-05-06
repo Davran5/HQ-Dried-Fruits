@@ -105,7 +105,7 @@ export function HomeForm({ content, updateContent }: Props) {
                     label="2x2 Stats Grid (Maximum 4)"
                     items={content.statsGrid || []}
                     emptyItem={{ value: "", label: "" }}
-                    onUpdate={(items) => updateContent({ statsGrid: items.slice(0, 4) })} // Enforce 4 constraint logic if needed, or just let them add
+                    onUpdate={(items) => updateContent({ statsGrid: items.slice(0, 4) })}
                     renderItem={(item, index, updateItem) => (
                         <div className="grid grid-cols-2 gap-4">
                             <div>

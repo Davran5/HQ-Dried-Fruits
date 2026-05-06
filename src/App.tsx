@@ -30,9 +30,7 @@ import { getManagedPagePath, normalizePath, parseLocalePath, resolveManagedProdu
 import { PublicBootstrapPayload } from "./types/bootstrap";
 
 function RouteLoading() {
-  const { globalSettings } = usePages();
   const { t } = useLanguage();
-  const uiLabels = globalSettings.uiLabels || {};
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-earth-50">
@@ -45,9 +43,8 @@ function RouteLoading() {
 }
 
 function NotFoundPage() {
-  const { pageSeo, globalSettings } = usePages();
+  const { pageSeo } = usePages();
   const { locale, t } = useLanguage();
-  const uiLabels = globalSettings.uiLabels || {};
 
   return (
     <PageLayout>

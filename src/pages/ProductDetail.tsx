@@ -4,7 +4,6 @@ import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
-import { Select } from "@/src/components/ui/Select";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
@@ -19,9 +18,9 @@ export function ProductDetail() {
   const { pages, pageSeo } = usePages();
   const { products, productsLoaded } = useProducts();
   const [selectedImage, setSelectedImage] = useState("");
-  const [selectedVolume, setSelectedVolume] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
+  const [inquiryMessage, setInquiryMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   const productsPage = pages.find((page) => page.id === "products");
@@ -67,11 +66,6 @@ export function ProductDetail() {
   const galleryImages = product
     ? Array.from(new Set([product.image, ...(product.imageGallery || [])].filter(Boolean)))
     : [];
-  const inquiryOptions =
-    product?.tonnageOptions?.length && product.tonnageOptions.length > 0
-      ? product.tonnageOptions
-      : ["Request Sample Box", "1 - 5 Tons", "Full Container Load (FCL)"];
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!product) return;
@@ -84,14 +78,14 @@ export function ProductDetail() {
         company,
         email,
         productInterest: product.name,
-        estTonnage: selectedVolume,
+        estTonnage: "Not specified",
         message: product.inquirySubjectLine
-          ? `${product.inquirySubjectLine}. Submitted from the product detail inquiry form.`
-          : "Submitted from the product detail inquiry form.",
+          ? `${product.inquirySubjectLine}. Submitted from the product detail inquiry form.\nMessage: ${inquiryMessage}`
+          : `Submitted from the product detail inquiry form.\nMessage: ${inquiryMessage}`,
       });
       setCompany("");
       setEmail("");
-      setSelectedVolume("");
+      setInquiryMessage("");
       setSubmitMessage("Inquiry received. The export team will follow up shortly.");
     } catch (error) {
       console.error("Failed to submit product inquiry:", error);
@@ -243,13 +237,19 @@ export function ProductDetail() {
                     className="w-full rounded-xl border border-earth-100 bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                   />
                 </div>
-                <Select
-                  value={selectedVolume}
-                  onChange={(value) => setSelectedVolume(value)}
-                  placeholder={detailUi.volumePlaceholder || "Select Volume..."}
-                  options={inquiryOptions.map((option) => ({ value: option, label: option }))}
+                <textarea
+                  required
+                  rows={4}
+                  placeholder={
+                    detailUi.volumePlaceholder && !/select volume/i.test(detailUi.volumePlaceholder)
+                      ? detailUi.volumePlaceholder
+                      : "Leave a message..."
+                  }
+                  value={inquiryMessage}
+                  onChange={(e) => setInquiryMessage(e.target.value)}
+                  className="w-full resize-none rounded-xl border border-earth-100 bg-earth-50 px-4 py-3 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
                 />
-                <Button type="submit" className="mt-2 h-12 w-full" disabled={isSubmitting}>
+                <Button type="submit" className="mt-2 h-12 w-full" disabled={isSubmitting || !email || !inquiryMessage}>
                   {isSubmitting
                     ? detailUi.inquirySubmittingLabel || "Sending Inquiry..."
                     : detailUi.inquiryButtonLabel || "Send Inquiry"}{" "}

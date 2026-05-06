@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { UploadCloud, Trash2, File, Image as ImageIcon, Copy, Check } from "lucide-react";
+import { UploadCloud, Trash2, File, Copy, Check } from "lucide-react";
 import { useMedia } from "@/src/contexts/MediaContext";
 import { Button } from "@/src/components/ui/Button";
 
@@ -59,14 +59,6 @@ export function AdminMedia() {
             setCopiedId(id);
             setTimeout(() => setCopiedId(null), 2000);
         });
-    };
-
-    const formatSize = (bytes: number) => {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     };
 
     return (

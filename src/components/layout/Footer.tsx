@@ -18,7 +18,6 @@ export function Footer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
 
-  const uiLabels = globalSettings.uiLabels || {};
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const footerDescription =
     globalSettings.footerDescription ||

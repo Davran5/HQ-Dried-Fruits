@@ -34,7 +34,6 @@ export function AdminGlobalSettings() {
         settingsDraftsRef.current = settingsDrafts;
     }, [settingsDrafts]);
 
-    // Refresh data whenever the editing language changes
     React.useEffect(() => {
         const loadLangData = async () => {
             const requestId = refreshRequestIdRef.current + 1;
@@ -55,7 +54,6 @@ export function AdminGlobalSettings() {
         loadLangData();
     }, [editingLang]);
 
-    // Sync local state with context data
     React.useEffect(() => {
         if (!isLocaleReady) return;
         setSettings(cloneDraft(settingsDraftsRef.current[editingLang] || globalSettings));
@@ -262,7 +260,7 @@ export function AdminGlobalSettings() {
                                                         items={settings.navLinks || []}
                                                         emptyItem={{ label: "", url: "" }}
                                                         onUpdate={(items) => setSettings({ ...settings, navLinks: items })}
-                                                        renderItem={(item, index, updateItem, replaceItem) => (
+                                                        renderItem={(item, index, updateItem, _replaceItem) => (
                                                             <div className="grid grid-cols-2 gap-3">
                                                                 <div>
                                                                     <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">Display Label</label>

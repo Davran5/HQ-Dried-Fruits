@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import express, { Request } from "express";
 import path from "path";
-import { fileURLToPath } from "url";
 import multer from "multer";
 import fs from "fs";
 import mysql from "mysql2/promise";
@@ -15,7 +14,6 @@ dotenv.config();
 const uploadsDir = path.join(process.cwd(), "public", "uploads");
 const distDir = path.join(process.cwd(), "dist");
 
-// ---------- MySQL Connection Pool ----------
 const parseDbPort = (value?: string) => {
   const port = Number.parseInt(value || "3306", 10);
   return Number.isFinite(port) ? port : 3306;
@@ -61,7 +59,6 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 0,
 });
 
-// ---------- DB query wrapper (mirrors old API exactly) ----------
 type DbQueryResult<T = Record<string, any>> = {
   rows: T[];
   rowCount: number;
@@ -70,7 +67,6 @@ type DbQueryResult<T = Record<string, any>> = {
 
 const db = {
   query: async <T = Record<string, any>>(sql: string, params: any[] = []): Promise<DbQueryResult<T>> => {
-    // Translate PostgreSQL $1,$2 placeholders to MySQL ? placeholders
     const mysqlSql = sql.replace(/\$(\d+)/g, "?");
     console.log(`[DB Query] ${mysqlSql} | Params: ${JSON.stringify(params)}`);
     try {
@@ -93,7 +89,6 @@ const db = {
   },
 };
 
-// ---------- Schema Bootstrap ----------
 async function initDb() {
   let conn: mysql.PoolConnection | undefined;
   try {
@@ -101,7 +96,6 @@ async function initDb() {
     conn = await pool.getConnection();
     console.log("[DB Startup] Bootstrapping MySQL schema...");
 
-    // Singleton-page tables with lang support
     await conn.execute(`CREATE TABLE IF NOT EXISTS global_settings (
       id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
       header_logo TEXT, site_name TEXT, nav_links TEXT, cta_text TEXT, cta_url TEXT,
@@ -151,7 +145,6 @@ async function initDb() {
       PRIMARY KEY (id, lang)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
 
-    // Flexible content tables (home, about, privacy, terms)
     for (const tableName of ['home_page', 'about_page', 'privacy_page', 'terms_page']) {
       await conn.execute(`CREATE TABLE IF NOT EXISTS ${tableName} (
         id INT NOT NULL DEFAULT 1, lang VARCHAR(10) NOT NULL DEFAULT 'en',
@@ -227,7 +220,6 @@ async function initDb() {
       PRIMARY KEY (page_id, lang)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
 
-    // Seed empty singleton rows for each locale if missing
     const singletonTables = ['global_settings','products_page','export_page','contacts_page','home_page','about_page','privacy_page','terms_page'];
     const langs = ['en','ru','uz'];
     for (const table of singletonTables) {
@@ -270,7 +262,6 @@ const defaultGlobalSettings = {
   officeAddress: "Amir Temur Ave 107B, Tashkent, Uzbekistan", phoneNumber: "+998 90 123 45 67", emailAddress: "export@hqdriedfruits.com", telegramUrl: "",
   footerCtaTitle: "Need a custom container quote?", footerCtaEmail: "export@hqdriedfruits.com", footerCopyrightText: "HQ Dried Fruits. All rights reserved.",
   uiLabels: { 
-    // Navigation & General
     mobileNavigationTitle: "Navigation", 
     mobileContactTitle: "Contact Us", 
     homeMetaTitle: "HQ Dried Fruits | High-Quality Organic Export",
@@ -282,7 +273,6 @@ const defaultGlobalSettings = {
     notFoundBody: "The page you requested does not exist or its address has changed.", 
     notFoundButtonLabel: "Back to Homepage",
     
-    // Homepage Specifics
     requestCatalogLabel: "Request Wholesale Catalog",
     exploreProductsLabel: "Explore Products",
     heritageSloganLabel: "Decades of expertise in every harvest.",
@@ -297,7 +287,6 @@ const defaultGlobalSettings = {
     learnMoreLabel: "Learn About Our Export Process",
     getPricingLabel: "Get Pricing & Samples",
     
-    // About Page Specifics
     heritageStat1Title: "The First Harvest", heritageStat1Desc: "Started as a small family orchard in the Fergana Valley.",
     heritageStat2Title: "Scaling Operations", heritageStat2Desc: "Introduced modern sun-drying techniques.",
     heritageStat3Title: "Going Global", heritageStat3Desc: "Achieved international organic certifications.",
@@ -314,7 +303,6 @@ const defaultGlobalSettings = {
     insideFacilityEyebrow: "Inside The Facility",
     haccpLabel: "HACCP Certified", isoLabel: "ISO 9001:2015", organicLabel: "100% Organic", globalGapLabel: "GlobalGap", fdaLabel: "FDA Registered",
     
-    // Export Page Specifics
     exportOpsEyebrow: "Export Operations", exportOpsTitle: "Built for Buyer-Specific Routing, Documentation, and Packing",
     logisticsDesc1: "We handle end-to-end multi-modal transport routing around buyer requirements, from packing format and paperwork to the most efficient lane for delivery.",
     logisticsDesc2: "Each shipment is structured around repeatability, destination compliance, and wholesale practicality so importers can move with less friction from order to warehouse receipt.",
@@ -328,7 +316,6 @@ const defaultGlobalSettings = {
     microSafeLabel: "Microbiological Safety", microSafeDesc: "Regular lab testing for aflatoxins and heavy metals.",
     qualitySealLabel: "Product Quality Seal",
     
-    // Contacts Page & Forms
     contactsTitle: "Let's Connect",
     contactsIntroFallback: "Whether you need a custom quote, a sample box, or logistics details, our export team is ready to assist you.",
     sendInquiryTitle: "Send an Inquiry",
@@ -340,7 +327,6 @@ const defaultGlobalSettings = {
     emailLabel: "Email", phoneLabel: "Phone", headquartersLabel: "Headquarters", workingHoursLabel: "Working Hours",
     homeCategoryEyebrowVisible: true, homeCategoryBadgesVisible: true, homeCategoryTypesVisible: true,
     
-    // Footer Labels
     footerLinksTitle: "Company", 
     footerCompanyPlaceholder: "Company Name", 
     footerEmailPlaceholder: "Email Address", 
@@ -354,7 +340,6 @@ const defaultGlobalSettings = {
     footerCopyright: "HQ Dried Fruits. All rights reserved.",
     footerInquirySuccess: "Thanks for reaching out! We will contact you shortly.",
 
-    // Products Page Labels
     productsTitle: "Wholesale Catalog", productsSubtitle: "Explore our export-ready collection.",
     overviewLabel: "Overview", originLabel: "Origin", benefitsLabel: "Benefits", exportLabel: "Export",
     orderingFormStepLabel: "Step",
@@ -380,7 +365,7 @@ const defaultProductsPage = {
   mixedContainerLabel: "Mixed Container", volumeOptions: ["1-5 Tons", "5-20 Tons", "1 FCL (20ft)", "Multiple FCLs"],
   viewSpecsLabel: "View Specifications", stepOnePlaceholder: "Select a product...", stepThreePlaceholder: "Work Email Address",
   nextStepButtonLabel: "Next Step", backButtonLabel: "Back", submitButtonLabel: "Get Instant Quote", submittingButtonLabel: "Sending...",
-  detailUi: { loadingLabel: "Loading Specifications...", notFoundTitle: "Product Not Found", notFoundBody: "The product you're looking for doesn't exist.", backToCatalogLabel: "Back to Catalog", nutritionTitle: "Product Information", nutritionPerLabel: "", caloriesLabel: "Field 1", proteinLabel: "Field 2", fatLabel: "Field 3", carbsLabel: "Field 4", inquiryTitle: "Request a Sample or Quote", companyPlaceholder: "Company Name", emailPlaceholder: "Work Email", volumePlaceholder: "Select Volume...", inquiryButtonLabel: "Send Inquiry", inquirySubmittingLabel: "Sending Inquiry..." },
+  detailUi: { loadingLabel: "Loading Specifications...", notFoundTitle: "Product Not Found", notFoundBody: "The product you're looking for doesn't exist.", backToCatalogLabel: "Back to Catalog", nutritionTitle: "Product Information", nutritionPerLabel: "", caloriesLabel: "Field 1", proteinLabel: "Field 2", fatLabel: "Field 3", carbsLabel: "Field 4", inquiryTitle: "Request a Sample or Quote", companyPlaceholder: "Company Name", emailPlaceholder: "Work Email", volumePlaceholder: "Leave a message...", inquiryButtonLabel: "Send Inquiry", inquirySubmittingLabel: "Sending Inquiry..." },
   quickContactTitle: "Need it faster?", quickContactSubtitle: "Skip the form. Connect with our export sales team directly for immediate assistance.",
   telegramLabel: "Telegram Bot", telegramSublabel: "Instant quotes & catalog PDF", callLabel: "Call Sales", emailLabel: "Email Us",
   quickPhone: "+998 90 123 45 67", quickEmail: "sales@hqdriedfruits.com",
@@ -681,7 +666,6 @@ function normalizePathname(pathname: string) {
   return trimmed === "" ? "/" : trimmed;
 }
 
-function stripHtml(value: string) { return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(); }
 function escapeHtml(value: string) { return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
 function toAbsoluteUrl(value: string, origin: string) {
   if (!value) return "";
@@ -705,7 +689,6 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/uploads", express.static(uploadsDir));
 
-// ---------- Auth Token Store ----------
 const activeSessions = new Set<string>();
 
 function generateToken(): string {
@@ -715,7 +698,6 @@ function generateToken(): string {
   return token;
 }
 
-// POST /api/auth/login
 app.post("/api/auth/login", (req, res) => {
   const { username, password } = req.body ?? {};
   const expectedUser = process.env.ADMIN_USERNAME || "admin";
@@ -735,7 +717,6 @@ app.post("/api/auth/login", (req, res) => {
   return res.status(401).json({ error: "Invalid username or password." });
 });
 
-// GET /api/health
 app.get("/api/health", async (_req, res) => {
   try {
     await pool.execute("SELECT 1");
@@ -745,7 +726,6 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
-// GET /api/auth/verify
 app.get("/api/auth/verify", (req, res) => {
   const authHeader = req.headers.authorization || "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
@@ -755,7 +735,6 @@ app.get("/api/auth/verify", (req, res) => {
   return res.status(401).json({ valid: false });
 });
 
-// POST /api/auth/logout
 app.post("/api/auth/logout", (req, res) => {
   const authHeader = req.headers.authorization || "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
@@ -763,7 +742,6 @@ app.post("/api/auth/logout", (req, res) => {
   return res.json({ success: true });
 });
 
-// POST /api/coming-soon-inquiry — forwards to Telegram (no auth required)
 app.post("/api/coming-soon-inquiry", async (req, res) => {
   const { name, email, message } = req.body ?? {};
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -801,7 +779,6 @@ app.post("/api/coming-soon-inquiry", async (req, res) => {
   return res.json({ success: true });
 });
 
-// POST /api/verify-password — checks the coming soon password from .env
 app.post("/api/verify-password", (req, res) => {
   const { password } = req.body ?? {};
   const actualPassword = process.env.COMING_SOON_PASSWORD;
@@ -818,13 +795,12 @@ app.post("/api/verify-password", (req, res) => {
   return res.json({ success: false });
 });
 
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
 
-// Global error handler
-app.use((err: any, req: Request, res: any, next: any) => {
+app.use((err: any, req: Request, res: any, _next: any) => {
   console.error("🔥 Global Error Handler:", err);
   res.status(500).json({ 
     error: "Internal Server Error", 
@@ -832,11 +808,6 @@ app.use((err: any, req: Request, res: any, next: any) => {
     path: req.path
   });
 });
-
-// --- ASYNC DATABASE HELPERS ---
-async function ensureSingletonRow(tableName: string) {
-  // Not needed for JSON but kept for API compatibility
-}
 
 async function getGlobalSettings(locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
@@ -1141,32 +1112,6 @@ async function getPageContent(pageId: PageId, locale: string = "en") {
   }
 
   return {};
-}
-
-function resolveStaticPageByPath(pathname: string, pageSeo: Record<PageId, SeoRecord>) {
-  const normalizedPath = normalizePathname(pathname);
-  for (const pageId of Object.keys(defaultPageSeo) as PageId[]) {
-    const canonicalPath = getManagedPagePath(pageId, pageSeo);
-    const legacyPath = getManagedPagePath(pageId);
-    if (normalizedPath === canonicalPath || normalizedPath === legacyPath) return { pageId, canonicalPath };
-  }
-  return null;
-}
-
-async function resolveProductPath(pathname: string, pageSeo: Record<PageId, SeoRecord>) {
-  const normalizedPath = normalizePathname(pathname);
-  const segments = normalizedPath.split("/").filter(Boolean);
-  if (segments.length !== 2) return null;
-  const [sectionSlug, productIdentifier] = segments;
-  const canonicalSectionSlug = getManagedPageSlug("products", pageSeo);
-  const legacySectionSlug = getManagedPageSlug("products");
-  if (sectionSlug !== canonicalSectionSlug && sectionSlug !== legacySectionSlug) return null;
-
-  const row = await findProductRowByIdentifier(productIdentifier);
-  if (!row) return null;
-
-  const product = mapProduct(row);
-  return { product, canonicalPath: getProductPath(product, pageSeo) };
 }
 
 function resolveStaticLocalePageByPath(pathname: string, pageSeo: Record<PageId, SeoRecord>, fallbackLocale: ActiveLocale = "en") {
@@ -1679,16 +1624,6 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
   };
 }
 
-// --- INITIALIZE DATABASE AND START SERVER ---
-async function initDbLegacyJsonDoNotUse() {
-  if (false) {
-    console.log("📝 Creating initial database.json...");
-    return;
-  }
-  console.log("✅ JSON database initialized");
-}
-
-// --- API ENDPOINTS ---
 app.get("/api/uploads", (_req, res) => {
   try {
     const files = fs.existsSync(uploadsDir) ? fs.readdirSync(uploadsDir) : [];
@@ -1916,10 +1851,18 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.webp`;
     const filePath = path.join(uploadsDir, filename);
 
-    // Optional: Try to use jimp for optimization
     try {
-      // @ts-ignore
-      const Jimp = (await import("jimp")).default;
+      type JimpImage = {
+        scaleToFit(width: number, height: number): JimpImage;
+        quality(value: number): JimpImage;
+        writeAsync(targetPath: string): Promise<void>;
+      };
+      type JimpModule = {
+        default: {
+          read(buffer: Buffer): Promise<JimpImage>;
+        };
+      };
+      const { default: Jimp } = (await import("jimp")) as unknown as JimpModule;
       const image = await Jimp.read(uploadedFile.buffer);
       await image
         .scaleToFit(1200, 1200)
@@ -2027,7 +1970,6 @@ if (fs.existsSync(distDir)) {
   });
 }
 
-// Start everything up safely
 const port = process.env.PORT || 10000;
 
 initDb().then(async () => {

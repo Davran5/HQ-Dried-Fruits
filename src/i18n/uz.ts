@@ -1,22 +1,15 @@
 import { en } from "./en";
 
 export const uz: typeof en = {
-  // Navigation
   navHome: "Bosh sahifa",
   navAbout: "Biz haqimizda",
   navProducts: "Mahsulotlar",
   navExport: "Eksport",
   navContacts: "Aloqa",
   navCta: "Narx olish",
-
-  // Header / Mobile menu
   mobileNavigationTitle: "Navigatsiya",
   mobileContactTitle: "Biz bilan bog'laning",
-
-  // Language switcher
   langSwitcherLabel: "Til",
-
-  // Footer
   footerLinksTitle: "Kompaniya",
   footerCompanyPlaceholder: "Kompaniya nomi",
   footerEmailPlaceholder: "Elektron pochta manzili",
@@ -33,17 +26,11 @@ export const uz: typeof en = {
   footerInquirySuccess: "So'rov qabul qilindi. Savdo jamoamiz tez orada siz bilan bog'lanadi.",
   footerInquiryError: "So'rovni yuborib bo'lmadi. Iltimos, yana urinib ko'ring.",
   footerTelegramOr: "yoki",
-
-  // 404 / Not found
   notFoundTitle: "Sahifa topilmadi",
   notFoundBody: "So'ralgan sahifa mavjud emas yoki uning manzili o'zgargan.",
   notFoundButtonLabel: "Bosh sahifaga qaytish",
-
-  // Loading
   routeLoadingLabel: "Yuklanmoqda...",
   homeLoadingExperience: "Yuklanmoqda...",
-
-  // Products page form
   stepOneLabel: "Qaysi mahsulotlar sizni qiziqtiradi?",
   stepTwoLabel: "Har bir mahsulot uchun hajmni belgilang",
   stepThreeLabel: "Tijorat taklifni kimga yuboraylik?",
@@ -69,8 +56,6 @@ export const uz: typeof en = {
   productsTelegramSubtitle: "Tezkor narxlar va PDF katalog",
   productsCallSales: "Savdo bo'limiga qo'ng'iroq",
   productsEmailUs: "Bizga email yozing",
-
-  // Products page — intro cards / labels
   productsOriginEyebrow: "O'zbekiston kelib chiqishi",
   productsIntroTitle: "Bir sahifa. To'rtta asosiy mahsulot liniyasi. Xaridor uchun haqiqiy kontekst.",
   productsOrchardBaseTitle: "Bog' asosi",
@@ -91,8 +76,6 @@ export const uz: typeof en = {
   productsWholesaleInquiry: "Ulgurji so'rov",
   productsViewSpecs: "Xususiyatlarni ko'rish",
   productsSelectedLabel: "{count} ta mahsulot tanlandi",
-
-  // Contacts page
   contactsFormName: "To'liq ism",
   contactsFormEmail: "Elektron pochta manzili",
   contactsFormPhone: "Telefon raqami",
@@ -115,15 +98,11 @@ export const uz: typeof en = {
   contactsPhoneLabel: "Telefon",
   contactsHeadquartersLabel: "Bosh ofis",
   contactsWorkingHoursLabel: "Ish vaqti",
-
-  // Privacy & Terms
   privacyTitle: "Maxfiylik siyosati",
   privacyDescription: "HQ Dried Fruits maxfiylik siyosati.",
   termsTitle: "Foydalanish shartlari",
   termsDescription: "HQ Dried Fruits foydalanish shartlari.",
   lastUpdatedLabel: "So'nggi yangilanish",
-
-  // Home page
   homeHeroTitle: "Tabiat shirinligi, quyoshda quritilgan",
   homeHeroPrimaryCta: "Ulgurji katalogni so'rash",
   homeHeroSecondaryCta: "Ishlab chiqarish quvvatlarimiz",
@@ -175,8 +154,6 @@ export const uz: typeof en = {
   homeExportStatBuyerReady: "Tayyor to'plam",
   homeExportStatTransportMode: "Transport turi",
   homeExportStatRoadRail: "Avto + t/yo'l",
-
-  // Export page
   exportHeroTitle: "Global eksport tarmog'imiz",
   exportHeroSubtitle: "Ipak yo'li markazidan omboringizgacha uzluksiz global logistika.",
   exportOpsEyebrow: "Eksport operatsiyalari",
@@ -207,8 +184,6 @@ export const uz: typeof en = {
   exportQualitySealLabel: "Mahsulot sifati belgisi",
   exportCertificatesPrev: "Sertifikatlarni chapga aylantirish",
   exportCertificatesNext: "Sertifikatlarni o'ngga aylantirish",
-
-  // About page
   aboutHeroTitle: "Global hamkorlar va ishlab chiqarish quvvatlari",
   aboutHeroSubtitle:
     "Bog'larimiz, ishlab chiqarish standartlarimiz va operatsion infratuzilmamizga yanada aniqroq nazar.",
@@ -218,8 +193,6 @@ export const uz: typeof en = {
   aboutOwnProductionTitle: "O'z ishlab chiqarishimiz",
   aboutOwnProductionIntro:
     "Hosilni qabul qilishdan tortib yakuniy eksport qadoqlashigacha bo'lgan har bir bosqich barqarorlik, kuzatuvchanlik va xaridorga tayyor ijro uchun o'zimizning operatsiyamiz ichida boshqariladi.",
-
-  // Admin login
   adminLoginTitle: "Boshqaruv paneli",
   adminLoginSubtitle: "Saytni boshqarish uchun kiring",
   adminLoginUsername: "Foydalanuvchi nomi",

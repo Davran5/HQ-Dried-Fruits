@@ -54,7 +54,6 @@ export function AdminSeoSettings() {
     seoDraftsRef.current = seoDrafts;
   }, [seoDrafts]);
 
-  // Refresh all data whenever the editing language changes
   useEffect(() => {
     const loadLangData = async () => {
       const requestId = refreshRequestIdRef.current + 1;

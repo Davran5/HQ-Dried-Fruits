@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useRef, useState, useEffect, type FormEvent, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, useState, useEffect, type FormEvent } from "react";
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -546,7 +546,6 @@ function getAdminSearchFocusTarget(element: HTMLElement | null) {
   return element.querySelector<HTMLElement>(ADMIN_FOCUS_SELECTOR);
 }
 
-// ---------- Login Screen ----------
 function LoginScreen({ onSuccess, brandLogo }: { onSuccess: () => void; brandLogo?: string }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -586,7 +585,6 @@ function LoginScreen({ onSuccess, brandLogo }: { onSuccess: () => void; brandLog
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="w-full max-w-sm"
       >
-        {/* Logo / Brand */}
         <div className="mb-8 text-center">
           <AdminBrandMark logo={brandLogo} className="mx-auto mb-4 h-14 w-14 rounded-2xl shadow-lg shadow-earth-900/40" />
           <h1 className="font-display text-2xl font-bold text-white">Control Room</h1>
@@ -662,7 +660,6 @@ function LoginScreen({ onSuccess, brandLogo }: { onSuccess: () => void; brandLog
   );
 }
 
-// ---------- Main AdminLayout Content ----------
 function AdminLayoutContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [action, setAction] = useState<SidebarAction | null>(null);
@@ -830,7 +827,6 @@ function AdminLayoutContent() {
     window.setTimeout(resolveAndReveal, result.onSelect ? 220 : 80);
   }, []);
 
-  // Verify stored token with the server on mount
   useEffect(() => {
     const token = getStoredToken();
     if (!token) {
@@ -913,7 +909,6 @@ function AdminLayoutContent() {
     };
   }, [adminDataSearchEntries, adminSearchQuery, headerTabs, isAdminSearchOpen]);
 
-  // Still checking auth
   if (isAuthenticated === null) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-950">
@@ -922,7 +917,6 @@ function AdminLayoutContent() {
     );
   }
 
-  // Not logged in → show login screen
   if (!isAuthenticated) {
     return <LoginScreen onSuccess={() => setIsAuthenticated(true)} brandLogo={brandLogo} />;
   }
@@ -1180,7 +1174,6 @@ function AdminLayoutContent() {
   );
 }
 
-// Wrapper to provide AdminLanguageContext
 export function AdminLayout() {
   return (
     <AdminLanguageProvider>

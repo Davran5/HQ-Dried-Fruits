@@ -23,7 +23,6 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
     }
   }, [showPasswordModal]);
 
-  // Hidden triple-click in top-left to open password modal
   function handleLogoClick() {
     const next = clickCount + 1;
     setClickCount(next);
@@ -89,9 +88,7 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
 
   return (
     <div className="flex flex-col h-screen max-h-screen overflow-hidden bg-bg-primary text-earth-900 font-sans relative">
-      {/* Top bar */}
       <header className="flex items-center justify-between px-6 py-2 shrink-0 z-10 relative">
-        {/* INVISIBLE hidden button — triple click to unlock */}
         <button
           className="opacity-0 hover:opacity-10 focus:opacity-10 transition-opacity p-2 flex flex-col items-start select-none outline-none"
           onClick={handleLogoClick}
@@ -106,11 +103,9 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
         </a>
       </header>
 
-      {/* Main content */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 md:px-8 text-center z-10 relative overflow-hidden">
         
         <div className="flex flex-col items-center justify-center h-full max-w-5xl w-full">
-          {/* Headline */}
           <div className="shrink-0 mb-4 md:mb-6">
             <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight mb-2 md:mb-3 tracking-tight">
               <span className="block text-earth-800">We are still</span>
@@ -123,9 +118,7 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
             </p>
           </div>
 
-          {/* Contact section */}
           <div className="w-full shrink grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 items-center bg-white/60 backdrop-blur-sm p-4 md:p-6 lg:p-8 rounded-2xl md:rounded-3xl shadow-sm border border-earth-100 text-left">
-            {/* Left: info */}
             <div className="flex flex-col gap-2 md:gap-3">
               <h2 className="font-display text-xl md:text-2xl font-bold text-earth-900 m-0">Get in touch early</h2>
               <p className="text-xs md:text-sm text-earth-700 leading-relaxed m-0">
@@ -140,7 +133,6 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
               </a>
             </div>
 
-            {/* Right: form */}
             <form className="flex flex-col gap-2 md:gap-3" onSubmit={handleFormSubmit}>
               {formState === "success" ? (
                 <div className="flex flex-col items-center justify-center gap-2 md:gap-3 p-4 md:p-8 text-center h-full min-h-[150px] md:min-h-[200px]">
@@ -207,12 +199,10 @@ export function ComingSoon({ onUnlock }: ComingSoonProps) {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="shrink-0 py-2 md:py-4 text-center text-[10px] md:text-xs text-earth-500 z-10 relative">
         <p className="m-0">© {new Date().getFullYear()} HQ Dried Fruits · Tashkent, Uzbekistan</p>
       </footer>
 
-      {/* Password modal */}
       {showPasswordModal && (
         <div className="fixed inset-0 bg-earth-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={() => setShowPasswordModal(false)}>
           <div className="bg-white border border-earth-100 rounded-2xl p-6 md:p-8 w-full max-w-sm flex flex-col gap-3 md:gap-4 items-center text-center shadow-xl relative" onClick={e => e.stopPropagation()}>

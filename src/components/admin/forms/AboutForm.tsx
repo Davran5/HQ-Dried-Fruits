@@ -226,7 +226,7 @@ export function AboutForm({ content, updateContent }: Props) {
                     items={content.heritageImagery || []}
                     emptyItem={""}
                     onUpdate={(items) => updateContent({ heritageImagery: items })}
-                    renderItem={(item, index, updateItem, replaceItem) => (
+                    renderItem={(item, index, _updateItem, replaceItem) => (
                         <ImageUploader
                             label={`Heritage Image ${index + 1}`}
                             value={item}

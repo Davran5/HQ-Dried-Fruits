@@ -25,12 +25,6 @@ export function About() {
   const content: AboutContent = pageData?.content;
   const [activeProductionIndex, setActiveProductionIndex] = useState(0);
   const [isDesktopFacilityViewport, setIsDesktopFacilityViewport] = useState(false);
-  const heritageStats = content?.heritageStats || [
-    { boxNumber: "1994", title: t("heritageStat1Title"), description: t("heritageStat1Desc") },
-    { boxNumber: "2005", title: t("heritageStat2Title"), description: t("heritageStat2Desc") },
-    { boxNumber: "2012", title: t("heritageStat3Title"), description: t("heritageStat3Desc") },
-    { boxNumber: "2023", title: t("heritageStat4Title"), description: t("heritageStat4Desc") }
-  ];
   const heritageImages =
     content?.heritageImagery?.length > 0
       ? content.heritageImagery.slice(0, 3)

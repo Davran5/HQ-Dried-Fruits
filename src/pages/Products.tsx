@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight, CheckCircle2, Phone, Mail, Send, Loader2, SunMedium, Sprout, PackageCheck, ChevronDown } from "lucide-react";
+import { motion } from "motion/react";
+import { ArrowRight, CheckCircle2, Loader2, PackageCheck, RotateCcw, Sprout, SunMedium } from "lucide-react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
 import { useSEO } from "@/src/hooks/useSEO";
@@ -9,28 +9,96 @@ import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ProductsContent } from "@/src/types/page";
-import { Product, ProductContentSection } from "@/src/types/product";
+import { Product } from "@/src/types/product";
 import { submitLead } from "@/src/lib/leads";
 import { getManagedProductPath, getManagedProductSlug } from "@/src/lib/routes";
+
+type ProductCategoryKey = "raisins" | "dried-apricot" | "prunes" | "peanuts";
+
+const PRODUCT_CATEGORY_FILTERS: Array<{
+  key: ProductCategoryKey;
+  label: string;
+  aliases: string[];
+}> = [
+  {
+    key: "raisins",
+    label: "Raisins",
+    aliases: ["raisins", "raisin", "\u0438\u0437\u044e\u043c", "mayiz"],
+  },
+  {
+    key: "dried-apricot",
+    label: "Dried Apricot",
+    aliases: ["dried apricot", "dried apricots", "apricot", "apricots", "\u043a\u0443\u0440\u0430\u0433\u0430", "quritilgan orik", "quritilgan o'rik", "orik", "o'rik"],
+  },
+  {
+    key: "prunes",
+    label: "Prunes",
+    aliases: ["prunes", "prune", "pitted prunes", "\u0447\u0435\u0440\u043d\u043e\u0441\u043b\u0438\u0432", "quritilgan qora olxo'ri", "qora olxo'ri", "olxori"],
+  },
+  {
+    key: "peanuts",
+    label: "Peanuts",
+    aliases: ["peanuts", "peanut", "\u0430\u0440\u0430\u0445\u0438\u0441", "yeryongoq", "yeryong'oq", "yer yongoq", "yer yong'oq"],
+  },
+];
+
+const ALL_CATEGORY_KEYS = PRODUCT_CATEGORY_FILTERS.map((filter) => filter.key);
 
 function stripHtml(value: string) {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-function getFallbackSections(
-  product: Product,
-  t: (key: "productsOverview" | "productsBenefits") => string,
-): ProductContentSection[] {
-  return [
-    {
-      title: t("productsOverview"),
-      body: product.longDescription || `<p>${product.shortDescription}</p>`,
-    },
-    {
-      title: t("productsBenefits"),
-      body: `<p>${product.highlights.join(". ")}</p>`,
-    },
-  ];
+function normalizeFilterText(value: string) {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\u0400-\u04ff'\s-]+/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function compactFilterText(value: string) {
+  return normalizeFilterText(value).replace(/[\s'-]+/g, "");
+}
+
+function resolveCategoryKeyFromText(value: string): ProductCategoryKey | null {
+  const normalized = normalizeFilterText(value);
+  const compact = compactFilterText(value);
+
+  if (!normalized) {
+    return null;
+  }
+
+  for (const filter of PRODUCT_CATEGORY_FILTERS) {
+    if (
+      filter.aliases.some((alias) => {
+        const normalizedAlias = normalizeFilterText(alias);
+        const compactAlias = compactFilterText(alias);
+        return normalized.includes(normalizedAlias) || compact.includes(compactAlias);
+      })
+    ) {
+      return filter.key;
+    }
+  }
+
+  return null;
+}
+
+function getProductCategoryKey(product: Product) {
+  return resolveCategoryKeyFromText(`${product.category} ${product.name}`);
+}
+
+function getInitialCategoryKeys(search: string): ProductCategoryKey[] {
+  const params = new URLSearchParams(search);
+  const requestedCategory = params.get("category");
+  const requestedKey = requestedCategory ? resolveCategoryKeyFromText(requestedCategory) : null;
+  return requestedKey ? [requestedKey] : [...ALL_CATEGORY_KEYS];
+}
+
+function getSimpleContentLabel(value: string | undefined, legacyPattern: RegExp, fallback: string) {
+  const normalized = value?.trim();
+  return normalized && !legacyPattern.test(normalized) ? normalized : fallback;
 }
 
 export function Products() {
@@ -39,24 +107,6 @@ export function Products() {
   const { products, productsLoaded } = useProducts();
   const { locale, t } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
-
-  const introFactCards = [
-    {
-      title: uiLabels.orchardBaseTitle || "Orchard Base",
-      description: uiLabels.orchardBaseDesc || "Fruit-growing zones in Uzbekistan rely on irrigated valley and foothill production systems rather than rain-fed uncertainty.",
-      icon: Sprout,
-    },
-    {
-      title: uiLabels.growingConditionsTitle || "Growing Conditions",
-      description: uiLabels.growingConditionsDesc || "Hot, dry summers and sunlight help apricots, grapes, and plums build sugar.",
-      icon: SunMedium,
-    },
-    {
-      title: uiLabels.exportReadinessTitle || "Export Readiness",
-      description: uiLabels.exportReadinessDesc || "Every line is positioned for buyer-specific cartons and repeat wholesale programs.",
-      icon: PackageCheck,
-    },
-  ];
 
   const seo = pageSeo.products;
   const springEasing = [0.25, 1, 0.5, 1];
@@ -67,44 +117,19 @@ export function Products() {
     ogTitle: seo?.ogTitle || t("productsMetaTitle"),
   });
 
-  const [selectedSections, setSelectedSections] = useState<Record<string, string>>({});
-  const [formStep, setFormStep] = useState(1);
-  const [formData, setFormData] = useState({
-    products: [] as string[],
-    volumes: {} as Record<string, string>,
-    name: "",
-    contact: "",
-  });
+  const [selectedCategoryKeys, setSelectedCategoryKeys] = useState<ProductCategoryKey[]>(() =>
+    getInitialCategoryKeys(location.search),
+  );
+  const [inquiryForm, setInquiryForm] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
-  const [directContactHeight, setDirectContactHeight] = useState<number | null>(null);
-  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
-  const [openVolumeProductId, setOpenVolumeProductId] = useState<string | null>(null);
-  const [selectedCustomFieldGroups, setSelectedCustomFieldGroups] = useState<Record<string, number>>({});
-  const orderHubRef = useRef<HTMLElement | null>(null);
-  const directContactRef = useRef<HTMLDivElement | null>(null);
 
   const activeProducts = products.filter((product) => product.status === "Active");
   const orderedProducts = activeProducts;
 
   useEffect(() => {
-    if (products.length === 0) {
-      return;
-    }
-
-    setSelectedSections((prev) => {
-      const next = { ...prev };
-      let changed = false;
-      for (const product of orderedProducts) {
-        const sections = product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product, t);
-        if (!next[product.id]) {
-          next[product.id] = sections[0]?.title || t("productsOverview");
-          changed = true;
-        }
-      }
-      return changed ? next : prev;
-    });
-  }, [products, orderedProducts, t]);
+    setSelectedCategoryKeys(getInitialCategoryKeys(location.search));
+  }, [location.search]);
 
   useEffect(() => {
     if (!location.hash) {
@@ -124,85 +149,50 @@ export function Products() {
 
   const pageData = pages.find((page) => page.id === "products");
   const content: ProductsContent = pageData?.content;
-  const productCardViewSpecsLabel =
-    uiLabels.productCardViewSpecsLabel || content?.viewSpecsLabel || t("productsViewSpecs");
-  const productCardRequestQuoteLabel = uiLabels.requestQuoteBtn || t("productsRequestQuote");
   const introShowcaseImage = content?.introImage || orderedProducts[0]?.image || content?.heroBgImage || "";
   const fallbackIntroContent =
-    "<p>Compare origin, packaging, and buyer-ready details across every core product line from one focused catalogue.</p><p>Use this product hub to review the portfolio before sending a wholesale inquiry or opening a detailed product profile.</p>";
-  const volumeOptions =
-    content?.volumeOptions?.length > 0
-      ? content.volumeOptions
-      : [t("volOption1"), t("volOption2"), t("volOption3"), t("volOption4")];
-  const telegramUrl = globalSettings.telegramUrl?.trim();
-  const quickPhoneHref = (content?.quickPhone || "+998 90 123 45 67").replace(/[^\d+]/g, "");
-  const quickEmailValue = content?.quickEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
+    "<p>Compare origin, packaging, and buyer-ready details across every core product line from one focused catalogue.</p><p>Use this product hub to review the portfolio before sending a product request or opening a detailed product profile.</p>";
+  const viewSpecificationLabel = (
+    uiLabels.productCardViewSpecsLabel ||
+    content?.viewSpecsLabel ||
+    t("productsViewSpecs") ||
+    "View Specification"
+  ).replace(/Specifications/i, "Specification");
+  const inquiryTitle = getSimpleContentLabel(content?.orderingFormTitle, /wholesale inquiry/i, "Product Inquiry");
+  const inquirySubtitle = getSimpleContentLabel(
+    content?.orderingFormSubtitle,
+    /(container schedule|step \d|tonnage)/i,
+    "Leave your name and email, and our team will follow up with the right product details.",
+  );
+  const submitButtonLabel = getSimpleContentLabel(content?.submitButtonLabel, /(instant quote|get quote)/i, "Submit");
 
-  useEffect(() => {
-    const element = directContactRef.current;
-    if (!element || typeof window === "undefined") {
-      return;
+  const productsByCategory = useMemo(() => {
+    const counts = new Map<ProductCategoryKey, number>();
+    for (const filter of PRODUCT_CATEGORY_FILTERS) {
+      counts.set(filter.key, 0);
     }
 
-    const updateHeight = () => {
-      setDirectContactHeight(element.getBoundingClientRect().height);
-    };
-
-    updateHeight();
-
-    const observer = new ResizeObserver(() => updateHeight());
-    observer.observe(element);
-    window.addEventListener("resize", updateHeight);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", updateHeight);
-    };
-  }, [content?.quickContactTitle, content?.quickContactSubtitle, content?.quickPhone, content?.quickEmail, telegramUrl]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    const updateViewport = () => {
-      setIsDesktopViewport(window.innerWidth >= 1024);
-    };
-
-    updateViewport();
-    window.addEventListener("resize", updateViewport);
-
-    return () => {
-      window.removeEventListener("resize", updateViewport);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!openVolumeProductId) {
-      return;
-    }
-
-    const handlePointerDown = (event: MouseEvent) => {
-      const target = event.target as HTMLElement | null;
-      if (!target?.closest("[data-volume-dropdown='true']")) {
-        setOpenVolumeProductId(null);
+    for (const product of orderedProducts) {
+      const key = getProductCategoryKey(product);
+      if (key) {
+        counts.set(key, (counts.get(key) || 0) + 1);
       }
-    };
-
-    document.addEventListener("mousedown", handlePointerDown);
-    return () => document.removeEventListener("mousedown", handlePointerDown);
-  }, [openVolumeProductId]);
-
-  const nextStep = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formStep === 1 && formData.products.length > 0) {
-      setFormStep(2);
-      return;
     }
 
-    if (formStep === 2 && formData.products.every((productId) => Boolean(formData.volumes[productId]))) {
-      setFormStep(formStep + 1);
-    }
+    return counts;
+  }, [orderedProducts]);
+
+  const filteredProducts = orderedProducts.filter((product) => {
+    const categoryKey = getProductCategoryKey(product);
+    return Boolean(categoryKey && selectedCategoryKeys.includes(categoryKey));
+  });
+
+  const toggleCategory = (categoryKey: ProductCategoryKey) => {
+    setSelectedCategoryKeys((currentKeys) =>
+      currentKeys.includes(categoryKey)
+        ? currentKeys.filter((key) => key !== categoryKey)
+        : [...currentKeys, categoryKey],
+    );
   };
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
@@ -211,24 +201,15 @@ export function Products() {
     setIsSubmitting(true);
 
     try {
-      const selectedProducts = formData.products
-        .map((productId) => activeProducts.find((product) => product.id === productId))
-        .filter((product): product is Product => Boolean(product));
-      const productSummary = selectedProducts.map((product) => product.name).join(", ");
-      const tonnageSummary = selectedProducts
-        .map((product) => `${product.name}: ${formData.volumes[product.id] || "Not specified"}`)
-        .join(" | ");
-
       await submitLead({
-        name: formData.name,
-        email: formData.contact,
-        productInterest: productSummary,
-        estTonnage: tonnageSummary,
-        message: `Submitted from the products page wholesale inquiry form.\nSelections: ${tonnageSummary}`,
+        name: inquiryForm.name,
+        email: inquiryForm.email,
+        productInterest: "Products page catalog inquiry",
+        estTonnage: "Not specified",
+        message: `Submitted from the simplified products page catalog form.\nMessage: ${inquiryForm.message}`,
       });
       setSubmitMessage(t("contactsFormSuccess"));
-      setFormData({ products: [], volumes: {}, name: "", contact: "" });
-      setFormStep(1);
+      setInquiryForm({ name: "", email: "", message: "" });
     } catch (error) {
       console.error("Failed to submit products inquiry:", error);
       setSubmitMessage(t("contactsFormError"));
@@ -236,37 +217,6 @@ export function Products() {
       setIsSubmitting(false);
     }
   };
-
-  const handleScrollToInquiry = (productId: string) => {
-    setFormStep(1);
-    setFormData((prev) =>
-      prev.products.includes(productId) ? prev : { ...prev, products: [...prev.products, productId] },
-    );
-    orderHubRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const toggleInquiryProduct = (productId: string) => {
-    setFormData((prev) => {
-      const isSelected = prev.products.includes(productId);
-
-      if (isSelected) {
-        const nextVolumes = { ...prev.volumes };
-        delete nextVolumes[productId];
-        return {
-          ...prev,
-          products: prev.products.filter((id) => id !== productId),
-          volumes: nextVolumes,
-        };
-      }
-
-      return {
-        ...prev,
-        products: [...prev.products, productId],
-      };
-    });
-  };
-
-  const currentStepText = t("productsStepIndicator").replace("{step}", formStep.toString());
 
   return (
     <PageLayout>
@@ -350,11 +300,14 @@ export function Products() {
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            {(content?.introFacts?.length > 0 ? content.introFacts : [
-              { title: t("productsOrchardBaseTitle"), description: t("productsOrchardBaseDesc") },
-              { title: t("productsGrowingConditionsTitle"), description: t("productsGrowingConditionsDesc") },
-              { title: t("productsExportReadinessTitle"), description: t("productsExportReadinessDesc") }
-            ]).map((card, idx) => {
+            {(content?.introFacts?.length > 0
+              ? content.introFacts
+              : [
+                  { title: t("productsOrchardBaseTitle"), description: t("productsOrchardBaseDesc") },
+                  { title: t("productsGrowingConditionsTitle"), description: t("productsGrowingConditionsDesc") },
+                  { title: t("productsExportReadinessTitle"), description: t("productsExportReadinessDesc") },
+                ]
+            ).map((card, idx) => {
               const Icon = idx === 0 ? Sprout : idx === 1 ? SunMedium : PackageCheck;
               return (
                 <div key={idx} className="rounded-[2rem] border border-earth-100 bg-earth-50 px-5 py-4">
@@ -373,564 +326,190 @@ export function Products() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="mb-8 flex flex-col gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">Filter by category</p>
+            <h2 className="mt-3 font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-4xl">
+              Product Catalog
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-2.5">
+            {PRODUCT_CATEGORY_FILTERS.map((filter) => {
+              const isActive = selectedCategoryKeys.includes(filter.key);
+              const productCount = productsByCategory.get(filter.key) || 0;
+
+              return (
+                <button
+                  key={filter.key}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => toggleCategory(filter.key)}
+                  className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all ${
+                    isActive
+                      ? "border-earth-700 bg-earth-900 text-white shadow-sm shadow-earth-200"
+                      : "border-earth-200 bg-white text-earth-700 hover:border-earth-300 hover:bg-earth-50"
+                  }`}
+                >
+                  <span>{filter.label}</span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs ${
+                      isActive ? "bg-white/14 text-white" : "bg-earth-50 text-earth-500"
+                    }`}
+                  >
+                    {productCount}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {!productsLoaded ? (
           <div className="flex h-full items-center justify-center py-20">
             <Loader2 className="h-12 w-12 animate-spin text-earth-500" />
           </div>
-        ) : (
-          <div className="space-y-8">
-            {orderedProducts.map((product, index) => {
-              const isReversed = index % 2 === 1;
+        ) : filteredProducts.length > 0 ? (
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {filteredProducts.map((product, index) => {
               const slug = getManagedProductSlug(product);
-              const contentSections =
-                product.contentSections?.length > 0 ? product.contentSections : getFallbackSections(product, t);
-              const selectedTitle = selectedSections[product.id] || contentSections[0]?.title || uiLabels.overviewLabel || t("productsOverview");
-              const selectedSection =
-                contentSections.find((section) => section.title === selectedTitle) || contentSections[0];
-              const galleryImages = Array.from(
-                new Set([product.image, ...(product.imageGallery || [])].filter(Boolean)),
-              ).slice(0, 3);
-              const productCustomFieldGroups = (product.customFieldGroups || [])
-                .map((group) => ({
-                  title: group.title?.trim() || product.category || product.name,
-                  fields: (group.fields || [])
-                    .filter((field) => field.label?.trim() || field.value?.trim())
-                    .slice(0, 5),
-                }))
-                .filter((group) => group.fields.length > 0)
-                .slice(0, 5);
-              const legacyCustomFields = (product.customFields || [])
-                .filter((field) => field.label?.trim() || field.value?.trim())
-                .slice(0, 5);
-              const availableCustomFieldGroups =
-                productCustomFieldGroups.length > 0
-                  ? productCustomFieldGroups
-                  : legacyCustomFields.length > 0
-                    ? [{ title: product.category || product.name, fields: legacyCustomFields }]
-                    : [];
-              const selectedCustomFieldGroupIndex = Math.min(
-                selectedCustomFieldGroups[product.id] || 0,
-                Math.max(availableCustomFieldGroups.length - 1, 0),
-              );
-              const productCustomFields = availableCustomFieldGroups[selectedCustomFieldGroupIndex]?.fields || [];
+              const image = product.image || product.imageGallery?.find(Boolean) || "";
+              const highlights = (product.highlights || []).filter(Boolean).slice(0, 3);
 
               return (
-                <motion.section
+                <motion.article
                   id={slug}
                   key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-120px" }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="scroll-mt-28"
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.2), ease: "easeOut" }}
+                  className="group flex min-h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.65rem] border border-earth-100 bg-white shadow-sm shadow-earth-100/70 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-earth-200/40"
                 >
-                  <div
-                    className={`grid items-start gap-5 rounded-none border-0 bg-transparent p-0 shadow-none sm:gap-6 sm:rounded-[3rem] sm:border sm:border-earth-100 sm:bg-white sm:p-8 sm:shadow-sm sm:shadow-earth-100/70 lg:p-10 ${
-                      isReversed
-                        ? "lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"
-                        : "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
-                    }`}
-                  >
-                    <div
-                      className={`min-w-0 flex flex-col ${
-                        isReversed ? "lg:order-2" : ""
-                      }`}
-                    >
-                        <div className="flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6">
-                        <div className="flex flex-col gap-4">
-                          <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
-                            <div className="min-w-0">
-                            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">
-                              {product.category}
-                            </p>
-                            <h2 className="mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]">
-                              {product.name}
-                            </h2>
-                            </div>
-                            {availableCustomFieldGroups.length > 1 && (
-                              <div className="flex max-w-full flex-wrap gap-2 xl:justify-end">
-                                {availableCustomFieldGroups.map((group, groupIndex) => {
-                                  const isActive = groupIndex === selectedCustomFieldGroupIndex;
-                                  return (
-                                    <button
-                                      key={`${product.id}-${group.title}-${groupIndex}`}
-                                      type="button"
-                                      aria-pressed={isActive}
-                                      onClick={() =>
-                                        setSelectedCustomFieldGroups((prev) => ({
-                                          ...prev,
-                                          [product.id]: groupIndex,
-                                        }))
-                                      }
-                                      className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-                                        isActive
-                                          ? "bg-earth-900 text-white"
-                                          : "bg-earth-50 text-earth-700 hover:bg-earth-100"
-                                      }`}
-                                    >
-                                      {group.title}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            )}
-                          </div>
-                          {productCustomFields.length > 0 && (
-                            <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5">
-                              {productCustomFields.map((field, fieldIndex) => (
-                                <div key={`${field.label}-${fieldIndex}`} className="flex min-h-[3.35rem] flex-col items-center justify-center px-2 py-1.5 text-center">
-                                  <div className="text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400">{field.label}</div>
-                                  <div className="mt-1 text-center text-[0.82rem] font-semibold leading-tight text-earth-900 lg:text-[0.95rem]">{field.value}</div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
+                  <div className="relative h-36 overflow-hidden bg-earth-100 sm:h-40">
+                    {image ? (
+                      <img
+                        src={image}
+                        alt={product.seo?.imageAlt || product.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-earth-100 via-earth-50 to-white text-earth-400">
+                        {"No image added yet"}
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-earth-900/26 via-transparent to-transparent" />
+                  </div>
 
-                        <p className="max-w-3xl text-base leading-7 text-earth-700 sm:text-lg sm:leading-relaxed">
-                          {stripHtml(product.shortDescription)}
+                  <div className="flex flex-1 flex-col p-4 sm:p-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-earth-400">
+                      {product.category}
+                    </p>
+                    <h3 className="mt-1.5 font-display text-[1.45rem] font-bold leading-tight text-earth-900 sm:text-[1.6rem]">
+                      {product.name}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-5 text-earth-700">
+                      {stripHtml(product.shortDescription)}
+                    </p>
+
+                    {highlights.length > 0 && (
+                      <div className="mt-3">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
+                          {t("productsSellingPoints")}
                         </p>
-                      </div>
-
-                      <div className="mt-5 min-h-0 overflow-hidden px-0 py-0 sm:px-1 sm:py-1 lg:mt-6">
-                        <div className="flex flex-wrap gap-2 border-b border-earth-100 pb-4">
-                          {contentSections.map((section) => {
-                            const isActive = section.title === selectedTitle;
-                            const labelMap: Record<string, string> = {
-                              "Origin & Growing Conditions": t("productsOverview"),
-                              "Benefits & Buyer Uses": t("productsBenefits"),
-                              "Export & Handling": t("productsExport"),
-                              "Assembly & Sourcing": t("productsOverview"),
-                            };
-                            const displayLabel = labelMap[section.title] || section.title;
-                            return (
-                              <button
-                                key={section.title}
-                                type="button"
-                                onClick={() =>
-                                  setSelectedSections((prev) => ({ ...prev, [product.id]: section.title }))
-                                }
-                                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                                  isActive
-                                    ? "bg-earth-900 text-white"
-                                    : "bg-transparent text-earth-700 hover:bg-earth-50"
-                                }`}
-                              >
-                                {displayLabel}
-                              </button>
-                            );
-                          })}
-                        </div>
-
-                        <div className="mt-5 min-h-0 lg:max-w-[38rem] lg:overflow-visible">
-                          <AnimatePresence mode="wait">
-                            <motion.div
-                              key={`${product.id}-${selectedSection?.title}`}
-                              initial={{ opacity: 0, y: 12 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -12 }}
-                              transition={{ duration: 0.28, ease: "easeOut" }}
-                            >
-                              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-earth-400">
-                                {{
-                                  "Origin & Growing Conditions": t("productsOverview"),
-                                  "Benefits & Buyer Uses": t("productsBenefits"),
-                                  "Export & Handling": t("productsExport"),
-                                  "Assembly & Sourcing": t("productsOverview"),
-                                }[selectedSection?.title || ""] || selectedSection?.title}
-                              </p>
-                              <div
-                                className="prose prose-sm mt-4 max-w-none break-words text-earth-700 prose-p:leading-relaxed prose-p:text-earth-700 prose-strong:text-earth-900 prose-li:leading-relaxed prose-li:text-earth-700"
-                                dangerouslySetInnerHTML={{
-                                  __html: selectedSection?.body || `<p>${t("productsNoInfo")}</p>`,
-                                }}
-                              />
-                            </motion.div>
-                          </AnimatePresence>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div
-                      className={`min-w-0 flex flex-col ${
-                        isReversed ? "lg:order-1" : ""
-                      }`}
-                    >
-                      <div className="relative overflow-hidden rounded-[2.5rem] bg-earth-100">
-                        <img
-                          src={galleryImages[0] || product.image}
-                          alt={product.seo?.imageAlt || product.name}
-                          className="h-[14rem] w-full object-cover sm:h-[20rem] lg:h-[18rem]"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-earth-900/28 via-transparent to-transparent" />
-                      </div>
-
-                      <div className="mt-4 flex-1 lg:mt-5">
-                        <div className="p-1">
-                          <div className="grid w-full gap-3 sm:grid-cols-2">
-                            <Link to={getManagedProductPath(product, pageSeo, locale)} className="w-full">
-                              <Button type="button" variant="outline" className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight">
-                                {productCardViewSpecsLabel}
-                              </Button>
-                            </Link>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              onClick={() => handleScrollToInquiry(product.id)}
-                              className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight"
-                            >
-                              {productCardRequestQuoteLabel} <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
-                            </Button>
-                          </div>
-
-                          <div className="mt-4 border-t border-earth-100 pt-4">
-                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
-                              {t("productsSellingPoints")}
-                            </p>
-                            <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5">
-                              {product.highlights.map((highlight) => (
-                                <div
-                                  key={highlight}
-                                  className="flex items-start gap-3 px-1 py-1 text-sm leading-relaxed text-earth-800"
-                                >
-                                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-earth-500" />
-                                  <span>{highlight}</span>
-                                </div>
-                              ))}
+                        <div className="mt-2 space-y-1.5">
+                          {highlights.map((highlight) => (
+                            <div key={highlight} className="flex items-start gap-2 text-xs leading-5 text-earth-800">
+                              <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-earth-500" />
+                              <span className="line-clamp-1">{highlight}</span>
                             </div>
-                          </div>
+                          ))}
                         </div>
                       </div>
+                    )}
+
+                    <div className="mt-auto pt-4">
+                      <Link to={getManagedProductPath(product, pageSeo, locale)} className="block">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="h-auto min-h-10 w-full whitespace-normal border-earth-200 bg-white px-4 py-2.5 text-center text-sm leading-tight"
+                        >
+                          {viewSpecificationLabel}
+                          <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-                </motion.section>
+                </motion.article>
               );
             })}
+          </div>
+        ) : (
+          <div className="rounded-[2.25rem] border border-dashed border-earth-200 bg-white px-6 py-12 text-center">
+            <h3 className="font-display text-3xl font-bold text-earth-900">No products visible</h3>
+            <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-earth-700">
+              Select at least one category to show catalog items.
+            </p>
+            <Button type="button" variant="outline" className="mt-6" onClick={() => setSelectedCategoryKeys([...ALL_CATEGORY_KEYS])}>
+              <RotateCcw className="mr-2 h-4 w-4" />
+              Show all categories
+            </Button>
           </div>
         )}
       </section>
 
-      <section
-        ref={orderHubRef}
-        className="mx-auto mb-8 max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
-      >
-        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.32fr)_minmax(20rem,0.68fr)]">
-          <div
-            className="flex flex-col rounded-[3rem] border border-earth-100 bg-white p-8 shadow-xl shadow-earth-200/50 sm:p-10"
-            style={isDesktopViewport && directContactHeight ? { minHeight: `${Math.max(directContactHeight - 18, 0)}px` } : undefined}
-          >
-            <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
-              <h2 className="font-display text-3xl font-bold text-earth-900">
-                {content?.orderingFormTitle || t("productsWholesaleInquiry")}
-              </h2>
-              <p className="pt-1 text-right text-earth-600">
-                {content?.orderingFormSubtitle || currentStepText}
-              </p>
-            </div>
-
-            <div className="relative min-h-[24rem] flex-1">
-              <AnimatePresence mode="wait">
-                {formStep === 1 && (
-                  <motion.form
-                    key="step1"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    onSubmit={nextStep}
-                    className="flex flex-col gap-4"
-                  >
-                    <div className="flex flex-wrap items-start justify-between gap-4">
-                      <label className="text-lg font-medium text-earth-800">
-                        {content?.stepOneLabel || t("stepOneLabel")}
-                      </label>
-                      <Button type="submit" className="self-start" disabled={formData.products.length === 0}>
-                        {content?.nextStepButtonLabel || t("nextStepButtonLabel")} <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </div>
-
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      {orderedProducts.map((product) => {
-                        const isSelected = formData.products.includes(product.id);
-
-                        return (
-                          <button
-                            key={product.id}
-                            type="button"
-                            onClick={() => toggleInquiryProduct(product.id)}
-                            className={`flex min-h-[7.25rem] items-center rounded-[1.6rem] border px-4 py-4 text-left transition-all ${
-                              isSelected
-                                ? "border-earth-600 bg-[#fffcfb] shadow-[0_16px_28px_rgba(84,39,70,0.08)]"
-                                : "border-earth-100 bg-earth-50 hover:border-earth-200 hover:bg-white"
-                            }`}
-                          >
-                            <div className="flex w-full items-center justify-between gap-4">
-                              <h3 className="min-w-0 break-words font-display text-[1.15rem] font-bold leading-tight text-earth-900 sm:text-[1.35rem] lg:text-[1.45rem]">
-                                {product.name}
-                              </h3>
-                              <CheckCircle2
-                                className={`h-5 w-5 shrink-0 ${isSelected ? "text-earth-600" : "text-earth-200"}`}
-                              />
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div className="mt-1">
-                      <p className="text-sm text-earth-600">
-                        {formData.products.length > 0
-                          ? t("productsSelectedLabel").replace("{count}", formData.products.length.toString())
-                          : t("productsSelectToContinue")}
-                      </p>
-                    </div>
-                  </motion.form>
-                )}
-
-                {formStep === 2 && (
-                  <motion.form
-                    key="step2"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    onSubmit={nextStep}
-                    className="flex flex-col gap-4"
-                  >
-                    <div className="flex flex-wrap items-start justify-between gap-4">
-                      <label className="text-lg font-medium text-earth-800">
-                        {content?.stepTwoLabel || t("stepTwoLabel")}
-                      </label>
-                      <div className="flex gap-3">
-                        <Button type="button" variant="ghost" onClick={() => setFormStep(1)}>
-                          {content?.backButtonLabel || t("backButtonLabel")}
-                        </Button>
-                        <Button
-                          type="submit"
-                          disabled={!formData.products.every((productId) => Boolean(formData.volumes[productId]))}
-                        >
-                          {content?.nextStepButtonLabel || t("nextStepButtonLabel")} <ArrowRight className="ml-2 h-5 w-5" />
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      {formData.products.map((productId) => {
-                        const selectedProduct = orderedProducts.find((product) => product.id === productId);
-                        if (!selectedProduct) {
-                          return null;
-                        }
-
-                        return (
-                          <div
-                            key={productId}
-                            className="rounded-[1.6rem] border border-earth-100 bg-[#fffcfb] px-4 py-4"
-                          >
-                            <div className="mb-2">
-                              <h3 className="min-w-0 break-words font-display text-[1.15rem] font-bold leading-tight text-earth-900 sm:text-[1.35rem] lg:text-[1.45rem]">
-                                {selectedProduct.name}
-                              </h3>
-                            </div>
-
-                            <div className="relative" data-volume-dropdown="true">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setOpenVolumeProductId((current) => (current === productId ? null : productId))
-                                }
-                                className="flex w-full items-center justify-between rounded-[1.1rem] border border-earth-200 bg-[linear-gradient(180deg,#fcf5fa_0%,#fffafc_100%)] px-4 py-3 text-left text-sm font-semibold text-earth-800 outline-none transition-all hover:border-earth-300 focus:border-earth-500 focus:ring-2 focus:ring-earth-200"
-                              >
-                                <span className={formData.volumes[productId] ? "text-earth-800" : "text-earth-500"}>
-                                  {formData.volumes[productId] || t("productsSelectTonnage")}
-                                </span>
-                                <ChevronDown
-                                  size={18}
-                                  className={`shrink-0 text-earth-500 transition-transform ${openVolumeProductId === productId ? "rotate-180" : ""}`}
-                                />
-                              </button>
-
-                              {openVolumeProductId === productId && (
-                                <div className="absolute inset-x-0 top-[calc(100%+0.45rem)] z-20 overflow-hidden rounded-[1.1rem] border border-earth-200 bg-[linear-gradient(180deg,#fffafc_0%,#fcf5fa_100%)] p-1.5 shadow-[0_18px_36px_rgba(84,39,70,0.12)]">
-                                  {volumeOptions.map((volume) => {
-                                    const isSelected = formData.volumes[productId] === volume;
-
-                                    return (
-                                      <button
-                                        key={`${productId}-${volume}`}
-                                        type="button"
-                                        onClick={() => {
-                                          setFormData((prev) => ({
-                                            ...prev,
-                                            volumes: { ...prev.volumes, [productId]: volume },
-                                          }));
-                                          setOpenVolumeProductId(null);
-                                        }}
-                                        className={`flex w-full items-center justify-between rounded-[0.9rem] px-3 py-2.5 text-sm font-medium transition-all ${
-                                          isSelected
-                                            ? "bg-earth-600 text-white"
-                                            : "text-earth-800 hover:bg-white"
-                                        }`}
-                                      >
-                                        <span>{volume}</span>
-                                        {isSelected && <CheckCircle2 size={16} className="shrink-0" />}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </motion.form>
-                )}
-
-                {formStep === 3 && (
-                  <motion.form
-                    key="step3"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    onSubmit={handleLeadSubmit}
-                    className="flex flex-col gap-4"
-                  >
-                    <div className="flex flex-wrap items-start justify-between gap-4">
-                      <label className="text-lg font-medium text-earth-800">
-                        {content?.stepThreeLabel || t("stepThreeLabel")}
-                      </label>
-                      <div className="flex gap-3">
-                        <Button type="button" variant="ghost" onClick={() => setFormStep(2)}>
-                          {content?.backButtonLabel || t("backButtonLabel")}
-                        </Button>
-                        <Button type="submit" disabled={isSubmitting || !formData.name || !formData.contact}>
-                          {isSubmitting
-                            ? content?.submittingButtonLabel || t("submittingButtonLabel")
-                            : content?.submitButtonLabel || t("submitButtonLabel")}
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <input
-                        type="text"
-                        required
-                        placeholder={t("contactsFormName")}
-                        className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      />
-                      <input
-                        type="email"
-                        required
-                        placeholder={content?.stepThreePlaceholder || t("stepThreePlaceholder")}
-                        className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
-                        value={formData.contact}
-                        onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                      />
-                    </div>
-
-                    <div className="rounded-[1.75rem] border border-earth-100 bg-earth-50 px-4 py-3.5">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-earth-400">
-                        {t("productsInquirySummary")}
-                      </p>
-                      <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
-                        {formData.products.map((productId) => {
-                          const selectedProduct = orderedProducts.find((product) => product.id === productId);
-                          if (!selectedProduct) {
-                            return null;
-                          }
-
-                          return (
-                            <div
-                              key={`summary-${productId}`}
-                              className="rounded-[1.2rem] bg-white px-4 py-2.5 text-sm text-earth-800"
-                            >
-                              <div className="font-semibold text-earth-900">{selectedProduct.name}</div>
-                              <div className="mt-1 text-earth-600">{formData.volumes[productId]}</div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {submitMessage && (
-              <div className="mt-6 flex items-center gap-2 rounded-2xl bg-earth-50 px-4 py-3 text-sm text-earth-700">
-                <CheckCircle2 size={16} className="text-earth-500" />
-                <span>{submitMessage}</span>
-              </div>
-            )}
-          </div>
-
-          <div ref={directContactRef} className="flex h-full flex-col gap-6 p-1">
+      <section className="mx-auto mb-12 max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+        <div className="rounded-[2.75rem] border border-earth-100 bg-[linear-gradient(180deg,#fffdfd_0%,#fcf5fa_100%)] p-6 shadow-xl shadow-earth-200/40 sm:p-8 lg:p-10">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-earth-400">{t("productsDirectContact")}</p>
-              <h2 className="mt-3 font-display text-3xl font-bold text-earth-900">
-                {content?.quickContactTitle || t("productsNeedItFaster")}
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">Catalog request</p>
+              <h2 className="mt-3 font-display text-[2.2rem] font-bold leading-tight text-earth-900 sm:text-4xl">
+                {inquiryTitle}
               </h2>
-              <p className="mt-3 text-base leading-7 text-earth-700">
-                {content?.quickContactSubtitle ||
-                  t("productsSkipForm")}
+              <p className="mt-4 max-w-xl text-base leading-7 text-earth-700">
+                {inquirySubtitle}
               </p>
             </div>
 
-            <div className="flex flex-col gap-3">
-              <a
-                href={telegramUrl || "#"}
-                target={telegramUrl ? "_blank" : undefined}
-                rel={telegramUrl ? "noreferrer" : undefined}
-                aria-disabled={!telegramUrl}
-                className={`group flex items-center gap-4 rounded-[1.8rem] bg-transparent px-5 py-4 transition-all hover:bg-earth-100/80 hover:shadow-sm ${
-                  telegramUrl ? "" : "cursor-default"
-                }`}
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-earth-600 shadow-sm">
-                  <Send size={20} />
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold text-earth-900">
-                    {content?.telegramLabel || t("productsTelegramBot")}
-                  </h3>
-                  <p className="text-sm text-earth-600">
-                    {content?.telegramSublabel || t("productsTelegramSubtitle")}
-                  </p>
-                </div>
-              </a>
+            <form onSubmit={handleLeadSubmit} className="rounded-[2rem] border border-earth-100 bg-white p-4 shadow-sm shadow-earth-100/80 sm:p-5">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input
+                  type="text"
+                  required
+                  placeholder={t("contactsFormName")}
+                  className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
+                  value={inquiryForm.name}
+                  onChange={(e) => setInquiryForm({ ...inquiryForm, name: e.target.value })}
+                />
+                <input
+                  type="email"
+                  required
+                  placeholder={content?.stepThreePlaceholder || t("stepThreePlaceholder")}
+                  className="w-full rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
+                  value={inquiryForm.email}
+                  onChange={(e) => setInquiryForm({ ...inquiryForm, email: e.target.value })}
+                />
+              </div>
+              <textarea
+                required
+                rows={4}
+                placeholder="Leave a message..."
+                className="mt-3 w-full resize-none rounded-xl border border-earth-200 bg-earth-50 p-3.5 text-earth-900 outline-none focus:ring-2 focus:ring-earth-500"
+                value={inquiryForm.message}
+                onChange={(e) => setInquiryForm({ ...inquiryForm, message: e.target.value })}
+              />
+              <Button type="submit" className="mt-3 w-full sm:w-auto" disabled={isSubmitting || !inquiryForm.name || !inquiryForm.email || !inquiryForm.message}>
+                {isSubmitting ? content?.submittingButtonLabel || t("submittingButtonLabel") : submitButtonLabel}
+              </Button>
 
-              <a
-                href={`tel:${quickPhoneHref}`}
-                className="group flex items-center gap-4 rounded-[1.8rem] bg-transparent px-5 py-4 transition-all hover:bg-earth-100/80 hover:shadow-sm"
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-earth-600 shadow-sm">
-                  <Phone size={20} />
+              {submitMessage && (
+                <div className="mt-4 flex items-center gap-2 rounded-2xl bg-earth-50 px-4 py-3 text-sm text-earth-700">
+                  <CheckCircle2 size={16} className="text-earth-500" />
+                  <span>{submitMessage}</span>
                 </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold text-earth-900">
-                    {content?.callLabel || t("productsCallSales")}
-                  </h3>
-                  <p className="text-sm text-earth-600">{content?.quickPhone || "+998 90 123 45 67"}</p>
-                </div>
-              </a>
-
-              <a
-                href={`mailto:${quickEmailValue}`}
-                className="group flex items-center gap-4 rounded-[1.8rem] bg-transparent px-5 py-4 transition-all hover:bg-earth-100/80 hover:shadow-sm"
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-earth-600 shadow-sm">
-                  <Mail size={20} />
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold text-earth-900">
-                    {content?.emailLabel || t("productsEmailUs")}
-                  </h3>
-                  <p className="text-sm text-earth-600">{quickEmailValue}</p>
-                </div>
-              </a>
-            </div>
+              )}
+            </form>
           </div>
         </div>
       </section>

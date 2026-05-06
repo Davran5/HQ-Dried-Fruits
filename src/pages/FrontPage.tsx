@@ -10,6 +10,22 @@ import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ExportContent, HomeContent } from "@/src/types/page";
 import { getManagedPagePath } from "@/src/lib/routes";
 
+function getHomepageCategoryFilterKey(categoryName: string) {
+    const normalized = categoryName.toLowerCase();
+
+    if (normalized.includes("raisin")) return "raisins";
+    if (normalized.includes("apricot")) return "dried-apricot";
+    if (normalized.includes("prune")) return "prunes";
+    if (normalized.includes("peanut")) return "peanuts";
+
+    return "";
+}
+
+function getHomepageCategoryCatalogPath(basePath: string, categoryName: string) {
+    const categoryKey = getHomepageCategoryFilterKey(categoryName);
+    return categoryKey ? `${basePath}?category=${encodeURIComponent(categoryKey)}` : basePath;
+}
+
 export function FrontPage() {
     const { pages, globalSettings, pageSeo } = usePages();
     const { locale, t } = useLanguage();
@@ -374,7 +390,10 @@ export function FrontPage() {
 
                                             <div className="mt-6 flex items-center gap-4">
                                                 <Link
-                                                    to={getManagedPagePath("products", pageSeo, locale)}
+                                                    to={getHomepageCategoryCatalogPath(
+                                                        getManagedPagePath("products", pageSeo, locale),
+                                                        product.categoryName,
+                                                    )}
                                                     className="inline-flex items-center font-medium text-earth-700 transition-colors hover:text-earth-900"
                                                 >
                                                     {content.productPreviewItemCtaLabel || "View in Catalog"} <ArrowRight className="ml-2 h-4 w-4" />

@@ -37,8 +37,7 @@ const TERMS_FALLBACK = `
 `;
 
 export function Terms() {
-  const { pages, pageSeo, globalSettings } = usePages();
-  const uiLabels = globalSettings.uiLabels || {};
+  const { pages, pageSeo } = usePages();
   const { t } = useLanguage();
   const pageData = pages.find((page) => page.id === "terms");
   const content = pageData?.content as SimplePageContent;

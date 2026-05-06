@@ -175,7 +175,6 @@ export function detectPreferredLocale(): ActiveLocaleCode {
       return legacyLanguage;
     }
   } catch {
-    // localStorage may be blocked
   }
 
   const browserCandidates = [navigator.language, ...(navigator.languages ?? [])].filter(Boolean);
@@ -200,7 +199,6 @@ export function saveLocalePreference(locale: LocaleCode) {
     localStorage.setItem("hq-locale", locale);
     localStorage.setItem("hq-lang", locale);
   } catch {
-    // localStorage may be blocked
   }
 }
 
@@ -225,11 +223,6 @@ export function stripKnownLocalePrefix(pathname: string): string {
   return withoutLocale || "/";
 }
 
-/**
- * Map canonical URL patterns to translation keys.
- * This allows nav items to automatically translate when language changes,
- * even if the admin set custom English labels.
- */
 export const NAV_URL_TRANSLATION_MAP: Record<string, TranslationKey> = {
   "/": "navHome",
   "/about": "navAbout",
@@ -238,10 +231,6 @@ export const NAV_URL_TRANSLATION_MAP: Record<string, TranslationKey> = {
   "/contacts": "navContacts",
 };
 
-/**
- * Utility to resolve a navigation label.
- * Prioritizes translations for core pages unless the admin has provided a custom label.
- */
 export function getNavLabel(url: string, adminLabel: string, translate: (key: TranslationKey) => string): string {
   const normalizedUrl = stripKnownLocalePrefix(url).replace(/\/$/, "") || "/";
   const key = NAV_URL_TRANSLATION_MAP[normalizedUrl];

@@ -23,7 +23,6 @@ export interface GlobalUILabels {
     notFoundBody: string;
     notFoundButtonLabel: string;
     
-    // Core CTAs & Section Labels
     requestCatalogLabel: string;
     exploreProductsLabel: string;
     aboutCompanyLabel: string;
@@ -36,17 +35,14 @@ export interface GlobalUILabels {
     requestQuoteBtn?: string;
     productSelectionSublabel: string;
     
-    // Meta/SEO
     homeMetaTitle: string;
     productsMetaTitle: string;
     exportMetaTitle: string;
     contactsMetaTitle: string;
     
-    // Stats
     statYearsLabel: string;
     statTonsLabel: string;
     
-    // Contact Form
     contactsTitle: string;
     sendInquiryTitle: string;
     formNameLabel: string;
@@ -60,7 +56,6 @@ export interface GlobalUILabels {
     inquiryFailureMsg: string;
     sendMessageLabel: string;
     
-    // About Section
     missionPurposeLabel: string;
     missionHeritageLabel: string;
     missionPhilosophyLabel: string;
@@ -70,7 +65,6 @@ export interface GlobalUILabels {
     missionNarrativeTitle: string;
     missionNarrativeSublabel: string;
     
-    // Facility & Standards
     insideFacilityEyebrow: string;
     haccpLabel: string;
     isoLabel: string;
@@ -78,7 +72,6 @@ export interface GlobalUILabels {
     globalGapLabel: string;
     fdaLabel: string;
     
-    // Export Operations
     exportOpsEyebrow: string;
     exportOpsTitle: string;
     logisticsDesc1: string;
@@ -90,12 +83,10 @@ export interface GlobalUILabels {
     documentationTitle: string;
     documentationDesc: string;
     
-    // Destination Breakdown
     destinationBreakdownEyebrow: string;
     destinationBreakdownTitle: string;
     destinationBreakdownDesc: string;
     
-    // Quality & Harvest
     qualityGuaranteeTitle: string;
     qualityGuaranteeDesc: string;
     qualitySealLabel: string;
@@ -106,7 +97,6 @@ export interface GlobalUILabels {
     microSafeLabel: string;
     microSafeDesc: string;
     
-    // Contacts Page Specifics
     contactsIntroFallback: string;
     directContactEyebrow: string;
     contactDetailsTitle: string;
