@@ -1858,47 +1858,63 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const uploadedFile = (req as any).file;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
     const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
-    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}.webp`;
+    const originalExt = path.extname(uploadedFile.originalname).toLowerCase();
+    
+    // Preserve PNG, GIF, SVG, WebP. Convert JPEG and others to WebP.
+    const isPng = originalExt === ".png";
+    const isGif = originalExt === ".gif";
+    const isSvg = originalExt === ".svg";
+    const isWebp = originalExt === ".webp";
+    const ext = (isPng || isGif || isSvg || isWebp) ? originalExt : ".webp";
+    
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}${ext}`;
     const filePath = path.join(uploadsDir, filename);
 
     try {
       const MAX_BYTES = 250 * 1024; // 250 KB hard limit
-      const qualitySteps = [80, 70, 60, 50, 40, 30];
-      const dimensionSteps = [1200, 1000, 800, 650];
 
-      let finalBuffer: Buffer | null = null;
-      let usedQuality = 80;
-      let usedDimension = 1200;
-
-      outer: for (const dim of dimensionSteps) {
-        for (const q of qualitySteps) {
-          const buf = await sharp(uploadedFile.buffer)
-            .resize(dim, dim, { fit: "inside", withoutEnlargement: true })
-            .webp({ quality: q })
-            .toBuffer();
-
-          // Always keep the last result so we have something to write even if
-          // we exhaust all steps without hitting the target.
-          finalBuffer = buf;
-          usedQuality = q;
-          usedDimension = dim;
-
-          if (buf.length <= MAX_BYTES) break outer;
-
-          // Only move to smaller dimensions after exhausting quality at this dim.
-        }
-      }
-
-      if (finalBuffer) {
-        fs.writeFileSync(filePath, finalBuffer);
-        console.log(
-          `[Upload] Processed → ${filename} | ` +
-          `${(finalBuffer.length / 1024).toFixed(1)} KB | ` +
-          `WebP q${usedQuality} | max ${usedDimension}px`
-        );
-      } else {
-        // Shouldn't happen, but guard anyway.
+      // If the file is already small enough, or it's a format we shouldn't compress (GIF/SVG)
+      if (uploadedFile.buffer.length <= MAX_BYTES || isSvg || isGif) {
         fs.writeFileSync(filePath, uploadedFile.buffer);
+        console.log(`[Upload] Preserved original → ${filename} | ${(uploadedFile.buffer.length / 1024).toFixed(1)} KB`);
+      } else {
+        const qualitySteps = [80, 70, 60, 50, 40, 30];
+        const dimensionSteps = [1200, 1000, 800, 650];
+
+        let finalBuffer: Buffer | null = null;
+        let usedQuality = 80;
+        let usedDimension = 1200;
+
+        outer: for (const dim of dimensionSteps) {
+          for (const q of qualitySteps) {
+            let pipeline = sharp(uploadedFile.buffer)
+              .resize(dim, dim, { fit: "inside", withoutEnlargement: true });
+            
+            if (isPng) {
+              pipeline = pipeline.png({ quality: q, force: true });
+            } else {
+              pipeline = pipeline.webp({ quality: q, force: true });
+            }
+
+            const buf = await pipeline.toBuffer();
+            finalBuffer = buf;
+            usedQuality = q;
+            usedDimension = dim;
+
+            if (buf.length <= MAX_BYTES) break outer;
+          }
+        }
+
+        if (finalBuffer) {
+          fs.writeFileSync(filePath, finalBuffer);
+          console.log(
+            `[Upload] Processed → ${filename} | ` +
+            `${(finalBuffer.length / 1024).toFixed(1)} KB | ` +
+            `${ext.toUpperCase().replace(".", "")} q${usedQuality} | max ${usedDimension}px`
+          );
+        } else {
+          fs.writeFileSync(filePath, uploadedFile.buffer);
+        }
       }
     } catch (err) {
       console.warn("⚠️ sharp processing failed, saving original file:", err);
