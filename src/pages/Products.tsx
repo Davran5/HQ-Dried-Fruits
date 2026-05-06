@@ -435,44 +435,16 @@ export function Products() {
                     >
                         <div className="flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6">
                         <div className="flex flex-col gap-4">
-                          <div className="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
-                            <div className="min-w-0">
+                          <div>
                             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">
                               {product.category}
                             </p>
                             <h2 className="mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]">
                               {product.name}
                             </h2>
-                            </div>
-                            {availableCustomFieldGroups.length > 1 && (
-                              <div className="flex max-w-full flex-wrap gap-2 xl:justify-end">
-                                {availableCustomFieldGroups.map((group, groupIndex) => {
-                                  const isActive = groupIndex === selectedCustomFieldGroupIndex;
-                                  return (
-                                    <button
-                                      key={`${product.id}-${group.title}-${groupIndex}`}
-                                      type="button"
-                                      onClick={() =>
-                                        setSelectedCustomFieldGroups((prev) => ({
-                                          ...prev,
-                                          [product.id]: groupIndex,
-                                        }))
-                                      }
-                                      className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-                                        isActive
-                                          ? "bg-earth-900 text-white"
-                                          : "bg-earth-50 text-earth-700 hover:bg-earth-100"
-                                      }`}
-                                    >
-                                      {group.title}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            )}
                           </div>
-                          <div className="grid w-full gap-3 sm:grid-cols-2">
-                            <Link to={getManagedProductPath(product, pageSeo, locale)} className="w-full">
+                          <div className="flex w-full flex-wrap gap-3">
+                            <Link to={getManagedProductPath(product, pageSeo, locale)} className="min-w-[13rem] flex-1">
                               <Button type="button" variant="outline" className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight">
                                 {content?.viewSpecsLabel || t("productsViewSpecs")}
                               </Button>
@@ -481,10 +453,34 @@ export function Products() {
                               type="button"
                               variant="outline"
                               onClick={() => handleScrollToInquiry(product.id)}
-                              className="h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight"
+                              className="h-auto min-h-12 min-w-[13rem] flex-1 whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight"
                             >
                               {t("productsRequestQuote")} <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
                             </Button>
+                            {availableCustomFieldGroups.length > 1 &&
+                              availableCustomFieldGroups.map((group, groupIndex) => {
+                                const isActive = groupIndex === selectedCustomFieldGroupIndex;
+                                return (
+                                  <button
+                                    key={`${product.id}-${group.title}-${groupIndex}`}
+                                    type="button"
+                                    aria-pressed={isActive}
+                                    onClick={() =>
+                                      setSelectedCustomFieldGroups((prev) => ({
+                                        ...prev,
+                                        [product.id]: groupIndex,
+                                      }))
+                                    }
+                                    className={`min-h-12 min-w-[8rem] flex-1 rounded-full border px-5 py-3 text-center text-sm font-semibold leading-tight transition-colors ${
+                                      isActive
+                                        ? "border-earth-900 bg-earth-900 text-white"
+                                        : "border-earth-200 bg-earth-50 text-earth-700 hover:bg-earth-100"
+                                    }`}
+                                  >
+                                    {group.title}
+                                  </button>
+                                );
+                              })}
                           </div>
                         </div>
 

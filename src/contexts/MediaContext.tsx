@@ -4,6 +4,7 @@ interface MediaContextType {
     images: string[];
     uploadMedia: (file: File) => Promise<string>; // Returns the backend URL string
     deleteMedia: (url: string) => Promise<void>;
+    refreshMedia: () => Promise<void>;
     isLoading: boolean;
 }
 
@@ -14,6 +15,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchImages = async () => {
+        setIsLoading(true);
         try {
             const res = await fetch("/api/uploads");
             if (!res.ok) throw new Error("Failed to fetch uploads");
@@ -76,7 +78,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <MediaContext.Provider value={{ images, uploadMedia, deleteMedia, isLoading }}>
+        <MediaContext.Provider value={{ images, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }}>
             {children}
         </MediaContext.Provider>
     );

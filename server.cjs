@@ -98859,7 +98859,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
       ["path", { d: "M8 16H3v5", key: "1cv678" }]
     ];
-    var RefreshCw2 = createLucideIcon("refresh-cw", __iconNode$71);
+    var RefreshCw3 = createLucideIcon("refresh-cw", __iconNode$71);
     var __iconNode$70 = [
       [
         "path",
@@ -104321,7 +104321,7 @@ var require_lucide_react = __commonJS({
       RedoDot,
       RefreshCcw,
       RefreshCcwDot,
-      RefreshCw: RefreshCw2,
+      RefreshCw: RefreshCw3,
       RefreshCwOff,
       Refrigerator,
       Regex,
@@ -108202,7 +108202,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideRedoDot = RedoDot;
     exports2.LucideRefreshCcw = RefreshCcw;
     exports2.LucideRefreshCcwDot = RefreshCcwDot;
-    exports2.LucideRefreshCw = RefreshCw2;
+    exports2.LucideRefreshCw = RefreshCw3;
     exports2.LucideRefreshCwOff = RefreshCwOff;
     exports2.LucideRefrigerator = Refrigerator;
     exports2.LucideRegex = Regex;
@@ -109357,8 +109357,8 @@ var require_lucide_react = __commonJS({
     exports2.RefreshCcwDot = RefreshCcwDot;
     exports2.RefreshCcwDotIcon = RefreshCcwDot;
     exports2.RefreshCcwIcon = RefreshCcw;
-    exports2.RefreshCw = RefreshCw2;
-    exports2.RefreshCwIcon = RefreshCw2;
+    exports2.RefreshCw = RefreshCw3;
+    exports2.RefreshCwIcon = RefreshCw3;
     exports2.RefreshCwOff = RefreshCwOff;
     exports2.RefreshCwOffIcon = RefreshCwOff;
     exports2.Refrigerator = Refrigerator;
@@ -126834,44 +126834,43 @@ Selections: ${tonnageSummary}`
                     children: [
                       /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col gap-4", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between", children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "min-w-0", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
-                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
-                            ] }),
-                            availableCustomFieldGroups.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "flex max-w-full flex-wrap gap-2 xl:justify-end", children: availableCustomFieldGroups.map((group, groupIndex) => {
-                              const isActive = groupIndex === selectedCustomFieldGroupIndex;
-                              return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
-                                "button",
-                                {
-                                  type: "button",
-                                  onClick: () => setSelectedCustomFieldGroups((prev) => ({
-                                    ...prev,
-                                    [product.id]: groupIndex
-                                  })),
-                                  className: `rounded-full px-4 py-2 text-sm font-semibold transition-colors ${isActive ? "bg-earth-900 text-white" : "bg-earth-50 text-earth-700 hover:bg-earth-100"}`,
-                                  children: group.title
-                                },
-                                `${product.id}-${group.title}-${groupIndex}`
-                              );
-                            }) })
+                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
                           ] }),
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "grid w-full gap-3 sm:grid-cols-2", children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react_router_dom7.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex w-full flex-wrap gap-3", children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react_router_dom7.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "min-w-[13rem] flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
                             /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
                               Button,
                               {
                                 type: "button",
                                 variant: "outline",
                                 onClick: () => handleScrollToInquiry(product.id),
-                                className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
+                                className: "h-auto min-h-12 min-w-[13rem] flex-1 whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
                                 children: [
                                   t2("productsRequestQuote"),
                                   " ",
                                   /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4 shrink-0" })
                                 ]
                               }
-                            )
+                            ),
+                            availableCustomFieldGroups.length > 1 && availableCustomFieldGroups.map((group, groupIndex) => {
+                              const isActive = groupIndex === selectedCustomFieldGroupIndex;
+                              return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+                                "button",
+                                {
+                                  type: "button",
+                                  "aria-pressed": isActive,
+                                  onClick: () => setSelectedCustomFieldGroups((prev) => ({
+                                    ...prev,
+                                    [product.id]: groupIndex
+                                  })),
+                                  className: `min-h-12 min-w-[8rem] flex-1 rounded-full border px-5 py-3 text-center text-sm font-semibold leading-tight transition-colors ${isActive ? "border-earth-900 bg-earth-900 text-white" : "border-earth-200 bg-earth-50 text-earth-700 hover:bg-earth-100"}`,
+                                  children: group.title
+                                },
+                                `${product.id}-${group.title}-${groupIndex}`
+                              );
+                            })
                           ] })
                         ] }),
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "max-w-3xl text-base leading-7 text-earth-700 sm:text-lg sm:leading-relaxed", children: stripHtml(product.shortDescription) })
@@ -129944,6 +129943,7 @@ function MediaProvider({ children }) {
   const [images, setImages] = (0, import_react56.useState)([]);
   const [isLoading, setIsLoading] = (0, import_react56.useState)(true);
   const fetchImages = async () => {
+    setIsLoading(true);
     try {
       const res = await fetch("/api/uploads");
       if (!res.ok) throw new Error("Failed to fetch uploads");
@@ -129999,7 +129999,7 @@ function MediaProvider({ children }) {
       }
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(MediaContext.Provider, { value: { images, uploadMedia, deleteMedia, isLoading }, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(MediaContext.Provider, { value: { images, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }, children });
 }
 function useMedia() {
   const context = (0, import_react56.useContext)(MediaContext);
@@ -130013,7 +130013,7 @@ function useMedia() {
 var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
 function ImageUploader({ label: rawLabel, value, onChange, placeholder }) {
   const label = `${rawLabel} - Shared across all languages`;
-  const { uploadMedia, images: contextImages, isLoading: contextLoading } = useMedia();
+  const { uploadMedia, images: contextImages, isLoading: contextLoading, refreshMedia } = useMedia();
   const fileInputRef = (0, import_react57.useRef)(null);
   const [isUploading, setIsUploading] = (0, import_react57.useState)(false);
   const [mode, setMode] = (0, import_react57.useState)("url");
@@ -130143,20 +130143,35 @@ function ImageUploader({ label: rawLabel, value, onChange, placeholder }) {
           exit: { opacity: 0, scale: 0.95, y: 20 },
           className: "relative w-full max-w-4xl max-h-[80vh] overflow-hidden bg-white rounded-2xl shadow-2xl flex flex-col",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "flex items-center justify-between px-6 py-4 border-b border-slate-100", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "flex items-center justify-between gap-4 px-6 py-4 border-b border-slate-100", children: [
               /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h3", { className: "text-xl font-bold text-slate-900", children: "Server Media Library" }),
                 /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { className: "text-xs text-slate-500", children: "Click an image to select it for this field." })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
-                "button",
-                {
-                  type: "button",
-                  onClick: () => setIsLibraryOpen(false),
-                  className: "p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors",
-                  children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react13.X, { size: 20 })
-                }
-              )
+              /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => refreshMedia(),
+                    disabled: contextLoading,
+                    className: "inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition-colors hover:border-earth-400 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-60",
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react13.RefreshCw, { size: 14, className: contextLoading ? "animate-spin" : "" }),
+                      "Refresh"
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => setIsLibraryOpen(false),
+                    className: "p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors",
+                    children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react13.X, { size: 20 })
+                  }
+                )
+              ] })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "flex-1 overflow-y-auto p-6 bg-slate-50/50", children: contextLoading ? /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "flex flex-col items-center justify-center py-20 gap-3", children: [
               /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react13.Loader2, { className: "animate-spin text-earth-600 h-10 w-10" }),

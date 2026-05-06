@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Upload, Link as LinkIcon, Image as ImageIcon, Library, Loader2, X, Check } from "lucide-react";
+import React, { useRef, useState } from "react";
+import { Upload, Link as LinkIcon, Image as ImageIcon, Library, Loader2, X, Check, RefreshCw } from "lucide-react";
 import { useMedia } from "@/src/contexts/MediaContext";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -12,7 +12,7 @@ interface ImageUploaderProps {
 
 export function ImageUploader({ label: rawLabel, value, onChange, placeholder }: ImageUploaderProps) {
     const label = `${rawLabel} - Shared across all languages`;
-    const { uploadMedia, images: contextImages, isLoading: contextLoading } = useMedia();
+    const { uploadMedia, images: contextImages, isLoading: contextLoading, refreshMedia } = useMedia();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isUploading, setIsUploading] = useState(false);
     const [mode, setMode] = useState<"upload" | "url">("url");
@@ -124,18 +124,29 @@ export function ImageUploader({ label: rawLabel, value, onChange, placeholder }:
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             className="relative w-full max-w-4xl max-h-[80vh] overflow-hidden bg-white rounded-2xl shadow-2xl flex flex-col"
                         >
-                            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+                            <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-slate-100">
                                 <div>
                                     <h3 className="text-xl font-bold text-slate-900">Server Media Library</h3>
                                     <p className="text-xs text-slate-500">Click an image to select it for this field.</p>
                                 </div>
-                                <button
-                                    type="button"
-                                    onClick={() => setIsLibraryOpen(false)}
-                                    className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
-                                >
-                                    <X size={20} />
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => refreshMedia()}
+                                        disabled={contextLoading}
+                                        className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition-colors hover:border-earth-400 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-60"
+                                    >
+                                        <RefreshCw size={14} className={contextLoading ? "animate-spin" : ""} />
+                                        Refresh
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsLibraryOpen(false)}
+                                        className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
+                                    >
+                                        <X size={20} />
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="flex-1 overflow-y-auto p-6 bg-slate-50/50">
