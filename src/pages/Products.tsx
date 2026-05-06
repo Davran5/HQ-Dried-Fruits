@@ -12,88 +12,30 @@ import { ProductsContent } from "@/src/types/page";
 import { Product } from "@/src/types/product";
 import { submitLead } from "@/src/lib/leads";
 import { getManagedProductPath, getManagedProductSlug } from "@/src/lib/routes";
-
-type ProductCategoryKey = "raisins" | "dried-apricot" | "prunes" | "peanuts";
-
-const PRODUCT_CATEGORY_FILTERS: Array<{
-  key: ProductCategoryKey;
-  label: string;
-  aliases: string[];
-}> = [
-  {
-    key: "raisins",
-    label: "Raisins",
-    aliases: ["raisins", "raisin", "\u0438\u0437\u044e\u043c", "mayiz"],
-  },
-  {
-    key: "dried-apricot",
-    label: "Dried Apricot",
-    aliases: ["dried apricot", "dried apricots", "apricot", "apricots", "\u043a\u0443\u0440\u0430\u0433\u0430", "quritilgan orik", "quritilgan o'rik", "orik", "o'rik"],
-  },
-  {
-    key: "prunes",
-    label: "Prunes",
-    aliases: ["prunes", "prune", "pitted prunes", "\u0447\u0435\u0440\u043d\u043e\u0441\u043b\u0438\u0432", "quritilgan qora olxo'ri", "qora olxo'ri", "olxori"],
-  },
-  {
-    key: "peanuts",
-    label: "Peanuts",
-    aliases: ["peanuts", "peanut", "\u0430\u0440\u0430\u0445\u0438\u0441", "yeryongoq", "yeryong'oq", "yer yongoq", "yer yong'oq"],
-  },
-];
-
-const ALL_CATEGORY_KEYS = PRODUCT_CATEGORY_FILTERS.map((filter) => filter.key);
+import {
+  PRODUCT_CATEGORY_DEFINITIONS,
+  PRODUCT_CATEGORY_KEYS,
+  getProductCategoryLabel,
+  isProductCategoryKey,
+  resolveProductCategoryKey,
+  type ProductCategoryKey,
+} from "@/src/lib/productCategories";
 
 function stripHtml(value: string) {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-function normalizeFilterText(value: string) {
-  return value
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9\u0400-\u04ff'\s-]+/gi, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function compactFilterText(value: string) {
-  return normalizeFilterText(value).replace(/[\s'-]+/g, "");
-}
-
-function resolveCategoryKeyFromText(value: string): ProductCategoryKey | null {
-  const normalized = normalizeFilterText(value);
-  const compact = compactFilterText(value);
-
-  if (!normalized) {
-    return null;
-  }
-
-  for (const filter of PRODUCT_CATEGORY_FILTERS) {
-    if (
-      filter.aliases.some((alias) => {
-        const normalizedAlias = normalizeFilterText(alias);
-        const compactAlias = compactFilterText(alias);
-        return normalized.includes(normalizedAlias) || compact.includes(compactAlias);
-      })
-    ) {
-      return filter.key;
-    }
-  }
-
-  return null;
-}
-
 function getProductCategoryKey(product: Product) {
-  return resolveCategoryKeyFromText(`${product.category} ${product.name}`);
+  return isProductCategoryKey(product.categoryKey)
+    ? product.categoryKey
+    : resolveProductCategoryKey(`${product.category} ${product.name}`);
 }
 
 function getInitialCategoryKeys(search: string): ProductCategoryKey[] {
   const params = new URLSearchParams(search);
   const requestedCategory = params.get("category");
-  const requestedKey = requestedCategory ? resolveCategoryKeyFromText(requestedCategory) : null;
-  return requestedKey ? [requestedKey] : [...ALL_CATEGORY_KEYS];
+  const requestedKey = requestedCategory ? resolveProductCategoryKey(requestedCategory) : null;
+  return requestedKey ? [requestedKey] : [...PRODUCT_CATEGORY_KEYS];
 }
 
 function getSimpleContentLabel(value: string | undefined, legacyPattern: RegExp, fallback: string) {
@@ -168,7 +110,7 @@ export function Products() {
 
   const productsByCategory = useMemo(() => {
     const counts = new Map<ProductCategoryKey, number>();
-    for (const filter of PRODUCT_CATEGORY_FILTERS) {
+    for (const filter of PRODUCT_CATEGORY_DEFINITIONS) {
       counts.set(filter.key, 0);
     }
 
@@ -334,9 +276,10 @@ export function Products() {
             </h2>
           </div>
           <div className="flex flex-wrap gap-2.5">
-            {PRODUCT_CATEGORY_FILTERS.map((filter) => {
+            {PRODUCT_CATEGORY_DEFINITIONS.map((filter) => {
               const isActive = selectedCategoryKeys.includes(filter.key);
               const productCount = productsByCategory.get(filter.key) || 0;
+              const categoryLabel = getProductCategoryLabel(filter.key, locale);
 
               return (
                 <button
@@ -350,7 +293,7 @@ export function Products() {
                       : "border-earth-200 bg-white text-earth-700 hover:border-earth-300 hover:bg-earth-50"
                   }`}
                 >
-                  <span>{filter.label}</span>
+                  <span>{categoryLabel}</span>
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs ${
                       isActive ? "bg-white/14 text-white" : "bg-earth-50 text-earth-500"
@@ -374,6 +317,8 @@ export function Products() {
               const slug = getManagedProductSlug(product);
               const image = product.image || product.imageGallery?.find(Boolean) || "";
               const highlights = (product.highlights || []).filter(Boolean).slice(0, 3);
+              const categoryKey = getProductCategoryKey(product);
+              const categoryLabel = categoryKey ? getProductCategoryLabel(categoryKey, locale) : product.category;
 
               return (
                 <motion.article
@@ -403,7 +348,7 @@ export function Products() {
 
                   <div className="flex flex-1 flex-col p-4 sm:p-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.24em] text-earth-400">
-                      {product.category}
+                      {categoryLabel}
                     </p>
                     <h3 className="mt-1.5 font-display text-[1.45rem] font-bold leading-tight text-earth-900 sm:text-[1.6rem]">
                       {product.name}
@@ -451,7 +396,7 @@ export function Products() {
             <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-earth-700">
               Select at least one category to show catalog items.
             </p>
-            <Button type="button" variant="outline" className="mt-6" onClick={() => setSelectedCategoryKeys([...ALL_CATEGORY_KEYS])}>
+            <Button type="button" variant="outline" className="mt-6" onClick={() => setSelectedCategoryKeys([...PRODUCT_CATEGORY_KEYS])}>
               <RotateCcw className="mr-2 h-4 w-4" />
               Show all categories
             </Button>

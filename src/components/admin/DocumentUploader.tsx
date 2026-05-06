@@ -12,7 +12,6 @@ function getFilenameFromUrl(url: string): string {
   if (!url) return "";
   const parts = url.split("/");
   const raw = parts[parts.length - 1] || "";
-  // Strip the timestamp-random prefix: {ts}-{rand}-{name}.ext
   const match = raw.match(/^\d+-\d+-(.+)$/);
   return match ? match[1] : raw;
 }
@@ -67,7 +66,6 @@ export function DocumentUploader({
 
   return (
     <div className="space-y-3">
-      {/* Button label field */}
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-1.5">
           Button Label
@@ -81,7 +79,6 @@ export function DocumentUploader({
         />
       </div>
 
-      {/* File area */}
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-1.5">
           Document File <span className="font-normal text-slate-400">(PDF, DOCX, XLSX — max 50 MB)</span>

@@ -3,6 +3,9 @@ import { HomeContent, HomeExportMarketItem, StatItem, ProductCategoryItem } from
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
+import { Select } from "@/src/components/ui/Select";
+import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+import { getProductCategoryLabel, getProductCategorySelectOptions, resolveProductCategoryKey } from "@/src/lib/productCategories";
 
 interface Props {
     content: HomeContent;
@@ -10,6 +13,9 @@ interface Props {
 }
 
 export function HomeForm({ content, updateContent }: Props) {
+    const { editingLang } = useAdminLanguage();
+    const categoryOptions = getProductCategorySelectOptions(editingLang);
+
     return (
         <div className="space-y-4">
             <FormSection title="1. Hero Orchard Section">
@@ -167,18 +173,34 @@ export function HomeForm({ content, updateContent }: Props) {
                 <Repeater<ProductCategoryItem>
                     label="Product Categories Grid (Maximum 4 items)"
                     items={content.productCategories || []}
-                    emptyItem={{ categoryName: "", image: "", shortDescription: "", variantSummary: "", url: "" }}
+                    emptyItem={{ categoryKey: "", categoryName: "", image: "", shortDescription: "", variantSummary: "", url: "" }}
                     onUpdate={(items) => updateContent({ productCategories: items.slice(0, 4) })}
-                    renderItem={(item, index, updateItem) => (
+                    renderItem={(item, index, updateItem, replaceItem) => {
+                        const selectedCategoryKey = item.categoryKey || resolveProductCategoryKey(item.categoryName) || "";
+
+                        return (
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">Category Name</label>
-                                    <input
-                                        type="text"
-                                        value={item.categoryName}
-                                        onChange={e => updateItem(index, "categoryName", e.target.value)}
-                                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                                    <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
+                                    <Select
+                                        value={selectedCategoryKey}
+                                        onChange={(value) =>
+                                            replaceItem(index, {
+                                                ...item,
+                                                categoryKey: value,
+                                                categoryName: getProductCategoryLabel(value, editingLang),
+                                                url: "/products",
+                                            })
+                                        }
+                                        options={categoryOptions}
+                                        placeholder="Select category"
+                                        className="border-slate-300 bg-white py-2.5 text-sm"
                                     />
+                                    {selectedCategoryKey && (
+                                        <p className="mt-1 text-xs text-slate-500">
+                                            Public label: {getProductCategoryLabel(selectedCategoryKey, editingLang)}
+                                        </p>
+                                    )}
                                 </div>
                                 <ImageUploader
                                     label={`Thumbnail Image ${index + 1}`}
@@ -204,17 +226,9 @@ export function HomeForm({ content, updateContent }: Props) {
                                         placeholder="e.g. Golden, Sultana, Soyaki, Black-Red"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">Learn More URL</label>
-                                    <input
-                                        type="text"
-                                        value={item.url}
-                                        onChange={e => updateItem(index, "url", e.target.value)}
-                                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                                    />
-                                </div>
                             </div>
-                    )}
+                        );
+                    }}
                 />
             </FormSection>
 

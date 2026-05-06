@@ -9,22 +9,7 @@ import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ExportContent, HomeContent } from "@/src/types/page";
 import { getManagedPagePath } from "@/src/lib/routes";
-
-function getHomepageCategoryFilterKey(categoryName: string) {
-    const normalized = categoryName.toLowerCase();
-
-    if (normalized.includes("raisin")) return "raisins";
-    if (normalized.includes("apricot")) return "dried-apricot";
-    if (normalized.includes("prune")) return "prunes";
-    if (normalized.includes("peanut")) return "peanuts";
-
-    return "";
-}
-
-function getHomepageCategoryCatalogPath(basePath: string, categoryName: string) {
-    const categoryKey = getHomepageCategoryFilterKey(categoryName);
-    return categoryKey ? `${basePath}?category=${encodeURIComponent(categoryKey)}` : basePath;
-}
+import { buildProductCategoryCatalogPath, getProductCategoryLabel, resolveProductCategoryKey } from "@/src/lib/productCategories";
 
 export function FrontPage() {
     const { pages, globalSettings, pageSeo } = usePages();
@@ -140,10 +125,10 @@ export function FrontPage() {
         content.productCategories?.length
             ? content.productCategories
             : [
-                { categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
-                { categoryName: "Apricots", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
-                { categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
-                { categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" },
+                { categoryKey: "raisins", categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+                { categoryKey: "dried-apricot", categoryName: "Dried Apricot", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
+                { categoryKey: "prunes", categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+                { categoryKey: "peanuts", categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" },
             ]
     ).slice(0, 4);
     const getCertificateCards = (): HTMLElement[] => {
@@ -345,6 +330,10 @@ export function FrontPage() {
 
                     <div className="grid gap-5 sm:gap-6">
                         {productCategoryCards.map((product, i) => {
+                            const productCategoryKey = product.categoryKey || resolveProductCategoryKey(product.categoryName);
+                            const categoryDisplayName = productCategoryKey
+                                ? getProductCategoryLabel(productCategoryKey, locale)
+                                : product.categoryName;
                             const categoryTypes = (product.variantSummary || product.categoryName)
                                 .split(",")
                                 .map((item) => item.trim())
@@ -371,7 +360,7 @@ export function FrontPage() {
                                                 </div>
                                             )}
                                             <h3 className="font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]">
-                                                {product.categoryName}
+                                                {categoryDisplayName}
                                             </h3>
                                             <p className="mt-3 max-w-[34ch] text-base leading-6 text-earth-700 sm:mt-4 sm:text-lg sm:leading-7">
                                                 {product.shortDescription}
@@ -390,9 +379,9 @@ export function FrontPage() {
 
                                             <div className="mt-6 flex items-center gap-4">
                                                 <Link
-                                                    to={getHomepageCategoryCatalogPath(
+                                                    to={buildProductCategoryCatalogPath(
                                                         getManagedPagePath("products", pageSeo, locale),
-                                                        product.categoryName,
+                                                        productCategoryKey || product.categoryName,
                                                     )}
                                                     className="inline-flex items-center font-medium text-earth-700 transition-colors hover:text-earth-900"
                                                 >
@@ -405,7 +394,7 @@ export function FrontPage() {
                                         <div className="relative overflow-hidden rounded-[2.6rem] bg-earth-100">
                                             <img
                                                 src={product.image}
-                                                alt={product.categoryName}
+                                                alt={categoryDisplayName}
                                                 className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105 lg:h-full"
                                                 referrerPolicy="no-referrer"
                                             />

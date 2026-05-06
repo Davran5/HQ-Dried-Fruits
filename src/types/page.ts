@@ -153,6 +153,7 @@ export interface ImageLabelPair {
 }
 
 export interface ProductCategoryItem {
+    categoryKey?: string;
     categoryName: string;
     image: string;
     shortDescription: string;

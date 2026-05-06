@@ -9,6 +9,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppShell } from "./src/App";
+import { getProductCategoryLabel, isProductCategoryKey, resolveProductCategoryKey } from "./src/lib/productCategories";
 
 dotenv.config();
 
@@ -174,7 +175,7 @@ async function initDb() {
 
     await conn.execute(`CREATE TABLE IF NOT EXISTS products (
       id VARCHAR(255) NOT NULL, lang VARCHAR(10) NOT NULL DEFAULT 'en',
-      name TEXT, category TEXT, status TEXT, image TEXT, image_gallery LONGTEXT,
+      name TEXT, category_key TEXT, category TEXT, status TEXT, image TEXT, image_gallery LONGTEXT,
       short_description TEXT, long_description LONGTEXT, highlights LONGTEXT,
       content_sections LONGTEXT, nutrition LONGTEXT, inquiry_subject_line TEXT,
       tonnage_options TEXT, seo LONGTEXT, display_order INT NULL,
@@ -182,10 +183,11 @@ async function initDb() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
 
     await addColumnIfMissing("products", "display_order", "INT NULL");
+    await addColumnIfMissing("products", "category_key", "TEXT");
     await addColumnIfMissing("products", "technical_passport", "TEXT");
     await addColumnIfMissing("global_settings", "favicon", "TEXT");
 
-    const [productRows] = await conn.execute("SELECT id, display_order FROM products");
+    const [productRows] = await conn.execute("SELECT id, lang, name, category, category_key, display_order FROM products");
     if (Array.isArray(productRows)) {
       const firstSeenIds: string[] = [];
       const seenIds = new Set<string>();
@@ -201,6 +203,13 @@ async function initDb() {
         const displayOrder = Number(row?.display_order);
         if (Number.isFinite(displayOrder) && !existingOrderById.has(id)) {
           existingOrderById.set(id, displayOrder);
+        }
+        const categoryKey = asString(row?.category_key);
+        const resolvedCategoryKey = isProductCategoryKey(categoryKey)
+          ? categoryKey
+          : resolveProductCategoryKey(`${asString(row?.category)} ${asString(row?.name)}`);
+        if (resolvedCategoryKey && categoryKey !== resolvedCategoryKey) {
+          await conn.execute("UPDATE products SET category_key = ? WHERE id = ? AND lang = ?", [resolvedCategoryKey, id, asString(row?.lang, "en")]);
         }
       }
 
@@ -685,6 +694,15 @@ function sanitizeUploadBaseName(filename: string) {
   return sanitized || "image";
 }
 
+function resolveUploadedFilePath(url: string) {
+  const filename = path.basename(url.replace(/^\/uploads\//, ""));
+  if (!filename) return null;
+
+  const uploadRoot = path.resolve(uploadsDir);
+  const filePath = path.resolve(uploadsDir, filename);
+  return filePath.startsWith(`${uploadRoot}${path.sep}`) ? filePath : null;
+}
+
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 const app = express();
@@ -893,8 +911,11 @@ function mapProduct(row: any) {
     : [];
   const seoFallback = { metaTitle: `${asString(row?.name)} | HQ Dried Fruits`, metaDescription: asString(row?.short_description), slug: normalizeSlug(asString(row?.id), asString(row?.id)), ogTitle: asString(row?.name), imageAlt: asString(row?.name) };
   const parsedPassport = safeParseJson<{ fileUrl?: string; buttonLabel?: string }>(row?.technical_passport, {});
+  const categoryKey = isProductCategoryKey(asString(row?.category_key))
+    ? asString(row?.category_key)
+    : resolveProductCategoryKey(`${asString(row?.category)} ${asString(row?.name)}`) || undefined;
   return {
-    id: asString(row?.id), name: asString(row?.name), category: asString(row?.category), status: asString(row?.status, "Active"), image: asString(row?.image),
+    id: asString(row?.id), name: asString(row?.name), categoryKey, category: asString(row?.category), status: asString(row?.status, "Active"), image: asString(row?.image),
     imageGallery: safeParseJson<string[]>(row?.image_gallery, []), shortDescription: asString(row?.short_description), longDescription: asString(row?.long_description),
     highlights: safeParseJson<string[]>(row?.highlights, []), contentSections: safeParseJson<ProductSectionRecord[]>(row?.content_sections, []),
     nutrition: { energy: asString(parsedNutrition.energy), protein: asString(parsedNutrition.protein), fat: asString(parsedNutrition.fat), carbs: asString(parsedNutrition.carbs) },
@@ -1240,8 +1261,13 @@ async function validateProductPayload(product: any, existingId = "", locale: str
   const technicalPassport = passportPayload?.fileUrl
     ? { fileUrl: asString(passportPayload.fileUrl), buttonLabel: asString(passportPayload.buttonLabel, "Download Technical Passport") }
     : undefined;
+  const submittedCategoryKey = asString(product?.categoryKey);
+  const categoryKey = isProductCategoryKey(submittedCategoryKey)
+    ? submittedCategoryKey
+    : resolveProductCategoryKey(`${asString(product.category)} ${asString(product.name)}`) || undefined;
+  const categoryLabel = categoryKey ? getProductCategoryLabel(categoryKey, normalizeLocale(locale)) : asString(product.category);
   return {
-    id: fallbackId, name: asString(product.name), category: asString(product.category), status: asString(product.status, "Active"), image: asString(product.image),
+    id: fallbackId, name: asString(product.name), categoryKey, category: categoryLabel, status: asString(product.status, "Active"), image: asString(product.image),
     imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [], shortDescription: asString(product.shortDescription), longDescription: asString(product.longDescription),
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section: any) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
@@ -1693,7 +1719,7 @@ app.post("/api/products", async (req, res) => {
     const product = await validateProductPayload(req.body ?? {}, "", locale);
     const displayOrder = product.displayOrder ?? await getNextProductDisplayOrder();
     const productToSave = { ...product, displayOrder };
-    await db.query(`REPLACE INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`, [productToSave.id, productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, locale]);
+    await db.query(`REPLACE INTO products (id, name, category_key, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`, [productToSave.id, productToSave.name, productToSave.categoryKey || null, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, locale]);
     await syncProductSharedMedia(productToSave);
     res.json({ success: true, id: productToSave.id, product: productToSave });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" }); }
@@ -1722,10 +1748,11 @@ app.post("/api/products/:id", async (req, res) => {
 
     if (!existing || asString(existing?.lang, "en") !== locale || asString(existing?.id) !== asString(req.params.id)) {
       await db.query(
-        `INSERT INTO products (id, name, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
+        `INSERT INTO products (id, name, category_key, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
         [
           asString(req.params.id),
           productToSave.name,
+          productToSave.categoryKey || null,
           productToSave.category,
           productToSave.status,
           productToSave.image,
@@ -1748,8 +1775,8 @@ app.post("/api/products/:id", async (req, res) => {
     }
 
     const result = await db.query(
-      `UPDATE products SET name = $1, category = $2, status = $3, image = $4, image_gallery = $5, short_description = $6, long_description = $7, highlights = $8, content_sections = $9, nutrition = $10, inquiry_subject_line = $11, tonnage_options = $12, seo = $13, display_order = $14, technical_passport = $15 WHERE id = $16 AND lang = $17`,
-      [productToSave.name, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, asString(req.params.id), locale],
+      `UPDATE products SET name = $1, category_key = $2, category = $3, status = $4, image = $5, image_gallery = $6, short_description = $7, long_description = $8, highlights = $9, content_sections = $10, nutrition = $11, inquiry_subject_line = $12, tonnage_options = $13, seo = $14, display_order = $15, technical_passport = $16 WHERE id = $17 AND lang = $18`,
+      [productToSave.name, productToSave.categoryKey || null, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, asString(req.params.id), locale],
     );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
     await syncProductSharedMedia(productToSave);
@@ -1860,77 +1887,63 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
     const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
     const originalExt = path.extname(uploadedFile.originalname).toLowerCase();
-    
-    // Preserve PNG, GIF, SVG, WebP. Convert JPEG and others to WebP.
     const isPng = originalExt === ".png";
     const isGif = originalExt === ".gif";
     const isSvg = originalExt === ".svg";
     const isWebp = originalExt === ".webp";
     const ext = (isPng || isGif || isSvg || isWebp) ? originalExt : ".webp";
-    
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}${ext}`;
     const filePath = path.join(uploadsDir, filename);
 
     try {
-      const MAX_BYTES = 250 * 1024; // 250 KB hard limit
+      const maxBytes = 250 * 1024;
 
-      // If the file is already small enough, or it's a format we shouldn't compress (GIF/SVG/WEBP)
-      if (uploadedFile.buffer.length <= MAX_BYTES || isSvg || isGif || isWebp) {
+      if (uploadedFile.buffer.length <= maxBytes || isSvg || isGif || isWebp) {
         fs.writeFileSync(filePath, uploadedFile.buffer);
-        console.log(`[Upload] Preserved original → ${filename} | ${(uploadedFile.buffer.length / 1024).toFixed(1)} KB`);
+        console.log(`[Upload] Preserved original -> ${filename} | ${(uploadedFile.buffer.length / 1024).toFixed(1)} KB`);
       } else {
         const qualitySteps = [80, 70, 60, 50, 40, 30];
         const dimensionSteps = [1200, 1000, 800, 650];
-
         let finalBuffer: Buffer | null = null;
         let usedQuality = 80;
         let usedDimension = 1200;
-        
         const image = await Jimp.read(uploadedFile.buffer);
 
         outer: for (const dim of dimensionSteps) {
-          for (const q of qualitySteps) {
+          for (const quality of qualitySteps) {
             const clone = image.clone();
             if (clone.bitmap.width > dim || clone.bitmap.height > dim) {
               clone.scaleToFit(dim, dim);
             }
-            clone.quality(q);
-
+            clone.quality(quality);
             const mime = isPng ? Jimp.MIME_PNG : Jimp.MIME_JPEG;
-            const buf = await clone.getBufferAsync(mime);
-            
-            finalBuffer = buf;
-            usedQuality = q;
+            const buffer = await clone.getBufferAsync(mime);
+            finalBuffer = buffer;
+            usedQuality = quality;
             usedDimension = dim;
 
-            if (buf.length <= MAX_BYTES) break outer;
+            if (buffer.length <= maxBytes) break outer;
           }
         }
 
         if (finalBuffer) {
           fs.writeFileSync(filePath, finalBuffer);
-          console.log(
-            `[Upload] Processed → ${filename} | ` +
-            `${(finalBuffer.length / 1024).toFixed(1)} KB | ` +
-            `${isPng ? 'PNG' : 'JPEG'} q${usedQuality} | max ${usedDimension}px`
-          );
+          console.log(`[Upload] Processed -> ${filename} | ${(finalBuffer.length / 1024).toFixed(1)} KB | ${isPng ? "PNG" : "JPEG"} q${usedQuality} | max ${usedDimension}px`);
         } else {
           fs.writeFileSync(filePath, uploadedFile.buffer);
         }
       }
     } catch (err) {
-      console.warn("⚠️ Jimp processing failed, saving original file:", err);
+      console.warn("Jimp processing failed, saving original file:", err);
       fs.writeFileSync(filePath, uploadedFile.buffer);
     }
-    
+
     res.json({ url: `/uploads/${filename}` });
   } catch (error) { res.status(500).json({ error: "Upload failed on server" }); }
 });
-
-// Raw document upload (PDF, DOCX, etc.) — skips image processing
 const documentUpload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB for documents
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     const allowed = [
       "application/pdf",
@@ -1964,31 +1977,42 @@ app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
   try {
     const uploadedFile = (req as any).file;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
-    
     const filename = `favicon-${Date.now()}-${Math.round(Math.random() * 1e9)}.png`;
     const filePath = path.join(uploadsDir, filename);
 
     try {
       const image = await Jimp.read(uploadedFile.buffer);
       image.contain(192, 192);
-      const buf = await image.getBufferAsync(Jimp.MIME_PNG);
-      
-      fs.writeFileSync(filePath, buf);
-      console.log(`[Upload-Favicon] Processed → ${filename} | ${(buf.length / 1024).toFixed(1)} KB`);
+      const buffer = await image.getBufferAsync(Jimp.MIME_PNG);
+      fs.writeFileSync(filePath, buffer);
+      console.log(`[Upload-Favicon] Processed -> ${filename} | ${(buffer.length / 1024).toFixed(1)} KB`);
     } catch (err) {
-      console.warn("⚠️ Jimp processing failed for favicon, saving original file:", err);
+      console.warn("Jimp processing failed for favicon, saving original file:", err);
       fs.writeFileSync(filePath, uploadedFile.buffer);
     }
-    
+
     res.json({ url: `/uploads/${filename}` });
   } catch (error) { res.status(500).json({ error: "Upload failed on server" }); }
+});
+app.get("/api/download-upload", (req, res) => {
+  try {
+    const url = asString(req.query.url);
+    const filePath = resolveUploadedFilePath(url);
+    if (!filePath || !fs.existsSync(filePath)) return res.status(404).send("File not found");
+
+    const filename = path.basename(filePath).replace(/^\d+-\d+-/, "");
+    res.download(filePath, filename);
+  } catch (error) {
+    res.status(500).send("Download failed");
+  }
 });
 
 app.post("/api/media/delete", (req, res) => {
   try {
     const url = asString(req.body?.url);
     if (!url) return res.status(400).json({ error: "No URL provided" });
-    const filePath = path.join(uploadsDir, url.replace(/^\/uploads\//, ""));
+    const filePath = resolveUploadedFilePath(url);
+    if (!filePath) return res.status(400).json({ error: "Invalid URL" });
     if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     res.json({ success: true });
   } catch (error) { res.status(500).json({ error: "Failed to delete from disk" }); }

@@ -13,9 +13,11 @@ import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
 import { cloneDraft, draftKey, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
 import type { ActiveLocaleCode } from "@/src/i18n";
+import { getProductCategoryLabel, getProductCategorySelectOptions, resolveProductCategoryKey } from "@/src/lib/productCategories";
 
 const emptyProduct: Omit<Product, "id"> = {
   name: "",
+  categoryKey: "",
   category: "",
   status: "Active",
   image: "",
@@ -92,6 +94,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
   const refreshRequestIdRef = useRef(0);
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
   const unsavedDraftLocales = useMemo(() => unsavedLocalesFromDrafts(productDrafts), [productDrafts]);
+  const categoryOptions = useMemo(() => getProductCategorySelectOptions(editingLang), [editingLang]);
   const activeDraftKey = editingId ? draftKey(editingLang, editingId) : "";
   const hasActiveDraft = Boolean(activeDraftKey && productDrafts[activeDraftKey]);
 
@@ -224,10 +227,22 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
       return;
     }
 
+    const categoryKey = formData.categoryKey || resolveProductCategoryKey(formData.category);
+    if (!categoryKey) {
+      alert("Please select a product category.");
+      return;
+    }
+
+    const productToSave: Omit<Product, "id"> = {
+      ...formData,
+      categoryKey,
+      category: getProductCategoryLabel(categoryKey, editingLang),
+    };
+
     setIsSaving(true);
     try {
       if (editingId === "new") {
-        const createdProduct = await addProduct(formData, editingLang);
+        const createdProduct = await addProduct(productToSave, editingLang);
         const { id: createdId, ...createdFormData } = createdProduct;
         setProductDrafts((drafts) => {
           const nextDrafts = { ...drafts };
@@ -240,8 +255,9 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
         setOpenEditorByLocale((current) => ({ ...current, [editingLang]: createdId }));
         setSuccessMessage(`New product (${editingLang.toUpperCase()}) created successfully!`);
       } else if (editingId) {
-        await updateProduct(editingId, formData, editingLang);
+        await updateProduct(editingId, productToSave, editingLang);
         const savedId = editingId;
+        setFormData(productToSave);
         setProductDrafts((drafts) => {
           const nextDrafts = { ...drafts };
           delete nextDrafts[draftKey(editingLang, savedId)];
@@ -385,13 +401,18 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">Category *</label>
-                <input
-                  required
-                  type="text"
-                  value={formData.category}
-                  onChange={e => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none transition-all"
-                  placeholder="e.g. Jumbo"
+                <Select
+                  value={formData.categoryKey || resolveProductCategoryKey(formData.category) || ""}
+                  onChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      categoryKey: value,
+                      category: getProductCategoryLabel(value, editingLang),
+                    })
+                  }
+                  options={categoryOptions}
+                  placeholder="Select category"
+                  className="py-3 bg-white border-slate-300 rounded-xl"
                 />
               </div>
 
@@ -574,7 +595,6 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
           />
         </div>
 
-        {/* Technical Passport */}
         <div className="rounded-lg border border-slate-200 bg-white/60 p-4 space-y-1">
           <div className="mb-3">
             <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400">Technical Passport / Datasheet</h4>
@@ -679,6 +699,8 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
           const isExpanded = editingId === product.id;
           const isDragging = draggedProductId === product.id;
           const isDragTarget = dragOverProductId === product.id && draggedProductId !== product.id;
+          const categoryKey = product.categoryKey || resolveProductCategoryKey(product.category);
+          const categoryLabel = categoryKey ? getProductCategoryLabel(categoryKey, editingLang) : product.category;
           return (
             <div
               key={product.id}
@@ -721,7 +743,7 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
                   <div className="truncate">
                     <h3 className={`font-bold transition-colors ${isExpanded ? 'text-earth-900' : 'text-slate-900'}`}>{product.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">{product.category}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">{categoryLabel}</span>
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${product.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
                         {product.status}
                       </span>

@@ -36,6 +36,7 @@ export interface TechnicalPassport {
 export interface Product {
   id: string;
   name: string;
+  categoryKey?: string;
   category: string;
   status: "Active" | "Inactive";
   image: string;

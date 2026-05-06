@@ -11,6 +11,10 @@ import { useLanguage } from "@/src/contexts/LanguageContext";
 import { submitLead } from "@/src/lib/leads";
 import { findManagedProduct, getManagedPagePath, getManagedProductPath, normalizePath, resolveManagedProductPath } from "@/src/lib/routes";
 
+function getUploadDownloadUrl(fileUrl: string) {
+  return `/api/download-upload?url=${encodeURIComponent(fileUrl)}`;
+}
+
 export function ProductDetail() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -167,13 +171,9 @@ export function ProductDetail() {
               ))}
             </div>
 
-            {/* Technical Passport Download Button */}
             {product.technicalPassport?.fileUrl && (
               <motion.a
-                href={product.technicalPassport.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                download
+                href={getUploadDownloadUrl(product.technicalPassport.fileUrl)}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.4 }}
