@@ -126834,27 +126834,12 @@ Selections: ${tonnageSummary}`
                     children: [
                       /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col gap-5 border-b border-earth-100 pb-5 lg:gap-6 lg:pb-6", children: [
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col gap-4", children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
-                          ] }),
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex w-full flex-wrap gap-3", children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react_router_dom7.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "min-w-[13rem] flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
-                              Button,
-                              {
-                                type: "button",
-                                variant: "outline",
-                                onClick: () => handleScrollToInquiry(product.id),
-                                className: "h-auto min-h-12 min-w-[13rem] flex-1 whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
-                                children: [
-                                  t2("productsRequestQuote"),
-                                  " ",
-                                  /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4 shrink-0" })
-                                ]
-                              }
-                            ),
-                            availableCustomFieldGroups.length > 1 && availableCustomFieldGroups.map((group, groupIndex) => {
+                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between", children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "min-w-0", children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.28em] text-earth-400", children: product.category }),
+                              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-2 max-w-[12ch] font-display text-[2.25rem] font-bold leading-[1.05] text-earth-900 sm:text-[3rem] lg:text-[3.25rem]", children: product.name })
+                            ] }),
+                            availableCustomFieldGroups.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "flex max-w-full flex-wrap gap-2 xl:justify-end", children: availableCustomFieldGroups.map((group, groupIndex) => {
                               const isActive = groupIndex === selectedCustomFieldGroupIndex;
                               return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
                                 "button",
@@ -126865,13 +126850,17 @@ Selections: ${tonnageSummary}`
                                     ...prev,
                                     [product.id]: groupIndex
                                   })),
-                                  className: `min-h-12 min-w-[8rem] flex-1 rounded-full border px-5 py-3 text-center text-sm font-semibold leading-tight transition-colors ${isActive ? "border-earth-900 bg-earth-900 text-white" : "border-earth-200 bg-earth-50 text-earth-700 hover:bg-earth-100"}`,
+                                  className: `rounded-full px-4 py-2 text-sm font-semibold transition-colors ${isActive ? "bg-earth-900 text-white" : "bg-earth-50 text-earth-700 hover:bg-earth-100"}`,
                                   children: group.title
                                 },
                                 `${product.id}-${group.title}-${groupIndex}`
                               );
-                            })
-                          ] })
+                            }) })
+                          ] }),
+                          productCustomFields.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5", children: productCustomFields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex min-h-[3.35rem] flex-col items-center justify-center px-2 py-1.5 text-center", children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: field.label }),
+                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-tight text-earth-900 lg:text-[0.95rem]", children: field.value })
+                          ] }, `${field.label}-${fieldIndex}`)) })
                         ] }),
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "max-w-3xl text-base leading-7 text-earth-700 sm:text-lg sm:leading-relaxed", children: stripHtml(product.shortDescription) })
                       ] }),
@@ -126945,12 +126934,22 @@ Selections: ${tonnageSummary}`
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/28 via-transparent to-transparent" })
                       ] }),
                       /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-4 flex-1 lg:mt-5", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "p-1", children: [
-                        productCustomFields.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsNutritionalSnapshot") }),
-                          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-3 grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5", children: productCustomFields.map((field, fieldIndex) => /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex min-h-[3.35rem] flex-col items-center justify-center px-2 py-1.5 text-center", children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "text-center text-[0.58rem] uppercase tracking-[0.16em] text-earth-400", children: field.label }),
-                            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-1 text-center text-[0.82rem] font-semibold leading-tight text-earth-900 lg:text-[0.95rem]", children: field.value })
-                          ] }, `${field.label}-${fieldIndex}`)) })
+                        /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "grid w-full gap-3 sm:grid-cols-2", children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_react_router_dom7.Link, { to: getManagedProductPath(product, pageSeo, locale), className: "w-full", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Button, { type: "button", variant: "outline", className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight", children: content?.viewSpecsLabel || t2("productsViewSpecs") }) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
+                            Button,
+                            {
+                              type: "button",
+                              variant: "outline",
+                              onClick: () => handleScrollToInquiry(product.id),
+                              className: "h-auto min-h-12 w-full whitespace-normal border-earth-200 bg-white px-5 py-3 text-center leading-tight",
+                              children: [
+                                t2("productsRequestQuote"),
+                                " ",
+                                /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react5.ArrowRight, { className: "ml-2 h-4 w-4 shrink-0" })
+                              ]
+                            }
+                          )
                         ] }),
                         /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "mt-4 border-t border-earth-100 pt-4", children: [
                           /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsSellingPoints") }),
