@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { fetchWithAuth } from "../lib/api";
 
 interface MediaContextType {
     images: string[];
@@ -17,7 +18,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
     const fetchImages = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch("/api/uploads");
+            const res = await fetchWithAuth("/api/uploads");
             if (!res.ok) throw new Error("Failed to fetch uploads");
             const data = await res.json();
             setImages(Array.isArray(data) ? data : []);
@@ -31,13 +32,13 @@ export function MediaProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         fetchImages();
-    }, []);    const uploadMedia = async (file: File): Promise<string> => {
+    }, []);    const uploadMedia = async (file: File): Promise<string> => {
         return new Promise(async (resolve, reject) => {
             const formData = new FormData();
             formData.append("file", file);
 
             try {
-                const response = await fetch("/api/upload", {
+                const response = await fetchWithAuth("/api/upload", {
                     method: "POST",
                     body: formData,
                 });
@@ -59,7 +60,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
     const deleteMedia = async (url: string) => {
         if (window.confirm("Are you sure you want to permanently delete this file?")) {
             try {
-                const response = await fetch("/api/media/delete", {
+                const response = await fetchWithAuth("/api/media/delete", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ url })

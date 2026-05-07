@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FileText, Upload, X, Loader2, ExternalLink } from "lucide-react";
+import { fetchWithAuth } from "@/src/lib/api";
 
 interface DocumentUploaderProps {
   fileUrl: string;
@@ -37,7 +38,7 @@ export function DocumentUploader({
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("/api/upload-document", {
+      const response = await fetchWithAuth("/api/upload-document", {
         method: "POST",
         body: formData,
       });

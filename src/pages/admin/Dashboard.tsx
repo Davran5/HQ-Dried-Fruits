@@ -22,6 +22,7 @@ import { Button } from "@/src/components/ui/Button";
 import { Product, SEOData } from "@/src/types/product";
 import { ManagedPageId, defaultPageSlugs } from "@/src/lib/routes";
 import { cn } from "@/src/lib/utils";
+import { fetchWithAuth } from "@/src/lib/api";
 
 type LeadStatus = "New" | "Contacted" | "In Progress" | "Converted" | "Disqualified";
 
@@ -209,9 +210,9 @@ export function Dashboard() {
 
     try {
       const [leadsResponse, productsResponse, seoResponse] = await Promise.all([
-        fetch("/api/leads"),
-        fetch("/api/products"),
-        fetch("/api/seo/pages"),
+        fetchWithAuth("/api/leads"),
+        fetchWithAuth("/api/products"),
+        fetchWithAuth("/api/seo/pages"),
       ]);
 
       if (!leadsResponse.ok || !productsResponse.ok || !seoResponse.ok) {

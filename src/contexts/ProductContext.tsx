@@ -4,6 +4,7 @@ import { Product } from "../types/product";
 import { useLanguage } from "./LanguageContext";
 import { getActiveLocale, type ActiveLocaleCode, type LocaleCode } from "../i18n";
 import { PublicBootstrapPayload } from "../types/bootstrap";
+import { fetchWithAuth } from "../lib/api";
 
 interface ProductContextType {
     products: Product[];
@@ -38,7 +39,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
         setProductsLoaded(false);
 
         try {
-            const response = await fetch(`/api/products?locale=${encodeURIComponent(targetLocale)}&v=${Date.now()}`);
+            const response = await fetchWithAuth(`/api/products?locale=${encodeURIComponent(targetLocale)}&v=${Date.now()}`);
             if (response.ok) {
                 const data = await response.json();
                 if (requestId !== refreshRequestIdRef.current) {
@@ -87,7 +88,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
         const newProduct: Product = { ...productDetails, id: newId };
 
         try {
-            const response = await fetch(`/api/products?locale=${encodeURIComponent(targetLocale)}`, {
+            const response = await fetchWithAuth(`/api/products?locale=${encodeURIComponent(targetLocale)}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newProduct)
@@ -112,7 +113,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
         const updatedProduct: Product = { ...productDetails, id };
 
         try {
-            const response = await fetch(`/api/products/${id}?locale=${encodeURIComponent(targetLocale)}`, {
+            const response = await fetchWithAuth(`/api/products/${id}?locale=${encodeURIComponent(targetLocale)}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedProduct)
@@ -132,7 +133,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
 
     const deleteProduct = async (id: string) => {
         try {
-            const response = await fetch(`/api/products/${id}`, {
+            const response = await fetchWithAuth(`/api/products/${id}`, {
                 method: "DELETE"
             });
             if (response.ok) {
@@ -174,7 +175,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
         });
 
         try {
-            const response = await fetch("/api/products/order", {
+            const response = await fetchWithAuth("/api/products/order", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ids: orderedIds }),

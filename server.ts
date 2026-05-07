@@ -719,6 +719,15 @@ function generateToken(): string {
   return token;
 }
 
+const authenticateAdmin = (req: Request, res: any, next: any) => {
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+  if (token && activeSessions.has(token)) {
+    return next();
+  }
+  return res.status(401).json({ error: "Unauthorized" });
+};
+
 app.post("/api/auth/login", (req, res) => {
   const { username, password } = req.body ?? {};
   const expectedUser = process.env.ADMIN_USERNAME || "admin";
@@ -1660,7 +1669,7 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
   };
 }
 
-app.get("/api/uploads", (_req, res) => {
+app.get("/api/uploads", authenticateAdmin, (_req, res) => {
   try {
     const files = fs.existsSync(uploadsDir) ? fs.readdirSync(uploadsDir) : [];
     res.json(files.sort((a, b) => b.localeCompare(a)).map((file) => `/uploads/${file}`));
@@ -1672,7 +1681,7 @@ app.get("/api/globals", async (req, res) => {
   catch (error) { res.status(500).json({ error: "Failed to fetch settings" }); }
 });
 
-app.post("/api/globals", async (req, res) => {
+app.post("/api/globals", authenticateAdmin, async (req, res) => {
   try {
     const settings = req.body ?? {};
     const locale = getRequestLocale(req);
@@ -1687,7 +1696,7 @@ app.get("/api/seo/pages", async (req, res) => {
   catch (error) { res.status(500).json({ error: "Failed to fetch SEO settings" }); }
 });
 
-app.post("/api/seo/pages/:id", async (req, res) => {
+app.post("/api/seo/pages/:id", authenticateAdmin, async (req, res) => {
   try {
     const pageId = asString(req.params.id) as PageId;
     const locale = getRequestLocale(req);
@@ -1713,7 +1722,7 @@ app.get("/api/products/:id", async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Failed to fetch product" }); }
 });
 
-app.post("/api/products", async (req, res) => {
+app.post("/api/products", authenticateAdmin, async (req, res) => {
   try {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, "", locale);
@@ -1725,7 +1734,7 @@ app.post("/api/products", async (req, res) => {
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to create product" }); }
 });
 
-app.post("/api/products/order", async (req, res) => {
+app.post("/api/products/order", authenticateAdmin, async (req, res) => {
   try {
     const ids = Array.isArray(req.body?.ids) ? Array.from(new Set(req.body.ids.map((id: any) => asString(id)).filter(Boolean))) : [];
     if (ids.length === 0) return res.status(400).json({ error: "Product order ids are required" });
@@ -1738,7 +1747,7 @@ app.post("/api/products/order", async (req, res) => {
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product order" }); }
 });
 
-app.post("/api/products/:id", async (req, res) => {
+app.post("/api/products/:id", authenticateAdmin, async (req, res) => {
   try {
     const locale = getRequestLocale(req);
     const product = await validateProductPayload(req.body ?? {}, asString(req.params.id), locale);
@@ -1784,7 +1793,7 @@ app.post("/api/products/:id", async (req, res) => {
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" }); }
 });
 
-app.delete("/api/products/:id", async (req, res) => {
+app.delete("/api/products/:id", authenticateAdmin, async (req, res) => {
   try {
     await db.query("DELETE FROM products WHERE id = $1", [asString(req.params.id)]);
     res.json({ success: true });
@@ -1800,7 +1809,7 @@ app.get("/api/pages/:id", async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Internal Server Error" }); }
 });
 
-app.post("/api/pages/:id", async (req, res) => {
+app.post("/api/pages/:id", authenticateAdmin, async (req, res) => {
   try {
     const pageId = asString(req.params.id);
     const locale = getRequestLocale(req);
@@ -1829,7 +1838,7 @@ app.post("/api/pages/:id", async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Update failed" }); }
 });
 
-app.get("/api/leads", async (_req, res) => {
+app.get("/api/leads", authenticateAdmin, async (_req, res) => {
   try {
     const result = await db.query("SELECT * FROM leads ORDER BY date DESC");
     res.json(result.rows.map((row) => ({ id: asString(row.id), date: asString(row.date), name: asString(row.name), company: asString(row.company), email: asString(row.email), phone: asString(row.phone), telegram: asString(row.telegram), productInterest: asString(row.product_interest), estTonnage: asString(row.est_tonnage), status: asString(row.status, "New"), message: asString(row.message), notes: asString(row.notes) })));
@@ -1872,7 +1881,7 @@ app.post("/api/leads", async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Failed to submit inquiry" }); }
 });
 
-app.post("/api/leads/:id", async (req, res) => {
+app.post("/api/leads/:id", authenticateAdmin, async (req, res) => {
   try {
     const status = asString(req.body?.status, "New") as LeadStatus;
     if (!validLeadStatuses.has(status)) return res.status(400).json({ error: "Invalid lead status" });
@@ -1881,7 +1890,7 @@ app.post("/api/leads/:id", async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Failed to update lead" }); }
 });
 
-app.post("/api/upload", upload.single("file"), async (req, res) => {
+app.post("/api/upload", authenticateAdmin, upload.single("file"), async (req, res) => {
   try {
     const uploadedFile = (req as any).file;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
@@ -1959,7 +1968,7 @@ const documentUpload = multer({
   },
 });
 
-app.post("/api/upload-document", documentUpload.single("file"), (req, res) => {
+app.post("/api/upload-document", authenticateAdmin, documentUpload.single("file"), (req, res) => {
   try {
     const uploadedFile = (req as any).file;
     if (!uploadedFile) return res.status(400).json({ error: "No document uploaded or file type not allowed" });
@@ -1973,7 +1982,7 @@ app.post("/api/upload-document", documentUpload.single("file"), (req, res) => {
   } catch (error) { res.status(500).json({ error: "Document upload failed on server" }); }
 });
 
-app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
+app.post("/api/upload-favicon", authenticateAdmin, upload.single("file"), async (req, res) => {
   try {
     const uploadedFile = (req as any).file;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
@@ -1994,7 +2003,7 @@ app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
     res.json({ url: `/uploads/${filename}` });
   } catch (error) { res.status(500).json({ error: "Upload failed on server" }); }
 });
-app.get("/api/download-upload", (req, res) => {
+app.get("/api/download-upload", authenticateAdmin, (req, res) => {
   try {
     const url = asString(req.query.url);
     const filePath = resolveUploadedFilePath(url);
@@ -2007,7 +2016,7 @@ app.get("/api/download-upload", (req, res) => {
   }
 });
 
-app.post("/api/media/delete", (req, res) => {
+app.post("/api/media/delete", authenticateAdmin, (req, res) => {
   try {
     const url = asString(req.body?.url);
     if (!url) return res.status(400).json({ error: "No URL provided" });

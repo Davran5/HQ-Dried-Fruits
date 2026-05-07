@@ -20,6 +20,7 @@ import {
 import { Button } from "@/src/components/ui/Button";
 import { Select } from "@/src/components/ui/Select";
 import { cn } from "@/src/lib/utils";
+import { fetchWithAuth } from "@/src/lib/api";
 
 type LeadStatus = "New" | "Contacted" | "In Progress" | "Converted" | "Disqualified";
 type AgeFilter = "all" | "today" | "7d" | "30d" | "stale";
@@ -109,7 +110,7 @@ export function AdminLeads() {
   const fetchLeads = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/leads");
+      const response = await fetchWithAuth("/api/leads");
       if (!response.ok) throw new Error("Failed to fetch leads.");
       const data = await response.json();
       const safeLeads = Array.isArray(data) ? data : [];
@@ -135,7 +136,7 @@ export function AdminLeads() {
   }, [fetchLeads]);
 
   const persistLead = async (id: string, payload: { status: LeadStatus; notes: string }) => {
-    const response = await fetch(`/api/leads/${id}`, {
+    const response = await fetchWithAuth(`/api/leads/${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

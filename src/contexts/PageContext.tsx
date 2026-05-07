@@ -14,6 +14,7 @@ import {
 } from "../types/page";
 import { SEOData } from "../types/product";
 import { PublicBootstrapPayload } from "../types/bootstrap";
+import { fetchWithAuth } from "../lib/api";
 
 interface PageContextType {
     globalSettings: GlobalSettings;
@@ -543,8 +544,8 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
         try {
             const localeQuery = `?locale=${encodeURIComponent(targetLocale)}&v=${Date.now()}`;
             const [globalsRes, seoRes] = await Promise.all([
-                fetch(`/api/globals${localeQuery}`),
-                fetch(`/api/seo/pages${localeQuery}`),
+                fetchWithAuth(`/api/globals${localeQuery}`),
+                fetchWithAuth(`/api/seo/pages${localeQuery}`),
             ]);
 
             const [globalsData, seoData] = await Promise.all([
@@ -553,7 +554,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
             ]);
 
             const pagePromises = managedPageIds.map(async (id) => {
-                const res = await fetch(`/api/pages/${id}${localeQuery}`);
+                const res = await fetchWithAuth(`/api/pages/${id}${localeQuery}`);
                 if (!res.ok) {
                     return null;
                 }
@@ -615,7 +616,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
 
     const updateGlobalSettings = async (settings: GlobalSettings, requestedLocale?: LocaleCode) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
-        const response = await fetch(`/api/globals?locale=${encodeURIComponent(targetLocale)}`, {
+        const response = await fetchWithAuth(`/api/globals?locale=${encodeURIComponent(targetLocale)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(settings),
@@ -629,7 +630,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
 
     const updatePage = async (id: string, newPageData: PageData, requestedLocale?: LocaleCode) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
-        const response = await fetch(`/api/pages/${id}?locale=${encodeURIComponent(targetLocale)}`, {
+        const response = await fetchWithAuth(`/api/pages/${id}?locale=${encodeURIComponent(targetLocale)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newPageData.content),
@@ -643,7 +644,7 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
 
     const updatePageSeo = async (id: string, seo: SEOData, requestedLocale?: LocaleCode) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
-        const response = await fetch(`/api/seo/pages/${id}?locale=${encodeURIComponent(targetLocale)}`, {
+        const response = await fetchWithAuth(`/api/seo/pages/${id}?locale=${encodeURIComponent(targetLocale)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(seo),

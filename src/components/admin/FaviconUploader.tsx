@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Upload, Link as LinkIcon, Image as ImageIcon, Loader2, X } from "lucide-react";
+import { fetchWithAuth } from "@/src/lib/api";
 
 interface FaviconUploaderProps {
     label: string;
@@ -24,7 +25,7 @@ export function FaviconUploader({ label, value, onChange, placeholder }: Favicon
             try {
                 const formData = new FormData();
                 formData.append("file", file);
-                const res = await fetch("/api/upload-favicon", {
+                const res = await fetchWithAuth("/api/upload-favicon", {
                     method: "POST",
                     body: formData,
                 });
