@@ -218,6 +218,7 @@ async function initDb() {
         const displayOrder = existingOrderById.get(id) ?? index;
         await conn.execute("UPDATE products SET display_order = ? WHERE id = ? AND display_order IS NULL", [displayOrder, id]);
       }
+      clearProductsCache();
     }
 
     await conn.execute(`CREATE TABLE IF NOT EXISTS leads (
@@ -1073,13 +1074,24 @@ async function syncProductSharedMedia(product: any) {
     "UPDATE products SET image = $1, image_gallery = $2 WHERE id = $3",
     [asString(product.image), JSON.stringify(Array.isArray(product.imageGallery) ? product.imageGallery : []), asString(product.id)],
   );
+  clearProductsCache();
 }
 
 function getManagedProductSlug(product: ReturnType<typeof mapProduct>) { return normalizeSlug(asString(product.seo?.slug), normalizeSlug(product.id, product.id)); }
 function getProductPath(product: ReturnType<typeof mapProduct>, pageSeo: Record<PageId, SeoRecord> = defaultPageSeo) { return `${getManagedPagePath("products", pageSeo)}/${getManagedProductSlug(product)}`; }
 
+const productsCache = new Map<string, any[]>();
+function clearProductsCache() {
+  console.log("[Cache] Clearing products cache");
+  productsCache.clear();
+}
+
 async function getProductsForLocale(locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
+  if (productsCache.has(resolvedLocale)) {
+    return productsCache.get(resolvedLocale)!;
+  }
+
   const result = await db.query("SELECT * FROM products");
   const rowsById = new Map<string, any[]>();
 
@@ -1090,7 +1102,7 @@ async function getProductsForLocale(locale: string = "en") {
     rowsById.set(key, bucket);
   });
 
-  return Array.from(rowsById.values())
+  const products = Array.from(rowsById.values())
     .map((rows) => {
       const preferredRow = getPreferredProductRow(rows, resolvedLocale);
       return preferredRow ? mergeProductSharedMedia(preferredRow, rows) : null;
@@ -1103,6 +1115,9 @@ async function getProductsForLocale(locale: string = "en") {
       if (aOrder !== bOrder) return aOrder - bOrder;
       return `${a.name || ""}${a.id}`.localeCompare(`${b.name || ""}${b.id}`);
     });
+
+  productsCache.set(resolvedLocale, products);
+  return products;
 }
 
 async function getSharedStructuredPageContent(tableName: string, locale: string, mapper: (row: any) => any, config: SharedMediaConfig) {
@@ -1734,6 +1749,7 @@ app.post("/api/products/order", async (req, res) => {
       db.query("UPDATE products SET display_order = $1 WHERE id = $2", [index, id]),
     ));
 
+    clearProductsCache();
     res.json({ success: true });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product order" }); }
 });
@@ -1787,6 +1803,7 @@ app.post("/api/products/:id", async (req, res) => {
 app.delete("/api/products/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM products WHERE id = $1", [asString(req.params.id)]);
+    clearProductsCache();
     res.json({ success: true });
   } catch (error) { res.status(500).json({ error: "Failed to delete product" }); }
 });
