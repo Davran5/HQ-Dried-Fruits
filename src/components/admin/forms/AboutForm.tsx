@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { AboutContent, AboutProductionItem, StatBox } from "@/src/types/page";
+import { AboutContent, AboutProductionItem } from "@/src/types/page";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { RichTextEditor } from "./RichTextEditor";
@@ -179,48 +179,6 @@ export function AboutForm({ content, updateContent }: Props) {
                     onChange={val => updateContent({ whoWeAreContent: val })}
                 />
 
-                <Repeater<StatBox>
-                    label="Numbered Stats Boxes"
-                    items={content.heritageStats || []}
-                    emptyItem={{ boxNumber: "", title: "", description: "" }}
-                    onUpdate={(items) => updateContent({ heritageStats: items })}
-                    renderItem={(item, index, updateItem) => (
-                        <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">Box Number</label>
-                                    <input
-                                        type="text"
-                                        value={item.boxNumber}
-                                        onChange={e => updateItem(index, "boxNumber", e.target.value)}
-                                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                                        placeholder="e.g. 01"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">Box Title</label>
-                                    <input
-                                        type="text"
-                                        value={item.title}
-                                        onChange={e => updateItem(index, "title", e.target.value)}
-                                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                                        placeholder="e.g. Global Scale"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-xs font-medium text-slate-500 mb-1">Short Description</label>
-                                <textarea
-                                    rows={2}
-                                    value={item.description}
-                                    onChange={e => updateItem(index, "description", e.target.value)}
-                                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
-                                />
-                            </div>
-                        </div>
-                    )}
-                />
-
                 <Repeater<string>
                     label="Featured Heritage Imagery (Gallery)"
                     items={content.heritageImagery || []}
@@ -345,8 +303,31 @@ export function AboutForm({ content, updateContent }: Props) {
                     />
                 </div>
 
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Orchard Philosophy Eyebrow</label>
+                        <input
+                            type="text"
+                            value={content.orchardPhilosophyEyebrow || ""}
+                            onChange={e => updateContent({ orchardPhilosophyEyebrow: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="Philosophy"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Orchard Philosophy Title</label>
+                        <input
+                            type="text"
+                            value={content.orchardPhilosophyTitle || ""}
+                            onChange={e => updateContent({ orchardPhilosophyTitle: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="Orchard Philosophy"
+                        />
+                    </div>
+                </div>
+
                 <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Orchard Philosophy</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Orchard Philosophy Text</label>
                     <textarea
                         rows={4}
                         value={content.orchardPhilosophy || ""}

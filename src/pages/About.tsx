@@ -106,8 +106,8 @@ export function About() {
         "<p>Deeply embedded in the agricultural heart of Central Asia, we cultivate, process, and export dried fruits with long-term consistency for wholesale buyers.</p>",
     },
     {
-      eyebrow: t("missionPhilosophyLabel"),
-      title: t("orchardPhilosophyLabel"),
+      eyebrow: content?.orchardPhilosophyEyebrow || t("missionPhilosophyLabel"),
+      title: content?.orchardPhilosophyTitle || t("orchardPhilosophyLabel"),
       plain:
         content?.orchardPhilosophy ||
         "We believe in sustainable agriculture without compromising on bulk efficiency.",

@@ -272,6 +272,8 @@ export interface AboutContent {
     missionTitle: string;
     missionStatement: string;
     philosophyTitle: string;
+    orchardPhilosophyEyebrow?: string;
+    orchardPhilosophyTitle?: string;
     orchardPhilosophy: string;
     productionStandardsTitle: string;
     productionStandards: string;
@@ -294,6 +296,8 @@ export interface ProductsContent {
     introContent?: string;
     introImage?: string;
     introFacts?: TextBlockItem[];
+    catalogEyebrow?: string;
+    catalogTitle?: string;
 
     orderingBgImage: string;
     orderingFormTitle: string;

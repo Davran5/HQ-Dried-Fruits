@@ -274,9 +274,9 @@ export function Products() {
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <div className="mb-8 flex flex-col gap-5 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">Filter by category</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-earth-400">{content?.catalogEyebrow || "Filter by category"}</p>
             <h2 className="mt-3 font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-4xl">
-              Product Catalog
+              {content?.catalogTitle || "Product Catalog"}
             </h2>
           </div>
           <div className="flex flex-wrap gap-2.5">

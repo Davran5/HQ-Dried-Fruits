@@ -108,6 +108,31 @@ export function ProductsForm({ content, updateContent, catalogSlot }: Props) {
                 />
             </FormSection>
 
+            <FormSection title="3. Product Catalog" defaultOpen={false}>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Catalog Eyebrow</label>
+                        <input
+                            type="text"
+                            value={content.catalogEyebrow || ""}
+                            onChange={e => updateContent({ catalogEyebrow: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="e.g. Filter by category"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Catalog Title</label>
+                        <input
+                            type="text"
+                            value={content.catalogTitle || ""}
+                            onChange={e => updateContent({ catalogTitle: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="e.g. Product Catalog"
+                        />
+                    </div>
+                </div>
+            </FormSection>
+
             {catalogSlot}
 
             <FormSection title="4. Ordering Hub (Bulk Requests)" defaultOpen={false}>
