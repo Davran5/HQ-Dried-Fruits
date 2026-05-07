@@ -1,7 +1,18 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
+export interface MediaFile {
+    url: string;
+    name: string;
+    type: string;
+    size: number;
+    width?: number;
+    height?: number;
+    aspectRatio?: string;
+}
+
 interface MediaContextType {
     images: string[];
+    media: MediaFile[];
     uploadMedia: (file: File) => Promise<string>;
     deleteMedia: (url: string) => Promise<void>;
     refreshMedia: () => Promise<void>;
@@ -10,9 +21,43 @@ interface MediaContextType {
 
 const MediaContext = createContext<MediaContextType | undefined>(undefined);
 
+function inferMediaType(url: string) {
+    if (/\.(jpe?g|png|webp|gif|svg)$/i.test(url)) return "image/*";
+    if (/\.pdf$/i.test(url)) return "application/pdf";
+    return "application/octet-stream";
+}
+
 export function MediaProvider({ children }: { children: ReactNode }) {
     const [images, setImages] = useState<string[]>([]);
+    const [media, setMedia] = useState<MediaFile[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const normalizeMediaFile = (item: unknown): MediaFile | null => {
+        if (typeof item === "string") {
+            const name = item.split("/").pop() || "File";
+            return { url: item, name, type: inferMediaType(item), size: 0 };
+        }
+
+        if (!item || typeof item !== "object") {
+            return null;
+        }
+
+        const source = item as Partial<MediaFile>;
+        if (!source.url) {
+            return null;
+        }
+
+        const name = source.name || source.url.split("/").pop() || "File";
+        return {
+            url: source.url,
+            name,
+            type: source.type || inferMediaType(source.url),
+            size: Number.isFinite(Number(source.size)) ? Number(source.size) : 0,
+            width: Number.isFinite(Number(source.width)) ? Number(source.width) : undefined,
+            height: Number.isFinite(Number(source.height)) ? Number(source.height) : undefined,
+            aspectRatio: source.aspectRatio,
+        };
+    };
 
     const fetchImages = async () => {
         setIsLoading(true);
@@ -20,9 +65,12 @@ export function MediaProvider({ children }: { children: ReactNode }) {
             const res = await fetch("/api/uploads");
             if (!res.ok) throw new Error("Failed to fetch uploads");
             const data = await res.json();
-            setImages(Array.isArray(data) ? data : []);
+            const nextMedia = Array.isArray(data) ? data.map(normalizeMediaFile).filter(Boolean) as MediaFile[] : [];
+            setMedia(nextMedia);
+            setImages(nextMedia.filter((item) => item.type.startsWith("image/")).map((item) => item.url));
         } catch (err) {
             console.error("Failed to load /api/uploads", err);
+            setMedia([]);
             setImages([]);
         } finally {
             setIsLoading(false);
@@ -37,7 +85,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
             formData.append("file", file);
 
             try {
-                const response = await fetch("/api/upload", {
+                const response = await fetch(file.type.startsWith("image/") ? "/api/upload" : "/api/upload-document", {
                     method: "POST",
                     body: formData,
                 });
@@ -78,7 +126,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <MediaContext.Provider value={{ images, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }}>
+        <MediaContext.Provider value={{ images, media, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }}>
             {children}
         </MediaContext.Provider>
     );

@@ -323,6 +323,7 @@ export function Products() {
               const highlights = (product.highlights || []).filter(Boolean).slice(0, 3);
               const categoryKey = getProductCategoryKey(product);
               const categoryLabel = categoryKey ? getProductCategoryLabel(categoryKey, locale) : product.category;
+              const cardDescription = stripHtml(product.shortDescription).slice(0, 200);
 
               return (
                 <motion.article
@@ -358,7 +359,7 @@ export function Products() {
                       {product.name}
                     </h3>
                     <p className="mt-2 line-clamp-2 text-sm leading-5 text-earth-700">
-                      {stripHtml(product.shortDescription)}
+                      {cardDescription}
                     </p>
 
                     {highlights.length > 0 && (

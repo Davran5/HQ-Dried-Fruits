@@ -92077,7 +92077,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
       ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
     ];
-    var Download2 = createLucideIcon("download", __iconNode$ho);
+    var Download3 = createLucideIcon("download", __iconNode$ho);
     var __iconNode$hn = [
       ["path", { d: "M11 20H2", key: "nlcfvz" }],
       [
@@ -103660,7 +103660,7 @@ var require_lucide_react = __commonJS({
       DoorClosedLocked,
       DoorOpen,
       Dot,
-      Download: Download2,
+      Download: Download3,
       DraftingCompass,
       Drama,
       Dribbble,
@@ -105979,10 +105979,10 @@ var require_lucide_react = __commonJS({
     exports2.DotIcon = Dot;
     exports2.DotSquare = SquareDot;
     exports2.DotSquareIcon = SquareDot;
-    exports2.Download = Download2;
+    exports2.Download = Download3;
     exports2.DownloadCloud = CloudDownload;
     exports2.DownloadCloudIcon = CloudDownload;
-    exports2.DownloadIcon = Download2;
+    exports2.DownloadIcon = Download3;
     exports2.DraftingCompass = DraftingCompass;
     exports2.DraftingCompassIcon = DraftingCompass;
     exports2.Drama = Drama;
@@ -107445,7 +107445,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideDoorOpen = DoorOpen;
     exports2.LucideDot = Dot;
     exports2.LucideDotSquare = SquareDot;
-    exports2.LucideDownload = Download2;
+    exports2.LucideDownload = Download3;
     exports2.LucideDownloadCloud = CloudDownload;
     exports2.LucideDraftingCompass = DraftingCompass;
     exports2.LucideDrama = Drama;
@@ -126772,6 +126772,7 @@ Message: ${inquiryForm.message}`
         const highlights = (product.highlights || []).filter(Boolean).slice(0, 3);
         const categoryKey = getProductCategoryKey(product);
         const categoryLabel = categoryKey ? getProductCategoryLabel(categoryKey, locale) : product.category;
+        const cardDescription = stripHtml(product.shortDescription).slice(0, 200);
         return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
           motion.article,
           {
@@ -126797,7 +126798,7 @@ Message: ${inquiryForm.message}`
               /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-1 flex-col p-4 sm:p-5", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-xs font-semibold uppercase tracking-[0.24em] text-earth-400", children: categoryLabel }),
                 /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h3", { className: "mt-1.5 font-display text-[1.45rem] font-bold leading-tight text-earth-900 sm:text-[1.6rem]", children: product.name }),
-                /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "mt-2 line-clamp-2 text-sm leading-5 text-earth-700", children: stripHtml(product.shortDescription) }),
+                /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "mt-2 line-clamp-2 text-sm leading-5 text-earth-700", children: cardDescription }),
                 highlights.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "mt-3", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500", children: t2("productsSellingPoints") }),
                   /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-2 space-y-1.5", children: highlights.map((highlight) => /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex items-start gap-2 text-xs leading-5 text-earth-800", children: [
@@ -127764,6 +127765,9 @@ var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
 function getUploadDownloadUrl(fileUrl) {
   return `/api/download-upload?url=${encodeURIComponent(fileUrl)}`;
 }
+function hasHtml(value) {
+  return /<\/?[a-z][\s\S]*>/i.test(value);
+}
 function ProductDetail() {
   const location = (0, import_react_router_dom9.useLocation)();
   const navigate = (0, import_react_router_dom9.useNavigate)();
@@ -127850,6 +127854,7 @@ Message: ${inquiryMessage}`
     ] }) });
   }
   const productCustomFields = (product.customFields || []).filter((field) => field.label?.trim() || field.value?.trim()).slice(0, 5);
+  const detailDescription = product.longDescription?.trim();
   return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(PageLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
     motion.div,
     {
@@ -127908,14 +127913,13 @@ Message: ${inquiryMessage}`
         /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "flex flex-col py-8", children: [
           /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-4 text-sm font-bold uppercase tracking-wider text-earth-500", children: product.category }),
           /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h1", { className: "mb-6 font-display text-4xl font-bold text-earth-900 sm:text-5xl", children: product.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "mb-6 text-xl leading-relaxed text-earth-700", children: product.shortDescription }),
-          product.longDescription && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+          detailDescription ? hasHtml(detailDescription) ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
             "div",
             {
               className: "prose prose-earth prose-lg mb-10 text-earth-600",
-              dangerouslySetInnerHTML: { __html: product.longDescription }
+              dangerouslySetInnerHTML: { __html: detailDescription }
             }
-          ),
+          ) : /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "mb-10 whitespace-pre-line text-xl leading-relaxed text-earth-700", children: detailDescription }) : /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "mb-10 text-xl leading-relaxed text-earth-700", children: product.shortDescription }),
           /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "mb-12 grid gap-4 sm:grid-cols-2", children: (product.highlights || [
             "100% Natural & Organic",
             "No Added Sugars",
@@ -129508,18 +129512,50 @@ var import_lucide_react12 = __toESM(require_lucide_react(), 1);
 var import_react54 = __toESM(require_react(), 1);
 var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
 var MediaContext = (0, import_react54.createContext)(void 0);
+function inferMediaType(url) {
+  if (/\.(jpe?g|png|webp|gif|svg)$/i.test(url)) return "image/*";
+  if (/\.pdf$/i.test(url)) return "application/pdf";
+  return "application/octet-stream";
+}
 function MediaProvider({ children }) {
   const [images, setImages] = (0, import_react54.useState)([]);
+  const [media, setMedia] = (0, import_react54.useState)([]);
   const [isLoading, setIsLoading] = (0, import_react54.useState)(true);
+  const normalizeMediaFile = (item) => {
+    if (typeof item === "string") {
+      const name2 = item.split("/").pop() || "File";
+      return { url: item, name: name2, type: inferMediaType(item), size: 0 };
+    }
+    if (!item || typeof item !== "object") {
+      return null;
+    }
+    const source = item;
+    if (!source.url) {
+      return null;
+    }
+    const name = source.name || source.url.split("/").pop() || "File";
+    return {
+      url: source.url,
+      name,
+      type: source.type || inferMediaType(source.url),
+      size: Number.isFinite(Number(source.size)) ? Number(source.size) : 0,
+      width: Number.isFinite(Number(source.width)) ? Number(source.width) : void 0,
+      height: Number.isFinite(Number(source.height)) ? Number(source.height) : void 0,
+      aspectRatio: source.aspectRatio
+    };
+  };
   const fetchImages = async () => {
     setIsLoading(true);
     try {
       const res = await fetch("/api/uploads");
       if (!res.ok) throw new Error("Failed to fetch uploads");
       const data = await res.json();
-      setImages(Array.isArray(data) ? data : []);
+      const nextMedia = Array.isArray(data) ? data.map(normalizeMediaFile).filter(Boolean) : [];
+      setMedia(nextMedia);
+      setImages(nextMedia.filter((item) => item.type.startsWith("image/")).map((item) => item.url));
     } catch (err) {
       console.error("Failed to load /api/uploads", err);
+      setMedia([]);
       setImages([]);
     } finally {
       setIsLoading(false);
@@ -129533,7 +129569,7 @@ function MediaProvider({ children }) {
       const formData = new FormData();
       formData.append("file", file);
       try {
-        const response = await fetch("/api/upload", {
+        const response = await fetch(file.type.startsWith("image/") ? "/api/upload" : "/api/upload-document", {
           method: "POST",
           body: formData
         });
@@ -129568,7 +129604,7 @@ function MediaProvider({ children }) {
       }
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(MediaContext.Provider, { value: { images, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(MediaContext.Provider, { value: { images, media, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }, children });
 }
 function useMedia() {
   const context = (0, import_react54.useContext)(MediaContext);
@@ -132436,6 +132472,7 @@ var emptyProduct = {
 };
 var MAX_CUSTOM_FIELD_CATEGORIES = 5;
 var MAX_CUSTOM_FIELDS_PER_CATEGORY = 5;
+var PRODUCT_CARD_DESCRIPTION_LIMIT = 200;
 function normalizeCustomFields(fields = []) {
   return fields.map((field) => ({ label: field?.label || "", value: field?.value || "" })).slice(0, MAX_CUSTOM_FIELDS_PER_CATEGORY);
 }
@@ -132588,6 +132625,10 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     const categoryKey = formData.categoryKey || resolveProductCategoryKey(formData.category);
     if (!categoryKey) {
       alert("Please select a product category.");
+      return;
+    }
+    if ((formData.shortDescription || "").length > PRODUCT_CARD_DESCRIPTION_LIMIT) {
+      alert(`Product card description must be ${PRODUCT_CARD_DESCRIPTION_LIMIT} characters or less.`);
       return;
     }
     const productToSave = {
@@ -132766,18 +132807,40 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
             ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Short Description *" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "mb-2 flex items-center justify-between gap-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("label", { className: "block text-sm font-bold text-slate-700", children: "Product Card Description *" }),
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { className: `text-xs font-semibold ${(formData.shortDescription || "").length > PRODUCT_CARD_DESCRIPTION_LIMIT ? "text-red-500" : "text-slate-400"}`, children: [
+                (formData.shortDescription || "").length,
+                "/",
+                PRODUCT_CARD_DESCRIPTION_LIMIT
+              ] })
+            ] }),
             /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
               "textarea",
               {
                 required: true,
                 rows: 3,
+                maxLength: PRODUCT_CARD_DESCRIPTION_LIMIT,
                 value: formData.shortDescription || "",
                 onChange: (e) => setFormData({ ...formData, shortDescription: e.target.value }),
                 className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-none transition-all",
-                placeholder: "Brief description for the catalog grid..."
+                placeholder: "Card-only summary for the product catalog grid..."
               }
             )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-2", children: "Product Detail Description" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+              "textarea",
+              {
+                rows: 7,
+                value: formData.longDescription || "",
+                onChange: (e) => setFormData({ ...formData, longDescription: e.target.value }),
+                className: "w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-y transition-all",
+                placeholder: "Longer description shown on the specific product page..."
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "mt-1 text-xs text-slate-500", children: "This text is used on the individual product specification page. The card summary above stays only on catalog cards." })
           ] })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "space-y-3", children: [
@@ -135174,8 +135237,27 @@ function UIToggle({ label, field, settings, setSettings }) {
 var import_react74 = __toESM(require_react(), 1);
 var import_lucide_react24 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
+function formatFileSize(bytes) {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "Unknown size";
+  const units = ["B", "KB", "MB", "GB"];
+  let size = bytes;
+  let unitIndex = 0;
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex += 1;
+  }
+  return `${size >= 10 || unitIndex === 0 ? size.toFixed(0) : size.toFixed(1)} ${units[unitIndex]}`;
+}
+function getDownloadUrl(url) {
+  return `/api/download-upload?url=${encodeURIComponent(url)}`;
+}
+function getMediaDetails(item) {
+  if (!item.type.startsWith("image/")) return "Document";
+  if (!item.width || !item.height) return "Image";
+  return `${item.width} x ${item.height}${item.aspectRatio ? ` (${item.aspectRatio})` : ""}`;
+}
 function AdminMedia() {
-  const { images, uploadMedia, deleteMedia, isLoading } = useMedia();
+  const { media, uploadMedia, deleteMedia, isLoading } = useMedia();
   const [isDragging2, setIsDragging] = (0, import_react74.useState)(false);
   const [uploading, setUploading] = (0, import_react74.useState)(false);
   const fileInputRef = (0, import_react74.useRef)(null);
@@ -135219,8 +135301,8 @@ function AdminMedia() {
       fileInputRef.current.value = "";
     }
   };
-  const copyToClipboard = (dataUrl, id3) => {
-    navigator.clipboard.writeText(dataUrl).then(() => {
+  const copyToClipboard = (url, id3) => {
+    navigator.clipboard.writeText(url).then(() => {
       setCopiedId(id3);
       setTimeout(() => setCopiedId(null), 2e3);
     });
@@ -135228,7 +135310,7 @@ function AdminMedia() {
   return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("h2", { className: "text-2xl font-bold text-slate-900", children: "Media Library" }),
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-sm text-slate-500", children: "Upload and manage local images and PDF files (Stored in IndexedDB)." })
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-sm text-slate-500", children: "Upload, inspect, download, and manage local images and document files." })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(
       "div",
@@ -135271,12 +135353,13 @@ function AdminMedia() {
     /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden p-6", children: [
       /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("h3", { className: "mb-3 font-bold text-slate-900", children: [
         "Uploaded Files (",
-        (images || []).length,
+        (media || []).length,
         ")"
       ] }),
-      isLoading ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "py-12 text-center text-slate-500", children: "Loading media library..." }) : (images || []).length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "py-12 text-center text-slate-500", children: "No media files found. Upload some to get started." }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(AnimatePresence, { children: (images || []).map((url) => {
-        const isImage2 = /\.(jpeg|jpg|png|webp|gif|svg)$/i.test(url);
-        const name = url.split("/").pop() || "File";
+      isLoading ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "py-12 text-center text-slate-500", children: "Loading media library..." }) : (media || []).length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "py-12 text-center text-slate-500", children: "No media files found. Upload some to get started." }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(AnimatePresence, { children: (media || []).map((item) => {
+        const url = item.url;
+        const isImage2 = item.type.startsWith("image/");
+        const name = item.name || url.split("/").pop() || "File";
         return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(
           motion.div,
           {
@@ -135297,18 +135380,23 @@ function AdminMedia() {
                     {
                       onClick: () => copyToClipboard(url, url),
                       className: "p-2 bg-white text-slate-700 rounded-lg hover:bg-earth-50 hover:text-earth-600 transition-colors",
-                      title: "Copy Data URL",
+                      title: "Copy URL",
                       children: copiedId === url ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.Check, { size: 18, className: "text-emerald-500" }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.Copy, { size: 18 })
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
+                    "a",
+                    {
+                      href: getDownloadUrl(url),
+                      className: "p-2 bg-white text-slate-700 rounded-lg hover:bg-earth-50 hover:text-earth-600 transition-colors",
+                      title: "Download File",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.Download, { size: 18 })
                     }
                   ),
                   /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
                     "button",
                     {
-                      onClick: () => {
-                        if (window.confirm("Are you sure you want to delete this media?")) {
-                          deleteMedia(url);
-                        }
-                      },
+                      onClick: () => deleteMedia(url),
                       className: "p-2 bg-white text-slate-700 rounded-lg hover:bg-red-50 hover:text-red-500 transition-colors",
                       title: "Delete File",
                       children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_lucide_react24.Trash2, { size: 18 })
@@ -135316,7 +135404,13 @@ function AdminMedia() {
                   )
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "p-3 border-t border-slate-200 bg-white", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-sm font-medium text-slate-900 truncate", title: name, children: name }) })
+              /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "p-3 border-t border-slate-200 bg-white", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "text-sm font-medium text-slate-900 truncate", title: name, children: name }),
+                /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "mt-2 space-y-1 text-xs text-slate-500", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { children: formatFileSize(item.size) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { className: "truncate", title: getMediaDetails(item), children: getMediaDetails(item) })
+                ] })
+              ] })
             ]
           },
           url
@@ -135712,6 +135806,7 @@ async function initDb() {
   }
 }
 var validLeadStatuses = /* @__PURE__ */ new Set(["New", "Contacted", "In Progress", "Converted", "Disqualified"]);
+var productCardDescriptionLimit = 200;
 var pageContentTables = { home: "home_page", about: "about_page", privacy: "privacy_page", terms: "terms_page" };
 var defaultPageSlugs2 = { home: "", about: "about", products: "products", export: "export", contacts: "contacts", privacy: "privacy", terms: "terms" };
 var reservedPageSlugs = /* @__PURE__ */ new Set(["admin", "api", "uploads", "robots.txt", "sitemap.xml"]);
@@ -136187,6 +136282,114 @@ function resolveUploadedFilePath(url) {
   const uploadRoot = import_path2.default.resolve(uploadsDir);
   const filePath = import_path2.default.resolve(uploadsDir, filename);
   return filePath.startsWith(`${uploadRoot}${import_path2.default.sep}`) ? filePath : null;
+}
+function getUploadMimeType(filename) {
+  const ext = import_path2.default.extname(filename).toLowerCase();
+  const types = {
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".gif": "image/gif",
+    ".svg": "image/svg+xml",
+    ".pdf": "application/pdf",
+    ".doc": "application/msword",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".xls": "application/vnd.ms-excel",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".ppt": "application/vnd.ms-powerpoint",
+    ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".txt": "text/plain"
+  };
+  return types[ext] || "application/octet-stream";
+}
+function gcd(a, b) {
+  return b === 0 ? Math.abs(a) : gcd(b, a % b);
+}
+function getAspectRatio(width, height) {
+  if (!width || !height) return void 0;
+  const divisor = gcd(width, height);
+  return `${width / divisor}:${height / divisor}`;
+}
+function readSvgDimensions(buffer) {
+  const source = buffer.toString("utf8", 0, Math.min(buffer.length, 4096));
+  const viewBox = source.match(/viewBox=["']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["']/i);
+  if (viewBox) {
+    return { width: Math.round(Number(viewBox[1])), height: Math.round(Number(viewBox[2])) };
+  }
+  const width = source.match(/\bwidth=["']([\d.]+)/i);
+  const height = source.match(/\bheight=["']([\d.]+)/i);
+  if (width && height) {
+    return { width: Math.round(Number(width[1])), height: Math.round(Number(height[1])) };
+  }
+  return {};
+}
+function readImageDimensions(buffer, mimeType) {
+  if (mimeType === "image/svg+xml") return readSvgDimensions(buffer);
+  if (buffer.length >= 24 && buffer.readUInt32BE(0) === 2303741511) {
+    return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
+  }
+  if (buffer.length >= 10 && buffer.toString("ascii", 0, 3) === "GIF") {
+    return { width: buffer.readUInt16LE(6), height: buffer.readUInt16LE(8) };
+  }
+  if (buffer.length >= 30 && buffer.readUInt16BE(0) === 65496) {
+    let offset = 2;
+    while (offset < buffer.length) {
+      if (buffer[offset] !== 255) {
+        offset += 1;
+        continue;
+      }
+      const marker = buffer[offset + 1];
+      const length = buffer.readUInt16BE(offset + 2);
+      if ([192, 193, 194, 195, 197, 198, 199, 201, 202, 203, 205, 206, 207].includes(marker)) {
+        return { width: buffer.readUInt16BE(offset + 7), height: buffer.readUInt16BE(offset + 5) };
+      }
+      offset += 2 + length;
+    }
+  }
+  if (buffer.length >= 30 && buffer.toString("ascii", 0, 4) === "RIFF" && buffer.toString("ascii", 8, 12) === "WEBP") {
+    const chunkType = buffer.toString("ascii", 12, 16);
+    if (chunkType === "VP8X") {
+      const width = 1 + buffer.readUIntLE(24, 3);
+      const height = 1 + buffer.readUIntLE(27, 3);
+      return { width, height };
+    }
+    if (chunkType === "VP8 " && buffer.toString("hex", 23, 26) === "9d012a") {
+      return { width: buffer.readUInt16LE(26) & 16383, height: buffer.readUInt16LE(28) & 16383 };
+    }
+    if (chunkType === "VP8L" && buffer[20] === 47) {
+      const b0 = buffer[21];
+      const b1 = buffer[22];
+      const b2 = buffer[23];
+      const b3 = buffer[24];
+      const width = 1 + ((b1 & 63) << 8 | b0);
+      const height = 1 + ((b3 & 15) << 10 | b2 << 2 | (b1 & 192) >> 6);
+      return { width, height };
+    }
+  }
+  return {};
+}
+function getUploadedFileMetadata(filename) {
+  const filePath = import_path2.default.join(uploadsDir, filename);
+  const stat = import_fs.default.statSync(filePath);
+  const url = `/uploads/${filename}`;
+  const name = filename.replace(/^\d+-\d+-/, "");
+  const type = getUploadMimeType(filename);
+  let dimensions = {};
+  try {
+    dimensions = type.startsWith("image/") ? readImageDimensions(import_fs.default.readFileSync(filePath), type) : {};
+  } catch {
+    dimensions = {};
+  }
+  return {
+    url,
+    name,
+    type,
+    size: stat.size,
+    width: dimensions.width,
+    height: dimensions.height,
+    aspectRatio: getAspectRatio(dimensions.width, dimensions.height)
+  };
 }
 var upload = (0, import_multer.default)({ storage: import_multer.default.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 var app = (0, import_express.default)();
@@ -136750,6 +136953,10 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
   const submittedCategoryKey = asString(product?.categoryKey);
   const categoryKey = isProductCategoryKey(submittedCategoryKey) ? submittedCategoryKey : resolveProductCategoryKey(`${asString(product.category)} ${asString(product.name)}`) || void 0;
   const categoryLabel = categoryKey ? getProductCategoryLabel(categoryKey, normalizeLocale(locale)) : asString(product.category);
+  const shortDescription = asString(product.shortDescription);
+  if (shortDescription.length > productCardDescriptionLimit) {
+    throw new Error(`Product card description must be ${productCardDescriptionLimit} characters or less.`);
+  }
   return {
     id: fallbackId,
     name: asString(product.name),
@@ -136758,7 +136965,7 @@ async function validateProductPayload(product, existingId = "", locale = "en") {
     status: asString(product.status, "Active"),
     image: asString(product.image),
     imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [],
-    shortDescription: asString(product.shortDescription),
+    shortDescription,
     longDescription: asString(product.longDescription),
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
@@ -137101,8 +137308,8 @@ async function buildRenderMeta(req) {
 }
 app.get("/api/uploads", (_req, res) => {
   try {
-    const files = import_fs.default.existsSync(uploadsDir) ? import_fs.default.readdirSync(uploadsDir) : [];
-    res.json(files.sort((a, b) => b.localeCompare(a)).map((file) => `/uploads/${file}`));
+    const files = import_fs.default.existsSync(uploadsDir) ? import_fs.default.readdirSync(uploadsDir).filter((file) => import_fs.default.statSync(import_path2.default.join(uploadsDir, file)).isFile()) : [];
+    res.json(files.sort((a, b) => b.localeCompare(a)).map(getUploadedFileMetadata));
   } catch (error) {
     res.status(500).json({ error: "Failed to read uploads directory" });
   }

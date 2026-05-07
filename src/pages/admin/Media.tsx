@@ -1,11 +1,36 @@
 import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { UploadCloud, Trash2, File, Copy, Check } from "lucide-react";
+import { UploadCloud, Trash2, File, Copy, Check, Download } from "lucide-react";
 import { useMedia } from "@/src/contexts/MediaContext";
+import type { MediaFile } from "@/src/contexts/MediaContext";
 import { Button } from "@/src/components/ui/Button";
 
+function formatFileSize(bytes: number) {
+    if (!Number.isFinite(bytes) || bytes <= 0) return "Unknown size";
+    const units = ["B", "KB", "MB", "GB"];
+    let size = bytes;
+    let unitIndex = 0;
+
+    while (size >= 1024 && unitIndex < units.length - 1) {
+        size /= 1024;
+        unitIndex += 1;
+    }
+
+    return `${size >= 10 || unitIndex === 0 ? size.toFixed(0) : size.toFixed(1)} ${units[unitIndex]}`;
+}
+
+function getDownloadUrl(url: string) {
+    return `/api/download-upload?url=${encodeURIComponent(url)}`;
+}
+
+function getMediaDetails(item: MediaFile) {
+    if (!item.type.startsWith("image/")) return "Document";
+    if (!item.width || !item.height) return "Image";
+    return `${item.width} x ${item.height}${item.aspectRatio ? ` (${item.aspectRatio})` : ""}`;
+}
+
 export function AdminMedia() {
-    const { images, uploadMedia, deleteMedia, isLoading } = useMedia();
+    const { media, uploadMedia, deleteMedia, isLoading } = useMedia();
     const [isDragging, setIsDragging] = useState(false);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -54,8 +79,8 @@ export function AdminMedia() {
         }
     };
 
-    const copyToClipboard = (dataUrl: string, id: string) => {
-        navigator.clipboard.writeText(dataUrl).then(() => {
+    const copyToClipboard = (url: string, id: string) => {
+        navigator.clipboard.writeText(url).then(() => {
             setCopiedId(id);
             setTimeout(() => setCopiedId(null), 2000);
         });
@@ -65,7 +90,7 @@ export function AdminMedia() {
         <div className="space-y-4">
             <div>
                 <h2 className="text-2xl font-bold text-slate-900">Media Library</h2>
-                <p className="text-sm text-slate-500">Upload and manage local images and PDF files (Stored in IndexedDB).</p>
+                <p className="text-sm text-slate-500">Upload, inspect, download, and manage local images and document files.</p>
             </div>            <div
                 className={`relative rounded-lg border border-dashed p-6 text-center transition-all ${isDragging ? "border-earth-500 bg-earth-50" : "border-slate-300 bg-white hover:border-earth-400"
                     }`}
@@ -98,18 +123,19 @@ export function AdminMedia() {
                     </div>
                 </div>
             </div>            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden p-6">
-                <h3 className="mb-3 font-bold text-slate-900">Uploaded Files ({(images || []).length})</h3>
+                <h3 className="mb-3 font-bold text-slate-900">Uploaded Files ({(media || []).length})</h3>
 
                 {isLoading ? (
                     <div className="py-12 text-center text-slate-500">Loading media library...</div>
-                ) : (images || []).length === 0 ? (
+                ) : (media || []).length === 0 ? (
                     <div className="py-12 text-center text-slate-500">No media files found. Upload some to get started.</div>
                 ) : (
                     <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                         <AnimatePresence>
-                            {(images || []).map((url) => {
-                                const isImage = /\.(jpeg|jpg|png|webp|gif|svg)$/i.test(url);
-                                const name = url.split('/').pop() || 'File';
+                            {(media || []).map((item) => {
+                                const url = item.url;
+                                const isImage = item.type.startsWith("image/");
+                                const name = item.name || url.split("/").pop() || "File";
                                 return (
                                     <motion.div
                                         key={url}
@@ -130,16 +156,19 @@ export function AdminMedia() {
                                                 <button
                                                     onClick={() => copyToClipboard(url, url)}
                                                     className="p-2 bg-white text-slate-700 rounded-lg hover:bg-earth-50 hover:text-earth-600 transition-colors"
-                                                    title="Copy Data URL"
+                                                    title="Copy URL"
                                                 >
                                                     {copiedId === url ? <Check size={18} className="text-emerald-500" /> : <Copy size={18} />}
                                                 </button>
+                                                <a
+                                                    href={getDownloadUrl(url)}
+                                                    className="p-2 bg-white text-slate-700 rounded-lg hover:bg-earth-50 hover:text-earth-600 transition-colors"
+                                                    title="Download File"
+                                                >
+                                                    <Download size={18} />
+                                                </a>
                                                 <button
-                                                    onClick={() => {
-                                                        if (window.confirm("Are you sure you want to delete this media?")) {
-                                                            deleteMedia(url);
-                                                        }
-                                                    }}
+                                                    onClick={() => deleteMedia(url)}
                                                     className="p-2 bg-white text-slate-700 rounded-lg hover:bg-red-50 hover:text-red-500 transition-colors"
                                                     title="Delete File"
                                                 >
@@ -148,6 +177,10 @@ export function AdminMedia() {
                                             </div>
                                         </div>                                        <div className="p-3 border-t border-slate-200 bg-white">
                                             <p className="text-sm font-medium text-slate-900 truncate" title={name}>{name}</p>
+                                            <div className="mt-2 space-y-1 text-xs text-slate-500">
+                                                <p>{formatFileSize(item.size)}</p>
+                                                <p className="truncate" title={getMediaDetails(item)}>{getMediaDetails(item)}</p>
+                                            </div>
                                         </div>
                                     </motion.div>
                                 );

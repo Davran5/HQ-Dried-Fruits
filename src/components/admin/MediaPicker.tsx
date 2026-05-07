@@ -75,17 +75,17 @@ export function MediaPicker({ isOpen, onClose, onSelect, currentValue }: MediaPi
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                                 {filteredMedia.map((item) => {
                                     const isImage = item.type.startsWith("image/");
-                                    const isSelected = currentValue === item.dataUrl;
+                                    const isSelected = currentValue === item.url;
 
                                     return (
                                         <button
-                                            key={item.id}
-                                            onClick={() => handleSelect(item.dataUrl)}
+                                            key={item.url}
+                                            onClick={() => handleSelect(item.url)}
                                             className={`group relative aspect-square rounded-xl border-2 transition-all overflow-hidden bg-slate-100 flex flex-col ${isSelected ? "border-earth-500 ring-2 ring-earth-500/20" : "border-transparent hover:border-earth-300"
                                                 }`}
                                         >
                                             {isImage ? (
-                                                <img src={item.dataUrl} alt={item.name} className="w-full h-full object-cover" />
+                                                <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-slate-400">
                                                     <File size={32} />

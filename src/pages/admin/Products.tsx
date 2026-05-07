@@ -41,6 +41,7 @@ const emptyProduct: Omit<Product, "id"> = {
 
 const MAX_CUSTOM_FIELD_CATEGORIES = 5;
 const MAX_CUSTOM_FIELDS_PER_CATEGORY = 5;
+const PRODUCT_CARD_DESCRIPTION_LIMIT = 200;
 
 function normalizeCustomFields(fields: ProductCustomField[] = []) {
   return fields
@@ -230,6 +231,11 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     const categoryKey = formData.categoryKey || resolveProductCategoryKey(formData.category);
     if (!categoryKey) {
       alert("Please select a product category.");
+      return;
+    }
+
+    if ((formData.shortDescription || "").length > PRODUCT_CARD_DESCRIPTION_LIMIT) {
+      alert(`Product card description must be ${PRODUCT_CARD_DESCRIPTION_LIMIT} characters or less.`);
       return;
     }
 
@@ -431,15 +437,33 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-slate-700 mb-2">Short Description *</label>
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <label className="block text-sm font-bold text-slate-700">Product Card Description *</label>
+                <span className={`text-xs font-semibold ${(formData.shortDescription || "").length > PRODUCT_CARD_DESCRIPTION_LIMIT ? "text-red-500" : "text-slate-400"}`}>
+                  {(formData.shortDescription || "").length}/{PRODUCT_CARD_DESCRIPTION_LIMIT}
+                </span>
+              </div>
               <textarea
                 required
                 rows={3}
+                maxLength={PRODUCT_CARD_DESCRIPTION_LIMIT}
                 value={formData.shortDescription || ""}
                 onChange={e => setFormData({ ...formData, shortDescription: e.target.value })}
                 className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-none transition-all"
-                placeholder="Brief description for the catalog grid..."
+                placeholder="Card-only summary for the product catalog grid..."
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">Product Detail Description</label>
+              <textarea
+                rows={7}
+                value={formData.longDescription || ""}
+                onChange={e => setFormData({ ...formData, longDescription: e.target.value })}
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-earth-500 outline-none resize-y transition-all"
+                placeholder="Longer description shown on the specific product page..."
+              />
+              <p className="mt-1 text-xs text-slate-500">This text is used on the individual product specification page. The card summary above stays only on catalog cards.</p>
             </div>
           </div>
 

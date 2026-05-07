@@ -257,6 +257,7 @@ type LeadStatus = "New" | "Contacted" | "In Progress" | "Converted" | "Disqualif
 type PageId = "home" | "about" | "products" | "export" | "contacts" | "privacy" | "terms";
 
 const validLeadStatuses = new Set<LeadStatus>(["New", "Contacted", "In Progress", "Converted", "Disqualified"]);
+const productCardDescriptionLimit = 200;
 
 const pageContentTables = { home: "home_page", about: "about_page", privacy: "privacy_page", terms: "terms_page" } as const;
 
@@ -701,6 +702,132 @@ function resolveUploadedFilePath(url: string) {
   const uploadRoot = path.resolve(uploadsDir);
   const filePath = path.resolve(uploadsDir, filename);
   return filePath.startsWith(`${uploadRoot}${path.sep}`) ? filePath : null;
+}
+
+function getUploadMimeType(filename: string) {
+  const ext = path.extname(filename).toLowerCase();
+  const types: Record<string, string> = {
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".gif": "image/gif",
+    ".svg": "image/svg+xml",
+    ".pdf": "application/pdf",
+    ".doc": "application/msword",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".xls": "application/vnd.ms-excel",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".ppt": "application/vnd.ms-powerpoint",
+    ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".txt": "text/plain",
+  };
+  return types[ext] || "application/octet-stream";
+}
+
+function gcd(a: number, b: number): number {
+  return b === 0 ? Math.abs(a) : gcd(b, a % b);
+}
+
+function getAspectRatio(width?: number, height?: number) {
+  if (!width || !height) return undefined;
+  const divisor = gcd(width, height);
+  return `${width / divisor}:${height / divisor}`;
+}
+
+function readSvgDimensions(buffer: Buffer) {
+  const source = buffer.toString("utf8", 0, Math.min(buffer.length, 4096));
+  const viewBox = source.match(/viewBox=["']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["']/i);
+  if (viewBox) {
+    return { width: Math.round(Number(viewBox[1])), height: Math.round(Number(viewBox[2])) };
+  }
+
+  const width = source.match(/\bwidth=["']([\d.]+)/i);
+  const height = source.match(/\bheight=["']([\d.]+)/i);
+  if (width && height) {
+    return { width: Math.round(Number(width[1])), height: Math.round(Number(height[1])) };
+  }
+
+  return {};
+}
+
+function readImageDimensions(buffer: Buffer, mimeType: string) {
+  if (mimeType === "image/svg+xml") return readSvgDimensions(buffer);
+
+  if (buffer.length >= 24 && buffer.readUInt32BE(0) === 0x89504e47) {
+    return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
+  }
+
+  if (buffer.length >= 10 && buffer.toString("ascii", 0, 3) === "GIF") {
+    return { width: buffer.readUInt16LE(6), height: buffer.readUInt16LE(8) };
+  }
+
+  if (buffer.length >= 30 && buffer.readUInt16BE(0) === 0xffd8) {
+    let offset = 2;
+    while (offset < buffer.length) {
+      if (buffer[offset] !== 0xff) {
+        offset += 1;
+        continue;
+      }
+      const marker = buffer[offset + 1];
+      const length = buffer.readUInt16BE(offset + 2);
+      if (
+        [0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf].includes(marker)
+      ) {
+        return { width: buffer.readUInt16BE(offset + 7), height: buffer.readUInt16BE(offset + 5) };
+      }
+      offset += 2 + length;
+    }
+  }
+
+  if (buffer.length >= 30 && buffer.toString("ascii", 0, 4) === "RIFF" && buffer.toString("ascii", 8, 12) === "WEBP") {
+    const chunkType = buffer.toString("ascii", 12, 16);
+    if (chunkType === "VP8X") {
+      const width = 1 + buffer.readUIntLE(24, 3);
+      const height = 1 + buffer.readUIntLE(27, 3);
+      return { width, height };
+    }
+    if (chunkType === "VP8 " && buffer.toString("hex", 23, 26) === "9d012a") {
+      return { width: buffer.readUInt16LE(26) & 0x3fff, height: buffer.readUInt16LE(28) & 0x3fff };
+    }
+    if (chunkType === "VP8L" && buffer[20] === 0x2f) {
+      const b0 = buffer[21];
+      const b1 = buffer[22];
+      const b2 = buffer[23];
+      const b3 = buffer[24];
+      const width = 1 + (((b1 & 0x3f) << 8) | b0);
+      const height = 1 + (((b3 & 0x0f) << 10) | (b2 << 2) | ((b1 & 0xc0) >> 6));
+      return { width, height };
+    }
+  }
+
+  return {};
+}
+
+function getUploadedFileMetadata(filename: string) {
+  const filePath = path.join(uploadsDir, filename);
+  const stat = fs.statSync(filePath);
+  const url = `/uploads/${filename}`;
+  const name = filename.replace(/^\d+-\d+-/, "");
+  const type = getUploadMimeType(filename);
+  let dimensions: { width?: number; height?: number } = {};
+  try {
+    dimensions = type.startsWith("image/")
+      ? readImageDimensions(fs.readFileSync(filePath), type)
+      : {};
+  } catch {
+    dimensions = {};
+  }
+
+  return {
+    url,
+    name,
+    type,
+    size: stat.size,
+    width: dimensions.width,
+    height: dimensions.height,
+    aspectRatio: getAspectRatio(dimensions.width, dimensions.height),
+  };
 }
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
@@ -1266,9 +1393,14 @@ async function validateProductPayload(product: any, existingId = "", locale: str
     ? submittedCategoryKey
     : resolveProductCategoryKey(`${asString(product.category)} ${asString(product.name)}`) || undefined;
   const categoryLabel = categoryKey ? getProductCategoryLabel(categoryKey, normalizeLocale(locale)) : asString(product.category);
+  const shortDescription = asString(product.shortDescription);
+  if (shortDescription.length > productCardDescriptionLimit) {
+    throw new Error(`Product card description must be ${productCardDescriptionLimit} characters or less.`);
+  }
+
   return {
     id: fallbackId, name: asString(product.name), categoryKey, category: categoryLabel, status: asString(product.status, "Active"), image: asString(product.image),
-    imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [], shortDescription: asString(product.shortDescription), longDescription: asString(product.longDescription),
+    imageGallery: Array.isArray(product.imageGallery) ? product.imageGallery : [], shortDescription, longDescription: asString(product.longDescription),
     highlights: Array.isArray(product.highlights) ? product.highlights : [],
     contentSections: Array.isArray(product.contentSections) ? product.contentSections.map((section: any) => ({ title: asString(section?.title), body: asString(section?.body) })) : [],
     nutrition: nutritionPayload, customFields: primaryCustomFields, customFieldGroups, displayOrder: Number.isFinite(displayOrder) ? displayOrder : undefined, inquirySubjectLine: asString(product.inquirySubjectLine), tonnageOptions: Array.isArray(product.tonnageOptions) ? product.tonnageOptions : [],
@@ -1662,8 +1794,10 @@ async function buildRenderMeta(req: Request): Promise<RenderMeta> {
 
 app.get("/api/uploads", (_req, res) => {
   try {
-    const files = fs.existsSync(uploadsDir) ? fs.readdirSync(uploadsDir) : [];
-    res.json(files.sort((a, b) => b.localeCompare(a)).map((file) => `/uploads/${file}`));
+    const files = fs.existsSync(uploadsDir)
+      ? fs.readdirSync(uploadsDir).filter((file) => fs.statSync(path.join(uploadsDir, file)).isFile())
+      : [];
+    res.json(files.sort((a, b) => b.localeCompare(a)).map(getUploadedFileMetadata));
   } catch (error) { res.status(500).json({ error: "Failed to read uploads directory" }); }
 });
 

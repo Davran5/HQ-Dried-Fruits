@@ -15,6 +15,10 @@ function getUploadDownloadUrl(fileUrl: string) {
   return `/api/download-upload?url=${encodeURIComponent(fileUrl)}`;
 }
 
+function hasHtml(value: string) {
+  return /<\/?[a-z][\s\S]*>/i.test(value);
+}
+
 export function ProductDetail() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -129,6 +133,7 @@ export function ProductDetail() {
   const productCustomFields = (product.customFields || [])
     .filter((field) => field.label?.trim() || field.value?.trim())
     .slice(0, 5);
+  const detailDescription = product.longDescription?.trim();
 
   return (
     <PageLayout>
@@ -196,14 +201,21 @@ export function ProductDetail() {
             <h1 className="mb-6 font-display text-4xl font-bold text-earth-900 sm:text-5xl">
               {product.name}
             </h1>
-            <p className="mb-6 text-xl leading-relaxed text-earth-700">
-              {product.shortDescription}
-            </p>
-            {product.longDescription && (
-              <div
-                className="prose prose-earth prose-lg mb-10 text-earth-600"
-                dangerouslySetInnerHTML={{ __html: product.longDescription }}
-              />
+            {detailDescription ? (
+              hasHtml(detailDescription) ? (
+                <div
+                  className="prose prose-earth prose-lg mb-10 text-earth-600"
+                  dangerouslySetInnerHTML={{ __html: detailDescription }}
+                />
+              ) : (
+                <p className="mb-10 whitespace-pre-line text-xl leading-relaxed text-earth-700">
+                  {detailDescription}
+                </p>
+              )
+            ) : (
+              <p className="mb-10 text-xl leading-relaxed text-earth-700">
+                {product.shortDescription}
+              </p>
             )}
             <div className="mb-12 grid gap-4 sm:grid-cols-2">
               {(product.highlights || [
