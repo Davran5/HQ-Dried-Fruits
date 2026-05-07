@@ -124299,6 +124299,8 @@ var initialPages = [
       productPreviewTitle: "Product Categories",
       productPreviewButtonLabel: "View Full Catalog",
       productPreviewItemCtaLabel: "View in Catalog",
+      productPreviewCategoryLabel: "Product Category",
+      productPreviewTypesLabel: "Types",
       productCategories: [
         { categoryKey: "raisins", categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
         { categoryKey: "dried-apricot", categoryName: "Dried Apricot", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },
@@ -125617,6 +125619,8 @@ function FrontPage() {
     return sorted;
   }, [content.statsGrid]);
   const productCategoryCards = (content.productCategories?.length ? content.productCategories : fallbackProductCategoryCards).slice(0, 4);
+  const productPreviewCategoryLabel = content.productPreviewCategoryLabel || "Product Category";
+  const productPreviewTypesLabel = content.productPreviewTypesLabel || "Types";
   const getCertificateCards = () => {
     const scroller = certificateScrollerRef.current;
     if (!scroller) {
@@ -125814,7 +125818,7 @@ function FrontPage() {
               /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex h-full min-w-0 flex-col justify-center", children: [
                 showCategoryEyebrow && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "mb-5 flex items-center gap-3", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "h-px w-10 bg-earth-300" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.26em] text-earth-400", children: "Product Category" })
+                  /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-sm font-semibold uppercase tracking-[0.26em] text-earth-400", children: productPreviewCategoryLabel })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { className: "font-display text-[2.2rem] font-bold text-earth-900 sm:text-[2.2rem]", children: categoryDisplayName }),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-3 max-w-[34ch] text-base leading-6 text-earth-700 sm:mt-4 sm:text-lg sm:leading-7", children: product.shortDescription }),
@@ -125854,7 +125858,7 @@ function FrontPage() {
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-earth-900/24 via-earth-900/4 to-transparent" })
               ] }),
               showCategoryTypes && /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mb-3 text-center lg:text-left", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400", children: "Types" }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mb-3 text-center lg:text-left", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400", children: productPreviewTypesLabel }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 lg:content-center", children: categoryTypes.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
                   "div",
                   {
@@ -130191,6 +130195,34 @@ function HomeForm({ content, updateContent }) {
               value: content.productPreviewItemCtaLabel || "",
               onChange: (e) => updateContent({ productPreviewItemCtaLabel: e.target.value }),
               className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Card Eyebrow Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.productPreviewCategoryLabel || "",
+              onChange: (e) => updateContent({ productPreviewCategoryLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
+              placeholder: "Product Category"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Types Column Label" }),
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+            "input",
+            {
+              type: "text",
+              value: content.productPreviewTypesLabel || "",
+              onChange: (e) => updateContent({ productPreviewTypesLabel: e.target.value }),
+              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none",
+              placeholder: "Types"
             }
           )
         ] })

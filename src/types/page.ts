@@ -224,6 +224,8 @@ export interface HomeContent {
     productPreviewTitle: string;
     productPreviewButtonLabel: string;
     productPreviewItemCtaLabel: string;
+    productPreviewCategoryLabel?: string;
+    productPreviewTypesLabel?: string;
     productCategories: ProductCategoryItem[];
 
     exportMarketsEyebrow: string;

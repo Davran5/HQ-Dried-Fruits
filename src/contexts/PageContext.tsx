@@ -240,6 +240,8 @@ const initialPages: PageData[] = [
             productPreviewTitle: "Product Categories",
             productPreviewButtonLabel: "View Full Catalog",
             productPreviewItemCtaLabel: "View in Catalog",
+            productPreviewCategoryLabel: "Product Category",
+            productPreviewTypesLabel: "Types",
             productCategories: [
                 { categoryKey: "raisins", categoryName: "Raisins", image: "/uploads/category-raisins.png", shortDescription: "Export-ready raisin lines across golden, brown, and dark varieties for wholesale buyers.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
                 { categoryKey: "dried-apricot", categoryName: "Dried Apricot", image: "/uploads/category-apricots.png", shortDescription: "Sun-dried apricot categories prepared for retail, confectionery, and mixed container orders.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana confectioner", url: "/products" },

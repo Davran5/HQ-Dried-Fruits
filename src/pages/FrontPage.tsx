@@ -154,6 +154,8 @@ export function FrontPage() {
             ? content.productCategories
             : fallbackProductCategoryCards
     ).slice(0, 4);
+    const productPreviewCategoryLabel = content.productPreviewCategoryLabel || "Product Category";
+    const productPreviewTypesLabel = content.productPreviewTypesLabel || "Types";
     const getCertificateCards = (): HTMLElement[] => {
         const scroller = certificateScrollerRef.current;
         if (!scroller) {
@@ -378,7 +380,7 @@ export function FrontPage() {
                                                 <div className="mb-5 flex items-center gap-3">
                                                     <span className="h-px w-10 bg-earth-300" />
                                                     <p className="text-sm font-semibold uppercase tracking-[0.26em] text-earth-400">
-                                                        Product Category
+                                                        {productPreviewCategoryLabel}
                                                     </p>
                                                 </div>
                                             )}
@@ -428,7 +430,7 @@ export function FrontPage() {
                                             <div className="flex flex-col border-t border-earth-100 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
                                                 <div className="mb-3 text-center lg:text-left">
                                                     <p className="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-earth-400">
-                                                        Types
+                                                        {productPreviewTypesLabel}
                                                     </p>
                                                 </div>
                                                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 lg:content-center">

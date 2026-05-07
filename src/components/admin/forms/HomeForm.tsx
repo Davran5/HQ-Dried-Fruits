@@ -170,6 +170,29 @@ export function HomeForm({ content, updateContent }: Props) {
                     </div>
                 </div>
 
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Card Eyebrow Label</label>
+                        <input
+                            type="text"
+                            value={content.productPreviewCategoryLabel || ""}
+                            onChange={e => updateContent({ productPreviewCategoryLabel: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="Product Category"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Types Column Label</label>
+                        <input
+                            type="text"
+                            value={content.productPreviewTypesLabel || ""}
+                            onChange={e => updateContent({ productPreviewTypesLabel: e.target.value })}
+                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            placeholder="Types"
+                        />
+                    </div>
+                </div>
+
                 <Repeater<ProductCategoryItem>
                     label="Product Categories Grid (Maximum 4 items)"
                     items={content.productCategories || []}
