@@ -3,7 +3,7 @@ import express, { Request } from "express";
 import path from "path";
 import multer from "multer";
 import fs from "fs";
-import Jimp from "jimp";
+import sharp from "sharp";
 import mysql from "mysql2/promise";
 import React from "react";
 import { renderToString } from "react-dom/server";
@@ -441,7 +441,7 @@ function getManagedPagePath(pageId: PageId, pageSeo: Record<PageId, SeoRecord> =
   return slug ? `/${slug}` : "/";
 }
 
-const activeLocales = ["en", "ru", "uz"] as const;
+const activeLocales = ["en", "pt", "es", "nl", "fr"] as const;
 type ActiveLocale = (typeof activeLocales)[number];
 
 function isActiveLocale(value: string | null | undefined): value is ActiveLocale {
@@ -894,58 +894,7 @@ app.post("/api/auth/logout", (req, res) => {
   return res.json({ success: true });
 });
 
-app.post("/api/coming-soon-inquiry", async (req, res) => {
-  const { name, email, message } = req.body ?? {};
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
 
-  if (!botToken || !chatId) {
-    console.warn("[ComingSoon] Telegram not configured, inquiry received but not forwarded.");
-    return res.json({ success: true });
-  }
-
-  const text = [
-    "🌱 *New Coming Soon Inquiry*",
-    `👤 *Name:* ${name || "—"}`,
-    `📧 *Email:* ${email || "—"}`,
-    `💬 *Message:*\n${message || "—"}`,
-    `🕐 ${new Date().toISOString()}`,
-  ].join("\n");
-
-  try {
-    const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" }),
-    });
-    if (!tgRes.ok) {
-      const body = await tgRes.text();
-      console.error("[ComingSoon] Telegram API error:", body);
-    } else {
-      console.log("[ComingSoon] Inquiry forwarded to Telegram.");
-    }
-  } catch (err) {
-    console.error("[ComingSoon] Failed to send to Telegram:", err);
-  }
-
-  return res.json({ success: true });
-});
-
-app.post("/api/verify-password", (req, res) => {
-  const { password } = req.body ?? {};
-  const actualPassword = process.env.COMING_SOON_PASSWORD;
-  
-  if (!actualPassword) {
-    console.error("[ComingSoon] COMING_SOON_PASSWORD is not set in .env!");
-    return res.json({ success: false, error: "Configuration error" });
-  }
-
-  if (password === actualPassword) {
-    return res.json({ success: true });
-  }
-  
-  return res.json({ success: false });
-});
 
 app.use((req, _res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
@@ -1206,7 +1155,7 @@ async function syncProductSharedMedia(product: any) {
   );
 }
 
-function getManagedProductSlug(product: ReturnType<typeof mapProduct>) { return normalizeSlug(asString(product.seo?.slug), normalizeSlug(product.id, product.id)); }
+function getManagedProductSlug(product: ReturnType<typeof mapProduct>) { return normalizeSlug(product.id, product.id); }
 function getProductPath(product: ReturnType<typeof mapProduct>, pageSeo: Record<PageId, SeoRecord> = defaultPageSeo) { return `${getManagedPagePath("products", pageSeo)}/${getManagedProductSlug(product)}`; }
 
 async function getProductsForLocale(locale: string = "en") {
@@ -1917,9 +1866,21 @@ app.post("/api/products/:id", async (req, res) => {
       [productToSave.name, productToSave.categoryKey || null, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, asString(req.params.id), locale],
     );
     if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
+    await db.query("UPDATE products SET status = $1 WHERE id = $2", [productToSave.status, asString(req.params.id)]);
     await syncProductSharedMedia(productToSave);
     res.json({ success: true, product: productToSave });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" }); }
+});
+
+app.post("/api/products/:id/status", async (req, res) => {
+  try {
+    const id = asString(req.params.id);
+    const status = req.body?.status === "Active" ? "Active" : "Inactive";
+    await db.query("UPDATE products SET status = $1 WHERE id = $2", [status, id]);
+    res.json({ success: true, status });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update status globally" });
+  }
 });
 
 app.delete("/api/products/:id", async (req, res) => {
@@ -2025,58 +1986,35 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
     const baseName = sanitizeUploadBaseName(uploadedFile.originalname);
     const originalExt = path.extname(uploadedFile.originalname).toLowerCase();
-    const isPng = originalExt === ".png";
-    const isGif = originalExt === ".gif";
-    const isSvg = originalExt === ".svg";
-    const isWebp = originalExt === ".webp";
-    const ext = (isPng || isGif || isSvg || isWebp) ? originalExt : ".webp";
-    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${baseName}${ext}`;
+    const isSvg = uploadedFile.mimetype === "image/svg+xml" || originalExt === ".svg";
+    const isGif = uploadedFile.mimetype === "image/gif" || originalExt === ".gif";
+    const outputExt = isSvg ? ".svg" : isGif ? ".gif" : ".webp";
+    const uploadId = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    const filename = `${uploadId}-${baseName}${outputExt}`;
     const filePath = path.join(uploadsDir, filename);
+    let responseFilename = filename;
 
     try {
-      const maxBytes = 250 * 1024;
-
-      if (uploadedFile.buffer.length <= maxBytes || isSvg || isGif || isWebp) {
+      if (isSvg || isGif) {
         fs.writeFileSync(filePath, uploadedFile.buffer);
         console.log(`[Upload] Preserved original -> ${filename} | ${(uploadedFile.buffer.length / 1024).toFixed(1)} KB`);
       } else {
-        const qualitySteps = [80, 70, 60, 50, 40, 30];
-        const dimensionSteps = [1200, 1000, 800, 650];
-        let finalBuffer: Buffer | null = null;
-        let usedQuality = 80;
-        let usedDimension = 1200;
-        const image = await Jimp.read(uploadedFile.buffer);
-
-        outer: for (const dim of dimensionSteps) {
-          for (const quality of qualitySteps) {
-            const clone = image.clone();
-            if (clone.bitmap.width > dim || clone.bitmap.height > dim) {
-              clone.scaleToFit(dim, dim);
-            }
-            clone.quality(quality);
-            const mime = isPng ? Jimp.MIME_PNG : Jimp.MIME_JPEG;
-            const buffer = await clone.getBufferAsync(mime);
-            finalBuffer = buffer;
-            usedQuality = quality;
-            usedDimension = dim;
-
-            if (buffer.length <= maxBytes) break outer;
-          }
-        }
-
-        if (finalBuffer) {
-          fs.writeFileSync(filePath, finalBuffer);
-          console.log(`[Upload] Processed -> ${filename} | ${(finalBuffer.length / 1024).toFixed(1)} KB | ${isPng ? "PNG" : "JPEG"} q${usedQuality} | max ${usedDimension}px`);
-        } else {
-          fs.writeFileSync(filePath, uploadedFile.buffer);
-        }
+        const buffer = await sharp(uploadedFile.buffer, { failOn: "none" })
+          .rotate()
+          .resize({ width: 1600, height: 1600, fit: "inside", withoutEnlargement: true })
+          .webp({ quality: 80, effort: 4 })
+          .toBuffer();
+        fs.writeFileSync(filePath, buffer);
+        console.log(`[Upload] Processed -> ${filename} | ${(buffer.length / 1024).toFixed(1)} KB | WebP q80`);
       }
     } catch (err) {
-      console.warn("Jimp processing failed, saving original file:", err);
-      fs.writeFileSync(filePath, uploadedFile.buffer);
+      const fallbackExt = originalExt || ".bin";
+      responseFilename = `${uploadId}-${baseName}${fallbackExt}`;
+      fs.writeFileSync(path.join(uploadsDir, responseFilename), uploadedFile.buffer);
+      console.warn("Sharp processing failed, saving original file:", err);
     }
 
-    res.json({ url: `/uploads/${filename}` });
+    res.json({ url: `/uploads/${responseFilename}` });
   } catch (error) { res.status(500).json({ error: "Upload failed on server" }); }
 });
 const documentUpload = multer({
@@ -2115,18 +2053,23 @@ app.post("/api/upload-favicon", upload.single("file"), async (req, res) => {
   try {
     const uploadedFile = (req as any).file;
     if (!uploadedFile) return res.status(400).json({ error: "No file uploaded" });
-    const filename = `favicon-${Date.now()}-${Math.round(Math.random() * 1e9)}.png`;
+    const uploadId = `favicon-${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    let filename = `${uploadId}.png`;
     const filePath = path.join(uploadsDir, filename);
 
     try {
-      const image = await Jimp.read(uploadedFile.buffer);
-      image.contain(192, 192);
-      const buffer = await image.getBufferAsync(Jimp.MIME_PNG);
+      const buffer = await sharp(uploadedFile.buffer, { failOn: "none" })
+        .rotate()
+        .resize({ width: 192, height: 192, fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .png()
+        .toBuffer();
       fs.writeFileSync(filePath, buffer);
       console.log(`[Upload-Favicon] Processed -> ${filename} | ${(buffer.length / 1024).toFixed(1)} KB`);
     } catch (err) {
-      console.warn("Jimp processing failed for favicon, saving original file:", err);
-      fs.writeFileSync(filePath, uploadedFile.buffer);
+      const originalExt = path.extname(uploadedFile.originalname).toLowerCase() || ".bin";
+      filename = `${uploadId}${originalExt}`;
+      fs.writeFileSync(path.join(uploadsDir, filename), uploadedFile.buffer);
+      console.warn("Sharp processing failed for favicon, saving original file:", err);
     }
 
     res.json({ url: `/uploads/${filename}` });

@@ -1,9 +1,11 @@
 import { en, TranslationKey } from "./en";
-import { ru } from "./ru";
-import { uz } from "./uz";
+import { pt } from "./pt";
+import { es } from "./es";
+import { nl } from "./nl";
+import { fr } from "./fr";
 
-export type LocaleCode = "en" | "ru" | "uz" | "de" | "fr" | "fr-be" | "nl-be" | "de-be";
-export type TranslationLocale = "en" | "ru" | "uz";
+export type LocaleCode = "en" | "ru" | "uz" | "de" | "fr" | "pt" | "es" | "nl" | "fr-be" | "nl-be" | "de-be";
+export type TranslationLocale = "en" | "pt" | "es" | "nl" | "fr";
 
 export interface LocaleDefinition {
   code: LocaleCode;
@@ -16,10 +18,10 @@ export interface LocaleDefinition {
 }
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
-export const ACTIVE_LOCALES = ["en", "ru", "uz"] as const;
+export const ACTIVE_LOCALES = ["en", "pt", "es", "nl", "fr"] as const;
 export type ActiveLocaleCode = (typeof ACTIVE_LOCALES)[number];
 
-export const translations: Record<TranslationLocale, typeof en> = { en, ru, uz };
+export const translations: Record<TranslationLocale, typeof en> = { en, pt, es, nl, fr };
 
 export const localeRegistry: Record<LocaleCode, LocaleDefinition> = {
   en: {
@@ -36,13 +38,37 @@ export const localeRegistry: Record<LocaleCode, LocaleDefinition> = {
     shortLabel: "RU",
     baseLanguage: "ru",
     fallbackLocale: "en",
-    isActive: true,
+    isActive: false,
   },
   uz: {
     code: "uz",
     label: "O'zbekcha",
     shortLabel: "UZ",
     baseLanguage: "uz",
+    fallbackLocale: "en",
+    isActive: false,
+  },
+  pt: {
+    code: "pt",
+    label: "Português (BR)",
+    shortLabel: "PT",
+    baseLanguage: "pt",
+    fallbackLocale: "en",
+    isActive: true,
+  },
+  es: {
+    code: "es",
+    label: "Español",
+    shortLabel: "ES",
+    baseLanguage: "es",
+    fallbackLocale: "en",
+    isActive: true,
+  },
+  nl: {
+    code: "nl",
+    label: "Nederlands",
+    shortLabel: "NL",
+    baseLanguage: "nl",
     fallbackLocale: "en",
     isActive: true,
   },
@@ -60,7 +86,7 @@ export const localeRegistry: Record<LocaleCode, LocaleDefinition> = {
     shortLabel: "FR",
     baseLanguage: "fr",
     fallbackLocale: "en",
-    isActive: false,
+    isActive: true,
   },
   "fr-be": {
     code: "fr-be",

@@ -1,10 +1,9 @@
 import type { AboutTrustItem, GlobalUILabels } from "@/src/types/page";
 
-export const ABOUT_TRUST_ITEM_KEYS = ["fda", "haccp", "iso", "organic", "globalgap"] as const;
+export const ABOUT_TRUST_ITEM_KEYS = ["haccp", "iso", "organic", "globalgap"] as const;
 
 export function getDefaultAboutTrustItems(uiLabels: Partial<GlobalUILabels> = {}): AboutTrustItem[] {
     return [
-        { key: "fda", label: uiLabels.fdaLabel || "FDA Registered", visible: true },
         { key: "haccp", label: uiLabels.haccpLabel || "HACCP Certified", visible: true },
         { key: "iso", label: uiLabels.isoLabel || "ISO 9001:2015", visible: true },
         { key: "organic", label: uiLabels.organicLabel || "100% Organic", visible: true },

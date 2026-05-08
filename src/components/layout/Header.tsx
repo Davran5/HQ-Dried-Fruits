@@ -116,10 +116,10 @@ export function Header() {
 
               <div
                 className={cn(
-                  "absolute right-0 top-0 z-20 grid h-9 w-[9.75rem] origin-right grid-cols-3 gap-1 rounded-full border border-[#8b5a89]/20 bg-white/90 p-1 shadow-[0_14px_38px_rgba(75,34,64,0.16)] backdrop-blur-xl transition-all duration-200",
+                  "absolute right-0 top-full mt-1.5 z-20 flex flex-col gap-1 w-12 rounded-2xl border border-[#8b5a89]/20 bg-white/95 p-1 shadow-[0_14px_38px_rgba(75,34,64,0.12)] backdrop-blur-xl transition-all duration-300 origin-top before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 before:content-['']",
                   languageMenuOpen
-                    ? "pointer-events-auto translate-x-0 scale-100 opacity-100"
-                    : "pointer-events-none translate-x-1 scale-95 opacity-0"
+                    ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+                    : "pointer-events-none -translate-y-2 scale-95 opacity-0"
                 )}
               >
                 {SUPPORTED_LANGUAGES.map((lang) => (
@@ -131,9 +131,9 @@ export function Header() {
                       setLanguageMenuOpen(false);
                     }}
                     className={cn(
-                      "flex h-7 items-center justify-center rounded-full text-[11px] font-extrabold tracking-[0.16em] transition-all duration-150",
+                      "flex h-8 w-full items-center justify-center rounded-xl text-[10px] font-extrabold tracking-wider transition-all duration-150",
                       language === lang
-                        ? "bg-[#4b2240] text-white shadow-md shadow-[#4b2240]/20"
+                        ? "bg-[#4b2240] text-white shadow-md shadow-[#4b2240]/15"
                         : "text-[#4b2240]/65 hover:bg-[#f4edf2] hover:text-[#4b2240]"
                     )}
                     aria-pressed={language === lang}

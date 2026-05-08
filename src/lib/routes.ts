@@ -90,7 +90,7 @@ export function getManagedPagePath(pageId: ManagedPageId, pageSeo?: Record<strin
 }
 
 export function getManagedProductSlug(product: Product) {
-  return normalizeSlug(product.seo?.slug || "", normalizeSlug(product.id, product.id));
+  return normalizeSlug(product.id, product.id);
 }
 
 export function getManagedProductPath(product: Product, pageSeo?: Record<string, SEOData>, locale: LocaleCode = "en") {

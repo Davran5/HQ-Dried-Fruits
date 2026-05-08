@@ -311,6 +311,27 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
     setItemToDelete(null);
   };
 
+  const handleToggleStatus = async (productId: string, currentStatus: string) => {
+    const nextStatus = currentStatus === "Active" ? "Inactive" : "Active";
+    try {
+      const response = await fetch(`/api/products/${productId}/status`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: nextStatus }),
+      });
+      if (response.ok) {
+        await refreshProducts(editingLang);
+        setSuccessMessage(`Product status set to ${nextStatus} globally!`);
+        setTimeout(() => setSuccessMessage(null), 3000);
+      } else {
+        alert("Failed to update status globally.");
+      }
+    } catch (err) {
+      console.error("Error updating status globally:", err);
+      alert("Failed to update status globally.");
+    }
+  };
+
   const persistProductOrder = async (nextProducts: Product[]) => {
     setIsReordering(true);
     try {
@@ -775,7 +796,24 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
+                  {/* Global Active Toggle Switch */}
+                  <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      type="button"
+                      onClick={() => handleToggleStatus(product.id, product.status)}
+                      className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out outline-none focus:ring-2 focus:ring-earth-500/20 ${product.status === "Active" ? "bg-emerald-500" : "bg-slate-200"}`}
+                      title={product.status === "Active" ? "Click to set Inactive globally" : "Click to set Active globally"}
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${product.status === "Active" ? "translate-x-5" : "translate-x-0"}`}
+                      />
+                    </button>
+                    <span className="hidden sm:inline text-xs font-bold uppercase tracking-wider text-slate-400 w-16 text-left">
+                      {product.status === "Active" ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+
                   <button
                     onClick={(e) => confirmDelete(e, product.id)}
                     className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"

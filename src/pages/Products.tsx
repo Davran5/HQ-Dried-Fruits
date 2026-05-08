@@ -333,7 +333,7 @@ export function Products() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.2), ease: "easeOut" }}
-                  className="group flex min-h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.65rem] border border-earth-100 bg-white shadow-sm shadow-earth-100/70 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-earth-200/40"
+                  className="group flex min-h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.65rem] border border-earth-100 bg-white shadow-sm shadow-earth-100/70 transition-all hover:shadow-xl hover:shadow-earth-200/40"
                 >
                   <div className="relative h-36 overflow-hidden bg-earth-100 sm:h-40">
                     {image ? (

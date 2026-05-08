@@ -15,6 +15,7 @@ export function About() {
   const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.about;
   const springEasing = [0.25, 1, 0.5, 1];
+  const productionContentRevealDelayMs = 360;
 
   useSEO({
     title: seo?.metaTitle || "About HQ Dried Fruits | Our Heritage & Mission",
@@ -24,6 +25,7 @@ export function About() {
   const pageData = pages.find(p => p.id === "about");
   const content: AboutContent = pageData?.content;
   const [activeProductionIndex, setActiveProductionIndex] = useState(0);
+  const [revealedProductionIndex, setRevealedProductionIndex] = useState(0);
   const [isDesktopFacilityViewport, setIsDesktopFacilityViewport] = useState(false);
   const heritageImages =
     content?.heritageImagery?.length > 0
@@ -85,24 +87,23 @@ export function About() {
         return <Leaf className={iconClassName} />;
       case "globalgap":
         return <BadgeCheck className={iconClassName} />;
-      case "fda":
       default:
         return <CheckCircle2 className={iconClassName} />;
     }
   };
   const missionPanels = [
     {
-      eyebrow: t("missionPurposeLabel"),
+      eyebrow: content?.missionPurposeEyebrow || t("missionPurposeLabel"),
       title: content?.missionTitle || "Our Mission",
       html:
         content?.missionStatement ||
         "<p>Our mission is to bridge traditional sun-drying methods with modern food safety regulations.</p>",
     },
     {
-      eyebrow: t("missionHeritageLabel"),
+      eyebrow: content?.missionHeritageEyebrow || t("missionHeritageLabel"),
       title: content?.philosophyTitle || "Heritage & Philosophy",
       html:
-        content?.whoWeAreContent ||
+        content?.philosophyContent ||
         "<p>Deeply embedded in the agricultural heart of Central Asia, we cultivate, process, and export dried fruits with long-term consistency for wholesale buyers.</p>",
     },
     {
@@ -114,7 +115,7 @@ export function About() {
       isQuote: true,
     },
     {
-      eyebrow: t("missionStandardsLabel"),
+      eyebrow: content?.missionStandardsEyebrow || t("missionStandardsLabel"),
       title: content?.productionStandardsTitle || "Production Standards",
       plain:
         content?.productionStandards ||
@@ -153,6 +154,18 @@ export function About() {
 
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
+
+  useEffect(() => {
+    if (revealedProductionIndex === activeProductionIndex) {
+      return;
+    }
+
+    const revealTimer = window.setTimeout(() => {
+      setRevealedProductionIndex(activeProductionIndex);
+    }, productionContentRevealDelayMs);
+
+    return () => window.clearTimeout(revealTimer);
+  }, [activeProductionIndex, revealedProductionIndex, productionContentRevealDelayMs]);
 
   return (
     <PageLayout>
@@ -402,9 +415,10 @@ export function About() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 lg:min-h-[34rem] lg:flex-row">
+        <div className="flex flex-col gap-4 lg:min-h-[25.2rem] lg:flex-row">
           {ownProductionItems.map((item, index) => {
             const isActive = index === activeProductionIndex;
+            const isProductionContentVisible = isActive && revealedProductionIndex === index;
 
             return (
               <motion.button
@@ -414,14 +428,17 @@ export function About() {
                   setActiveProductionIndex(index);
                 }}
                 className={`group relative overflow-hidden rounded-[2.5rem] text-left transition-[height] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  isActive ? "h-[28rem]" : "h-[9rem]"
+                  isActive ? "h-[23.8rem]" : "h-[6.3rem]"
+                } ${
+                  isActive ? "sm:h-[22.4rem]" : "sm:h-[6.3rem]"
                 } ${
                   isActive ? "lg:flex-[2.2]" : "lg:flex-1"
-                } lg:h-full`}
+                } lg:h-[25.2rem]`}
                 initial={false}
                 animate={{ flexGrow: isDesktopFacilityViewport ? (isActive ? 2.2 : 1) : 1 }}
                 transition={{ duration: 0.58, ease: [0.16, 1, 0.3, 1] }}
                 style={{ flexBasis: isDesktopFacilityViewport ? 0 : "auto" }}
+                aria-pressed={isActive}
               >
                 <div className="absolute inset-0">
                   <img
@@ -433,32 +450,44 @@ export function About() {
                   <div className={`absolute inset-0 transition-all duration-500 ${isActive ? "bg-gradient-to-t from-earth-900/88 via-earth-900/36 to-transparent" : "bg-gradient-to-t from-earth-900/80 via-earth-900/30 to-transparent"}`} />
                 </div>
 
-                <div className="relative flex h-full flex-col justify-end p-6 sm:p-8 lg:min-h-[26rem]">
-                  <div className="max-w-md">
-                    <p className={`text-xs font-bold uppercase tracking-[0.24em] transition-colors ${isActive ? "text-earth-100" : "text-earth-200/80"}`}>
-                      {item.subtitle}
-                    </p>
-                    <h3 className="mt-3 font-display text-3xl font-bold text-white">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <AnimatePresence initial={false}>
-                    {isActive && (
-                      <motion.div
-                        key={`${item.title}-details`}
-                        initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
-                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, y: 12, filter: "blur(2px)" }}
-                        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                        className="mt-4 overflow-hidden"
-                      >
-                        <p className="max-w-md text-sm leading-6 text-earth-100 sm:text-base sm:leading-7">
-                          {item.description}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                <div
+                  className={`absolute inset-x-0 bottom-0 z-30 p-6 transition-opacity duration-500 sm:p-8 ${
+                    isProductionContentVisible ? "opacity-0" : "opacity-100"
+                  }`}
+                  aria-hidden={isProductionContentVisible}
+                >
+                  <p className={`text-xs font-bold uppercase tracking-[0.24em] transition-colors duration-300 ${
+                    isActive ? "text-earth-100" : "text-earth-200/80"
+                  }`}>
+                    {item.subtitle}
+                  </p>
+                  <h3 className="mt-3 max-w-md break-words font-display text-2xl font-bold leading-tight text-white sm:text-3xl">
+                    {item.title}
+                  </h3>
                 </div>
+
+                <AnimatePresence initial={false}>
+                  {isProductionContentVisible && (
+                    <motion.div
+                      key={`${item.title}-active-panel`}
+                      initial={{ opacity: 0, filter: "blur(10px)" }}
+                      animate={{ opacity: 1, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, filter: "blur(4px)" }}
+                      transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute inset-x-0 bottom-0 z-20 max-h-[calc(100%-2rem)] overflow-y-auto overscroll-contain p-6 sm:max-h-[calc(100%-3rem)] sm:p-8"
+                    >
+                      <p className="max-w-md break-words text-xs font-bold uppercase tracking-[0.24em] text-earth-100">
+                        {item.subtitle}
+                      </p>
+                      <h3 className="mt-3 max-w-md break-words font-display text-2xl font-bold leading-tight text-white sm:text-3xl">
+                        {item.title}
+                      </h3>
+                      <p className="mt-4 max-w-md break-words text-sm leading-6 text-earth-100 sm:text-[0.95rem] sm:leading-7">
+                        {item.description}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.button>
             );
           })}

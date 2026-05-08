@@ -271,12 +271,16 @@ export interface AboutContent {
 
     missionTitle: string;
     missionStatement: string;
+    missionPurposeEyebrow?: string;
+    missionHeritageEyebrow?: string;
     philosophyTitle: string;
+    philosophyContent?: string;
     orchardPhilosophyEyebrow?: string;
     orchardPhilosophyTitle?: string;
     orchardPhilosophy: string;
     productionStandardsTitle: string;
     productionStandards: string;
+    missionStandardsEyebrow?: string;
     missionPhotography: string;
     missionNarrativeEyebrow: string;
     missionNarrativeTitle: string;

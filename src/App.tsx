@@ -1,6 +1,6 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
-import { ComingSoon, isUnlocked } from "./pages/ComingSoon";
+
 import { FrontPage } from "./pages/FrontPage";
 import { About } from "./pages/About";
 import { Products } from "./pages/Products";
@@ -139,14 +139,6 @@ function PublicRouteResolver() {
   }
 }
 
-function ComingSoonGate({ children }: { children: ReactNode }) {
-  const [unlocked, setUnlocked] = useState<boolean>(() => isUnlocked());
-  if (!unlocked) {
-    return <ComingSoon onUnlock={() => setUnlocked(true)} />;
-  }
-  return <>{children}</>;
-}
-
 export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload | null }) {
   return (
     <ErrorBoundary>
@@ -168,11 +160,7 @@ export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload
                 </Route>
                 <Route
                   path="*"
-                  element={
-                    <ComingSoonGate>
-                      <PublicRouteResolver />
-                    </ComingSoonGate>
-                  }
+                  element={<PublicRouteResolver />}
                 />
               </Routes>
             </ProductProvider>

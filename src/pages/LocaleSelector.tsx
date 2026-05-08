@@ -5,20 +5,28 @@ import { activeLocaleDefinitions, detectDeviceLocale, saveLocalePreference } fro
 import { buildLocalePath } from "@/src/lib/routes";
 import { usePages } from "@/src/contexts/PageContext";
 
-const loadingCopy = {
+const loadingCopy: Record<string, { title: string; body: string }> = {
   en: {
     title: "Detecting language",
     body: "We are preparing the right language version from your browser settings.",
   },
-  ru: {
-    title: "Определяем язык",
-    body: "Мы подготавливаем подходящую языковую версию по настройкам вашего браузера.",
+  pt: {
+    title: "Detectando idioma",
+    body: "Estamos preparando a versão correta do idioma a partir das configurações do seu navegador.",
   },
-  uz: {
-    title: "Til aniqlanmoqda",
-    body: "Brauzeringiz sozlamalariga mos til versiyasi tayyorlanmoqda.",
+  es: {
+    title: "Detectando idioma",
+    body: "Estamos preparando la versión de idioma adecuada según la configuración de su navegador.",
   },
-} as const;
+  nl: {
+    title: "Taal detecteren",
+    body: "We bereiden de juiste taalversie voor op basis van uw browserinstellingen.",
+  },
+  fr: {
+    title: "Détection de la langue",
+    body: "Nous préparons la bonne version linguistique à partir des paramètres de votre navigateur.",
+  },
+};
 
 export function LocaleSelectorPage() {
   const navigate = useNavigate();
@@ -58,10 +66,10 @@ export function LocaleSelectorPage() {
         </div>
 
         <h1 className="max-w-3xl font-display text-4xl font-bold leading-tight text-earth-950 sm:text-6xl">
-          {loadingCopy[detectedLocale].title}
+          {(loadingCopy[detectedLocale] || loadingCopy.en).title}
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-earth-700 sm:text-lg">
-          {loadingCopy[detectedLocale].body}
+          {(loadingCopy[detectedLocale] || loadingCopy.en).body}
         </p>
 
         <div className="mt-10 flex items-center gap-4 rounded-full border border-white/70 bg-white/60 px-5 py-3 shadow-[0_18px_60px_rgba(82,52,31,0.12)] backdrop-blur-xl">

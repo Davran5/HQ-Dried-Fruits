@@ -1,26 +1,24 @@
 #!/bin/bash
 set -e
 
-# CloudLinux/cPanel deployment helper.
-# Run this from /home/hqdriedfruits/repositories/HQ-Dried-Fruits.
-
 echo "Starting deployment..."
 
-NODEVENV_BIN="/home/hqdriedfruits/nodevenv/repositories/HQ-Dried-Fruits/18/bin"
+REQUIRED_NODE_VERSION="24.13.0"
+NODEVENV_BIN="/home/hqdriedfruits/nodevenv/repositories/HQ-Dried-Fruits/24/bin"
 if [ -d "$NODEVENV_BIN" ]; then
     export PATH="$NODEVENV_BIN:$PATH"
 fi
 
 if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1; then
     echo "node/npm command not found."
-    echo "Open cPanel -> Setup Node.js App -> select Node 18.20.8 -> Run NPM Install, then Restart."
+    echo "Open cPanel -> Setup Node.js App -> select Node ${REQUIRED_NODE_VERSION} -> Run NPM Install, then Restart."
     exit 1
 fi
 
-NODE_MAJOR="$(node -p "Number(process.versions.node.split('.')[0])")"
-if [ "$NODE_MAJOR" -ne 18 ]; then
-    echo "Node 18.20.8 is required. Current version: $(node -v)"
-    echo "Change cPanel -> Setup Node.js App to Node 18.20.8 before installing."
+NODE_VERSION="$(node -p "process.versions.node")"
+if [ "$NODE_VERSION" != "$REQUIRED_NODE_VERSION" ]; then
+    echo "Node ${REQUIRED_NODE_VERSION} is required. Current version: $(node -v)"
+    echo "Change cPanel -> Setup Node.js App to Node ${REQUIRED_NODE_VERSION} before installing."
     exit 1
 fi
 
@@ -43,7 +41,7 @@ mkdir -p public/uploads
 cp -r "$BACKUP_DIR/uploads/"* public/uploads/ 2>/dev/null || true
 
 echo "Installing dependencies..."
-npm install --omit=dev --ignore-scripts
+npm ci --omit=dev
 
 echo "Deployment complete."
 echo "Restart the app in cPanel Node.js App manager."

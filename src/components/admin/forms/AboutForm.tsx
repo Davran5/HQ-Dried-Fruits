@@ -244,123 +244,166 @@ export function AboutForm({ content, updateContent }: Props) {
                 </div>
             </FormSection>
 
-            <FormSection title="4. Mission & Logistics" defaultOpen={false}>
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Mission Narrative Eyebrow</label>
-                    <input
-                        type="text"
-                        value={content.missionNarrativeEyebrow || ""}
-                        onChange={e => updateContent({ missionNarrativeEyebrow: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Mission Narrative Main Title</label>
-                    <input
-                        type="text"
-                        value={content.missionNarrativeTitle ?? missionNarrativeTitleFallback}
-                        onChange={e => updateContent({ missionNarrativeTitle: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                        placeholder="What guides the way we grow, process, and deliver"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Mission Narrative Text Below Title</label>
-                    <textarea
-                        rows={3}
-                        value={content.missionNarrativeSublabel ?? missionNarrativeSublabelFallback}
-                        onChange={e => updateContent({ missionNarrativeSublabel: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-                        placeholder="A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section."
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Mission Section Title</label>
-                    <input
-                        type="text"
-                        value={content.missionTitle || ""}
-                        onChange={e => updateContent({ missionTitle: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                    />
-                </div>
-
-                <RichTextEditor
-                    label='Mission Statement'
-                    value={content.missionStatement || ""}
-                    onChange={val => updateContent({ missionStatement: val })}
-                />
-
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Philosophy Section Title</label>
-                    <input
-                        type="text"
-                        value={content.philosophyTitle || ""}
-                        onChange={e => updateContent({ philosophyTitle: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                    />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Orchard Philosophy Eyebrow</label>
-                        <input
-                            type="text"
-                            value={content.orchardPhilosophyEyebrow || ""}
-                            onChange={e => updateContent({ orchardPhilosophyEyebrow: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                            placeholder="Philosophy"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">Orchard Philosophy Title</label>
-                        <input
-                            type="text"
-                            value={content.orchardPhilosophyTitle || ""}
-                            onChange={e => updateContent({ orchardPhilosophyTitle: e.target.value })}
-                            className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-                            placeholder="Orchard Philosophy"
-                        />
+            <FormSection title="4. Mission Narrative & 4 Pillars" defaultOpen={false}>
+                <div className="mb-6 p-4 rounded-xl border border-blue-100 bg-blue-50">
+                    <h4 className="font-semibold text-blue-900 mb-1">Mission Narrative Header</h4>
+                    <p className="text-xs text-blue-700 mb-4">This is the title and description that appear above the four pillar boxes.</p>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow</label>
+                            <input
+                                type="text"
+                                value={content.missionNarrativeEyebrow || ""}
+                                onChange={e => updateContent({ missionNarrativeEyebrow: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Main Title</label>
+                            <input
+                                type="text"
+                                value={content.missionNarrativeTitle ?? missionNarrativeTitleFallback}
+                                onChange={e => updateContent({ missionNarrativeTitle: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Text Below Title</label>
+                            <textarea
+                                rows={3}
+                                value={content.missionNarrativeSublabel ?? missionNarrativeSublabelFallback}
+                                onChange={e => updateContent({ missionNarrativeSublabel: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+                            />
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Orchard Philosophy Text</label>
-                    <textarea
-                        rows={4}
-                        value={content.orchardPhilosophy || ""}
-                        onChange={e => updateContent({ orchardPhilosophy: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-                    />
+                <div className="grid md:grid-cols-2 gap-6">
+                    <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-4">
+                        <h4 className="font-semibold text-slate-800 border-b pb-2">Top-Left Box (Purpose)</h4>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow</label>
+                            <input
+                                type="text"
+                                value={content.missionPurposeEyebrow || ""}
+                                onChange={e => updateContent({ missionPurposeEyebrow: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Title</label>
+                            <input
+                                type="text"
+                                value={content.missionTitle || ""}
+                                onChange={e => updateContent({ missionTitle: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <RichTextEditor
+                            label='Body Text'
+                            value={content.missionStatement || ""}
+                            onChange={val => updateContent({ missionStatement: val })}
+                        />
+                    </div>
+
+                    <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-4">
+                        <h4 className="font-semibold text-slate-800 border-b pb-2">Top-Right Box (Heritage)</h4>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow</label>
+                            <input
+                                type="text"
+                                value={content.missionHeritageEyebrow || ""}
+                                onChange={e => updateContent({ missionHeritageEyebrow: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Title</label>
+                            <input
+                                type="text"
+                                value={content.philosophyTitle || ""}
+                                onChange={e => updateContent({ philosophyTitle: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <RichTextEditor
+                            label='Body Text'
+                            value={content.philosophyContent || ""}
+                            onChange={val => updateContent({ philosophyContent: val })}
+                        />
+                    </div>
+
+                    <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-4">
+                        <h4 className="font-semibold text-slate-800 border-b pb-2">Bottom-Left Box (Philosophy)</h4>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow</label>
+                            <input
+                                type="text"
+                                value={content.orchardPhilosophyEyebrow || ""}
+                                onChange={e => updateContent({ orchardPhilosophyEyebrow: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Title</label>
+                            <input
+                                type="text"
+                                value={content.orchardPhilosophyTitle || ""}
+                                onChange={e => updateContent({ orchardPhilosophyTitle: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Body Text (Plain text quote)</label>
+                            <textarea
+                                rows={4}
+                                value={content.orchardPhilosophy || ""}
+                                onChange={e => updateContent({ orchardPhilosophy: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none resize-none"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-4">
+                        <h4 className="font-semibold text-slate-800 border-b pb-2">Bottom-Right Box (Standards)</h4>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow</label>
+                            <input
+                                type="text"
+                                value={content.missionStandardsEyebrow || ""}
+                                onChange={e => updateContent({ missionStandardsEyebrow: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Title</label>
+                            <input
+                                type="text"
+                                value={content.productionStandardsTitle || ""}
+                                onChange={e => updateContent({ productionStandardsTitle: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">Body Text (Plain text)</label>
+                            <textarea
+                                rows={4}
+                                value={content.productionStandards || ""}
+                                onChange={e => updateContent({ productionStandards: e.target.value })}
+                                className="w-full rounded-lg border border-slate-300 px-3 py-1.5 text-slate-900 focus:border-earth-500 outline-none resize-none"
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Production Standards Section Title</label>
-                    <input
-                        type="text"
-                        value={content.productionStandardsTitle || ""}
-                        onChange={e => updateContent({ productionStandardsTitle: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
+                <div className="mt-6">
+                    <ImageUploader
+                        label="Central Mission Photography"
+                        value={content.missionPhotography || ""}
+                        onChange={url => updateContent({ missionPhotography: url })}
                     />
                 </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Production Standards</label>
-                    <textarea
-                        rows={4}
-                        value={content.productionStandards || ""}
-                        onChange={e => updateContent({ productionStandards: e.target.value })}
-                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
-                    />
-                </div>
-
-                <ImageUploader
-                    label="Large-Scale Mission Photography"
-                    value={content.missionPhotography || ""}
-                    onChange={url => updateContent({ missionPhotography: url })}
-                />
             </FormSection>
 
             <FormSection title="5. Own Production" defaultOpen={false}>

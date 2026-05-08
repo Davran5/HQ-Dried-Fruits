@@ -1,5 +1,5 @@
 export type ProductCategoryKey = "raisins" | "dried-apricot" | "prunes" | "peanuts";
-export type ProductCategoryLocale = "en" | "ru" | "uz";
+export type ProductCategoryLocale = "en" | "ru" | "uz" | "es" | "pt" | "nl" | "fr";
 
 export interface ProductCategoryDefinition {
   key: ProductCategoryKey;
@@ -10,22 +10,54 @@ export interface ProductCategoryDefinition {
 export const PRODUCT_CATEGORY_DEFINITIONS: ProductCategoryDefinition[] = [
   {
     key: "raisins",
-    labels: { en: "Raisins", ru: "Изюм", uz: "Mayiz" },
+    labels: {
+      en: "Raisins",
+      ru: "Изюм",
+      uz: "Mayiz",
+      es: "Pasas",
+      pt: "Passas",
+      nl: "Rozijnen",
+      fr: "Raisins Secs"
+    },
     aliases: ["raisins", "raisin", "sultana", "soyaki", "golden", "black-red", "изюм", "кишмиш", "майиз", "mayiz"],
   },
   {
     key: "dried-apricot",
-    labels: { en: "Dried Apricot", ru: "Курага", uz: "Quritilgan o'rik" },
+    labels: {
+      en: "Dried Apricot",
+      ru: "Курага",
+      uz: "Quritilgan o'rik",
+      es: "Albaricoques Secos",
+      pt: "Damascos Secos",
+      nl: "Gedroogde Abrikozen",
+      fr: "Abricots Secs"
+    },
     aliases: ["dried apricot", "dried apricots", "apricot", "apricots", "subhana", "курага", "абрикос", "урюк", "quritilgan orik", "quritilgan o'rik", "orik", "o'rik"],
   },
   {
     key: "prunes",
-    labels: { en: "Prunes", ru: "Чернослив", uz: "Quritilgan qora olxo'ri" },
+    labels: {
+      en: "Prunes",
+      ru: "Чернослив",
+      uz: "Quritilgan qora olxo'ri",
+      es: "Ciruelas Pasas",
+      pt: "Ameixas Secas",
+      nl: "Pruimen",
+      fr: "Pruneaux"
+    },
     aliases: ["prunes", "prune", "pitted prunes", "spain", "hungarian", "ashlock", "чернослив", "слива", "quritilgan qora olxo'ri", "qora olxo'ri", "olxori"],
   },
   {
     key: "peanuts",
-    labels: { en: "Peanuts", ru: "Арахис", uz: "Yeryong'oq" },
+    labels: {
+      en: "Peanuts",
+      ru: "Арахис",
+      uz: "Yeryong'oq",
+      es: "Cacahuetes",
+      pt: "Amendoins",
+      nl: "Pinda's",
+      fr: "Cacahuètes"
+    },
     aliases: ["peanuts", "peanut", "in shell", "unshelled", "bird feed", "арахис", "арахисы", "yeryongoq", "yeryong'oq", "yer yongoq", "yer yong'oq"],
   },
 ];
@@ -38,7 +70,7 @@ export function isProductCategoryKey(value: string | undefined | null): value is
 
 export function getProductCategoryLabel(key: string | undefined | null, locale: string = "en") {
   const category = PRODUCT_CATEGORY_DEFINITIONS.find((item) => item.key === key);
-  const resolvedLocale = locale === "ru" || locale === "uz" ? locale : "en";
+  const resolvedLocale = (locale as ProductCategoryLocale) || "en";
   return category?.labels[resolvedLocale] || category?.labels.en || "";
 }
 
