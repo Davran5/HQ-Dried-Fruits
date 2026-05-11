@@ -231,6 +231,7 @@ const initialPages: PageData[] = [
             introEyebrow: "About Us",
             introImage: "",
             introText: "We cultivate, process, and directly export the finest dried fruits from the Fergana Valley. Using advanced laser-sorting technology, we guarantee 99.9% purity for high-volume wholesale buyers across Europe and Asia.",
+            introExtraParagraph: "Built around orchard relationships, disciplined processing, and buyer-ready export execution, our operation is designed to deliver consistent dried fruit quality at wholesale scale.",
             statsGrid: [
                 { value: "25+", label: "Years Experience" },
                 { value: "10,000", label: "Tons Exported Annually" },

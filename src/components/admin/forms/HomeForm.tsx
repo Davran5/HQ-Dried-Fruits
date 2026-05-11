@@ -120,6 +120,16 @@ export function HomeForm({ content, updateContent }: Props) {
                     />
                 </div>
 
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Additional About Paragraph</label>
+                    <textarea
+                        rows={3}
+                        value={content.introExtraParagraph || translate(editingLang, "homeIntroExtraParagraph")}
+                        onChange={e => updateContent({ introExtraParagraph: e.target.value })}
+                        className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+                    />
+                </div>
+
                 <Repeater<StatItem>
                     label="2x2 Stats Grid (Maximum 4)"
                     items={content.statsGrid || []}

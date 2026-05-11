@@ -317,7 +317,7 @@ export function FrontPage() {
                                     dangerouslySetInnerHTML={{ __html: content.introText || "" }}
                                 />
                                 <p className="mt-4 max-w-2xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8">
-                                    {t("homeIntroExtraParagraph")}
+                                    {content.introExtraParagraph || t("homeIntroExtraParagraph")}
                                 </p>
                             </div>
                             <div className="mt-6 hidden sm:mt-8 lg:block">

@@ -124659,6 +124659,7 @@ var initialPages = [
       introEyebrow: "About Us",
       introImage: "",
       introText: "We cultivate, process, and directly export the finest dried fruits from the Fergana Valley. Using advanced laser-sorting technology, we guarantee 99.9% purity for high-volume wholesale buyers across Europe and Asia.",
+      introExtraParagraph: "Built around orchard relationships, disciplined processing, and buyer-ready export execution, our operation is designed to deliver consistent dried fruit quality at wholesale scale.",
       statsGrid: [
         { value: "25+", label: "Years Experience" },
         { value: "10,000", label: "Tons Exported Annually" },
@@ -126333,7 +126334,7 @@ function FrontPage() {
                     dangerouslySetInnerHTML: { __html: content.introText || "" }
                   }
                 ),
-                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-4 max-w-2xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: t2("homeIntroExtraParagraph") })
+                /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "mt-4 max-w-2xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: content.introExtraParagraph || t2("homeIntroExtraParagraph") })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "mt-6 hidden sm:mt-8 lg:block", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("about", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Button, { variant: "outline", children: t2("homeLearnMore") }) }) })
             ] })
@@ -130936,6 +130937,18 @@ function HomeForm({ content, updateContent }) {
             rows: 4,
             value: content.introText || "",
             onChange: (e) => updateContent({ introText: e.target.value }),
+            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Additional About Paragraph" }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+          "textarea",
+          {
+            rows: 3,
+            value: content.introExtraParagraph || t(editingLang, "homeIntroExtraParagraph"),
+            onChange: (e) => updateContent({ introExtraParagraph: e.target.value }),
             className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
           }
         )

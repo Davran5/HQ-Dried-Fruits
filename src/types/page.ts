@@ -219,6 +219,7 @@ export interface HomeContent {
     introEyebrow: string;
     introImage: string;
     introText: string;
+    introExtraParagraph?: string;
     statsGrid: StatItem[];
 
     productPreviewTitle: string;
