@@ -1074,9 +1074,19 @@ function mapProductsPage(row: any) {
   };
 }
 
+function normalizeLegacyExportText(value: string, fallback: string, legacyValues: string[]) {
+  const normalizedValue = value.trim().toLowerCase();
+  const isLegacyValue = legacyValues.some((legacyValue) => legacyValue.toLowerCase() === normalizedValue);
+
+  return !value.trim() || isLegacyValue ? fallback : value;
+}
+
 function mapExportPage(row: any) {
+  const destinationEyebrow = asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow);
+  const mapSectionTitle = asString(row?.map_section_title, defaultExportPage.mapSectionTitle);
+
   return {
-    heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle), heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage), operationsImage: asString(row?.operations_image, defaultExportPage.operationsImage), operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow), destinationEyebrow: asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow), mapSectionTitle: asString(row?.map_section_title, defaultExportPage.mapSectionTitle), supplyRoutes: safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes), logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent), packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle), packagingMethods: asContentString(row?.packaging_methods, defaultExportPage.packagingMethods), transportationTitle: asContentString(row?.transportation_title, defaultExportPage.transportationTitle), transportationMethods: asContentString(row?.transportation_methods, defaultExportPage.transportationMethods), documentationTitle: asContentString(row?.documentation_title, defaultExportPage.documentationTitle), documentationContent: asContentString(row?.documentation_content, defaultExportPage.documentationContent), qualityTitle: asContentString(row?.quality_title, defaultExportPage.qualityTitle), technicalSpecs: asContentString(row?.technical_specs, defaultExportPage.technicalSpecs), qualityChecks: safeParseJson(row?.quality_checks, defaultExportPage.qualityChecks), certificationsGallery: safeParseJson(row?.certifications_gallery, defaultExportPage.certificationsGallery),
+    heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle), heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage), operationsImage: asString(row?.operations_image, defaultExportPage.operationsImage), operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow), destinationEyebrow: normalizeLegacyExportText(destinationEyebrow, defaultExportPage.destinationEyebrow, ["Export Geography"]), mapSectionTitle: normalizeLegacyExportText(mapSectionTitle, defaultExportPage.mapSectionTitle, ["Our Global Export Network"]), supplyRoutes: safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes), logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent), packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle), packagingMethods: asContentString(row?.packaging_methods, defaultExportPage.packagingMethods), transportationTitle: asContentString(row?.transportation_title, defaultExportPage.transportationTitle), transportationMethods: asContentString(row?.transportation_methods, defaultExportPage.transportationMethods), documentationTitle: asContentString(row?.documentation_title, defaultExportPage.documentationTitle), documentationContent: asContentString(row?.documentation_content, defaultExportPage.documentationContent), qualityTitle: asContentString(row?.quality_title, defaultExportPage.qualityTitle), technicalSpecs: asContentString(row?.technical_specs, defaultExportPage.technicalSpecs), qualityChecks: safeParseJson(row?.quality_checks, defaultExportPage.qualityChecks), certificationsGallery: safeParseJson(row?.certifications_gallery, defaultExportPage.certificationsGallery),
   };
 }
 

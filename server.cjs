@@ -14510,7 +14510,7 @@ var require_type_is = __commonJS({
     module2.exports = typeofrequest;
     module2.exports.is = typeis;
     module2.exports.hasBody = hasbody;
-    module2.exports.normalize = normalize;
+    module2.exports.normalize = normalize2;
     module2.exports.match = mimeMatch;
     function typeis(value, types_) {
       var i;
@@ -14530,7 +14530,7 @@ var require_type_is = __commonJS({
       }
       var type;
       for (i = 0; i < types.length; i++) {
-        if (mimeMatch(normalize(type = types[i]), val)) {
+        if (mimeMatch(normalize2(type = types[i]), val)) {
           return type[0] === "+" || type.indexOf("*") !== -1 ? val : type;
         }
       }
@@ -14553,7 +14553,7 @@ var require_type_is = __commonJS({
       var value = req.headers["content-type"];
       return typeis(value, types);
     }
-    function normalize(type) {
+    function normalize2(type) {
       if (typeof type !== "string") {
         return false;
       }
@@ -20752,7 +20752,7 @@ var require_send = __commonJS({
     var util = require("util");
     var extname = path2.extname;
     var join = path2.join;
-    var normalize = path2.normalize;
+    var normalize2 = path2.normalize;
     var resolve = path2.resolve;
     var sep = path2.sep;
     var BYTES_RANGE_REGEXP = /^ *bytes=/;
@@ -20962,7 +20962,7 @@ var require_send = __commonJS({
       var parts;
       if (root !== null) {
         if (path3) {
-          path3 = normalize("." + sep + path3);
+          path3 = normalize2("." + sep + path3);
         }
         if (UP_PATH_REGEXP.test(path3)) {
           debug('malicious path "%s"', path3);
@@ -20970,14 +20970,14 @@ var require_send = __commonJS({
           return res;
         }
         parts = path3.split(sep);
-        path3 = normalize(join(root, path3));
+        path3 = normalize2(join(root, path3));
       } else {
         if (UP_PATH_REGEXP.test(path3)) {
           debug('malicious path "%s"', path3);
           this.error(403);
           return res;
         }
-        parts = normalize(path3).split(sep);
+        parts = normalize2(path3).split(sep);
         path3 = resolve(path3);
       }
       if (containsDotFile(parts)) {
@@ -122881,6 +122881,14 @@ var en = {
   exportDestinationEyebrow: "Buyer Channels",
   exportDestinationTitle: "Prepared for the way your business sells",
   exportDestinationDesc: "Different buyers need different packing, documentation, and product presentation. We prepare Uzbek dried fruit lines for retail shelves, wholesale cartons, food production, and private-label programs.",
+  exportRouteRetailName: "Retail",
+  exportRouteRetailDesc: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
+  exportRouteWholesaleName: "Wholesale",
+  exportRouteWholesaleDesc: "Carton-based supply for importers, distributors, and trading programs.",
+  exportRouteFoodIndustryName: "Food Industry",
+  exportRouteFoodIndustryDesc: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
+  exportRoutePrivateLabelName: "Private Label",
+  exportRoutePrivateLabelDesc: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
   exportQualityTitle: "The Quality Guarantee",
   exportQualityDesc: "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
   exportMoistureLabel: "Moisture Control",
@@ -123072,21 +123080,21 @@ var pt = {
   homeLearnMore: "Saiba mais sobre n\xF3s",
   nutritionEnergy: "Energia",
   homeHeroPrimaryCta: "Solicitar cat\xE1logo de atacado",
-  homeExportMarketsTitle: "Constru\xEDdo para compradores nos principais corredores comerciais",
+  homeExportMarketsTitle: "Preparado para a forma como o seu neg\xF3cio vende",
   homeHeroSecondaryCta: "Nossas instala\xE7\xF5es de processamento",
   homeIntroLabel: "A diferen\xE7a das frutas secas do QG",
   homeHeroTitle: "Frutas naturalmente doces de um solo f\xE9rtil",
   homeRequestSample: "Solicitar amostra",
   homeExportReady: "Pronto para exporta\xE7\xE3o",
   homeWholesaleSupply: "Fornecimento por atacado",
-  homeExportFocusEyebrow: "Foco de exporta\xE7\xE3o",
+  homeExportFocusEyebrow: "Canais compradores",
   homeFeaturedHarvest: "Colheita em destaque",
   homeViewFullCatalog: "Ver Cat\xE1logo Completo",
   homeNutritionPer100g: "Nutri\xE7\xE3o / 100g",
-  homeExportMarketsIntro: "Nossa equipe de exporta\xE7\xE3o planeja rotas, documentos e embalagens prontas para o comprador mercado por mercado. Selecione um destino para visualizar como posicionamos cada pista.",
+  homeExportMarketsIntro: "Cada comprador precisa de embalagem, documenta\xE7\xE3o e apresenta\xE7\xE3o de produto diferentes. Preparamos frutas secas uzbeques para prateleiras de varejo, caixas de atacado, produ\xE7\xE3o aliment\xEDcia e programas de marca pr\xF3pria.",
   homeIntroExtraParagraph: "Constru\xEDda em torno de relacionamentos com pomares, processamento disciplinado e execu\xE7\xE3o de exporta\xE7\xE3o pronta para o comprador, nossa opera\xE7\xE3o \xE9 projetada para fornecer frutas secas de qualidade consistente em escala de atacado.",
   homeCheckDocsTitle: "Documenta\xE7\xE3o de exporta\xE7\xE3o",
-  homeExportStatLeadTime: "Janela de prazo de entrega",
+  homeExportStatLeadTime: "Adequa\xE7\xE3o do canal",
   homeCertificateDocs: "Exportar conjunto de documenta\xE7\xE3o",
   homeCheckVerificationTitle: "Verifica\xE7\xE3o de Qualidade",
   homeExportExplore: "Explorar p\xE1gina de exporta\xE7\xE3o",
@@ -123099,14 +123107,14 @@ var pt = {
   homeCertificateSafety: "Certifica\xE7\xE3o de Seguran\xE7a Alimentar",
   homeCheckDispatchDesc: "Certificados, listas de embalagem e arquivos de remessa alinhados antes da carga sair das instala\xE7\xF5es.",
   homeCheckDocsDesc: "Documenta\xE7\xE3o comercial, de origem e de conformidade preparada para remessas internacionais repetidas.",
-  homeExportMarketUaeDesc: "Planejamento flex\xEDvel de carga mista para rotas comerciais do GCC e compradores de reexporta\xE7\xE3o.",
-  homeExportMarketKazakhstanDesc: "Reabastecimento regional r\xE1pido com agendamento terrestre de Tashkent.",
+  homeExportMarketUaeDesc: "Linhas de frutas e amendoins para padarias, confeitaria, snacks, cereais e processamento.",
+  homeExportMarketKazakhstanDesc: "Embalagem com marca do comprador, r\xF3tulos, caixas e consist\xEAncia para pedidos recorrentes.",
   homeCheckVerificationDesc: "Classifica\xE7\xE3o, classifica\xE7\xE3o e revis\xE3o do lote conclu\xEDdas antes da libera\xE7\xE3o final para compradores atacadistas.",
-  homeExportMarketGermanyDesc: "Fornecimento estruturado de paletes e contentores para compradores grossistas da Europa Central.",
+  homeExportMarketGermanyDesc: "Linhas de frutas secas prontas para prateleira em embalagens pouch, bandeja e marca pr\xF3pria.",
   homeQualityGuaranteeDesc: "Nossas instala\xE7\xF5es de processamento utilizam classifica\xE7\xE3o avan\xE7ada a laser e inspe\xE7\xE3o por raios X para garantir 99,9% de pureza.",
-  homeExportMarketNetherlandsDesc: "Suporte log\xEDstico de alta frequ\xEAncia para parceiros de importa\xE7\xE3o e centros de distribui\xE7\xE3o regionais.",
+  homeExportMarketNetherlandsDesc: "Fornecimento em caixas para importadores, distribuidores e programas comerciais.",
   exportPackagingTitle: "Embalagem personalizada",
-  homeExportStatDocumentation: "Documenta\xE7\xE3o",
+  homeExportStatDocumentation: "Uso",
   exportDocumentationTitle: "Desembara\xE7o alfandeg\xE1rio",
   exportDestinationTitle: "Preparado para a forma como o seu neg\xF3cio vende",
   exportTransportDesc: "Remessas econ\xF4micas de FCL (Full Container Load) e LCL atrav\xE9s dos principais portos e da rede ferrovi\xE1ria transeurasi\xE1tica.",
@@ -123117,11 +123125,19 @@ var pt = {
   exportOpsTitle: "Roteamento de transporte multimodal de ponta a ponta",
   exportDestinationDesc: "Cada comprador precisa de embalagem, documenta\xE7\xE3o e apresenta\xE7\xE3o de produto diferentes. Preparamos frutas secas uzbeques para prateleiras de varejo, caixas de atacado, produ\xE7\xE3o aliment\xEDcia e programas de marca pr\xF3pria.",
   exportDestinationEyebrow: "Canais compradores",
+  exportRouteRetailName: "Varejo",
+  exportRouteRetailDesc: "Linhas de frutas secas prontas para prateleira em embalagens pouch, bandeja e marca pr\xF3pria.",
+  exportRouteWholesaleName: "Atacado",
+  exportRouteWholesaleDesc: "Fornecimento em caixas para importadores, distribuidores e programas comerciais.",
+  exportRouteFoodIndustryName: "Ind\xFAstria aliment\xEDcia",
+  exportRouteFoodIndustryDesc: "Linhas de frutas e amendoins para padarias, confeitaria, snacks, cereais e processamento.",
+  exportRoutePrivateLabelName: "Marca pr\xF3pria",
+  exportRoutePrivateLabelDesc: "Embalagem com marca do comprador, r\xF3tulos, caixas e consist\xEAncia para pedidos recorrentes.",
   homeExportStatRoadRail: "Rodovi\xE1rio + ferrovi\xE1rio",
-  homeExportStatPortRouting: "Roteamento de porta",
+  homeExportStatPortRouting: "Formato",
   homeExportStatBuyerReady: "Conjunto pronto para o comprador",
   exportTransportTitle: "Frete mar\xEDtimo e ferrovi\xE1rio",
-  homeExportStatTransportMode: "Modo de transporte",
+  homeExportStatTransportMode: "Marca",
   exportOpsEyebrow: "Opera\xE7\xF5es de Exporta\xE7\xE3o",
   exportLogisticsDesc1: "Lidamos com rotas de transporte multimodal de ponta a ponta de acordo com as necessidades do comprador, desde o formato da embalagem e a documenta\xE7\xE3o at\xE9 a via mais eficiente para entrega.",
   exportLogisticsDesc2: "Cada remessa \xE9 estruturada em torno da repetibilidade, conformidade do destino e praticidade no atacado, para que os importadores possam passar com menos atrito desde o pedido at\xE9 o recebimento no armaz\xE9m.",
@@ -123317,33 +123333,33 @@ var es = {
   homeHeroPrimaryCta: "Solicitar cat\xE1logo mayorista",
   nutritionFat: "Gordo",
   nutritionCarbs: "carbohidratos",
-  homeWholesaleSupply: "Wholesale supply",
-  homeExportReady: "Export-ready",
-  homeFeaturedHarvest: "Featured Harvest",
-  homeViewFullCatalog: "View Full Catalog",
-  homeExportFocusEyebrow: "Export Focus",
-  homeNutritionPer100g: "Nutrition / 100g",
-  homeExportMarketsTitle: "Dise\xF1ado para compradores en corredores comerciales clave",
+  homeWholesaleSupply: "Suministro mayorista",
+  homeExportReady: "Listo para exportar",
+  homeFeaturedHarvest: "Cosecha destacada",
+  homeViewFullCatalog: "Ver cat\xE1logo completo",
+  homeExportFocusEyebrow: "Canales compradores",
+  homeNutritionPer100g: "Nutrici\xF3n / 100g",
+  homeExportMarketsTitle: "Preparado para la forma en que vende su negocio",
   homeHeroSecondaryCta: "Nuestras instalaciones de procesamiento",
   homeHeroTitle: "Frutas naturalmente dulces de una tierra f\xE9rtil",
   homeIntroLabel: "La diferencia de los frutos secos HQ",
-  homeExportMarketsIntro: "Nuestro equipo de exportaci\xF3n planifica rutas, documentos y embalajes listos para el comprador mercado por mercado. Seleccione un destino para obtener una vista previa de c\xF3mo posicionamos cada carril.",
+  homeExportMarketsIntro: "Cada comprador necesita un empaque, documentaci\xF3n y presentaci\xF3n de producto diferentes. Preparamos frutas secas uzbekas para retail, cajas mayoristas, producci\xF3n alimentaria y programas de marca privada.",
   homeIntroExtraParagraph: "Construida en torno a relaciones con los huertos, un procesamiento disciplinado y una ejecuci\xF3n de exportaciones lista para el comprador, nuestra operaci\xF3n est\xE1 dise\xF1ada para ofrecer una calidad constante de frutos secos a escala mayorista.",
   homeCheckVerificationTitle: "Verificaci\xF3n de calidad",
   homeCheckDispatchDesc: "Certificados, listas de empaque y archivos de env\xEDo alineados antes de que la carga salga de las instalaciones.",
   homeCheckDocsDesc: "Tr\xE1mites comerciales, de origen y de cumplimiento preparados para env\xEDos internacionales repetidos.",
-  homeExportMarketGermanyDesc: "Suministro estructurado de pallets y contenedores para compradores mayoristas de Europa Central.",
+  homeExportMarketGermanyDesc: "L\xEDneas de frutos secos listas para estanter\xEDa en pouch, bandeja y programas de marca.",
   homeQualityGuaranteeDesc: "Nuestras instalaciones de procesamiento utilizan clasificaci\xF3n l\xE1ser avanzada e inspecci\xF3n por rayos X para garantizar una pureza del 99,9 %.",
-  homeExportMarketNetherlandsDesc: "Soporte log\xEDstico de alta frecuencia para socios importadores y centros de distribuci\xF3n regionales.",
-  homeExportMarketKazakhstanDesc: "Reabastecimiento regional r\xE1pido con programaci\xF3n terrestre desde Tashkent.",
-  homeExportMarketUaeDesc: "Planificaci\xF3n flexible de carga mixta para rutas comerciales del CCG y compradores de reexportaci\xF3n.",
+  homeExportMarketNetherlandsDesc: "Suministro en cajas para importadores, distribuidores y programas comerciales.",
+  homeExportMarketKazakhstanDesc: "Empaque con marca del comprador, etiquetas, cajas y consistencia para pedidos recurrentes.",
+  homeExportMarketUaeDesc: "L\xEDneas de fruta y man\xED listas como ingredientes para panader\xEDas, confiter\xEDa, snacks, cereales y procesamiento.",
   homeCheckVerificationDesc: "Clasificaci\xF3n, clasificaci\xF3n y revisi\xF3n de lotes completadas antes del lanzamiento final para compradores mayoristas.",
   homeCertificatesNext: "Despl\xE1cese por los certificados hacia la derecha",
   homeCertificateOrganic: "Certificado de Norma Org\xE1nica",
   homeCertificateSafety: "Certificaci\xF3n de seguridad alimentaria",
   homeCertificatesPrev: "Certificados de desplazamiento a la izquierda",
   homeExportExplore: "Explorar p\xE1gina de exportaci\xF3n",
-  homeExportStatLeadTime: "Ventana de tiempo de entrega",
+  homeExportStatLeadTime: "Ajuste de canal",
   homeCertificateDocs: "Conjunto de documentaci\xF3n de exportaci\xF3n",
   homeCheckDocsTitle: "Documentaci\xF3n de exportaci\xF3n",
   homeCertificateQuality: "Registro de garant\xEDa de calidad",
@@ -123351,7 +123367,7 @@ var es = {
   homeQualityGuarantee: "La garant\xEDa de calidad",
   exportPackagingTitle: "Embalaje personalizado",
   exportDocumentationTitle: "Despacho de aduana",
-  homeExportStatDocumentation: "Documentaci\xF3n",
+  homeExportStatDocumentation: "Uso",
   exportDestinationTitle: "Preparado para la forma en que vende su negocio",
   exportTransportDesc: "Env\xEDos rentables FCL (Full Container Load) y LCL a trav\xE9s de los principales puertos y la red ferroviaria transeurasi\xE1tica.",
   exportDocumentationDesc: "Soporte documental completo que incluye certificados fitosanitarios, certificados de origen y EUR.1.",
@@ -123361,11 +123377,19 @@ var es = {
   exportOpsTitle: "Enrutamiento de transporte multimodal de extremo a extremo",
   exportHeroTitle: "Nuestra red global de exportaci\xF3n",
   exportDestinationEyebrow: "Canales compradores",
+  exportRouteRetailName: "Retail",
+  exportRouteRetailDesc: "L\xEDneas de frutos secos listas para estanter\xEDa en pouch, bandeja y programas de marca.",
+  exportRouteWholesaleName: "Mayorista",
+  exportRouteWholesaleDesc: "Suministro en cajas para importadores, distribuidores y programas comerciales.",
+  exportRouteFoodIndustryName: "Industria alimentaria",
+  exportRouteFoodIndustryDesc: "L\xEDneas de fruta y man\xED listas como ingredientes para panader\xEDas, confiter\xEDa, snacks, cereales y procesamiento.",
+  exportRoutePrivateLabelName: "Marca privada",
+  exportRoutePrivateLabelDesc: "Empaque con marca del comprador, etiquetas, cajas y consistencia para pedidos recurrentes.",
   homeExportStatBuyerReady: "Conjunto listo para el comprador",
   exportOpsEyebrow: "Operaciones de Exportaci\xF3n",
   homeExportStatRoadRail: "Carretera + ferrocarril",
-  homeExportStatPortRouting: "Enrutamiento portuario",
-  homeExportStatTransportMode: "Modo de transporte",
+  homeExportStatPortRouting: "Formato",
+  homeExportStatTransportMode: "Marca",
   exportTransportTitle: "Transporte Mar\xEDtimo y Ferroviario",
   exportLogisticsDesc1: "Manejamos rutas de transporte multimodal de extremo a extremo seg\xFAn los requisitos del comprador, desde el formato de embalaje y la documentaci\xF3n hasta la ruta m\xE1s eficiente para la entrega.",
   exportLogisticsDesc2: "Cada env\xEDo se estructura en torno a la repetibilidad, el cumplimiento del destino y la practicidad mayorista para que los importadores puedan pasar con menos fricci\xF3n del pedido al recibo de almac\xE9n.",
@@ -123559,13 +123583,13 @@ var nl = {
   nutritionFat: "Vet",
   homeHeroPrimaryCta: "Groothandelcatalogus aanvragen",
   nutritionEnergy: "Energie",
-  homeExportMarketsTitle: "Gebouwd voor kopers in belangrijke handelscorridors",
+  homeExportMarketsTitle: "Voorbereid op hoe uw bedrijf verkoopt",
   homeIntroLabel: "Het verschil in HQ Gedroogd Fruit",
   homeHeroSecondaryCta: "Onze verwerkingsfaciliteiten",
   homeHeroTitle: "Natuurlijk zoete vruchten uit vruchtbare grond",
-  homeExportMarketsIntro: "Ons exportteam plant de routing, documenten en kopersklare verpakkingen markt per markt. Selecteer een bestemming om een \u200B\u200Bvoorbeeld te bekijken van hoe we elke rijstrook positioneren.",
+  homeExportMarketsIntro: "Elke koper heeft andere verpakking, documentatie en productpresentatie nodig. Wij bereiden Oezbeekse gedroogde vruchten voor retail, groothandelskartons, voedselproductie en private-labelprogramma's.",
   homeIntroExtraParagraph: "Ons bedrijf is opgebouwd rond relaties met boomgaarden, gedisciplineerde verwerking en exportuitvoering die klaar is voor de koper. Het is ontworpen om consistente kwaliteit van gedroogd fruit op groothandelsschaal te leveren.",
-  homeExportFocusEyebrow: "Exportfocus",
+  homeExportFocusEyebrow: "Koperskanalen",
   homeWholesaleSupply: "Groothandel aanbod",
   homeRequestSample: "Monster aanvragen",
   homeExportReady: "Klaar voor export",
@@ -123577,7 +123601,7 @@ var nl = {
   homeCertificateSafety: "Certificering van voedselveiligheid",
   homeCertificatesNext: "Blader naar certificaten naar rechts",
   homeCheckDocsTitle: "Documentatie exporteren",
-  homeExportStatLeadTime: "Doorlooptijdvenster",
+  homeExportStatLeadTime: "Kanaalfit",
   homeCheckVerificationTitle: "Kwaliteitscontrole",
   homeCertificateDocs: "Documentatieset exporteren",
   homeCheckDispatchTitle: "Verzendingsgereedheid",
@@ -123585,15 +123609,15 @@ var nl = {
   homeCertificateQuality: "Kwaliteitsborgingsrecord",
   homeExportExplore: "Verken de exportpagina",
   homeCertificatesPrev: "Scroll certificaten naar links",
-  homeExportMarketKazakhstanDesc: "Snelle regionale aanvulling met landgebonden planning vanuit Tasjkent.",
+  homeExportMarketKazakhstanDesc: "Verpakking onder kopersmerk met labels, dozen en consistentie voor herhaalorders.",
   homeCheckDocsDesc: "Commerci\xEBle, herkomst- en conformiteitspapieren voorbereid voor herhaalde internationale zendingen.",
   homeCheckDispatchDesc: "Certificaten, paklijsten en verzendbestanden worden op \xE9\xE9n lijn gebracht voordat de lading de faciliteit verlaat.",
-  homeExportMarketUaeDesc: "Flexibele planning van gemengde ladingen voor GCC-handelsroutes en wederexportkopers.",
-  homeExportMarketNetherlandsDesc: "Hoogfrequente logistieke ondersteuning voor importpartners en regionale distributieknooppunten.",
+  homeExportMarketUaeDesc: "Fruit- en pindalijnen als ingredi\xEBnten voor bakkerijen, confiserie, snacks, granen en verwerking.",
+  homeExportMarketNetherlandsDesc: "Levering in dozen voor importeurs, distributeurs en handelsprogramma's.",
   homeCheckVerificationDesc: "Sortering, sortering en partijcontrole voltooid v\xF3\xF3r definitieve vrijgave voor groothandelskopers.",
   homeQualityGuaranteeDesc: "Onze verwerkingsfaciliteiten maken gebruik van geavanceerde lasersortering en r\xF6ntgeninspectie om een \u200B\u200Bzuiverheid van 99,9% te garanderen.",
-  homeExportMarketGermanyDesc: "Gestructureerd pallet- en containeraanbod voor Centraal-Europese groothandelsafnemers.",
-  homeExportStatDocumentation: "Documentatie",
+  homeExportMarketGermanyDesc: "Schapklare lijnen gedroogd fruit voor zakken, trays en merkverpakkingen.",
+  homeExportStatDocumentation: "Gebruik",
   exportLogisticsDesc1: "Wij verzorgen de end-to-end multimodale transportroutering rond de eisen van de koper, van verpakkingsformaat en papierwerk tot de meest effici\xEBnte route voor levering.",
   exportLogisticsDesc2: "Elke zending is gestructureerd rond herhaalbaarheid, naleving van de bestemming en praktische groothandel, zodat importeurs met minder wrijving van bestelling naar magazijnontvangst kunnen gaan.",
   exportHeroTitle: "Ons wereldwijde exportnetwerk",
@@ -123604,13 +123628,21 @@ var nl = {
   exportPackagingDesc: "Grootverpakkingen, vacu\xFCmverzegelde zakken of winkelklare verpakkingen, gepersonaliseerd met uw merklabels.",
   exportHeroSubtitle: "Naadloze wereldwijde logistiek vanuit het hart van de Zijderoute tot uw magazijn.",
   exportDocumentationDesc: "Volledige documentatieondersteuning, inclusief fytosanitaire certificaten, certificaten van oorsprong en EUR.1.",
-  homeExportStatTransportMode: "Transportmodus",
+  homeExportStatTransportMode: "Merk",
   homeExportStatBuyerReady: "Set klaar voor de koper",
   exportDestinationEyebrow: "Koperskanalen",
+  exportRouteRetailName: "Retail",
+  exportRouteRetailDesc: "Schapklare lijnen gedroogd fruit voor zakken, trays en merkverpakkingen.",
+  exportRouteWholesaleName: "Groothandel",
+  exportRouteWholesaleDesc: "Levering in dozen voor importeurs, distributeurs en handelsprogramma's.",
+  exportRouteFoodIndustryName: "Voedingsindustrie",
+  exportRouteFoodIndustryDesc: "Fruit- en pindalijnen als ingredi\xEBnten voor bakkerijen, confiserie, snacks, granen en verwerking.",
+  exportRoutePrivateLabelName: "Private label",
+  exportRoutePrivateLabelDesc: "Verpakking onder kopersmerk met labels, dozen en consistentie voor herhaalorders.",
   exportDocumentationTitle: "Douaneafhandeling",
   exportPackagingTitle: "Aangepaste verpakking",
   exportOpsEyebrow: "Exportoperaties",
-  homeExportStatPortRouting: "Havenroutering",
+  homeExportStatPortRouting: "Formaat",
   homeExportStatRoadRail: "Weg + spoor",
   exportTransportTitle: "Zee- en spoorvracht",
   exportOrganicLabel: "Biologisch standaardcertificaat",
@@ -123805,30 +123837,30 @@ var fr = {
   homeAboutEyebrow: "\xC0 propos de nous",
   homeHeroPrimaryCta: "Demander un catalogue de gros",
   nutritionCarbs: "Crabes",
-  homeExportMarketsTitle: "Con\xE7u pour les acheteurs des principaux corridors commerciaux",
+  homeExportMarketsTitle: "Pr\xE9par\xE9 pour la fa\xE7on dont votre entreprise vend",
   homeHeroSecondaryCta: "Nos installations de traitement",
   homeIntroLabel: "La diff\xE9rence des fruits secs HQ",
   homeHeroTitle: "Des fruits naturellement doux issus d'une terre fertile",
   homeExportReady: "Pr\xEAt pour l'exportation",
   homeWholesaleSupply: "Approvisionnement en gros",
-  homeExportFocusEyebrow: "Priorit\xE9 \xE0 l'exportation",
+  homeExportFocusEyebrow: "Canaux acheteurs",
   homeViewFullCatalog: "Voir le catalogue complet",
   homeFeaturedHarvest: "R\xE9colte en vedette",
   homeNutritionPer100g: "Nutrition / 100g",
   homeIntroExtraParagraph: "Construite autour de relations avec les vergers, d'une transformation disciplin\xE9e et d'une ex\xE9cution des exportations pr\xEAte \xE0 l'achat, notre op\xE9ration est con\xE7ue pour fournir une qualit\xE9 constante de fruits secs \xE0 l'\xE9chelle du commerce de gros.",
-  homeExportMarketsIntro: "Notre \xE9quipe export planifie l\u2019acheminement, les documents et les emballages pr\xEAts \xE0 l\u2019acheteur march\xE9 par march\xE9. S\xE9lectionnez une destination pour pr\xE9visualiser la fa\xE7on dont nous positionnons chaque voie.",
+  homeExportMarketsIntro: "Chaque acheteur attend un emballage, des documents et une pr\xE9sentation produit adapt\xE9s. Nous pr\xE9parons les fruits secs ouzbeks pour le retail, les cartons de gros, l'industrie alimentaire et les programmes de marque priv\xE9e.",
   homeExportExplore: "Page Explorer l'exportation",
   homeCheckDispatchTitle: "Pr\xE9paration \xE0 l'exp\xE9dition",
   homeCertificateQuality: "Dossier d'assurance qualit\xE9",
   homeCertificatesPrev: "Faire d\xE9filer les certificats vers la gauche",
   homeQualityGuarantee: "La garantie de qualit\xE9",
-  homeExportMarketGermanyDesc: "Fourniture structur\xE9e de palettes et de conteneurs pour les acheteurs grossistes d\u2019Europe centrale.",
+  homeExportMarketGermanyDesc: "Gammes de fruits secs pr\xEAtes pour les rayons, en sachets, barquettes et emballages marqu\xE9s.",
   homeCheckVerificationDesc: "Tri, classement et examen des lots termin\xE9s avant la sortie finale pour les acheteurs en gros.",
   homeQualityGuaranteeDesc: "Nos installations de traitement utilisent un tri laser avanc\xE9 et une inspection aux rayons X pour garantir une puret\xE9 de 99,9 %.",
-  homeExportMarketNetherlandsDesc: "Support logistique \xE0 haute fr\xE9quence pour les partenaires d'importation et les centres de distribution r\xE9gionaux.",
-  homeExportMarketUaeDesc: "Planification flexible de chargements mixtes pour les routes commerciales du CCG et les acheteurs de r\xE9exportation.",
-  homeExportMarketKazakhstanDesc: "R\xE9approvisionnement r\xE9gional rapide avec une planification terrestre depuis Tachkent.",
-  homeExportStatLeadTime: "Fen\xEAtre de d\xE9lai de livraison",
+  homeExportMarketNetherlandsDesc: "Approvisionnement en cartons pour importateurs, distributeurs et programmes commerciaux.",
+  homeExportMarketUaeDesc: "Lignes de fruits et arachides pr\xEAtes comme ingr\xE9dients pour boulangeries, confiserie, snacks, c\xE9r\xE9ales et transformation.",
+  homeExportMarketKazakhstanDesc: "Conditionnement \xE0 la marque de l'acheteur, avec \xE9tiquettes, cartons et r\xE9gularit\xE9 pour les commandes r\xE9p\xE9t\xE9es.",
+  homeExportStatLeadTime: "Adaptation canal",
   homeCheckDocsDesc: "Documents commerciaux, d'origine et de conformit\xE9 pr\xE9par\xE9s pour les exp\xE9ditions internationales r\xE9p\xE9t\xE9es.",
   homeCheckVerificationTitle: "V\xE9rification de la qualit\xE9",
   homeCheckDispatchDesc: "Certificats, listes de colisage et dossiers d'exp\xE9dition align\xE9s avant que la cargaison ne quitte l'installation.",
@@ -123838,8 +123870,8 @@ var fr = {
   homeCertificateOrganic: "Certificat de norme biologique",
   homeCertificatesNext: "Faire d\xE9filer les certificats vers la droite",
   exportPackagingTitle: "Emballage personnalis\xE9",
-  homeExportStatTransportMode: "Mode de transport",
-  homeExportStatDocumentation: "Documentation",
+  homeExportStatTransportMode: "Marque",
+  homeExportStatDocumentation: "Usage",
   exportTransportDesc: "Exp\xE9ditions FCL (Full Container Load) et LCL rentables via les principaux ports et le r\xE9seau ferroviaire transeurasien.",
   exportDestinationTitle: "Pr\xE9par\xE9 pour la fa\xE7on dont votre entreprise vend",
   exportDocumentationDesc: "Support de documentation complet, y compris les certificats phytosanitaires, les certificats d'origine et EUR.1.",
@@ -123849,7 +123881,15 @@ var fr = {
   exportHeroTitle: "Notre r\xE9seau mondial d'exportation",
   exportOpsTitle: "Acheminement de transport multimodal de bout en bout",
   exportDestinationEyebrow: "Canaux acheteurs",
-  homeExportStatPortRouting: "Routage des ports",
+  exportRouteRetailName: "Retail",
+  exportRouteRetailDesc: "Gammes de fruits secs pr\xEAtes pour les rayons, en sachets, barquettes et emballages marqu\xE9s.",
+  exportRouteWholesaleName: "Vente en gros",
+  exportRouteWholesaleDesc: "Approvisionnement en cartons pour importateurs, distributeurs et programmes commerciaux.",
+  exportRouteFoodIndustryName: "Industrie alimentaire",
+  exportRouteFoodIndustryDesc: "Lignes de fruits et arachides pr\xEAtes comme ingr\xE9dients pour boulangeries, confiserie, snacks, c\xE9r\xE9ales et transformation.",
+  exportRoutePrivateLabelName: "Marque priv\xE9e",
+  exportRoutePrivateLabelDesc: "Conditionnement \xE0 la marque de l'acheteur, avec \xE9tiquettes, cartons et r\xE9gularit\xE9 pour les commandes r\xE9p\xE9t\xE9es.",
+  homeExportStatPortRouting: "Format",
   exportTransportTitle: "Fret maritime et ferroviaire",
   homeExportStatBuyerReady: "Ensemble pr\xEAt \xE0 l'acheteur",
   homeExportStatRoadRail: "Route + rail",
@@ -125719,6 +125759,66 @@ function useSEO({
   }, [title, description, ogTitle, ogDescription, ogImage, canonicalUrl, robots, ogType, googleSiteVerificationId]);
 }
 
+// src/lib/buyerChannels.ts
+var buyerChannelText = {
+  retail: {
+    labelKey: "exportRouteRetailName",
+    descriptionKey: "exportRouteRetailDesc",
+    codes: ["RTL"],
+    names: ["retail"],
+    defaultDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs."
+  },
+  wholesale: {
+    labelKey: "exportRouteWholesaleName",
+    descriptionKey: "exportRouteWholesaleDesc",
+    codes: ["WHL"],
+    names: ["wholesale"],
+    defaultDescription: "Carton-based supply for importers, distributors, and trading programs."
+  },
+  foodIndustry: {
+    labelKey: "exportRouteFoodIndustryName",
+    descriptionKey: "exportRouteFoodIndustryDesc",
+    codes: ["IND"],
+    names: ["food industry"],
+    defaultDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing."
+  },
+  privateLabel: {
+    labelKey: "exportRoutePrivateLabelName",
+    descriptionKey: "exportRoutePrivateLabelDesc",
+    codes: ["PL"],
+    names: ["private label"],
+    defaultDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind."
+  }
+};
+function normalize(value) {
+  return (value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+function getBuyerChannelId(countryName, mapCoordinatesId) {
+  const normalizedCode = (mapCoordinatesId || "").trim().toUpperCase();
+  const normalizedName = normalize(countryName);
+  for (const [id3, text] of Object.entries(buyerChannelText)) {
+    if (text.codes.includes(normalizedCode) || text.names.includes(normalizedName)) {
+      return id3;
+    }
+  }
+  return null;
+}
+function getBuyerChannelLabel(countryName, mapCoordinatesId, t2) {
+  const id3 = getBuyerChannelId(countryName, mapCoordinatesId);
+  return id3 ? t2(buyerChannelText[id3].labelKey) : countryName;
+}
+function getBuyerChannelDescription(countryName, mapCoordinatesId, description, t2) {
+  const id3 = getBuyerChannelId(countryName, mapCoordinatesId);
+  if (!id3) {
+    return description;
+  }
+  const defaultDescription = buyerChannelText[id3].defaultDescription;
+  if (!description.trim() || normalize(description) === normalize(defaultDescription)) {
+    return t2(buyerChannelText[id3].descriptionKey);
+  }
+  return description;
+}
+
 // src/lib/productCategories.ts
 var PRODUCT_CATEGORY_DEFINITIONS = [
   {
@@ -125908,9 +126008,14 @@ function FrontPage() {
       image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop"
     }
   ];
+  const localizedExportMarkets = exportMarkets.map((market) => ({
+    ...market,
+    countryName: getBuyerChannelLabel(market.countryName, void 0, t2),
+    shortDescription: getBuyerChannelDescription(market.countryName, void 0, market.shortDescription, t2)
+  }));
   const [activeExportMarketIndex, setActiveExportMarketIndex] = (0, import_react35.useState)(0);
-  const safeExportMarketIndex = Math.min(activeExportMarketIndex, Math.max(exportMarkets.length - 1, 0));
-  const activeExportMarket = exportMarkets[safeExportMarketIndex];
+  const safeExportMarketIndex = Math.min(activeExportMarketIndex, Math.max(localizedExportMarkets.length - 1, 0));
+  const activeExportMarket = localizedExportMarkets[safeExportMarketIndex];
   const homepageCertificates = exportContent?.certificationsGallery?.length && exportContent.certificationsGallery.length > 0 ? exportContent.certificationsGallery : [
     {
       image: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=800",
@@ -126253,7 +126358,7 @@ function FrontPage() {
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { className: "mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: content.exportMarketsIntro || t2("homeExportMarketsIntro") }),
               /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 sm:mt-7", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_react_router_dom6.Link, { to: getManagedPagePath("export", pageSeo, locale), children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Button, { variant: "outline", children: t2("homeExportExplore") }) }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2", children: exportMarkets.map((market, index) => {
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2", children: localizedExportMarkets.map((market, index) => {
               const isActive = index === safeExportMarketIndex;
               return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
                 "button",
@@ -127306,8 +127411,10 @@ function getCountryCode(route) {
   }
   return route.countryName.split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase();
 }
-function getRouteLabel(route) {
-  return route.countryName;
+function getLegacyAwareExportHeading(value, fallback, legacyValues) {
+  const normalizedValue = (value || "").trim().toLowerCase();
+  const isLegacyValue = legacyValues.some((legacyValue) => legacyValue.toLowerCase() === normalizedValue);
+  return !value?.trim() || isLegacyValue ? fallback : value;
 }
 function Export() {
   const { pages, pageSeo } = usePages();
@@ -127354,9 +127461,12 @@ function Export() {
   const routeMarkets = (content?.supplyRoutes?.length ? content.supplyRoutes : fallbackSupplyRoutes).slice(0, 4).map((route) => ({
     ...route,
     code: getCountryCode(route),
-    displayName: getRouteLabel(route),
+    displayName: getBuyerChannelLabel(route.countryName, route.mapCoordinatesId, t2),
+    tooltipDescription: getBuyerChannelDescription(route.countryName, route.mapCoordinatesId, route.tooltipDescription, t2),
     image: route.image || exportIntroImage
   }));
+  const destinationEyebrow = getLegacyAwareExportHeading(content?.destinationEyebrow, t2("exportDestinationEyebrow"), ["Export Geography"]);
+  const mapSectionTitle = getLegacyAwareExportHeading(content?.mapSectionTitle, t2("exportDestinationTitle"), ["Our Global Export Network"]);
   const safeActiveRouteIndex = Math.min(activeRouteIndex, Math.max(routeMarkets.length - 1, 0));
   const activeRoute = routeMarkets[safeActiveRouteIndex];
   const certifications = content?.certificationsGallery?.length > 0 ? content.certificationsGallery : [
@@ -127556,8 +127666,8 @@ function Export() {
         className: "relative",
         children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch lg:gap-8", children: [
           /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content?.destinationEyebrow || t2("exportDestinationEyebrow") }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl", children: content?.mapSectionTitle || t2("exportDestinationTitle") }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: destinationEyebrow }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl", children: mapSectionTitle }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: t2("exportDestinationDesc") }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2", children: routeMarkets.map((route, index) => {
               const isActive = index === safeActiveRouteIndex;
@@ -127578,7 +127688,7 @@ function Export() {
               "img",
               {
                 src: activeRoute?.image || exportIntroImage,
-                alt: content?.destinationEyebrow || t2("exportDestinationEyebrow"),
+                alt: destinationEyebrow,
                 className: "absolute inset-0 h-full w-full object-cover",
                 referrerPolicy: "no-referrer"
               }
@@ -127586,7 +127696,7 @@ function Export() {
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-0 bg-[linear-gradient(180deg,rgba(255,250,252,0.08)_0%,rgba(79,37,66,0.28)_46%,rgba(79,37,66,0.86)_100%)]" }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-0 bg-[radial-gradient(circle_at_24%_26%,rgba(255,255,255,0.42),transparent_30%),radial-gradient(circle_at_76%_18%,rgba(255,255,255,0.16),transparent_24%),radial-gradient(circle_at_62%_62%,rgba(255,255,255,0.14),transparent_28%)]" }),
             activeRoute && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "absolute inset-x-0 bottom-0", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "bg-gradient-to-t from-earth-900/88 via-earth-900/46 to-transparent px-6 pb-6 pt-16 text-white sm:px-8 sm:pb-8 sm:pt-20", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-xs font-bold uppercase tracking-[0.24em] text-earth-100", children: content?.destinationEyebrow || t2("exportDestinationEyebrow") }),
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-xs font-bold uppercase tracking-[0.24em] text-earth-100", children: destinationEyebrow }),
               /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-3 flex items-center gap-3", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h3", { className: "font-display text-3xl font-bold sm:text-[2.5rem]", children: activeRoute.displayName }) }),
               /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "mt-4 max-w-xl text-sm leading-7 text-earth-100 sm:text-base", children: activeRoute.tooltipDescription })
             ] }) })
@@ -137289,15 +137399,22 @@ function mapProductsPage(row) {
     quickEmail: asString(row?.quick_email, defaultProductsPage.quickEmail)
   };
 }
+function normalizeLegacyExportText(value, fallback, legacyValues) {
+  const normalizedValue = value.trim().toLowerCase();
+  const isLegacyValue = legacyValues.some((legacyValue) => legacyValue.toLowerCase() === normalizedValue);
+  return !value.trim() || isLegacyValue ? fallback : value;
+}
 function mapExportPage(row) {
+  const destinationEyebrow = asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow);
+  const mapSectionTitle = asString(row?.map_section_title, defaultExportPage.mapSectionTitle);
   return {
     heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle),
     heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle),
     heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage),
     operationsImage: asString(row?.operations_image, defaultExportPage.operationsImage),
     operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow),
-    destinationEyebrow: asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow),
-    mapSectionTitle: asString(row?.map_section_title, defaultExportPage.mapSectionTitle),
+    destinationEyebrow: normalizeLegacyExportText(destinationEyebrow, defaultExportPage.destinationEyebrow, ["Export Geography"]),
+    mapSectionTitle: normalizeLegacyExportText(mapSectionTitle, defaultExportPage.mapSectionTitle, ["Our Global Export Network"]),
     supplyRoutes: safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes),
     logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent),
     packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle),

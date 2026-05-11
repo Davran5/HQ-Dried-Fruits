@@ -10,6 +10,7 @@ import { useLanguage } from "@/src/contexts/LanguageContext";
 import type { ExportContent, HomeContent, ProductCategoryItem } from "@/src/types/page";
 import { getManagedPagePath } from "@/src/lib/routes";
 import { cn } from "@/src/lib/utils";
+import { getBuyerChannelDescription, getBuyerChannelLabel } from "@/src/lib/buyerChannels";
 import {
     PRODUCT_CATEGORY_KEYS,
     buildProductCategoryCatalogPath,
@@ -107,11 +108,16 @@ export function FrontPage() {
                     statLabel: t("homeExportStatTransportMode"),
                     statValue: "Buyer label",
                     image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop",
-                },
+                  },
             ];
+    const localizedExportMarkets = exportMarkets.map((market) => ({
+        ...market,
+        countryName: getBuyerChannelLabel(market.countryName, undefined, t),
+        shortDescription: getBuyerChannelDescription(market.countryName, undefined, market.shortDescription, t),
+    }));
     const [activeExportMarketIndex, setActiveExportMarketIndex] = useState(0);
-    const safeExportMarketIndex = Math.min(activeExportMarketIndex, Math.max(exportMarkets.length - 1, 0));
-    const activeExportMarket = exportMarkets[safeExportMarketIndex];
+    const safeExportMarketIndex = Math.min(activeExportMarketIndex, Math.max(localizedExportMarkets.length - 1, 0));
+    const activeExportMarket = localizedExportMarkets[safeExportMarketIndex];
     const homepageCertificates =
         exportContent?.certificationsGallery?.length && exportContent.certificationsGallery.length > 0
             ? exportContent.certificationsGallery
@@ -534,7 +540,7 @@ export function FrontPage() {
                             </div>
 
                             <div className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2">
-                                {exportMarkets.map((market, index) => {
+                                    {localizedExportMarkets.map((market, index) => {
                                     const isActive = index === safeExportMarketIndex;
 
                                     return (

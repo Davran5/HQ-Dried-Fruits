@@ -6,6 +6,7 @@ import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ExportContent, SupplyRoute } from "@/src/types/page";
+import { getBuyerChannelDescription, getBuyerChannelLabel } from "@/src/lib/buyerChannels";
 
 const fallbackSupplyRoutes: SupplyRoute[] = [
   {
@@ -47,8 +48,11 @@ function getCountryCode(route: SupplyRoute) {
     .toUpperCase();
 }
 
-function getRouteLabel(route: SupplyRoute) {
-  return route.countryName;
+function getLegacyAwareExportHeading(value: string | undefined, fallback: string, legacyValues: string[]) {
+  const normalizedValue = (value || "").trim().toLowerCase();
+  const isLegacyValue = legacyValues.some((legacyValue) => legacyValue.toLowerCase() === normalizedValue);
+
+  return !value?.trim() || isLegacyValue ? fallback : value;
 }
 
 export function Export() {
@@ -112,9 +116,12 @@ export function Export() {
     .map((route) => ({
       ...route,
       code: getCountryCode(route),
-      displayName: getRouteLabel(route),
+      displayName: getBuyerChannelLabel(route.countryName, route.mapCoordinatesId, t),
+      tooltipDescription: getBuyerChannelDescription(route.countryName, route.mapCoordinatesId, route.tooltipDescription, t),
       image: route.image || exportIntroImage,
     }));
+  const destinationEyebrow = getLegacyAwareExportHeading(content?.destinationEyebrow, t("exportDestinationEyebrow"), ["Export Geography"]);
+  const mapSectionTitle = getLegacyAwareExportHeading(content?.mapSectionTitle, t("exportDestinationTitle"), ["Our Global Export Network"]);
   const safeActiveRouteIndex = Math.min(activeRouteIndex, Math.max(routeMarkets.length - 1, 0));
   const activeRoute = routeMarkets[safeActiveRouteIndex];
   const certifications =
@@ -349,10 +356,10 @@ export function Export() {
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch lg:gap-8">
             <div className="flex flex-col">
               <p className="text-sm font-bold uppercase tracking-[0.26em] text-earth-500">
-                  {content?.destinationEyebrow || t("exportDestinationEyebrow")}
+                  {destinationEyebrow}
               </p>
               <h2 className="mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl">
-                {content?.mapSectionTitle || t("exportDestinationTitle")}
+                {mapSectionTitle}
               </h2>
               <p className="mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8">
                 {t("exportDestinationDesc")}
@@ -386,7 +393,7 @@ export function Export() {
               <div className="relative min-h-[25.2rem] overflow-hidden rounded-[3.5rem] shadow-[0_32px_60px_rgba(84,39,70,0.12)] sm:min-h-[24rem] lg:h-full lg:min-h-0">
                 <img
                   src={activeRoute?.image || exportIntroImage}
-                    alt={content?.destinationEyebrow || t("exportDestinationEyebrow")}
+                    alt={destinationEyebrow}
                   className="absolute inset-0 h-full w-full object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -396,7 +403,7 @@ export function Export() {
                   <div className="absolute inset-x-0 bottom-0">
                     <div className="bg-gradient-to-t from-earth-900/88 via-earth-900/46 to-transparent px-6 pb-6 pt-16 text-white sm:px-8 sm:pb-8 sm:pt-20">
                       <p className="text-xs font-bold uppercase tracking-[0.24em] text-earth-100">
-                    {content?.destinationEyebrow || t("exportDestinationEyebrow")}
+                    {destinationEyebrow}
                       </p>
                       <div className="mt-3 flex items-center gap-3">
                         <h3 className="font-display text-3xl font-bold sm:text-[2.5rem]">{activeRoute.displayName}</h3>
