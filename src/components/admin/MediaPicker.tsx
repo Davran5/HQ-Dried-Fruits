@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Search, Image as ImageIcon, File, Check } from "lucide-react";
 import { useMedia } from "@/src/contexts/MediaContext";
 import { Button } from "@/src/components/ui/Button";
+import { getImageUrl } from "@/src/lib/imagePosition";
 
 interface MediaPickerProps {
     isOpen: boolean;
@@ -75,7 +76,7 @@ export function MediaPicker({ isOpen, onClose, onSelect, currentValue }: MediaPi
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                                 {filteredMedia.map((item) => {
                                     const isImage = item.type.startsWith("image/");
-                                    const isSelected = currentValue === item.url;
+                                    const isSelected = getImageUrl(currentValue) === item.url;
 
                                     return (
                                         <button

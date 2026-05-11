@@ -841,8 +841,13 @@ function sanitizeUploadBaseName(filename: string) {
   return sanitized || "image";
 }
 
+function stripUploadUrlMetadata(url: string) {
+  return url.split("#")[0].split("?")[0];
+}
+
 function resolveUploadedFilePath(url: string) {
-  const filename = path.basename(url.replace(/^\/uploads\//, ""));
+  const cleanUrl = stripUploadUrlMetadata(url);
+  const filename = path.basename(cleanUrl.replace(/^\/uploads\//, ""));
   if (!filename) return null;
 
   const uploadRoot = path.resolve(uploadsDir);
@@ -1317,8 +1322,8 @@ async function syncGlobalSharedMedia(settings: any) {
 
 async function syncProductsPageSharedMedia(content: any) {
   await db.query(
-    "UPDATE products_page SET hero_bg_image = $1, ordering_bg_image = $2 WHERE id = 1",
-    [asString(content.heroBgImage), asString(content.orderingBgImage)],
+    "UPDATE products_page SET hero_bg_image = $1, intro_image = $2, ordering_bg_image = $3 WHERE id = 1",
+    [asString(content.heroBgImage), asString(content.introImage), asString(content.orderingBgImage)],
   );
 }
 

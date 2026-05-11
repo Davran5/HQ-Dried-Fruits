@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { Mail, Phone, MapPin, Clock, CheckCircle2, Send, Instagram, MessageCircle, Facebook } from "lucide-react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
+import { PositionedImage } from "@/src/components/ui/PositionedImage";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
@@ -145,7 +146,7 @@ export function Contacts() {
           transition={{ duration: 22, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
           className="absolute inset-0 z-0 origin-center"
         >
-          <img
+          <PositionedImage
             src={contactHeroImage}
             alt={content?.pageTitle || t("contactsTitle")}
             className="h-full w-full object-cover"
@@ -356,7 +357,7 @@ export function Contacts() {
           ) : (
             <>
               <div className="absolute inset-0 bg-[#e5e3df]">
-                <img
+                <PositionedImage
                   src={content?.headquartersImage || "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1500"}
                   alt={t("contactsHeadquartersMapAlt")}
                   className="h-full w-full object-cover mix-blend-luminosity opacity-40"

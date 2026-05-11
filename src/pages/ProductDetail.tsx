@@ -4,11 +4,13 @@ import { CheckCircle2, ArrowRight, Loader2, Download } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
+import { PositionedImage } from "@/src/components/ui/PositionedImage";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { submitLead } from "@/src/lib/leads";
+import { getImageObjectPosition, getImageUrl } from "@/src/lib/imagePosition";
 import { findManagedProduct, getManagedPagePath, getManagedProductPath, normalizePath, resolveManagedProductPath } from "@/src/lib/routes";
 
 function getUploadDownloadUrl(fileUrl: string) {
@@ -150,9 +152,10 @@ export function ProductDetail() {
                 initial={{ scale: 1.1 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
-                src={selectedImage || product.image}
+                src={getImageUrl(selectedImage || product.image)}
                 alt={product.name}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                style={{ objectPosition: getImageObjectPosition(selectedImage || product.image) }}
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -166,7 +169,7 @@ export function ProductDetail() {
                     selectedImage === image ? "border-earth-500" : "border-transparent hover:border-earth-500"
                   }`}
                 >
-                  <img
+                  <PositionedImage
                     src={image}
                     alt="Thumbnail"
                     className="h-full w-full object-cover"

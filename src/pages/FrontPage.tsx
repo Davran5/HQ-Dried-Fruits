@@ -3,6 +3,7 @@ import { animate, motion, useInView } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronLeft, ChevronRight, Loader2, ShieldCheck } from "lucide-react";
 import { Button } from "@/src/components/ui/Button";
+import { PositionedImage } from "@/src/components/ui/PositionedImage";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
@@ -211,7 +212,7 @@ export function FrontPage() {
                     transition={{ duration: 25, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
                     className="absolute inset-0 z-0 origin-center"
                 >
-                    <img
+                    <PositionedImage
                         src={content.heroBgImage || "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2000"}
                         alt="Hero Background"
                         className="h-full w-full object-cover"
@@ -285,7 +286,7 @@ export function FrontPage() {
                             transition={{ duration: 0.75, ease: springEasing }}
                             className="group relative hidden h-[23rem] overflow-hidden rounded-[2.75rem] sm:h-[28rem] lg:block lg:h-[34rem]"
                         >
-                            <img
+                            <PositionedImage
                                 src={content.introImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
                                 alt="HQ Dried Fruits abstract orchard visual"
                                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -304,7 +305,7 @@ export function FrontPage() {
                                     {content.introLabel || t("homeIntroLabel")}
                                 </h2>
                                 <div className="mt-6 overflow-hidden rounded-[2.25rem] lg:hidden">
-                                    <img
+                                    <PositionedImage
                                         src={content.introImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}
                                         alt="HQ Dried Fruits abstract orchard visual"
                                         className="h-[14rem] w-full object-cover"
@@ -430,7 +431,7 @@ export function FrontPage() {
                                         </div>
 
                                         <div className="relative overflow-hidden rounded-[2.6rem] bg-earth-100">
-                                            <img
+                                            <PositionedImage
                                                 src={product.image}
                                                 alt={categoryDisplayName}
                                                 className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105 lg:h-full"
@@ -531,7 +532,7 @@ export function FrontPage() {
                                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                                 className="relative min-h-[28.8rem] overflow-hidden rounded-[3.25rem] md:min-h-[30rem] lg:h-full lg:min-h-0"
                             >
-                                <img
+                                <PositionedImage
                                     src={activeExportMarket?.image || "https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=1600&auto=format&fit=crop"}
                                     alt={activeExportMarket?.countryName || "Export market"}
                                     className="absolute inset-0 h-full w-full object-cover"
@@ -628,7 +629,7 @@ export function FrontPage() {
                                                     className="group flex w-[12.5rem] shrink-0 snap-center flex-col overflow-hidden rounded-[1.75rem] border border-earth-200 bg-white/70 sm:w-[13.5rem] sm:snap-start lg:h-full lg:w-[14rem]"
                                                 >
                                                     <div className="flex flex-1 items-center justify-center overflow-hidden bg-earth-50">
-                                                        <img
+                                                        <PositionedImage
                                                             src={cert.image}
                                                             alt={cert.caption}
                                                             className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"

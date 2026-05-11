@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { ArrowRight, CheckCircle2, Loader2, PackageCheck, RotateCcw, Sprout, SunMedium } from "lucide-react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
+import { PositionedImage } from "@/src/components/ui/PositionedImage";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
@@ -174,7 +175,7 @@ export function Products() {
             transition={{ duration: 22, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
             className="absolute inset-0 z-0 origin-center"
           >
-            <img
+            <PositionedImage
               src={content.heroBgImage}
               alt={content?.pageTitle || t("productsTitle")}
               className="h-full w-full object-cover"
@@ -231,7 +232,7 @@ export function Products() {
 
             <div className="h-[18rem] overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70 lg:h-[21rem]">
               {introShowcaseImage ? (
-                <img
+                <PositionedImage
                   src={introShowcaseImage}
                   alt={content?.introEyebrow || t("productsOriginEyebrow")}
                   className="h-full w-full object-cover"
@@ -335,9 +336,9 @@ export function Products() {
                   transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.2), ease: "easeOut" }}
                   className="group flex min-h-full scroll-mt-28 flex-col overflow-hidden rounded-[1.65rem] border border-earth-100 bg-white shadow-sm shadow-earth-100/70 transition-all hover:shadow-xl hover:shadow-earth-200/40"
                 >
-                  <div className="relative h-36 overflow-hidden bg-earth-100 sm:h-40">
+                  <div className="relative h-40 overflow-hidden bg-earth-100 sm:h-48">
                     {image ? (
-                      <img
+                      <PositionedImage
                         src={image}
                         alt={product.seo?.imageAlt || product.name}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -351,25 +352,27 @@ export function Products() {
                     <div className="absolute inset-0 bg-gradient-to-t from-earth-900/26 via-transparent to-transparent" />
                   </div>
 
-                  <div className="flex flex-1 flex-col p-4 sm:p-5">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-earth-400">
-                      {categoryLabel}
-                    </p>
-                    <h3 className="mt-1.5 font-display text-[1.45rem] font-bold leading-tight text-earth-900 sm:text-[1.6rem]">
-                      {product.name}
-                    </h3>
+                  <div className="flex flex-1 flex-col p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="min-w-0 flex-1 font-display text-[1.35rem] font-bold leading-tight text-earth-900 sm:text-[1.5rem]">
+                        {product.name}
+                      </h3>
+                      <p className="max-w-[8.5rem] shrink-0 rounded-full bg-earth-50 px-2.5 py-1 text-right text-[0.62rem] font-bold uppercase leading-3 tracking-[0.16em] text-earth-500">
+                        {categoryLabel}
+                      </p>
+                    </div>
                     <p className="mt-2 line-clamp-2 text-sm leading-5 text-earth-700">
                       {cardDescription}
                     </p>
 
                     {highlights.length > 0 && (
-                      <div className="mt-3">
+                      <div className="mt-2.5">
                         <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-earth-500">
                           {t("productsSellingPoints")}
                         </p>
-                        <div className="mt-2 space-y-1.5">
+                        <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1.5">
                           {highlights.map((highlight) => (
-                            <div key={highlight} className="flex items-start gap-2 text-xs leading-5 text-earth-800">
+                            <div key={highlight} className="flex min-w-0 items-start gap-1.5 text-xs leading-5 text-earth-800">
                               <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-earth-500" />
                               <span className="line-clamp-1">{highlight}</span>
                             </div>
@@ -378,7 +381,7 @@ export function Products() {
                       </div>
                     )}
 
-                    <div className="mt-auto pt-4">
+                    <div className="mt-auto pt-3">
                       <Link to={getManagedProductPath(product, pageSeo, locale)} className="block">
                         <Button
                           type="button"

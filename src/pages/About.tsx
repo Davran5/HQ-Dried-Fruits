@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
+import { PositionedImage } from "@/src/components/ui/PositionedImage";
 import { Marquee } from "@/src/components/ui/Marquee";
 import { Award, BadgeCheck, CheckCircle2, Leaf, ShieldCheck } from "lucide-react";
 import { useSEO } from "@/src/hooks/useSEO";
@@ -149,7 +150,7 @@ export function About() {
           transition={{ duration: 22, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
           className="absolute inset-0 z-0 origin-center"
         >
-          <img
+          <PositionedImage
             src={aboutHeroImage}
             alt={aboutHeroTitle}
             className="h-full w-full object-cover"
@@ -220,7 +221,7 @@ export function About() {
               className="grid grid-cols-2 gap-4 sm:gap-5"
             >
               <div className="overflow-hidden rounded-[2.5rem] border border-earth-100 bg-white shadow-[0_24px_50px_rgba(84,39,70,0.08)] col-span-2">
-                <img
+                <PositionedImage
                   src={heritageImages[0]}
                   alt="Company heritage"
                   className="h-[11.5rem] w-full object-cover sm:h-[16.8rem]"
@@ -232,7 +233,7 @@ export function About() {
                   key={`${image}-${index}`}
                   className="overflow-hidden rounded-[2rem] border border-earth-100 bg-white shadow-[0_20px_40px_rgba(84,39,70,0.07)]"
                 >
-                  <img
+                  <PositionedImage
                     src={image}
                     alt={`Company story ${index + 2}`}
                     className="h-[10.2rem] w-full object-cover sm:h-[15.1rem]"
@@ -328,7 +329,7 @@ export function About() {
               transition={{ duration: 0.65 }}
               className="relative h-[22rem] overflow-hidden rounded-[3rem] border border-earth-100 bg-earth-50 sm:h-[28rem] lg:h-[37rem]"
             >
-              <img
+              <PositionedImage
                 src={content?.missionPhotography || "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000"}
                 alt="Facility"
                 className="h-full w-full object-cover"
@@ -414,7 +415,7 @@ export function About() {
                 aria-pressed={isActive}
               >
                 <div className="absolute inset-0">
-                  <img
+                  <PositionedImage
                     src={item.image}
                     alt={item.title}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"

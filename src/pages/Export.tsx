@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, FileText, Package, ShieldCheck, Ship } from "lucide-react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
+import { PositionedImage } from "@/src/components/ui/PositionedImage";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
@@ -223,7 +224,7 @@ export function Export() {
             transition={{ duration: 22, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
             className="absolute inset-0 z-0 origin-center"
           >
-            <img
+            <PositionedImage
               src={content.heroBgImage}
               alt={content?.heroTitle || "Export hero background"}
               className="h-full w-full object-cover"
@@ -281,7 +282,7 @@ export function Export() {
             </div>
 
             <div className="h-[18rem] overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70 lg:h-[21rem]">
-              <img
+              <PositionedImage
                 src={exportIntroImage}
                 alt={content?.operationsEyebrow || t("exportOpsEyebrow")}
                 className="h-full w-full object-cover"
@@ -362,7 +363,7 @@ export function Export() {
 
             <div className="relative lg:h-full">
               <div className="relative min-h-[25.2rem] overflow-hidden rounded-[3.5rem] shadow-[0_32px_60px_rgba(84,39,70,0.12)] sm:min-h-[24rem] lg:h-full lg:min-h-0">
-                <img
+                <PositionedImage
                   src={activeRoute?.image || exportIntroImage}
                     alt={destinationEyebrow}
                   className="absolute inset-0 h-full w-full object-cover"
@@ -454,7 +455,7 @@ export function Export() {
                           className="group flex w-[12.5rem] shrink-0 snap-center flex-col overflow-hidden rounded-[1.75rem] border border-earth-200 bg-white/70 sm:w-[13.5rem] sm:snap-start lg:h-full lg:w-[14rem]"
                         >
                           <div className="flex flex-1 items-center justify-center overflow-hidden bg-earth-50">
-                            <img
+                            <PositionedImage
                               src={cert.image}
                               alt={cert.caption}
                               className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
