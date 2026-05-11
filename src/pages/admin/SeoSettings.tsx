@@ -151,7 +151,7 @@ export function AdminSeoSettings() {
         const productId = editingPage.id.replace("product:", "");
         const targetProduct = products.find((product) => product.id === productId);
         if (targetProduct) {
-          await updateProduct(productId, { ...targetProduct, seo: editingPage.seo }, editingLang);
+          await updateProduct(productId, { ...targetProduct, seo: editingPage.seo }, editingLang, ["seo"]);
         }
       } else {
         await updatePageSeo(editingPage.id, editingPage.seo, editingLang);

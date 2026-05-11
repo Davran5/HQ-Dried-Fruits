@@ -655,10 +655,13 @@ async function executeDeltaUpdate(
 
   const setClauses: string[] = [];
   const params: any[] = [];
+  const seenColumns = new Set<string>();
   let idx = 1;
 
   for (const key of keysToUpdate) {
     const { col, val } = mappedContent[key];
+    if (seenColumns.has(col)) continue;
+    seenColumns.add(col);
     setClauses.push(`${col} = $${idx++}`);
     params.push(val);
   }
@@ -684,6 +687,22 @@ function getPageSavePayload(body: any) {
 
   return {
     content: body ?? {},
+    changedPaths: null,
+  };
+}
+
+function getProductSavePayload(body: any) {
+  if (isPlainRecord(body) && isPlainRecord(body.product)) {
+    return {
+      product: body.product,
+      changedPaths: Array.isArray(body.changedPaths)
+        ? body.changedPaths.filter((pathValue) => typeof pathValue === "string")
+        : null,
+    };
+  }
+
+  return {
+    product: body ?? {},
     changedPaths: null,
   };
 }
@@ -2032,10 +2051,33 @@ app.post("/api/products/order", async (req, res) => {
 app.post("/api/products/:id", async (req, res) => {
   try {
     const locale = getRequestLocale(req);
-    const product = await validateProductPayload(req.body ?? {}, asString(req.params.id), locale);
     const existing = await findProductRowByIdentifier(asString(req.params.id), locale);
+    const payload = getProductSavePayload(req.body ?? {});
+    const currentProduct = existing ? mapProduct(existing) : {};
+    const productPayload = applyChangedPagePaths(currentProduct, payload.product, payload.changedPaths);
+    const product = await validateProductPayload(productPayload, asString(req.params.id), locale);
     const displayOrder = product.displayOrder ?? (Number.isFinite(Number(existing?.display_order)) ? Number(existing?.display_order) : await getNextProductDisplayOrder());
     const productToSave = { ...product, displayOrder };
+    const mapped: Record<string, {col: string, val: any}> = {
+      name: { col: "name", val: productToSave.name },
+      categoryKey: { col: "category_key", val: productToSave.categoryKey || null },
+      category: { col: "category", val: productToSave.category },
+      status: { col: "status", val: productToSave.status },
+      image: { col: "image", val: productToSave.image },
+      imageGallery: { col: "image_gallery", val: JSON.stringify(productToSave.imageGallery) },
+      shortDescription: { col: "short_description", val: productToSave.shortDescription },
+      longDescription: { col: "long_description", val: productToSave.longDescription },
+      highlights: { col: "highlights", val: JSON.stringify(productToSave.highlights) },
+      contentSections: { col: "content_sections", val: JSON.stringify(productToSave.contentSections) },
+      nutrition: { col: "nutrition", val: JSON.stringify(productToSave.nutrition ?? {}) },
+      customFields: { col: "nutrition", val: JSON.stringify(productToSave.nutrition ?? {}) },
+      customFieldGroups: { col: "nutrition", val: JSON.stringify(productToSave.nutrition ?? {}) },
+      inquirySubjectLine: { col: "inquiry_subject_line", val: productToSave.inquirySubjectLine },
+      tonnageOptions: { col: "tonnage_options", val: JSON.stringify(productToSave.tonnageOptions) },
+      seo: { col: "seo", val: JSON.stringify(productToSave.seo) },
+      displayOrder: { col: "display_order", val: productToSave.displayOrder },
+      technicalPassport: { col: "technical_passport", val: productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null },
+    };
 
     if (!existing || asString(existing?.lang, "en") !== locale || asString(existing?.id) !== asString(req.params.id)) {
       await db.query(
@@ -2065,12 +2107,10 @@ app.post("/api/products/:id", async (req, res) => {
       return res.json({ success: true, product: { ...productToSave, id: asString(req.params.id) } });
     }
 
-    const result = await db.query(
-      `UPDATE products SET name = $1, category_key = $2, category = $3, status = $4, image = $5, image_gallery = $6, short_description = $7, long_description = $8, highlights = $9, content_sections = $10, nutrition = $11, inquiry_subject_line = $12, tonnage_options = $13, seo = $14, display_order = $15, technical_passport = $16 WHERE id = $17 AND lang = $18`,
-      [productToSave.name, productToSave.categoryKey || null, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, asString(req.params.id), locale],
-    );
-    if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
-    await db.query("UPDATE products SET status = $1 WHERE id = $2", [productToSave.status, asString(req.params.id)]);
+    await executeDeltaUpdate("products", asString(req.params.id), locale, mapped, payload.changedPaths);
+    if (!payload.changedPaths || payload.changedPaths.some((path) => path === "status")) {
+      await db.query("UPDATE products SET status = $1 WHERE id = $2", [productToSave.status, asString(req.params.id)]);
+    }
     await syncProductSharedMedia(productToSave);
     res.json({ success: true, product: productToSave });
   } catch (error) { res.status(400).json({ error: error instanceof Error ? error.message : "Failed to update product" }); }

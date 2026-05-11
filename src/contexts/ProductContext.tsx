@@ -10,7 +10,7 @@ interface ProductContextType {
     productsLoaded: boolean;
     currentLocale: ActiveLocaleCode;
     addProduct: (product: Omit<Product, "id">, locale?: LocaleCode) => Promise<Product>;
-    updateProduct: (id: string, product: Omit<Product, "id">, locale?: LocaleCode) => Promise<void>;
+    updateProduct: (id: string, product: Omit<Product, "id">, locale?: LocaleCode, changedPaths?: string[]) => Promise<void>;
     deleteProduct: (id: string) => Promise<void>;
     reorderProducts: (ids: string[]) => Promise<void>;
     refreshProducts: (locale?: LocaleCode) => Promise<void>;
@@ -107,7 +107,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
         }
     };
 
-    const updateProduct = async (id: string, productDetails: Omit<Product, "id">, requestedLocale?: LocaleCode) => {
+    const updateProduct = async (id: string, productDetails: Omit<Product, "id">, requestedLocale?: LocaleCode, changedPaths?: string[]) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
         const updatedProduct: Product = { ...productDetails, id };
 
@@ -115,7 +115,7 @@ export function ProductProvider({ children, initialData }: { children: ReactNode
             const response = await fetch(`/api/products/${id}?locale=${encodeURIComponent(targetLocale)}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedProduct)
+                body: JSON.stringify({ product: updatedProduct, changedPaths })
             });
             if (response.ok) {
                 const payload = await response.json().catch(() => null);

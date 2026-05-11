@@ -125137,14 +125137,14 @@ function ProductProvider({ children, initialData }) {
       throw error;
     }
   };
-  const updateProduct = async (id3, productDetails, requestedLocale) => {
+  const updateProduct = async (id3, productDetails, requestedLocale, changedPaths) => {
     const targetLocale = getActiveLocale(requestedLocale || locale);
     const updatedProduct = { ...productDetails, id: id3 };
     try {
       const response = await fetch(`/api/products/${id3}?locale=${encodeURIComponent(targetLocale)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProduct)
+        body: JSON.stringify({ product: updatedProduct, changedPaths })
       });
       if (response.ok) {
         const payload = await response.json().catch(() => null);
@@ -133162,7 +133162,8 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
         setOpenEditorByLocale((current) => ({ ...current, [editingLang]: createdId }));
         setSuccessMessage(`New product (${editingLang.toUpperCase()}) created successfully!`);
       } else if (editingId) {
-        await updateProduct(editingId, productToSave, editingLang);
+        const changedPaths = changedDraftPaths(getSourceFormData(editingId), productToSave);
+        await updateProduct(editingId, productToSave, editingLang, changedPaths);
         const savedId = editingId;
         setFormData(productToSave);
         setProductDrafts((drafts) => {
@@ -135030,7 +135031,7 @@ function AdminSeoSettings() {
         const productId = editingPage.id.replace("product:", "");
         const targetProduct = products.find((product) => product.id === productId);
         if (targetProduct) {
-          await updateProduct(productId, { ...targetProduct, seo: editingPage.seo }, editingLang);
+          await updateProduct(productId, { ...targetProduct, seo: editingPage.seo }, editingLang, ["seo"]);
         }
       } else {
         await updatePageSeo(editingPage.id, editingPage.seo, editingLang);
@@ -136417,7 +136418,7 @@ async function initDb() {
       PRIMARY KEY (page_id, lang)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`);
     const singletonTables = ["global_settings", "products_page", "export_page", "contacts_page", "home_page", "about_page", "privacy_page", "terms_page"];
-    const langs = ["en", "ru", "uz"];
+    const langs = [...activeLocales];
     for (const table of singletonTables) {
       for (const lang of langs) {
         await conn.execute(
@@ -136851,6 +136852,36 @@ function applyChangedPagePaths(baseContent, incomingContent, changedPaths) {
   }
   return next;
 }
+async function executeDeltaUpdate(tableName, id3, lang, mappedContent, changedPaths) {
+  await db.query(`INSERT IGNORE INTO ${tableName} (id, lang) VALUES ($1, $2)`, [id3, lang]);
+  const allKeys = Object.keys(mappedContent);
+  let keysToUpdate = allKeys;
+  if (changedPaths && Array.isArray(changedPaths)) {
+    keysToUpdate = allKeys.filter(
+      (key) => changedPaths.some((path2) => path2 === key || path2.startsWith(`${key}.`))
+    );
+  }
+  if (keysToUpdate.length === 0) {
+    console.info(`[Delta Update] SKIPPED ${tableName} (lang: ${lang}) - No changed keys aligned with schema columns.`);
+    return;
+  }
+  const setClauses = [];
+  const params = [];
+  const seenColumns = /* @__PURE__ */ new Set();
+  let idx = 1;
+  for (const key of keysToUpdate) {
+    const { col, val } = mappedContent[key];
+    if (seenColumns.has(col)) continue;
+    seenColumns.add(col);
+    setClauses.push(`${col} = $${idx++}`);
+    params.push(val);
+  }
+  params.push(id3, lang);
+  const sql = `UPDATE ${tableName} SET ${setClauses.join(", ")} WHERE id = $${idx++} AND lang = $${idx++}`;
+  console.info(`[Delta Update] PERSIST ${tableName} (lang: ${lang})`);
+  console.info(`  -> Target Fields: ${keysToUpdate.join(", ")}`);
+  await db.query(sql, params);
+}
 function getPageSavePayload(body) {
   if (isPlainRecord(body) && isPlainRecord(body.content)) {
     return {
@@ -136860,6 +136891,18 @@ function getPageSavePayload(body) {
   }
   return {
     content: body ?? {},
+    changedPaths: null
+  };
+}
+function getProductSavePayload(body) {
+  if (isPlainRecord(body) && isPlainRecord(body.product)) {
+    return {
+      product: body.product,
+      changedPaths: Array.isArray(body.changedPaths) ? body.changedPaths.filter((pathValue) => typeof pathValue === "string") : null
+    };
+  }
+  return {
+    product: body ?? {},
     changedPaths: null
   };
 }
@@ -137403,7 +137446,10 @@ async function readContentTable(pageId, locale = "en") {
 async function writeContentTable(pageId, content, locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
   const sanitizedContent = normalizeFlexiblePageContent(pageId, content, resolvedLocale);
-  await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(sanitizedContent), resolvedLocale]);
+  const tableName = pageContentTables[pageId];
+  await db.query(`INSERT IGNORE INTO ${tableName} (id, lang) VALUES (1, $1)`, [resolvedLocale]);
+  console.info(`[Save Table] Writing to ${tableName} (lang: ${resolvedLocale})`);
+  await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(sanitizedContent), resolvedLocale]);
 }
 async function syncFlexiblePageSharedMedia(pageId, sourceContent) {
   const config = sharedMediaConfigs[pageId];
@@ -138017,7 +138063,28 @@ app.post("/api/globals", async (req, res) => {
   try {
     const settings = req.body ?? {};
     const locale = getRequestLocale(req);
-    await db.query(`UPDATE global_settings SET header_logo = $1, site_name = $2, nav_links = $3, cta_text = $4, cta_url = $5, footer_logo = $6, footer_description = $7, footer_lead_text = $8, quick_links = $9, office_address = $10, phone_number = $11, email_address = $12, telegram_url = $13, footer_cta_title = $14, footer_cta_email = $15, footer_copyright_text = $16, ui_labels = $17, google_site_verification_id = $18, favicon = $19 WHERE id = 1 AND lang = $20`, [asString(settings.headerLogo), asString(settings.siteName, defaultGlobalSettings.siteName), JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []), asString(settings.ctaText), asString(settings.ctaUrl), asString(settings.footerLogo), asString(settings.footerDescription), asString(settings.footerLeadText), JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []), asString(settings.officeAddress), asString(settings.phoneNumber), asString(settings.emailAddress), asString(settings.telegramUrl), asString(settings.footerCtaTitle), asString(settings.footerCtaEmail), asString(settings.footerCopyrightText), JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels), asString(settings.googleSiteVerificationId), asString(settings.favicon), locale]);
+    const mappedContent = {
+      headerLogo: { col: "header_logo", val: asString(settings.headerLogo) },
+      siteName: { col: "site_name", val: asString(settings.siteName, defaultGlobalSettings.siteName) },
+      navLinks: { col: "nav_links", val: JSON.stringify(Array.isArray(settings.navLinks) ? settings.navLinks : []) },
+      ctaText: { col: "cta_text", val: asString(settings.ctaText) },
+      ctaUrl: { col: "cta_url", val: asString(settings.ctaUrl) },
+      footerLogo: { col: "footer_logo", val: asString(settings.footerLogo) },
+      footerDescription: { col: "footer_description", val: asString(settings.footerDescription) },
+      footerLeadText: { col: "footer_lead_text", val: asString(settings.footerLeadText) },
+      quickLinks: { col: "quick_links", val: JSON.stringify(Array.isArray(settings.quickLinks) ? settings.quickLinks : []) },
+      officeAddress: { col: "office_address", val: asString(settings.officeAddress) },
+      phoneNumber: { col: "phone_number", val: asString(settings.phoneNumber) },
+      emailAddress: { col: "email_address", val: asString(settings.emailAddress) },
+      telegramUrl: { col: "telegram_url", val: asString(settings.telegramUrl) },
+      footerCtaTitle: { col: "footer_cta_title", val: asString(settings.footerCtaTitle) },
+      footerCtaEmail: { col: "footer_cta_email", val: asString(settings.footerCtaEmail) },
+      footerCopyrightText: { col: "footer_copyright_text", val: asString(settings.footerCopyrightText) },
+      uiLabels: { col: "ui_labels", val: JSON.stringify(typeof settings.uiLabels === "object" && settings.uiLabels ? settings.uiLabels : defaultGlobalSettings.uiLabels) },
+      googleSiteVerificationId: { col: "google_site_verification_id", val: asString(settings.googleSiteVerificationId) },
+      favicon: { col: "favicon", val: asString(settings.favicon) }
+    };
+    await executeDeltaUpdate("global_settings", 1, locale, mappedContent, null);
     await syncGlobalSharedMedia(settings);
     res.json({ success: true });
   } catch (error) {
@@ -138088,10 +138155,33 @@ app.post("/api/products/order", async (req, res) => {
 app.post("/api/products/:id", async (req, res) => {
   try {
     const locale = getRequestLocale(req);
-    const product = await validateProductPayload(req.body ?? {}, asString(req.params.id), locale);
     const existing = await findProductRowByIdentifier(asString(req.params.id), locale);
+    const payload = getProductSavePayload(req.body ?? {});
+    const currentProduct = existing ? mapProduct(existing) : {};
+    const productPayload = applyChangedPagePaths(currentProduct, payload.product, payload.changedPaths);
+    const product = await validateProductPayload(productPayload, asString(req.params.id), locale);
     const displayOrder = product.displayOrder ?? (Number.isFinite(Number(existing?.display_order)) ? Number(existing?.display_order) : await getNextProductDisplayOrder());
     const productToSave = { ...product, displayOrder };
+    const mapped = {
+      name: { col: "name", val: productToSave.name },
+      categoryKey: { col: "category_key", val: productToSave.categoryKey || null },
+      category: { col: "category", val: productToSave.category },
+      status: { col: "status", val: productToSave.status },
+      image: { col: "image", val: productToSave.image },
+      imageGallery: { col: "image_gallery", val: JSON.stringify(productToSave.imageGallery) },
+      shortDescription: { col: "short_description", val: productToSave.shortDescription },
+      longDescription: { col: "long_description", val: productToSave.longDescription },
+      highlights: { col: "highlights", val: JSON.stringify(productToSave.highlights) },
+      contentSections: { col: "content_sections", val: JSON.stringify(productToSave.contentSections) },
+      nutrition: { col: "nutrition", val: JSON.stringify(productToSave.nutrition ?? {}) },
+      customFields: { col: "nutrition", val: JSON.stringify(productToSave.nutrition ?? {}) },
+      customFieldGroups: { col: "nutrition", val: JSON.stringify(productToSave.nutrition ?? {}) },
+      inquirySubjectLine: { col: "inquiry_subject_line", val: productToSave.inquirySubjectLine },
+      tonnageOptions: { col: "tonnage_options", val: JSON.stringify(productToSave.tonnageOptions) },
+      seo: { col: "seo", val: JSON.stringify(productToSave.seo) },
+      displayOrder: { col: "display_order", val: productToSave.displayOrder },
+      technicalPassport: { col: "technical_passport", val: productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null }
+    };
     if (!existing || asString(existing?.lang, "en") !== locale || asString(existing?.id) !== asString(req.params.id)) {
       await db.query(
         `INSERT INTO products (id, name, category_key, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport, lang) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
@@ -138119,12 +138209,10 @@ app.post("/api/products/:id", async (req, res) => {
       await syncProductSharedMedia({ ...productToSave, id: asString(req.params.id) });
       return res.json({ success: true, product: { ...productToSave, id: asString(req.params.id) } });
     }
-    const result = await db.query(
-      `UPDATE products SET name = $1, category_key = $2, category = $3, status = $4, image = $5, image_gallery = $6, short_description = $7, long_description = $8, highlights = $9, content_sections = $10, nutrition = $11, inquiry_subject_line = $12, tonnage_options = $13, seo = $14, display_order = $15, technical_passport = $16 WHERE id = $17 AND lang = $18`,
-      [productToSave.name, productToSave.categoryKey || null, productToSave.category, productToSave.status, productToSave.image, JSON.stringify(productToSave.imageGallery), productToSave.shortDescription, productToSave.longDescription, JSON.stringify(productToSave.highlights), JSON.stringify(productToSave.contentSections), JSON.stringify(productToSave.nutrition ?? {}), productToSave.inquirySubjectLine, JSON.stringify(productToSave.tonnageOptions), JSON.stringify(productToSave.seo), productToSave.displayOrder, productToSave.technicalPassport ? JSON.stringify(productToSave.technicalPassport) : null, asString(req.params.id), locale]
-    );
-    if (result.rowCount === 0) return res.status(404).json({ error: "Product not found" });
-    await db.query("UPDATE products SET status = $1 WHERE id = $2", [productToSave.status, asString(req.params.id)]);
+    await executeDeltaUpdate("products", asString(req.params.id), locale, mapped, payload.changedPaths);
+    if (!payload.changedPaths || payload.changedPaths.some((path2) => path2 === "status")) {
+      await db.query("UPDATE products SET status = $1 WHERE id = $2", [productToSave.status, asString(req.params.id)]);
+    }
     await syncProductSharedMedia(productToSave);
     res.json({ success: true, product: productToSave });
   } catch (error) {
@@ -138167,17 +138255,104 @@ app.post("/api/pages/:id", async (req, res) => {
     const currentContent = payload.changedPaths ? await getPageContent(pageId, locale) : {};
     const content = applyChangedPagePaths(currentContent, payload.content, payload.changedPaths);
     if (pageId === "products") {
-      await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, intro_eyebrow = $4, intro_title = $5, intro_content = $6, intro_image = $7, intro_facts = $8, catalog_eyebrow = $9, catalog_title = $10, ordering_bg_image = $11, ordering_form_title = $12, ordering_form_subtitle = $13, step_one_label = $14, step_two_label = $15, step_three_label = $16, mixed_container_label = $17, volume_options = $18, view_specs_label = $19, step_one_placeholder = $20, step_three_placeholder = $21, next_step_button_label = $22, back_button_label = $23, submit_button_label = $24, submitting_button_label = $25, detail_ui = $26, quick_contact_title = $27, quick_contact_subtitle = $28, telegram_label = $29, telegram_sublabel = $30, call_label = $31, email_label = $32, quick_phone = $33, quick_email = $34 WHERE id = 1 AND lang = $35`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.introEyebrow), asString(content.introTitle), asString(content.introContent), asString(content.introImage), JSON.stringify(Array.isArray(content.introFacts) ? content.introFacts : []), asString(content.catalogEyebrow), asString(content.catalogTitle), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
+      const mapped = {
+        pageTitle: { col: "page_title", val: asString(content.pageTitle) },
+        pageSubtitle: { col: "page_subtitle", val: asString(content.pageSubtitle) },
+        heroBgImage: { col: "hero_bg_image", val: asString(content.heroBgImage) },
+        introEyebrow: { col: "intro_eyebrow", val: asString(content.introEyebrow) },
+        introTitle: { col: "intro_title", val: asString(content.introTitle) },
+        introContent: { col: "intro_content", val: asString(content.introContent) },
+        introImage: { col: "intro_image", val: asString(content.introImage) },
+        introFacts: { col: "intro_facts", val: JSON.stringify(Array.isArray(content.introFacts) ? content.introFacts : []) },
+        catalogEyebrow: { col: "catalog_eyebrow", val: asString(content.catalogEyebrow) },
+        catalogTitle: { col: "catalog_title", val: asString(content.catalogTitle) },
+        orderingBgImage: { col: "ordering_bg_image", val: asString(content.orderingBgImage) },
+        orderingFormTitle: { col: "ordering_form_title", val: asString(content.orderingFormTitle) },
+        orderingFormSubtitle: { col: "ordering_form_subtitle", val: asString(content.orderingFormSubtitle) },
+        stepOneLabel: { col: "step_one_label", val: asString(content.stepOneLabel) },
+        stepTwoLabel: { col: "step_two_label", val: asString(content.stepTwoLabel) },
+        stepThreeLabel: { col: "step_three_label", val: asString(content.stepThreeLabel) },
+        mixedContainerLabel: { col: "mixed_container_label", val: asString(content.mixedContainerLabel) },
+        volumeOptions: { col: "volume_options", val: JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []) },
+        viewSpecsLabel: { col: "view_specs_label", val: asString(content.viewSpecsLabel) },
+        stepOnePlaceholder: { col: "step_one_placeholder", val: asString(content.stepOnePlaceholder) },
+        stepThreePlaceholder: { col: "step_three_placeholder", val: asString(content.stepThreePlaceholder) },
+        nextStepButtonLabel: { col: "next_step_button_label", val: asString(content.nextStepButtonLabel) },
+        backButtonLabel: { col: "back_button_label", val: asString(content.backButtonLabel) },
+        submitButtonLabel: { col: "submit_button_label", val: asString(content.submitButtonLabel) },
+        submittingButtonLabel: { col: "submitting_button_label", val: asString(content.submittingButtonLabel) },
+        detailUi: { col: "detail_ui", val: JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi) },
+        quickContactTitle: { col: "quick_contact_title", val: asString(content.quickContactTitle) },
+        quickContactSubtitle: { col: "quick_contact_subtitle", val: asString(content.quickContactSubtitle) },
+        telegramLabel: { col: "telegram_label", val: asString(content.telegramLabel) },
+        telegramSublabel: { col: "telegram_sublabel", val: asString(content.telegramSublabel) },
+        callLabel: { col: "call_label", val: asString(content.callLabel) },
+        emailLabel: { col: "email_label", val: asString(content.emailLabel) },
+        quickPhone: { col: "quick_phone", val: asString(content.quickPhone) },
+        quickEmail: { col: "quick_email", val: asString(content.quickEmail) }
+      };
+      await executeDeltaUpdate("products_page", 1, locale, mapped, payload.changedPaths);
       await syncProductsPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "export") {
-      await db.query(`UPDATE export_page SET hero_title = $1, hero_subtitle = $2, hero_bg_image = $3, operations_image = $4, operations_eyebrow = $5, destination_eyebrow = $6, map_section_title = $7, supply_routes = $8, logistics_content = $9, packaging_title = $10, packaging_methods = $11, transportation_title = $12, transportation_methods = $13, documentation_title = $14, documentation_content = $15, quality_title = $16, technical_specs = $17, quality_checks = $18, certifications_gallery = $19 WHERE id = 1 AND lang = $20`, [asString(content.heroTitle), asString(content.heroSubtitle), asString(content.heroBgImage), asString(content.operationsImage), asString(content.operationsEyebrow), asString(content.destinationEyebrow), asString(content.mapSectionTitle), JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []), asString(content.logisticsContent), asString(content.packagingTitle), asString(content.packagingMethods), asString(content.transportationTitle), asString(content.transportationMethods), asString(content.documentationTitle), asString(content.documentationContent), asString(content.qualityTitle), asString(content.technicalSpecs), JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []), JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []), locale]);
+      const mapped = {
+        heroTitle: { col: "hero_title", val: asString(content.heroTitle) },
+        heroSubtitle: { col: "hero_subtitle", val: asString(content.heroSubtitle) },
+        heroBgImage: { col: "hero_bg_image", val: asString(content.heroBgImage) },
+        operationsImage: { col: "operations_image", val: asString(content.operationsImage) },
+        operationsEyebrow: { col: "operations_eyebrow", val: asString(content.operationsEyebrow) },
+        destinationEyebrow: { col: "destination_eyebrow", val: asString(content.destinationEyebrow) },
+        mapSectionTitle: { col: "map_section_title", val: asString(content.mapSectionTitle) },
+        supplyRoutes: { col: "supply_routes", val: JSON.stringify(Array.isArray(content.supplyRoutes) ? content.supplyRoutes : []) },
+        logisticsContent: { col: "logistics_content", val: asString(content.logisticsContent) },
+        packagingTitle: { col: "packaging_title", val: asString(content.packagingTitle) },
+        packagingMethods: { col: "packaging_methods", val: asString(content.packagingMethods) },
+        transportationTitle: { col: "transportation_title", val: asString(content.transportationTitle) },
+        transportationMethods: { col: "transportation_methods", val: asString(content.transportationMethods) },
+        documentationTitle: { col: "documentation_title", val: asString(content.documentationTitle) },
+        documentationContent: { col: "documentation_content", val: asString(content.documentationContent) },
+        qualityTitle: { col: "quality_title", val: asString(content.qualityTitle) },
+        technicalSpecs: { col: "technical_specs", val: asString(content.technicalSpecs) },
+        qualityChecks: { col: "quality_checks", val: JSON.stringify(Array.isArray(content.qualityChecks) ? content.qualityChecks : []) },
+        certificationsGallery: { col: "certifications_gallery", val: JSON.stringify(Array.isArray(content.certificationsGallery) ? content.certificationsGallery : []) }
+      };
+      await executeDeltaUpdate("export_page", 1, locale, mapped, payload.changedPaths);
       await syncExportPageSharedMedia(content);
       return res.json({ success: true });
     }
     if (pageId === "contacts") {
-      await db.query(`UPDATE contacts_page SET page_title = $1, intro_text = $2, direct_contact_eyebrow = $3, form_destination_email = $4, contact_form_title = $5, response_label_prefix = $6, form_name_label = $7, form_company_label = $8, form_email_label = $9, form_message_label = $10, submit_button_label = $11, submitting_button_label = $12, email = $13, phone = $14, office_address = $15, working_hours = $16, map_pin_label = $17, info_email_label = $18, info_phone_label = $19, info_address_label = $20, info_hours_label = $21, social_section_title = $22, telegram_url = $23, instagram_url = $24, whatsapp_url = $25, facebook_url = $26, headquarters_image = $27, google_maps_url = $28 WHERE id = 1 AND lang = $29`, [asString(content.pageTitle), asString(content.introText), asString(content.directContactEyebrow), asString(content.formDestinationEmail), asString(content.contactFormTitle), asString(content.responseLabelPrefix), asString(content.formNameLabel), asString(content.formCompanyLabel), asString(content.formEmailLabel), asString(content.formMessageLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), asString(content.emailAddress), asString(content.phoneNumber), asString(content.officeAddress), asString(content.workingHours), asString(content.mapPinLabel), asString(content.infoEmailLabel), asString(content.infoPhoneLabel), asString(content.infoAddressLabel), asString(content.infoHoursLabel), asString(content.socialSectionTitle), asString(content.telegramUrl), asString(content.instagramUrl), asString(content.whatsappUrl), asString(content.facebookUrl), asString(content.headquartersImage), asString(content.googleMapsUrl), locale]);
+      const mapped = {
+        pageTitle: { col: "page_title", val: asString(content.pageTitle) },
+        introText: { col: "intro_text", val: asString(content.introText) },
+        directContactEyebrow: { col: "direct_contact_eyebrow", val: asString(content.directContactEyebrow) },
+        formDestinationEmail: { col: "form_destination_email", val: asString(content.formDestinationEmail) },
+        contactFormTitle: { col: "contact_form_title", val: asString(content.contactFormTitle) },
+        responseLabelPrefix: { col: "response_label_prefix", val: asString(content.responseLabelPrefix) },
+        formNameLabel: { col: "form_name_label", val: asString(content.formNameLabel) },
+        formCompanyLabel: { col: "form_company_label", val: asString(content.formCompanyLabel) },
+        formEmailLabel: { col: "form_email_label", val: asString(content.formEmailLabel) },
+        formMessageLabel: { col: "form_message_label", val: asString(content.formMessageLabel) },
+        submitButtonLabel: { col: "submit_button_label", val: asString(content.submitButtonLabel) },
+        submittingButtonLabel: { col: "submitting_button_label", val: asString(content.submittingButtonLabel) },
+        emailAddress: { col: "email", val: asString(content.emailAddress) },
+        phoneNumber: { col: "phone", val: asString(content.phoneNumber) },
+        officeAddress: { col: "office_address", val: asString(content.officeAddress) },
+        workingHours: { col: "working_hours", val: asString(content.workingHours) },
+        mapPinLabel: { col: "map_pin_label", val: asString(content.mapPinLabel) },
+        infoEmailLabel: { col: "info_email_label", val: asString(content.infoEmailLabel) },
+        infoPhoneLabel: { col: "info_phone_label", val: asString(content.infoPhoneLabel) },
+        infoAddressLabel: { col: "info_address_label", val: asString(content.infoAddressLabel) },
+        infoHoursLabel: { col: "info_hours_label", val: asString(content.infoHoursLabel) },
+        socialSectionTitle: { col: "social_section_title", val: asString(content.socialSectionTitle) },
+        telegramUrl: { col: "telegram_url", val: asString(content.telegramUrl) },
+        instagramUrl: { col: "instagram_url", val: asString(content.instagramUrl) },
+        whatsappUrl: { col: "whatsapp_url", val: asString(content.whatsappUrl) },
+        facebookUrl: { col: "facebook_url", val: asString(content.facebookUrl) },
+        headquartersImage: { col: "headquarters_image", val: asString(content.headquartersImage) },
+        googleMapsUrl: { col: "google_maps_url", val: asString(content.googleMapsUrl) }
+      };
+      await executeDeltaUpdate("contacts_page", 1, locale, mapped, payload.changedPaths);
       await syncContactsPageSharedMedia(content);
       return res.json({ success: true });
     }

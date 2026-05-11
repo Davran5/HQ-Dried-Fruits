@@ -11,7 +11,7 @@ import { Product, ProductCustomField, ProductCustomFieldGroup } from "@/src/type
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { useAdminSidebarAction } from "@/src/components/layout/AdminLayout";
 import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
-import { cloneDraft, draftKey, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
+import { changedDraftPaths, cloneDraft, draftKey, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
 import type { ActiveLocaleCode } from "@/src/i18n";
 import { getProductCategoryLabel, getProductCategorySelectOptions, resolveProductCategoryKey } from "@/src/lib/productCategories";
 
@@ -261,7 +261,8 @@ export function ProductCatalogManager({ embedded = false, onFloatingActionChange
         setOpenEditorByLocale((current) => ({ ...current, [editingLang]: createdId }));
         setSuccessMessage(`New product (${editingLang.toUpperCase()}) created successfully!`);
       } else if (editingId) {
-        await updateProduct(editingId, productToSave, editingLang);
+        const changedPaths = changedDraftPaths(getSourceFormData(editingId), productToSave);
+        await updateProduct(editingId, productToSave, editingLang, changedPaths);
         const savedId = editingId;
         setFormData(productToSave);
         setProductDrafts((drafts) => {
