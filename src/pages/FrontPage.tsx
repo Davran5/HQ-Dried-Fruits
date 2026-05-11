@@ -10,7 +10,7 @@ import { useLanguage } from "@/src/contexts/LanguageContext";
 import type { ExportContent, HomeContent, ProductCategoryItem } from "@/src/types/page";
 import { getManagedPagePath } from "@/src/lib/routes";
 import { cn } from "@/src/lib/utils";
-import { getBuyerChannelDescription, getBuyerChannelLabel } from "@/src/lib/buyerChannels";
+import { normalizeHomeBuyerChannels } from "@/src/lib/buyerChannels";
 import {
     PRODUCT_CATEGORY_KEYS,
     buildProductCategoryCatalogPath,
@@ -76,45 +76,7 @@ export function FrontPage() {
     }
 
     const springEasing = [0.25, 1, 0.5, 1];
-    const configuredExportMarkets = (content.exportMarkets || []).filter((market) => market.countryName?.trim());
-    const exportMarkets =
-        configuredExportMarkets.length > 0
-            ? configuredExportMarkets
-            : [
-                {
-                    countryName: "Retail",
-                    shortDescription: t("homeExportMarketGermanyDesc"),
-                    statLabel: t("homeExportStatLeadTime"),
-                    statValue: "Shelf-ready",
-                    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1600&auto=format&fit=crop",
-                },
-                {
-                    countryName: "Wholesale",
-                    shortDescription: t("homeExportMarketNetherlandsDesc"),
-                    statLabel: t("homeExportStatPortRouting"),
-                    statValue: "Cartons",
-                    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop",
-                },
-                {
-                    countryName: "Food Industry",
-                    shortDescription: t("homeExportMarketUaeDesc"),
-                    statLabel: t("homeExportStatDocumentation"),
-                    statValue: "Ingredients",
-                    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1600&auto=format&fit=crop",
-                },
-                {
-                    countryName: "Private Label",
-                    shortDescription: t("homeExportMarketKazakhstanDesc"),
-                    statLabel: t("homeExportStatTransportMode"),
-                    statValue: "Buyer label",
-                    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop",
-                  },
-            ];
-    const localizedExportMarkets = exportMarkets.map((market) => ({
-        ...market,
-        countryName: getBuyerChannelLabel(market.countryName, undefined, t),
-        shortDescription: getBuyerChannelDescription(market.countryName, undefined, market.shortDescription, t),
-    }));
+    const localizedExportMarkets = normalizeHomeBuyerChannels(content.exportMarkets, locale, exportContent?.supplyRoutes);
     const [activeExportMarketIndex, setActiveExportMarketIndex] = useState(0);
     const safeExportMarketIndex = Math.min(activeExportMarketIndex, Math.max(localizedExportMarkets.length - 1, 0));
     const activeExportMarket = localizedExportMarkets[safeExportMarketIndex];

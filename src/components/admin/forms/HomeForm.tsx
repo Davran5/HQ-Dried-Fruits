@@ -5,6 +5,8 @@ import { Repeater } from "@/src/components/admin/Repeater";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
 import { Select } from "@/src/components/ui/Select";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
+import { t as translate } from "@/src/i18n";
+import { normalizeHomeBuyerChannels } from "@/src/lib/buyerChannels";
 import { getProductCategoryLabel, getProductCategorySelectOptions, resolveProductCategoryKey } from "@/src/lib/productCategories";
 
 interface Props {
@@ -15,6 +17,17 @@ interface Props {
 export function HomeForm({ content, updateContent }: Props) {
     const { editingLang } = useAdminLanguage();
     const categoryOptions = getProductCategorySelectOptions(editingLang);
+    const buyerChannels = normalizeHomeBuyerChannels(content.exportMarkets, editingLang);
+    const buyerChannelsEyebrow = content.exportMarketsEyebrow || translate(editingLang, "homeExportFocusEyebrow");
+    const buyerChannelsTitle = content.exportMarketsTitle || translate(editingLang, "homeExportMarketsTitle");
+    const buyerChannelsIntro = content.exportMarketsIntro || translate(editingLang, "homeExportMarketsIntro");
+    const updateBuyerChannel = (index: number, updates: Partial<HomeExportMarketItem>) => {
+        updateContent({
+            exportMarkets: buyerChannels.map((item, candidateIndex) =>
+                candidateIndex === index ? { ...item, ...updates } : item,
+            ),
+        });
+    };
 
     return (
         <div className="space-y-4">
@@ -255,12 +268,12 @@ export function HomeForm({ content, updateContent }: Props) {
                 />
             </FormSection>
 
-            <FormSection title="4. Export Markets" defaultOpen={false}>
+            <FormSection title="4. Buyer Channels" defaultOpen={false}>
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Eyebrow Label</label>
                     <input
                         type="text"
-                        value={content.exportMarketsEyebrow || ""}
+                        value={buyerChannelsEyebrow}
                         onChange={e => updateContent({ exportMarketsEyebrow: e.target.value })}
                         className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
                     />
@@ -270,7 +283,7 @@ export function HomeForm({ content, updateContent }: Props) {
                     <label className="block text-sm font-medium text-slate-700 mb-1">Section Title</label>
                     <input
                         type="text"
-                        value={content.exportMarketsTitle || ""}
+                        value={buyerChannelsTitle}
                         onChange={e => updateContent({ exportMarketsTitle: e.target.value })}
                         className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
                     />
@@ -280,26 +293,32 @@ export function HomeForm({ content, updateContent }: Props) {
                     <label className="block text-sm font-medium text-slate-700 mb-1">Intro Text</label>
                     <textarea
                         rows={4}
-                        value={content.exportMarketsIntro || ""}
+                        value={buyerChannelsIntro}
                         onChange={e => updateContent({ exportMarketsIntro: e.target.value })}
                         className="w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
                     />
                 </div>
 
-                <Repeater<HomeExportMarketItem>
-                    label="Country Buttons / Map States"
-                    items={content.exportMarkets || []}
-                    emptyItem={{ countryName: "", shortDescription: "", statLabel: "", statValue: "", image: "" }}
-                    onUpdate={(items) => updateContent({ exportMarkets: items })}
-                    renderItem={(item, index, updateItem) => (
-                        <div className="space-y-4">
+                <div className="space-y-3">
+                    <label className="block text-sm font-bold text-slate-800">
+                        Buyer Channels - fixed 4 rows
+                    </label>
+                    <div className="grid gap-4">
+                        {buyerChannels.map((item, index) => (
+                            <div key={index} className="space-y-4 rounded-xl border border-slate-200 bg-white/70 p-4">
+                                <div className="border-b border-slate-100 pb-3">
+                                    <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                                        Buyer Channel {index + 1}
+                                    </p>
+                                    <h4 className="text-sm font-bold text-slate-800">{item.countryName}</h4>
+                                </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">Country Name</label>
+                                    <label className="block text-xs font-medium text-slate-500 mb-1">Channel Name</label>
                                     <input
                                         type="text"
                                         value={item.countryName}
-                                        onChange={e => updateItem(index, "countryName", e.target.value)}
+                                        onChange={e => updateBuyerChannel(index, { countryName: e.target.value })}
                                         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                                     />
                                 </div>
@@ -308,7 +327,7 @@ export function HomeForm({ content, updateContent }: Props) {
                                     <input
                                         type="text"
                                         value={item.statLabel}
-                                        onChange={e => updateItem(index, "statLabel", e.target.value)}
+                                        onChange={e => updateBuyerChannel(index, { statLabel: e.target.value })}
                                         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                                     />
                                 </div>
@@ -318,7 +337,7 @@ export function HomeForm({ content, updateContent }: Props) {
                                 <textarea
                                     rows={3}
                                     value={item.shortDescription}
-                                    onChange={e => updateItem(index, "shortDescription", e.target.value)}
+                                    onChange={e => updateBuyerChannel(index, { shortDescription: e.target.value })}
                                     className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
                                 />
                             </div>
@@ -328,19 +347,20 @@ export function HomeForm({ content, updateContent }: Props) {
                                     <input
                                         type="text"
                                         value={item.statValue}
-                                        onChange={e => updateItem(index, "statValue", e.target.value)}
+                                        onChange={e => updateBuyerChannel(index, { statValue: e.target.value })}
                                         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                                     />
                                 </div>
                                 <ImageUploader
-                                    label="Map / Market Image"
+                                    label="Buyer Channel Image"
                                     value={item.image}
-                                    onChange={url => updateItem(index, "image", url)}
+                                    onChange={url => updateBuyerChannel(index, { image: url })}
                                 />
                             </div>
-                        </div>
-                    )}
-                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </FormSection>
 
         </div>

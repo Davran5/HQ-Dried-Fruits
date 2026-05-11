@@ -6,34 +6,7 @@ import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { ExportContent, SupplyRoute } from "@/src/types/page";
-import { getBuyerChannelDescription, getBuyerChannelLabel } from "@/src/lib/buyerChannels";
-
-const fallbackSupplyRoutes: SupplyRoute[] = [
-  {
-    countryName: "Retail",
-    mapCoordinatesId: "RTL",
-    tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
-    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1400&auto=format&fit=crop",
-  },
-  {
-    countryName: "Wholesale",
-    mapCoordinatesId: "WHL",
-    tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop",
-  },
-  {
-    countryName: "Food Industry",
-    mapCoordinatesId: "IND",
-    tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
-    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1400&auto=format&fit=crop",
-  },
-  {
-    countryName: "Private Label",
-    mapCoordinatesId: "PL",
-    tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
-    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1400&auto=format&fit=crop",
-  },
-];
+import { normalizeSupplyRoutes } from "@/src/lib/buyerChannels";
 
 function getCountryCode(route: SupplyRoute) {
   if (/^[a-z0-9]{2,4}$/i.test(route.mapCoordinatesId.trim())) {
@@ -57,7 +30,7 @@ function getLegacyAwareExportHeading(value: string | undefined, fallback: string
 
 export function Export() {
   const { pages, pageSeo } = usePages();
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const seo = pageSeo.export;
   const springEasing = [0.25, 1, 0.5, 1];
   const [activeRouteIndex, setActiveRouteIndex] = useState(0);
@@ -111,13 +84,11 @@ export function Export() {
       delay: 0.2,
     },
   ];
-  const routeMarkets = (content?.supplyRoutes?.length ? content.supplyRoutes : fallbackSupplyRoutes)
-    .slice(0, 4)
+  const routeMarkets = normalizeSupplyRoutes(content?.supplyRoutes, locale)
     .map((route) => ({
       ...route,
       code: getCountryCode(route),
-      displayName: getBuyerChannelLabel(route.countryName, route.mapCoordinatesId, t),
-      tooltipDescription: getBuyerChannelDescription(route.countryName, route.mapCoordinatesId, route.tooltipDescription, t),
+      displayName: route.countryName,
       image: route.image || exportIntroImage,
     }));
   const destinationEyebrow = getLegacyAwareExportHeading(content?.destinationEyebrow, t("exportDestinationEyebrow"), ["Export Geography"]);

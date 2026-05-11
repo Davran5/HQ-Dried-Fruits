@@ -125766,30 +125766,43 @@ var buyerChannelText = {
     descriptionKey: "exportRouteRetailDesc",
     codes: ["RTL"],
     names: ["retail"],
-    defaultDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs."
+    defaultDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
+    statLabel: "Channel Fit",
+    statValue: "Shelf-ready",
+    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1600&auto=format&fit=crop"
   },
   wholesale: {
     labelKey: "exportRouteWholesaleName",
     descriptionKey: "exportRouteWholesaleDesc",
     codes: ["WHL"],
     names: ["wholesale"],
-    defaultDescription: "Carton-based supply for importers, distributors, and trading programs."
+    defaultDescription: "Carton-based supply for importers, distributors, and trading programs.",
+    statLabel: "Format",
+    statValue: "Cartons",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop"
   },
   foodIndustry: {
     labelKey: "exportRouteFoodIndustryName",
     descriptionKey: "exportRouteFoodIndustryDesc",
     codes: ["IND"],
     names: ["food industry"],
-    defaultDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing."
+    defaultDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
+    statLabel: "Use Case",
+    statValue: "Ingredients",
+    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1600&auto=format&fit=crop"
   },
   privateLabel: {
     labelKey: "exportRoutePrivateLabelName",
     descriptionKey: "exportRoutePrivateLabelDesc",
     codes: ["PL"],
     names: ["private label"],
-    defaultDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind."
+    defaultDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
+    statLabel: "Branding",
+    statValue: "Buyer label",
+    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop"
   }
 };
+var BUYER_CHANNEL_IDS = ["retail", "wholesale", "foodIndustry", "privateLabel"];
 function normalize(value) {
   return (value || "").trim().toLowerCase().replace(/\s+/g, " ");
 }
@@ -125803,20 +125816,90 @@ function getBuyerChannelId(countryName, mapCoordinatesId) {
   }
   return null;
 }
-function getBuyerChannelLabel(countryName, mapCoordinatesId, t2) {
-  const id3 = getBuyerChannelId(countryName, mapCoordinatesId);
-  return id3 ? t2(buyerChannelText[id3].labelKey) : countryName;
+function getBuyerChannelIdByIndex(index) {
+  return BUYER_CHANNEL_IDS[index] || BUYER_CHANNEL_IDS[0];
 }
-function getBuyerChannelDescription(countryName, mapCoordinatesId, description, t2) {
-  const id3 = getBuyerChannelId(countryName, mapCoordinatesId);
-  if (!id3) {
-    return description;
-  }
-  const defaultDescription = buyerChannelText[id3].defaultDescription;
-  if (!description.trim() || normalize(description) === normalize(defaultDescription)) {
-    return t2(buyerChannelText[id3].descriptionKey);
-  }
-  return description;
+function getChannelCode(id3) {
+  return buyerChannelText[id3].codes[0];
+}
+function getChannelName(id3, locale) {
+  return t(locale, buyerChannelText[id3].labelKey);
+}
+function getChannelDescription(id3, locale) {
+  return t(locale, buyerChannelText[id3].descriptionKey);
+}
+function isKnownChannelName(value, id3) {
+  const normalized = normalize(value);
+  if (!normalized) return true;
+  return BUYER_CHANNEL_IDS.some((candidateId) => candidateId === id3 && (buyerChannelText[candidateId].names.includes(normalized) || normalize(buyerChannelText[candidateId].defaultDescription) === normalized || normalize(t("en", buyerChannelText[candidateId].labelKey)) === normalized));
+}
+function isKnownChannelDescription(value, id3) {
+  const normalized = normalize(value);
+  if (!normalized) return true;
+  return normalize(buyerChannelText[id3].defaultDescription) === normalized || BUYER_CHANNEL_IDS.some((candidateId) => normalize(t("en", buyerChannelText[candidateId].descriptionKey)) === normalized);
+}
+function isKnownStatValue(value, key) {
+  const normalized = normalize(value);
+  if (!normalized) return true;
+  return BUYER_CHANNEL_IDS.some((id3) => normalize(buyerChannelText[id3][key]) === normalized);
+}
+function getSupplyRouteDefaults(locale) {
+  return BUYER_CHANNEL_IDS.map((id3) => ({
+    countryName: getChannelName(id3, locale),
+    mapCoordinatesId: getChannelCode(id3),
+    tooltipDescription: getChannelDescription(id3, locale),
+    image: buyerChannelText[id3].image
+  }));
+}
+function getHomeMarketDefaults(locale) {
+  return BUYER_CHANNEL_IDS.map((id3) => ({
+    countryName: getChannelName(id3, locale),
+    shortDescription: getChannelDescription(id3, locale),
+    statLabel: buyerChannelText[id3].statLabel,
+    statValue: buyerChannelText[id3].statValue,
+    image: buyerChannelText[id3].image
+  }));
+}
+function getDefaultBuyerChannelRoutes(locale = "en") {
+  return getSupplyRouteDefaults(locale);
+}
+function normalizeSupplyRoutes(items, locale = "en") {
+  const defaults = getSupplyRouteDefaults(locale);
+  const sourceItems = Array.isArray(items) ? items : [];
+  const byCode = new Map(sourceItems.map((item) => [normalize(item.mapCoordinatesId).toUpperCase(), item]));
+  const byName = new Map(sourceItems.map((item) => [normalize(item.countryName), item]));
+  return defaults.map((fallback, index) => {
+    const id3 = getBuyerChannelId(fallback.countryName, fallback.mapCoordinatesId) || getBuyerChannelIdByIndex(index);
+    const source = byCode.get(getChannelCode(id3)) || byName.get(normalize(buyerChannelText[id3].names[0])) || sourceItems[index] || {};
+    return {
+      countryName: isKnownChannelName(source.countryName, id3) ? fallback.countryName : source.countryName?.trim() || fallback.countryName,
+      mapCoordinatesId: source.mapCoordinatesId?.trim() || fallback.mapCoordinatesId,
+      tooltipDescription: isKnownChannelDescription(source.tooltipDescription, id3) ? fallback.tooltipDescription : source.tooltipDescription?.trim() || fallback.tooltipDescription,
+      image: source.image?.trim() || fallback.image
+    };
+  });
+}
+function normalizeHomeBuyerChannels(homeItems, locale = "en", exportRoutes) {
+  const routeFallbacks = normalizeSupplyRoutes(exportRoutes, locale);
+  const defaults = getHomeMarketDefaults(locale).map((item, index) => ({
+    ...item,
+    countryName: routeFallbacks[index]?.countryName || item.countryName,
+    shortDescription: routeFallbacks[index]?.tooltipDescription || item.shortDescription,
+    image: routeFallbacks[index]?.image || item.image
+  }));
+  const sourceItems = Array.isArray(homeItems) ? homeItems : [];
+  const byName = new Map(sourceItems.map((item) => [normalize(item.countryName), item]));
+  return defaults.map((fallback, index) => {
+    const id3 = getBuyerChannelId(fallback.countryName, routeFallbacks[index]?.mapCoordinatesId) || getBuyerChannelIdByIndex(index);
+    const source = byName.get(normalize(buyerChannelText[id3].names[0])) || byName.get(normalize(fallback.countryName)) || sourceItems[index] || {};
+    return {
+      countryName: isKnownChannelName(source.countryName, id3) ? fallback.countryName : source.countryName?.trim() || fallback.countryName,
+      shortDescription: isKnownChannelDescription(source.shortDescription, id3) ? fallback.shortDescription : source.shortDescription?.trim() || fallback.shortDescription,
+      statLabel: isKnownStatValue(source.statLabel, "statLabel") ? fallback.statLabel : source.statLabel?.trim() || fallback.statLabel,
+      statValue: isKnownStatValue(source.statValue, "statValue") ? fallback.statValue : source.statValue?.trim() || fallback.statValue,
+      image: source.image?.trim() || fallback.image
+    };
+  });
 }
 
 // src/lib/productCategories.ts
@@ -125977,42 +126060,7 @@ function FrontPage() {
     ] });
   }
   const springEasing = [0.25, 1, 0.5, 1];
-  const configuredExportMarkets = (content.exportMarkets || []).filter((market) => market.countryName?.trim());
-  const exportMarkets = configuredExportMarkets.length > 0 ? configuredExportMarkets : [
-    {
-      countryName: "Retail",
-      shortDescription: t2("homeExportMarketGermanyDesc"),
-      statLabel: t2("homeExportStatLeadTime"),
-      statValue: "Shelf-ready",
-      image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1600&auto=format&fit=crop"
-    },
-    {
-      countryName: "Wholesale",
-      shortDescription: t2("homeExportMarketNetherlandsDesc"),
-      statLabel: t2("homeExportStatPortRouting"),
-      statValue: "Cartons",
-      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop"
-    },
-    {
-      countryName: "Food Industry",
-      shortDescription: t2("homeExportMarketUaeDesc"),
-      statLabel: t2("homeExportStatDocumentation"),
-      statValue: "Ingredients",
-      image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1600&auto=format&fit=crop"
-    },
-    {
-      countryName: "Private Label",
-      shortDescription: t2("homeExportMarketKazakhstanDesc"),
-      statLabel: t2("homeExportStatTransportMode"),
-      statValue: "Buyer label",
-      image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop"
-    }
-  ];
-  const localizedExportMarkets = exportMarkets.map((market) => ({
-    ...market,
-    countryName: getBuyerChannelLabel(market.countryName, void 0, t2),
-    shortDescription: getBuyerChannelDescription(market.countryName, void 0, market.shortDescription, t2)
-  }));
+  const localizedExportMarkets = normalizeHomeBuyerChannels(content.exportMarkets, locale, exportContent?.supplyRoutes);
   const [activeExportMarketIndex, setActiveExportMarketIndex] = (0, import_react35.useState)(0);
   const safeExportMarketIndex = Math.min(activeExportMarketIndex, Math.max(localizedExportMarkets.length - 1, 0));
   const activeExportMarket = localizedExportMarkets[safeExportMarketIndex];
@@ -127391,32 +127439,6 @@ Message: ${inquiryForm.message}`
 var import_react42 = __toESM(require_react(), 1);
 var import_lucide_react6 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
-var fallbackSupplyRoutes = [
-  {
-    countryName: "Retail",
-    mapCoordinatesId: "RTL",
-    tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
-    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1400&auto=format&fit=crop"
-  },
-  {
-    countryName: "Wholesale",
-    mapCoordinatesId: "WHL",
-    tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop"
-  },
-  {
-    countryName: "Food Industry",
-    mapCoordinatesId: "IND",
-    tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
-    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1400&auto=format&fit=crop"
-  },
-  {
-    countryName: "Private Label",
-    mapCoordinatesId: "PL",
-    tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
-    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1400&auto=format&fit=crop"
-  }
-];
 function getCountryCode(route) {
   if (/^[a-z0-9]{2,4}$/i.test(route.mapCoordinatesId.trim())) {
     return route.mapCoordinatesId.trim().toUpperCase();
@@ -127430,7 +127452,7 @@ function getLegacyAwareExportHeading(value, fallback, legacyValues) {
 }
 function Export() {
   const { pages, pageSeo } = usePages();
-  const { t: t2 } = useLanguage();
+  const { locale, t: t2 } = useLanguage();
   const seo = pageSeo.export;
   const springEasing = [0.25, 1, 0.5, 1];
   const [activeRouteIndex, setActiveRouteIndex] = (0, import_react42.useState)(0);
@@ -127470,11 +127492,10 @@ function Export() {
       delay: 0.2
     }
   ];
-  const routeMarkets = (content?.supplyRoutes?.length ? content.supplyRoutes : fallbackSupplyRoutes).slice(0, 4).map((route) => ({
+  const routeMarkets = normalizeSupplyRoutes(content?.supplyRoutes, locale).map((route) => ({
     ...route,
     code: getCountryCode(route),
-    displayName: getBuyerChannelLabel(route.countryName, route.mapCoordinatesId, t2),
-    tooltipDescription: getBuyerChannelDescription(route.countryName, route.mapCoordinatesId, route.tooltipDescription, t2),
+    displayName: route.countryName,
     image: route.image || exportIntroImage
   }));
   const destinationEyebrow = getLegacyAwareExportHeading(content?.destinationEyebrow, t2("exportDestinationEyebrow"), ["Export Geography"]);
@@ -130575,6 +130596,17 @@ var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
 function HomeForm({ content, updateContent }) {
   const { editingLang } = useAdminLanguage();
   const categoryOptions = getProductCategorySelectOptions(editingLang);
+  const buyerChannels = normalizeHomeBuyerChannels(content.exportMarkets, editingLang);
+  const buyerChannelsEyebrow = content.exportMarketsEyebrow || t(editingLang, "homeExportFocusEyebrow");
+  const buyerChannelsTitle = content.exportMarketsTitle || t(editingLang, "homeExportMarketsTitle");
+  const buyerChannelsIntro = content.exportMarketsIntro || t(editingLang, "homeExportMarketsIntro");
+  const updateBuyerChannel = (index, updates) => {
+    updateContent({
+      exportMarkets: buyerChannels.map(
+        (item, candidateIndex) => candidateIndex === index ? { ...item, ...updates } : item
+      )
+    });
+  };
   return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(FormSection, { title: "1. Hero Orchard Section", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
@@ -130854,14 +130886,14 @@ function HomeForm({ content, updateContent }) {
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(FormSection, { title: "4. Export Markets", defaultOpen: false, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(FormSection, { title: "4. Buyer Channels", defaultOpen: false, children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Eyebrow Label" }),
         /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
           "input",
           {
             type: "text",
-            value: content.exportMarketsEyebrow || "",
+            value: buyerChannelsEyebrow,
             onChange: (e) => updateContent({ exportMarketsEyebrow: e.target.value }),
             className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
           }
@@ -130873,7 +130905,7 @@ function HomeForm({ content, updateContent }) {
           "input",
           {
             type: "text",
-            value: content.exportMarketsTitle || "",
+            value: buyerChannelsTitle,
             onChange: (e) => updateContent({ exportMarketsTitle: e.target.value }),
             className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
           }
@@ -130885,83 +130917,84 @@ function HomeForm({ content, updateContent }) {
           "textarea",
           {
             rows: 4,
-            value: content.exportMarketsIntro || "",
+            value: buyerChannelsIntro,
             onChange: (e) => updateContent({ exportMarketsIntro: e.target.value }),
             className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none resize-none"
           }
         )
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-        Repeater,
-        {
-          label: "Country Buttons / Map States",
-          items: content.exportMarkets || [],
-          emptyItem: { countryName: "", shortDescription: "", statLabel: "", statValue: "", image: "" },
-          onUpdate: (items) => updateContent({ exportMarkets: items }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Country Name" }),
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.countryName,
-                    onChange: (e) => updateItem(index, "countryName", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Label" }),
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.statLabel,
-                    onChange: (e) => updateItem(index, "statLabel", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] })
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-sm font-bold text-slate-800", children: "Buyer Channels - fixed 4 rows" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "grid gap-4", children: buyerChannels.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "space-y-4 rounded-xl border border-slate-200 bg-white/70 p-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "border-b border-slate-100 pb-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "text-xs font-bold uppercase tracking-wider text-slate-400", children: [
+              "Buyer Channel ",
+              index + 1
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: item.countryName })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
             /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Channel Name" }),
               /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                "textarea",
+                "input",
                 {
-                  rows: 3,
-                  value: item.shortDescription,
-                  onChange: (e) => updateItem(index, "shortDescription", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                  type: "text",
+                  value: item.countryName,
+                  onChange: (e) => updateBuyerChannel(index, { countryName: e.target.value }),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Value" }),
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.statValue,
-                    onChange: (e) => updateItem(index, "statValue", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Label" }),
               /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
-                ImageUploader,
+                "input",
                 {
-                  label: "Map / Market Image",
-                  value: item.image,
-                  onChange: (url) => updateItem(index, "image", url)
+                  type: "text",
+                  value: item.statLabel,
+                  onChange: (e) => updateBuyerChannel(index, { statLabel: e.target.value }),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                 }
               )
             ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Short Description" }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+              "textarea",
+              {
+                rows: 3,
+                value: item.shortDescription,
+                onChange: (e) => updateBuyerChannel(index, { shortDescription: e.target.value }),
+                className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Stat Value" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.statValue,
+                  onChange: (e) => updateBuyerChannel(index, { statValue: e.target.value }),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+              ImageUploader,
+              {
+                label: "Buyer Channel Image",
+                value: item.image,
+                onChange: (url) => updateBuyerChannel(index, { image: url })
+              }
+            )
           ] })
-        }
-      )
+        ] }, index)) })
+      ] })
     ] })
   ] });
 }
@@ -131554,13 +131587,18 @@ function AboutForm({ content, updateContent }) {
 
 // src/components/admin/forms/ExportForm.tsx
 var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
-var suggestedRoutes = [
-  { countryName: "Retail", mapCoordinatesId: "RTL", tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.", image: "" },
-  { countryName: "Wholesale", mapCoordinatesId: "WHL", tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.", image: "" },
-  { countryName: "Food Industry", mapCoordinatesId: "IND", tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.", image: "" },
-  { countryName: "Private Label", mapCoordinatesId: "PL", tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.", image: "" }
-];
 function ExportForm({ content, updateContent }) {
+  const { editingLang } = useAdminLanguage();
+  const buyerChannels = normalizeSupplyRoutes(content.supplyRoutes, editingLang);
+  const buyerChannelEyebrow = content.destinationEyebrow || t(editingLang, "exportDestinationEyebrow");
+  const buyerChannelTitle = content.mapSectionTitle || t(editingLang, "exportDestinationTitle");
+  const updateBuyerChannel = (index, updates) => {
+    updateContent({
+      supplyRoutes: buyerChannels.map(
+        (item, candidateIndex) => candidateIndex === index ? { ...item, ...updates } : item
+      )
+    });
+  };
   return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
       FormSection,
@@ -131701,7 +131739,7 @@ function ExportForm({ content, updateContent }) {
           "button",
           {
             type: "button",
-            onClick: () => updateContent({ supplyRoutes: suggestedRoutes.map((route) => ({ ...route })) }),
+            onClick: () => updateContent({ supplyRoutes: getDefaultBuyerChannelRoutes(editingLang) }),
             className: "rounded-full border border-earth-200 bg-earth-50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-earth-700 transition-colors hover:border-earth-300 hover:bg-earth-100",
             children: "Load Buyer Channels"
           }
@@ -131724,7 +131762,7 @@ function ExportForm({ content, updateContent }) {
               "input",
               {
                 type: "text",
-                value: content.destinationEyebrow || "",
+                value: buyerChannelEyebrow,
                 onChange: (e) => updateContent({ destinationEyebrow: e.target.value }),
                 className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
               }
@@ -131736,74 +131774,75 @@ function ExportForm({ content, updateContent }) {
               "input",
               {
                 type: "text",
-                value: content.mapSectionTitle || "",
+                value: buyerChannelTitle,
                 onChange: (e) => updateContent({ mapSectionTitle: e.target.value }),
                 className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
               }
             )
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-            Repeater,
-            {
-              label: "Buyer Channels",
-              items: content.supplyRoutes || [],
-              emptyItem: { countryName: "", mapCoordinatesId: "", tooltipDescription: "", image: "" },
-              onUpdate: (items) => updateContent({ supplyRoutes: items }),
-              renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Channel Name" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "e.g. Retail",
-                        value: item.countryName,
-                        onChange: (e) => updateItem(index, "countryName", e.target.value),
-                        className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
-                      }
-                    )
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "mb-1 flex items-center justify-between", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Channel Code" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "text-[10px] font-normal text-slate-400", children: "Short code" })
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "RTL",
-                        value: item.mapCoordinatesId,
-                        onChange: (e) => updateItem(index, "mapCoordinatesId", e.target.value),
-                        className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500 uppercase"
-                      }
-                    )
-                  ] })
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-sm font-bold text-slate-800", children: "Buyer Channels - fixed 4 rows" }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { className: "grid gap-4", children: buyerChannels.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4 rounded-xl border border-slate-200 bg-white/70 p-4", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "border-b border-slate-100 pb-3", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("p", { className: "text-xs font-bold uppercase tracking-wider text-slate-400", children: [
+                  "Buyer Channel ",
+                  index + 1
                 ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: item.countryName })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Channel Description" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Channel Name" }),
                   /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                    "textarea",
+                    "input",
                     {
-                      rows: 2,
-                      value: item.tooltipDescription,
-                      onChange: (e) => updateItem(index, "tooltipDescription", e.target.value),
-                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none focus:border-earth-500"
+                      type: "text",
+                      placeholder: "e.g. Retail",
+                      value: item.countryName,
+                      onChange: (e) => updateBuyerChannel(index, { countryName: e.target.value }),
+                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
                     }
                   )
                 ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "mb-1 flex items-center justify-between", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Channel Code" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "text-[10px] font-normal text-slate-400", children: "Short code" })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                    "input",
+                    {
+                      type: "text",
+                      placeholder: "RTL",
+                      value: item.mapCoordinatesId,
+                      onChange: (e) => updateBuyerChannel(index, { mapCoordinatesId: e.target.value }),
+                      className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500 uppercase"
+                    }
+                  )
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Channel Description" }),
                 /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
-                  ImageUploader,
+                  "textarea",
                   {
-                    label: "Destination Image",
-                    value: item.image || "",
-                    onChange: (url) => updateItem(index, "image", url)
+                    rows: 2,
+                    value: item.tooltipDescription,
+                    onChange: (e) => updateBuyerChannel(index, { tooltipDescription: e.target.value }),
+                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none focus:border-earth-500"
                   }
                 )
-              ] })
-            }
-          )
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+                ImageUploader,
+                {
+                  label: "Destination Image",
+                  value: item.image || "",
+                  onChange: (url) => updateBuyerChannel(index, { image: url })
+                }
+              )
+            ] }, index)) })
+          ] })
         ]
       }
     ),
@@ -136817,6 +136856,9 @@ function normalizeFlexiblePageContent(pageId, content, locale = "en") {
   if (pageId === "about") {
     next.ownProductionItems = normalizeAboutProductionItems(next.ownProductionItems, normalizeLocale(locale));
   }
+  if (pageId === "home") {
+    next.exportMarkets = normalizeHomeBuyerChannels(next.exportMarkets, normalizeLocale(locale));
+  }
   return next;
 }
 function isPlainRecord(value) {
@@ -137372,6 +137414,7 @@ function normalizeLegacyExportText(value, fallback, legacyValues) {
   return !value.trim() || isLegacyValue ? fallback : value;
 }
 function mapExportPage(row) {
+  const locale = normalizeLocale(asString(row?.lang, "en"));
   const destinationEyebrow = asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow);
   const mapSectionTitle = asString(row?.map_section_title, defaultExportPage.mapSectionTitle);
   return {
@@ -137382,7 +137425,7 @@ function mapExportPage(row) {
     operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow),
     destinationEyebrow: normalizeLegacyExportText(destinationEyebrow, defaultExportPage.destinationEyebrow, ["Export Geography"]),
     mapSectionTitle: normalizeLegacyExportText(mapSectionTitle, defaultExportPage.mapSectionTitle, ["Our Global Export Network"]),
-    supplyRoutes: safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes),
+    supplyRoutes: normalizeSupplyRoutes(safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes), locale),
     logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent),
     packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle),
     packagingMethods: asContentString(row?.packaging_methods, defaultExportPage.packagingMethods),
