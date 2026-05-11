@@ -1,5 +1,6 @@
 import React from "react";
 import { ContactsContent } from "@/src/types/page";
+import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { FormSection } from "@/src/components/admin/forms/FormSection";
 
 interface Props {
@@ -10,6 +11,13 @@ interface Props {
 export function ContactsForm({ content, updateContent }: Props) {
     return (
         <div className="space-y-8">            <FormSection title="1. Split Interaction Grid - Communication Hub">
+
+                <ImageUploader
+                    label="Hero Image"
+                    value={content.headquartersImage || ""}
+                    onChange={url => updateContent({ headquartersImage: url })}
+                    placeholder="Shown behind the Contacts page hero. Also used as the fallback map image when no Google Maps embed is set."
+                />
 
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Page Title</label>

@@ -131881,6 +131881,15 @@ var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
 function ContactsForm({ content, updateContent }) {
   return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "space-y-8", children: [
     /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(FormSection, { title: "1. Split Interaction Grid - Communication Hub", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+        ImageUploader,
+        {
+          label: "Hero Image",
+          value: content.headquartersImage || "",
+          onChange: (url) => updateContent({ headquartersImage: url }),
+          placeholder: "Shown behind the Contacts page hero. Also used as the fallback map image when no Google Maps embed is set."
+        }
+      ),
       /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Page Title" }),
         /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
