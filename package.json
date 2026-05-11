@@ -9,6 +9,8 @@
     "server": "tsx server.ts",
     "build": "npm run clean && vite build && npm run build-server",
     "build-server": "esbuild server.ts --bundle --platform=node --target=node24 --external:sharp --outfile=server.cjs --format=cjs",
+    "repair:copy": "node scripts/rewrite-native-copy.cjs",
+    "repair:copy:execute": "node scripts/rewrite-native-copy.cjs --execute",
     "migrate:mysql": "node migrate-mysql.cjs",
     "migrate:mysql:offline": "node migrate-mysql.cjs --offline",
     "migrate:mysql:execute": "node migrate-mysql.cjs --execute --i-backed-up",

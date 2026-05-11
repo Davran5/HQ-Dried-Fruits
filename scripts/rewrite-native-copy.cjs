@@ -2,8 +2,17 @@ const mysql = require("mysql2/promise");
 require("dotenv").config();
 
 const execute = process.argv.includes("--execute");
+const backupConfirmed = process.argv.includes("--i-backed-up") || process.env.MYSQL_IMPORT_BACKUP_CONFIRMED === "1";
 const activeLocales = ["en", "pt", "es", "nl", "fr"];
 const pageIds = ["home", "about", "products", "export", "contacts", "privacy", "terms"];
+const singletonTables = ["global_settings", "home_page", "about_page", "products_page", "export_page", "contacts_page", "privacy_page", "terms_page"];
+
+if (execute && !backupConfirmed) {
+  console.error("Refusing to write without backup confirmation.");
+  console.error("Run a DB backup first, then run:");
+  console.error("  npm run repair:copy:execute -- --i-backed-up");
+  process.exit(1);
+}
 
 const categoryCopy = {
   en: {
@@ -445,6 +454,46 @@ const aboutCopy = {
       "Les lots sont nettoyés, triés, contrôlés et emballés avec la traçabilité en tête. Les certificats comptent, mais le contrôle quotidien du processus compte davantage.",
   },
 };
+
+const ownProductionCopy = {
+  en: [
+    ["Raw Intake", "Harvest Selection", "Incoming fruit is sorted by batch, moisture profile, and destination requirements before processing begins."],
+    ["Processing", "Laser & X-Ray Control", "Each production line is calibrated for purity, defect removal, and export-grade consistency across volume orders."],
+    ["Packaging", "Buyer-Specific Formats", "We pack for retail, private label, and industrial shipments with the same in-house quality checks before dispatch."],
+    ["Dispatch", "Export Handover", "Finished cargo is documented, palletized, and scheduled for the route that best fits the buyer's timeline and market."],
+  ],
+  pt: [
+    ["Recebimento", "Selecao da colheita", "A fruta recebida e classificada por lote, perfil de umidade e requisitos do destino antes do processamento."],
+    ["Processamento", "Controle laser e raio X", "Cada linha e calibrada para pureza, remocao de defeitos e consistencia de exportacao em pedidos de volume."],
+    ["Embalagem", "Formatos do comprador", "Embalamos para varejo, marca propria e embarques industriais com os mesmos controles internos antes do despacho."],
+    ["Despacho", "Entrega para exportacao", "A carga final e documentada, paletizada e programada para a rota que melhor atende prazo e mercado do comprador."],
+  ],
+  es: [
+    ["Recepcion", "Seleccion de cosecha", "La fruta recibida se clasifica por lote, perfil de humedad y requisitos de destino antes del procesamiento."],
+    ["Procesamiento", "Control laser y rayos X", "Cada linea se calibra para pureza, eliminacion de defectos y consistencia exportable en pedidos de volumen."],
+    ["Empaque", "Formatos del comprador", "Empacamos para retail, marca privada e industria con los mismos controles internos antes del despacho."],
+    ["Despacho", "Entrega de exportacion", "La carga final se documenta, paletiza y programa para la ruta que mejor encaja con plazo y mercado del comprador."],
+  ],
+  nl: [
+    ["Inname", "Oogstselectie", "Binnenkomend fruit wordt per partij, vochtprofiel en bestemmingseis gesorteerd voordat verwerking start."],
+    ["Verwerking", "Laser- en rontgencontrole", "Elke lijn wordt afgesteld op zuiverheid, defectverwijdering en exportconsistentie bij volumeorders."],
+    ["Verpakking", "Koperspecifieke formaten", "Wij verpakken voor retail, private label en industriele zendingen met dezelfde interne controles voor verzending."],
+    ["Verzending", "Exportoverdracht", "Gereed product wordt gedocumenteerd, gepalletiseerd en ingepland op de route die past bij planning en markt."],
+  ],
+  fr: [
+    ["Reception", "Selection de recolte", "Les fruits entrants sont tries par lot, profil d'humidite et exigences de destination avant transformation."],
+    ["Traitement", "Controle laser et rayons X", "Chaque ligne est calibree pour la purete, le retrait des defauts et la regularite export sur les volumes."],
+    ["Conditionnement", "Formats acheteur", "Nous emballons pour retail, marque privee et industrie avec les memes controles internes avant expedition."],
+    ["Expedition", "Remise export", "La cargaison finale est documentee, palettisee et planifiee sur la route adaptee au delai et au marche."],
+  ],
+};
+
+const ownProductionDefaultImages = [
+  "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop",
+];
 
 const productsPageCopy = {
   en: {
@@ -1058,6 +1107,27 @@ function productCategoryObjects(locale, existingContent) {
   });
 }
 
+function mergeImagesByKey(nextItems, existingItems, keyName) {
+  const existingByKey = new Map((Array.isArray(existingItems) ? existingItems : []).map((item) => [item?.[keyName], item]));
+  return nextItems.map((item, index) => {
+    const existing = existingByKey.get(item?.[keyName]) || (Array.isArray(existingItems) ? existingItems[index] : null) || {};
+    return {
+      ...item,
+      image: existing.image || item.image || "",
+    };
+  });
+}
+
+function ownProductionItems(locale, existingItems) {
+  const sourceItems = Array.isArray(existingItems) ? existingItems : [];
+  return ownProductionCopy[locale].map(([title, subtitle, description], index) => ({
+    image: sourceItems[index]?.image || ownProductionDefaultImages[index],
+    title,
+    subtitle,
+    description,
+  }));
+}
+
 function htmlParagraph(value) {
   return `<p>${value}</p>`;
 }
@@ -1119,6 +1189,10 @@ async function main() {
 
   try {
     for (const locale of activeLocales) {
+      for (const table of singletonTables) {
+        await exec(`INSERT IGNORE INTO ${table} (id, lang) VALUES (1, ?)`, [locale]);
+      }
+
       const [globalRows] = await connection.execute("SELECT * FROM global_settings WHERE id = 1 AND lang = ?", [locale]);
       const currentGlobal = globalRows[0] || {};
       const global = globalCopy[locale];
@@ -1146,6 +1220,7 @@ async function main() {
         ...existingHome,
         ...homeCopy[locale],
         productCategories: productCategoryObjects(locale, existingHome),
+        exportMarkets: mergeImagesByKey(homeCopy[locale].exportMarkets, existingHome.exportMarkets, "countryName"),
       };
       delete nextHome.productCategoriesRaw;
       changes.push(diffPreview(`home_page.${locale}.heroTitle`, existingHome.heroTitle, nextHome.heroTitle));
@@ -1153,8 +1228,13 @@ async function main() {
 
       const [aboutRows] = await connection.execute("SELECT content FROM about_page WHERE id = 1 AND lang = ?", [locale]);
       const existingAbout = safeJson(aboutRows[0]?.content, {});
-      const nextAbout = { ...existingAbout, ...aboutCopy[locale] };
+      const nextAbout = {
+        ...existingAbout,
+        ...aboutCopy[locale],
+        ownProductionItems: ownProductionItems(locale, existingAbout.ownProductionItems),
+      };
       changes.push(diffPreview(`about_page.${locale}.whoWeAreContent`, existingAbout.whoWeAreContent, nextAbout.whoWeAreContent));
+      changes.push(diffPreview(`about_page.${locale}.ownProductionItems[0].title`, existingAbout.ownProductionItems?.[0]?.title, nextAbout.ownProductionItems[0]?.title));
       await exec("UPDATE about_page SET content = ? WHERE id = 1 AND lang = ?", [JSON.stringify(nextAbout), locale]);
 
       const pp = productsPageCopy[locale];
@@ -1182,6 +1262,8 @@ async function main() {
       );
 
       const exp = exportCopy[locale];
+      const [exportRows] = await connection.execute("SELECT supply_routes, certifications_gallery FROM export_page WHERE id = 1 AND lang = ?", [locale]);
+      const existingSupplyRoutes = safeJson(exportRows[0]?.supply_routes, []);
       await exec(
         "UPDATE export_page SET hero_title = ?, hero_subtitle = ?, operations_eyebrow = ?, destination_eyebrow = ?, map_section_title = ?, supply_routes = ?, logistics_content = ?, packaging_title = ?, packaging_methods = ?, transportation_title = ?, transportation_methods = ?, documentation_title = ?, documentation_content = ?, quality_title = ?, technical_specs = ?, quality_checks = ? WHERE id = 1 AND lang = ?",
         [
@@ -1190,7 +1272,7 @@ async function main() {
           exp.operationsEyebrow,
           exp.destinationEyebrow,
           exp.mapSectionTitle,
-          JSON.stringify(exp.supplyRoutes),
+          JSON.stringify(mergeImagesByKey(exp.supplyRoutes, existingSupplyRoutes, "mapCoordinatesId")),
           exp.logisticsContent,
           exp.packagingTitle,
           exp.packagingMethods,
