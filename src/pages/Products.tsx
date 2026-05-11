@@ -229,16 +229,16 @@ export function Products() {
               />
             </div>
 
-            <div className="overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70">
+            <div className="h-[18rem] overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70 lg:h-[21rem]">
               {introShowcaseImage ? (
                 <img
                   src={introShowcaseImage}
                   alt={content?.introEyebrow || t("productsOriginEyebrow")}
-                  className="h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]"
+                  className="h-full w-full object-cover"
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <div className="flex h-full min-h-[18rem] items-center justify-center bg-gradient-to-br from-earth-100 via-earth-50 to-white text-earth-400 lg:min-h-[21rem]">
+                <div className="flex h-full items-center justify-center bg-gradient-to-br from-earth-100 via-earth-50 to-white text-earth-400">
                   {"No image added yet"}
                 </div>
               )}

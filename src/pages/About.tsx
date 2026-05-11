@@ -8,10 +8,11 @@ import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import { AboutContent } from "@/src/types/page";
 import { normalizeAboutTrustItems } from "@/src/lib/aboutTrustItems";
+import { normalizeAboutProductionItems } from "@/src/lib/aboutProductionItems";
 
 export function About() {
   const { pages, pageSeo, globalSettings } = usePages();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.about;
   const springEasing = [0.25, 1, 0.5, 1];
@@ -35,35 +36,7 @@ export function About() {
           "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop",
         ];
-  const ownProductionItems =
-    content?.ownProductionItems?.length > 0
-      ? content.ownProductionItems.slice(0, 4)
-      : [
-          {
-            image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",
-            title: t("prodStep1Title"),
-            subtitle: t("prodStep1Subtitle"),
-            description: t("prodStep1Desc"),
-          },
-          {
-            image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
-            title: t("prodStep2Title"),
-            subtitle: t("prodStep2Subtitle"),
-            description: t("prodStep2Desc"),
-          },
-          {
-            image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop",
-            title: t("prodStep3Title"),
-            subtitle: t("prodStep3Subtitle"),
-            description: t("prodStep3Desc"),
-          },
-          {
-            image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop",
-            title: t("prodStep4Title"),
-            subtitle: t("prodStep4Subtitle"),
-            description: t("prodStep4Desc"),
-          },
-        ];
+  const ownProductionItems = normalizeAboutProductionItems(content?.ownProductionItems, locale);
   const aboutHeroImage =
     content?.heroBgImage ||
     content?.productionMarqueeImages?.[0] ||
@@ -281,7 +254,7 @@ export function About() {
           <Marquee speed={30} direction="right">
             <div className="flex items-center gap-20 px-8">
               {partnerLogos.map((logo, i) => (
-                <img key={`${logo}-${i}`} src={logo} alt="Partner" className="h-16 w-auto grayscale contrast-125 transition-all hover:grayscale-0 sm:h-20" />
+                <img key={`${logo}-${i}`} src={logo} alt="Partner" className="h-16 w-32 object-contain grayscale contrast-125 transition-all hover:grayscale-0 sm:h-20 sm:w-40" />
               ))}
               {aboutTrustItems.map((item) => (
                 <div key={item.key} className="flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]">
@@ -353,12 +326,12 @@ export function About() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.65 }}
-              className="relative overflow-hidden rounded-[3rem] border border-earth-100 bg-earth-50"
+              className="relative h-[22rem] overflow-hidden rounded-[3rem] border border-earth-100 bg-earth-50 sm:h-[28rem] lg:h-[37rem]"
             >
               <img
                 src={content?.missionPhotography || "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000"}
                 alt="Facility"
-                className="h-[22rem] w-full object-cover sm:h-[28rem] lg:h-full"
+                className="h-full w-full object-cover"
               />
             </motion.div>
 

@@ -54,7 +54,7 @@ export function LocaleSelectorPage() {
       <section className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center px-5 py-12 text-center sm:px-8">
         <div className="mb-9 flex h-24 w-24 items-center justify-center rounded-[2rem] border border-white/70 bg-white/65 shadow-[0_24px_80px_rgba(82,52,31,0.14)] backdrop-blur-xl sm:h-28 sm:w-28">
           {logo ? (
-            <img src={logo} alt="HQ Dried Fruits" className="max-h-16 max-w-16 object-contain sm:max-h-20 sm:max-w-20" />
+            <img src={logo} alt="HQ Dried Fruits" className="h-16 w-16 object-contain sm:h-20 sm:w-20" />
           ) : (
             <Globe2 className="h-11 w-11 text-earth-700 sm:h-12 sm:w-12" />
           )}

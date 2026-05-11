@@ -145,7 +145,7 @@ export function ProductDetail() {
       >
         <div className="grid gap-16 lg:grid-cols-2">
           <div className="relative flex flex-col gap-6 lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]">
-            <div className="relative flex-1 overflow-hidden rounded-[3rem] bg-amber-50 group">
+            <div className="relative h-[24rem] overflow-hidden rounded-[3rem] bg-amber-50 group sm:h-[32rem] lg:h-auto lg:flex-1">
               <motion.img
                 initial={{ scale: 1.1 }}
                 animate={{ scale: 1 }}

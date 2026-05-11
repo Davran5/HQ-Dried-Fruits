@@ -15111,10 +15111,10 @@ var require_object_inspect = __commonJS({
       }
       if (!isDate(obj) && !isRegExp(obj)) {
         var ys = arrObjKeys(obj, inspect);
-        var isPlainObject = gPO ? gPO(obj) === Object.prototype : obj instanceof Object || obj.constructor === Object;
+        var isPlainObject2 = gPO ? gPO(obj) === Object.prototype : obj instanceof Object || obj.constructor === Object;
         var protoTag = obj instanceof Object ? "" : "null prototype";
-        var stringTag = !isPlainObject && toStringTag && Object(obj) === obj && toStringTag in obj ? $slice.call(toStr(obj), 8, -1) : protoTag ? "Object" : "";
-        var constructorTag = isPlainObject || typeof obj.constructor !== "function" ? "" : obj.constructor.name ? obj.constructor.name + " " : "";
+        var stringTag = !isPlainObject2 && toStringTag && Object(obj) === obj && toStringTag in obj ? $slice.call(toStr(obj), 8, -1) : protoTag ? "Object" : "";
+        var constructorTag = isPlainObject2 || typeof obj.constructor !== "function" ? "" : obj.constructor.name ? obj.constructor.name + " " : "";
         var tag = constructorTag + (stringTag || protoTag ? "[" + $join.call($concat.call([], stringTag || [], protoTag || []), ": ") + "] " : "");
         if (ys.length === 0) {
           return tag + "{}";
@@ -125000,12 +125000,12 @@ var PageProvider = ({ children, initialData }) => {
       throw new Error("Failed to update global settings");
     }
   };
-  const updatePage = async (id3, newPageData, requestedLocale) => {
+  const updatePage = async (id3, newPageData, requestedLocale, changedPaths) => {
     const targetLocale = getActiveLocale(requestedLocale || locale);
     const response = await fetch(`/api/pages/${id3}?locale=${encodeURIComponent(targetLocale)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newPageData.content)
+      body: JSON.stringify({ content: newPageData.content, changedPaths })
     });
     if (response.ok) {
       setPages((prev) => prev.map((p) => p.id === id3 ? newPageData : p));
@@ -125266,7 +125266,7 @@ function Header() {
             ),
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_react_router_dom4.Link, { to: getManagedPagePath("home", pageSeo, language), className: "flex items-center gap-2 group", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "flex items-center gap-3", children: [
-                globalSettings.headerLogo ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("img", { src: globalSettings.headerLogo, alt: `${siteName} logo`, className: "h-10 w-auto" }) : /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "flex h-10 w-10 items-center justify-center rounded-full bg-earth-600 text-white transition-all group-hover:bg-earth-500 group-hover:scale-110 shadow-lg shadow-earth-500/20", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_lucide_react.Leaf, { size: 20 }) }),
+                globalSettings.headerLogo ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("img", { src: globalSettings.headerLogo, alt: `${siteName} logo`, className: "h-10 w-10 object-contain" }) : /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "flex h-10 w-10 items-center justify-center rounded-full bg-earth-600 text-white transition-all group-hover:bg-earth-500 group-hover:scale-110 shadow-lg shadow-earth-500/20", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_lucide_react.Leaf, { size: 20 }) }),
                 /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "font-display text-xl font-bold tracking-tight text-[#4b2240]", children: siteName })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("nav", { className: "hidden md:flex items-center gap-8", children: activeLinks?.map((link) => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(
@@ -125551,7 +125551,7 @@ function Footer() {
               {
                 src: globalSettings.footerLogo,
                 alt: `${siteName} logo`,
-                className: "h-12 w-auto brightness-0 invert contrast-125"
+                className: "h-12 w-12 object-contain brightness-0 invert contrast-125"
               }
             ) : /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "flex h-12 w-12 items-center justify-center rounded-full bg-earth-600 text-white transition-transform group-hover:rotate-12", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react2.Leaf, { size: 24 }) }),
             /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "font-display text-2xl font-bold tracking-tight text-white", children: siteName })
@@ -126204,7 +126204,7 @@ function FrontPage() {
                 whileInView: { opacity: 1, scale: 1, y: 0 },
                 viewport: { once: true, margin: "-80px" },
                 transition: { duration: 0.75, ease: springEasing },
-                className: "group relative hidden min-h-[23rem] overflow-hidden rounded-[2.75rem] sm:min-h-[28rem] lg:block lg:h-full lg:min-h-0",
+                className: "group relative hidden h-[23rem] overflow-hidden rounded-[2.75rem] sm:h-[28rem] lg:block lg:h-[34rem]",
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
                     "img",
@@ -126599,11 +126599,48 @@ function normalizeAboutTrustItems(items, uiLabels = {}) {
   });
 }
 
+// src/lib/aboutProductionItems.ts
+var defaultImages = [
+  "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop"
+];
+var ABOUT_PRODUCTION_ITEM_COUNT = 4;
+function getDefaultAboutProductionItems(locale = "en") {
+  const activeLocale = getActiveLocale(locale);
+  return Array.from({ length: ABOUT_PRODUCTION_ITEM_COUNT }, (_, index) => {
+    const step = index + 1;
+    return {
+      image: defaultImages[index],
+      title: t(activeLocale, `prodStep${step}Title`),
+      subtitle: t(activeLocale, `prodStep${step}Subtitle`),
+      description: t(activeLocale, `prodStep${step}Desc`)
+    };
+  });
+}
+function normalizeAboutProductionItems(items, locale = "en") {
+  const defaults = getDefaultAboutProductionItems(locale);
+  const sourceItems = Array.isArray(items) ? items : [];
+  return defaults.map((fallback, index) => {
+    const item = sourceItems[index];
+    if (!item || typeof item !== "object") {
+      return fallback;
+    }
+    return {
+      image: item.image?.trim() || fallback.image,
+      title: item.title?.trim() || fallback.title,
+      subtitle: item.subtitle?.trim() || fallback.subtitle,
+      description: item.description?.trim() || fallback.description
+    };
+  });
+}
+
 // src/pages/About.tsx
 var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
 function About() {
   const { pages, pageSeo, globalSettings } = usePages();
-  const { t: t2 } = useLanguage();
+  const { t: t2, locale } = useLanguage();
   const uiLabels = globalSettings.uiLabels || {};
   const seo = pageSeo.about;
   const springEasing = [0.25, 1, 0.5, 1];
@@ -126623,32 +126660,7 @@ function About() {
     "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop"
   ];
-  const ownProductionItems = content?.ownProductionItems?.length > 0 ? content.ownProductionItems.slice(0, 4) : [
-    {
-      image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",
-      title: t2("prodStep1Title"),
-      subtitle: t2("prodStep1Subtitle"),
-      description: t2("prodStep1Desc")
-    },
-    {
-      image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
-      title: t2("prodStep2Title"),
-      subtitle: t2("prodStep2Subtitle"),
-      description: t2("prodStep2Desc")
-    },
-    {
-      image: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop",
-      title: t2("prodStep3Title"),
-      subtitle: t2("prodStep3Subtitle"),
-      description: t2("prodStep3Desc")
-    },
-    {
-      image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop",
-      title: t2("prodStep4Title"),
-      subtitle: t2("prodStep4Subtitle"),
-      description: t2("prodStep4Desc")
-    }
-  ];
+  const ownProductionItems = normalizeAboutProductionItems(content?.ownProductionItems, locale);
   const aboutHeroImage = content?.heroBgImage || content?.productionMarqueeImages?.[0] || content?.missionPhotography || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop";
   const aboutHeroTitle = content?.marqueeTitle || t2("aboutHeroTitle");
   const aboutHeroSubtitle = content?.heroSubtitle || content?.heritageSubtitle || t2("aboutHeroSubtitle");
@@ -126839,7 +126851,7 @@ function About() {
     hasPartnerTrustMarquee && /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "border-b border-earth-100 bg-white py-16 sm:py-20", children: [
       /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "mx-auto mb-8 max-w-7xl px-4 text-center sm:px-6 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "text-sm font-bold uppercase tracking-widest text-earth-400", children: content?.partnerSectionLabel || t2("aboutPartners") }) }),
       /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Marquee, { speed: 30, direction: "right", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "flex items-center gap-20 px-8", children: [
-        partnerLogos.map((logo, i) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("img", { src: logo, alt: "Partner", className: "h-16 w-auto grayscale contrast-125 transition-all hover:grayscale-0 sm:h-20" }, `${logo}-${i}`)),
+        partnerLogos.map((logo, i) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("img", { src: logo, alt: "Partner", className: "h-16 w-32 object-contain grayscale contrast-125 transition-all hover:grayscale-0 sm:h-20 sm:w-40" }, `${logo}-${i}`)),
         aboutTrustItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "flex items-center gap-3 font-display text-[1.8rem] font-bold text-earth-800 sm:text-[2.2rem]", children: [
           renderTrustIcon(item.key),
           item.label
@@ -126901,13 +126913,13 @@ function About() {
               whileInView: { opacity: 1, scale: 1 },
               viewport: { once: true, margin: "-100px" },
               transition: { duration: 0.65 },
-              className: "relative overflow-hidden rounded-[3rem] border border-earth-100 bg-earth-50",
+              className: "relative h-[22rem] overflow-hidden rounded-[3rem] border border-earth-100 bg-earth-50 sm:h-[28rem] lg:h-[37rem]",
               children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
                 "img",
                 {
                   src: content?.missionPhotography || "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000",
                   alt: "Facility",
-                  className: "h-[22rem] w-full object-cover sm:h-[28rem] lg:h-full"
+                  className: "h-full w-full object-cover"
                 }
               )
             }
@@ -127200,15 +127212,15 @@ Message: ${inquiryForm.message}`
             }
           )
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70", children: introShowcaseImage ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "h-[18rem] overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70 lg:h-[21rem]", children: introShowcaseImage ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
           "img",
           {
             src: introShowcaseImage,
             alt: content?.introEyebrow || t2("productsOriginEyebrow"),
-            className: "h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]",
+            className: "h-full w-full object-cover",
             referrerPolicy: "no-referrer"
           }
-        ) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex h-full min-h-[18rem] items-center justify-center bg-gradient-to-br from-earth-100 via-earth-50 to-white text-earth-400 lg:min-h-[21rem]", children: "No image added yet" }) })
+        ) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex h-full items-center justify-center bg-gradient-to-br from-earth-100 via-earth-50 to-white text-earth-400", children: "No image added yet" }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mt-5 grid gap-3 md:grid-cols-3", children: (content?.introFacts?.length > 0 ? content.introFacts : [
         { title: t2("productsOrchardBaseTitle"), description: t2("productsOrchardBaseDesc") },
@@ -127624,12 +127636,12 @@ function Export() {
             }
           )
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "h-[18rem] overflow-hidden rounded-[2.4rem] border border-earth-100 bg-earth-100 shadow-sm shadow-earth-100/70 lg:h-[21rem]", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
           "img",
           {
             src: exportIntroImage,
             alt: content?.operationsEyebrow || t2("exportOpsEyebrow"),
-            className: "h-full min-h-[18rem] w-full object-cover lg:min-h-[21rem]",
+            className: "h-full w-full object-cover",
             referrerPolicy: "no-referrer"
           }
         ) })
@@ -128272,7 +128284,7 @@ function LocaleSelectorPage() {
     /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(96,65,42,0.28)_1px,transparent_1px),linear-gradient(90deg,rgba(96,65,42,0.28)_1px,transparent_1px)] [background-size:44px_44px]" }),
     /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(0deg,rgba(72,48,31,0.12),transparent)]" }),
     /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { className: "relative mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center px-5 py-12 text-center sm:px-8", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "mb-9 flex h-24 w-24 items-center justify-center rounded-[2rem] border border-white/70 bg-white/65 shadow-[0_24px_80px_rgba(82,52,31,0.14)] backdrop-blur-xl sm:h-28 sm:w-28", children: logo ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("img", { src: logo, alt: "HQ Dried Fruits", className: "max-h-16 max-w-16 object-contain sm:max-h-20 sm:max-w-20" }) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.Globe2, { className: "h-11 w-11 text-earth-700 sm:h-12 sm:w-12" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "mb-9 flex h-24 w-24 items-center justify-center rounded-[2rem] border border-white/70 bg-white/65 shadow-[0_24px_80px_rgba(82,52,31,0.14)] backdrop-blur-xl sm:h-28 sm:w-28", children: logo ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("img", { src: logo, alt: "HQ Dried Fruits", className: "h-16 w-16 object-contain sm:h-20 sm:w-20" }) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.Globe2, { className: "h-11 w-11 text-earth-700 sm:h-12 sm:w-12" }) }),
       /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "mb-5 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-earth-700 shadow-sm backdrop-blur", children: [
         /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_lucide_react8.MapPin, { size: 14 }),
         detectedDefinition.label
@@ -128400,7 +128412,7 @@ Message: ${inquiryMessage}`
       className: "mx-auto max-w-7xl px-4 pb-12 pt-28 sm:px-6 sm:pt-32 lg:px-8",
       children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: "grid gap-16 lg:grid-cols-2", children: [
         /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: "relative flex flex-col gap-6 lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "relative flex-1 overflow-hidden rounded-[3rem] bg-amber-50 group", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "relative h-[24rem] overflow-hidden rounded-[3rem] bg-amber-50 group sm:h-[32rem] lg:h-auto lg:flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
             motion.img,
             {
               initial: { scale: 1.1 },
@@ -131068,13 +131080,22 @@ function PartnerLogoGrid({ items, onUpdate }) {
 }
 function AboutForm({ content, updateContent }) {
   const { globalSettings } = usePages();
+  const { editingLang } = useAdminLanguage();
   const uiLabels = globalSettings.uiLabels || {};
   const missionNarrativeTitleFallback = uiLabels.missionNarrativeTitle || "What guides the way we grow, process, and deliver";
   const missionNarrativeSublabelFallback = uiLabels.missionNarrativeSublabel || "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.";
   const aboutTrustItems = normalizeAboutTrustItems(content.aboutTrustItems, uiLabels);
+  const ownProductionItems = normalizeAboutProductionItems(content.ownProductionItems, editingLang);
   const updateTrustItem = (index, updates) => {
     updateContent({
       aboutTrustItems: aboutTrustItems.map(
+        (item, candidateIndex) => candidateIndex === index ? { ...item, ...updates } : item
+      )
+    });
+  };
+  const updateProductionItem = (index, updates) => {
+    updateContent({
+      ownProductionItems: ownProductionItems.map(
         (item, candidateIndex) => candidateIndex === index ? { ...item, ...updates } : item
       )
     });
@@ -131469,63 +131490,64 @@ function AboutForm({ content, updateContent }) {
           }
         )
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-        Repeater,
-        {
-          label: "Production Columns",
-          items: content.ownProductionItems || [],
-          emptyItem: { image: "", title: "", subtitle: "", description: "" },
-          onUpdate: (items) => updateContent({ ownProductionItems: items }),
-          renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-              ImageUploader,
-              {
-                label: `Production Image ${index + 1}`,
-                value: item.image,
-                onChange: (url) => updateItem(index, "image", url)
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Title" }),
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.title,
-                    onChange: (e) => updateItem(index, "title", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Subtitle" }),
-                /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                  "input",
-                  {
-                    type: "text",
-                    value: item.subtitle,
-                    onChange: (e) => updateItem(index, "subtitle", e.target.value),
-                    className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                  }
-                )
-              ] })
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-sm font-bold text-slate-800", children: "Production Steps - fixed 4 rows" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "grid gap-4", children: ownProductionItems.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "space-y-4 rounded-xl border border-slate-200 bg-white/70 p-4", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "flex items-center justify-between gap-3 border-b border-slate-100 pb-3", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("p", { className: "text-xs font-bold uppercase tracking-wider text-slate-400", children: [
+              "Production Step ",
+              index + 1
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("h4", { className: "text-sm font-bold text-slate-800", children: item.title })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+            ImageUploader,
+            {
+              label: `Production Image ${index + 1}`,
+              value: item.image,
+              onChange: (url) => updateProductionItem(index, { image: url })
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Title" }),
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+                "input",
+                {
+                  type: "text",
+                  value: item.title,
+                  onChange: (e) => updateProductionItem(index, { title: e.target.value }),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                }
+              )
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Description" }),
+              /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Subtitle" }),
               /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
-                "textarea",
+                "input",
                 {
-                  rows: 3,
-                  value: item.description,
-                  onChange: (e) => updateItem(index, "description", e.target.value),
-                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                  type: "text",
+                  value: item.subtitle,
+                  onChange: (e) => updateProductionItem(index, { subtitle: e.target.value }),
+                  className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
                 }
               )
             ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("label", { className: "block text-xs font-medium text-slate-500 mb-1", children: "Description" }),
+            /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+              "textarea",
+              {
+                rows: 3,
+                value: item.description,
+                onChange: (e) => updateProductionItem(index, { description: e.target.value }),
+                className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+              }
+            )
           ] })
-        }
-      )
+        ] }, index)) })
+      ] })
     ] })
   ] });
 }
@@ -132386,198 +132408,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
       ] })
     ] }) }),
     catalogSlot,
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "4. Ordering Hub (Bulk Requests)", defaultOpen: false, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-        ImageUploader,
-        {
-          label: "Background Image",
-          value: content.orderingBgImage || "",
-          onChange: (url) => updateContent({ orderingBgImage: url })
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Title" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.orderingFormTitle || "",
-            onChange: (e) => updateContent({ orderingFormTitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Form Subtitle" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-          "input",
-          {
-            type: "text",
-            value: content.orderingFormSubtitle || "",
-            onChange: (e) => updateContent({ orderingFormSubtitle: e.target.value }),
-            className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-1 gap-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 1 Prompt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepOneLabel || "",
-              onChange: (e) => updateContent({ stepOneLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 2 Prompt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepTwoLabel || "",
-              onChange: (e) => updateContent({ stepTwoLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 3 Prompt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepThreeLabel || "",
-              onChange: (e) => updateContent({ stepThreeLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Mixed Container Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.mixedContainerLabel || "",
-              onChange: (e) => updateContent({ mixedContainerLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Catalog Button Label" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.viewSpecsLabel || "",
-              onChange: (e) => updateContent({ viewSpecsLabel: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 1 Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepOnePlaceholder || "",
-              onChange: (e) => updateContent({ stepOnePlaceholder: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step 3 Placeholder" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: content.stepThreePlaceholder || "",
-              onChange: (e) => updateContent({ stepThreePlaceholder: e.target.value }),
-              className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Step Button Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.nextStepButtonLabel || "",
-                onChange: (e) => updateContent({ nextStepButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Back Button Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.backButtonLabel || "",
-                onChange: (e) => updateContent({ backButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submit Button Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.submitButtonLabel || "",
-                onChange: (e) => updateContent({ submitButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Submitting Label" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-              "input",
-              {
-                type: "text",
-                value: content.submittingButtonLabel || "",
-                onChange: (e) => updateContent({ submittingButtonLabel: e.target.value }),
-                className: "w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 focus:border-earth-500 outline-none"
-              }
-            )
-          ] })
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-        Repeater,
-        {
-          label: "Volume Options",
-          items: content.volumeOptions || [],
-          emptyItem: "",
-          onUpdate: (items) => updateContent({ volumeOptions: items }),
-          renderItem: (item, index, _updateItem, replaceItem) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-            "input",
-            {
-              type: "text",
-              value: item,
-              onChange: (e) => replaceItem(index, e.target.value),
-              className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none",
-              placeholder: "e.g. 1 FCL (20ft)"
-            }
-          )
-        }
-      )
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "5. Quick Contacts", defaultOpen: false, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "4. Quick Contacts", defaultOpen: false, children: [
       /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Section Title" }),
@@ -132687,7 +132518,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "6. Product Detail UI", defaultOpen: false, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormSection, { title: "5. Product Detail UI", defaultOpen: false, children: [
       /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { className: "block text-sm font-medium text-slate-700 mb-1", children: "Loading Label" }),
@@ -133081,6 +132912,36 @@ function cloneDraft(value) {
 }
 function isSameDraft(a, b) {
   return JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+}
+function isPlainObject(value) {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+function changedDraftPaths(base, next, prefix = "") {
+  if (isSameDraft(base, next)) {
+    return [];
+  }
+  if (Array.isArray(base) || Array.isArray(next)) {
+    const baseItems = Array.isArray(base) ? base : [];
+    const nextItems = Array.isArray(next) ? next : [];
+    if (baseItems.length !== nextItems.length) {
+      return prefix ? [prefix] : [];
+    }
+    const paths = baseItems.flatMap(
+      (item, index) => changedDraftPaths(item, nextItems[index], prefix ? `${prefix}.${index}` : `${index}`)
+    );
+    return paths.length > 0 ? paths : [];
+  }
+  if (isPlainObject(base) || isPlainObject(next)) {
+    const baseObject = isPlainObject(base) ? base : {};
+    const nextObject = isPlainObject(next) ? next : {};
+    const keys = /* @__PURE__ */ new Set([...Object.keys(baseObject), ...Object.keys(nextObject)]);
+    const paths = [];
+    keys.forEach((key) => {
+      paths.push(...changedDraftPaths(baseObject[key], nextObject[key], prefix ? `${prefix}.${key}` : key));
+    });
+    return paths.length > 0 ? paths : [prefix];
+  }
+  return prefix ? [prefix] : [];
 }
 function draftKey(locale, id3) {
   return `${locale}:${id3}`;
@@ -134031,7 +133892,9 @@ function AdminPages() {
     }
     setIsSaving(true);
     try {
-      await updatePage(editingPage.id, editingPage, editingLang);
+      const sourcePage = pages.find((page) => page.id === editingPage.id);
+      const changedPaths = sourcePage ? changedDraftPaths(sourcePage.content, editingPage.content) : void 0;
+      await updatePage(editingPage.id, editingPage, editingLang, changedPaths);
       setPageDrafts((current) => {
         const next = { ...current };
         delete next[draftKey(editingLang, editingPage.id)];
@@ -136948,6 +136811,58 @@ function sanitizeFlexiblePageContent(pageId, content) {
   }
   return next;
 }
+function normalizeFlexiblePageContent(pageId, content, locale = "en") {
+  const next = sanitizeFlexiblePageContent(pageId, content);
+  if (pageId === "about") {
+    next.ownProductionItems = normalizeAboutProductionItems(next.ownProductionItems, normalizeLocale(locale));
+  }
+  return next;
+}
+function isPlainRecord(value) {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value ?? null));
+}
+function getPathValue(source, pathValue) {
+  return pathValue.split(".").reduce((current, segment) => current?.[segment], source);
+}
+function setPathValue(target, pathValue, value) {
+  const segments = pathValue.split(".").filter(Boolean);
+  if (segments.length === 0) return;
+  let cursor = target;
+  for (let index = 0; index < segments.length - 1; index += 1) {
+    const segment = segments[index];
+    const nextSegment = segments[index + 1];
+    if (!cursor[segment] || typeof cursor[segment] !== "object") {
+      cursor[segment] = /^\d+$/.test(nextSegment) ? [] : {};
+    }
+    cursor = cursor[segment];
+  }
+  cursor[segments[segments.length - 1]] = value;
+}
+function applyChangedPagePaths(baseContent, incomingContent, changedPaths) {
+  if (!changedPaths) return incomingContent;
+  const next = isPlainRecord(baseContent) ? cloneJson(baseContent) : {};
+  const incoming = isPlainRecord(incomingContent) ? incomingContent : {};
+  for (const pathValue of changedPaths) {
+    if (!pathValue || typeof pathValue !== "string") continue;
+    setPathValue(next, pathValue, getPathValue(incoming, pathValue));
+  }
+  return next;
+}
+function getPageSavePayload(body) {
+  if (isPlainRecord(body) && isPlainRecord(body.content)) {
+    return {
+      content: body.content,
+      changedPaths: Array.isArray(body.changedPaths) ? body.changedPaths.filter((pathValue) => typeof pathValue === "string") : null
+    };
+  }
+  return {
+    content: body ?? {},
+    changedPaths: null
+  };
+}
 function hasOwn(value, key) {
   return Object.prototype.hasOwnProperty.call(value, key);
 }
@@ -137475,19 +137390,19 @@ async function readContentTable(pageId, locale = "en") {
   const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
   const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === resolvedLocale);
   const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
-  const targetContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback));
+  const targetContent = normalizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback), resolvedLocale);
   const config = sharedMediaConfigs[pageId];
   const contents = res.rows.map((candidate) => ({
     lang: asString(candidate?.lang, "en"),
-    content: sanitizeFlexiblePageContent(pageId, safeParseJson(candidate?.content, {}))
+    content: normalizeFlexiblePageContent(pageId, safeParseJson(candidate?.content, {}), asString(candidate?.lang, "en"))
   }));
   const sharedContent = pickSharedMediaContent(contents, config);
   const mergedContent = sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
-  return sanitizeFlexiblePageContent(pageId, mergedContent);
+  return normalizeFlexiblePageContent(pageId, mergedContent, resolvedLocale);
 }
 async function writeContentTable(pageId, content, locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  const sanitizedContent = sanitizeFlexiblePageContent(pageId, content);
+  const sanitizedContent = normalizeFlexiblePageContent(pageId, content, resolvedLocale);
   await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(sanitizedContent), resolvedLocale]);
 }
 async function syncFlexiblePageSharedMedia(pageId, sourceContent) {
@@ -137497,8 +137412,8 @@ async function syncFlexiblePageSharedMedia(pageId, sourceContent) {
   const res = await db.query(`SELECT lang, content FROM ${tableName} WHERE id = 1`);
   await Promise.all(activeLocales.map(async (locale) => {
     const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === locale);
-    const existingContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, {}));
-    const nextContent = sanitizeFlexiblePageContent(pageId, applySharedMedia(existingContent, sourceContent, config));
+    const existingContent = normalizeFlexiblePageContent(pageId, safeParseJson(row?.content, {}), locale);
+    const nextContent = normalizeFlexiblePageContent(pageId, applySharedMedia(existingContent, sourceContent, config), locale);
     await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(nextContent), locale]);
   }));
 }
@@ -138248,7 +138163,9 @@ app.post("/api/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
     const locale = getRequestLocale(req);
-    const content = req.body ?? {};
+    const payload = getPageSavePayload(req.body);
+    const currentContent = payload.changedPaths ? await getPageContent(pageId, locale) : {};
+    const content = applyChangedPagePaths(currentContent, payload.content, payload.changedPaths);
     if (pageId === "products") {
       await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, intro_eyebrow = $4, intro_title = $5, intro_content = $6, intro_image = $7, intro_facts = $8, catalog_eyebrow = $9, catalog_title = $10, ordering_bg_image = $11, ordering_form_title = $12, ordering_form_subtitle = $13, step_one_label = $14, step_two_label = $15, step_three_label = $16, mixed_container_label = $17, volume_options = $18, view_specs_label = $19, step_one_placeholder = $20, step_three_placeholder = $21, next_step_button_label = $22, back_button_label = $23, submit_button_label = $24, submitting_button_label = $25, detail_ui = $26, quick_contact_title = $27, quick_contact_subtitle = $28, telegram_label = $29, telegram_sublabel = $30, call_label = $31, email_label = $32, quick_phone = $33, quick_email = $34 WHERE id = 1 AND lang = $35`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.introEyebrow), asString(content.introTitle), asString(content.introContent), asString(content.introImage), JSON.stringify(Array.isArray(content.introFacts) ? content.introFacts : []), asString(content.catalogEyebrow), asString(content.catalogTitle), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
       await syncProductsPageSharedMedia(content);

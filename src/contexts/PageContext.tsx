@@ -21,7 +21,7 @@ interface PageContextType {
     currentLocale: ActiveLocaleCode;
     updateGlobalSettings: (settings: GlobalSettings, locale?: LocaleCode) => Promise<void>;
     pages: PageData[];
-    updatePage: (id: string, newPageData: PageData, locale?: LocaleCode) => Promise<void>;
+    updatePage: (id: string, newPageData: PageData, locale?: LocaleCode, changedPaths?: string[]) => Promise<void>;
     pageSeo: Record<string, SEOData>;
     pageSeoLoaded: boolean;
     updatePageSeo: (id: string, seo: SEOData, locale?: LocaleCode) => Promise<void>;
@@ -638,12 +638,12 @@ export const PageProvider: React.FC<{ children: ReactNode; initialData?: PublicB
         }
     };
 
-    const updatePage = async (id: string, newPageData: PageData, requestedLocale?: LocaleCode) => {
+    const updatePage = async (id: string, newPageData: PageData, requestedLocale?: LocaleCode, changedPaths?: string[]) => {
         const targetLocale = getActiveLocale(requestedLocale || locale);
         const response = await fetch(`/api/pages/${id}?locale=${encodeURIComponent(targetLocale)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newPageData.content),
+            body: JSON.stringify({ content: newPageData.content, changedPaths }),
         });
         if (response.ok) {
             setPages((prev) => prev.map((p) => (p.id === id ? newPageData : p)));

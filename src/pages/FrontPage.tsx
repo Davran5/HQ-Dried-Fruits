@@ -321,7 +321,7 @@ export function FrontPage() {
                             whileInView={{ opacity: 1, scale: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
                             transition={{ duration: 0.75, ease: springEasing }}
-                            className="group relative hidden min-h-[23rem] overflow-hidden rounded-[2.75rem] sm:min-h-[28rem] lg:block lg:h-full lg:min-h-0"
+                            className="group relative hidden h-[23rem] overflow-hidden rounded-[2.75rem] sm:h-[28rem] lg:block lg:h-[34rem]"
                         >
                             <img
                                 src={content.introImage || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop"}

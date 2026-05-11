@@ -15,7 +15,7 @@ import { SimplePageForm } from "@/src/components/admin/forms/SimplePageForm";
 import { getManagedPagePath, type ManagedPageId } from "@/src/lib/routes";
 import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { LocaleDraftStatus } from "@/src/components/admin/LocaleDraftStatus";
-import { cloneDraft, draftKey, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
+import { changedDraftPaths, cloneDraft, draftKey, isSameDraft, unsavedLocalesFromDrafts } from "@/src/lib/adminDrafts";
 import type { ActiveLocaleCode } from "@/src/i18n";
 
 function clonePage(page: PageData) {
@@ -119,7 +119,9 @@ export function AdminPages() {
 
     setIsSaving(true);
     try {
-      await updatePage(editingPage.id, editingPage, editingLang);
+      const sourcePage = pages.find((page) => page.id === editingPage.id);
+      const changedPaths = sourcePage ? changedDraftPaths(sourcePage.content, editingPage.content) : undefined;
+      await updatePage(editingPage.id, editingPage, editingLang, changedPaths);
       setPageDrafts((current) => {
         const next = { ...current };
         delete next[draftKey(editingLang, editingPage.id)];

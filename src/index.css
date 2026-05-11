@@ -75,6 +75,8 @@ body {
 }
 
 main[data-public-site="true"] img {
+  display: block;
+  max-width: 100%;
   -webkit-user-drag: none;
   user-select: none;
   -webkit-touch-callout: none;

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { AboutContent, AboutProductionItem } from "@/src/types/page";
+import { AboutContent } from "@/src/types/page";
 import { ImageUploader } from "@/src/components/admin/ImageUploader";
 import { Repeater } from "@/src/components/admin/Repeater";
 import { RichTextEditor } from "./RichTextEditor";
@@ -7,6 +7,8 @@ import { FormSection } from "@/src/components/admin/forms/FormSection";
 import { useMedia } from "@/src/contexts/MediaContext";
 import { usePages } from "@/src/contexts/PageContext";
 import { normalizeAboutTrustItems } from "@/src/lib/aboutTrustItems";
+import { normalizeAboutProductionItems } from "@/src/lib/aboutProductionItems";
+import { useAdminLanguage } from "@/src/contexts/AdminLanguageContext";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 
 interface Props {
@@ -100,13 +102,22 @@ function PartnerLogoGrid({ items, onUpdate }: { items: string[]; onUpdate: (item
 
 export function AboutForm({ content, updateContent }: Props) {
     const { globalSettings } = usePages();
+    const { editingLang } = useAdminLanguage();
     const uiLabels = globalSettings.uiLabels || {};
     const missionNarrativeTitleFallback = uiLabels.missionNarrativeTitle || "What guides the way we grow, process, and deliver";
     const missionNarrativeSublabelFallback = uiLabels.missionNarrativeSublabel || "A clearer look at the company mission, heritage, philosophy, and standards, shaped into one visual section.";
     const aboutTrustItems = normalizeAboutTrustItems(content.aboutTrustItems, uiLabels);
+    const ownProductionItems = normalizeAboutProductionItems(content.ownProductionItems, editingLang);
     const updateTrustItem = (index: number, updates: Partial<(typeof aboutTrustItems)[number]>) => {
         updateContent({
             aboutTrustItems: aboutTrustItems.map((item, candidateIndex) =>
+                candidateIndex === index ? { ...item, ...updates } : item,
+            ),
+        });
+    };
+    const updateProductionItem = (index: number, updates: Partial<(typeof ownProductionItems)[number]>) => {
+        updateContent({
+            ownProductionItems: ownProductionItems.map((item, candidateIndex) =>
                 candidateIndex === index ? { ...item, ...updates } : item,
             ),
         });
@@ -437,52 +448,62 @@ export function AboutForm({ content, updateContent }: Props) {
                     />
                 </div>
 
-                <Repeater<AboutProductionItem>
-                    label="Production Columns"
-                    items={content.ownProductionItems || []}
-                    emptyItem={{ image: "", title: "", subtitle: "", description: "" }}
-                    onUpdate={(items) => updateContent({ ownProductionItems: items })}
-                    renderItem={(item, index, updateItem) => (
-                        <div className="space-y-4">
-                            <ImageUploader
-                                label={`Production Image ${index + 1}`}
-                                value={item.image}
-                                onChange={url => updateItem(index, "image", url)}
-                            />
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">Title</label>
-                                    <input
-                                        type="text"
-                                        value={item.title}
-                                        onChange={e => updateItem(index, "title", e.target.value)}
-                                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                                    />
+                <div className="space-y-3">
+                    <label className="block text-sm font-bold text-slate-800">
+                        Production Steps - fixed 4 rows
+                    </label>
+                    <div className="grid gap-4">
+                        {ownProductionItems.map((item, index) => (
+                            <div key={index} className="space-y-4 rounded-xl border border-slate-200 bg-white/70 p-4">
+                                <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                                    <div>
+                                        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                                            Production Step {index + 1}
+                                        </p>
+                                        <h4 className="text-sm font-bold text-slate-800">{item.title}</h4>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">Subtitle</label>
-                                    <input
-                                        type="text"
-                                        value={item.subtitle}
-                                        onChange={e => updateItem(index, "subtitle", e.target.value)}
-                                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
-                                    />
-                                </div>
-                            </div>
 
-                            <div>
-                                <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
-                                <textarea
-                                    rows={3}
-                                    value={item.description}
-                                    onChange={e => updateItem(index, "description", e.target.value)}
-                                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                                <ImageUploader
+                                    label={`Production Image ${index + 1}`}
+                                    value={item.image}
+                                    onChange={url => updateProductionItem(index, { image: url })}
                                 />
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-500 mb-1">Title</label>
+                                        <input
+                                            type="text"
+                                            value={item.title}
+                                            onChange={e => updateProductionItem(index, { title: e.target.value })}
+                                            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-500 mb-1">Subtitle</label>
+                                        <input
+                                            type="text"
+                                            value={item.subtitle}
+                                            onChange={e => updateProductionItem(index, { subtitle: e.target.value })}
+                                            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
+                                    <textarea
+                                        rows={3}
+                                        value={item.description}
+                                        onChange={e => updateProductionItem(index, { description: e.target.value })}
+                                        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none resize-none"
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    )}
-                />
+                        ))}
+                    </div>
+                </div>
             </FormSection>
         </div>
     );

@@ -59,7 +59,7 @@ export function Header() {
           <Link to={getManagedPagePath("home", pageSeo, language)} className="flex items-center gap-2 group">
             <div className="flex items-center gap-3">
               {globalSettings.headerLogo ? (
-                <img src={globalSettings.headerLogo} alt={`${siteName} logo`} className="h-10 w-auto" />
+                <img src={globalSettings.headerLogo} alt={`${siteName} logo`} className="h-10 w-10 object-contain" />
               ) : (
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-earth-600 text-white transition-all group-hover:bg-earth-500 group-hover:scale-110 shadow-lg shadow-earth-500/20">
                   <Leaf size={20} />

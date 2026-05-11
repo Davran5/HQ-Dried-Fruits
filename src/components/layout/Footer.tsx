@@ -78,7 +78,7 @@ export function Footer() {
                   <img
                     src={globalSettings.footerLogo}
                     alt={`${siteName} logo`}
-                    className="h-12 w-auto brightness-0 invert contrast-125"
+                    className="h-12 w-12 object-contain brightness-0 invert contrast-125"
                   />
                 ) : (
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-earth-600 text-white transition-transform group-hover:rotate-12">

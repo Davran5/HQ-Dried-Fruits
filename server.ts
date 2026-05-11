@@ -9,6 +9,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppShell } from "./src/App";
+import { normalizeAboutProductionItems } from "./src/lib/aboutProductionItems";
 import { getProductCategoryLabel, isProductCategoryKey, resolveProductCategoryKey } from "./src/lib/productCategories";
 
 dotenv.config();
@@ -577,6 +578,74 @@ function sanitizeFlexiblePageContent(pageId: keyof typeof pageContentTables, con
   return next;
 }
 
+function normalizeFlexiblePageContent(pageId: keyof typeof pageContentTables, content: any, locale: string = "en") {
+  const next = sanitizeFlexiblePageContent(pageId, content);
+
+  if (pageId === "about") {
+    next.ownProductionItems = normalizeAboutProductionItems(next.ownProductionItems, normalizeLocale(locale));
+  }
+
+  return next;
+}
+
+function isPlainRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function cloneJson<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value ?? null)) as T;
+}
+
+function getPathValue(source: unknown, pathValue: string) {
+  return pathValue.split(".").reduce((current: any, segment) => current?.[segment], source as any);
+}
+
+function setPathValue(target: Record<string, unknown>, pathValue: string, value: unknown) {
+  const segments = pathValue.split(".").filter(Boolean);
+  if (segments.length === 0) return;
+
+  let cursor: any = target;
+  for (let index = 0; index < segments.length - 1; index += 1) {
+    const segment = segments[index];
+    const nextSegment = segments[index + 1];
+    if (!cursor[segment] || typeof cursor[segment] !== "object") {
+      cursor[segment] = /^\d+$/.test(nextSegment) ? [] : {};
+    }
+    cursor = cursor[segment];
+  }
+
+  cursor[segments[segments.length - 1]] = value;
+}
+
+function applyChangedPagePaths(baseContent: any, incomingContent: any, changedPaths: string[] | null) {
+  if (!changedPaths) return incomingContent;
+  const next = isPlainRecord(baseContent) ? cloneJson(baseContent) : {};
+  const incoming = isPlainRecord(incomingContent) ? incomingContent : {};
+
+  for (const pathValue of changedPaths) {
+    if (!pathValue || typeof pathValue !== "string") continue;
+    setPathValue(next, pathValue, getPathValue(incoming, pathValue));
+  }
+
+  return next;
+}
+
+function getPageSavePayload(body: any) {
+  if (isPlainRecord(body) && isPlainRecord(body.content)) {
+    return {
+      content: body.content,
+      changedPaths: Array.isArray(body.changedPaths)
+        ? body.changedPaths.filter((pathValue) => typeof pathValue === "string")
+        : null,
+    };
+  }
+
+  return {
+    content: body ?? {},
+    changedPaths: null,
+  };
+}
+
 function hasOwn(value: Record<string, unknown>, key: string) {
   return Object.prototype.hasOwnProperty.call(value, key);
 }
@@ -1101,20 +1170,20 @@ async function readContentTable(pageId: keyof typeof pageContentTables, locale: 
   const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
   const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === resolvedLocale);
   const fallback = (pageId === "privacy" || pageId === "terms") ? defaultSimplePages[pageId as keyof typeof defaultSimplePages] : {};
-  const targetContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback));
+  const targetContent = normalizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback), resolvedLocale);
   const config = sharedMediaConfigs[pageId];
   const contents = res.rows.map((candidate: any) => ({
     lang: asString(candidate?.lang, "en"),
-    content: sanitizeFlexiblePageContent(pageId, safeParseJson(candidate?.content, {})),
+    content: normalizeFlexiblePageContent(pageId, safeParseJson(candidate?.content, {}), asString(candidate?.lang, "en")),
   }));
   const sharedContent = pickSharedMediaContent(contents, config);
   const mergedContent = sharedContent ? applySharedMedia(targetContent, sharedContent, config) : targetContent;
-  return sanitizeFlexiblePageContent(pageId, mergedContent);
+  return normalizeFlexiblePageContent(pageId, mergedContent, resolvedLocale);
 }
 
 async function writeContentTable(pageId: keyof typeof pageContentTables, content: Record<string, unknown>, locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
-  const sanitizedContent = sanitizeFlexiblePageContent(pageId, content);
+  const sanitizedContent = normalizeFlexiblePageContent(pageId, content, resolvedLocale);
   await db.query(`UPDATE ${pageContentTables[pageId]} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(sanitizedContent), resolvedLocale]);
 }
 
@@ -1127,8 +1196,8 @@ async function syncFlexiblePageSharedMedia(pageId: keyof typeof pageContentTable
 
   await Promise.all(activeLocales.map(async (locale) => {
     const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === locale);
-    const existingContent = sanitizeFlexiblePageContent(pageId, safeParseJson(row?.content, {}));
-    const nextContent = sanitizeFlexiblePageContent(pageId, applySharedMedia(existingContent, sourceContent, config));
+    const existingContent = normalizeFlexiblePageContent(pageId, safeParseJson(row?.content, {}), locale);
+    const nextContent = normalizeFlexiblePageContent(pageId, applySharedMedia(existingContent, sourceContent, config), locale);
     await db.query(`UPDATE ${tableName} SET content = $1 WHERE id = 1 AND lang = $2`, [JSON.stringify(nextContent), locale]);
   }));
 }
@@ -1965,7 +2034,9 @@ app.post("/api/pages/:id", async (req, res) => {
   try {
     const pageId = asString(req.params.id);
     const locale = getRequestLocale(req);
-    const content = req.body ?? {};
+    const payload = getPageSavePayload(req.body);
+    const currentContent = payload.changedPaths ? await getPageContent(pageId as PageId, locale) : {};
+    const content = applyChangedPagePaths(currentContent, payload.content, payload.changedPaths);
     if (pageId === "products") {
       await db.query(`UPDATE products_page SET page_title = $1, page_subtitle = $2, hero_bg_image = $3, intro_eyebrow = $4, intro_title = $5, intro_content = $6, intro_image = $7, intro_facts = $8, catalog_eyebrow = $9, catalog_title = $10, ordering_bg_image = $11, ordering_form_title = $12, ordering_form_subtitle = $13, step_one_label = $14, step_two_label = $15, step_three_label = $16, mixed_container_label = $17, volume_options = $18, view_specs_label = $19, step_one_placeholder = $20, step_three_placeholder = $21, next_step_button_label = $22, back_button_label = $23, submit_button_label = $24, submitting_button_label = $25, detail_ui = $26, quick_contact_title = $27, quick_contact_subtitle = $28, telegram_label = $29, telegram_sublabel = $30, call_label = $31, email_label = $32, quick_phone = $33, quick_email = $34 WHERE id = 1 AND lang = $35`, [asString(content.pageTitle), asString(content.pageSubtitle), asString(content.heroBgImage), asString(content.introEyebrow), asString(content.introTitle), asString(content.introContent), asString(content.introImage), JSON.stringify(Array.isArray(content.introFacts) ? content.introFacts : []), asString(content.catalogEyebrow), asString(content.catalogTitle), asString(content.orderingBgImage), asString(content.orderingFormTitle), asString(content.orderingFormSubtitle), asString(content.stepOneLabel), asString(content.stepTwoLabel), asString(content.stepThreeLabel), asString(content.mixedContainerLabel), JSON.stringify(Array.isArray(content.volumeOptions) ? content.volumeOptions : []), asString(content.viewSpecsLabel), asString(content.stepOnePlaceholder), asString(content.stepThreePlaceholder), asString(content.nextStepButtonLabel), asString(content.backButtonLabel), asString(content.submitButtonLabel), asString(content.submittingButtonLabel), JSON.stringify(typeof content.detailUi === "object" && content.detailUi ? content.detailUi : defaultProductsPage.detailUi), asString(content.quickContactTitle), asString(content.quickContactSubtitle), asString(content.telegramLabel), asString(content.telegramSublabel), asString(content.callLabel), asString(content.emailLabel), asString(content.quickPhone), asString(content.quickEmail), locale]);
       await syncProductsPageSharedMedia(content);
