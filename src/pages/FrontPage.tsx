@@ -9,6 +9,7 @@ import { usePages } from "@/src/contexts/PageContext";
 import { useLanguage } from "@/src/contexts/LanguageContext";
 import type { ExportContent, HomeContent, ProductCategoryItem } from "@/src/types/page";
 import { getManagedPagePath } from "@/src/lib/routes";
+import { cn } from "@/src/lib/utils";
 import {
     PRODUCT_CATEGORY_KEYS,
     buildProductCategoryCatalogPath,
@@ -48,10 +49,13 @@ export function FrontPage() {
     const exportContent = exportPageData?.content as ExportContent | undefined;
     const seo = pageSeo.home;
     const certificateScrollerRef = useRef<HTMLDivElement | null>(null);
+    const [certificateScrollState, setCertificateScrollState] = useState({ left: false, right: false });
     const uiLabels = globalSettings.uiLabels || {};
     const showCategoryEyebrow = uiLabels.homeCategoryEyebrowVisible !== false;
     const showCategoryBadges = uiLabels.homeCategoryBadgesVisible !== false;
     const showCategoryTypes = (uiLabels.homeCategoryTypesVisible ?? uiLabels.homeCategoryInfoVisible) !== false;
+    const heroTitle = content.heroTitle || t("homeHeroTitle");
+    const hasExtendedHeroTitle = heroTitle.length > 46;
 
     useSEO({
         title: seo?.metaTitle || "HQ Dried Fruits",
@@ -70,39 +74,39 @@ export function FrontPage() {
         );
     }
 
-    const springEasing = [0.25, 1, 0.5, 1]; // Custom cubic-bezier equivalent
+    const springEasing = [0.25, 1, 0.5, 1];
     const configuredExportMarkets = (content.exportMarkets || []).filter((market) => market.countryName?.trim());
     const exportMarkets =
         configuredExportMarkets.length > 0
             ? configuredExportMarkets
             : [
                 {
-                    countryName: "Germany",
+                    countryName: "Retail",
                     shortDescription: t("homeExportMarketGermanyDesc"),
                     statLabel: t("homeExportStatLeadTime"),
-                    statValue: "18-24 days",
-                    image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=1600&auto=format&fit=crop",
+                    statValue: "Shelf-ready",
+                    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1600&auto=format&fit=crop",
                 },
                 {
-                    countryName: "Netherlands",
+                    countryName: "Wholesale",
                     shortDescription: t("homeExportMarketNetherlandsDesc"),
                     statLabel: t("homeExportStatPortRouting"),
-                    statValue: "Rotterdam-first",
-                    image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1600&auto=format&fit=crop",
+                    statValue: "Cartons",
+                    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop",
                 },
                 {
-                    countryName: "UAE",
+                    countryName: "Food Industry",
                     shortDescription: t("homeExportMarketUaeDesc"),
                     statLabel: t("homeExportStatDocumentation"),
-                    statValue: t("homeExportStatBuyerReady"),
-                    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1600&auto=format&fit=crop",
+                    statValue: "Ingredients",
+                    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1600&auto=format&fit=crop",
                 },
                 {
-                    countryName: "Kazakhstan",
+                    countryName: "Private Label",
                     shortDescription: t("homeExportMarketKazakhstanDesc"),
                     statLabel: t("homeExportStatTransportMode"),
-                    statValue: t("homeExportStatRoadRail"),
-                    image: "https://images.unsplash.com/photo-1502920514313-52581002a659?q=80&w=1600&auto=format&fit=crop",
+                    statValue: "Buyer label",
+                    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop",
                 },
             ];
     const [activeExportMarketIndex, setActiveExportMarketIndex] = useState(0);
@@ -194,6 +198,42 @@ export function FrontPage() {
         scrollToCertificateIndex(currentIndex + direction);
     };
 
+    useEffect(() => {
+        const scroller = certificateScrollerRef.current;
+        if (!scroller) return;
+
+        const updateScrollState = () => {
+            const cards = getCertificateCards();
+            const hasOverflow = cards.length > 1 && scroller.scrollWidth - scroller.clientWidth > 4;
+            if (!hasOverflow) {
+                setCertificateScrollState({ left: false, right: false });
+                return;
+            }
+
+            const scrollerRect = scroller.getBoundingClientRect();
+            const firstCardRect = cards[0]?.getBoundingClientRect();
+            const lastCardRect = cards[cards.length - 1]?.getBoundingClientRect();
+            const tolerance = 6;
+            setCertificateScrollState({
+                left: Boolean(firstCardRect && firstCardRect.left < scrollerRect.left - tolerance),
+                right: Boolean(lastCardRect && lastCardRect.right > scrollerRect.right + tolerance),
+            });
+        };
+
+        updateScrollState();
+        scroller.addEventListener("scroll", updateScrollState, { passive: true });
+        window.addEventListener("resize", updateScrollState);
+        const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateScrollState);
+        resizeObserver?.observe(scroller);
+        resizeObserver?.observe(scroller.firstElementChild || scroller);
+
+        return () => {
+            scroller.removeEventListener("scroll", updateScrollState);
+            window.removeEventListener("resize", updateScrollState);
+            resizeObserver?.disconnect();
+        };
+    }, [homepageCertificates.length]);
+
     return (
         <PageLayout>
             <section className="relative h-[48rem] w-full overflow-hidden rounded-b-[4rem] md:h-[45rem] sm:rounded-b-[6rem]">
@@ -212,15 +252,20 @@ export function FrontPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent" />
                 </motion.div>
                 <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 pt-32 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8">
-                    <div className="max-w-4xl">
+                    <div className={cn(hasExtendedHeroTitle ? "max-w-5xl" : "max-w-4xl")}>
                         <div className="mb-5 overflow-visible py-2">
                             <motion.h1
                                 initial={{ y: "100%", opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.8, ease: springEasing }}
-                                className="font-display text-[clamp(2.5rem,8vw,5.9rem)] font-bold leading-[1.04] text-white"
+                                className={cn(
+                                    "font-display font-bold text-white [text-wrap:balance]",
+                                    hasExtendedHeroTitle
+                                        ? "text-[clamp(2.05rem,6.2vw,4.85rem)] leading-[1.02] sm:text-[clamp(2.45rem,5.8vw,5rem)]"
+                                        : "text-[clamp(2.5rem,8vw,5.9rem)] leading-[1.04]",
+                                )}
                             >
-                                {content.heroTitle || t("homeHeroTitle")}
+                                {heroTitle}
                             </motion.h1>
                         </div>
                         <div className="overflow-hidden mb-8 max-w-xl">
@@ -591,14 +636,16 @@ export function FrontPage() {
                                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                                     className="relative flex min-w-0 h-[20.9rem] sm:h-[23.4rem] lg:h-[20.5rem]"
                                 >
-                                    <button
-                                        type="button"
-                                        onClick={() => scrollCertificatesBy(-1)}
-                                        className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:left-0 sm:-translate-x-1/2 sm:p-4"
-                                        aria-label={t("homeCertificatesPrev")}
-                                    >
-                                        <ChevronLeft size={20} />
-                                    </button>
+                                    {certificateScrollState.left ? (
+                                        <button
+                                            type="button"
+                                            onClick={() => scrollCertificatesBy(-1)}
+                                            className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:left-0 sm:-translate-x-1/2 sm:p-4"
+                                            aria-label={t("homeCertificatesPrev")}
+                                        >
+                                            <ChevronLeft size={20} />
+                                        </button>
+                                    ) : null}
 
                                     <div
                                         ref={certificateScrollerRef}
@@ -631,14 +678,16 @@ export function FrontPage() {
                                         </div>
                                     </div>
 
-                                    <button
-                                        type="button"
-                                        onClick={() => scrollCertificatesBy(1)}
-                                        className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:right-0 sm:translate-x-1/2 sm:p-4"
-                                        aria-label={t("homeCertificatesNext")}
-                                    >
-                                        <ChevronRight size={20} />
-                                    </button>
+                                    {certificateScrollState.right ? (
+                                        <button
+                                            type="button"
+                                            onClick={() => scrollCertificatesBy(1)}
+                                            className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:right-0 sm:translate-x-1/2 sm:p-4"
+                                            aria-label={t("homeCertificatesNext")}
+                                        >
+                                            <ChevronRight size={20} />
+                                        </button>
+                                    ) : null}
                                 </motion.div>
                             </div>
                         </div>

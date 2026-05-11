@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { UploadCloud, Trash2, File, Copy, Check, Download } from "lucide-react";
+import { UploadCloud, Trash2, File, Copy, Check, Download, Pencil, X } from "lucide-react";
 import { useMedia } from "@/src/contexts/MediaContext";
 import type { MediaFile } from "@/src/contexts/MediaContext";
 import { Button } from "@/src/components/ui/Button";
@@ -29,12 +29,21 @@ function getMediaDetails(item: MediaFile) {
     return `${item.width} x ${item.height}${item.aspectRatio ? ` (${item.aspectRatio})` : ""}`;
 }
 
+function splitDisplayName(name: string) {
+    const dotIndex = name.lastIndexOf(".");
+    if (dotIndex <= 0) return { base: name, ext: "" };
+    return { base: name.slice(0, dotIndex), ext: name.slice(dotIndex) };
+}
+
 export function AdminMedia() {
-    const { media, uploadMedia, deleteMedia, isLoading } = useMedia();
+    const { media, uploadMedia, deleteMedia, renameMedia, isLoading } = useMedia();
     const [isDragging, setIsDragging] = useState(false);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [copiedId, setCopiedId] = useState<string | null>(null);
+    const [editingUrl, setEditingUrl] = useState<string | null>(null);
+    const [renameValue, setRenameValue] = useState("");
+    const [renamingUrl, setRenamingUrl] = useState<string | null>(null);
 
     const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -84,6 +93,35 @@ export function AdminMedia() {
             setCopiedId(id);
             setTimeout(() => setCopiedId(null), 2000);
         });
+    };
+
+    const startRename = (item: MediaFile) => {
+        const { base } = splitDisplayName(item.name || item.url.split("/").pop() || "File");
+        setEditingUrl(item.url);
+        setRenameValue(base);
+    };
+
+    const cancelRename = () => {
+        setEditingUrl(null);
+        setRenameValue("");
+    };
+
+    const submitRename = async (item: MediaFile) => {
+        const nextName = renameValue.trim();
+        if (!nextName) {
+            alert("File name cannot be empty.");
+            return;
+        }
+
+        setRenamingUrl(item.url);
+        try {
+            await renameMedia(item.url, nextName);
+            cancelRename();
+        } catch (error) {
+            alert(error instanceof Error ? error.message : "Failed to rename the file.");
+        } finally {
+            setRenamingUrl(null);
+        }
     };
 
     return (
@@ -136,6 +174,8 @@ export function AdminMedia() {
                                 const url = item.url;
                                 const isImage = item.type.startsWith("image/");
                                 const name = item.name || url.split("/").pop() || "File";
+                                const { ext } = splitDisplayName(name);
+                                const isEditing = editingUrl === url;
                                 return (
                                     <motion.div
                                         key={url}
@@ -176,7 +216,51 @@ export function AdminMedia() {
                                                 </button>
                                             </div>
                                         </div>                                        <div className="p-3 border-t border-slate-200 bg-white">
-                                            <p className="text-sm font-medium text-slate-900 truncate" title={name}>{name}</p>
+                                            {isEditing ? (
+                                                <div className="flex items-center gap-1.5">
+                                                    <input
+                                                        autoFocus
+                                                        value={renameValue}
+                                                        onChange={(e) => setRenameValue(e.target.value)}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === "Enter") void submitRename(item);
+                                                            if (e.key === "Escape") cancelRename();
+                                                        }}
+                                                        className="min-w-0 flex-1 rounded-md border border-slate-300 px-2 py-1 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-earth-500"
+                                                        aria-label="New file name"
+                                                    />
+                                                    {ext ? <span className="max-w-[3.5rem] truncate text-xs text-slate-500">{ext}</span> : null}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => submitRename(item)}
+                                                        disabled={renamingUrl === url}
+                                                        className="rounded-md p-1.5 text-emerald-600 hover:bg-emerald-50 disabled:opacity-50"
+                                                        title="Save file name"
+                                                    >
+                                                        <Check size={16} />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={cancelRename}
+                                                        className="rounded-md p-1.5 text-slate-500 hover:bg-slate-100"
+                                                        title="Cancel rename"
+                                                    >
+                                                        <X size={16} />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center gap-2">
+                                                    <p className="min-w-0 flex-1 truncate text-sm font-medium text-slate-900" title={name}>{name}</p>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => startRename(item)}
+                                                        className="shrink-0 rounded-md p-1.5 text-slate-400 transition-colors hover:bg-earth-50 hover:text-earth-600"
+                                                        title="Rename file"
+                                                    >
+                                                        <Pencil size={15} />
+                                                    </button>
+                                                </div>
+                                            )}
                                             <div className="mt-2 space-y-1 text-xs text-slate-500">
                                                 <p>{formatFileSize(item.size)}</p>
                                                 <p className="truncate" title={getMediaDetails(item)}>{getMediaDetails(item)}</p>

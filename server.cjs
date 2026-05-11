@@ -97976,7 +97976,7 @@ var require_lucide_react = __commonJS({
       ],
       ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
     ];
-    var Pencil = createLucideIcon("pencil", __iconNode$8p);
+    var Pencil2 = createLucideIcon("pencil", __iconNode$8p);
     var __iconNode$8o = [
       [
         "path",
@@ -103084,7 +103084,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
       ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
     ];
-    var X7 = createLucideIcon("x", __iconNode$5);
+    var X8 = createLucideIcon("x", __iconNode$5);
     var __iconNode$4 = [
       [
         "path",
@@ -104231,7 +104231,7 @@ var require_lucide_react = __commonJS({
       PenLine,
       PenOff,
       PenTool,
-      Pencil,
+      Pencil: Pencil2,
       PencilLine,
       PencilOff,
       PencilRuler,
@@ -104766,7 +104766,7 @@ var require_lucide_react = __commonJS({
       Workflow,
       Worm,
       Wrench,
-      X: X7,
+      X: X8,
       Youtube,
       Zap,
       ZapOff,
@@ -108099,7 +108099,7 @@ var require_lucide_react = __commonJS({
     exports2.LucidePenOff = PenOff;
     exports2.LucidePenSquare = SquarePen;
     exports2.LucidePenTool = PenTool;
-    exports2.LucidePencil = Pencil;
+    exports2.LucidePencil = Pencil2;
     exports2.LucidePencilLine = PencilLine;
     exports2.LucidePencilOff = PencilOff;
     exports2.LucidePencilRuler = PencilRuler;
@@ -108696,7 +108696,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideWorm = Worm;
     exports2.LucideWrapText = TextWrap;
     exports2.LucideWrench = Wrench;
-    exports2.LucideX = X7;
+    exports2.LucideX = X8;
     exports2.LucideXCircle = CircleX;
     exports2.LucideXOctagon = OctagonX;
     exports2.LucideXSquare = SquareX;
@@ -109151,8 +109151,8 @@ var require_lucide_react = __commonJS({
     exports2.PenSquareIcon = SquarePen;
     exports2.PenTool = PenTool;
     exports2.PenToolIcon = PenTool;
-    exports2.Pencil = Pencil;
-    exports2.PencilIcon = Pencil;
+    exports2.Pencil = Pencil2;
+    exports2.PencilIcon = Pencil2;
     exports2.PencilLine = PencilLine;
     exports2.PencilLineIcon = PencilLine;
     exports2.PencilOff = PencilOff;
@@ -110345,10 +110345,10 @@ var require_lucide_react = __commonJS({
     exports2.WrapTextIcon = TextWrap;
     exports2.Wrench = Wrench;
     exports2.WrenchIcon = Wrench;
-    exports2.X = X7;
+    exports2.X = X8;
     exports2.XCircle = CircleX;
     exports2.XCircleIcon = CircleX;
-    exports2.XIcon = X7;
+    exports2.XIcon = X8;
     exports2.XOctagon = OctagonX;
     exports2.XOctagonIcon = OctagonX;
     exports2.XSquare = SquareX;
@@ -122821,7 +122821,7 @@ var en = {
   termsTitle: "Terms of Service",
   termsDescription: "Terms of service for HQ Dried Fruits.",
   lastUpdatedLabel: "Last updated",
-  homeHeroTitle: "Nature's Sweetness, Sun-Dried",
+  homeHeroTitle: "Naturally Sweet Fruits From Rich Soil",
   homeHeroPrimaryCta: "Request Wholesale Catalog",
   homeHeroSecondaryCta: "Our Processing Facilities",
   homeAboutEyebrow: "About Us",
@@ -122838,9 +122838,9 @@ var en = {
   nutritionProtein: "Protein",
   nutritionFat: "Fat",
   nutritionCarbs: "Carbs",
-  homeExportFocusEyebrow: "Export Focus",
-  homeExportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
-  homeExportMarketsIntro: "Our export team plans routing, documents, and buyer-ready packaging market by market. Select a destination to preview how we position each lane.",
+  homeExportFocusEyebrow: "Buyer Channels",
+  homeExportMarketsTitle: "Prepared for the way your business sells",
+  homeExportMarketsIntro: "Different buyers need different packing, documentation, and product presentation. We prepare Uzbek dried fruit lines for retail shelves, wholesale cartons, food production, and private-label programs.",
   homeExportExplore: "Explore Export Page",
   homeQualityGuarantee: "The Quality Guarantee",
   homeQualityGuaranteeDesc: "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
@@ -122856,15 +122856,15 @@ var en = {
   homeCheckVerificationDesc: "Sorting, grading, and lot review completed before final release for wholesale buyers.",
   homeCheckDispatchTitle: "Dispatch Readiness",
   homeCheckDispatchDesc: "Certificates, packing lists, and shipping files aligned before cargo leaves the facility.",
-  homeExportMarketGermanyDesc: "Structured pallet and container supply for Central European wholesale buyers.",
-  homeExportMarketNetherlandsDesc: "High-frequency logistics support for import partners and regional distribution hubs.",
-  homeExportMarketUaeDesc: "Flexible mixed-load planning for GCC trade routes and re-export buyers.",
-  homeExportMarketKazakhstanDesc: "Fast regional replenishment with land-linked scheduling from Tashkent.",
-  homeExportStatLeadTime: "Lead Time Window",
-  homeExportStatPortRouting: "Port Routing",
-  homeExportStatDocumentation: "Documentation",
+  homeExportMarketGermanyDesc: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
+  homeExportMarketNetherlandsDesc: "Carton-based supply for importers, distributors, and trading programs.",
+  homeExportMarketUaeDesc: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
+  homeExportMarketKazakhstanDesc: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
+  homeExportStatLeadTime: "Channel Fit",
+  homeExportStatPortRouting: "Format",
+  homeExportStatDocumentation: "Use Case",
   homeExportStatBuyerReady: "Buyer-ready set",
-  homeExportStatTransportMode: "Transport Mode",
+  homeExportStatTransportMode: "Branding",
   homeExportStatRoadRail: "Road + rail",
   exportHeroTitle: "Our Global Export Network",
   exportHeroSubtitle: "Seamless global logistics from the heart of the Silk Road to your warehouse.",
@@ -122878,9 +122878,9 @@ var en = {
   exportTransportDesc: "Cost-effective FCL (Full Container Load) and LCL shipments via major ports and the trans-Eurasian rail network.",
   exportDocumentationTitle: "Customs Clearance",
   exportDocumentationDesc: "Full documentation support including phytosanitary certificates, certificates of origin, and EUR.1.",
-  exportDestinationEyebrow: "Export Geography",
-  exportDestinationTitle: "How each destination lane is prepared before dispatch",
-  exportDestinationDesc: "Export planning changes by market. Select a destination to preview the lane focus, the route context, and how we position packing and documentation around buyer expectations.",
+  exportDestinationEyebrow: "Buyer Channels",
+  exportDestinationTitle: "Prepared for the way your business sells",
+  exportDestinationDesc: "Different buyers need different packing, documentation, and product presentation. We prepare Uzbek dried fruit lines for retail shelves, wholesale cartons, food production, and private-label programs.",
   exportQualityTitle: "The Quality Guarantee",
   exportQualityDesc: "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
   exportMoistureLabel: "Moisture Control",
@@ -123075,7 +123075,7 @@ var pt = {
   homeExportMarketsTitle: "Constru\xEDdo para compradores nos principais corredores comerciais",
   homeHeroSecondaryCta: "Nossas instala\xE7\xF5es de processamento",
   homeIntroLabel: "A diferen\xE7a das frutas secas do QG",
-  homeHeroTitle: "Do\xE7ura da Natureza, Seca ao Sol",
+  homeHeroTitle: "Frutas naturalmente doces de um solo f\xE9rtil",
   homeRequestSample: "Solicitar amostra",
   homeExportReady: "Pronto para exporta\xE7\xE3o",
   homeWholesaleSupply: "Fornecimento por atacado",
@@ -123108,15 +123108,15 @@ var pt = {
   exportPackagingTitle: "Embalagem personalizada",
   homeExportStatDocumentation: "Documenta\xE7\xE3o",
   exportDocumentationTitle: "Desembara\xE7o alfandeg\xE1rio",
-  exportDestinationTitle: "Como cada pista de destino \xE9 preparada antes do envio",
+  exportDestinationTitle: "Preparado para a forma como o seu neg\xF3cio vende",
   exportTransportDesc: "Remessas econ\xF4micas de FCL (Full Container Load) e LCL atrav\xE9s dos principais portos e da rede ferrovi\xE1ria transeurasi\xE1tica.",
   exportPackagingDesc: "Caixas a granel, sacos selados a v\xE1cuo ou embalagens prontas para varejo personalizadas com os r\xF3tulos de sua marca.",
   exportDocumentationDesc: "Suporte completo de documenta\xE7\xE3o, incluindo certificados fitossanit\xE1rios, certificados de origem e EUR.1.",
   exportHeroSubtitle: "Log\xEDstica global perfeita, desde o cora\xE7\xE3o da Rota da Seda at\xE9 o seu armaz\xE9m.",
   exportHeroTitle: "Nossa rede global de exporta\xE7\xE3o",
   exportOpsTitle: "Roteamento de transporte multimodal de ponta a ponta",
-  exportDestinationDesc: "Mudan\xE7as no planejamento de exporta\xE7\xE3o por mercado. Selecione um destino para visualizar o foco da pista, o contexto da rota e como posicionamos a embalagem e a documenta\xE7\xE3o de acordo com as expectativas do comprador.",
-  exportDestinationEyebrow: "Exportar geografia",
+  exportDestinationDesc: "Cada comprador precisa de embalagem, documenta\xE7\xE3o e apresenta\xE7\xE3o de produto diferentes. Preparamos frutas secas uzbeques para prateleiras de varejo, caixas de atacado, produ\xE7\xE3o aliment\xEDcia e programas de marca pr\xF3pria.",
+  exportDestinationEyebrow: "Canais compradores",
   homeExportStatRoadRail: "Rodovi\xE1rio + ferrovi\xE1rio",
   homeExportStatPortRouting: "Roteamento de porta",
   homeExportStatBuyerReady: "Conjunto pronto para o comprador",
@@ -123325,7 +123325,7 @@ var es = {
   homeNutritionPer100g: "Nutrition / 100g",
   homeExportMarketsTitle: "Dise\xF1ado para compradores en corredores comerciales clave",
   homeHeroSecondaryCta: "Nuestras instalaciones de procesamiento",
-  homeHeroTitle: "La dulzura de la naturaleza, secada al sol.",
+  homeHeroTitle: "Frutas naturalmente dulces de una tierra f\xE9rtil",
   homeIntroLabel: "La diferencia de los frutos secos HQ",
   homeExportMarketsIntro: "Nuestro equipo de exportaci\xF3n planifica rutas, documentos y embalajes listos para el comprador mercado por mercado. Seleccione un destino para obtener una vista previa de c\xF3mo posicionamos cada carril.",
   homeIntroExtraParagraph: "Construida en torno a relaciones con los huertos, un procesamiento disciplinado y una ejecuci\xF3n de exportaciones lista para el comprador, nuestra operaci\xF3n est\xE1 dise\xF1ada para ofrecer una calidad constante de frutos secos a escala mayorista.",
@@ -123352,15 +123352,15 @@ var es = {
   exportPackagingTitle: "Embalaje personalizado",
   exportDocumentationTitle: "Despacho de aduana",
   homeExportStatDocumentation: "Documentaci\xF3n",
-  exportDestinationTitle: "C\xF3mo se prepara cada carril de destino antes del env\xEDo",
+  exportDestinationTitle: "Preparado para la forma en que vende su negocio",
   exportTransportDesc: "Env\xEDos rentables FCL (Full Container Load) y LCL a trav\xE9s de los principales puertos y la red ferroviaria transeurasi\xE1tica.",
   exportDocumentationDesc: "Soporte documental completo que incluye certificados fitosanitarios, certificados de origen y EUR.1.",
   exportHeroSubtitle: "Log\xEDstica global perfecta desde el coraz\xF3n de la Ruta de la Seda hasta su almac\xE9n.",
   exportPackagingDesc: "Cartones a granel, bolsas selladas al vac\xEDo o envases listos para la venta al por menor personalizados con las etiquetas de su marca.",
-  exportDestinationDesc: "Cambios en la planificaci\xF3n de exportaciones por mercado. Seleccione un destino para obtener una vista previa del enfoque del carril, el contexto de la ruta y c\xF3mo posicionamos el embalaje y la documentaci\xF3n seg\xFAn las expectativas del comprador.",
+  exportDestinationDesc: "Cada comprador necesita un empaque, documentaci\xF3n y presentaci\xF3n de producto diferentes. Preparamos frutas secas uzbekas para retail, cajas mayoristas, producci\xF3n alimentaria y programas de marca privada.",
   exportOpsTitle: "Enrutamiento de transporte multimodal de extremo a extremo",
   exportHeroTitle: "Nuestra red global de exportaci\xF3n",
-  exportDestinationEyebrow: "Exportar geograf\xEDa",
+  exportDestinationEyebrow: "Canales compradores",
   homeExportStatBuyerReady: "Conjunto listo para el comprador",
   exportOpsEyebrow: "Operaciones de Exportaci\xF3n",
   homeExportStatRoadRail: "Carretera + ferrocarril",
@@ -123562,7 +123562,7 @@ var nl = {
   homeExportMarketsTitle: "Gebouwd voor kopers in belangrijke handelscorridors",
   homeIntroLabel: "Het verschil in HQ Gedroogd Fruit",
   homeHeroSecondaryCta: "Onze verwerkingsfaciliteiten",
-  homeHeroTitle: "Zoetheid uit de natuur, zongedroogd",
+  homeHeroTitle: "Natuurlijk zoete vruchten uit vruchtbare grond",
   homeExportMarketsIntro: "Ons exportteam plant de routing, documenten en kopersklare verpakkingen markt per markt. Selecteer een bestemming om een \u200B\u200Bvoorbeeld te bekijken van hoe we elke rijstrook positioneren.",
   homeIntroExtraParagraph: "Ons bedrijf is opgebouwd rond relaties met boomgaarden, gedisciplineerde verwerking en exportuitvoering die klaar is voor de koper. Het is ontworpen om consistente kwaliteit van gedroogd fruit op groothandelsschaal te leveren.",
   homeExportFocusEyebrow: "Exportfocus",
@@ -123598,15 +123598,15 @@ var nl = {
   exportLogisticsDesc2: "Elke zending is gestructureerd rond herhaalbaarheid, naleving van de bestemming en praktische groothandel, zodat importeurs met minder wrijving van bestelling naar magazijnontvangst kunnen gaan.",
   exportHeroTitle: "Ons wereldwijde exportnetwerk",
   exportOpsTitle: "End-to-end multimodale transportroutering",
-  exportDestinationTitle: "Hoe elke bestemmingsbaan wordt voorbereid v\xF3\xF3r verzending",
-  exportDestinationDesc: "Exportplanning verandert per markt. Selecteer een bestemming om een \u200B\u200Bvoorbeeld te bekijken van de focus van de rijstrook, de routecontext en hoe we de verpakking en documentatie positioneren rond de verwachtingen van kopers.",
+  exportDestinationTitle: "Voorbereid op hoe uw bedrijf verkoopt",
+  exportDestinationDesc: "Elke koper heeft andere verpakking, documentatie en productpresentatie nodig. Wij bereiden Oezbeekse gedroogde vruchten voor retail, groothandelskartons, voedselproductie en private-labelprogramma's.",
   exportTransportDesc: "Kosteneffectieve FCL- (Full Container Load)- en LCL-zendingen via grote havens en het trans-Euraziatische spoorwegnet.",
   exportPackagingDesc: "Grootverpakkingen, vacu\xFCmverzegelde zakken of winkelklare verpakkingen, gepersonaliseerd met uw merklabels.",
   exportHeroSubtitle: "Naadloze wereldwijde logistiek vanuit het hart van de Zijderoute tot uw magazijn.",
   exportDocumentationDesc: "Volledige documentatieondersteuning, inclusief fytosanitaire certificaten, certificaten van oorsprong en EUR.1.",
   homeExportStatTransportMode: "Transportmodus",
   homeExportStatBuyerReady: "Set klaar voor de koper",
-  exportDestinationEyebrow: "Aardrijkskunde exporteren",
+  exportDestinationEyebrow: "Koperskanalen",
   exportDocumentationTitle: "Douaneafhandeling",
   exportPackagingTitle: "Aangepaste verpakking",
   exportOpsEyebrow: "Exportoperaties",
@@ -123808,7 +123808,7 @@ var fr = {
   homeExportMarketsTitle: "Con\xE7u pour les acheteurs des principaux corridors commerciaux",
   homeHeroSecondaryCta: "Nos installations de traitement",
   homeIntroLabel: "La diff\xE9rence des fruits secs HQ",
-  homeHeroTitle: "Douceur de la nature, s\xE9ch\xE9e au soleil",
+  homeHeroTitle: "Des fruits naturellement doux issus d'une terre fertile",
   homeExportReady: "Pr\xEAt pour l'exportation",
   homeWholesaleSupply: "Approvisionnement en gros",
   homeExportFocusEyebrow: "Priorit\xE9 \xE0 l'exportation",
@@ -123841,14 +123841,14 @@ var fr = {
   homeExportStatTransportMode: "Mode de transport",
   homeExportStatDocumentation: "Documentation",
   exportTransportDesc: "Exp\xE9ditions FCL (Full Container Load) et LCL rentables via les principaux ports et le r\xE9seau ferroviaire transeurasien.",
-  exportDestinationTitle: "Comment chaque voie de destination est pr\xE9par\xE9e avant l'exp\xE9dition",
+  exportDestinationTitle: "Pr\xE9par\xE9 pour la fa\xE7on dont votre entreprise vend",
   exportDocumentationDesc: "Support de documentation complet, y compris les certificats phytosanitaires, les certificats d'origine et EUR.1.",
   exportPackagingDesc: "Cartons en vrac, sacs sous vide ou emballages pr\xEAts \xE0 la vente personnalis\xE9s avec les \xE9tiquettes de votre marque.",
   exportHeroSubtitle: "Une logistique mondiale fluide, du c\u0153ur de la Route de la Soie jusqu'\xE0 votre entrep\xF4t.",
-  exportDestinationDesc: "Modifications de la planification des exportations par march\xE9. S\xE9lectionnez une destination pour pr\xE9visualiser la voie, le contexte de l'itin\xE9raire et la mani\xE8re dont nous positionnons l'emballage et la documentation en fonction des attentes des acheteurs.",
+  exportDestinationDesc: "Chaque acheteur attend un emballage, des documents et une pr\xE9sentation produit adapt\xE9s. Nous pr\xE9parons les fruits secs ouzbeks pour le retail, les cartons de gros, l'industrie alimentaire et les programmes de marque priv\xE9e.",
   exportHeroTitle: "Notre r\xE9seau mondial d'exportation",
   exportOpsTitle: "Acheminement de transport multimodal de bout en bout",
-  exportDestinationEyebrow: "G\xE9ographie des exportations",
+  exportDestinationEyebrow: "Canaux acheteurs",
   homeExportStatPortRouting: "Routage des ports",
   exportTransportTitle: "Fret maritime et ferroviaire",
   homeExportStatBuyerReady: "Ensemble pr\xEAt \xE0 l'acheteur",
@@ -124454,9 +124454,9 @@ var defaultUiLabels = {
   transportationDesc: "Cost-effective FCL and LCL shipments via major ports and rail networks.",
   documentationTitle: "Customs Clearance",
   documentationDesc: "Full documentary support including phytosanitary and origin certificates.",
-  destinationBreakdownEyebrow: "Export Geography",
-  destinationBreakdownTitle: "Preparing every line for dispatch",
-  destinationBreakdownDesc: "Export planning varies based on the destination market.",
+  destinationBreakdownEyebrow: "Buyer Channels",
+  destinationBreakdownTitle: "Prepared for the way your business sells",
+  destinationBreakdownDesc: "Different buyers need different packing, documentation, and product presentation.",
   qualityGuaranteeTitle: "Quality Guarantee",
   qualityGuaranteeDesc: "Our facilities utilize laser sorting to ensure 99.9% purity across all exports.",
   qualitySealLabel: "Product Quality Seal",
@@ -124566,7 +124566,7 @@ var initialPages = [
     path: "/",
     content: {
       heroBgImage: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2000&auto=format&fit=crop",
-      heroTitle: "High-Quality Sun-Dried Fruits from Uzbekistan",
+      heroTitle: "Naturally Sweet Fruits From Rich Soil",
       heroSubtitle: "Hand-picked and processed to global export standards.",
       heroPrimaryCtaLabel: "Request Wholesale Catalog",
       heroSecondaryCtaLabel: "Our Processing Facilities",
@@ -124591,37 +124591,37 @@ var initialPages = [
         { categoryKey: "prunes", categoryName: "Prunes", image: "/uploads/category-prunes.png", shortDescription: "Calibrated prune selections with pitted and unpitted supply options for export programs.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
         { categoryKey: "peanuts", categoryName: "Peanuts", image: "/uploads/category-peanuts.png", shortDescription: "Sorted peanut supply for food production, trading, and feed-related buyer requirements.", variantSummary: "In shell, Unshelled, Bird Feed", url: "/products" }
       ],
-      exportMarketsEyebrow: "Export Focus",
-      exportMarketsTitle: "Built for Buyers Across Key Trade Corridors",
-      exportMarketsIntro: "Our export team plans routing, documents, and buyer-ready packaging market by market. Select a destination to preview how we position each lane.",
+      exportMarketsEyebrow: "Buyer Channels",
+      exportMarketsTitle: "Prepared for the way your business sells",
+      exportMarketsIntro: "Different buyers need different packing, documentation, and product presentation. We prepare Uzbek dried fruit lines for retail shelves, wholesale cartons, food production, and private-label programs.",
       exportMarkets: [
         {
-          countryName: "Germany",
-          shortDescription: "Structured pallet and container supply for Central European wholesale buyers.",
-          statLabel: "Lead Time Window",
-          statValue: "18-24 days",
-          image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=1600&auto=format&fit=crop"
+          countryName: "Retail",
+          shortDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
+          statLabel: "Channel Fit",
+          statValue: "Shelf-ready",
+          image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1600&auto=format&fit=crop"
         },
         {
-          countryName: "Netherlands",
-          shortDescription: "High-frequency logistics support for import partners and regional distribution hubs.",
-          statLabel: "Port Routing",
-          statValue: "Rotterdam-first",
-          image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1600&auto=format&fit=crop"
+          countryName: "Wholesale",
+          shortDescription: "Carton-based supply for importers, distributors, and trading programs.",
+          statLabel: "Format",
+          statValue: "Cartons",
+          image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop"
         },
         {
-          countryName: "UAE",
-          shortDescription: "Flexible mixed-load planning for GCC trade routes and re-export buyers.",
-          statLabel: "Documentation",
-          statValue: "Buyer-ready set",
-          image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1600&auto=format&fit=crop"
+          countryName: "Food Industry",
+          shortDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
+          statLabel: "Use Case",
+          statValue: "Ingredients",
+          image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1600&auto=format&fit=crop"
         },
         {
-          countryName: "Kazakhstan",
-          shortDescription: "Fast regional replenishment with land-linked scheduling from Tashkent.",
-          statLabel: "Transport Mode",
-          statValue: "Road + rail",
-          image: "https://images.unsplash.com/photo-1502920514313-52581002a659?q=80&w=1600&auto=format&fit=crop"
+          countryName: "Private Label",
+          shortDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
+          statLabel: "Branding",
+          statValue: "Buyer label",
+          image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop"
         }
       ]
     }
@@ -124768,9 +124768,14 @@ var initialPages = [
       heroBgImage: "",
       operationsImage: "",
       operationsEyebrow: "Export Operations",
-      destinationEyebrow: "Export Geography",
-      mapSectionTitle: "Our Global Export Network",
-      supplyRoutes: [],
+      destinationEyebrow: "Buyer Channels",
+      mapSectionTitle: "Prepared for the way your business sells",
+      supplyRoutes: [
+        { countryName: "Retail", mapCoordinatesId: "RTL", tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.", image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1400&auto=format&fit=crop" },
+        { countryName: "Wholesale", mapCoordinatesId: "WHL", tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.", image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop" },
+        { countryName: "Food Industry", mapCoordinatesId: "IND", tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.", image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1400&auto=format&fit=crop" },
+        { countryName: "Private Label", mapCoordinatesId: "PL", tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.", image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1400&auto=format&fit=crop" }
+      ],
       logisticsContent: "<p>We handle end-to-end multi-modal transport routing.</p>",
       packagingTitle: "Custom Packaging",
       packagingMethods: "<p>Bulk cartons, vacuum-sealed bags, or retail-ready packaging customized with your brand labels.</p>",
@@ -125552,7 +125557,7 @@ function Footer() {
                 className: "w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "flex gap-4", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "flex flex-col gap-4 sm:flex-row", children: [
               /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
                 "input",
                 {
@@ -125561,10 +125566,10 @@ function Footer() {
                   placeholder: t2("footerEmailPlaceholder"),
                   value: email,
                   onChange: (e) => setEmail(e.target.value),
-                  className: "w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
+                  className: "w-full min-w-0 rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500 sm:flex-1"
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Button, { type: "submit", className: "shrink-0 px-8", disabled: isSubmitting, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(Button, { type: "submit", className: "w-full justify-center px-8 sm:w-auto sm:shrink-0", disabled: isSubmitting, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react2.Send, { size: 18, className: "mr-2" }),
                 isSubmitting ? t2("footerSubmittingLabel") : t2("footerSubmitLabel")
               ] })
@@ -125851,10 +125856,13 @@ function FrontPage() {
   const exportContent = exportPageData?.content;
   const seo = pageSeo.home;
   const certificateScrollerRef = (0, import_react35.useRef)(null);
+  const [certificateScrollState, setCertificateScrollState] = (0, import_react35.useState)({ left: false, right: false });
   const uiLabels = globalSettings.uiLabels || {};
   const showCategoryEyebrow = uiLabels.homeCategoryEyebrowVisible !== false;
   const showCategoryBadges = uiLabels.homeCategoryBadgesVisible !== false;
   const showCategoryTypes = (uiLabels.homeCategoryTypesVisible ?? uiLabels.homeCategoryInfoVisible) !== false;
+  const heroTitle = content.heroTitle || t2("homeHeroTitle");
+  const hasExtendedHeroTitle = heroTitle.length > 46;
   useSEO({
     title: seo?.metaTitle || "HQ Dried Fruits",
     description: seo?.metaDescription || "High-quality sun-dried fruits from Uzbekistan.",
@@ -125872,32 +125880,32 @@ function FrontPage() {
   const configuredExportMarkets = (content.exportMarkets || []).filter((market) => market.countryName?.trim());
   const exportMarkets = configuredExportMarkets.length > 0 ? configuredExportMarkets : [
     {
-      countryName: "Germany",
+      countryName: "Retail",
       shortDescription: t2("homeExportMarketGermanyDesc"),
       statLabel: t2("homeExportStatLeadTime"),
-      statValue: "18-24 days",
-      image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=1600&auto=format&fit=crop"
+      statValue: "Shelf-ready",
+      image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1600&auto=format&fit=crop"
     },
     {
-      countryName: "Netherlands",
+      countryName: "Wholesale",
       shortDescription: t2("homeExportMarketNetherlandsDesc"),
       statLabel: t2("homeExportStatPortRouting"),
-      statValue: "Rotterdam-first",
-      image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1600&auto=format&fit=crop"
+      statValue: "Cartons",
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop"
     },
     {
-      countryName: "UAE",
+      countryName: "Food Industry",
       shortDescription: t2("homeExportMarketUaeDesc"),
       statLabel: t2("homeExportStatDocumentation"),
-      statValue: t2("homeExportStatBuyerReady"),
-      image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1600&auto=format&fit=crop"
+      statValue: "Ingredients",
+      image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1600&auto=format&fit=crop"
     },
     {
-      countryName: "Kazakhstan",
+      countryName: "Private Label",
       shortDescription: t2("homeExportMarketKazakhstanDesc"),
       statLabel: t2("homeExportStatTransportMode"),
-      statValue: t2("homeExportStatRoadRail"),
-      image: "https://images.unsplash.com/photo-1502920514313-52581002a659?q=80&w=1600&auto=format&fit=crop"
+      statValue: "Buyer label",
+      image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1600&auto=format&fit=crop"
     }
   ];
   const [activeExportMarketIndex, setActiveExportMarketIndex] = (0, import_react35.useState)(0);
@@ -125978,6 +125986,37 @@ function FrontPage() {
     const currentIndex = getClosestCertificateIndex();
     scrollToCertificateIndex(currentIndex + direction);
   };
+  (0, import_react35.useEffect)(() => {
+    const scroller = certificateScrollerRef.current;
+    if (!scroller) return;
+    const updateScrollState = () => {
+      const cards = getCertificateCards();
+      const hasOverflow = cards.length > 1 && scroller.scrollWidth - scroller.clientWidth > 4;
+      if (!hasOverflow) {
+        setCertificateScrollState({ left: false, right: false });
+        return;
+      }
+      const scrollerRect = scroller.getBoundingClientRect();
+      const firstCardRect = cards[0]?.getBoundingClientRect();
+      const lastCardRect = cards[cards.length - 1]?.getBoundingClientRect();
+      const tolerance = 6;
+      setCertificateScrollState({
+        left: Boolean(firstCardRect && firstCardRect.left < scrollerRect.left - tolerance),
+        right: Boolean(lastCardRect && lastCardRect.right > scrollerRect.right + tolerance)
+      });
+    };
+    updateScrollState();
+    scroller.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateScrollState);
+    resizeObserver?.observe(scroller);
+    resizeObserver?.observe(scroller.firstElementChild || scroller);
+    return () => {
+      scroller.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+      resizeObserver?.disconnect();
+    };
+  }, [homepageCertificates.length]);
   return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(PageLayout, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("section", { className: "relative h-[48rem] w-full overflow-hidden rounded-b-[4rem] md:h-[45rem] sm:rounded-b-[6rem]", children: [
       /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
@@ -126001,15 +126040,18 @@ function FrontPage() {
           ]
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 pt-32 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "max-w-4xl", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-18 pt-32 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: cn(hasExtendedHeroTitle ? "max-w-5xl" : "max-w-4xl"), children: [
         /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "mb-5 overflow-visible py-2", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
           motion.h1,
           {
             initial: { y: "100%", opacity: 0 },
             animate: { y: 0, opacity: 1 },
             transition: { duration: 0.8, ease: springEasing },
-            className: "font-display text-[clamp(2.5rem,8vw,5.9rem)] font-bold leading-[1.04] text-white",
-            children: content.heroTitle || t2("homeHeroTitle")
+            className: cn(
+              "font-display font-bold text-white [text-wrap:balance]",
+              hasExtendedHeroTitle ? "text-[clamp(2.05rem,6.2vw,4.85rem)] leading-[1.02] sm:text-[clamp(2.45rem,5.8vw,5rem)]" : "text-[clamp(2.5rem,8vw,5.9rem)] leading-[1.04]"
+            ),
+            children: heroTitle
           }
         ) }),
         /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "overflow-hidden mb-8 max-w-xl", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
@@ -126288,7 +126330,7 @@ function FrontPage() {
           transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
           className: "relative flex min-w-0 h-[20.9rem] sm:h-[23.4rem] lg:h-[20.5rem]",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+            certificateScrollState.left ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               "button",
               {
                 type: "button",
@@ -126297,7 +126339,7 @@ function FrontPage() {
                 "aria-label": t2("homeCertificatesPrev"),
                 children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react3.ChevronLeft, { size: 20 })
               }
-            ),
+            ) : null,
             /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               "div",
               {
@@ -126327,7 +126369,7 @@ function FrontPage() {
                 )) })
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+            certificateScrollState.right ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
               "button",
               {
                 type: "button",
@@ -126336,7 +126378,7 @@ function FrontPage() {
                 "aria-label": t2("homeCertificatesNext"),
                 children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react3.ChevronRight, { size: 20 })
               }
-            )
+            ) : null
           ]
         }
       ) }) }) })
@@ -127234,38 +127276,38 @@ var import_lucide_react6 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
 var fallbackSupplyRoutes = [
   {
-    countryName: "Germany",
-    mapCoordinatesId: "DE",
-    tooltipDescription: "Structured pallet and container routing for wholesale buyers across Central Europe.",
-    image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=1400&auto=format&fit=crop"
+    countryName: "Retail",
+    mapCoordinatesId: "RTL",
+    tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
+    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1400&auto=format&fit=crop"
   },
   {
-    countryName: "Netherlands",
-    mapCoordinatesId: "NL",
-    tooltipDescription: "Port-linked import planning for Rotterdam-focused buyers and regional distribution hubs.",
-    image: "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?q=80&w=1400&auto=format&fit=crop"
+    countryName: "Wholesale",
+    mapCoordinatesId: "WHL",
+    tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop"
   },
   {
-    countryName: "UAE",
-    mapCoordinatesId: "AE",
-    tooltipDescription: "Flexible documentation and mixed-load preparation for GCC importers and re-export channels.",
-    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1400&auto=format&fit=crop"
+    countryName: "Food Industry",
+    mapCoordinatesId: "IND",
+    tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
+    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1400&auto=format&fit=crop"
   },
   {
-    countryName: "Kazakhstan",
-    mapCoordinatesId: "KZ",
-    tooltipDescription: "Land-linked replenishment for regional buyers needing shorter scheduling windows.",
-    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=1400&auto=format&fit=crop"
+    countryName: "Private Label",
+    mapCoordinatesId: "PL",
+    tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
+    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1400&auto=format&fit=crop"
   }
 ];
 function getCountryCode(route) {
-  if (/^[a-z]{2}$/i.test(route.mapCoordinatesId.trim())) {
+  if (/^[a-z0-9]{2,4}$/i.test(route.mapCoordinatesId.trim())) {
     return route.mapCoordinatesId.trim().toUpperCase();
   }
   return route.countryName.split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase();
 }
 function getRouteLabel(route) {
-  return getCountryCode(route) === "AE" || route.countryName.toLowerCase() === "united arab emirates" ? "UAE" : route.countryName;
+  return route.countryName;
 }
 function Export() {
   const { pages, pageSeo } = usePages();
@@ -127336,6 +127378,7 @@ function Export() {
     }
   ];
   const certificateScrollerRef = (0, import_react42.useRef)(null);
+  const [certificateScrollState, setCertificateScrollState] = (0, import_react42.useState)({ left: false, right: false });
   function certificationsFallbackImage() {
     return "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop";
   }
@@ -127379,6 +127422,37 @@ function Export() {
     const currentIndex = getClosestCertificateIndex();
     scrollToCertificateIndex(currentIndex + direction);
   };
+  (0, import_react42.useEffect)(() => {
+    const scroller = certificateScrollerRef.current;
+    if (!scroller) return;
+    const updateScrollState = () => {
+      const cards = getCertificateCards();
+      const hasOverflow = cards.length > 1 && scroller.scrollWidth - scroller.clientWidth > 4;
+      if (!hasOverflow) {
+        setCertificateScrollState({ left: false, right: false });
+        return;
+      }
+      const scrollerRect = scroller.getBoundingClientRect();
+      const firstCardRect = cards[0]?.getBoundingClientRect();
+      const lastCardRect = cards[cards.length - 1]?.getBoundingClientRect();
+      const tolerance = 6;
+      setCertificateScrollState({
+        left: Boolean(firstCardRect && firstCardRect.left < scrollerRect.left - tolerance),
+        right: Boolean(lastCardRect && lastCardRect.right > scrollerRect.right + tolerance)
+      });
+    };
+    updateScrollState();
+    scroller.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateScrollState);
+    resizeObserver?.observe(scroller);
+    resizeObserver?.observe(scroller.firstElementChild || scroller);
+    return () => {
+      scroller.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+      resizeObserver?.disconnect();
+    };
+  }, [certifications.length]);
   return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(PageLayout, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("section", { className: "relative h-[42rem] overflow-hidden rounded-b-[4rem] md:h-[40rem] sm:rounded-b-[6rem]", children: [
       content?.heroBgImage ? /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(
@@ -127483,7 +127557,7 @@ function Export() {
         children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-stretch lg:gap-8", children: [
           /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex flex-col", children: [
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "text-sm font-bold uppercase tracking-[0.26em] text-earth-500", children: content?.destinationEyebrow || t2("exportDestinationEyebrow") }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl", children: t2("exportDestinationTitle") }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("h2", { className: "mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl", children: content?.mapSectionTitle || t2("exportDestinationTitle") }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", { className: "mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8", children: t2("exportDestinationDesc") }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2", children: routeMarkets.map((route, index) => {
               const isActive = index === safeActiveRouteIndex;
@@ -127548,7 +127622,7 @@ function Export() {
           transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
           className: "relative flex min-w-0 h-[20.9rem] sm:h-[23.4rem] lg:h-[20.5rem]",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+            certificateScrollState.left ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
               "button",
               {
                 type: "button",
@@ -127557,7 +127631,7 @@ function Export() {
                 "aria-label": t2("exportCertificatesPrev"),
                 children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react6.ChevronLeft, { size: 20 })
               }
-            ),
+            ) : null,
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
               "div",
               {
@@ -127587,7 +127661,7 @@ function Export() {
                 )) })
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+            certificateScrollState.right ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
               "button",
               {
                 type: "button",
@@ -127596,7 +127670,7 @@ function Export() {
                 "aria-label": t2("exportCertificatesNext"),
                 children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react6.ChevronRight, { size: 20 })
               }
-            )
+            ) : null
           ]
         }
       ) }) }) })
@@ -129956,7 +130030,20 @@ function MediaProvider({ children }) {
       }
     }
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(MediaContext.Provider, { value: { images, media, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }, children });
+  const renameMedia = async (url, name) => {
+    const response = await fetch("/api/media/rename", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url, name })
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error || "Failed to rename the file.");
+    }
+    await fetchImages();
+    return data.file;
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(MediaContext.Provider, { value: { images, media, uploadMedia, deleteMedia, renameMedia, refreshMedia: fetchImages, isLoading }, children });
 }
 function useMedia() {
   const context = (0, import_react53.useContext)(MediaContext);
@@ -131336,14 +131423,10 @@ function AboutForm({ content, updateContent }) {
 // src/components/admin/forms/ExportForm.tsx
 var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
 var suggestedRoutes = [
-  { countryName: "Germany", mapCoordinatesId: "DE", tooltipDescription: "Central Europe pallet and container distribution.", image: "" },
-  { countryName: "Poland", mapCoordinatesId: "PL", tooltipDescription: "Fast Eastern Europe routing for wholesale fulfillment.", image: "" },
-  { countryName: "UAE", mapCoordinatesId: "AE", tooltipDescription: "Regional trade hub for GCC importers and re-export buyers.", image: "" },
-  { countryName: "Saudi Arabia", mapCoordinatesId: "SA", tooltipDescription: "Retail and foodservice volume routed through Gulf distribution partners.", image: "" },
-  { countryName: "India", mapCoordinatesId: "IN", tooltipDescription: "High-volume dried fruit demand with flexible multimodal delivery.", image: "" },
-  { countryName: "China", mapCoordinatesId: "CN", tooltipDescription: "Containerized supply lanes for repeat industrial buyers.", image: "" },
-  { countryName: "Turkey", mapCoordinatesId: "TR", tooltipDescription: "Cross-regional trade flow connecting Europe and the Middle East.", image: "" },
-  { countryName: "Kazakhstan", mapCoordinatesId: "KZ", tooltipDescription: "Land-linked regional route for rapid replenishment.", image: "" }
+  { countryName: "Retail", mapCoordinatesId: "RTL", tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.", image: "" },
+  { countryName: "Wholesale", mapCoordinatesId: "WHL", tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.", image: "" },
+  { countryName: "Food Industry", mapCoordinatesId: "IND", tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.", image: "" },
+  { countryName: "Private Label", mapCoordinatesId: "PL", tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.", image: "" }
 ];
 function ExportForm({ content, updateContent }) {
   return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
@@ -131481,26 +131564,30 @@ function ExportForm({ content, updateContent }) {
     /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
       FormSection,
       {
-        title: "3. Global Supply Map",
+        title: "3. Buyer Channels",
         actions: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
           "button",
           {
             type: "button",
             onClick: () => updateContent({ supplyRoutes: suggestedRoutes.map((route) => ({ ...route })) }),
             className: "rounded-full border border-earth-200 bg-earth-50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-earth-700 transition-colors hover:border-earth-300 hover:bg-earth-100",
-            children: "Load Suggested Countries"
+            children: "Load Buyer Channels"
           }
         ),
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("p", { className: "text-sm leading-6 text-slate-500", children: [
-            "Use ISO 2-letter country codes like ",
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "DE" }),
-            " or custom map points as ",
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "52.52,13.40" }),
+            "Use short channel codes like ",
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "RTL" }),
+            ", ",
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "WHL" }),
+            ", ",
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "IND" }),
+            ", or ",
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "font-semibold text-slate-700", children: "PL" }),
             "."
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Destination / Map Eyebrow" }),
+            /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-sm font-medium text-slate-700", children: "Buyer Channel Eyebrow" }),
             /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
               "input",
               {
@@ -131526,19 +131613,19 @@ function ExportForm({ content, updateContent }) {
           /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
             Repeater,
             {
-              label: "Supply Routes/Countries",
+              label: "Buyer Channels",
               items: content.supplyRoutes || [],
               emptyItem: { countryName: "", mapCoordinatesId: "", tooltipDescription: "", image: "" },
               onUpdate: (items) => updateContent({ supplyRoutes: items }),
               renderItem: (item, index, updateItem) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "space-y-4", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "grid grid-cols-2 gap-4", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Country Name" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Channel Name" }),
                     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
                       "input",
                       {
                         type: "text",
-                        placeholder: "e.g. Germany",
+                        placeholder: "e.g. Retail",
                         value: item.countryName,
                         onChange: (e) => updateItem(index, "countryName", e.target.value),
                         className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
@@ -131547,14 +131634,14 @@ function ExportForm({ content, updateContent }) {
                   ] }),
                   /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
                     /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "mb-1 flex items-center justify-between", children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Coordinate/Map ID" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "text-[10px] font-normal text-slate-400", children: "ISO code or lat,lng" })
+                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "block text-xs font-medium text-slate-500", children: "Channel Code" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "text-[10px] font-normal text-slate-400", children: "Short code" })
                     ] }),
                     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
                       "input",
                       {
                         type: "text",
-                        placeholder: "DE or 52.52,13.40",
+                        placeholder: "RTL",
                         value: item.mapCoordinatesId,
                         onChange: (e) => updateItem(index, "mapCoordinatesId", e.target.value),
                         className: "w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500 uppercase"
@@ -131563,7 +131650,7 @@ function ExportForm({ content, updateContent }) {
                   ] })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Short Tooltip Description" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { className: "mb-1 block text-xs font-medium text-slate-500", children: "Channel Description" }),
                   /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
                     "textarea",
                     {
@@ -135737,12 +135824,20 @@ function getMediaDetails(item) {
   if (!item.width || !item.height) return "Image";
   return `${item.width} x ${item.height}${item.aspectRatio ? ` (${item.aspectRatio})` : ""}`;
 }
+function splitDisplayName(name) {
+  const dotIndex = name.lastIndexOf(".");
+  if (dotIndex <= 0) return { base: name, ext: "" };
+  return { base: name.slice(0, dotIndex), ext: name.slice(dotIndex) };
+}
 function AdminMedia() {
-  const { media, uploadMedia, deleteMedia, isLoading } = useMedia();
+  const { media, uploadMedia, deleteMedia, renameMedia, isLoading } = useMedia();
   const [isDragging2, setIsDragging] = (0, import_react73.useState)(false);
   const [uploading, setUploading] = (0, import_react73.useState)(false);
   const fileInputRef = (0, import_react73.useRef)(null);
   const [copiedId, setCopiedId] = (0, import_react73.useState)(null);
+  const [editingUrl, setEditingUrl] = (0, import_react73.useState)(null);
+  const [renameValue, setRenameValue] = (0, import_react73.useState)("");
+  const [renamingUrl, setRenamingUrl] = (0, import_react73.useState)(null);
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
@@ -135787,6 +135882,31 @@ function AdminMedia() {
       setCopiedId(id3);
       setTimeout(() => setCopiedId(null), 2e3);
     });
+  };
+  const startRename = (item) => {
+    const { base } = splitDisplayName(item.name || item.url.split("/").pop() || "File");
+    setEditingUrl(item.url);
+    setRenameValue(base);
+  };
+  const cancelRename = () => {
+    setEditingUrl(null);
+    setRenameValue("");
+  };
+  const submitRename = async (item) => {
+    const nextName = renameValue.trim();
+    if (!nextName) {
+      alert("File name cannot be empty.");
+      return;
+    }
+    setRenamingUrl(item.url);
+    try {
+      await renameMedia(item.url, nextName);
+      cancelRename();
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Failed to rename the file.");
+    } finally {
+      setRenamingUrl(null);
+    }
   };
   return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "space-y-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { children: [
@@ -135841,6 +135961,8 @@ function AdminMedia() {
         const url = item.url;
         const isImage2 = item.type.startsWith("image/");
         const name = item.name || url.split("/").pop() || "File";
+        const { ext } = splitDisplayName(name);
+        const isEditing = editingUrl === url;
         return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
           motion.div,
           {
@@ -135886,7 +136008,56 @@ function AdminMedia() {
                 ] })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "p-3 border-t border-slate-200 bg-white", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-sm font-medium text-slate-900 truncate", title: name, children: name }),
+                isEditing ? /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "flex items-center gap-1.5", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                    "input",
+                    {
+                      autoFocus: true,
+                      value: renameValue,
+                      onChange: (e) => setRenameValue(e.target.value),
+                      onKeyDown: (e) => {
+                        if (e.key === "Enter") void submitRename(item);
+                        if (e.key === "Escape") cancelRename();
+                      },
+                      className: "min-w-0 flex-1 rounded-md border border-slate-300 px-2 py-1 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-earth-500",
+                      "aria-label": "New file name"
+                    }
+                  ),
+                  ext ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { className: "max-w-[3.5rem] truncate text-xs text-slate-500", children: ext }) : null,
+                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: () => submitRename(item),
+                      disabled: renamingUrl === url,
+                      className: "rounded-md p-1.5 text-emerald-600 hover:bg-emerald-50 disabled:opacity-50",
+                      title: "Save file name",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react24.Check, { size: 16 })
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: cancelRename,
+                      className: "rounded-md p-1.5 text-slate-500 hover:bg-slate-100",
+                      title: "Cancel rename",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react24.X, { size: 16 })
+                    }
+                  )
+                ] }) : /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "flex items-center gap-2", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "min-w-0 flex-1 truncate text-sm font-medium text-slate-900", title: name, children: name }),
+                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: () => startRename(item),
+                      className: "shrink-0 rounded-md p-1.5 text-slate-400 transition-colors hover:bg-earth-50 hover:text-earth-600",
+                      title: "Rename file",
+                      children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react24.Pencil, { size: 15 })
+                    }
+                  )
+                ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "mt-2 space-y-1 text-xs text-slate-500", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { children: formatFileSize(item.size) }),
                   /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "truncate", title: getMediaDetails(item), children: getMediaDetails(item) })
@@ -136374,9 +136545,9 @@ var defaultGlobalSettings = {
     transportationDesc: "Cost-effective FCL (Full Container Load) and LCL shipments via major ports and the trans-Eurasian rail network.",
     documentationTitle: "Customs Clearance",
     documentationDesc: "Full documentation support including phytosanitary certificates, certificates of origin, and EUR.1.",
-    destinationBreakdownEyebrow: "Destination Breakdown",
-    destinationBreakdownTitle: "How each destination lane is prepared before dispatch",
-    destinationBreakdownDesc: "Export planning changes by market. Select a destination to preview the lane focus, the route context, and how we position packing and documentation around buyer expectations.",
+    destinationBreakdownEyebrow: "Buyer Channels",
+    destinationBreakdownTitle: "Prepared for the way your business sells",
+    destinationBreakdownDesc: "Different buyers need different packing, documentation, and product presentation.",
     qualityGuaranteeTitle: "The Quality Guarantee",
     qualityGuaranteeDesc: "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
     moistureControlLabel: "Moisture Control",
@@ -136479,9 +136650,14 @@ var defaultExportPage = {
   heroBgImage: "",
   operationsImage: "",
   operationsEyebrow: "Export Operations",
-  destinationEyebrow: "Export Geography",
-  mapSectionTitle: "Our Global Export Network",
-  supplyRoutes: [],
+  destinationEyebrow: "Buyer Channels",
+  mapSectionTitle: "Prepared for the way your business sells",
+  supplyRoutes: [
+    { countryName: "Retail", mapCoordinatesId: "RTL", tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.", image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1400&auto=format&fit=crop" },
+    { countryName: "Wholesale", mapCoordinatesId: "WHL", tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.", image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop" },
+    { countryName: "Food Industry", mapCoordinatesId: "IND", tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.", image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1400&auto=format&fit=crop" },
+    { countryName: "Private Label", mapCoordinatesId: "PL", tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.", image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1400&auto=format&fit=crop" }
+  ],
   logisticsContent: "<p>End-to-end multi-modal transport routing.</p>",
   packagingTitle: "Custom Packaging",
   packagingMethods: "<p>Bulk cartons, vacuum-sealed bags, or retail-ready packaging customized with your brand labels.</p>",
@@ -136761,6 +136937,16 @@ function resolveUploadedFilePath(url) {
   const filePath = import_path2.default.resolve(uploadsDir, filename);
   return filePath.startsWith(`${uploadRoot}${import_path2.default.sep}`) ? filePath : null;
 }
+function getAvailableUploadPath(filename) {
+  const parsed = import_path2.default.parse(filename);
+  let candidate = filename;
+  let counter = 2;
+  while (import_fs.default.existsSync(import_path2.default.join(uploadsDir, candidate))) {
+    candidate = `${parsed.name}-${counter}${parsed.ext}`;
+    counter += 1;
+  }
+  return import_path2.default.join(uploadsDir, candidate);
+}
 function getUploadMimeType(filename) {
   const ext = import_path2.default.extname(filename).toLowerCase();
   const types = {
@@ -136869,10 +137055,40 @@ function getUploadedFileMetadata(filename) {
     aspectRatio: getAspectRatio(dimensions.width, dimensions.height)
   };
 }
+async function replaceUploadedUrlReferences(oldUrl, newUrl) {
+  const replacements = [
+    ["global_settings", ["header_logo", "footer_logo", "favicon", "ui_labels"]],
+    ["page_seo", ["og_title", "image_alt"]],
+    ["home_page", ["content"]],
+    ["about_page", ["content"]],
+    ["privacy_page", ["content"]],
+    ["terms_page", ["content"]],
+    ["products_page", ["hero_bg_image", "intro_image", "ordering_bg_image", "detail_ui"]],
+    ["export_page", ["hero_bg_image", "operations_image", "certifications_gallery"]],
+    ["contacts_page", ["headquarters_image"]],
+    ["products", ["image", "image_gallery", "content_sections", "technical_passport", "seo"]]
+  ];
+  for (const [table, columns] of replacements) {
+    for (const column of columns) {
+      await db.query(
+        `UPDATE ${table} SET ${column} = REPLACE(${column}, $1, $2) WHERE ${column} LIKE $3`,
+        [oldUrl, newUrl, `%${oldUrl}%`]
+      );
+    }
+  }
+}
 var upload = (0, import_multer.default)({ storage: import_multer.default.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 var app = (0, import_express.default)();
 app.use(import_express.default.json({ limit: "10mb" }));
 app.use(import_express.default.urlencoded({ extended: true, limit: "10mb" }));
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+  }
+  next();
+});
 app.use("/uploads", import_express.default.static(uploadsDir));
 var activeSessions = /* @__PURE__ */ new Set();
 function generateToken() {
@@ -138102,6 +138318,47 @@ app.post("/api/media/delete", (req, res) => {
     res.status(500).json({ error: "Failed to delete from disk" });
   }
 });
+app.post("/api/media/rename", async (req, res) => {
+  try {
+    const oldUrl = asString(req.body?.url);
+    const requestedName = asString(req.body?.name);
+    if (!oldUrl || !requestedName) return res.status(400).json({ error: "File URL and name are required" });
+    const oldPath = resolveUploadedFilePath(oldUrl);
+    if (!oldPath || !import_fs.default.existsSync(oldPath)) return res.status(404).json({ error: "File not found" });
+    const oldFilename = import_path2.default.basename(oldPath);
+    const ext = import_path2.default.extname(oldFilename).toLowerCase();
+    const existingPrefix = oldFilename.match(/^(\d+-\d+-)/)?.[1] || "";
+    const nextBaseName = sanitizeUploadBaseName(requestedName);
+    const nextFilename = `${existingPrefix}${nextBaseName}${ext}`;
+    if (nextFilename === oldFilename) {
+      return res.json({
+        success: true,
+        oldUrl,
+        newUrl: oldUrl,
+        file: getUploadedFileMetadata(oldFilename)
+      });
+    }
+    const nextPath = getAvailableUploadPath(nextFilename);
+    const finalFilename = import_path2.default.basename(nextPath);
+    const newUrl = `/uploads/${finalFilename}`;
+    import_fs.default.renameSync(oldPath, nextPath);
+    try {
+      await replaceUploadedUrlReferences(oldUrl, newUrl);
+    } catch (error) {
+      import_fs.default.renameSync(nextPath, oldPath);
+      throw error;
+    }
+    res.json({
+      success: true,
+      oldUrl,
+      newUrl,
+      file: getUploadedFileMetadata(finalFilename)
+    });
+  } catch (error) {
+    console.error("[Media Rename Error]", error);
+    res.status(500).json({ error: "Failed to rename file" });
+  }
+});
 app.get("/robots.txt", async (req, res) => {
   res.type("text/plain").send(`User-agent: *
 Allow: /
@@ -138155,12 +138412,22 @@ ${[selectorEntry, ...staticEntries, ...productEntries].join("\n")}
   }
 });
 if (import_fs.default.existsSync(distDir)) {
-  app.use(import_express.default.static(distDir, { index: false }));
+  app.use(import_express.default.static(distDir, {
+    index: false,
+    setHeaders: (res, filePath) => {
+      if (filePath.includes(`${import_path2.default.sep}assets${import_path2.default.sep}`)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      }
+    }
+  }));
   app.get("*", async (req, res, next) => {
     if (req.path.startsWith("/api") || req.path.startsWith("/uploads")) return next();
     try {
       const meta = await buildRenderMeta(req);
       if (meta.redirectTo) return res.redirect(301, meta.redirectTo);
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
       const appHtml = (0, import_server.renderToString)(
         import_react78.default.createElement(
           import_server2.StaticRouter,

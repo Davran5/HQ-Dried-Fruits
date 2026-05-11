@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, FileText, Package, ShieldCheck, Ship } from "lucide-react";
 import { PageLayout } from "@/src/components/layout/PageLayout";
@@ -9,33 +9,33 @@ import { ExportContent, SupplyRoute } from "@/src/types/page";
 
 const fallbackSupplyRoutes: SupplyRoute[] = [
   {
-    countryName: "Germany",
-    mapCoordinatesId: "DE",
-    tooltipDescription: "Structured pallet and container routing for wholesale buyers across Central Europe.",
-    image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=1400&auto=format&fit=crop",
+    countryName: "Retail",
+    mapCoordinatesId: "RTL",
+    tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.",
+    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    countryName: "Netherlands",
-    mapCoordinatesId: "NL",
-    tooltipDescription: "Port-linked import planning for Rotterdam-focused buyers and regional distribution hubs.",
-    image: "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?q=80&w=1400&auto=format&fit=crop",
+    countryName: "Wholesale",
+    mapCoordinatesId: "WHL",
+    tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    countryName: "UAE",
-    mapCoordinatesId: "AE",
-    tooltipDescription: "Flexible documentation and mixed-load preparation for GCC importers and re-export channels.",
-    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1400&auto=format&fit=crop",
+    countryName: "Food Industry",
+    mapCoordinatesId: "IND",
+    tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.",
+    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    countryName: "Kazakhstan",
-    mapCoordinatesId: "KZ",
-    tooltipDescription: "Land-linked replenishment for regional buyers needing shorter scheduling windows.",
-    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=1400&auto=format&fit=crop",
+    countryName: "Private Label",
+    mapCoordinatesId: "PL",
+    tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.",
+    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1400&auto=format&fit=crop",
   },
 ];
 
 function getCountryCode(route: SupplyRoute) {
-  if (/^[a-z]{2}$/i.test(route.mapCoordinatesId.trim())) {
+  if (/^[a-z0-9]{2,4}$/i.test(route.mapCoordinatesId.trim())) {
     return route.mapCoordinatesId.trim().toUpperCase();
   }
 
@@ -48,9 +48,7 @@ function getCountryCode(route: SupplyRoute) {
 }
 
 function getRouteLabel(route: SupplyRoute) {
-  return getCountryCode(route) === "AE" || route.countryName.toLowerCase() === "united arab emirates"
-    ? "UAE"
-    : route.countryName;
+  return route.countryName;
 }
 
 export function Export() {
@@ -141,6 +139,7 @@ export function Export() {
           },
         ];
   const certificateScrollerRef = useRef<HTMLDivElement | null>(null);
+  const [certificateScrollState, setCertificateScrollState] = useState({ left: false, right: false });
 
   function certificationsFallbackImage() {
     return "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1600&auto=format&fit=crop";
@@ -199,6 +198,42 @@ export function Export() {
     const currentIndex = getClosestCertificateIndex();
     scrollToCertificateIndex(currentIndex + direction);
   };
+
+  useEffect(() => {
+    const scroller = certificateScrollerRef.current;
+    if (!scroller) return;
+
+    const updateScrollState = () => {
+      const cards = getCertificateCards();
+      const hasOverflow = cards.length > 1 && scroller.scrollWidth - scroller.clientWidth > 4;
+      if (!hasOverflow) {
+        setCertificateScrollState({ left: false, right: false });
+        return;
+      }
+
+      const scrollerRect = scroller.getBoundingClientRect();
+      const firstCardRect = cards[0]?.getBoundingClientRect();
+      const lastCardRect = cards[cards.length - 1]?.getBoundingClientRect();
+      const tolerance = 6;
+      setCertificateScrollState({
+        left: Boolean(firstCardRect && firstCardRect.left < scrollerRect.left - tolerance),
+        right: Boolean(lastCardRect && lastCardRect.right > scrollerRect.right + tolerance),
+      });
+    };
+
+    updateScrollState();
+    scroller.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateScrollState);
+    resizeObserver?.observe(scroller);
+    resizeObserver?.observe(scroller.firstElementChild || scroller);
+
+    return () => {
+      scroller.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+      resizeObserver?.disconnect();
+    };
+  }, [certifications.length]);
 
   return (
     <PageLayout>
@@ -317,7 +352,7 @@ export function Export() {
                   {content?.destinationEyebrow || t("exportDestinationEyebrow")}
               </p>
               <h2 className="mt-4 max-w-[14ch] font-display text-[2.35rem] font-bold leading-tight text-earth-900 sm:text-5xl">
-                {t("exportDestinationTitle")}
+                {content?.mapSectionTitle || t("exportDestinationTitle")}
               </h2>
               <p className="mt-4 max-w-xl text-base leading-7 text-earth-700 sm:mt-5 sm:text-lg sm:leading-8">
                 {t("exportDestinationDesc")}
@@ -417,14 +452,16 @@ export function Export() {
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   className="relative flex min-w-0 h-[20.9rem] sm:h-[23.4rem] lg:h-[20.5rem]"
                 >
-                  <button
-                    type="button"
-                    onClick={() => scrollCertificatesBy(-1)}
-                    className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:left-0 sm:-translate-x-1/2 sm:p-4"
-                    aria-label={t("exportCertificatesPrev")}
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
+                  {certificateScrollState.left ? (
+                    <button
+                      type="button"
+                      onClick={() => scrollCertificatesBy(-1)}
+                      className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:left-0 sm:-translate-x-1/2 sm:p-4"
+                      aria-label={t("exportCertificatesPrev")}
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                  ) : null}
 
                   <div
                     ref={certificateScrollerRef}
@@ -457,14 +494,16 @@ export function Export() {
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => scrollCertificatesBy(1)}
-                    className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:right-0 sm:translate-x-1/2 sm:p-4"
-                    aria-label={t("exportCertificatesNext")}
-                  >
-                    <ChevronRight size={20} />
-                  </button>
+                  {certificateScrollState.right ? (
+                    <button
+                      type="button"
+                      onClick={() => scrollCertificatesBy(1)}
+                      className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-earth-300/80 bg-earth-50/95 p-3 text-earth-700 shadow-sm transition-all hover:border-earth-400 hover:bg-white active:scale-95 sm:right-0 sm:translate-x-1/2 sm:p-4"
+                      aria-label={t("exportCertificatesNext")}
+                    >
+                      <ChevronRight size={20} />
+                    </button>
+                  ) : null}
                 </motion.div>
               </div>
             </div>

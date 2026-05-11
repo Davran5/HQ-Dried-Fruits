@@ -11,14 +11,10 @@ interface Props {
 }
 
 const suggestedRoutes: SupplyRoute[] = [
-    { countryName: "Germany", mapCoordinatesId: "DE", tooltipDescription: "Central Europe pallet and container distribution.", image: "" },
-    { countryName: "Poland", mapCoordinatesId: "PL", tooltipDescription: "Fast Eastern Europe routing for wholesale fulfillment.", image: "" },
-    { countryName: "UAE", mapCoordinatesId: "AE", tooltipDescription: "Regional trade hub for GCC importers and re-export buyers.", image: "" },
-    { countryName: "Saudi Arabia", mapCoordinatesId: "SA", tooltipDescription: "Retail and foodservice volume routed through Gulf distribution partners.", image: "" },
-    { countryName: "India", mapCoordinatesId: "IN", tooltipDescription: "High-volume dried fruit demand with flexible multimodal delivery.", image: "" },
-    { countryName: "China", mapCoordinatesId: "CN", tooltipDescription: "Containerized supply lanes for repeat industrial buyers.", image: "" },
-    { countryName: "Turkey", mapCoordinatesId: "TR", tooltipDescription: "Cross-regional trade flow connecting Europe and the Middle East.", image: "" },
-    { countryName: "Kazakhstan", mapCoordinatesId: "KZ", tooltipDescription: "Land-linked regional route for rapid replenishment.", image: "" },
+    { countryName: "Retail", mapCoordinatesId: "RTL", tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.", image: "" },
+    { countryName: "Wholesale", mapCoordinatesId: "WHL", tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.", image: "" },
+    { countryName: "Food Industry", mapCoordinatesId: "IND", tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.", image: "" },
+    { countryName: "Private Label", mapCoordinatesId: "PL", tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.", image: "" },
 ];
 
 export function ExportForm({ content, updateContent }: Props) {
@@ -128,24 +124,24 @@ export function ExportForm({ content, updateContent }: Props) {
             </FormSection>
 
             <FormSection
-                title="3. Global Supply Map"
+                title="3. Buyer Channels"
                 actions={
                     <button
                         type="button"
                         onClick={() => updateContent({ supplyRoutes: suggestedRoutes.map((route) => ({ ...route })) })}
                         className="rounded-full border border-earth-200 bg-earth-50 px-4 py-2 text-xs font-bold uppercase tracking-widest text-earth-700 transition-colors hover:border-earth-300 hover:bg-earth-100"
                     >
-                        Load Suggested Countries
+                        Load Buyer Channels
                     </button>
                 }
             >
 
                 <p className="text-sm leading-6 text-slate-500">
-                    Use ISO 2-letter country codes like <span className="font-semibold text-slate-700">DE</span> or custom map points as <span className="font-semibold text-slate-700">52.52,13.40</span>.
+                    Use short channel codes like <span className="font-semibold text-slate-700">RTL</span>, <span className="font-semibold text-slate-700">WHL</span>, <span className="font-semibold text-slate-700">IND</span>, or <span className="font-semibold text-slate-700">PL</span>.
                 </p>
 
                 <div>
-                    <label className="mb-1 block text-sm font-medium text-slate-700">Destination / Map Eyebrow</label>
+                    <label className="mb-1 block text-sm font-medium text-slate-700">Buyer Channel Eyebrow</label>
                     <input
                         type="text"
                         value={content.destinationEyebrow || ""}
@@ -165,7 +161,7 @@ export function ExportForm({ content, updateContent }: Props) {
                 </div>
 
                 <Repeater<SupplyRoute>
-                    label="Supply Routes/Countries"
+                    label="Buyer Channels"
                     items={content.supplyRoutes || []}
                     emptyItem={{ countryName: "", mapCoordinatesId: "", tooltipDescription: "", image: "" }}
                     onUpdate={(items) => updateContent({ supplyRoutes: items })}
@@ -173,10 +169,10 @@ export function ExportForm({ content, updateContent }: Props) {
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="mb-1 block text-xs font-medium text-slate-500">Country Name</label>
+                                    <label className="mb-1 block text-xs font-medium text-slate-500">Channel Name</label>
                                     <input
                                         type="text"
-                                        placeholder="e.g. Germany"
+                                        placeholder="e.g. Retail"
                                         value={item.countryName}
                                         onChange={e => updateItem(index, "countryName", e.target.value)}
                                         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500"
@@ -184,12 +180,12 @@ export function ExportForm({ content, updateContent }: Props) {
                                 </div>
                                 <div>
                                     <div className="mb-1 flex items-center justify-between">
-                                        <label className="block text-xs font-medium text-slate-500">Coordinate/Map ID</label>
-                                        <span className="text-[10px] font-normal text-slate-400">ISO code or lat,lng</span>
+                                        <label className="block text-xs font-medium text-slate-500">Channel Code</label>
+                                        <span className="text-[10px] font-normal text-slate-400">Short code</span>
                                     </div>
                                     <input
                                         type="text"
-                                        placeholder="DE or 52.52,13.40"
+                                        placeholder="RTL"
                                         value={item.mapCoordinatesId}
                                         onChange={e => updateItem(index, "mapCoordinatesId", e.target.value)}
                                         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-earth-500 uppercase"
@@ -198,7 +194,7 @@ export function ExportForm({ content, updateContent }: Props) {
                             </div>
 
                             <div>
-                                <label className="mb-1 block text-xs font-medium text-slate-500">Short Tooltip Description</label>
+                                <label className="mb-1 block text-xs font-medium text-slate-500">Channel Description</label>
                                 <textarea
                                     rows={2}
                                     value={item.tooltipDescription}

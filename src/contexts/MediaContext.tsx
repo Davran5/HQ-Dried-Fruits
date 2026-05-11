@@ -15,6 +15,7 @@ interface MediaContextType {
     media: MediaFile[];
     uploadMedia: (file: File) => Promise<string>;
     deleteMedia: (url: string) => Promise<void>;
+    renameMedia: (url: string, name: string) => Promise<MediaFile>;
     refreshMedia: () => Promise<void>;
     isLoading: boolean;
 }
@@ -125,8 +126,24 @@ export function MediaProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    const renameMedia = async (url: string, name: string) => {
+        const response = await fetch("/api/media/rename", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url, name }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data?.error || "Failed to rename the file.");
+        }
+
+        await fetchImages();
+        return data.file as MediaFile;
+    };
+
     return (
-        <MediaContext.Provider value={{ images, media, uploadMedia, deleteMedia, refreshMedia: fetchImages, isLoading }}>
+        <MediaContext.Provider value={{ images, media, uploadMedia, deleteMedia, renameMedia, refreshMedia: fetchImages, isLoading }}>
             {children}
         </MediaContext.Provider>
     );

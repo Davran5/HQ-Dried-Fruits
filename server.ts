@@ -324,7 +324,7 @@ const defaultGlobalSettings = {
     packagingTitle: "Custom Packaging", packagingDesc: "Bulk cartons, vacuum-sealed bags, or retail-ready packaging customized with your brand labels.",
     transportationTitle: "Ocean & Rail Freight", transportationDesc: "Cost-effective FCL (Full Container Load) and LCL shipments via major ports and the trans-Eurasian rail network.",
     documentationTitle: "Customs Clearance", documentationDesc: "Full documentation support including phytosanitary certificates, certificates of origin, and EUR.1.",
-    destinationBreakdownEyebrow: "Destination Breakdown", destinationBreakdownTitle: "How each destination lane is prepared before dispatch", destinationBreakdownDesc: "Export planning changes by market. Select a destination to preview the lane focus, the route context, and how we position packing and documentation around buyer expectations.",
+    destinationBreakdownEyebrow: "Buyer Channels", destinationBreakdownTitle: "Prepared for the way your business sells", destinationBreakdownDesc: "Different buyers need different packing, documentation, and product presentation.",
     qualityGuaranteeTitle: "The Quality Guarantee", qualityGuaranteeDesc: "Our processing facilities utilize advanced laser sorting and X-ray inspection to guarantee 99.9% purity.",
     moistureControlLabel: "Moisture Control", moistureControlDesc: "Strictly maintained at 18-22% for optimal shelf life.",
     sizeCalibrationLabel: "Size Calibration", sizeCalibrationDesc: "Laser-graded for uniform sizing (Jumbo, Large, Medium).",
@@ -391,8 +391,15 @@ const defaultProductsPage = {
 const defaultExportPage = {
   heroTitle: "Our Global Export Network", heroSubtitle: "Seamless global logistics from the heart of the Silk Road to your warehouse.", heroBgImage: "",
   operationsImage: "",
-  operationsEyebrow: "Export Operations", destinationEyebrow: "Export Geography",
-  mapSectionTitle: "Our Global Export Network", supplyRoutes: [], logisticsContent: "<p>End-to-end multi-modal transport routing.</p>",
+  operationsEyebrow: "Export Operations", destinationEyebrow: "Buyer Channels",
+  mapSectionTitle: "Prepared for the way your business sells",
+  supplyRoutes: [
+    { countryName: "Retail", mapCoordinatesId: "RTL", tooltipDescription: "Shelf-ready dried fruit lines for pouch, tray, and branded pack programs.", image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?q=80&w=1400&auto=format&fit=crop" },
+    { countryName: "Wholesale", mapCoordinatesId: "WHL", tooltipDescription: "Carton-based supply for importers, distributors, and trading programs.", image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop" },
+    { countryName: "Food Industry", mapCoordinatesId: "IND", tooltipDescription: "Ingredient-ready fruit and peanut lines for bakeries, confectionery, snacks, cereals, and processing.", image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1400&auto=format&fit=crop" },
+    { countryName: "Private Label", mapCoordinatesId: "PL", tooltipDescription: "Buyer-brand packing discussions with label, carton, and repeat-order consistency in mind.", image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=1400&auto=format&fit=crop" },
+  ],
+  logisticsContent: "<p>End-to-end multi-modal transport routing.</p>",
   packagingTitle: "Custom Packaging", packagingMethods: "<p>Bulk cartons, vacuum-sealed bags, or retail-ready packaging customized with your brand labels.</p>",
   transportationTitle: "Ocean & Rail Freight", transportationMethods: "<p>Cost-effective FCL (Full Container Load) and LCL shipments via major ports and the trans-Eurasian rail network.</p>",
   documentationTitle: "Customs Clearance", documentationContent: "<p>Full documentation support including phytosanitary certificates, certificates of origin, and EUR.1.</p>",
@@ -708,6 +715,19 @@ function resolveUploadedFilePath(url: string) {
   return filePath.startsWith(`${uploadRoot}${path.sep}`) ? filePath : null;
 }
 
+function getAvailableUploadPath(filename: string) {
+  const parsed = path.parse(filename);
+  let candidate = filename;
+  let counter = 2;
+
+  while (fs.existsSync(path.join(uploadsDir, candidate))) {
+    candidate = `${parsed.name}-${counter}${parsed.ext}`;
+    counter += 1;
+  }
+
+  return path.join(uploadsDir, candidate);
+}
+
 function getUploadMimeType(filename: string) {
   const ext = path.extname(filename).toLowerCase();
   const types: Record<string, string> = {
@@ -834,11 +854,43 @@ function getUploadedFileMetadata(filename: string) {
   };
 }
 
+async function replaceUploadedUrlReferences(oldUrl: string, newUrl: string) {
+  const replacements = [
+    ["global_settings", ["header_logo", "footer_logo", "favicon", "ui_labels"]],
+    ["page_seo", ["og_title", "image_alt"]],
+    ["home_page", ["content"]],
+    ["about_page", ["content"]],
+    ["privacy_page", ["content"]],
+    ["terms_page", ["content"]],
+    ["products_page", ["hero_bg_image", "intro_image", "ordering_bg_image", "detail_ui"]],
+    ["export_page", ["hero_bg_image", "operations_image", "certifications_gallery"]],
+    ["contacts_page", ["headquarters_image"]],
+    ["products", ["image", "image_gallery", "content_sections", "technical_passport", "seo"]],
+  ] as const;
+
+  for (const [table, columns] of replacements) {
+    for (const column of columns) {
+      await db.query(
+        `UPDATE ${table} SET ${column} = REPLACE(${column}, $1, $2) WHERE ${column} LIKE $3`,
+        [oldUrl, newUrl, `%${oldUrl}%`],
+      );
+    }
+  }
+}
+
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+  }
+  next();
+});
 app.use("/uploads", express.static(uploadsDir));
 
 const activeSessions = new Set<string>();
@@ -2099,6 +2151,53 @@ app.post("/api/media/delete", (req, res) => {
   } catch (error) { res.status(500).json({ error: "Failed to delete from disk" }); }
 });
 
+app.post("/api/media/rename", async (req, res) => {
+  try {
+    const oldUrl = asString(req.body?.url);
+    const requestedName = asString(req.body?.name);
+    if (!oldUrl || !requestedName) return res.status(400).json({ error: "File URL and name are required" });
+
+    const oldPath = resolveUploadedFilePath(oldUrl);
+    if (!oldPath || !fs.existsSync(oldPath)) return res.status(404).json({ error: "File not found" });
+
+    const oldFilename = path.basename(oldPath);
+    const ext = path.extname(oldFilename).toLowerCase();
+    const existingPrefix = oldFilename.match(/^(\d+-\d+-)/)?.[1] || "";
+    const nextBaseName = sanitizeUploadBaseName(requestedName);
+    const nextFilename = `${existingPrefix}${nextBaseName}${ext}`;
+    if (nextFilename === oldFilename) {
+      return res.json({
+        success: true,
+        oldUrl,
+        newUrl: oldUrl,
+        file: getUploadedFileMetadata(oldFilename),
+      });
+    }
+
+    const nextPath = getAvailableUploadPath(nextFilename);
+    const finalFilename = path.basename(nextPath);
+    const newUrl = `/uploads/${finalFilename}`;
+
+    fs.renameSync(oldPath, nextPath);
+    try {
+      await replaceUploadedUrlReferences(oldUrl, newUrl);
+    } catch (error) {
+      fs.renameSync(nextPath, oldPath);
+      throw error;
+    }
+
+    res.json({
+      success: true,
+      oldUrl,
+      newUrl,
+      file: getUploadedFileMetadata(finalFilename),
+    });
+  } catch (error) {
+    console.error("[Media Rename Error]", error);
+    res.status(500).json({ error: "Failed to rename file" });
+  }
+});
+
 app.get("/robots.txt", async (req, res) => {
   res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /control-room\nSitemap: ${getOrigin(req)}/sitemap.xml\n`);
 });
@@ -2160,12 +2259,22 @@ app.get("/sitemap.xml", async (req, res) => {
 });
 
 if (fs.existsSync(distDir)) {
-  app.use(express.static(distDir, { index: false }));
+  app.use(express.static(distDir, {
+    index: false,
+    setHeaders: (res, filePath) => {
+      if (filePath.includes(`${path.sep}assets${path.sep}`)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      }
+    },
+  }));
   app.get("*", async (req, res, next) => {
     if (req.path.startsWith("/api") || req.path.startsWith("/uploads")) return next();
     try {
       const meta = await buildRenderMeta(req);
       if (meta.redirectTo) return res.redirect(301, meta.redirectTo);
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
       const appHtml = renderToString(
         React.createElement(
           StaticRouter,

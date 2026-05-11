@@ -138,16 +138,16 @@ export function Footer() {
                   onChange={(e) => setCompany(e.target.value)}
                   className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
                 />
-                <div className="flex gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row">
                   <input
                     type="email"
                     required
                     placeholder={t("footerEmailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500"
+                    className="w-full min-w-0 rounded-xl border border-earth-700 bg-earth-900/50 px-4 py-3 text-white outline-none transition-all placeholder-earth-400 focus:ring-2 focus:ring-earth-500 sm:flex-1"
                   />
-                  <Button type="submit" className="shrink-0 px-8" disabled={isSubmitting}>
+                  <Button type="submit" className="w-full justify-center px-8 sm:w-auto sm:shrink-0" disabled={isSubmitting}>
                     <Send size={18} className="mr-2" />
                     {isSubmitting
                       ? t("footerSubmittingLabel")
