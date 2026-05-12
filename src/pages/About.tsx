@@ -29,14 +29,9 @@ export function About() {
   const [activeProductionIndex, setActiveProductionIndex] = useState(0);
   const [revealedProductionIndex, setRevealedProductionIndex] = useState(0);
   const [isDesktopFacilityViewport, setIsDesktopFacilityViewport] = useState(false);
-  const heritageImages =
-    content?.heritageImagery?.length > 0
-      ? content.heritageImagery.slice(0, 3)
-      : [
-          "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop",
-        ];
+  const companyImage =
+    content?.heritageImagery?.find(Boolean) ||
+    "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop";
   const ownProductionItems = normalizeAboutProductionItems(content?.ownProductionItems, locale);
   const aboutHeroImage =
     content?.heroBgImage ||
@@ -218,29 +213,14 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-120px" }}
               transition={{ duration: 0.65, delay: 0.1 }}
-              className="grid grid-cols-2 gap-4 sm:gap-5"
+              className="min-h-full overflow-hidden rounded-[2.75rem] border border-earth-100 bg-white shadow-[0_24px_50px_rgba(84,39,70,0.08)]"
             >
-              <div className="overflow-hidden rounded-[2.5rem] border border-earth-100 bg-white shadow-[0_24px_50px_rgba(84,39,70,0.08)] col-span-2">
-                <PositionedImage
-                  src={heritageImages[0]}
-                  alt="Company heritage"
-                  className="h-[11.5rem] w-full object-cover sm:h-[16.8rem]"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              {heritageImages.slice(1).map((image, index) => (
-                <div
-                  key={`${image}-${index}`}
-                  className="overflow-hidden rounded-[2rem] border border-earth-100 bg-white shadow-[0_20px_40px_rgba(84,39,70,0.07)]"
-                >
-                  <PositionedImage
-                    src={image}
-                    alt={`Company story ${index + 2}`}
-                    className="h-[10.2rem] w-full object-cover sm:h-[15.1rem]"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-              ))}
+              <PositionedImage
+                src={companyImage}
+                alt="Company heritage"
+                className="h-[22rem] w-full object-cover sm:h-[28rem] lg:h-full"
+                referrerPolicy="no-referrer"
+              />
             </motion.div>
           </div>
         </div>

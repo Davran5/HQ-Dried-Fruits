@@ -4,7 +4,6 @@ import { CheckCircle2, ArrowRight, Loader2, Download } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageLayout } from "@/src/components/layout/PageLayout";
 import { Button } from "@/src/components/ui/Button";
-import { PositionedImage } from "@/src/components/ui/PositionedImage";
 import { useSEO } from "@/src/hooks/useSEO";
 import { usePages } from "@/src/contexts/PageContext";
 import { useProducts } from "@/src/contexts/ProductContext";
@@ -27,7 +26,6 @@ export function ProductDetail() {
   const { locale } = useLanguage();
   const { pages, pageSeo } = usePages();
   const { products, productsLoaded } = useProducts();
-  const [selectedImage, setSelectedImage] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [inquiryMessage, setInquiryMessage] = useState("");
@@ -50,15 +48,6 @@ export function ProductDetail() {
       return;
     }
 
-    const gallery = [product.image, ...(Array.isArray(product.imageGallery) ? product.imageGallery : [])].filter(Boolean);
-    setSelectedImage((current) => (gallery.includes(current) ? current : gallery[0] || ""));
-  }, [product]);
-
-  useEffect(() => {
-    if (!product) {
-      return;
-    }
-
     const canonicalPath = getManagedProductPath(product, pageSeo, locale);
     if (normalizePath(location.pathname) !== canonicalPath) {
       navigate(canonicalPath, { replace: true });
@@ -73,9 +62,6 @@ export function ProductDetail() {
     canonicalUrl: product ? getManagedProductPath(product, pageSeo, locale) : undefined,
   });
 
-  const galleryImages = product
-    ? Array.from(new Set([product.image, ...(product.imageGallery || [])].filter(Boolean)))
-    : [];
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!product) return;
@@ -146,37 +132,18 @@ export function ProductDetail() {
         className="mx-auto max-w-7xl px-4 pb-12 pt-28 sm:px-6 sm:pt-32 lg:px-8"
       >
         <div className="grid gap-16 lg:grid-cols-2">
-          <div className="relative flex flex-col gap-6 lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]">
-            <div className="relative h-[24rem] overflow-hidden rounded-[3rem] bg-amber-50 group sm:h-[32rem] lg:h-auto lg:flex-1">
+          <div className="relative flex flex-col gap-6 lg:sticky lg:top-32 lg:self-start">
+            <div className="group relative aspect-[16/10] overflow-hidden rounded-[3rem] bg-amber-50">
               <motion.img
                 initial={{ scale: 1.1 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
-                src={getImageUrl(selectedImage || product.image)}
+                src={getImageUrl(product.image)}
                 alt={product.name}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                style={{ objectPosition: getImageObjectPosition(selectedImage || product.image) }}
+                style={{ objectPosition: getImageObjectPosition(product.image) }}
                 referrerPolicy="no-referrer"
               />
-            </div>
-            <div className="flex h-24 shrink-0 gap-4">
-              {galleryImages.map((image, index) => (
-                <button
-                  key={`${image}-${index}`}
-                  type="button"
-                  onClick={() => setSelectedImage(image)}
-                  className={`h-full w-24 overflow-hidden rounded-2xl border-2 transition-colors ${
-                    selectedImage === image ? "border-earth-500" : "border-transparent hover:border-earth-500"
-                  }`}
-                >
-                  <PositionedImage
-                    src={image}
-                    alt="Thumbnail"
-                    className="h-full w-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                </button>
-              ))}
             </div>
 
             {product.technicalPassport?.fileUrl && (

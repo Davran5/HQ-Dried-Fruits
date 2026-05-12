@@ -126749,11 +126749,7 @@ function About() {
   const [activeProductionIndex, setActiveProductionIndex] = (0, import_react38.useState)(0);
   const [revealedProductionIndex, setRevealedProductionIndex] = (0, import_react38.useState)(0);
   const [isDesktopFacilityViewport, setIsDesktopFacilityViewport] = (0, import_react38.useState)(false);
-  const heritageImages = content?.heritageImagery?.length > 0 ? content.heritageImagery.slice(0, 3) : [
-    "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1200&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=1200&auto=format&fit=crop"
-  ];
+  const companyImage = content?.heritageImagery?.find(Boolean) || "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop";
   const ownProductionItems = normalizeAboutProductionItems(content?.ownProductionItems, locale);
   const aboutHeroImage = content?.heroBgImage || content?.productionMarqueeImages?.[0] || content?.missionPhotography || "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=1800&auto=format&fit=crop";
   const aboutHeroTitle = content?.marqueeTitle || t2("aboutHeroTitle");
@@ -126904,41 +126900,23 @@ function About() {
           ]
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         motion.div,
         {
           initial: { opacity: 0, y: 28 },
           whileInView: { opacity: 1, y: 0 },
           viewport: { once: true, margin: "-120px" },
           transition: { duration: 0.65, delay: 0.1 },
-          className: "grid grid-cols-2 gap-4 sm:gap-5",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "overflow-hidden rounded-[2.5rem] border border-earth-100 bg-white shadow-[0_24px_50px_rgba(84,39,70,0.08)] col-span-2", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-              PositionedImage,
-              {
-                src: heritageImages[0],
-                alt: "Company heritage",
-                className: "h-[11.5rem] w-full object-cover sm:h-[16.8rem]",
-                referrerPolicy: "no-referrer"
-              }
-            ) }),
-            heritageImages.slice(1).map((image, index) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-              "div",
-              {
-                className: "overflow-hidden rounded-[2rem] border border-earth-100 bg-white shadow-[0_20px_40px_rgba(84,39,70,0.07)]",
-                children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-                  PositionedImage,
-                  {
-                    src: image,
-                    alt: `Company story ${index + 2}`,
-                    className: "h-[10.2rem] w-full object-cover sm:h-[15.1rem]",
-                    referrerPolicy: "no-referrer"
-                  }
-                )
-              },
-              `${image}-${index}`
-            ))
-          ]
+          className: "min-h-full overflow-hidden rounded-[2.75rem] border border-earth-100 bg-white shadow-[0_24px_50px_rgba(84,39,70,0.08)]",
+          children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+            PositionedImage,
+            {
+              src: companyImage,
+              alt: "Company heritage",
+              className: "h-[22rem] w-full object-cover sm:h-[28rem] lg:h-full",
+              referrerPolicy: "no-referrer"
+            }
+          )
         }
       )
     ] }) }) }),
@@ -128391,7 +128369,6 @@ function ProductDetail() {
   const { locale } = useLanguage();
   const { pages, pageSeo } = usePages();
   const { products, productsLoaded } = useProducts();
-  const [selectedImage, setSelectedImage] = (0, import_react47.useState)("");
   const [company, setCompany] = (0, import_react47.useState)("");
   const [email, setEmail] = (0, import_react47.useState)("");
   const [inquiryMessage, setInquiryMessage] = (0, import_react47.useState)("");
@@ -128411,13 +128388,6 @@ function ProductDetail() {
     if (!product) {
       return;
     }
-    const gallery = [product.image, ...Array.isArray(product.imageGallery) ? product.imageGallery : []].filter(Boolean);
-    setSelectedImage((current) => gallery.includes(current) ? current : gallery[0] || "");
-  }, [product]);
-  (0, import_react47.useEffect)(() => {
-    if (!product) {
-      return;
-    }
     const canonicalPath = getManagedProductPath(product, pageSeo, locale);
     if (normalizePath(location.pathname) !== canonicalPath) {
       navigate(canonicalPath, { replace: true });
@@ -128430,7 +128400,6 @@ function ProductDetail() {
     ogImage: product?.image || "",
     canonicalUrl: product ? getManagedProductPath(product, pageSeo, locale) : void 0
   });
-  const galleryImages = product ? Array.from(new Set([product.image, ...product.imageGallery || []].filter(Boolean))) : [];
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!product) return;
@@ -128480,38 +128449,20 @@ Message: ${inquiryMessage}`
       transition: { duration: 0.6, ease: "easeOut" },
       className: "mx-auto max-w-7xl px-4 pb-12 pt-28 sm:px-6 sm:pt-32 lg:px-8",
       children: /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "grid gap-16 lg:grid-cols-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "relative flex flex-col gap-6 lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "relative h-[24rem] overflow-hidden rounded-[3rem] bg-amber-50 group sm:h-[32rem] lg:h-auto lg:flex-1", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "relative flex flex-col gap-6 lg:sticky lg:top-32 lg:self-start", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "group relative aspect-[16/10] overflow-hidden rounded-[3rem] bg-amber-50", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
             motion.img,
             {
               initial: { scale: 1.1 },
               animate: { scale: 1 },
               transition: { duration: 1.5, ease: "easeOut" },
-              src: getImageUrl(selectedImage || product.image),
+              src: getImageUrl(product.image),
               alt: product.name,
               className: "h-full w-full object-cover transition-transform duration-700 group-hover:scale-105",
-              style: { objectPosition: getImageObjectPosition(selectedImage || product.image) },
+              style: { objectPosition: getImageObjectPosition(product.image) },
               referrerPolicy: "no-referrer"
             }
           ) }),
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "flex h-24 shrink-0 gap-4", children: galleryImages.map((image, index) => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
-            "button",
-            {
-              type: "button",
-              onClick: () => setSelectedImage(image),
-              className: `h-full w-24 overflow-hidden rounded-2xl border-2 transition-colors ${selectedImage === image ? "border-earth-500" : "border-transparent hover:border-earth-500"}`,
-              children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
-                PositionedImage,
-                {
-                  src: image,
-                  alt: "Thumbnail",
-                  className: "h-full w-full object-cover",
-                  referrerPolicy: "no-referrer"
-                }
-              )
-            },
-            `${image}-${index}`
-          )) }),
           product.technicalPassport?.fileUrl && /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
             motion.a,
             {
