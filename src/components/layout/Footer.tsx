@@ -24,7 +24,7 @@ export function Footer() {
     t("footerDescription");
   const footerLeadText =
     globalSettings.footerLeadText || t("footerLeadText");
-  const footerCtaEmail = globalSettings.footerCtaEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
+  const footerCtaEmail = globalSettings.footerCtaEmail || globalSettings.emailAddress || "sales@hqdriedfruits.uz";
   const telegramUrl = globalSettings.telegramUrl?.trim();
   const footerCopyrightText = globalSettings.footerCopyrightText || `${siteName}. All rights reserved.`;
 
@@ -92,15 +92,15 @@ export function Footer() {
             <div className="flex flex-col gap-4 text-earth-200">
               <div className="flex items-center gap-3">
                 <MapPin size={20} className="text-earth-500" />
-                <span>{globalSettings.officeAddress || "123 Silk Road Ave, Tashkent, Uzbekistan"}</span>
+                <span>{globalSettings.officeAddress || "14A, 10th Block, Chilanzar dist., Tashkent, Uzbekistan"}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={20} className="text-earth-500" />
-                <span>{globalSettings.phoneNumber || "+998 90 123 45 67"}</span>
+                <span>{globalSettings.phoneNumber || "+998 99 892 99 77"}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={20} className="text-earth-500" />
-                <span>{globalSettings.emailAddress || "export@hqdriedfruits.com"}</span>
+                <span>{globalSettings.emailAddress || "sales@hqdriedfruits.uz"}</span>
               </div>
             </div>
           </div>

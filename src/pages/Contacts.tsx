@@ -43,20 +43,20 @@ export function Contacts() {
   const infoCards = [
     {
       label: content?.infoEmailLabel || t("contactsEmailLabel"),
-      value: content?.emailAddress || "sales@hqdriedfruits.com",
-      href: `mailto:${content?.emailAddress || "sales@hqdriedfruits.com"}`,
+      value: content?.emailAddress || "sales@hqdriedfruits.uz",
+      href: `mailto:${content?.emailAddress || "sales@hqdriedfruits.uz"}`,
       icon: Mail,
     },
     {
       label: content?.infoPhoneLabel || t("contactsPhoneLabel"),
-      value: content?.phoneNumber || "+998 90 123 45 67",
-      href: `tel:${(content?.phoneNumber || "+998 90 123 45 67").replace(/\s/g, "")}`,
+      value: content?.phoneNumber || "+998 99 892 99 77",
+      href: `tel:${(content?.phoneNumber || "+998 99 892 99 77").replace(/\s/g, "")}`,
       icon: Phone,
     },
     {
       label: content?.infoAddressLabel || t("contactsHeadquartersLabel"),
-      value: content?.officeAddress || "123 Silk Road Ave, Tashkent, Uzbekistan",
-      href: content?.googleMapsUrl || "#map",
+      value: content?.officeAddress || "14A, 10th Block, Chilanzar dist., Tashkent, Uzbekistan",
+      href: undefined,
       icon: MapPin,
     },
     {

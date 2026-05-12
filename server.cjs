@@ -124583,12 +124583,12 @@ var initialGlobalSettings = {
     { label: "Export", url: "/export" },
     { label: "Contacts", url: "/contacts" }
   ],
-  officeAddress: "Amir Temur Ave 107B, Tashkent, Uzbekistan",
-  phoneNumber: "+998 90 123 45 67",
-  emailAddress: "export@hqdriedfruits.com",
+  officeAddress: "14A, 10th Block, Chilanzar dist., Tashkent, Uzbekistan",
+  phoneNumber: "+998 99 892 99 77",
+  emailAddress: "sales@hqdriedfruits.uz",
   telegramUrl: "",
   footerCtaTitle: "Need a custom container quote?",
-  footerCtaEmail: "export@hqdriedfruits.com",
+  footerCtaEmail: "sales@hqdriedfruits.uz",
   footerCopyrightText: "HQ Dried Fruits. All rights reserved.",
   uiLabels: defaultUiLabels,
   googleSiteVerificationId: ""
@@ -124840,8 +124840,8 @@ var initialPages = [
       telegramSublabel: "Instant quotes & catalog PDF",
       callLabel: "Call Sales",
       emailLabel: "Email Us",
-      quickPhone: "+998 90 123 45 67",
-      quickEmail: "sales@hqdriedfruits.com"
+      quickPhone: "+998 99 892 99 77",
+      quickEmail: "sales@hqdriedfruits.uz"
     }
   },
   {
@@ -124887,7 +124887,7 @@ var initialPages = [
       pageTitle: "Let's Connect",
       introText: "Whether you need a mixed container or a dedicated harvest line, our B2B team is available 24/7.",
       directContactEyebrow: "Direct Contact",
-      formDestinationEmail: "sales@hqdriedfruits.com",
+      formDestinationEmail: "sales@hqdriedfruits.uz",
       contactFormTitle: "Send an Inquiry",
       responseLabelPrefix: "Replies are monitored at",
       formNameLabel: "Full Name",
@@ -124896,9 +124896,9 @@ var initialPages = [
       formMessageLabel: "Message",
       submitButtonLabel: "Send Message",
       submittingButtonLabel: "Sending...",
-      emailAddress: "sales@hqdriedfruits.com",
-      phoneNumber: "+998 90 123 45 67",
-      officeAddress: "Amir Temur Ave 107B",
+      emailAddress: "sales@hqdriedfruits.uz",
+      phoneNumber: "+998 99 892 99 77",
+      officeAddress: "14A, 10th Block, Chilanzar dist., Tashkent, Uzbekistan",
       workingHours: "Mon-Sat: 09:00 - 18:00 (Tashkent Time)",
       mapPinLabel: "HQ Dried Fruits HQ",
       infoEmailLabel: "Email",
@@ -125545,7 +125545,7 @@ function Footer() {
   const siteName = globalSettings.siteName || "HQ Dried Fruits";
   const footerDescription = globalSettings.footerDescription || t2("footerDescription");
   const footerLeadText = globalSettings.footerLeadText || t2("footerLeadText");
-  const footerCtaEmail = globalSettings.footerCtaEmail || globalSettings.emailAddress || "export@hqdriedfruits.com";
+  const footerCtaEmail = globalSettings.footerCtaEmail || globalSettings.emailAddress || "sales@hqdriedfruits.uz";
   const telegramUrl = globalSettings.telegramUrl?.trim();
   const footerCopyrightText = globalSettings.footerCopyrightText || `${siteName}. All rights reserved.`;
   const handleSubmit = async (e) => {
@@ -125606,15 +125606,15 @@ function Footer() {
           /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "flex flex-col gap-4 text-earth-200", children: [
             /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "flex items-center gap-3", children: [
               /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_lucide_react2.MapPin, { size: 20, className: "text-earth-500" }),
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: globalSettings.officeAddress || "123 Silk Road Ave, Tashkent, Uzbekistan" })
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: globalSettings.officeAddress || "14A, 10th Block, Chilanzar dist., Tashkent, Uzbekistan" })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "flex items-center gap-3", children: [
               /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_lucide_react2.Phone, { size: 20, className: "text-earth-500" }),
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: globalSettings.phoneNumber || "+998 90 123 45 67" })
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: globalSettings.phoneNumber || "+998 99 892 99 77" })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "flex items-center gap-3", children: [
               /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_lucide_react2.Mail, { size: 20, className: "text-earth-500" }),
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: globalSettings.emailAddress || "export@hqdriedfruits.com" })
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: globalSettings.emailAddress || "sales@hqdriedfruits.uz" })
             ] })
           ] })
         ] }),
@@ -127880,20 +127880,20 @@ function Contacts() {
   const infoCards = [
     {
       label: content?.infoEmailLabel || t2("contactsEmailLabel"),
-      value: content?.emailAddress || "sales@hqdriedfruits.com",
-      href: `mailto:${content?.emailAddress || "sales@hqdriedfruits.com"}`,
+      value: content?.emailAddress || "sales@hqdriedfruits.uz",
+      href: `mailto:${content?.emailAddress || "sales@hqdriedfruits.uz"}`,
       icon: import_lucide_react7.Mail
     },
     {
       label: content?.infoPhoneLabel || t2("contactsPhoneLabel"),
-      value: content?.phoneNumber || "+998 90 123 45 67",
-      href: `tel:${(content?.phoneNumber || "+998 90 123 45 67").replace(/\s/g, "")}`,
+      value: content?.phoneNumber || "+998 99 892 99 77",
+      href: `tel:${(content?.phoneNumber || "+998 99 892 99 77").replace(/\s/g, "")}`,
       icon: import_lucide_react7.Phone
     },
     {
       label: content?.infoAddressLabel || t2("contactsHeadquartersLabel"),
-      value: content?.officeAddress || "123 Silk Road Ave, Tashkent, Uzbekistan",
-      href: content?.googleMapsUrl || "#map",
+      value: content?.officeAddress || "14A, 10th Block, Chilanzar dist., Tashkent, Uzbekistan",
+      href: void 0,
       icon: import_lucide_react7.MapPin
     },
     {
