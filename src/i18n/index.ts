@@ -3,9 +3,10 @@ import { pt } from "./pt";
 import { es } from "./es";
 import { nl } from "./nl";
 import { fr } from "./fr";
+import { de } from "./de";
 
 export type LocaleCode = "en" | "ru" | "uz" | "de" | "fr" | "pt" | "es" | "nl" | "fr-be" | "nl-be" | "de-be";
-export type TranslationLocale = "en" | "pt" | "es" | "nl" | "fr";
+export type TranslationLocale = "en" | "pt" | "es" | "nl" | "fr" | "de";
 
 export interface LocaleDefinition {
   code: LocaleCode;
@@ -18,10 +19,10 @@ export interface LocaleDefinition {
 }
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
-export const ACTIVE_LOCALES = ["en", "pt", "es", "nl", "fr"] as const;
+export const ACTIVE_LOCALES = ["en", "de", "pt", "es", "nl", "fr"] as const;
 export type ActiveLocaleCode = (typeof ACTIVE_LOCALES)[number];
 
-export const translations: Record<TranslationLocale, typeof en> = { en, pt, es, nl, fr };
+export const translations: Record<TranslationLocale, typeof en> = { en, de, pt, es, nl, fr };
 
 export const localeRegistry: Record<LocaleCode, LocaleDefinition> = {
   en: {
@@ -78,7 +79,7 @@ export const localeRegistry: Record<LocaleCode, LocaleDefinition> = {
     shortLabel: "DE",
     baseLanguage: "de",
     fallbackLocale: "en",
-    isActive: false,
+    isActive: true,
   },
   fr: {
     code: "fr",

@@ -1,5 +1,5 @@
 export type ProductCategoryKey = "raisins" | "dried-apricot" | "prunes" | "peanuts";
-export type ProductCategoryLocale = "en" | "ru" | "uz" | "es" | "pt" | "nl" | "fr";
+export type ProductCategoryLocale = "en" | "ru" | "uz" | "de" | "es" | "pt" | "nl" | "fr";
 
 export interface ProductCategoryDefinition {
   key: ProductCategoryKey;
@@ -17,6 +17,7 @@ export const PRODUCT_CATEGORY_DEFINITIONS: ProductCategoryDefinition[] = [
       es: "Pasas",
       pt: "Passas",
       nl: "Rozijnen",
+      de: "Rosinen",
       fr: "Raisins Secs"
     },
     aliases: ["raisins", "raisin", "sultana", "soyaki", "golden", "black-red", "изюм", "кишмиш", "майиз", "mayiz"],
@@ -30,6 +31,7 @@ export const PRODUCT_CATEGORY_DEFINITIONS: ProductCategoryDefinition[] = [
       es: "Albaricoques Secos",
       pt: "Damascos Secos",
       nl: "Gedroogde Abrikozen",
+      de: "Getrocknete Aprikosen",
       fr: "Abricots Secs"
     },
     aliases: ["dried apricot", "dried apricots", "apricot", "apricots", "subhana", "курага", "абрикос", "урюк", "quritilgan orik", "quritilgan o'rik", "orik", "o'rik"],
@@ -43,6 +45,7 @@ export const PRODUCT_CATEGORY_DEFINITIONS: ProductCategoryDefinition[] = [
       es: "Ciruelas Pasas",
       pt: "Ameixas Secas",
       nl: "Pruimen",
+      de: "Trockenpflaumen",
       fr: "Pruneaux"
     },
     aliases: ["prunes", "prune", "pitted prunes", "spain", "hungarian", "ashlock", "чернослив", "слива", "quritilgan qora olxo'ri", "qora olxo'ri", "olxori"],
@@ -56,6 +59,7 @@ export const PRODUCT_CATEGORY_DEFINITIONS: ProductCategoryDefinition[] = [
       es: "Cacahuetes",
       pt: "Amendoins",
       nl: "Pinda's",
+      de: "Erdnüsse",
       fr: "Cacahuètes"
     },
     aliases: ["peanuts", "peanut", "in shell", "unshelled", "bird feed", "арахис", "арахисы", "yeryongoq", "yeryong'oq", "yer yongoq", "yer yong'oq"],

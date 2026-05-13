@@ -247,6 +247,9 @@ async function initDb() {
       }
     }
 
+    await seedGermanDefaults(conn);
+    await seedHomeStatsDefaults(conn);
+
     console.log("[DB Startup] MySQL database initialized");
   } catch (err) {
     console.error("[DB Startup Error] MySQL schema bootstrap failed:", getDbErrorDetails(err));
@@ -450,7 +453,7 @@ function getManagedPagePath(pageId: PageId, pageSeo: Record<PageId, SeoRecord> =
   return slug ? `/${slug}` : "/";
 }
 
-const activeLocales = ["en", "pt", "es", "nl", "fr"] as const;
+const activeLocales = ["en", "de", "pt", "es", "nl", "fr"] as const;
 type ActiveLocale = (typeof activeLocales)[number];
 
 function isActiveLocale(value: string | null | undefined): value is ActiveLocale {
@@ -460,6 +463,382 @@ function isActiveLocale(value: string | null | undefined): value is ActiveLocale
 function normalizeLocale(value: string | null | undefined, fallback: ActiveLocale = "en"): ActiveLocale {
   const normalized = asString(value).trim().toLowerCase();
   return isActiveLocale(normalized) ? normalized : fallback;
+}
+
+function isGermanLocale(locale: string | null | undefined) {
+  return asString(locale).trim().toLowerCase().startsWith("de");
+}
+
+function getDefaultHomeStatsGrid(locale: string = "en") {
+  const normalizedLocale = normalizeLocale(locale);
+  const labels: Record<ActiveLocale, string[]> = {
+    en: ["Years Experience", "Tons Exported Annually", "Countries Served", "Sorting Purity"],
+    de: ["Jahre Erfahrung", "Tonnen jährlich exportiert", "Belieferte Länder", "Sortierreinheit"],
+    pt: ["Anos de experiência", "Toneladas exportadas anualmente", "Países atendidos", "Pureza de classificação"],
+    es: ["Años de experiencia", "Toneladas exportadas al año", "Países atendidos", "Pureza de clasificación"],
+    nl: ["Jaar ervaring", "Ton jaarlijks geëxporteerd", "Bediende landen", "Sorteerzuiverheid"],
+    fr: ["Années d'expérience", "Tonnes exportées par an", "Pays desservis", "Pureté du tri"],
+  };
+  const values = normalizedLocale === "de" ? ["25+", "10.000", "40+", "99.9%"] : ["25+", "10,000", "40+", "99.9%"];
+
+  return labels[normalizedLocale].map((label, index) => ({ value: values[index], label }));
+}
+
+function normalizeHomeStatsGrid(items: unknown, locale: string = "en") {
+  const defaults = getDefaultHomeStatsGrid(locale);
+  const sourceItems = Array.isArray(items) ? items : [];
+  return defaults.map((fallback, index) => {
+    const source = sourceItems[index] || {};
+    const sourceValue = asString((source as any)?.value).trim();
+    const sourceLabel = asString((source as any)?.label).trim();
+    return {
+      value: !sourceValue || sourceValue === "999%" || sourceValue === "99,9%" || sourceValue === "99,9 %" ? fallback.value : sourceValue,
+      label: sourceLabel || fallback.label,
+    };
+  });
+}
+
+function getDefaultGlobalSettings(locale: string = "en") {
+  if (!isGermanLocale(locale)) return defaultGlobalSettings;
+
+  return {
+    ...defaultGlobalSettings,
+    navLinks: [
+      { label: "Startseite", url: "/" },
+      { label: "Über uns", url: "/about" },
+      { label: "Produkte", url: "/products" },
+      { label: "Export", url: "/export" },
+      { label: "Kontakt", url: "/contacts" },
+    ],
+    ctaText: "Angebot anfragen",
+    footerDescription: "Hochwertige sonnengetrocknete Früchte aus Usbekistan für internationale B2B-Partner mit verlässlicher Qualität.",
+    footerLeadText: "Erhalten Sie aktuelle Preise und Exportbedingungen direkt per E-Mail oder Telegram.",
+    quickLinks: [
+      { label: "Über uns", url: "/about" },
+      { label: "Export", url: "/export" },
+      { label: "Kontakt", url: "/contacts" },
+    ],
+    footerCtaTitle: "Benötigen Sie ein individuelles Containerangebot?",
+    footerCopyrightText: "HQ Dried Fruits. Alle Rechte vorbehalten.",
+    uiLabels: {
+      ...defaultGlobalSettings.uiLabels,
+      mobileNavigationTitle: "Navigation",
+      mobileContactTitle: "Kontakt",
+      homeMetaTitle: "HQ Dried Fruits | Hochwertiger Bio-Export",
+      productsMetaTitle: "Unsere Produkte | Großhandelskatalog",
+      exportMetaTitle: "Globaler Export & Logistik",
+      contactsMetaTitle: "Kontakt | Großhandelsanfragen",
+      routeLoadingLabel: "Seite wird geladen...",
+      notFoundTitle: "Seite nicht gefunden",
+      notFoundBody: "Die angeforderte Seite existiert nicht oder die Adresse wurde geändert.",
+      notFoundButtonLabel: "Zur Startseite",
+      requestCatalogLabel: "Großhandelskatalog anfragen",
+      exploreProductsLabel: "Produkte ansehen",
+      heritageSloganLabel: "Jahrzehntelange Erfahrung in jeder Ernte.",
+      aboutCompanyLabel: "Über das Unternehmen",
+      statYearsLabel: "Jahre Erfahrung",
+      statTonsLabel: "Tonnen exportiert",
+      productSelectionSublabel: "Von Hand ausgewählt und natürlich sonnengetrocknet.",
+      viewFullCatalogLabel: "Gesamten Katalog ansehen",
+      requestSampleLabel: "Muster anfragen",
+      productCardViewSpecsLabel: "Spezifikation ansehen",
+      requestQuoteBtn: "Großhandelsangebot anfragen",
+      learnMoreLabel: "Mehr über unseren Exportprozess",
+      getPricingLabel: "Preise & Muster anfragen",
+      prodStep1Title: "Wareneingang",
+      prodStep1Subtitle: "Ernteauswahl",
+      prodStep1Desc: "Eingehende Früchte werden nach Charge, Feuchtigkeitsprofil und Zielanforderungen sortiert.",
+      prodStep2Title: "Verarbeitung",
+      prodStep2Subtitle: "Laser- & Röntgenkontrolle",
+      prodStep2Desc: "Jede Linie wird auf Reinheit, Fehlerentfernung und exportfähige Gleichmäßigkeit kalibriert.",
+      prodStep3Title: "Verpackung",
+      prodStep3Subtitle: "Käuferspezifische Formate",
+      prodStep3Desc: "Wir verpacken für Retail, Private Label und industrielle Lieferungen.",
+      prodStep4Title: "Versand",
+      prodStep4Subtitle: "Exportübergabe",
+      prodStep4Desc: "Fertige Ware wird dokumentiert, palettiert und passend zum Zeitplan des Käufers verladen.",
+      missionPurposeLabel: "Zweck",
+      missionHeritageLabel: "Herkunft",
+      missionPhilosophyLabel: "Philosophie",
+      missionStandardsLabel: "Standards",
+      orchardPhilosophyLabel: "Obstgarten-Philosophie",
+      whoWeAreFallback1: "HQ Dried Fruits verbindet landwirtschaftliche Kontrolle, disziplinierte Verarbeitung und Exportabwicklung in einem klaren Betriebssystem.",
+      whoWeAreFallback2: "Diese Struktur hilft Großhandelskunden, konstante Ware, klare Dokumentation und verlässliche Versandvorbereitung zu sichern.",
+      missionNarrativeEyebrow: "Mission",
+      missionNarrativeTitle: "Was unser Anbauen, Verarbeiten und Liefern leitet",
+      missionNarrativeSublabel: "Ein klarer Blick auf Mission, Herkunft, Philosophie und Standards des Unternehmens.",
+      insideFacilityEyebrow: "In der Produktion",
+      haccpLabel: "HACCP-zertifiziert",
+      isoLabel: "ISO 9001:2015",
+      organicLabel: "100 % Bio",
+      globalGapLabel: "GlobalGAP",
+      fdaLabel: "FDA-registriert",
+      exportOpsEyebrow: "Exportabwicklung",
+      exportOpsTitle: "Für käuferspezifisches Routing, Dokumentation und Verpackung aufgebaut",
+      logisticsDesc1: "Wir planen multimodale Transporte entlang Ihrer Anforderungen.",
+      logisticsDesc2: "Jede Sendung wird auf Wiederholbarkeit, Compliance und praktische Großhandelsabläufe ausgelegt.",
+      packagingTitle: "Individuelle Verpackung",
+      packagingDesc: "Großkartons, vakuumierte Beutel oder retailfähige Verpackungen mit Ihren Markenetiketten.",
+      transportationTitle: "See- und Bahntransport",
+      transportationDesc: "Kosteneffiziente FCL- und LCL-Sendungen über wichtige Häfen und Bahnverbindungen.",
+      documentationTitle: "Zollabwicklung",
+      documentationDesc: "Unterstützung bei Pflanzengesundheitszeugnissen, Ursprungszeugnissen und EUR.1.",
+      destinationBreakdownEyebrow: "Vertriebskanäle",
+      destinationBreakdownTitle: "Vorbereitet für die Art, wie Ihr Geschäft verkauft",
+      destinationBreakdownDesc: "Unterschiedliche Käufer brauchen unterschiedliche Verpackung, Dokumentation und Produktaufbereitung.",
+      qualityGuaranteeTitle: "Qualitätsgarantie",
+      qualityGuaranteeDesc: "Moderne Laser- und Röntgensortierung unterstützt eine Reinheit von 99,9 %.",
+      moistureControlLabel: "Feuchtigkeitskontrolle",
+      moistureControlDesc: "Streng bei 18-22 % gehalten, für optimale Haltbarkeit.",
+      sizeCalibrationLabel: "Größenkalibrierung",
+      sizeCalibrationDesc: "Lasersortiert für einheitliche Größen.",
+      microSafeLabel: "Mikrobiologische Sicherheit",
+      microSafeDesc: "Regelmäßige Labortests auf Aflatoxine und Schwermetalle.",
+      contactsTitle: "Kontakt aufnehmen",
+      contactsIntroFallback: "Ob Angebot, Muster oder Logistikdetails: Unser Exportteam unterstützt Sie gerne.",
+      sendInquiryTitle: "Anfrage senden",
+      formNameLabel: "Vollständiger Name",
+      formEmailLabel: "Geschäftliche E-Mail",
+      formPhoneLabel: "Telefonnummer",
+      formMessageLabel: "Nachricht",
+      formCompanyLabel: "Unternehmen",
+      submitBtnLabel: "Anfrage senden",
+      submittingLabel: "Wird gesendet...",
+      sendMessageLabel: "Nachricht senden",
+      inquirySuccessMsg: "Ihre Anfrage ist eingegangen. Das Exportteam meldet sich in Kürze.",
+      inquiryFailureMsg: "Senden fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      directContactEyebrow: "Direkter Kontakt",
+      contactDetailsTitle: "Kontaktdaten",
+      contactDetailsDesc: "Erreichen Sie unser Vertriebs- und Exportkoordinationsteam über den passenden Kanal.",
+      emailLabel: "E-Mail",
+      phoneLabel: "Telefon",
+      headquartersLabel: "Zentrale",
+      workingHoursLabel: "Öffnungszeiten",
+      footerLinksTitle: "Unternehmen",
+      footerCompanyPlaceholder: "Firmenname",
+      footerEmailPlaceholder: "E-Mail-Adresse",
+      footerSubmitLabel: "Senden",
+      footerSubmittingLabel: "Wird gesendet",
+      footerSecondaryContactPrefix: "Lieber direkt sprechen?",
+      footerTelegramLinkLabel: "kontaktieren Sie uns auf Telegram",
+      footerPrivacyLinkLabel: "Datenschutzerklärung",
+      footerTermsLinkLabel: "Nutzungsbedingungen",
+      productsTitle: "Großhandelskatalog",
+      productsSubtitle: "Entdecken Sie unser exportbereites Sortiment.",
+      privacyTitle: "Datenschutzerklärung",
+      termsTitle: "Nutzungsbedingungen",
+    },
+  };
+}
+
+function getDefaultProductsPage(locale: string = "en") {
+  if (!isGermanLocale(locale)) return defaultProductsPage;
+  return {
+    ...defaultProductsPage,
+    pageTitle: "Trockenfrüchte aus Usbekistan für den Großhandel",
+    pageSubtitle: "Entdecken Sie exportbereite Aprikosen, Rosinen, Trockenpflaumen und Sortimente mit relevanten Informationen zu Herkunft, Verarbeitung und Anwendung.",
+    introEyebrow: "Herkunft Usbekistan",
+    introTitle: "Eine Übersicht. Vier Kernsortimente. Relevante Informationen für Einkäufer.",
+    introContent: "<p>Vergleichen Sie Herkunft, Verarbeitung, Spezifikationen, Verpackung und Einsatzbereiche, ohne zwischen vielen Katalogseiten zu wechseln.</p><p>Jedes Produktprofil ist für Großhandelskunden aufgebaut, die praktische Beschaffungsinformationen brauchen.</p>",
+    introFacts: [
+      { title: "Anbaugrundlage", description: "Usbekistans Obstanbaugebiete basieren auf bewässerten Tälern und Vorgebirgsregionen." },
+      { title: "Wachstumsbedingungen", description: "Heiße, trockene Sommer und Sonne unterstützen die natürliche Zuckerbildung." },
+      { title: "Exportbereit", description: "Jede Linie ist für käuferspezifische Kartons und wiederkehrende Programme vorbereitet." },
+    ],
+    catalogEyebrow: "Nach Kategorie filtern",
+    catalogTitle: "Produktkatalog",
+    orderingFormTitle: "Großhandelsanfrage",
+    orderingFormSubtitle: "Teilen Sie uns Zielmenge und Zeitplan mit. Wir melden uns mit Preisen und Logistikdetails.",
+    stepOneLabel: "Für welches Produkt interessieren Sie sich?",
+    stepTwoLabel: "Geschätzte monatliche Menge?",
+    stepThreeLabel: "Wohin sollen wir das Angebot senden?",
+    mixedContainerLabel: "Gemischter Container",
+    volumeOptions: ["1-5 Tonnen", "5-20 Tonnen", "1 FCL (20 ft)", "Mehrere FCL"],
+    viewSpecsLabel: "Spezifikation ansehen",
+    stepOnePlaceholder: "Produkt auswählen...",
+    stepThreePlaceholder: "Geschäftliche E-Mail-Adresse",
+    nextStepButtonLabel: "Weiter",
+    backButtonLabel: "Zurück",
+    submitButtonLabel: "Angebot anfragen",
+    submittingButtonLabel: "Wird gesendet...",
+    detailUi: {
+      ...defaultProductsPage.detailUi,
+      loadingLabel: "Spezifikationen werden geladen...",
+      notFoundTitle: "Produkt nicht gefunden",
+      notFoundBody: "Das gesuchte Produkt existiert nicht.",
+      backToCatalogLabel: "Zurück zum Katalog",
+      nutritionTitle: "Produktinformationen",
+      inquiryTitle: "Muster oder Angebot anfragen",
+      companyPlaceholder: "Firmenname",
+      emailPlaceholder: "Geschäftliche E-Mail",
+      volumePlaceholder: "Nachricht hinterlassen...",
+      inquiryButtonLabel: "Anfrage senden",
+      inquirySubmittingLabel: "Anfrage wird gesendet...",
+    },
+    quickContactTitle: "Soll es schneller gehen?",
+    quickContactSubtitle: "Überspringen Sie das Formular und sprechen Sie direkt mit unserem Exportvertrieb.",
+    telegramLabel: "Telegram",
+    telegramSublabel: "Schnelle Angebote & Katalog-PDF",
+    callLabel: "Vertrieb anrufen",
+    emailLabel: "E-Mail senden",
+  };
+}
+
+function getDefaultExportPage(locale: string = "en") {
+  if (!isGermanLocale(locale)) return defaultExportPage;
+  return {
+    ...defaultExportPage,
+    heroTitle: "Unser globales Exportnetzwerk",
+    heroSubtitle: "Reibungslose internationale Logistik vom Herzen der Seidenstraße bis in Ihr Lager.",
+    operationsEyebrow: "Exportabwicklung",
+    destinationEyebrow: "Vertriebskanäle",
+    mapSectionTitle: "Vorbereitet für die Art, wie Ihr Geschäft verkauft",
+    supplyRoutes: normalizeSupplyRoutes([], "de"),
+    logisticsContent: "<p>Wir planen multimodale Transporte entlang Ihrer Anforderungen - von Verpackung und Dokumenten bis zur effizienten Lieferroute.</p>",
+    packagingTitle: "Individuelle Verpackung",
+    packagingMethods: "<p>Großkartons, vakuumierte Beutel oder retailfähige Verpackungen mit Ihren Markenetiketten.</p>",
+    transportationTitle: "See- und Bahntransport",
+    transportationMethods: "<p>Kosteneffiziente FCL- und LCL-Sendungen über wichtige Häfen und Bahnverbindungen.</p>",
+    documentationTitle: "Zollabwicklung",
+    documentationContent: "<p>Unterstützung bei Pflanzengesundheitszeugnissen, Ursprungszeugnissen und EUR.1.</p>",
+    qualityTitle: "Qualitätsgarantie",
+    technicalSpecs: "<p>Laser- und Röntgensortierung unterstützen die Entfernung von Steinen, Stielen und Defekten.</p>",
+    qualityChecks: [
+      { title: "Feuchtigkeitskontrolle", description: "Streng bei 18-22 % gehalten, für optimale Haltbarkeit." },
+      { title: "Größenkalibrierung", description: "Lasersortiert für einheitliche Größen." },
+      { title: "Mikrobiologische Sicherheit", description: "Regelmäßige Labortests auf Aflatoxine und Schwermetalle." },
+    ],
+  };
+}
+
+function getDefaultContactsPage(locale: string = "en") {
+  if (!isGermanLocale(locale)) return defaultContactsPage;
+  return {
+    ...defaultContactsPage,
+    pageTitle: "Kontakt aufnehmen",
+    introText: "Ob gemischter Container, eigene Erntelinie oder Logistikdetails: Unser B2B-Team unterstützt Sie gerne.",
+    directContactEyebrow: "Direkter Kontakt",
+    contactFormTitle: "Anfrage senden",
+    responseLabelPrefix: "Antworten werden überwacht unter",
+    formNameLabel: "Vollständiger Name",
+    formCompanyLabel: "Unternehmen",
+    formEmailLabel: "Geschäftliche E-Mail",
+    formMessageLabel: "Nachricht",
+    submitButtonLabel: "Nachricht senden",
+    submittingButtonLabel: "Wird gesendet...",
+    infoEmailLabel: "E-Mail",
+    infoPhoneLabel: "Telefon",
+    infoAddressLabel: "Zentrale",
+    infoHoursLabel: "Öffnungszeiten",
+    socialSectionTitle: "Soziale Medien",
+  };
+}
+
+function getDefaultPageSeoMap(locale: string = "en"): Record<PageId, SeoRecord> {
+  if (!isGermanLocale(locale)) return defaultPageSeo;
+  return {
+    home: { metaTitle: "HQ Dried Fruits | Hochwertiger Trockenfrucht-Export", metaDescription: "Hochwertige sonnengetrocknete Früchte aus Usbekistan für internationale B2B-Partner.", slug: "", ogTitle: "HQ Dried Fruits", imageAlt: "Sonnengetrocknete Früchte aus Usbekistan" },
+    about: { metaTitle: "Über HQ Dried Fruits | Produktion und Mission", metaDescription: "Erfahren Sie mehr über Produktion, Qualitätskontrolle und Exportvorbereitung von HQ Dried Fruits.", slug: "about", ogTitle: "Über HQ Dried Fruits", imageAlt: "Trockenfruchtproduktion in Usbekistan" },
+    products: { metaTitle: "Trockenfrüchte aus Usbekistan für den Großhandel | HQ Dried Fruits", metaDescription: "Aprikosen, Rosinen, Trockenpflaumen und Erdnüsse aus Usbekistan für Großhandelskunden.", slug: "products", ogTitle: "Produktkatalog von HQ Dried Fruits", imageAlt: "Sortierte Trockenfrüchte" },
+    export: { metaTitle: "Export und Logistik | HQ Dried Fruits", metaDescription: "Internationale Logistik, Dokumente, Verpackung und Routenplanung für Trockenfrucht-Großhandel.", slug: "export", ogTitle: "HQ Dried Fruits Export", imageAlt: "Exportnetzwerk" },
+    contacts: { metaTitle: "Kontakt HQ Dried Fruits | Großhandelsanfragen", metaDescription: "Fragen Sie Preise, Muster und Logistikunterstützung beim Exportteam von HQ Dried Fruits an.", slug: "contacts", ogTitle: "Kontakt HQ Dried Fruits", imageAlt: "Kontaktbüro von HQ Dried Fruits" },
+    privacy: { metaTitle: "Datenschutzerklärung | HQ Dried Fruits", metaDescription: "Datenschutzerklärung von HQ Dried Fruits.", slug: "privacy", ogTitle: "Datenschutzerklärung | HQ Dried Fruits", imageAlt: "Datenschutzerklärung" },
+    terms: { metaTitle: "Nutzungsbedingungen | HQ Dried Fruits", metaDescription: "Nutzungsbedingungen von HQ Dried Fruits.", slug: "terms", ogTitle: "Nutzungsbedingungen | HQ Dried Fruits", imageAlt: "Nutzungsbedingungen" },
+  };
+}
+
+function getDefaultSimplePage(pageId: "privacy" | "terms", locale: string = "en") {
+  if (!isGermanLocale(locale)) return defaultSimplePages[pageId];
+  return pageId === "privacy"
+    ? { title: "Datenschutzerklärung", body: "<p>Wir verwenden die über diese Website übermittelten Informationen, um Großhandelsanfragen zu beantworten, Angebote vorzubereiten und die Kundenkommunikation zu verwalten.</p><p>Wenn Ihre Daten korrigiert oder gelöscht werden sollen, kontaktieren Sie bitte unser Exportteam.</p>" }
+    : { title: "Nutzungsbedingungen", body: "<p>Die Informationen auf dieser Website dienen Großhandelsanfragen und Angebotszwecken. Preise, Verfügbarkeit, Spezifikationen und Logistikbedingungen werden in der direkten Verkaufsabstimmung verbindlich bestätigt.</p>" };
+}
+
+function getDefaultFlexiblePageContent(pageId: keyof typeof pageContentTables, locale: string = "en") {
+  if (pageId === "privacy" || pageId === "terms") {
+    return getDefaultSimplePage(pageId, locale);
+  }
+
+  if (pageId === "home" && isGermanLocale(locale)) {
+    return {
+      heroBgImage: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2000&auto=format&fit=crop",
+      heroTitle: "Natürlich süße Früchte aus fruchtbaren Böden",
+      heroSubtitle: "Von Hand ausgewählt und nach internationalen Exportstandards verarbeitet.",
+      heroPrimaryCtaLabel: "Großhandelskatalog anfragen",
+      heroSecondaryCtaLabel: "Unsere Verarbeitung",
+      introLabel: "Der Unterschied bei HQ Dried Fruits",
+      introEyebrow: "Über uns",
+      introImage: "",
+      introText: "Wir bauen hochwertige Trockenfrüchte in Usbekistan an, verarbeiten sie kontrolliert und exportieren direkt an B2B-Kunden. Moderne Sortierung, klare Dokumentation und exportfähige Verpackung gehören zu jedem Auftrag.",
+      introExtraParagraph: "Auf Basis enger Beziehungen zu Obstbauern, disziplinierter Verarbeitung und exportfertiger Abläufe liefern wir Trockenfrüchte in gleichbleibender Qualität für den Großhandel.",
+      statsGrid: [
+        { value: "25+", label: "Jahre Erfahrung" },
+        { value: "10.000", label: "Tonnen jährlich exportiert" },
+        { value: "40+", label: "Belieferte Länder" },
+        { value: "99.9%", label: "Sortierreinheit" },
+      ],
+      productPreviewTitle: "Produktkategorien",
+      productPreviewButtonLabel: "Gesamten Katalog ansehen",
+      productPreviewItemCtaLabel: "Im Katalog ansehen",
+      productPreviewCategoryLabel: "Produktkategorie",
+      productPreviewTypesLabel: "Sorten",
+      productCategories: [
+        { categoryKey: "raisins", categoryName: "Rosinen", image: "/uploads/category-raisins.png", shortDescription: "Exportbereite Rosinenlinien in goldenen, braunen und dunklen Sorten für Großhandelskunden.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+        { categoryKey: "dried-apricot", categoryName: "Getrocknete Aprikosen", image: "/uploads/category-apricots.png", shortDescription: "Sonnengetrocknete Aprikosen für Retail, Süßwaren und gemischte Container.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana Confectioner", url: "/products" },
+        { categoryKey: "prunes", categoryName: "Trockenpflaumen", image: "/uploads/category-prunes.png", shortDescription: "Kalibrierte Trockenpflaumen mit entsteinten und nicht entsteinten Optionen.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+        { categoryKey: "peanuts", categoryName: "Erdnüsse", image: "/uploads/category-peanuts.png", shortDescription: "Sortierte Erdnüsse für Lebensmittelproduktion, Handel und weitere Käuferanforderungen.", variantSummary: "In der Schale, geschält, Vogelfutter", url: "/products" },
+      ],
+      exportMarketsEyebrow: "Vertriebskanäle",
+      exportMarketsTitle: "Vorbereitet für die Art, wie Ihr Geschäft verkauft",
+      exportMarketsIntro: "Unterschiedliche Käufer brauchen unterschiedliche Verpackung, Dokumentation und Produktaufbereitung. Wir bereiten usbekische Trockenfrüchte für Retail, Großhandel, Lebensmittelindustrie und Private Label vor.",
+      exportMarkets: normalizeHomeBuyerChannels([], "de"),
+    };
+  }
+
+  if (pageId === "about" && isGermanLocale(locale)) {
+    return {
+      heroBgImage: "",
+      marqueeTitle: "Globale Partner & Produktion",
+      heroSubtitle: "Qualität und Tradition, weiterentwickelt für den modernen Handel.",
+      productionMarqueeImages: [],
+      partnerLogos: [],
+      partnerSectionLabel: "Zertifizierte Qualität & verlässliche Partner",
+      aboutTrustItems: [
+        { key: "fda", label: "FDA-registriert", visible: true },
+        { key: "haccp", label: "HACCP-zertifiziert", visible: true },
+        { key: "iso", label: "ISO 9001:2015", visible: true },
+        { key: "organic", label: "100 % Bio", visible: true },
+        { key: "globalgap", label: "GlobalGAP", visible: true },
+      ],
+      companyEyebrow: "Über das Unternehmen",
+      heritageTitle: "Unsere Wurzeln an der Seidenstraße",
+      heritageSubtitle: "Qualität und Tradition, weiterentwickelt für den modernen Handel.",
+      whoWeAreContent: "<p>HQ Dried Fruits ist tief in der landwirtschaftlichen Stärke Zentralasiens verwurzelt und wurde rund um langfristige Obstgartenbeziehungen, kontrollierte Verarbeitung und exportfähige Abläufe aufgebaut.</p><p>Unser Team begleitet Anbau, Sortierung, Verpackung und Versandvorbereitung, damit Käufer nicht mit fragmentierter Beschaffung arbeiten müssen.</p><p>Aus lokaler Agrarerfahrung ist ein käuferorientierter Exportbetrieb entstanden, der die Anforderungen von Importeuren, Distributoren und Private-Label-Partnern versteht.</p>",
+      heritageStats: [
+        { boxNumber: "01", title: "Obstgarten-Kontrolle", description: "Direkte Abstimmung entlang der Ernte- und Qualitätsanforderungen." },
+        { boxNumber: "02", title: "Laser-Sortierung", description: "Moderne Verarbeitungslinien für exportfähige Reinheit." },
+      ],
+      heritageImagery: [],
+      missionTitle: "Unsere Mission",
+      missionStatement: "<p>Unsere Mission ist es, die natürliche Fruchtqualität Usbekistans mit der Verlässlichkeit des modernen Großhandels zu verbinden.</p><p>Dafür kombinieren wir Erntewissen, Lebensmittelsicherheit, Exportdokumentation und käuferspezifische Verpackungsstandards.</p>",
+      philosophyTitle: "Herkunft & Philosophie",
+      orchardPhilosophyEyebrow: "Philosophie",
+      orchardPhilosophyTitle: "Obstgarten-Philosophie",
+      orchardPhilosophy: "Starke Exportversorgung beginnt lange vor dem finalen Karton: mit Ernteverständnis, disziplinierten Kontrollen und Systemen, denen Käufer vertrauen können.",
+      productionStandardsTitle: "Produktionsstandards",
+      productionStandards: "Unsere Produktionsstandards sind auf Exportbereitschaft ausgelegt: kontrollierter Wareneingang, kalibrierte Sortierung, Lebensmittelsicherheit und käuferspezifische Verpackungsformate.",
+      missionPhotography: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000",
+      missionNarrativeEyebrow: "Mission",
+      missionNarrativeTitle: "Was unser Anbauen, Verarbeiten und Liefern leitet",
+      missionNarrativeSublabel: "Ein klarer Blick auf Mission, Herkunft, Philosophie und Standards des Unternehmens.",
+      facilityEyebrow: "In der Produktion",
+      ownProductionTitle: "Eigene Produktion",
+      ownProductionIntro: "Vom Wareneingang bis zur finalen Exportverpackung steuern wir jeden Produktionsschritt selbst.",
+      ownProductionItems: normalizeAboutProductionItems([], "de"),
+    };
+  }
+
+  return {};
 }
 
 function buildLocalePath(locale: ActiveLocale, pathname = "/") {
@@ -588,6 +967,7 @@ function normalizeFlexiblePageContent(pageId: keyof typeof pageContentTables, co
 
   if (pageId === "home") {
     next.exportMarkets = normalizeHomeBuyerChannels(next.exportMarkets, normalizeLocale(locale));
+    next.statsGrid = normalizeHomeStatsGrid(next.statsGrid, locale);
   }
 
   return next;
@@ -599,6 +979,389 @@ function isPlainRecord(value: unknown): value is Record<string, unknown> {
 
 function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value ?? null)) as T;
+}
+
+function serializeSeedValue(value: unknown) {
+  if (value === null || value === undefined) return "";
+  if (Array.isArray(value) || (typeof value === "object" && value !== null)) return JSON.stringify(value);
+  return value;
+}
+
+function normalizeSeedComparable(value: unknown) {
+  const serialized = serializeSeedValue(value);
+  if (typeof serialized !== "string") return String(serialized);
+  const trimmed = serialized.trim();
+  if (!trimmed) return "";
+  try {
+    return JSON.stringify(JSON.parse(trimmed));
+  } catch {
+    return trimmed;
+  }
+}
+
+function shouldSeedDbValue(current: unknown, legacyDefault?: unknown) {
+  const currentComparable = normalizeSeedComparable(current);
+  if (!currentComparable || currentComparable === "[]" || currentComparable === "{}") return true;
+  return legacyDefault !== undefined && currentComparable === normalizeSeedComparable(legacyDefault);
+}
+
+async function fillSeedColumns(
+  conn: mysql.PoolConnection,
+  tableName: string,
+  whereClause: string,
+  whereParams: unknown[],
+  columns: Record<string, { value: unknown; legacy?: unknown }>,
+) {
+  const [rows] = await conn.execute(`SELECT * FROM ${tableName} WHERE ${whereClause} LIMIT 1`, whereParams as any[]);
+  const row = Array.isArray(rows) ? rows[0] as Record<string, unknown> | undefined : undefined;
+  if (!row) return;
+
+  const updates = Object.entries(columns)
+    .filter(([column, config]) => shouldSeedDbValue(row[column], config.legacy))
+    .map(([column, config]) => ({ column, value: serializeSeedValue(config.value) }));
+
+  if (!updates.length) return;
+
+  await conn.execute(
+    `UPDATE ${tableName} SET ${updates.map((update) => `${update.column} = ?`).join(", ")} WHERE ${whereClause}`,
+    [...updates.map((update) => update.value), ...whereParams] as any[],
+  );
+}
+
+function buildSeedColumns<T extends Record<string, any>>(
+  fallback: T,
+  legacy: T,
+  mappings: Array<[string, keyof T]>,
+): Record<string, { value: unknown; legacy?: unknown }> {
+  return Object.fromEntries(
+    mappings.map(([column, key]) => [column, { value: fallback[key], legacy: legacy[key] }]),
+  );
+}
+
+function getGermanProductSeed(row: any) {
+  const id = asString(row?.id);
+  const categoryKey = isProductCategoryKey(asString(row?.category_key))
+    ? asString(row?.category_key)
+    : resolveProductCategoryKey(`${asString(row?.category)} ${asString(row?.name)}`);
+  const normalizedKey = id.includes("mixed") ? "mixed" : categoryKey || "dried-apricot";
+  const tonnageOptions = ["1-5 Tonnen", "5-20 Tonnen", "1 FCL (20 ft)", "Mehrere FCL"];
+  const defaults: Record<string, {
+    name: string;
+    category: string;
+    shortDescription: string;
+    longDescription: string;
+    highlights: string[];
+    sections: ProductSectionRecord[];
+    inquiry: string;
+    seo: SeoRecord;
+  }> = {
+    "dried-apricot": {
+      name: "Sonnengetrocknete Aprikosen",
+      category: "Getrocknete Aprikosen",
+      shortDescription: "Natürlich süße Aprikosen aus Usbekistan für Großhandel, Retail-Verpackung und Lebensmittelproduktion.",
+      longDescription: "<p>Sonnengetrocknete Aprikosen aus Usbekistan werden für ihre konzentrierte Süße, ihr klares Fruchtprofil und ihre flexible Nutzung geschätzt.</p><p>Wir bereiten Aprikosenlinien mit kontrollierter Feuchtigkeit, Sortierung und käuferspezifischer Verpackung für wiederkehrende Programme vor.</p>",
+      highlights: ["Herkunft Usbekistan", "Goldene und naturbelassene Qualitäten", "Großhandelskartons und Private Label", "Kontrollierte Feuchtigkeit und Größen"],
+      sections: [
+        { title: "Für Einkäufer", body: "<p>Geeignet für Distributoren, Retail-Marken, Süßwarenhersteller und Zutatenkäufer mit Bedarf an verlässlicher Aprikosenversorgung.</p>" },
+        { title: "Verarbeitung & Qualität", body: "<p>Die Früchte werden nach Größe, Erscheinungsbild und Feuchtigkeitsprofil sortiert, bevor sie nach Käuferanforderung verpackt werden.</p>" },
+        { title: "Verpackung", body: "<p>Lieferbar in Großkartons, Foodservice-Formaten und Private-Label-Verpackungen.</p>" },
+      ],
+      inquiry: "Großhandelsanfrage: Sonnengetrocknete Aprikosen",
+      seo: { metaTitle: "Sonnengetrocknete Aprikosen aus Usbekistan | HQ Dried Fruits", metaDescription: "Exportbereite getrocknete Aprikosen aus Usbekistan mit Großhandelsverpackung, Sortierung und Dokumenten.", slug: id || "sun-dried-apricots", ogTitle: "Sonnengetrocknete Aprikosen", imageAlt: "Sonnengetrocknete Aprikosen aus Usbekistan" },
+    },
+    raisins: {
+      name: "Schwarze Rosinen",
+      category: "Rosinen",
+      shortDescription: "Süße Rosinen aus Usbekistan für Retail, Bäckereien, Zutatenprogramme und gemischte Container.",
+      longDescription: "<p>Schwarze Rosinen aus Usbekistan verbinden natürliche Süße, dunkle Farbe und praktische Vielseitigkeit für Großhandelskunden.</p><p>Sie eignen sich für Retail-Regale, Backwaren, Süßwaren, Müsli und Foodservice-Programme.</p>",
+      highlights: ["Natürliche Süße", "Für Retail und Zutaten", "Stabile Sortierung", "Geeignet für gemischte Container"],
+      sections: [
+        { title: "Für Einkäufer", body: "<p>Ausgelegt für Importeure und Marken, die verlässliches Rosinenvolumen mit klarer Exportdokumentation benötigen.</p>" },
+        { title: "Verarbeitung & Qualität", body: "<p>Rosinen werden gereinigt, sortiert und auf Feuchtigkeit sowie Fremdmaterial geprüft.</p>" },
+        { title: "Verpackung", body: "<p>Großkartons und käuferspezifische Verpackungsformate sind für Großhandelsprogramme verfügbar.</p>" },
+      ],
+      inquiry: "Großhandelsanfrage: Schwarze Rosinen",
+      seo: { metaTitle: "Schwarze Rosinen aus Usbekistan im Großhandel | HQ Dried Fruits", metaDescription: "Usbekische schwarze Rosinen für Retail, Bäckereien, Zutatenprogramme und Export-Großhandel.", slug: id || "black-raisins", ogTitle: "Schwarze Rosinen", imageAlt: "Schwarze Rosinen aus Usbekistan" },
+    },
+    prunes: {
+      name: "Entsteinte Trockenpflaumen",
+      category: "Trockenpflaumen",
+      shortDescription: "Weiche Trockenpflaumen mit und ohne Stein für Großhandel, Retail und Lebensmittelproduktion.",
+      longDescription: "<p>Unsere Trockenpflaumenlinien sind für Käufer vorbereitet, die weiche Textur, stabile Feuchtigkeit und flexible Verpackungsformate brauchen.</p><p>Formate mit und ohne Stein unterstützen Retail, Foodservice und Zutatenprogramme.</p>",
+      highlights: ["Mit und ohne Stein verfügbar", "Weiche Textur", "Feuchtigkeitskontrollierte Verpackung", "Retail- und Foodservice-Formate"],
+      sections: [
+        { title: "Für Einkäufer", body: "<p>Trockenpflaumen passen zu gesundheitsorientiertem Retail, Backfüllungen, Foodservice und Zutatenbeschaffung.</p>" },
+        { title: "Verarbeitung & Qualität", body: "<p>Die Ware wird nach Textur, Feuchtigkeit und Steinkontrolle entsprechend dem gewählten Format geprüft.</p>" },
+        { title: "Verpackung", body: "<p>Großhandelskartons und käuferspezifische Verpackung können für Zielmarktanforderungen vorbereitet werden.</p>" },
+      ],
+      inquiry: "Großhandelsanfrage: Entsteinte Trockenpflaumen",
+      seo: { metaTitle: "Entsteinte Trockenpflaumen aus Usbekistan | HQ Dried Fruits", metaDescription: "Trockenpflaumen mit und ohne Stein für Großhandel, Retail und Zutatenversorgung.", slug: id || "pitted-prunes", ogTitle: "Entsteinte Trockenpflaumen", imageAlt: "Entsteinte Trockenpflaumen" },
+    },
+    peanuts: {
+      name: "Erdnüsse",
+      category: "Erdnüsse",
+      shortDescription: "Erdnusslinien für Großhandel, Verarbeitung, Snackprogramme und gemischte Container.",
+      longDescription: "<p>Erdnüsse werden für Käufer vorbereitet, die stabile Qualität, klare Verpackungsoptionen und wiederholbare Lieferungen benötigen.</p><p>Die Linien eignen sich für Weiterverarbeitung, Snackprogramme und Großhandelsdistribution.</p>",
+      highlights: ["Großhandelsfähige Ware", "Für Verarbeitung und Snacks", "Flexible Verpackung", "Wiederkehrende Programme"],
+      sections: [
+        { title: "Für Einkäufer", body: "<p>Geeignet für Distributoren, Verarbeiter und Marken mit Bedarf an planbarer Erdnussversorgung.</p>" },
+        { title: "Verarbeitung & Qualität", body: "<p>Die Ware wird nach Format, Reinheit und Käuferanforderungen geprüft.</p>" },
+        { title: "Verpackung", body: "<p>Verpackung und Kennzeichnung werden passend zum Zielmarkt abgestimmt.</p>" },
+      ],
+      inquiry: "Großhandelsanfrage: Erdnüsse",
+      seo: { metaTitle: "Erdnüsse im Großhandel | HQ Dried Fruits", metaDescription: "Erdnüsse für Großhandel, Verarbeitung, Snackprogramme und Exportlieferungen.", slug: id || "peanuts", ogTitle: "Erdnüsse", imageAlt: "Erdnüsse" },
+    },
+    mixed: {
+      name: "Trockenfrucht-Mischung",
+      category: "Sortimente",
+      shortDescription: "Käuferfertige Mischungen aus Aprikosen, Rosinen, Trockenpflaumen und weiteren Trockenfrüchten.",
+      longDescription: "<p>Trockenfrucht-Mischungen helfen Käufern, mehrere usbekische Produktlinien in einem praktischen Programm zu kombinieren.</p><p>Mischungen können für Retail-Packs, Foodservice, Geschenkformate oder gemischte Container aufgebaut werden.</p>",
+      highlights: ["Individuelle Mischungen", "Retail- und Foodservice-Formate", "Programme für gemischte Container", "Flexible Etikettierung"],
+      sections: [
+        { title: "Für Einkäufer", body: "<p>Ideal für Importeure und Marken, die mehrere Trockenfruchtlinien in einer käuferfertigen Lösung bündeln möchten.</p>" },
+        { title: "Mischungsplanung", body: "<p>Sortimente können nach Fruchtart, Größe, Farbe, Süßeprofil und Verpackungsformat zusammengestellt werden.</p>" },
+        { title: "Verpackung", body: "<p>Verfügbar für Retail-Packs, Foodservice-Kartons, Private Label und Promotion-Formate.</p>" },
+      ],
+      inquiry: "Großhandelsanfrage: Trockenfrucht-Mischung",
+      seo: { metaTitle: "Trockenfrucht-Mischungen aus Usbekistan | HQ Dried Fruits", metaDescription: "Käuferfertige Trockenfrucht-Sortimente mit Aprikosen, Rosinen, Trockenpflaumen und gemischten Packs.", slug: id || "mixed-dried-fruits", ogTitle: "Trockenfrucht-Mischung", imageAlt: "Trockenfrucht-Mischung" },
+    },
+  };
+  const copy = defaults[normalizedKey] || defaults["dried-apricot"];
+
+  return {
+    ...copy,
+    categoryKey: categoryKey || null,
+    status: asString(row?.status, "Active"),
+    image: asString(row?.image),
+    imageGallery: safeParseJson<string[]>(row?.image_gallery, []),
+    nutrition: safeParseJson(row?.nutrition, { energy: "", protein: "", fat: "", carbs: "" }),
+    tonnageOptions,
+    displayOrder: Number.isFinite(Number(row?.display_order)) ? Number(row?.display_order) : null,
+    technicalPassport: row?.technical_passport ?? null,
+  };
+}
+
+function mergeGermanFlexibleDefaults(pageId: keyof typeof pageContentTables, existingContent: unknown, legacyContent: unknown = {}) {
+  const defaults = getDefaultFlexiblePageContent(pageId, "de") as Record<string, unknown>;
+  const existing = isPlainRecord(existingContent) ? { ...existingContent } : {};
+  const legacy = isPlainRecord(legacyContent) ? legacyContent : {};
+  const merged: Record<string, unknown> = { ...defaults, ...existing };
+
+  for (const [key, value] of Object.entries(defaults)) {
+    if (shouldSeedDbValue(existing[key], legacy[key])) merged[key] = value;
+  }
+
+  if (pageId === "home") {
+    merged.exportMarkets = normalizeHomeBuyerChannels(Array.isArray(existing.exportMarkets) ? existing.exportMarkets : [], "de");
+  }
+
+  if (pageId === "about") {
+    merged.ownProductionItems = normalizeAboutProductionItems(Array.isArray(existing.ownProductionItems) ? existing.ownProductionItems : [], "de");
+  }
+
+  return normalizeFlexiblePageContent(pageId, merged, "de");
+}
+
+async function seedGermanDefaults(conn: mysql.PoolConnection) {
+  console.log("[DB Startup] Seeding German locale defaults...");
+  const germanGlobal = getDefaultGlobalSettings("de");
+  const englishGlobal = getDefaultGlobalSettings("en");
+  await fillSeedColumns(conn, "global_settings", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanGlobal, englishGlobal, [
+    ["site_name", "siteName"],
+    ["nav_links", "navLinks"],
+    ["cta_text", "ctaText"],
+    ["cta_url", "ctaUrl"],
+    ["footer_description", "footerDescription"],
+    ["footer_lead_text", "footerLeadText"],
+    ["quick_links", "quickLinks"],
+    ["office_address", "officeAddress"],
+    ["phone_number", "phoneNumber"],
+    ["email_address", "emailAddress"],
+    ["telegram_url", "telegramUrl"],
+    ["footer_cta_title", "footerCtaTitle"],
+    ["footer_cta_email", "footerCtaEmail"],
+    ["footer_copyright_text", "footerCopyrightText"],
+    ["ui_labels", "uiLabels"],
+    ["google_site_verification_id", "googleSiteVerificationId"],
+  ]));
+
+  const germanProductsPage = getDefaultProductsPage("de");
+  const englishProductsPage = getDefaultProductsPage("en");
+  await fillSeedColumns(conn, "products_page", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanProductsPage, englishProductsPage, [
+    ["page_title", "pageTitle"],
+    ["page_subtitle", "pageSubtitle"],
+    ["intro_eyebrow", "introEyebrow"],
+    ["intro_title", "introTitle"],
+    ["intro_content", "introContent"],
+    ["intro_facts", "introFacts"],
+    ["catalog_eyebrow", "catalogEyebrow"],
+    ["catalog_title", "catalogTitle"],
+    ["ordering_form_title", "orderingFormTitle"],
+    ["ordering_form_subtitle", "orderingFormSubtitle"],
+    ["step_one_label", "stepOneLabel"],
+    ["step_two_label", "stepTwoLabel"],
+    ["step_three_label", "stepThreeLabel"],
+    ["mixed_container_label", "mixedContainerLabel"],
+    ["volume_options", "volumeOptions"],
+    ["view_specs_label", "viewSpecsLabel"],
+    ["step_one_placeholder", "stepOnePlaceholder"],
+    ["step_three_placeholder", "stepThreePlaceholder"],
+    ["next_step_button_label", "nextStepButtonLabel"],
+    ["back_button_label", "backButtonLabel"],
+    ["submit_button_label", "submitButtonLabel"],
+    ["submitting_button_label", "submittingButtonLabel"],
+    ["detail_ui", "detailUi"],
+    ["quick_contact_title", "quickContactTitle"],
+    ["quick_contact_subtitle", "quickContactSubtitle"],
+    ["telegram_label", "telegramLabel"],
+    ["telegram_sublabel", "telegramSublabel"],
+    ["call_label", "callLabel"],
+    ["email_label", "emailLabel"],
+    ["quick_phone", "quickPhone"],
+    ["quick_email", "quickEmail"],
+  ]));
+
+  const germanExportPage = getDefaultExportPage("de");
+  const englishExportPage = getDefaultExportPage("en");
+  await fillSeedColumns(conn, "export_page", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanExportPage, englishExportPage, [
+    ["hero_title", "heroTitle"],
+    ["hero_subtitle", "heroSubtitle"],
+    ["operations_eyebrow", "operationsEyebrow"],
+    ["destination_eyebrow", "destinationEyebrow"],
+    ["map_section_title", "mapSectionTitle"],
+    ["supply_routes", "supplyRoutes"],
+    ["logistics_content", "logisticsContent"],
+    ["packaging_title", "packagingTitle"],
+    ["packaging_methods", "packagingMethods"],
+    ["transportation_title", "transportationTitle"],
+    ["transportation_methods", "transportationMethods"],
+    ["documentation_title", "documentationTitle"],
+    ["documentation_content", "documentationContent"],
+    ["quality_title", "qualityTitle"],
+    ["technical_specs", "technicalSpecs"],
+    ["quality_checks", "qualityChecks"],
+    ["certifications_gallery", "certificationsGallery"],
+  ]));
+
+  const germanContactsPage = getDefaultContactsPage("de");
+  const englishContactsPage = getDefaultContactsPage("en");
+  await fillSeedColumns(conn, "contacts_page", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanContactsPage, englishContactsPage, [
+    ["page_title", "pageTitle"],
+    ["intro_text", "introText"],
+    ["direct_contact_eyebrow", "directContactEyebrow"],
+    ["form_destination_email", "formDestinationEmail"],
+    ["contact_form_title", "contactFormTitle"],
+    ["response_label_prefix", "responseLabelPrefix"],
+    ["form_name_label", "formNameLabel"],
+    ["form_company_label", "formCompanyLabel"],
+    ["form_email_label", "formEmailLabel"],
+    ["form_message_label", "formMessageLabel"],
+    ["submit_button_label", "submitButtonLabel"],
+    ["submitting_button_label", "submittingButtonLabel"],
+    ["email", "emailAddress"],
+    ["phone", "phoneNumber"],
+    ["office_address", "officeAddress"],
+    ["working_hours", "workingHours"],
+    ["map_pin_label", "mapPinLabel"],
+    ["info_email_label", "infoEmailLabel"],
+    ["info_phone_label", "infoPhoneLabel"],
+    ["info_address_label", "infoAddressLabel"],
+    ["info_hours_label", "infoHoursLabel"],
+    ["social_section_title", "socialSectionTitle"],
+    ["telegram_url", "telegramUrl"],
+    ["instagram_url", "instagramUrl"],
+    ["whatsapp_url", "whatsappUrl"],
+    ["facebook_url", "facebookUrl"],
+    ["google_maps_url", "googleMapsUrl"],
+  ]));
+
+  for (const pageId of Object.keys(pageContentTables) as Array<keyof typeof pageContentTables>) {
+    const tableName = pageContentTables[pageId];
+    const [rows] = await conn.execute(`SELECT lang, content FROM ${tableName} WHERE id = 1 AND lang IN (?, ?)`, ["de", "en"]);
+    const contentRows = Array.isArray(rows) ? rows as Array<Record<string, unknown>> : [];
+    const germanRow = contentRows.find((candidate) => asString(candidate.lang) === "de");
+    const englishRow = contentRows.find((candidate) => asString(candidate.lang) === "en");
+    const existingContent = safeParseJson(germanRow?.content, {});
+    const legacyContent = safeParseJson(englishRow?.content, {});
+    const nextContent = mergeGermanFlexibleDefaults(pageId, existingContent, legacyContent);
+    if (shouldSeedDbValue(germanRow?.content) || normalizeSeedComparable(nextContent) !== normalizeSeedComparable(existingContent)) {
+      await conn.execute(`UPDATE ${tableName} SET content = ? WHERE id = 1 AND lang = ?`, [JSON.stringify(nextContent), "de"]);
+    }
+  }
+
+  const germanSeo = getDefaultPageSeoMap("de");
+  const englishSeo = getDefaultPageSeoMap("en");
+  for (const pageId of Object.keys(germanSeo) as PageId[]) {
+    await conn.execute("INSERT IGNORE INTO page_seo (page_id, lang) VALUES (?, ?)", [pageId, "de"]);
+    await fillSeedColumns(conn, "page_seo", "page_id = ? AND lang = ?", [pageId, "de"], {
+      meta_title: { value: germanSeo[pageId].metaTitle, legacy: englishSeo[pageId].metaTitle },
+      meta_description: { value: germanSeo[pageId].metaDescription, legacy: englishSeo[pageId].metaDescription },
+      slug: { value: germanSeo[pageId].slug, legacy: englishSeo[pageId].slug },
+      og_title: { value: germanSeo[pageId].ogTitle, legacy: englishSeo[pageId].ogTitle },
+      image_alt: { value: germanSeo[pageId].imageAlt, legacy: englishSeo[pageId].imageAlt },
+    });
+  }
+
+  const [englishProductRows] = await conn.execute("SELECT * FROM products WHERE lang = ? ORDER BY COALESCE(display_order, 9999), id", ["en"]);
+  for (const row of Array.isArray(englishProductRows) ? englishProductRows as any[] : []) {
+    const productId = asString(row?.id);
+    if (!productId) continue;
+    const germanProduct = getGermanProductSeed(row);
+    await conn.execute(
+      `INSERT IGNORE INTO products (id, lang, name, category_key, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        productId,
+        "de",
+        germanProduct.name,
+        germanProduct.categoryKey,
+        germanProduct.category,
+        germanProduct.status,
+        germanProduct.image,
+        JSON.stringify(germanProduct.imageGallery),
+        germanProduct.shortDescription,
+        germanProduct.longDescription,
+        JSON.stringify(germanProduct.highlights),
+        JSON.stringify(germanProduct.sections),
+        JSON.stringify(germanProduct.nutrition),
+        germanProduct.inquiry,
+        JSON.stringify(germanProduct.tonnageOptions),
+        JSON.stringify(germanProduct.seo),
+        germanProduct.displayOrder,
+        germanProduct.technicalPassport,
+      ],
+    );
+    await fillSeedColumns(conn, "products", "id = ? AND lang = ?", [productId, "de"], {
+      name: { value: germanProduct.name, legacy: row.name },
+      category_key: { value: germanProduct.categoryKey, legacy: row.category_key },
+      category: { value: germanProduct.category, legacy: row.category },
+      short_description: { value: germanProduct.shortDescription, legacy: row.short_description },
+      long_description: { value: germanProduct.longDescription, legacy: row.long_description },
+      highlights: { value: germanProduct.highlights, legacy: row.highlights },
+      content_sections: { value: germanProduct.sections, legacy: row.content_sections },
+      inquiry_subject_line: { value: germanProduct.inquiry, legacy: row.inquiry_subject_line },
+      tonnage_options: { value: germanProduct.tonnageOptions, legacy: row.tonnage_options },
+      seo: { value: germanProduct.seo, legacy: row.seo },
+    });
+  }
+}
+
+async function seedHomeStatsDefaults(conn: mysql.PoolConnection) {
+  const [rows] = await conn.execute("SELECT lang, content FROM home_page WHERE id = 1");
+  const homeRows = Array.isArray(rows) ? rows as Array<Record<string, unknown>> : [];
+
+  for (const locale of activeLocales) {
+    const row = homeRows.find((candidate) => asString(candidate.lang, "en") === locale);
+    const existingContent = safeParseJson(row?.content, {});
+    const content = isPlainRecord(existingContent) ? { ...existingContent } : {};
+    const nextStatsGrid = normalizeHomeStatsGrid(content.statsGrid, locale);
+
+    if (normalizeSeedComparable(content.statsGrid) === normalizeSeedComparable(nextStatsGrid)) continue;
+
+    await conn.execute(
+      "UPDATE home_page SET content = ? WHERE id = 1 AND lang = ?",
+      [JSON.stringify({ ...content, statsGrid: nextStatsGrid }), locale],
+    );
+  }
 }
 
 function getPathValue(source: unknown, pathValue: string) {
@@ -1107,6 +1870,7 @@ async function getGlobalSettings(locale: string = "en") {
   const res = await db.query("SELECT * FROM global_settings WHERE id = 1");
   const targetRow = res.rows.find((row: any) => asString(row?.lang, "en") === resolvedLocale) || {};
   return mapGlobalSettings({
+    lang: resolvedLocale,
     ...targetRow,
     header_logo: pickSharedMediaField(res.rows, "header_logo", targetRow?.header_logo),
     footer_logo: pickSharedMediaField(res.rows, "footer_logo", targetRow?.footer_logo),
@@ -1115,6 +1879,7 @@ async function getGlobalSettings(locale: string = "en") {
 
 async function getPageSeo(locale: string = "en") {
   const resolvedLocale = normalizeLocale(locale);
+  const fallbackSeo = getDefaultPageSeoMap(resolvedLocale);
   const res = await db.query("SELECT * FROM page_seo WHERE lang = $1", [resolvedLocale]);
   const seoByPage = (res.rows as any[]).reduce<Record<string, SeoRecord>>((acc, row) => {
     const pageId = asString(row.page_id) as PageId;
@@ -1122,7 +1887,7 @@ async function getPageSeo(locale: string = "en") {
     return acc;
   }, {});
   for (const pageId of Object.keys(defaultPageSeo) as PageId[]) {
-    if (!seoByPage[pageId]) seoByPage[pageId] = defaultPageSeo[pageId];
+    if (!seoByPage[pageId]) seoByPage[pageId] = fallbackSeo[pageId];
   }
   return seoByPage as Record<PageId, SeoRecord>;
 }
@@ -1148,7 +1913,7 @@ async function findProductRowByIdentifier(identifier: string, locale: string = "
 }
 
 function mapSeoRecord(row: any, pageId: PageId): SeoRecord {
-  const fallback = defaultPageSeo[pageId];
+  const fallback = getDefaultPageSeoMap(asString(row?.lang, "en"))[pageId];
   return {
     metaTitle: asString(row?.meta_title, fallback.metaTitle),
     metaDescription: asString(row?.meta_description, fallback.metaDescription),
@@ -1201,16 +1966,18 @@ function mapProduct(row: any) {
 }
 
 function mapGlobalSettings(row: any) {
+  const fallback = getDefaultGlobalSettings(asString(row?.lang, "en"));
   return {
-    headerLogo: asString(row?.header_logo, defaultGlobalSettings.headerLogo), favicon: asString(row?.favicon, defaultGlobalSettings.favicon), siteName: asString(row?.site_name, defaultGlobalSettings.siteName), navLinks: safeParseJson(row?.nav_links, defaultGlobalSettings.navLinks), ctaText: asString(row?.cta_text, defaultGlobalSettings.ctaText), ctaUrl: asString(row?.cta_url, defaultGlobalSettings.ctaUrl), footerLogo: asString(row?.footer_logo, defaultGlobalSettings.footerLogo), footerDescription: asString(row?.footer_description, defaultGlobalSettings.footerDescription), footerLeadText: asString(row?.footer_lead_text, defaultGlobalSettings.footerLeadText), quickLinks: safeParseJson(row?.quick_links, defaultGlobalSettings.quickLinks), officeAddress: asString(row?.office_address, defaultGlobalSettings.officeAddress), phoneNumber: asString(row?.phone_number, defaultGlobalSettings.phoneNumber), emailAddress: asString(row?.email_address, defaultGlobalSettings.emailAddress), telegramUrl: asString(row?.telegram_url, defaultGlobalSettings.telegramUrl), footerCtaTitle: asString(row?.footer_cta_title, defaultGlobalSettings.footerCtaTitle), footerCtaEmail: asString(row?.footer_cta_email, defaultGlobalSettings.footerCtaEmail), footerCopyrightText: asString(row?.footer_copyright_text, defaultGlobalSettings.footerCopyrightText),
-    uiLabels: { ...defaultGlobalSettings.uiLabels, ...safeParseJson(row?.ui_labels, defaultGlobalSettings.uiLabels) },
-    googleSiteVerificationId: asString(row?.google_site_verification_id, defaultGlobalSettings.googleSiteVerificationId),
+    headerLogo: asString(row?.header_logo, fallback.headerLogo), favicon: asString(row?.favicon, fallback.favicon), siteName: asString(row?.site_name, fallback.siteName), navLinks: safeParseJson(row?.nav_links, fallback.navLinks), ctaText: asString(row?.cta_text, fallback.ctaText), ctaUrl: asString(row?.cta_url, fallback.ctaUrl), footerLogo: asString(row?.footer_logo, fallback.footerLogo), footerDescription: asString(row?.footer_description, fallback.footerDescription), footerLeadText: asString(row?.footer_lead_text, fallback.footerLeadText), quickLinks: safeParseJson(row?.quick_links, fallback.quickLinks), officeAddress: asString(row?.office_address, fallback.officeAddress), phoneNumber: asString(row?.phone_number, fallback.phoneNumber), emailAddress: asString(row?.email_address, fallback.emailAddress), telegramUrl: asString(row?.telegram_url, fallback.telegramUrl), footerCtaTitle: asString(row?.footer_cta_title, fallback.footerCtaTitle), footerCtaEmail: asString(row?.footer_cta_email, fallback.footerCtaEmail), footerCopyrightText: asString(row?.footer_copyright_text, fallback.footerCopyrightText),
+    uiLabels: { ...fallback.uiLabels, ...safeParseJson(row?.ui_labels, fallback.uiLabels) },
+    googleSiteVerificationId: asString(row?.google_site_verification_id, fallback.googleSiteVerificationId),
   };
 }
 
 function mapProductsPage(row: any) {
+  const fallback = getDefaultProductsPage(asString(row?.lang, "en"));
   return {
-    pageTitle: asString(row?.page_title, defaultProductsPage.pageTitle), pageSubtitle: asString(row?.page_subtitle, defaultProductsPage.pageSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultProductsPage.heroBgImage), introEyebrow: asString(row?.intro_eyebrow, defaultProductsPage.introEyebrow), introTitle: asString(row?.intro_title, defaultProductsPage.introTitle), introContent: asContentString(row?.intro_content, defaultProductsPage.introContent), introImage: asString(row?.intro_image, defaultProductsPage.introImage), introFacts: safeParseJson(row?.intro_facts, defaultProductsPage.introFacts), catalogEyebrow: asString(row?.catalog_eyebrow, defaultProductsPage.catalogEyebrow), catalogTitle: asString(row?.catalog_title, defaultProductsPage.catalogTitle), orderingBgImage: asString(row?.ordering_bg_image, defaultProductsPage.orderingBgImage), orderingFormTitle: asString(row?.ordering_form_title, defaultProductsPage.orderingFormTitle), orderingFormSubtitle: asString(row?.ordering_form_subtitle, defaultProductsPage.orderingFormSubtitle), stepOneLabel: asString(row?.step_one_label, defaultProductsPage.stepOneLabel), stepTwoLabel: asString(row?.step_two_label, defaultProductsPage.stepTwoLabel), stepThreeLabel: asString(row?.step_three_label, defaultProductsPage.stepThreeLabel), mixedContainerLabel: asString(row?.mixed_container_label, defaultProductsPage.mixedContainerLabel), volumeOptions: safeParseJson(row?.volume_options, defaultProductsPage.volumeOptions), viewSpecsLabel: asString(row?.view_specs_label, defaultProductsPage.viewSpecsLabel), stepOnePlaceholder: asString(row?.step_one_placeholder, defaultProductsPage.stepOnePlaceholder), stepThreePlaceholder: asString(row?.step_three_placeholder, defaultProductsPage.stepThreePlaceholder), nextStepButtonLabel: asString(row?.next_step_button_label, defaultProductsPage.nextStepButtonLabel), backButtonLabel: asString(row?.back_button_label, defaultProductsPage.backButtonLabel), submitButtonLabel: asString(row?.submit_button_label, defaultProductsPage.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, defaultProductsPage.submittingButtonLabel), detailUi: { ...defaultProductsPage.detailUi, ...safeParseJson(row?.detail_ui, defaultProductsPage.detailUi) }, quickContactTitle: asString(row?.quick_contact_title, defaultProductsPage.quickContactTitle), quickContactSubtitle: asString(row?.quick_contact_subtitle, defaultProductsPage.quickContactSubtitle), telegramLabel: asString(row?.telegram_label, defaultProductsPage.telegramLabel), telegramSublabel: asString(row?.telegram_sublabel, defaultProductsPage.telegramSublabel), callLabel: asString(row?.call_label, defaultProductsPage.callLabel), emailLabel: asString(row?.email_label, defaultProductsPage.emailLabel), quickPhone: asString(row?.quick_phone, defaultProductsPage.quickPhone), quickEmail: asString(row?.quick_email, defaultProductsPage.quickEmail),
+    pageTitle: asString(row?.page_title, fallback.pageTitle), pageSubtitle: asString(row?.page_subtitle, fallback.pageSubtitle), heroBgImage: asString(row?.hero_bg_image, fallback.heroBgImage), introEyebrow: asString(row?.intro_eyebrow, fallback.introEyebrow), introTitle: asString(row?.intro_title, fallback.introTitle), introContent: asContentString(row?.intro_content, fallback.introContent), introImage: asString(row?.intro_image, fallback.introImage), introFacts: safeParseJson(row?.intro_facts, fallback.introFacts), catalogEyebrow: asString(row?.catalog_eyebrow, fallback.catalogEyebrow), catalogTitle: asString(row?.catalog_title, fallback.catalogTitle), orderingBgImage: asString(row?.ordering_bg_image, fallback.orderingBgImage), orderingFormTitle: asString(row?.ordering_form_title, fallback.orderingFormTitle), orderingFormSubtitle: asString(row?.ordering_form_subtitle, fallback.orderingFormSubtitle), stepOneLabel: asString(row?.step_one_label, fallback.stepOneLabel), stepTwoLabel: asString(row?.step_two_label, fallback.stepTwoLabel), stepThreeLabel: asString(row?.step_three_label, fallback.stepThreeLabel), mixedContainerLabel: asString(row?.mixed_container_label, fallback.mixedContainerLabel), volumeOptions: safeParseJson(row?.volume_options, fallback.volumeOptions), viewSpecsLabel: asString(row?.view_specs_label, fallback.viewSpecsLabel), stepOnePlaceholder: asString(row?.step_one_placeholder, fallback.stepOnePlaceholder), stepThreePlaceholder: asString(row?.step_three_placeholder, fallback.stepThreePlaceholder), nextStepButtonLabel: asString(row?.next_step_button_label, fallback.nextStepButtonLabel), backButtonLabel: asString(row?.back_button_label, fallback.backButtonLabel), submitButtonLabel: asString(row?.submit_button_label, fallback.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, fallback.submittingButtonLabel), detailUi: { ...fallback.detailUi, ...safeParseJson(row?.detail_ui, fallback.detailUi) }, quickContactTitle: asString(row?.quick_contact_title, fallback.quickContactTitle), quickContactSubtitle: asString(row?.quick_contact_subtitle, fallback.quickContactSubtitle), telegramLabel: asString(row?.telegram_label, fallback.telegramLabel), telegramSublabel: asString(row?.telegram_sublabel, fallback.telegramSublabel), callLabel: asString(row?.call_label, fallback.callLabel), emailLabel: asString(row?.email_label, fallback.emailLabel), quickPhone: asString(row?.quick_phone, fallback.quickPhone), quickEmail: asString(row?.quick_email, fallback.quickEmail),
   };
 }
 
@@ -1223,17 +1990,19 @@ function normalizeLegacyExportText(value: string, fallback: string, legacyValues
 
 function mapExportPage(row: any) {
   const locale = normalizeLocale(asString(row?.lang, "en"));
-  const destinationEyebrow = asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow);
-  const mapSectionTitle = asString(row?.map_section_title, defaultExportPage.mapSectionTitle);
+  const fallback = getDefaultExportPage(locale);
+  const destinationEyebrow = asString(row?.destination_eyebrow, fallback.destinationEyebrow);
+  const mapSectionTitle = asString(row?.map_section_title, fallback.mapSectionTitle);
 
   return {
-    heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle), heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle), heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage), operationsImage: asString(row?.operations_image, defaultExportPage.operationsImage), operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow), destinationEyebrow: normalizeLegacyExportText(destinationEyebrow, defaultExportPage.destinationEyebrow, ["Export Geography"]), mapSectionTitle: normalizeLegacyExportText(mapSectionTitle, defaultExportPage.mapSectionTitle, ["Our Global Export Network"]), supplyRoutes: normalizeSupplyRoutes(safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes), locale), logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent), packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle), packagingMethods: asContentString(row?.packaging_methods, defaultExportPage.packagingMethods), transportationTitle: asContentString(row?.transportation_title, defaultExportPage.transportationTitle), transportationMethods: asContentString(row?.transportation_methods, defaultExportPage.transportationMethods), documentationTitle: asContentString(row?.documentation_title, defaultExportPage.documentationTitle), documentationContent: asContentString(row?.documentation_content, defaultExportPage.documentationContent), qualityTitle: asContentString(row?.quality_title, defaultExportPage.qualityTitle), technicalSpecs: asContentString(row?.technical_specs, defaultExportPage.technicalSpecs), qualityChecks: safeParseJson(row?.quality_checks, defaultExportPage.qualityChecks), certificationsGallery: safeParseJson(row?.certifications_gallery, defaultExportPage.certificationsGallery),
+    heroTitle: asString(row?.hero_title, fallback.heroTitle), heroSubtitle: asString(row?.hero_subtitle, fallback.heroSubtitle), heroBgImage: asString(row?.hero_bg_image, fallback.heroBgImage), operationsImage: asString(row?.operations_image, fallback.operationsImage), operationsEyebrow: asString(row?.operations_eyebrow, fallback.operationsEyebrow), destinationEyebrow: normalizeLegacyExportText(destinationEyebrow, fallback.destinationEyebrow, ["Export Geography"]), mapSectionTitle: normalizeLegacyExportText(mapSectionTitle, fallback.mapSectionTitle, ["Our Global Export Network"]), supplyRoutes: normalizeSupplyRoutes(safeParseJson(row?.supply_routes, fallback.supplyRoutes), locale), logisticsContent: asContentString(row?.logistics_content, fallback.logisticsContent), packagingTitle: asContentString(row?.packaging_title, fallback.packagingTitle), packagingMethods: asContentString(row?.packaging_methods, fallback.packagingMethods), transportationTitle: asContentString(row?.transportation_title, fallback.transportationTitle), transportationMethods: asContentString(row?.transportation_methods, fallback.transportationMethods), documentationTitle: asContentString(row?.documentation_title, fallback.documentationTitle), documentationContent: asContentString(row?.documentation_content, fallback.documentationContent), qualityTitle: asContentString(row?.quality_title, fallback.qualityTitle), technicalSpecs: asContentString(row?.technical_specs, fallback.technicalSpecs), qualityChecks: safeParseJson(row?.quality_checks, fallback.qualityChecks), certificationsGallery: safeParseJson(row?.certifications_gallery, fallback.certificationsGallery),
   };
 }
 
 function mapContactsPage(row: any) {
+  const fallback = getDefaultContactsPage(asString(row?.lang, "en"));
   return {
-    pageTitle: asString(row?.page_title, defaultContactsPage.pageTitle), introText: asString(row?.intro_text, defaultContactsPage.introText), directContactEyebrow: asString(row?.direct_contact_eyebrow, defaultContactsPage.directContactEyebrow), formDestinationEmail: asString(row?.form_destination_email, defaultContactsPage.formDestinationEmail), contactFormTitle: asString(row?.contact_form_title, defaultContactsPage.contactFormTitle), responseLabelPrefix: asString(row?.response_label_prefix, defaultContactsPage.responseLabelPrefix), formNameLabel: asString(row?.form_name_label, defaultContactsPage.formNameLabel), formCompanyLabel: asString(row?.form_company_label, defaultContactsPage.formCompanyLabel), formEmailLabel: asString(row?.form_email_label, defaultContactsPage.formEmailLabel), formMessageLabel: asString(row?.form_message_label, defaultContactsPage.formMessageLabel), submitButtonLabel: asString(row?.submit_button_label, defaultContactsPage.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, defaultContactsPage.submittingButtonLabel), emailAddress: asString(row?.email, defaultContactsPage.emailAddress), phoneNumber: asString(row?.phone, defaultContactsPage.phoneNumber), officeAddress: asString(row?.office_address, defaultContactsPage.officeAddress), workingHours: asString(row?.working_hours, defaultContactsPage.workingHours), mapPinLabel: asString(row?.map_pin_label, defaultContactsPage.mapPinLabel), infoEmailLabel: asString(row?.info_email_label, defaultContactsPage.infoEmailLabel), infoPhoneLabel: asString(row?.info_phone_label, defaultContactsPage.infoPhoneLabel), infoAddressLabel: asString(row?.info_address_label, defaultContactsPage.infoAddressLabel), infoHoursLabel: asString(row?.info_hours_label, defaultContactsPage.infoHoursLabel), socialSectionTitle: asString(row?.social_section_title, defaultContactsPage.socialSectionTitle), telegramUrl: asString(row?.telegram_url, defaultContactsPage.telegramUrl), instagramUrl: asString(row?.instagram_url, defaultContactsPage.instagramUrl), whatsappUrl: asString(row?.whatsapp_url, defaultContactsPage.whatsappUrl), facebookUrl: asString(row?.facebook_url, defaultContactsPage.facebookUrl), headquartersImage: asString(row?.headquarters_image, defaultContactsPage.headquartersImage), googleMapsUrl: asString(row?.google_maps_url, defaultContactsPage.googleMapsUrl),
+    pageTitle: asString(row?.page_title, fallback.pageTitle), introText: asString(row?.intro_text, fallback.introText), directContactEyebrow: asString(row?.direct_contact_eyebrow, fallback.directContactEyebrow), formDestinationEmail: asString(row?.form_destination_email, fallback.formDestinationEmail), contactFormTitle: asString(row?.contact_form_title, fallback.contactFormTitle), responseLabelPrefix: asString(row?.response_label_prefix, fallback.responseLabelPrefix), formNameLabel: asString(row?.form_name_label, fallback.formNameLabel), formCompanyLabel: asString(row?.form_company_label, fallback.formCompanyLabel), formEmailLabel: asString(row?.form_email_label, fallback.formEmailLabel), formMessageLabel: asString(row?.form_message_label, fallback.formMessageLabel), submitButtonLabel: asString(row?.submit_button_label, fallback.submitButtonLabel), submittingButtonLabel: asString(row?.submitting_button_label, fallback.submittingButtonLabel), emailAddress: asString(row?.email, fallback.emailAddress), phoneNumber: asString(row?.phone, fallback.phoneNumber), officeAddress: asString(row?.office_address, fallback.officeAddress), workingHours: asString(row?.working_hours, fallback.workingHours), mapPinLabel: asString(row?.map_pin_label, fallback.mapPinLabel), infoEmailLabel: asString(row?.info_email_label, fallback.infoEmailLabel), infoPhoneLabel: asString(row?.info_phone_label, fallback.infoPhoneLabel), infoAddressLabel: asString(row?.info_address_label, fallback.infoAddressLabel), infoHoursLabel: asString(row?.info_hours_label, fallback.infoHoursLabel), socialSectionTitle: asString(row?.social_section_title, fallback.socialSectionTitle), telegramUrl: asString(row?.telegram_url, fallback.telegramUrl), instagramUrl: asString(row?.instagram_url, fallback.instagramUrl), whatsappUrl: asString(row?.whatsapp_url, fallback.whatsappUrl), facebookUrl: asString(row?.facebook_url, fallback.facebookUrl), headquartersImage: asString(row?.headquarters_image, fallback.headquartersImage), googleMapsUrl: asString(row?.google_maps_url, fallback.googleMapsUrl),
   };
 }
 
@@ -1241,7 +2010,7 @@ async function readContentTable(pageId: keyof typeof pageContentTables, locale: 
   const resolvedLocale = normalizeLocale(locale);
   const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
   const row = res.rows.find((candidate: any) => asString(candidate?.lang, "en") === resolvedLocale);
-  const fallback = (pageId === "privacy" || pageId === "terms") ? defaultSimplePages[pageId as keyof typeof defaultSimplePages] : {};
+  const fallback = getDefaultFlexiblePageContent(pageId, resolvedLocale);
   const targetContent = normalizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback), resolvedLocale);
   const config = sharedMediaConfigs[pageId];
   const contents = res.rows.map((candidate: any) => ({
@@ -1483,7 +2252,7 @@ async function resolveLocaleProductPath(pathname: string, pageSeo: Record<PageId
 
 async function validatePageSeoInput(pageId: PageId, payload: any, locale: string = "en") {
   const currentSeo = await getPageSeo(locale);
-  const fallback = defaultPageSeo[pageId];
+  const fallback = getDefaultPageSeoMap(locale)[pageId];
   const nextSeo: SeoRecord = {
     metaTitle: asString(payload.metaTitle, fallback.metaTitle), metaDescription: asString(payload.metaDescription, fallback.metaDescription), slug: pageId === "home" ? "" : normalizeSlug(asString(payload.slug), defaultPageSlugs[pageId]), ogTitle: asString(payload.ogTitle, fallback.ogTitle), imageAlt: asString(payload.imageAlt, fallback.imageAlt),
   };

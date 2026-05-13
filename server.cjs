@@ -90426,7 +90426,7 @@ var require_lucide_react = __commonJS({
     ];
     var CheckLine = createLucideIcon("check-line", __iconNode$kH);
     var __iconNode$kG = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-    var Check4 = createLucideIcon("check", __iconNode$kG);
+    var Check5 = createLucideIcon("check", __iconNode$kG);
     var __iconNode$kF = [
       [
         "path",
@@ -95604,7 +95604,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M8 8v12", key: "1gg7y9" }],
       ["path", { d: "M4 4v16", key: "6qkkli" }]
     ];
-    var Library2 = createLucideIcon("library", __iconNode$cb);
+    var Library3 = createLucideIcon("library", __iconNode$cb);
     var __iconNode$ca = [
       ["path", { d: "M14 12h2v8", key: "c1fccl" }],
       ["path", { d: "M14 20h4", key: "lzx1xo" }],
@@ -98859,7 +98859,7 @@ var require_lucide_react = __commonJS({
       ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
       ["path", { d: "M8 16H3v5", key: "1cv678" }]
     ];
-    var RefreshCw3 = createLucideIcon("refresh-cw", __iconNode$71);
+    var RefreshCw4 = createLucideIcon("refresh-cw", __iconNode$71);
     var __iconNode$70 = [
       [
         "path",
@@ -103447,7 +103447,7 @@ var require_lucide_react = __commonJS({
       ChartPie,
       ChartScatter,
       ChartSpline,
-      Check: Check4,
+      Check: Check5,
       CheckCheck,
       CheckLine,
       ChefHat,
@@ -103990,7 +103990,7 @@ var require_lucide_react = __commonJS({
       Leaf: Leaf5,
       LeafyGreen,
       Lectern,
-      Library: Library2,
+      Library: Library3,
       LibraryBig,
       LifeBuoy,
       Ligature,
@@ -104321,7 +104321,7 @@ var require_lucide_react = __commonJS({
       RedoDot,
       RefreshCcw,
       RefreshCcwDot,
-      RefreshCw: RefreshCw3,
+      RefreshCw: RefreshCw4,
       RefreshCwOff,
       Refrigerator,
       Regex,
@@ -105501,14 +105501,14 @@ var require_lucide_react = __commonJS({
     exports2.ChartScatterIcon = ChartScatter;
     exports2.ChartSpline = ChartSpline;
     exports2.ChartSplineIcon = ChartSpline;
-    exports2.Check = Check4;
+    exports2.Check = Check5;
     exports2.CheckCheck = CheckCheck;
     exports2.CheckCheckIcon = CheckCheck;
     exports2.CheckCircle = CircleCheckBig;
     exports2.CheckCircle2 = CircleCheck;
     exports2.CheckCircle2Icon = CircleCheck;
     exports2.CheckCircleIcon = CircleCheckBig;
-    exports2.CheckIcon = Check4;
+    exports2.CheckIcon = Check5;
     exports2.CheckLine = CheckLine;
     exports2.CheckLineIcon = CheckLine;
     exports2.CheckSquare = SquareCheckBig;
@@ -106742,10 +106742,10 @@ var require_lucide_react = __commonJS({
     exports2.LecternIcon = Lectern;
     exports2.LetterText = TextInitial;
     exports2.LetterTextIcon = TextInitial;
-    exports2.Library = Library2;
+    exports2.Library = Library3;
     exports2.LibraryBig = LibraryBig;
     exports2.LibraryBigIcon = LibraryBig;
-    exports2.LibraryIcon = Library2;
+    exports2.LibraryIcon = Library3;
     exports2.LibrarySquare = SquareLibrary;
     exports2.LibrarySquareIcon = SquareLibrary;
     exports2.LifeBuoy = LifeBuoy;
@@ -107206,7 +107206,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideChartPie = ChartPie;
     exports2.LucideChartScatter = ChartScatter;
     exports2.LucideChartSpline = ChartSpline;
-    exports2.LucideCheck = Check4;
+    exports2.LucideCheck = Check5;
     exports2.LucideCheckCheck = CheckCheck;
     exports2.LucideCheckCircle = CircleCheckBig;
     exports2.LucideCheckCircle2 = CircleCheck;
@@ -107826,7 +107826,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideLeafyGreen = LeafyGreen;
     exports2.LucideLectern = Lectern;
     exports2.LucideLetterText = TextInitial;
-    exports2.LucideLibrary = Library2;
+    exports2.LucideLibrary = Library3;
     exports2.LucideLibraryBig = LibraryBig;
     exports2.LucideLibrarySquare = SquareLibrary;
     exports2.LucideLifeBuoy = LifeBuoy;
@@ -108202,7 +108202,7 @@ var require_lucide_react = __commonJS({
     exports2.LucideRedoDot = RedoDot;
     exports2.LucideRefreshCcw = RefreshCcw;
     exports2.LucideRefreshCcwDot = RefreshCcwDot;
-    exports2.LucideRefreshCw = RefreshCw3;
+    exports2.LucideRefreshCw = RefreshCw4;
     exports2.LucideRefreshCwOff = RefreshCwOff;
     exports2.LucideRefrigerator = Refrigerator;
     exports2.LucideRegex = Regex;
@@ -109357,8 +109357,8 @@ var require_lucide_react = __commonJS({
     exports2.RefreshCcwDot = RefreshCcwDot;
     exports2.RefreshCcwDotIcon = RefreshCcwDot;
     exports2.RefreshCcwIcon = RefreshCcw;
-    exports2.RefreshCw = RefreshCw3;
-    exports2.RefreshCwIcon = RefreshCw3;
+    exports2.RefreshCw = RefreshCw4;
+    exports2.RefreshCwIcon = RefreshCw4;
     exports2.RefreshCwOff = RefreshCwOff;
     exports2.RefreshCwOffIcon = RefreshCwOff;
     exports2.Refrigerator = Refrigerator;
@@ -110376,12 +110376,12 @@ var import_multer = __toESM(require_multer(), 1);
 var import_fs = __toESM(require("fs"), 1);
 var import_sharp = __toESM(require("sharp"), 1);
 var import_promise = __toESM(require_promise(), 1);
-var import_react78 = __toESM(require_react(), 1);
+var import_react79 = __toESM(require_react(), 1);
 var import_server = __toESM(require_server_node(), 1);
 var import_server2 = __toESM(require_server(), 1);
 
 // src/App.tsx
-var import_react77 = __toESM(require_react(), 1);
+var import_react78 = __toESM(require_react(), 1);
 var import_react_router_dom13 = __toESM(require_main3(), 1);
 
 // src/pages/FrontPage.tsx
@@ -124024,9 +124024,262 @@ var fr = {
   prodStep4Desc: "La cargaison finie est document\xE9e, palettis\xE9e et programm\xE9e pour l\u2019itin\xE9raire qui correspond le mieux au calendrier et au march\xE9 de l\u2019acheteur."
 };
 
+// src/i18n/de.ts
+var de = {
+  ...en,
+  navHome: "Startseite",
+  navAbout: "\xDCber uns",
+  navProducts: "Produkte",
+  navExport: "Export",
+  navContacts: "Kontakt",
+  navCta: "Angebot anfragen",
+  mobileNavigationTitle: "Navigation",
+  mobileContactTitle: "Kontakt",
+  langSwitcherLabel: "Sprache",
+  footerLinksTitle: "Unternehmen",
+  footerCompanyPlaceholder: "Firmenname",
+  footerEmailPlaceholder: "E-Mail-Adresse",
+  footerSubmitLabel: "Senden",
+  footerSubmittingLabel: "Wird gesendet",
+  footerSecondaryContactPrefix: "Lieber direkt sprechen?",
+  footerTelegramLinkLabel: "kontaktieren Sie uns auf Telegram",
+  footerPrivacyLinkLabel: "Datenschutzerkl\xE4rung",
+  footerTermsLinkLabel: "Nutzungsbedingungen",
+  footerDescription: "Hochwertige sonnengetrocknete Fr\xFCchte aus Usbekistan. Wir liefern nat\xFCrliche S\xFC\xDFe an internationale B2B-Partner mit kompromissloser Qualit\xE4t.",
+  footerLeadText: "Erhalten Sie unsere aktuellen Preise und Exportbedingungen direkt per E-Mail oder Telegram.",
+  footerCtaTitle: "Gro\xDFhandelskatalog anfragen",
+  footerInquirySuccess: "Ihre Anfrage ist eingegangen. Unser Vertriebsteam meldet sich in K\xFCrze.",
+  footerInquiryError: "Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+  footerTelegramOr: "oder",
+  notFoundTitle: "Seite nicht gefunden",
+  notFoundBody: "Die angeforderte Seite existiert nicht oder die Adresse wurde ge\xE4ndert.",
+  notFoundButtonLabel: "Zur Startseite",
+  routeLoadingLabel: "Seite wird geladen...",
+  homeLoadingExperience: "Inhalte werden geladen...",
+  stepOneLabel: "F\xFCr welche Produkte interessieren Sie sich?",
+  stepTwoLabel: "Menge pro ausgew\xE4hltem Produkt festlegen",
+  stepThreeLabel: "Wer soll das Angebot erhalten?",
+  nextStepButtonLabel: "Weiter",
+  backButtonLabel: "Zur\xFCck",
+  submitButtonLabel: "Angebot anfordern",
+  submittingButtonLabel: "Wird gesendet...",
+  stepThreePlaceholder: "Gesch\xE4ftliche E-Mail-Adresse",
+  productsOverview: "\xDCberblick",
+  productsBenefits: "Vorteile",
+  productsExport: "Export",
+  productsRequestQuote: "Gro\xDFhandelsangebot anfragen",
+  productsNoInfo: "Noch keine zus\xE4tzlichen Informationen hinterlegt.",
+  productsStepIndicator: "Schritt {step} von 3",
+  productsSelectToContinue: "W\xE4hlen Sie ein oder mehrere Produkte aus, um fortzufahren.",
+  productsSelectTonnage: "Menge ausw\xE4hlen",
+  productsInquirySummary: "Zusammenfassung der Anfrage",
+  productsDirectContact: "Direkter Kontakt",
+  productsNeedItFaster: "Soll es schneller gehen?",
+  productsSkipForm: "\xDCberspringen Sie das Formular und sprechen Sie direkt mit unserem Exportvertrieb.",
+  productsTelegramBot: "Telegram",
+  productsTelegramSubtitle: "Schnelle Angebote und Katalog-PDF",
+  productsCallSales: "Vertrieb anrufen",
+  productsEmailUs: "E-Mail senden",
+  productsOriginEyebrow: "Herkunft Usbekistan",
+  productsIntroTitle: "Eine \xDCbersicht. Vier Kernsortimente. Relevante Informationen f\xFCr Eink\xE4ufer.",
+  productsOrchardBaseTitle: "Anbaugrundlage",
+  productsOrchardBaseDesc: "Usbekistans Obstanbaugebiete basieren auf bew\xE4sserten T\xE4lern und Vorgebirgsregionen statt auf unsicherem Regenfeldbau.",
+  productsGrowingConditionsTitle: "Wachstumsbedingungen",
+  productsGrowingConditionsDesc: "Hei\xDFe, trockene Sommer und intensive Sonne helfen Aprikosen, Trauben und Pflaumen, vor der Trocknung Zucker aufzubauen.",
+  productsExportReadinessTitle: "Exportbereit",
+  productsExportReadinessDesc: "Jede Linie ist auf kundenspezifische Kartons, Mischladungen und wiederkehrende Gro\xDFhandelsprogramme ausgelegt.",
+  productsNutritionalSnapshot: "Produktdetails",
+  productsEnergyLabel: "Energie",
+  productsProteinLabel: "Eiwei\xDF",
+  productsFatLabel: "Fett",
+  productsCarbsLabel: "Kohlenhydrate",
+  productsSellingPoints: "Wichtige Verkaufsargumente",
+  productsOriginLabel: "Herkunft & Anbau",
+  productsBenefitsLabel: "Vorteile",
+  productsExportLabel: "Export",
+  productsWholesaleInquiry: "Gro\xDFhandelsanfrage",
+  productsViewSpecs: "Spezifikation ansehen",
+  productsSelectedLabel: "{count} Produkte ausgew\xE4hlt",
+  contactsFormName: "Vollst\xE4ndiger Name",
+  contactsFormEmail: "E-Mail-Adresse",
+  contactsFormPhone: "Telefonnummer",
+  contactsFormMessage: "Nachricht",
+  contactsFormSubmit: "Nachricht senden",
+  contactsFormSubmitting: "Wird gesendet...",
+  contactsFormSuccess: "Nachricht gesendet. Wir melden uns in K\xFCrze.",
+  contactsFormError: "Senden fehlgeschlagen. Bitte versuchen Sie es erneut.",
+  contactsEmailPlaceholder: "Gesch\xE4ftliche E-Mail eingeben",
+  contactsHeadquartersMapAlt: "Standortkarte",
+  contactsSendInquiry: "Anfrage senden",
+  contactsFormCompany: "Unternehmen",
+  contactsFormWorkEmail: "Gesch\xE4ftliche E-Mail",
+  contactsSendMessage: "Nachricht senden",
+  contactsSending: "Wird gesendet...",
+  contactsDirectContactEyebrow: "Direkter Kontakt",
+  contactsDetailsTitle: "Kontaktdaten",
+  contactsDetailsDesc: "Erreichen Sie unser Vertriebs- und Exportkoordinationsteam \xFCber den passenden Kanal.",
+  contactsEmailLabel: "E-Mail",
+  contactsPhoneLabel: "Telefon",
+  contactsHeadquartersLabel: "Zentrale",
+  contactsWorkingHoursLabel: "\xD6ffnungszeiten",
+  privacyTitle: "Datenschutzerkl\xE4rung",
+  privacyDescription: "Datenschutzerkl\xE4rung von HQ Dried Fruits.",
+  termsTitle: "Nutzungsbedingungen",
+  termsDescription: "Nutzungsbedingungen von HQ Dried Fruits.",
+  lastUpdatedLabel: "Zuletzt aktualisiert",
+  homeHeroTitle: "Nat\xFCrlich s\xFC\xDFe Fr\xFCchte aus fruchtbaren B\xF6den",
+  homeHeroPrimaryCta: "Gro\xDFhandelskatalog anfragen",
+  homeHeroSecondaryCta: "Unsere Verarbeitung",
+  homeAboutEyebrow: "\xDCber uns",
+  homeIntroLabel: "Der Unterschied bei HQ Dried Fruits",
+  homeIntroExtraParagraph: "Auf Basis enger Beziehungen zu Obstbauern, kontrollierter Verarbeitung und exportfertiger Abl\xE4ufe liefern wir Trockenfr\xFCchte in gleichbleibender Qualit\xE4t f\xFCr den Gro\xDFhandel.",
+  homeLearnMore: "Mehr \xFCber uns",
+  homeViewFullCatalog: "Gesamten Katalog ansehen",
+  homeFeaturedHarvest: "Ausgew\xE4hlte Ernte",
+  homeExportReady: "Exportbereit",
+  homeWholesaleSupply: "Gro\xDFhandelslieferung",
+  homeRequestSample: "Muster anfragen",
+  homeNutritionPer100g: "N\xE4hrwerte / 100 g",
+  nutritionEnergy: "Energie",
+  nutritionProtein: "Eiwei\xDF",
+  nutritionFat: "Fett",
+  nutritionCarbs: "Kohlenhydrate",
+  homeExportFocusEyebrow: "Vertriebskan\xE4le",
+  homeExportMarketsTitle: "Vorbereitet f\xFCr die Art, wie Ihr Gesch\xE4ft verkauft",
+  homeExportMarketsIntro: "Unterschiedliche K\xE4ufer brauchen unterschiedliche Verpackung, Dokumentation und Produktaufbereitung. Wir bereiten usbekische Trockenfr\xFCchte f\xFCr Retail, Gro\xDFhandel, Lebensmittelindustrie und Private Label vor.",
+  homeExportExplore: "Exportseite ansehen",
+  homeQualityGuarantee: "Qualit\xE4tsgarantie",
+  homeQualityGuaranteeDesc: "Unsere Verarbeitung nutzt moderne Laser- und R\xF6ntgensortierung, um eine Reinheit von 99,9 % sicherzustellen.",
+  homeCertificatesPrev: "Zertifikate nach links scrollen",
+  homeCertificatesNext: "Zertifikate nach rechts scrollen",
+  homeCertificateDocs: "Exportdokumentation",
+  homeCertificateSafety: "Lebensmittelsicherheitszertifikat",
+  homeCertificateOrganic: "Bio-Standard-Zertifikat",
+  homeCertificateQuality: "Qualit\xE4tsnachweis",
+  homeCheckDocsTitle: "Exportdokumente",
+  homeCheckDocsDesc: "Handels-, Ursprungs- und Compliance-Unterlagen f\xFCr wiederkehrende internationale Lieferungen.",
+  homeCheckVerificationTitle: "Qualit\xE4tspr\xFCfung",
+  homeCheckVerificationDesc: "Sortierung, Kalibrierung und Chargenpr\xFCfung vor Freigabe f\xFCr Gro\xDFhandelskunden.",
+  homeCheckDispatchTitle: "Versandbereitschaft",
+  homeCheckDispatchDesc: "Zertifikate, Packlisten und Versandunterlagen werden vor Abgang abgestimmt.",
+  homeExportMarketGermanyDesc: "Regalfertige Trockenfruchtlinien f\xFCr Beutel-, Tray- und Markenprogramme.",
+  homeExportMarketNetherlandsDesc: "Kartonbasierte Lieferungen f\xFCr Importeure, Distributoren und Handelsprogramme.",
+  homeExportMarketUaeDesc: "Zutatenfertige Frucht- und Erdnusslinien f\xFCr B\xE4ckereien, S\xFC\xDFwaren, Snacks, Cerealien und Verarbeitung.",
+  homeExportMarketKazakhstanDesc: "Private-Label-Abstimmung f\xFCr Etiketten, Kartons und wiederkehrende Bestellungen.",
+  homeExportStatLeadTime: "Kanaleignung",
+  homeExportStatPortRouting: "Format",
+  homeExportStatDocumentation: "Anwendung",
+  homeExportStatBuyerReady: "Einkaufsbereit",
+  homeExportStatTransportMode: "Branding",
+  homeExportStatRoadRail: "Stra\xDFe + Schiene",
+  exportHeroTitle: "Unser globales Exportnetzwerk",
+  exportHeroSubtitle: "Reibungslose internationale Logistik vom Herzen der Seidenstra\xDFe bis in Ihr Lager.",
+  exportOpsEyebrow: "Exportabwicklung",
+  exportOpsTitle: "End-to-End-Routing f\xFCr multimodalen Transport",
+  exportLogisticsDesc1: "Wir planen multimodale Transporte entlang Ihrer Anforderungen, von Verpackung und Dokumenten bis zur effizienten Lieferroute.",
+  exportLogisticsDesc2: "Jede Sendung wird auf Wiederholbarkeit, Zielmarkt-Compliance und praktische Gro\xDFhandelsabl\xE4ufe ausgelegt.",
+  exportPackagingTitle: "Individuelle Verpackung",
+  exportPackagingDesc: "Gro\xDFkartons, vakuumierte Beutel oder retailf\xE4hige Verpackungen mit Ihren Markenetiketten.",
+  exportTransportTitle: "See- und Bahntransport",
+  exportTransportDesc: "Kosteneffiziente FCL- und LCL-Sendungen \xFCber wichtige H\xE4fen und das trans-eurasische Bahnnetz.",
+  exportDocumentationTitle: "Zollabwicklung",
+  exportDocumentationDesc: "Vollst\xE4ndige Unterst\xFCtzung bei Pflanzengesundheitszeugnissen, Ursprungszeugnissen und EUR.1.",
+  exportDestinationEyebrow: "Vertriebskan\xE4le",
+  exportDestinationTitle: "Vorbereitet f\xFCr die Art, wie Ihr Gesch\xE4ft verkauft",
+  exportDestinationDesc: "Wir bereiten usbekische Trockenfruchtlinien f\xFCr Retail, Gro\xDFhandel, Lebensmittelproduktion und Private-Label-Programme vor.",
+  exportRouteRetailName: "Retail",
+  exportRouteRetailDesc: "Regalfertige Trockenfruchtlinien f\xFCr Beutel-, Tray- und Markenprogramme.",
+  exportRouteWholesaleName: "Gro\xDFhandel",
+  exportRouteWholesaleDesc: "Kartonbasierte Lieferungen f\xFCr Importeure, Distributoren und Handelsprogramme.",
+  exportRouteFoodIndustryName: "Lebensmittelindustrie",
+  exportRouteFoodIndustryDesc: "Zutatenfertige Frucht- und Erdnusslinien f\xFCr B\xE4ckereien, S\xFC\xDFwaren, Snacks, Cerealien und Verarbeitung.",
+  exportRoutePrivateLabelName: "Private Label",
+  exportRoutePrivateLabelDesc: "Abstimmung von K\xE4ufermarke, Etikett, Karton und Wiederholbestellungen.",
+  exportQualityTitle: "Qualit\xE4tsgarantie",
+  exportQualityDesc: "Moderne Laser- und R\xF6ntgensortierung unterst\xFCtzt eine Reinheit von 99,9 %.",
+  exportMoistureLabel: "Feuchtigkeitskontrolle",
+  exportMoistureDesc: "Streng bei 18-22 % gehalten, f\xFCr optimale Haltbarkeit.",
+  exportCalibrationLabel: "Gr\xF6\xDFenkalibrierung",
+  exportCalibrationDesc: "Lasersortiert f\xFCr einheitliche Gr\xF6\xDFen.",
+  exportMicroSafeLabel: "Mikrobiologische Sicherheit",
+  exportMicroSafeDesc: "Regelm\xE4\xDFige Labortests auf Aflatoxine und Schwermetalle.",
+  exportIsoLabel: "ISO 9001:2015",
+  exportHaccpLabel: "HACCP-zertifiziert",
+  exportOrganicLabel: "Bio-Standard-Zertifikat",
+  exportQualitySealLabel: "Qualit\xE4tssiegel",
+  exportCertificatesPrev: "Zertifikate nach links scrollen",
+  exportCertificatesNext: "Zertifikate nach rechts scrollen",
+  aboutHeroTitle: "Globale Partner & Produktion",
+  aboutHeroSubtitle: "Ein klarer Blick auf Obstg\xE4rten, Produktionsstandards und Infrastruktur hinter unserem Exportprogramm.",
+  aboutHeritageTitle: "Unsere Wurzeln an der Seidenstra\xDFe",
+  aboutHeritageSubtitle: "Qualit\xE4t und Tradition, weiterentwickelt f\xFCr den modernen Handel.",
+  aboutPartners: "Unsere Partner",
+  aboutOwnProductionTitle: "Eigene Produktion",
+  aboutOwnProductionIntro: "Vom Wareneingang bis zur finalen Exportverpackung steuern wir jeden Produktionsschritt selbst - f\xFCr Konsistenz, R\xFCckverfolgbarkeit und einkaufsbereite Ware.",
+  adminLoginTitle: "Control Room",
+  adminLoginSubtitle: "Melden Sie sich an, um die Website zu verwalten",
+  adminLoginUsername: "Benutzername",
+  adminLoginPassword: "Passwort",
+  adminLoginButton: "Anmelden",
+  adminLoginError: "Benutzername oder Passwort ist falsch.",
+  adminLoginLoading: "Anmeldung l\xE4uft...",
+  homeMetaTitle: "HQ Dried Fruits | Hochwertiger Bio-Export",
+  homeMetaDescription: "Hochwertige sonnengetrocknete Fr\xFCchte aus Usbekistan f\xFCr internationale B2B-Partner.",
+  requestCatalogLabel: "Gro\xDFhandelskatalog anfragen",
+  exploreProductsLabel: "Produkte ansehen",
+  aboutCompanyLabel: "\xDCber das Unternehmen",
+  heritageSloganLabel: "Jahrzehntelange Erfahrung in jeder Ernte.",
+  statYearsLabel: "Jahre Erfahrung",
+  statTonsLabel: "Tonnen exportiert",
+  productSelectionSublabel: "Von Hand ausgew\xE4hlt und nat\xFCrlich sonnengetrocknet.",
+  viewFullCatalogLabel: "Gesamten Katalog ansehen",
+  requestSampleLabel: "Muster anfragen",
+  learnMoreLabel: "Mehr \xFCber unseren Exportprozess",
+  getPricingLabel: "Preise & Muster anfragen",
+  heritageStat1Title: "Die erste Ernte",
+  heritageStat1Desc: "Beginn als kleiner Familienobstgarten im Fergana-Tal.",
+  heritageStat2Title: "Ausbau der Produktion",
+  heritageStat2Desc: "Einf\xFChrung moderner Trocknungs- und Sortierprozesse.",
+  heritageStat3Title: "Internationaler Handel",
+  heritageStat3Desc: "Aufbau exportf\xE4higer Standards und Zertifizierungen.",
+  heritageStat4Title: "Moderne Logistik",
+  heritageStat4Desc: "Koordination f\xFCr internationale Gro\xDFhandelslieferungen.",
+  prodStep1Title: "Wareneingang",
+  prodStep1Subtitle: "Ernteauswahl",
+  prodStep1Desc: "Eingehende Fr\xFCchte werden nach Charge, Feuchtigkeitsprofil und Zielanforderungen sortiert.",
+  prodStep2Title: "Verarbeitung",
+  prodStep2Subtitle: "Laser- & R\xF6ntgenkontrolle",
+  prodStep2Desc: "Jede Linie wird auf Reinheit, Fehlerentfernung und exportf\xE4hige Gleichm\xE4\xDFigkeit kalibriert.",
+  prodStep3Title: "Verpackung",
+  prodStep3Subtitle: "K\xE4uferspezifische Formate",
+  prodStep3Desc: "Wir verpacken f\xFCr Retail, Private Label und Industrie mit denselben internen Qualit\xE4tskontrollen.",
+  prodStep4Title: "Versand",
+  prodStep4Subtitle: "Export\xFCbergabe",
+  prodStep4Desc: "Fertige Ware wird dokumentiert, palettiert und passend zum Zeitplan des K\xE4ufers verladen.",
+  missionPurposeLabel: "Zweck",
+  missionHeritageLabel: "Herkunft",
+  missionPhilosophyLabel: "Philosophie",
+  orchardPhilosophyLabel: "Obstgarten-Philosophie",
+  missionStandardsLabel: "Standards",
+  whoWeAreFallback1: "HQ Dried Fruits verbindet landwirtschaftliche Kontrolle, disziplinierte Verarbeitung und Exportabwicklung in einem klaren Betriebssystem.",
+  whoWeAreFallback2: "Diese Struktur hilft Gro\xDFhandelskunden, konstante Ware, klare Dokumentation und verl\xE4ssliche Versandvorbereitung \xFCber mehrere Saisons hinweg zu sichern.",
+  haccpLabel: "HACCP-zertifiziert",
+  isoLabel: "ISO 9001:2015",
+  organicLabel: "100 % Bio",
+  globalGapLabel: "GlobalGAP",
+  fdaLabel: "FDA-registriert",
+  missionNarrativeEyebrow: "Mission",
+  missionNarrativeTitle: "Was unser Anbauen, Verarbeiten und Liefern leitet",
+  missionNarrativeSublabel: "Ein klarer Blick auf Mission, Herkunft, Philosophie und Standards des Unternehmens.",
+  insideFacilityEyebrow: "In der Produktion",
+  ctaHeading: "Bereit, Ihr Sortiment zu erweitern?",
+  ctaSubheading: "Erhalten Sie aktuelle Gro\xDFhandelspreise und ein Musterangebot f\xFCr Ihr Unternehmen.",
+  ctaButtonText: "Preise & Muster anfragen"
+};
+
 // src/i18n/index.ts
-var ACTIVE_LOCALES = ["en", "pt", "es", "nl", "fr"];
-var translations = { en, pt, es, nl, fr };
+var ACTIVE_LOCALES = ["en", "de", "pt", "es", "nl", "fr"];
+var translations = { en, de, pt, es, nl, fr };
 var localeRegistry = {
   en: {
     code: "en",
@@ -124082,7 +124335,7 @@ var localeRegistry = {
     shortLabel: "DE",
     baseLanguage: "de",
     fallbackLocale: "en",
-    isActive: false
+    isActive: true
   },
   fr: {
     code: "fr",
@@ -125959,6 +126212,7 @@ var PRODUCT_CATEGORY_DEFINITIONS = [
       es: "Pasas",
       pt: "Passas",
       nl: "Rozijnen",
+      de: "Rosinen",
       fr: "Raisins Secs"
     },
     aliases: ["raisins", "raisin", "sultana", "soyaki", "golden", "black-red", "\u0438\u0437\u044E\u043C", "\u043A\u0438\u0448\u043C\u0438\u0448", "\u043C\u0430\u0439\u0438\u0437", "mayiz"]
@@ -125972,6 +126226,7 @@ var PRODUCT_CATEGORY_DEFINITIONS = [
       es: "Albaricoques Secos",
       pt: "Damascos Secos",
       nl: "Gedroogde Abrikozen",
+      de: "Getrocknete Aprikosen",
       fr: "Abricots Secs"
     },
     aliases: ["dried apricot", "dried apricots", "apricot", "apricots", "subhana", "\u043A\u0443\u0440\u0430\u0433\u0430", "\u0430\u0431\u0440\u0438\u043A\u043E\u0441", "\u0443\u0440\u044E\u043A", "quritilgan orik", "quritilgan o'rik", "orik", "o'rik"]
@@ -125985,6 +126240,7 @@ var PRODUCT_CATEGORY_DEFINITIONS = [
       es: "Ciruelas Pasas",
       pt: "Ameixas Secas",
       nl: "Pruimen",
+      de: "Trockenpflaumen",
       fr: "Pruneaux"
     },
     aliases: ["prunes", "prune", "pitted prunes", "spain", "hungarian", "ashlock", "\u0447\u0435\u0440\u043D\u043E\u0441\u043B\u0438\u0432", "\u0441\u043B\u0438\u0432\u0430", "quritilgan qora olxo'ri", "qora olxo'ri", "olxori"]
@@ -125998,6 +126254,7 @@ var PRODUCT_CATEGORY_DEFINITIONS = [
       es: "Cacahuetes",
       pt: "Amendoins",
       nl: "Pinda's",
+      de: "Erdn\xFCsse",
       fr: "Cacahu\xE8tes"
     },
     aliases: ["peanuts", "peanut", "in shell", "unshelled", "bird feed", "\u0430\u0440\u0430\u0445\u0438\u0441", "\u0430\u0440\u0430\u0445\u0438\u0441\u044B", "yeryongoq", "yeryong'oq", "yer yongoq", "yer yong'oq"]
@@ -130070,7 +130327,7 @@ function Dashboard() {
 }
 
 // src/pages/admin/Pages.tsx
-var import_react64 = __toESM(require_react(), 1);
+var import_react65 = __toESM(require_react(), 1);
 var import_lucide_react19 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/ImageUploader.tsx
@@ -132954,7 +133211,7 @@ function ProductsForm({ content, updateContent, catalogSlot }) {
 }
 
 // src/pages/admin/Products.tsx
-var import_react62 = __toESM(require_react(), 1);
+var import_react63 = __toESM(require_react(), 1);
 var import_lucide_react18 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/DocumentUploader.tsx
@@ -132974,9 +133231,11 @@ function DocumentUploader({
   onFileUrlChange,
   onButtonLabelChange
 }) {
+  const { media, isLoading: contextLoading, refreshMedia } = useMedia();
   const inputRef = (0, import_react61.useRef)(null);
   const [isUploading, setIsUploading] = (0, import_react61.useState)(false);
   const [error, setError] = (0, import_react61.useState)(null);
+  const [isLibraryOpen, setIsLibraryOpen] = (0, import_react61.useState)(false);
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -132995,6 +133254,7 @@ function DocumentUploader({
       }
       const payload = await response.json();
       onFileUrlChange(payload.url);
+      await refreshMedia();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed. Please try again.");
     } finally {
@@ -133007,6 +133267,7 @@ function DocumentUploader({
     if (inputRef.current) inputRef.current.value = "";
   };
   const displayName = getFilenameFromUrl(fileUrl);
+  const documentFiles = (media || []).filter((m2) => !m2.type.startsWith("image/"));
   return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "space-y-3", children: [
     /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("label", { className: "block text-sm font-bold text-slate-700 mb-1.5", children: "Button Label" }),
@@ -133044,7 +133305,17 @@ function DocumentUploader({
             }
           )
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "flex shrink-0 items-center gap-1", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "flex shrink-0 items-center gap-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+            "button",
+            {
+              type: "button",
+              onClick: () => setIsLibraryOpen(true),
+              disabled: isUploading,
+              className: "rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-earth-400 hover:text-earth-700 disabled:opacity-50",
+              children: "Library"
+            }
+          ),
           /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
             "button",
             {
@@ -133066,22 +133337,37 @@ function DocumentUploader({
             }
           )
         ] })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-        "button",
-        {
-          type: "button",
-          onClick: () => inputRef.current?.click(),
-          disabled: isUploading,
-          className: "flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm font-medium text-slate-500 transition-colors hover:border-earth-400 hover:bg-earth-50 hover:text-earth-700 disabled:opacity-50",
-          children: isUploading ? /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Loader2, { className: "h-4 w-4 animate-spin" }),
-            "Uploading\u2026"
-          ] }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Upload, { className: "h-4 w-4" }),
-            "Click to upload document"
-          ] })
-        }
-      ),
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "grid grid-cols-2 gap-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+          "button",
+          {
+            type: "button",
+            onClick: () => inputRef.current?.click(),
+            disabled: isUploading,
+            className: "flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm font-medium text-slate-500 transition-colors hover:border-earth-400 hover:bg-earth-50 hover:text-earth-700 disabled:opacity-50",
+            children: isUploading ? /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Loader2, { className: "h-4 w-4 animate-spin" }),
+              "Uploading\u2026"
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Upload, { className: "h-4 w-4" }),
+              "Upload Local"
+            ] })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+          "button",
+          {
+            type: "button",
+            onClick: () => setIsLibraryOpen(true),
+            disabled: isUploading,
+            className: "flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm font-medium text-slate-500 transition-colors hover:border-earth-400 hover:bg-earth-50 hover:text-earth-700 disabled:opacity-50",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Library, { className: "h-4 w-4" }),
+              " Server Library"
+            ]
+          }
+        )
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
         "input",
         {
@@ -133093,7 +133379,93 @@ function DocumentUploader({
         }
       ),
       error && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "mt-1.5 text-xs text-red-600", children: error })
-    ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(AnimatePresence, { children: isLibraryOpen && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+        motion.div,
+        {
+          initial: { opacity: 0 },
+          animate: { opacity: 1 },
+          exit: { opacity: 0 },
+          onClick: () => setIsLibraryOpen(false),
+          className: "absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+        motion.div,
+        {
+          initial: { opacity: 0, scale: 0.95, y: 20 },
+          animate: { opacity: 1, scale: 1, y: 0 },
+          exit: { opacity: 0, scale: 0.95, y: 20 },
+          className: "relative w-full max-w-4xl max-h-[80vh] overflow-hidden bg-white rounded-2xl shadow-2xl flex flex-col",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "flex items-center justify-between gap-4 px-6 py-4 border-b border-slate-100", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { className: "text-xl font-bold text-slate-900", children: "Server Document Library" }),
+                /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "text-xs text-slate-500", children: "Click a document to select it for this field." })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => refreshMedia(),
+                    disabled: contextLoading,
+                    className: "inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition-colors hover:border-earth-400 hover:text-earth-600 disabled:cursor-not-allowed disabled:opacity-60",
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.RefreshCw, { size: 14, className: contextLoading ? "animate-spin" : "" }),
+                      "Refresh"
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => setIsLibraryOpen(false),
+                    className: "p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors",
+                    children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.X, { size: 20 })
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "flex-1 overflow-y-auto p-6 bg-slate-50/50", children: contextLoading ? /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "flex flex-col items-center justify-center py-20 gap-3", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Loader2, { className: "animate-spin text-earth-600 h-10 w-10" }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "text-slate-500 font-medium", children: "Loading documents..." })
+            ] }) : documentFiles.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "text-center py-20", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.FileText, { className: "mx-auto h-12 w-12 text-slate-300 mb-3" }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "text-slate-500", children: "No documents found on server." })
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4", children: documentFiles.map((item) => /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+              "button",
+              {
+                type: "button",
+                onClick: () => {
+                  onFileUrlChange(item.url);
+                  setIsLibraryOpen(false);
+                },
+                className: `group relative flex flex-col items-center justify-center aspect-square rounded-xl border-2 overflow-hidden transition-all bg-white p-4 shadow-sm ${fileUrl === item.url ? "border-earth-500 ring-2 ring-earth-500/20" : "border-slate-200 hover:border-earth-300"}`,
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.FileText, { className: `h-8 w-8 mb-2 ${fileUrl === item.url ? "text-earth-500" : "text-slate-400"}` }),
+                  /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { className: "text-xs text-slate-600 text-center break-all line-clamp-3 leading-tight", children: item.name }),
+                  /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "bg-white text-earth-600 rounded-full p-1.5 shadow-lg", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Check, { size: 16, strokeWidth: 3 }) }) }),
+                  fileUrl === item.url && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "absolute top-2 right-2 bg-earth-500 text-white rounded-full p-1 shadow-md", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_lucide_react17.Check, { size: 12, strokeWidth: 4 }) })
+                ]
+              },
+              item.url
+            )) }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "px-6 py-4 border-t border-slate-100 flex justify-end", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+              "button",
+              {
+                type: "button",
+                onClick: () => setIsLibraryOpen(false),
+                className: "px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors",
+                children: "Close"
+              }
+            ) })
+          ]
+        }
+      )
+    ] }) })
   ] });
 }
 
@@ -133227,32 +133599,32 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const setFloatingAction = onFloatingActionChange || setAction;
-  const [isDeleteOpen, setIsDeleteOpen] = (0, import_react62.useState)(false);
-  const [editingId, setEditingId] = (0, import_react62.useState)(null);
-  const [formData, setFormData] = (0, import_react62.useState)(emptyProduct);
-  const [itemToDelete, setItemToDelete] = (0, import_react62.useState)(null);
-  const [successMessage, setSuccessMessage] = (0, import_react62.useState)(null);
-  const [isRefreshing, setIsRefreshing] = (0, import_react62.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react62.useState)(false);
-  const [isReordering, setIsReordering] = (0, import_react62.useState)(false);
-  const [draggedProductId, setDraggedProductId] = (0, import_react62.useState)(null);
-  const [dragOverProductId, setDragOverProductId] = (0, import_react62.useState)(null);
-  const [formLocale, setFormLocale] = (0, import_react62.useState)(null);
-  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react62.useState)(null);
-  const [productDrafts, setProductDrafts] = (0, import_react62.useState)({});
-  const [openEditorByLocale, setOpenEditorByLocale] = (0, import_react62.useState)({});
-  const productDraftsRef = (0, import_react62.useRef)(productDrafts);
-  const openEditorByLocaleRef = (0, import_react62.useRef)(openEditorByLocale);
-  const refreshRequestIdRef = (0, import_react62.useRef)(0);
+  const [isDeleteOpen, setIsDeleteOpen] = (0, import_react63.useState)(false);
+  const [editingId, setEditingId] = (0, import_react63.useState)(null);
+  const [formData, setFormData] = (0, import_react63.useState)(emptyProduct);
+  const [itemToDelete, setItemToDelete] = (0, import_react63.useState)(null);
+  const [successMessage, setSuccessMessage] = (0, import_react63.useState)(null);
+  const [isRefreshing, setIsRefreshing] = (0, import_react63.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react63.useState)(false);
+  const [isReordering, setIsReordering] = (0, import_react63.useState)(false);
+  const [draggedProductId, setDraggedProductId] = (0, import_react63.useState)(null);
+  const [dragOverProductId, setDragOverProductId] = (0, import_react63.useState)(null);
+  const [formLocale, setFormLocale] = (0, import_react63.useState)(null);
+  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react63.useState)(null);
+  const [productDrafts, setProductDrafts] = (0, import_react63.useState)({});
+  const [openEditorByLocale, setOpenEditorByLocale] = (0, import_react63.useState)({});
+  const productDraftsRef = (0, import_react63.useRef)(productDrafts);
+  const openEditorByLocaleRef = (0, import_react63.useRef)(openEditorByLocale);
+  const refreshRequestIdRef = (0, import_react63.useRef)(0);
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
-  const unsavedDraftLocales = (0, import_react62.useMemo)(() => unsavedLocalesFromDrafts(productDrafts), [productDrafts]);
-  const categoryOptions = (0, import_react62.useMemo)(() => getProductCategorySelectOptions(editingLang), [editingLang]);
+  const unsavedDraftLocales = (0, import_react63.useMemo)(() => unsavedLocalesFromDrafts(productDrafts), [productDrafts]);
+  const categoryOptions = (0, import_react63.useMemo)(() => getProductCategorySelectOptions(editingLang), [editingLang]);
   const activeDraftKey = editingId ? draftKey(editingLang, editingId) : "";
   const hasActiveDraft = Boolean(activeDraftKey && productDrafts[activeDraftKey]);
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     productDraftsRef.current = productDrafts;
   }, [productDrafts]);
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     openEditorByLocaleRef.current = openEditorByLocale;
   }, [openEditorByLocale]);
   const getSourceFormData = (id3) => {
@@ -133262,7 +133634,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     const { id: _id, ...sourceData } = product;
     return cloneDraft(sourceData);
   };
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     const loadLangData = async () => {
       const requestId = refreshRequestIdRef.current + 1;
       refreshRequestIdRef.current = requestId;
@@ -133283,7 +133655,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     };
     loadLangData();
   }, [editingLang]);
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     if (!isLocaleReady) return;
     const openId = openEditorByLocaleRef.current[editingLang] || null;
     if (!openId) {
@@ -133297,7 +133669,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     setFormData(cloneDraft(draft || getSourceFormData(openId)));
     setFormLocale(editingLang);
   }, [editingLang, isLocaleReady, products]);
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     if (!isLocaleReady || formLocale !== editingLang || !editingId) return;
     const key = draftKey(editingLang, editingId);
     const sourceData = getSourceFormData(editingId);
@@ -133343,7 +133715,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
     setFormLocale(editingLang);
     setOpenEditorByLocale((current) => ({ ...current, [editingLang]: null }));
   };
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     const handleOpenProductFromSearch = (event) => {
       const target = event.detail?.target;
       const productId = target?.closest("[data-admin-product-id]")?.dataset.adminProductId;
@@ -133411,7 +133783,7 @@ function ProductCatalogManager({ embedded = false, onFloatingActionChange }) {
       setIsSaving(false);
     }
   };
-  (0, import_react62.useEffect)(() => {
+  (0, import_react63.useEffect)(() => {
     if (!editingId) {
       setFloatingAction(null);
       return void 0;
@@ -134043,25 +134415,25 @@ function AdminPages() {
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const { setHeaderTabs } = useAdminHeaderTabs();
-  const [selectedPageId, setSelectedPageId] = (0, import_react64.useState)("home");
-  const [editingPage, setEditingPage] = (0, import_react64.useState)(null);
-  const [successMessage, setSuccessMessage] = (0, import_react64.useState)(null);
-  const [isRefreshing, setIsRefreshing] = (0, import_react64.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react64.useState)(false);
-  const [productAction, setProductAction] = (0, import_react64.useState)(null);
-  const [editingPageLocale, setEditingPageLocale] = (0, import_react64.useState)(null);
-  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react64.useState)(null);
-  const [pageDrafts, setPageDrafts] = (0, import_react64.useState)({});
-  const pageDraftsRef = (0, import_react64.useRef)(pageDrafts);
-  const refreshRequestIdRef = (0, import_react64.useRef)(0);
-  const selectedSourcePage = (0, import_react64.useMemo)(
+  const [selectedPageId, setSelectedPageId] = (0, import_react65.useState)("home");
+  const [editingPage, setEditingPage] = (0, import_react65.useState)(null);
+  const [successMessage, setSuccessMessage] = (0, import_react65.useState)(null);
+  const [isRefreshing, setIsRefreshing] = (0, import_react65.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react65.useState)(false);
+  const [productAction, setProductAction] = (0, import_react65.useState)(null);
+  const [editingPageLocale, setEditingPageLocale] = (0, import_react65.useState)(null);
+  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react65.useState)(null);
+  const [pageDrafts, setPageDrafts] = (0, import_react65.useState)({});
+  const pageDraftsRef = (0, import_react65.useRef)(pageDrafts);
+  const refreshRequestIdRef = (0, import_react65.useRef)(0);
+  const selectedSourcePage = (0, import_react65.useMemo)(
     () => pages.find((page) => page.id === selectedPageId) || pages[0] || null,
     [pages, selectedPageId]
   );
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     pageDraftsRef.current = pageDrafts;
   }, [pageDrafts]);
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     const handleSelectPage = (event) => {
       const pageId = event.detail?.pageId;
       if (!pageId || !pages.some((page) => page.id === pageId)) return;
@@ -134072,15 +134444,15 @@ function AdminPages() {
   }, [pages]);
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
   const activeDraftKey = draftKey(editingLang, selectedPageId);
-  const unsavedDraftLocales = (0, import_react64.useMemo)(() => unsavedLocalesFromDrafts(pageDrafts), [pageDrafts]);
+  const unsavedDraftLocales = (0, import_react65.useMemo)(() => unsavedLocalesFromDrafts(pageDrafts), [pageDrafts]);
   const hasActiveDraft = Boolean(pageDrafts[activeDraftKey]);
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     if (!isLocaleReady || !selectedSourcePage) return;
     const draft = pageDraftsRef.current[draftKey(editingLang, selectedPageId)];
     setEditingPage(clonePage(draft || selectedSourcePage));
     setEditingPageLocale(editingLang);
   }, [editingLang, isLocaleReady, selectedPageId, selectedSourcePage]);
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     setHeaderTabs(
       pages.map((page) => {
         const pageId = page.id;
@@ -134095,7 +134467,7 @@ function AdminPages() {
     );
     return () => setHeaderTabs(null);
   }, [editingLang, pageSeo, pages, selectedPageId, setHeaderTabs]);
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     const loadLangData = async () => {
       const requestId = refreshRequestIdRef.current + 1;
       refreshRequestIdRef.current = requestId;
@@ -134140,7 +134512,7 @@ function AdminPages() {
       setIsSaving(false);
     }
   };
-  (0, import_react64.useEffect)(() => {
+  (0, import_react65.useEffect)(() => {
     if (!isLocaleReady) {
       setAction(null);
       return void 0;
@@ -134259,7 +134631,7 @@ function AdminPages() {
 }
 
 // src/pages/admin/Leads.tsx
-var import_react66 = __toESM(require_react(), 1);
+var import_react67 = __toESM(require_react(), 1);
 var import_lucide_react20 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
 var statusColors = {
@@ -134295,30 +134667,30 @@ function safeValue(value) {
   return value?.trim() || "Not provided";
 }
 function AdminLeads() {
-  const [leads, setLeads] = (0, import_react66.useState)([]);
-  const [expandedId, setExpandedId] = (0, import_react66.useState)(null);
-  const [searchTerm, setSearchTerm] = (0, import_react66.useState)("");
-  const [filterStatus, setFilterStatus] = (0, import_react66.useState)("All");
-  const [ageFilter, setAgeFilter] = (0, import_react66.useState)("all");
-  const [noteFilter, setNoteFilter] = (0, import_react66.useState)("all");
-  const [sortOption, setSortOption] = (0, import_react66.useState)("newest");
-  const [selectedIds, setSelectedIds] = (0, import_react66.useState)([]);
-  const [draftNotes, setDraftNotes] = (0, import_react66.useState)({});
-  const [savingNoteIds, setSavingNoteIds] = (0, import_react66.useState)([]);
-  const [updatingStatusIds, setUpdatingStatusIds] = (0, import_react66.useState)([]);
-  const [bulkStatus, setBulkStatus] = (0, import_react66.useState)("");
-  const [isBulkUpdating, setIsBulkUpdating] = (0, import_react66.useState)(false);
-  const [isLoading, setIsLoading] = (0, import_react66.useState)(true);
-  const [toastMessage, setToastMessage] = (0, import_react66.useState)(null);
-  const showToast = (0, import_react66.useCallback)((message) => {
+  const [leads, setLeads] = (0, import_react67.useState)([]);
+  const [expandedId, setExpandedId] = (0, import_react67.useState)(null);
+  const [searchTerm, setSearchTerm] = (0, import_react67.useState)("");
+  const [filterStatus, setFilterStatus] = (0, import_react67.useState)("All");
+  const [ageFilter, setAgeFilter] = (0, import_react67.useState)("all");
+  const [noteFilter, setNoteFilter] = (0, import_react67.useState)("all");
+  const [sortOption, setSortOption] = (0, import_react67.useState)("newest");
+  const [selectedIds, setSelectedIds] = (0, import_react67.useState)([]);
+  const [draftNotes, setDraftNotes] = (0, import_react67.useState)({});
+  const [savingNoteIds, setSavingNoteIds] = (0, import_react67.useState)([]);
+  const [updatingStatusIds, setUpdatingStatusIds] = (0, import_react67.useState)([]);
+  const [bulkStatus, setBulkStatus] = (0, import_react67.useState)("");
+  const [isBulkUpdating, setIsBulkUpdating] = (0, import_react67.useState)(false);
+  const [isLoading, setIsLoading] = (0, import_react67.useState)(true);
+  const [toastMessage, setToastMessage] = (0, import_react67.useState)(null);
+  const showToast = (0, import_react67.useCallback)((message) => {
     setToastMessage(message);
   }, []);
-  (0, import_react66.useEffect)(() => {
+  (0, import_react67.useEffect)(() => {
     if (!toastMessage) return;
     const timeout = window.setTimeout(() => setToastMessage(null), 2500);
     return () => window.clearTimeout(timeout);
   }, [toastMessage]);
-  const fetchLeads = (0, import_react66.useCallback)(async () => {
+  const fetchLeads = (0, import_react67.useCallback)(async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/leads");
@@ -134341,7 +134713,7 @@ function AdminLeads() {
       setIsLoading(false);
     }
   }, [showToast]);
-  (0, import_react66.useEffect)(() => {
+  (0, import_react67.useEffect)(() => {
     void fetchLeads();
   }, [fetchLeads]);
   const persistLead = async (id3, payload) => {
@@ -134352,15 +134724,15 @@ function AdminLeads() {
     });
     if (!response.ok) throw new Error("Failed to update lead.");
   };
-  const selectedSet = (0, import_react66.useMemo)(() => new Set(selectedIds), [selectedIds]);
-  const summaryStats = (0, import_react66.useMemo)(() => {
+  const selectedSet = (0, import_react67.useMemo)(() => new Set(selectedIds), [selectedIds]);
+  const summaryStats = (0, import_react67.useMemo)(() => {
     const open = leads.filter((lead) => lead.status === "New" || lead.status === "Contacted" || lead.status === "In Progress").length;
     const converted = leads.filter((lead) => lead.status === "Converted").length;
     const stale = leads.filter((lead) => isStaleLead(lead)).length;
     const withoutNotes = leads.filter((lead) => !(draftNotes[lead.id] ?? lead.notes ?? "").trim()).length;
     return { total: leads.length, open, converted, stale, withoutNotes };
   }, [draftNotes, leads]);
-  const filteredAndSortedLeads = (0, import_react66.useMemo)(() => {
+  const filteredAndSortedLeads = (0, import_react67.useMemo)(() => {
     const now2 = Date.now();
     const today = now2 - 24 * 60 * 60 * 1e3;
     const last7d = now2 - 7 * 24 * 60 * 60 * 1e3;
@@ -135061,7 +135433,7 @@ ${nextLine}` : nextLine };
 }
 
 // src/pages/admin/SeoSettings.tsx
-var import_react68 = __toESM(require_react(), 1);
+var import_react69 = __toESM(require_react(), 1);
 var import_lucide_react21 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/SeoFormSection.tsx
@@ -135156,24 +135528,24 @@ function AdminSeoSettings() {
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const { setHeaderTabs } = useAdminHeaderTabs();
-  const [selectedSeoId, setSelectedSeoId] = (0, import_react68.useState)("home");
-  const [editingPage, setEditingPage] = (0, import_react68.useState)(null);
-  const [showToast, setShowToast] = (0, import_react68.useState)(false);
-  const [isRefreshing, setIsRefreshing] = (0, import_react68.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react68.useState)(false);
-  const [editingPageLocale, setEditingPageLocale] = (0, import_react68.useState)(null);
-  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react68.useState)(null);
-  const [seoDrafts, setSeoDrafts] = (0, import_react68.useState)({});
-  const seoDraftsRef = (0, import_react68.useRef)(seoDrafts);
-  const refreshRequestIdRef = (0, import_react68.useRef)(0);
+  const [selectedSeoId, setSelectedSeoId] = (0, import_react69.useState)("home");
+  const [editingPage, setEditingPage] = (0, import_react69.useState)(null);
+  const [showToast, setShowToast] = (0, import_react69.useState)(false);
+  const [isRefreshing, setIsRefreshing] = (0, import_react69.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react69.useState)(false);
+  const [editingPageLocale, setEditingPageLocale] = (0, import_react69.useState)(null);
+  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react69.useState)(null);
+  const [seoDrafts, setSeoDrafts] = (0, import_react69.useState)({});
+  const seoDraftsRef = (0, import_react69.useRef)(seoDrafts);
+  const refreshRequestIdRef = (0, import_react69.useRef)(0);
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
   const activeDraftKey = draftKey(editingLang, selectedSeoId);
-  const unsavedDraftLocales = (0, import_react68.useMemo)(() => unsavedLocalesFromDrafts(seoDrafts), [seoDrafts]);
+  const unsavedDraftLocales = (0, import_react69.useMemo)(() => unsavedLocalesFromDrafts(seoDrafts), [seoDrafts]);
   const hasActiveDraft = Boolean(seoDrafts[activeDraftKey]);
-  (0, import_react68.useEffect)(() => {
+  (0, import_react69.useEffect)(() => {
     seoDraftsRef.current = seoDrafts;
   }, [seoDrafts]);
-  (0, import_react68.useEffect)(() => {
+  (0, import_react69.useEffect)(() => {
     const loadLangData = async () => {
       const requestId = refreshRequestIdRef.current + 1;
       refreshRequestIdRef.current = requestId;
@@ -135195,7 +135567,7 @@ function AdminSeoSettings() {
     };
     loadLangData();
   }, [editingLang]);
-  const staticPages = (0, import_react68.useMemo)(
+  const staticPages = (0, import_react69.useMemo)(
     () => staticPageMetadata.map((page) => ({
       ...page,
       path: getManagedPagePath(page.id, pageSeo, editingLang),
@@ -135203,7 +135575,7 @@ function AdminSeoSettings() {
     })),
     [editingLang, pageSeo]
   );
-  const combinedPages = (0, import_react68.useMemo)(
+  const combinedPages = (0, import_react69.useMemo)(
     () => [
       ...staticPages,
       ...products.map((product) => ({
@@ -135221,17 +135593,17 @@ function AdminSeoSettings() {
     ],
     [editingLang, pageSeo, products, staticPages]
   );
-  const selectedSourcePage = (0, import_react68.useMemo)(
+  const selectedSourcePage = (0, import_react69.useMemo)(
     () => combinedPages.find((page) => page.id === selectedSeoId) || combinedPages[0] || null,
     [combinedPages, selectedSeoId]
   );
-  (0, import_react68.useEffect)(() => {
+  (0, import_react69.useEffect)(() => {
     if (!isLocaleReady || !selectedSourcePage) return;
     const draft = seoDraftsRef.current[draftKey(editingLang, selectedSeoId)];
     setEditingPage(cloneDraft(draft || selectedSourcePage));
     setEditingPageLocale(editingLang);
   }, [editingLang, isLocaleReady, selectedSeoId, selectedSourcePage]);
-  (0, import_react68.useEffect)(() => {
+  (0, import_react69.useEffect)(() => {
     setHeaderTabs(
       combinedPages.map((page) => ({
         id: page.id,
@@ -135243,7 +135615,7 @@ function AdminSeoSettings() {
     );
     return () => setHeaderTabs(null);
   }, [combinedPages, selectedSeoId, setHeaderTabs]);
-  (0, import_react68.useEffect)(() => {
+  (0, import_react69.useEffect)(() => {
     if (!showToast) return;
     const timer = window.setTimeout(() => setShowToast(false), 3e3);
     return () => window.clearTimeout(timer);
@@ -135279,7 +135651,7 @@ function AdminSeoSettings() {
       setIsSaving(false);
     }
   };
-  (0, import_react68.useEffect)(() => {
+  (0, import_react69.useEffect)(() => {
     if (!isLocaleReady) {
       setAction(null);
       return void 0;
@@ -135387,17 +135759,17 @@ function AdminSeoSettings() {
 }
 
 // src/pages/admin/GlobalSettings.tsx
-var import_react71 = __toESM(require_react(), 1);
+var import_react72 = __toESM(require_react(), 1);
 var import_lucide_react23 = __toESM(require_lucide_react(), 1);
 
 // src/components/admin/FaviconUploader.tsx
-var import_react70 = __toESM(require_react(), 1);
+var import_react71 = __toESM(require_react(), 1);
 var import_lucide_react22 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
 function FaviconUploader({ label, value, onChange, placeholder }) {
-  const fileInputRef = (0, import_react70.useRef)(null);
-  const [isUploading, setIsUploading] = (0, import_react70.useState)(false);
-  const [mode, setMode] = (0, import_react70.useState)("url");
+  const fileInputRef = (0, import_react71.useRef)(null);
+  const [isUploading, setIsUploading] = (0, import_react71.useState)(false);
+  const [mode, setMode] = (0, import_react71.useState)("url");
   const handleFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -135509,23 +135881,23 @@ function AdminGlobalSettings() {
   const { editingLang } = useAdminLanguage();
   const { setAction } = useAdminSidebarAction();
   const { setHeaderTabs } = useAdminHeaderTabs();
-  const [settings, setSettings] = (0, import_react71.useState)(globalSettings);
-  const [successMessage, setSuccessMessage] = (0, import_react71.useState)(null);
-  const [activeSection, setActiveSection] = (0, import_react71.useState)("branding");
-  const [isRefreshing, setIsRefreshing] = (0, import_react71.useState)(false);
-  const [isSaving, setIsSaving] = (0, import_react71.useState)(false);
-  const [settingsLocale, setSettingsLocale] = (0, import_react71.useState)(null);
-  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react71.useState)(null);
-  const [settingsDrafts, setSettingsDrafts] = (0, import_react71.useState)({});
-  const settingsDraftsRef = import_react71.default.useRef(settingsDrafts);
-  const refreshRequestIdRef = import_react71.default.useRef(0);
+  const [settings, setSettings] = (0, import_react72.useState)(globalSettings);
+  const [successMessage, setSuccessMessage] = (0, import_react72.useState)(null);
+  const [activeSection, setActiveSection] = (0, import_react72.useState)("branding");
+  const [isRefreshing, setIsRefreshing] = (0, import_react72.useState)(false);
+  const [isSaving, setIsSaving] = (0, import_react72.useState)(false);
+  const [settingsLocale, setSettingsLocale] = (0, import_react72.useState)(null);
+  const [loadedEditingLang, setLoadedEditingLang] = (0, import_react72.useState)(null);
+  const [settingsDrafts, setSettingsDrafts] = (0, import_react72.useState)({});
+  const settingsDraftsRef = import_react72.default.useRef(settingsDrafts);
+  const refreshRequestIdRef = import_react72.default.useRef(0);
   const isLocaleReady = loadedEditingLang === editingLang && !isRefreshing;
-  const unsavedDraftLocales = import_react71.default.useMemo(() => unsavedLocalesFromDrafts(settingsDrafts), [settingsDrafts]);
+  const unsavedDraftLocales = import_react72.default.useMemo(() => unsavedLocalesFromDrafts(settingsDrafts), [settingsDrafts]);
   const hasActiveDraft = Boolean(settingsDrafts[editingLang]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     settingsDraftsRef.current = settingsDrafts;
   }, [settingsDrafts]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     const loadLangData = async () => {
       const requestId = refreshRequestIdRef.current + 1;
       refreshRequestIdRef.current = requestId;
@@ -135544,12 +135916,12 @@ function AdminGlobalSettings() {
     };
     loadLangData();
   }, [editingLang]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     if (!isLocaleReady) return;
     setSettings(cloneDraft(settingsDraftsRef.current[editingLang] || globalSettings));
     setSettingsLocale(editingLang);
   }, [editingLang, globalSettings, isLocaleReady]);
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     if (!isLocaleReady || settingsLocale !== editingLang) return;
     setSettingsDrafts((drafts) => {
       if (isSameDraft(settings, globalSettings)) {
@@ -135599,7 +135971,7 @@ function AdminGlobalSettings() {
       setIsSaving(false);
     }
   };
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     setAction({
       label: `Save Settings`,
       formId: "global-settings-form",
@@ -135637,7 +136009,7 @@ function AdminGlobalSettings() {
       icon: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_lucide_react23.Languages, { className: "text-earth-500", size: 20 })
     }
   ];
-  import_react71.default.useEffect(() => {
+  import_react72.default.useEffect(() => {
     setHeaderTabs(
       sections.map((section) => ({
         id: section.id,
@@ -136015,7 +136387,7 @@ function UIToggle({ label, field, settings, setSettings }) {
 }
 
 // src/pages/admin/Media.tsx
-var import_react73 = __toESM(require_react(), 1);
+var import_react74 = __toESM(require_react(), 1);
 var import_lucide_react24 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
 function formatFileSize(bytes) {
@@ -136044,13 +136416,13 @@ function splitDisplayName(name) {
 }
 function AdminMedia() {
   const { media, uploadMedia, deleteMedia, renameMedia, isLoading } = useMedia();
-  const [isDragging2, setIsDragging] = (0, import_react73.useState)(false);
-  const [uploading, setUploading] = (0, import_react73.useState)(false);
-  const fileInputRef = (0, import_react73.useRef)(null);
-  const [copiedId, setCopiedId] = (0, import_react73.useState)(null);
-  const [editingUrl, setEditingUrl] = (0, import_react73.useState)(null);
-  const [renameValue, setRenameValue] = (0, import_react73.useState)("");
-  const [renamingUrl, setRenamingUrl] = (0, import_react73.useState)(null);
+  const [isDragging2, setIsDragging] = (0, import_react74.useState)(false);
+  const [uploading, setUploading] = (0, import_react74.useState)(false);
+  const fileInputRef = (0, import_react74.useRef)(null);
+  const [copiedId, setCopiedId] = (0, import_react74.useState)(null);
+  const [editingUrl, setEditingUrl] = (0, import_react74.useState)(null);
+  const [renameValue, setRenameValue] = (0, import_react74.useState)("");
+  const [renamingUrl, setRenamingUrl] = (0, import_react74.useState)(null);
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
@@ -136286,21 +136658,21 @@ function AdminMedia() {
 }
 
 // src/components/ScrollToTop.tsx
-var import_react75 = __toESM(require_react(), 1);
+var import_react76 = __toESM(require_react(), 1);
 var import_react_router_dom12 = __toESM(require_main3(), 1);
 function ScrollToTop() {
   const { pathname } = (0, import_react_router_dom12.useLocation)();
-  (0, import_react75.useEffect)(() => {
+  (0, import_react76.useEffect)(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 }
 
 // src/components/ErrorBoundary.jsx
-var import_react76 = __toESM(require_react(), 1);
+var import_react77 = __toESM(require_react(), 1);
 var import_lucide_react25 = __toESM(require_lucide_react(), 1);
 var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
-var ErrorBoundary = class extends import_react76.default.Component {
+var ErrorBoundary = class extends import_react77.default.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -136373,7 +136745,7 @@ function NotFoundPage() {
 function FaviconUpdater() {
   const { globalSettings } = usePages();
   const faviconUrl = globalSettings.headerLogo || "";
-  (0, import_react77.useEffect)(() => {
+  (0, import_react78.useEffect)(() => {
     document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]').forEach((link) => link.remove());
     if (!faviconUrl) return;
     ["icon", "apple-touch-icon"].forEach((rel) => {
@@ -136657,6 +137029,8 @@ async function initDb() {
         );
       }
     }
+    await seedGermanDefaults(conn);
+    await seedHomeStatsDefaults(conn);
     console.log("[DB Startup] MySQL database initialized");
   } catch (err) {
     console.error("[DB Startup Error] MySQL schema bootstrap failed:", getDbErrorDetails(err));
@@ -136938,13 +137312,372 @@ function getManagedPagePath2(pageId, pageSeo = defaultPageSeo) {
   const slug = getManagedPageSlug2(pageId, pageSeo);
   return slug ? `/${slug}` : "/";
 }
-var activeLocales = ["en", "pt", "es", "nl", "fr"];
+var activeLocales = ["en", "de", "pt", "es", "nl", "fr"];
 function isActiveLocale2(value) {
   return Boolean(value && activeLocales.includes(value));
 }
 function normalizeLocale(value, fallback = "en") {
   const normalized = asString(value).trim().toLowerCase();
   return isActiveLocale2(normalized) ? normalized : fallback;
+}
+function isGermanLocale(locale) {
+  return asString(locale).trim().toLowerCase().startsWith("de");
+}
+function getDefaultHomeStatsGrid(locale = "en") {
+  const normalizedLocale = normalizeLocale(locale);
+  const labels = {
+    en: ["Years Experience", "Tons Exported Annually", "Countries Served", "Sorting Purity"],
+    de: ["Jahre Erfahrung", "Tonnen j\xE4hrlich exportiert", "Belieferte L\xE4nder", "Sortierreinheit"],
+    pt: ["Anos de experi\xEAncia", "Toneladas exportadas anualmente", "Pa\xEDses atendidos", "Pureza de classifica\xE7\xE3o"],
+    es: ["A\xF1os de experiencia", "Toneladas exportadas al a\xF1o", "Pa\xEDses atendidos", "Pureza de clasificaci\xF3n"],
+    nl: ["Jaar ervaring", "Ton jaarlijks ge\xEBxporteerd", "Bediende landen", "Sorteerzuiverheid"],
+    fr: ["Ann\xE9es d'exp\xE9rience", "Tonnes export\xE9es par an", "Pays desservis", "Puret\xE9 du tri"]
+  };
+  const values = normalizedLocale === "de" ? ["25+", "10.000", "40+", "99.9%"] : ["25+", "10,000", "40+", "99.9%"];
+  return labels[normalizedLocale].map((label, index) => ({ value: values[index], label }));
+}
+function normalizeHomeStatsGrid(items, locale = "en") {
+  const defaults = getDefaultHomeStatsGrid(locale);
+  const sourceItems = Array.isArray(items) ? items : [];
+  return defaults.map((fallback, index) => {
+    const source = sourceItems[index] || {};
+    const sourceValue = asString(source?.value).trim();
+    const sourceLabel = asString(source?.label).trim();
+    return {
+      value: !sourceValue || sourceValue === "999%" || sourceValue === "99,9%" || sourceValue === "99,9 %" ? fallback.value : sourceValue,
+      label: sourceLabel || fallback.label
+    };
+  });
+}
+function getDefaultGlobalSettings(locale = "en") {
+  if (!isGermanLocale(locale)) return defaultGlobalSettings;
+  return {
+    ...defaultGlobalSettings,
+    navLinks: [
+      { label: "Startseite", url: "/" },
+      { label: "\xDCber uns", url: "/about" },
+      { label: "Produkte", url: "/products" },
+      { label: "Export", url: "/export" },
+      { label: "Kontakt", url: "/contacts" }
+    ],
+    ctaText: "Angebot anfragen",
+    footerDescription: "Hochwertige sonnengetrocknete Fr\xFCchte aus Usbekistan f\xFCr internationale B2B-Partner mit verl\xE4sslicher Qualit\xE4t.",
+    footerLeadText: "Erhalten Sie aktuelle Preise und Exportbedingungen direkt per E-Mail oder Telegram.",
+    quickLinks: [
+      { label: "\xDCber uns", url: "/about" },
+      { label: "Export", url: "/export" },
+      { label: "Kontakt", url: "/contacts" }
+    ],
+    footerCtaTitle: "Ben\xF6tigen Sie ein individuelles Containerangebot?",
+    footerCopyrightText: "HQ Dried Fruits. Alle Rechte vorbehalten.",
+    uiLabels: {
+      ...defaultGlobalSettings.uiLabels,
+      mobileNavigationTitle: "Navigation",
+      mobileContactTitle: "Kontakt",
+      homeMetaTitle: "HQ Dried Fruits | Hochwertiger Bio-Export",
+      productsMetaTitle: "Unsere Produkte | Gro\xDFhandelskatalog",
+      exportMetaTitle: "Globaler Export & Logistik",
+      contactsMetaTitle: "Kontakt | Gro\xDFhandelsanfragen",
+      routeLoadingLabel: "Seite wird geladen...",
+      notFoundTitle: "Seite nicht gefunden",
+      notFoundBody: "Die angeforderte Seite existiert nicht oder die Adresse wurde ge\xE4ndert.",
+      notFoundButtonLabel: "Zur Startseite",
+      requestCatalogLabel: "Gro\xDFhandelskatalog anfragen",
+      exploreProductsLabel: "Produkte ansehen",
+      heritageSloganLabel: "Jahrzehntelange Erfahrung in jeder Ernte.",
+      aboutCompanyLabel: "\xDCber das Unternehmen",
+      statYearsLabel: "Jahre Erfahrung",
+      statTonsLabel: "Tonnen exportiert",
+      productSelectionSublabel: "Von Hand ausgew\xE4hlt und nat\xFCrlich sonnengetrocknet.",
+      viewFullCatalogLabel: "Gesamten Katalog ansehen",
+      requestSampleLabel: "Muster anfragen",
+      productCardViewSpecsLabel: "Spezifikation ansehen",
+      requestQuoteBtn: "Gro\xDFhandelsangebot anfragen",
+      learnMoreLabel: "Mehr \xFCber unseren Exportprozess",
+      getPricingLabel: "Preise & Muster anfragen",
+      prodStep1Title: "Wareneingang",
+      prodStep1Subtitle: "Ernteauswahl",
+      prodStep1Desc: "Eingehende Fr\xFCchte werden nach Charge, Feuchtigkeitsprofil und Zielanforderungen sortiert.",
+      prodStep2Title: "Verarbeitung",
+      prodStep2Subtitle: "Laser- & R\xF6ntgenkontrolle",
+      prodStep2Desc: "Jede Linie wird auf Reinheit, Fehlerentfernung und exportf\xE4hige Gleichm\xE4\xDFigkeit kalibriert.",
+      prodStep3Title: "Verpackung",
+      prodStep3Subtitle: "K\xE4uferspezifische Formate",
+      prodStep3Desc: "Wir verpacken f\xFCr Retail, Private Label und industrielle Lieferungen.",
+      prodStep4Title: "Versand",
+      prodStep4Subtitle: "Export\xFCbergabe",
+      prodStep4Desc: "Fertige Ware wird dokumentiert, palettiert und passend zum Zeitplan des K\xE4ufers verladen.",
+      missionPurposeLabel: "Zweck",
+      missionHeritageLabel: "Herkunft",
+      missionPhilosophyLabel: "Philosophie",
+      missionStandardsLabel: "Standards",
+      orchardPhilosophyLabel: "Obstgarten-Philosophie",
+      whoWeAreFallback1: "HQ Dried Fruits verbindet landwirtschaftliche Kontrolle, disziplinierte Verarbeitung und Exportabwicklung in einem klaren Betriebssystem.",
+      whoWeAreFallback2: "Diese Struktur hilft Gro\xDFhandelskunden, konstante Ware, klare Dokumentation und verl\xE4ssliche Versandvorbereitung zu sichern.",
+      missionNarrativeEyebrow: "Mission",
+      missionNarrativeTitle: "Was unser Anbauen, Verarbeiten und Liefern leitet",
+      missionNarrativeSublabel: "Ein klarer Blick auf Mission, Herkunft, Philosophie und Standards des Unternehmens.",
+      insideFacilityEyebrow: "In der Produktion",
+      haccpLabel: "HACCP-zertifiziert",
+      isoLabel: "ISO 9001:2015",
+      organicLabel: "100 % Bio",
+      globalGapLabel: "GlobalGAP",
+      fdaLabel: "FDA-registriert",
+      exportOpsEyebrow: "Exportabwicklung",
+      exportOpsTitle: "F\xFCr k\xE4uferspezifisches Routing, Dokumentation und Verpackung aufgebaut",
+      logisticsDesc1: "Wir planen multimodale Transporte entlang Ihrer Anforderungen.",
+      logisticsDesc2: "Jede Sendung wird auf Wiederholbarkeit, Compliance und praktische Gro\xDFhandelsabl\xE4ufe ausgelegt.",
+      packagingTitle: "Individuelle Verpackung",
+      packagingDesc: "Gro\xDFkartons, vakuumierte Beutel oder retailf\xE4hige Verpackungen mit Ihren Markenetiketten.",
+      transportationTitle: "See- und Bahntransport",
+      transportationDesc: "Kosteneffiziente FCL- und LCL-Sendungen \xFCber wichtige H\xE4fen und Bahnverbindungen.",
+      documentationTitle: "Zollabwicklung",
+      documentationDesc: "Unterst\xFCtzung bei Pflanzengesundheitszeugnissen, Ursprungszeugnissen und EUR.1.",
+      destinationBreakdownEyebrow: "Vertriebskan\xE4le",
+      destinationBreakdownTitle: "Vorbereitet f\xFCr die Art, wie Ihr Gesch\xE4ft verkauft",
+      destinationBreakdownDesc: "Unterschiedliche K\xE4ufer brauchen unterschiedliche Verpackung, Dokumentation und Produktaufbereitung.",
+      qualityGuaranteeTitle: "Qualit\xE4tsgarantie",
+      qualityGuaranteeDesc: "Moderne Laser- und R\xF6ntgensortierung unterst\xFCtzt eine Reinheit von 99,9 %.",
+      moistureControlLabel: "Feuchtigkeitskontrolle",
+      moistureControlDesc: "Streng bei 18-22 % gehalten, f\xFCr optimale Haltbarkeit.",
+      sizeCalibrationLabel: "Gr\xF6\xDFenkalibrierung",
+      sizeCalibrationDesc: "Lasersortiert f\xFCr einheitliche Gr\xF6\xDFen.",
+      microSafeLabel: "Mikrobiologische Sicherheit",
+      microSafeDesc: "Regelm\xE4\xDFige Labortests auf Aflatoxine und Schwermetalle.",
+      contactsTitle: "Kontakt aufnehmen",
+      contactsIntroFallback: "Ob Angebot, Muster oder Logistikdetails: Unser Exportteam unterst\xFCtzt Sie gerne.",
+      sendInquiryTitle: "Anfrage senden",
+      formNameLabel: "Vollst\xE4ndiger Name",
+      formEmailLabel: "Gesch\xE4ftliche E-Mail",
+      formPhoneLabel: "Telefonnummer",
+      formMessageLabel: "Nachricht",
+      formCompanyLabel: "Unternehmen",
+      submitBtnLabel: "Anfrage senden",
+      submittingLabel: "Wird gesendet...",
+      sendMessageLabel: "Nachricht senden",
+      inquirySuccessMsg: "Ihre Anfrage ist eingegangen. Das Exportteam meldet sich in K\xFCrze.",
+      inquiryFailureMsg: "Senden fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      directContactEyebrow: "Direkter Kontakt",
+      contactDetailsTitle: "Kontaktdaten",
+      contactDetailsDesc: "Erreichen Sie unser Vertriebs- und Exportkoordinationsteam \xFCber den passenden Kanal.",
+      emailLabel: "E-Mail",
+      phoneLabel: "Telefon",
+      headquartersLabel: "Zentrale",
+      workingHoursLabel: "\xD6ffnungszeiten",
+      footerLinksTitle: "Unternehmen",
+      footerCompanyPlaceholder: "Firmenname",
+      footerEmailPlaceholder: "E-Mail-Adresse",
+      footerSubmitLabel: "Senden",
+      footerSubmittingLabel: "Wird gesendet",
+      footerSecondaryContactPrefix: "Lieber direkt sprechen?",
+      footerTelegramLinkLabel: "kontaktieren Sie uns auf Telegram",
+      footerPrivacyLinkLabel: "Datenschutzerkl\xE4rung",
+      footerTermsLinkLabel: "Nutzungsbedingungen",
+      productsTitle: "Gro\xDFhandelskatalog",
+      productsSubtitle: "Entdecken Sie unser exportbereites Sortiment.",
+      privacyTitle: "Datenschutzerkl\xE4rung",
+      termsTitle: "Nutzungsbedingungen"
+    }
+  };
+}
+function getDefaultProductsPage(locale = "en") {
+  if (!isGermanLocale(locale)) return defaultProductsPage;
+  return {
+    ...defaultProductsPage,
+    pageTitle: "Trockenfr\xFCchte aus Usbekistan f\xFCr den Gro\xDFhandel",
+    pageSubtitle: "Entdecken Sie exportbereite Aprikosen, Rosinen, Trockenpflaumen und Sortimente mit relevanten Informationen zu Herkunft, Verarbeitung und Anwendung.",
+    introEyebrow: "Herkunft Usbekistan",
+    introTitle: "Eine \xDCbersicht. Vier Kernsortimente. Relevante Informationen f\xFCr Eink\xE4ufer.",
+    introContent: "<p>Vergleichen Sie Herkunft, Verarbeitung, Spezifikationen, Verpackung und Einsatzbereiche, ohne zwischen vielen Katalogseiten zu wechseln.</p><p>Jedes Produktprofil ist f\xFCr Gro\xDFhandelskunden aufgebaut, die praktische Beschaffungsinformationen brauchen.</p>",
+    introFacts: [
+      { title: "Anbaugrundlage", description: "Usbekistans Obstanbaugebiete basieren auf bew\xE4sserten T\xE4lern und Vorgebirgsregionen." },
+      { title: "Wachstumsbedingungen", description: "Hei\xDFe, trockene Sommer und Sonne unterst\xFCtzen die nat\xFCrliche Zuckerbildung." },
+      { title: "Exportbereit", description: "Jede Linie ist f\xFCr k\xE4uferspezifische Kartons und wiederkehrende Programme vorbereitet." }
+    ],
+    catalogEyebrow: "Nach Kategorie filtern",
+    catalogTitle: "Produktkatalog",
+    orderingFormTitle: "Gro\xDFhandelsanfrage",
+    orderingFormSubtitle: "Teilen Sie uns Zielmenge und Zeitplan mit. Wir melden uns mit Preisen und Logistikdetails.",
+    stepOneLabel: "F\xFCr welches Produkt interessieren Sie sich?",
+    stepTwoLabel: "Gesch\xE4tzte monatliche Menge?",
+    stepThreeLabel: "Wohin sollen wir das Angebot senden?",
+    mixedContainerLabel: "Gemischter Container",
+    volumeOptions: ["1-5 Tonnen", "5-20 Tonnen", "1 FCL (20 ft)", "Mehrere FCL"],
+    viewSpecsLabel: "Spezifikation ansehen",
+    stepOnePlaceholder: "Produkt ausw\xE4hlen...",
+    stepThreePlaceholder: "Gesch\xE4ftliche E-Mail-Adresse",
+    nextStepButtonLabel: "Weiter",
+    backButtonLabel: "Zur\xFCck",
+    submitButtonLabel: "Angebot anfragen",
+    submittingButtonLabel: "Wird gesendet...",
+    detailUi: {
+      ...defaultProductsPage.detailUi,
+      loadingLabel: "Spezifikationen werden geladen...",
+      notFoundTitle: "Produkt nicht gefunden",
+      notFoundBody: "Das gesuchte Produkt existiert nicht.",
+      backToCatalogLabel: "Zur\xFCck zum Katalog",
+      nutritionTitle: "Produktinformationen",
+      inquiryTitle: "Muster oder Angebot anfragen",
+      companyPlaceholder: "Firmenname",
+      emailPlaceholder: "Gesch\xE4ftliche E-Mail",
+      volumePlaceholder: "Nachricht hinterlassen...",
+      inquiryButtonLabel: "Anfrage senden",
+      inquirySubmittingLabel: "Anfrage wird gesendet..."
+    },
+    quickContactTitle: "Soll es schneller gehen?",
+    quickContactSubtitle: "\xDCberspringen Sie das Formular und sprechen Sie direkt mit unserem Exportvertrieb.",
+    telegramLabel: "Telegram",
+    telegramSublabel: "Schnelle Angebote & Katalog-PDF",
+    callLabel: "Vertrieb anrufen",
+    emailLabel: "E-Mail senden"
+  };
+}
+function getDefaultExportPage(locale = "en") {
+  if (!isGermanLocale(locale)) return defaultExportPage;
+  return {
+    ...defaultExportPage,
+    heroTitle: "Unser globales Exportnetzwerk",
+    heroSubtitle: "Reibungslose internationale Logistik vom Herzen der Seidenstra\xDFe bis in Ihr Lager.",
+    operationsEyebrow: "Exportabwicklung",
+    destinationEyebrow: "Vertriebskan\xE4le",
+    mapSectionTitle: "Vorbereitet f\xFCr die Art, wie Ihr Gesch\xE4ft verkauft",
+    supplyRoutes: normalizeSupplyRoutes([], "de"),
+    logisticsContent: "<p>Wir planen multimodale Transporte entlang Ihrer Anforderungen - von Verpackung und Dokumenten bis zur effizienten Lieferroute.</p>",
+    packagingTitle: "Individuelle Verpackung",
+    packagingMethods: "<p>Gro\xDFkartons, vakuumierte Beutel oder retailf\xE4hige Verpackungen mit Ihren Markenetiketten.</p>",
+    transportationTitle: "See- und Bahntransport",
+    transportationMethods: "<p>Kosteneffiziente FCL- und LCL-Sendungen \xFCber wichtige H\xE4fen und Bahnverbindungen.</p>",
+    documentationTitle: "Zollabwicklung",
+    documentationContent: "<p>Unterst\xFCtzung bei Pflanzengesundheitszeugnissen, Ursprungszeugnissen und EUR.1.</p>",
+    qualityTitle: "Qualit\xE4tsgarantie",
+    technicalSpecs: "<p>Laser- und R\xF6ntgensortierung unterst\xFCtzen die Entfernung von Steinen, Stielen und Defekten.</p>",
+    qualityChecks: [
+      { title: "Feuchtigkeitskontrolle", description: "Streng bei 18-22 % gehalten, f\xFCr optimale Haltbarkeit." },
+      { title: "Gr\xF6\xDFenkalibrierung", description: "Lasersortiert f\xFCr einheitliche Gr\xF6\xDFen." },
+      { title: "Mikrobiologische Sicherheit", description: "Regelm\xE4\xDFige Labortests auf Aflatoxine und Schwermetalle." }
+    ]
+  };
+}
+function getDefaultContactsPage(locale = "en") {
+  if (!isGermanLocale(locale)) return defaultContactsPage;
+  return {
+    ...defaultContactsPage,
+    pageTitle: "Kontakt aufnehmen",
+    introText: "Ob gemischter Container, eigene Erntelinie oder Logistikdetails: Unser B2B-Team unterst\xFCtzt Sie gerne.",
+    directContactEyebrow: "Direkter Kontakt",
+    contactFormTitle: "Anfrage senden",
+    responseLabelPrefix: "Antworten werden \xFCberwacht unter",
+    formNameLabel: "Vollst\xE4ndiger Name",
+    formCompanyLabel: "Unternehmen",
+    formEmailLabel: "Gesch\xE4ftliche E-Mail",
+    formMessageLabel: "Nachricht",
+    submitButtonLabel: "Nachricht senden",
+    submittingButtonLabel: "Wird gesendet...",
+    infoEmailLabel: "E-Mail",
+    infoPhoneLabel: "Telefon",
+    infoAddressLabel: "Zentrale",
+    infoHoursLabel: "\xD6ffnungszeiten",
+    socialSectionTitle: "Soziale Medien"
+  };
+}
+function getDefaultPageSeoMap(locale = "en") {
+  if (!isGermanLocale(locale)) return defaultPageSeo;
+  return {
+    home: { metaTitle: "HQ Dried Fruits | Hochwertiger Trockenfrucht-Export", metaDescription: "Hochwertige sonnengetrocknete Fr\xFCchte aus Usbekistan f\xFCr internationale B2B-Partner.", slug: "", ogTitle: "HQ Dried Fruits", imageAlt: "Sonnengetrocknete Fr\xFCchte aus Usbekistan" },
+    about: { metaTitle: "\xDCber HQ Dried Fruits | Produktion und Mission", metaDescription: "Erfahren Sie mehr \xFCber Produktion, Qualit\xE4tskontrolle und Exportvorbereitung von HQ Dried Fruits.", slug: "about", ogTitle: "\xDCber HQ Dried Fruits", imageAlt: "Trockenfruchtproduktion in Usbekistan" },
+    products: { metaTitle: "Trockenfr\xFCchte aus Usbekistan f\xFCr den Gro\xDFhandel | HQ Dried Fruits", metaDescription: "Aprikosen, Rosinen, Trockenpflaumen und Erdn\xFCsse aus Usbekistan f\xFCr Gro\xDFhandelskunden.", slug: "products", ogTitle: "Produktkatalog von HQ Dried Fruits", imageAlt: "Sortierte Trockenfr\xFCchte" },
+    export: { metaTitle: "Export und Logistik | HQ Dried Fruits", metaDescription: "Internationale Logistik, Dokumente, Verpackung und Routenplanung f\xFCr Trockenfrucht-Gro\xDFhandel.", slug: "export", ogTitle: "HQ Dried Fruits Export", imageAlt: "Exportnetzwerk" },
+    contacts: { metaTitle: "Kontakt HQ Dried Fruits | Gro\xDFhandelsanfragen", metaDescription: "Fragen Sie Preise, Muster und Logistikunterst\xFCtzung beim Exportteam von HQ Dried Fruits an.", slug: "contacts", ogTitle: "Kontakt HQ Dried Fruits", imageAlt: "Kontaktb\xFCro von HQ Dried Fruits" },
+    privacy: { metaTitle: "Datenschutzerkl\xE4rung | HQ Dried Fruits", metaDescription: "Datenschutzerkl\xE4rung von HQ Dried Fruits.", slug: "privacy", ogTitle: "Datenschutzerkl\xE4rung | HQ Dried Fruits", imageAlt: "Datenschutzerkl\xE4rung" },
+    terms: { metaTitle: "Nutzungsbedingungen | HQ Dried Fruits", metaDescription: "Nutzungsbedingungen von HQ Dried Fruits.", slug: "terms", ogTitle: "Nutzungsbedingungen | HQ Dried Fruits", imageAlt: "Nutzungsbedingungen" }
+  };
+}
+function getDefaultSimplePage(pageId, locale = "en") {
+  if (!isGermanLocale(locale)) return defaultSimplePages[pageId];
+  return pageId === "privacy" ? { title: "Datenschutzerkl\xE4rung", body: "<p>Wir verwenden die \xFCber diese Website \xFCbermittelten Informationen, um Gro\xDFhandelsanfragen zu beantworten, Angebote vorzubereiten und die Kundenkommunikation zu verwalten.</p><p>Wenn Ihre Daten korrigiert oder gel\xF6scht werden sollen, kontaktieren Sie bitte unser Exportteam.</p>" } : { title: "Nutzungsbedingungen", body: "<p>Die Informationen auf dieser Website dienen Gro\xDFhandelsanfragen und Angebotszwecken. Preise, Verf\xFCgbarkeit, Spezifikationen und Logistikbedingungen werden in der direkten Verkaufsabstimmung verbindlich best\xE4tigt.</p>" };
+}
+function getDefaultFlexiblePageContent(pageId, locale = "en") {
+  if (pageId === "privacy" || pageId === "terms") {
+    return getDefaultSimplePage(pageId, locale);
+  }
+  if (pageId === "home" && isGermanLocale(locale)) {
+    return {
+      heroBgImage: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2000&auto=format&fit=crop",
+      heroTitle: "Nat\xFCrlich s\xFC\xDFe Fr\xFCchte aus fruchtbaren B\xF6den",
+      heroSubtitle: "Von Hand ausgew\xE4hlt und nach internationalen Exportstandards verarbeitet.",
+      heroPrimaryCtaLabel: "Gro\xDFhandelskatalog anfragen",
+      heroSecondaryCtaLabel: "Unsere Verarbeitung",
+      introLabel: "Der Unterschied bei HQ Dried Fruits",
+      introEyebrow: "\xDCber uns",
+      introImage: "",
+      introText: "Wir bauen hochwertige Trockenfr\xFCchte in Usbekistan an, verarbeiten sie kontrolliert und exportieren direkt an B2B-Kunden. Moderne Sortierung, klare Dokumentation und exportf\xE4hige Verpackung geh\xF6ren zu jedem Auftrag.",
+      introExtraParagraph: "Auf Basis enger Beziehungen zu Obstbauern, disziplinierter Verarbeitung und exportfertiger Abl\xE4ufe liefern wir Trockenfr\xFCchte in gleichbleibender Qualit\xE4t f\xFCr den Gro\xDFhandel.",
+      statsGrid: [
+        { value: "25+", label: "Jahre Erfahrung" },
+        { value: "10.000", label: "Tonnen j\xE4hrlich exportiert" },
+        { value: "40+", label: "Belieferte L\xE4nder" },
+        { value: "99.9%", label: "Sortierreinheit" }
+      ],
+      productPreviewTitle: "Produktkategorien",
+      productPreviewButtonLabel: "Gesamten Katalog ansehen",
+      productPreviewItemCtaLabel: "Im Katalog ansehen",
+      productPreviewCategoryLabel: "Produktkategorie",
+      productPreviewTypesLabel: "Sorten",
+      productCategories: [
+        { categoryKey: "raisins", categoryName: "Rosinen", image: "/uploads/category-raisins.png", shortDescription: "Exportbereite Rosinenlinien in goldenen, braunen und dunklen Sorten f\xFCr Gro\xDFhandelskunden.", variantSummary: "Golden, Sultana, Soyaki, Black-Red", url: "/products" },
+        { categoryKey: "dried-apricot", categoryName: "Getrocknete Aprikosen", image: "/uploads/category-apricots.png", shortDescription: "Sonnengetrocknete Aprikosen f\xFCr Retail, S\xFC\xDFwaren und gemischte Container.", variantSummary: "Subhana 3-4, Subhana 4-5, Subhana Confectioner", url: "/products" },
+        { categoryKey: "prunes", categoryName: "Trockenpflaumen", image: "/uploads/category-prunes.png", shortDescription: "Kalibrierte Trockenpflaumen mit entsteinten und nicht entsteinten Optionen.", variantSummary: "Spain, Hungarian Unpitted, Ashlock", url: "/products" },
+        { categoryKey: "peanuts", categoryName: "Erdn\xFCsse", image: "/uploads/category-peanuts.png", shortDescription: "Sortierte Erdn\xFCsse f\xFCr Lebensmittelproduktion, Handel und weitere K\xE4uferanforderungen.", variantSummary: "In der Schale, gesch\xE4lt, Vogelfutter", url: "/products" }
+      ],
+      exportMarketsEyebrow: "Vertriebskan\xE4le",
+      exportMarketsTitle: "Vorbereitet f\xFCr die Art, wie Ihr Gesch\xE4ft verkauft",
+      exportMarketsIntro: "Unterschiedliche K\xE4ufer brauchen unterschiedliche Verpackung, Dokumentation und Produktaufbereitung. Wir bereiten usbekische Trockenfr\xFCchte f\xFCr Retail, Gro\xDFhandel, Lebensmittelindustrie und Private Label vor.",
+      exportMarkets: normalizeHomeBuyerChannels([], "de")
+    };
+  }
+  if (pageId === "about" && isGermanLocale(locale)) {
+    return {
+      heroBgImage: "",
+      marqueeTitle: "Globale Partner & Produktion",
+      heroSubtitle: "Qualit\xE4t und Tradition, weiterentwickelt f\xFCr den modernen Handel.",
+      productionMarqueeImages: [],
+      partnerLogos: [],
+      partnerSectionLabel: "Zertifizierte Qualit\xE4t & verl\xE4ssliche Partner",
+      aboutTrustItems: [
+        { key: "fda", label: "FDA-registriert", visible: true },
+        { key: "haccp", label: "HACCP-zertifiziert", visible: true },
+        { key: "iso", label: "ISO 9001:2015", visible: true },
+        { key: "organic", label: "100 % Bio", visible: true },
+        { key: "globalgap", label: "GlobalGAP", visible: true }
+      ],
+      companyEyebrow: "\xDCber das Unternehmen",
+      heritageTitle: "Unsere Wurzeln an der Seidenstra\xDFe",
+      heritageSubtitle: "Qualit\xE4t und Tradition, weiterentwickelt f\xFCr den modernen Handel.",
+      whoWeAreContent: "<p>HQ Dried Fruits ist tief in der landwirtschaftlichen St\xE4rke Zentralasiens verwurzelt und wurde rund um langfristige Obstgartenbeziehungen, kontrollierte Verarbeitung und exportf\xE4hige Abl\xE4ufe aufgebaut.</p><p>Unser Team begleitet Anbau, Sortierung, Verpackung und Versandvorbereitung, damit K\xE4ufer nicht mit fragmentierter Beschaffung arbeiten m\xFCssen.</p><p>Aus lokaler Agrarerfahrung ist ein k\xE4uferorientierter Exportbetrieb entstanden, der die Anforderungen von Importeuren, Distributoren und Private-Label-Partnern versteht.</p>",
+      heritageStats: [
+        { boxNumber: "01", title: "Obstgarten-Kontrolle", description: "Direkte Abstimmung entlang der Ernte- und Qualit\xE4tsanforderungen." },
+        { boxNumber: "02", title: "Laser-Sortierung", description: "Moderne Verarbeitungslinien f\xFCr exportf\xE4hige Reinheit." }
+      ],
+      heritageImagery: [],
+      missionTitle: "Unsere Mission",
+      missionStatement: "<p>Unsere Mission ist es, die nat\xFCrliche Fruchtqualit\xE4t Usbekistans mit der Verl\xE4sslichkeit des modernen Gro\xDFhandels zu verbinden.</p><p>Daf\xFCr kombinieren wir Erntewissen, Lebensmittelsicherheit, Exportdokumentation und k\xE4uferspezifische Verpackungsstandards.</p>",
+      philosophyTitle: "Herkunft & Philosophie",
+      orchardPhilosophyEyebrow: "Philosophie",
+      orchardPhilosophyTitle: "Obstgarten-Philosophie",
+      orchardPhilosophy: "Starke Exportversorgung beginnt lange vor dem finalen Karton: mit Ernteverst\xE4ndnis, disziplinierten Kontrollen und Systemen, denen K\xE4ufer vertrauen k\xF6nnen.",
+      productionStandardsTitle: "Produktionsstandards",
+      productionStandards: "Unsere Produktionsstandards sind auf Exportbereitschaft ausgelegt: kontrollierter Wareneingang, kalibrierte Sortierung, Lebensmittelsicherheit und k\xE4uferspezifische Verpackungsformate.",
+      missionPhotography: "https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?q=80&w=2000",
+      missionNarrativeEyebrow: "Mission",
+      missionNarrativeTitle: "Was unser Anbauen, Verarbeiten und Liefern leitet",
+      missionNarrativeSublabel: "Ein klarer Blick auf Mission, Herkunft, Philosophie und Standards des Unternehmens.",
+      facilityEyebrow: "In der Produktion",
+      ownProductionTitle: "Eigene Produktion",
+      ownProductionIntro: "Vom Wareneingang bis zur finalen Exportverpackung steuern wir jeden Produktionsschritt selbst.",
+      ownProductionItems: normalizeAboutProductionItems([], "de")
+    };
+  }
+  return {};
 }
 function buildLocalePath2(locale, pathname = "/") {
   const normalizedPath = normalizePathname(pathname);
@@ -137049,6 +137782,7 @@ function normalizeFlexiblePageContent(pageId, content, locale = "en") {
   }
   if (pageId === "home") {
     next.exportMarkets = normalizeHomeBuyerChannels(next.exportMarkets, normalizeLocale(locale));
+    next.statsGrid = normalizeHomeStatsGrid(next.statsGrid, locale);
   }
   return next;
 }
@@ -137057,6 +137791,340 @@ function isPlainRecord(value) {
 }
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value ?? null));
+}
+function serializeSeedValue(value) {
+  if (value === null || value === void 0) return "";
+  if (Array.isArray(value) || typeof value === "object" && value !== null) return JSON.stringify(value);
+  return value;
+}
+function normalizeSeedComparable(value) {
+  const serialized = serializeSeedValue(value);
+  if (typeof serialized !== "string") return String(serialized);
+  const trimmed = serialized.trim();
+  if (!trimmed) return "";
+  try {
+    return JSON.stringify(JSON.parse(trimmed));
+  } catch {
+    return trimmed;
+  }
+}
+function shouldSeedDbValue(current, legacyDefault) {
+  const currentComparable = normalizeSeedComparable(current);
+  if (!currentComparable || currentComparable === "[]" || currentComparable === "{}") return true;
+  return legacyDefault !== void 0 && currentComparable === normalizeSeedComparable(legacyDefault);
+}
+async function fillSeedColumns(conn, tableName, whereClause, whereParams, columns) {
+  const [rows] = await conn.execute(`SELECT * FROM ${tableName} WHERE ${whereClause} LIMIT 1`, whereParams);
+  const row = Array.isArray(rows) ? rows[0] : void 0;
+  if (!row) return;
+  const updates = Object.entries(columns).filter(([column, config]) => shouldSeedDbValue(row[column], config.legacy)).map(([column, config]) => ({ column, value: serializeSeedValue(config.value) }));
+  if (!updates.length) return;
+  await conn.execute(
+    `UPDATE ${tableName} SET ${updates.map((update) => `${update.column} = ?`).join(", ")} WHERE ${whereClause}`,
+    [...updates.map((update) => update.value), ...whereParams]
+  );
+}
+function buildSeedColumns(fallback, legacy, mappings) {
+  return Object.fromEntries(
+    mappings.map(([column, key]) => [column, { value: fallback[key], legacy: legacy[key] }])
+  );
+}
+function getGermanProductSeed(row) {
+  const id3 = asString(row?.id);
+  const categoryKey = isProductCategoryKey(asString(row?.category_key)) ? asString(row?.category_key) : resolveProductCategoryKey(`${asString(row?.category)} ${asString(row?.name)}`);
+  const normalizedKey = id3.includes("mixed") ? "mixed" : categoryKey || "dried-apricot";
+  const tonnageOptions = ["1-5 Tonnen", "5-20 Tonnen", "1 FCL (20 ft)", "Mehrere FCL"];
+  const defaults = {
+    "dried-apricot": {
+      name: "Sonnengetrocknete Aprikosen",
+      category: "Getrocknete Aprikosen",
+      shortDescription: "Nat\xFCrlich s\xFC\xDFe Aprikosen aus Usbekistan f\xFCr Gro\xDFhandel, Retail-Verpackung und Lebensmittelproduktion.",
+      longDescription: "<p>Sonnengetrocknete Aprikosen aus Usbekistan werden f\xFCr ihre konzentrierte S\xFC\xDFe, ihr klares Fruchtprofil und ihre flexible Nutzung gesch\xE4tzt.</p><p>Wir bereiten Aprikosenlinien mit kontrollierter Feuchtigkeit, Sortierung und k\xE4uferspezifischer Verpackung f\xFCr wiederkehrende Programme vor.</p>",
+      highlights: ["Herkunft Usbekistan", "Goldene und naturbelassene Qualit\xE4ten", "Gro\xDFhandelskartons und Private Label", "Kontrollierte Feuchtigkeit und Gr\xF6\xDFen"],
+      sections: [
+        { title: "F\xFCr Eink\xE4ufer", body: "<p>Geeignet f\xFCr Distributoren, Retail-Marken, S\xFC\xDFwarenhersteller und Zutatenk\xE4ufer mit Bedarf an verl\xE4sslicher Aprikosenversorgung.</p>" },
+        { title: "Verarbeitung & Qualit\xE4t", body: "<p>Die Fr\xFCchte werden nach Gr\xF6\xDFe, Erscheinungsbild und Feuchtigkeitsprofil sortiert, bevor sie nach K\xE4uferanforderung verpackt werden.</p>" },
+        { title: "Verpackung", body: "<p>Lieferbar in Gro\xDFkartons, Foodservice-Formaten und Private-Label-Verpackungen.</p>" }
+      ],
+      inquiry: "Gro\xDFhandelsanfrage: Sonnengetrocknete Aprikosen",
+      seo: { metaTitle: "Sonnengetrocknete Aprikosen aus Usbekistan | HQ Dried Fruits", metaDescription: "Exportbereite getrocknete Aprikosen aus Usbekistan mit Gro\xDFhandelsverpackung, Sortierung und Dokumenten.", slug: id3 || "sun-dried-apricots", ogTitle: "Sonnengetrocknete Aprikosen", imageAlt: "Sonnengetrocknete Aprikosen aus Usbekistan" }
+    },
+    raisins: {
+      name: "Schwarze Rosinen",
+      category: "Rosinen",
+      shortDescription: "S\xFC\xDFe Rosinen aus Usbekistan f\xFCr Retail, B\xE4ckereien, Zutatenprogramme und gemischte Container.",
+      longDescription: "<p>Schwarze Rosinen aus Usbekistan verbinden nat\xFCrliche S\xFC\xDFe, dunkle Farbe und praktische Vielseitigkeit f\xFCr Gro\xDFhandelskunden.</p><p>Sie eignen sich f\xFCr Retail-Regale, Backwaren, S\xFC\xDFwaren, M\xFCsli und Foodservice-Programme.</p>",
+      highlights: ["Nat\xFCrliche S\xFC\xDFe", "F\xFCr Retail und Zutaten", "Stabile Sortierung", "Geeignet f\xFCr gemischte Container"],
+      sections: [
+        { title: "F\xFCr Eink\xE4ufer", body: "<p>Ausgelegt f\xFCr Importeure und Marken, die verl\xE4ssliches Rosinenvolumen mit klarer Exportdokumentation ben\xF6tigen.</p>" },
+        { title: "Verarbeitung & Qualit\xE4t", body: "<p>Rosinen werden gereinigt, sortiert und auf Feuchtigkeit sowie Fremdmaterial gepr\xFCft.</p>" },
+        { title: "Verpackung", body: "<p>Gro\xDFkartons und k\xE4uferspezifische Verpackungsformate sind f\xFCr Gro\xDFhandelsprogramme verf\xFCgbar.</p>" }
+      ],
+      inquiry: "Gro\xDFhandelsanfrage: Schwarze Rosinen",
+      seo: { metaTitle: "Schwarze Rosinen aus Usbekistan im Gro\xDFhandel | HQ Dried Fruits", metaDescription: "Usbekische schwarze Rosinen f\xFCr Retail, B\xE4ckereien, Zutatenprogramme und Export-Gro\xDFhandel.", slug: id3 || "black-raisins", ogTitle: "Schwarze Rosinen", imageAlt: "Schwarze Rosinen aus Usbekistan" }
+    },
+    prunes: {
+      name: "Entsteinte Trockenpflaumen",
+      category: "Trockenpflaumen",
+      shortDescription: "Weiche Trockenpflaumen mit und ohne Stein f\xFCr Gro\xDFhandel, Retail und Lebensmittelproduktion.",
+      longDescription: "<p>Unsere Trockenpflaumenlinien sind f\xFCr K\xE4ufer vorbereitet, die weiche Textur, stabile Feuchtigkeit und flexible Verpackungsformate brauchen.</p><p>Formate mit und ohne Stein unterst\xFCtzen Retail, Foodservice und Zutatenprogramme.</p>",
+      highlights: ["Mit und ohne Stein verf\xFCgbar", "Weiche Textur", "Feuchtigkeitskontrollierte Verpackung", "Retail- und Foodservice-Formate"],
+      sections: [
+        { title: "F\xFCr Eink\xE4ufer", body: "<p>Trockenpflaumen passen zu gesundheitsorientiertem Retail, Backf\xFCllungen, Foodservice und Zutatenbeschaffung.</p>" },
+        { title: "Verarbeitung & Qualit\xE4t", body: "<p>Die Ware wird nach Textur, Feuchtigkeit und Steinkontrolle entsprechend dem gew\xE4hlten Format gepr\xFCft.</p>" },
+        { title: "Verpackung", body: "<p>Gro\xDFhandelskartons und k\xE4uferspezifische Verpackung k\xF6nnen f\xFCr Zielmarktanforderungen vorbereitet werden.</p>" }
+      ],
+      inquiry: "Gro\xDFhandelsanfrage: Entsteinte Trockenpflaumen",
+      seo: { metaTitle: "Entsteinte Trockenpflaumen aus Usbekistan | HQ Dried Fruits", metaDescription: "Trockenpflaumen mit und ohne Stein f\xFCr Gro\xDFhandel, Retail und Zutatenversorgung.", slug: id3 || "pitted-prunes", ogTitle: "Entsteinte Trockenpflaumen", imageAlt: "Entsteinte Trockenpflaumen" }
+    },
+    peanuts: {
+      name: "Erdn\xFCsse",
+      category: "Erdn\xFCsse",
+      shortDescription: "Erdnusslinien f\xFCr Gro\xDFhandel, Verarbeitung, Snackprogramme und gemischte Container.",
+      longDescription: "<p>Erdn\xFCsse werden f\xFCr K\xE4ufer vorbereitet, die stabile Qualit\xE4t, klare Verpackungsoptionen und wiederholbare Lieferungen ben\xF6tigen.</p><p>Die Linien eignen sich f\xFCr Weiterverarbeitung, Snackprogramme und Gro\xDFhandelsdistribution.</p>",
+      highlights: ["Gro\xDFhandelsf\xE4hige Ware", "F\xFCr Verarbeitung und Snacks", "Flexible Verpackung", "Wiederkehrende Programme"],
+      sections: [
+        { title: "F\xFCr Eink\xE4ufer", body: "<p>Geeignet f\xFCr Distributoren, Verarbeiter und Marken mit Bedarf an planbarer Erdnussversorgung.</p>" },
+        { title: "Verarbeitung & Qualit\xE4t", body: "<p>Die Ware wird nach Format, Reinheit und K\xE4uferanforderungen gepr\xFCft.</p>" },
+        { title: "Verpackung", body: "<p>Verpackung und Kennzeichnung werden passend zum Zielmarkt abgestimmt.</p>" }
+      ],
+      inquiry: "Gro\xDFhandelsanfrage: Erdn\xFCsse",
+      seo: { metaTitle: "Erdn\xFCsse im Gro\xDFhandel | HQ Dried Fruits", metaDescription: "Erdn\xFCsse f\xFCr Gro\xDFhandel, Verarbeitung, Snackprogramme und Exportlieferungen.", slug: id3 || "peanuts", ogTitle: "Erdn\xFCsse", imageAlt: "Erdn\xFCsse" }
+    },
+    mixed: {
+      name: "Trockenfrucht-Mischung",
+      category: "Sortimente",
+      shortDescription: "K\xE4uferfertige Mischungen aus Aprikosen, Rosinen, Trockenpflaumen und weiteren Trockenfr\xFCchten.",
+      longDescription: "<p>Trockenfrucht-Mischungen helfen K\xE4ufern, mehrere usbekische Produktlinien in einem praktischen Programm zu kombinieren.</p><p>Mischungen k\xF6nnen f\xFCr Retail-Packs, Foodservice, Geschenkformate oder gemischte Container aufgebaut werden.</p>",
+      highlights: ["Individuelle Mischungen", "Retail- und Foodservice-Formate", "Programme f\xFCr gemischte Container", "Flexible Etikettierung"],
+      sections: [
+        { title: "F\xFCr Eink\xE4ufer", body: "<p>Ideal f\xFCr Importeure und Marken, die mehrere Trockenfruchtlinien in einer k\xE4uferfertigen L\xF6sung b\xFCndeln m\xF6chten.</p>" },
+        { title: "Mischungsplanung", body: "<p>Sortimente k\xF6nnen nach Fruchtart, Gr\xF6\xDFe, Farbe, S\xFC\xDFeprofil und Verpackungsformat zusammengestellt werden.</p>" },
+        { title: "Verpackung", body: "<p>Verf\xFCgbar f\xFCr Retail-Packs, Foodservice-Kartons, Private Label und Promotion-Formate.</p>" }
+      ],
+      inquiry: "Gro\xDFhandelsanfrage: Trockenfrucht-Mischung",
+      seo: { metaTitle: "Trockenfrucht-Mischungen aus Usbekistan | HQ Dried Fruits", metaDescription: "K\xE4uferfertige Trockenfrucht-Sortimente mit Aprikosen, Rosinen, Trockenpflaumen und gemischten Packs.", slug: id3 || "mixed-dried-fruits", ogTitle: "Trockenfrucht-Mischung", imageAlt: "Trockenfrucht-Mischung" }
+    }
+  };
+  const copy = defaults[normalizedKey] || defaults["dried-apricot"];
+  return {
+    ...copy,
+    categoryKey: categoryKey || null,
+    status: asString(row?.status, "Active"),
+    image: asString(row?.image),
+    imageGallery: safeParseJson(row?.image_gallery, []),
+    nutrition: safeParseJson(row?.nutrition, { energy: "", protein: "", fat: "", carbs: "" }),
+    tonnageOptions,
+    displayOrder: Number.isFinite(Number(row?.display_order)) ? Number(row?.display_order) : null,
+    technicalPassport: row?.technical_passport ?? null
+  };
+}
+function mergeGermanFlexibleDefaults(pageId, existingContent, legacyContent = {}) {
+  const defaults = getDefaultFlexiblePageContent(pageId, "de");
+  const existing = isPlainRecord(existingContent) ? { ...existingContent } : {};
+  const legacy = isPlainRecord(legacyContent) ? legacyContent : {};
+  const merged = { ...defaults, ...existing };
+  for (const [key, value] of Object.entries(defaults)) {
+    if (shouldSeedDbValue(existing[key], legacy[key])) merged[key] = value;
+  }
+  if (pageId === "home") {
+    merged.exportMarkets = normalizeHomeBuyerChannels(Array.isArray(existing.exportMarkets) ? existing.exportMarkets : [], "de");
+  }
+  if (pageId === "about") {
+    merged.ownProductionItems = normalizeAboutProductionItems(Array.isArray(existing.ownProductionItems) ? existing.ownProductionItems : [], "de");
+  }
+  return normalizeFlexiblePageContent(pageId, merged, "de");
+}
+async function seedGermanDefaults(conn) {
+  console.log("[DB Startup] Seeding German locale defaults...");
+  const germanGlobal = getDefaultGlobalSettings("de");
+  const englishGlobal = getDefaultGlobalSettings("en");
+  await fillSeedColumns(conn, "global_settings", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanGlobal, englishGlobal, [
+    ["site_name", "siteName"],
+    ["nav_links", "navLinks"],
+    ["cta_text", "ctaText"],
+    ["cta_url", "ctaUrl"],
+    ["footer_description", "footerDescription"],
+    ["footer_lead_text", "footerLeadText"],
+    ["quick_links", "quickLinks"],
+    ["office_address", "officeAddress"],
+    ["phone_number", "phoneNumber"],
+    ["email_address", "emailAddress"],
+    ["telegram_url", "telegramUrl"],
+    ["footer_cta_title", "footerCtaTitle"],
+    ["footer_cta_email", "footerCtaEmail"],
+    ["footer_copyright_text", "footerCopyrightText"],
+    ["ui_labels", "uiLabels"],
+    ["google_site_verification_id", "googleSiteVerificationId"]
+  ]));
+  const germanProductsPage = getDefaultProductsPage("de");
+  const englishProductsPage = getDefaultProductsPage("en");
+  await fillSeedColumns(conn, "products_page", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanProductsPage, englishProductsPage, [
+    ["page_title", "pageTitle"],
+    ["page_subtitle", "pageSubtitle"],
+    ["intro_eyebrow", "introEyebrow"],
+    ["intro_title", "introTitle"],
+    ["intro_content", "introContent"],
+    ["intro_facts", "introFacts"],
+    ["catalog_eyebrow", "catalogEyebrow"],
+    ["catalog_title", "catalogTitle"],
+    ["ordering_form_title", "orderingFormTitle"],
+    ["ordering_form_subtitle", "orderingFormSubtitle"],
+    ["step_one_label", "stepOneLabel"],
+    ["step_two_label", "stepTwoLabel"],
+    ["step_three_label", "stepThreeLabel"],
+    ["mixed_container_label", "mixedContainerLabel"],
+    ["volume_options", "volumeOptions"],
+    ["view_specs_label", "viewSpecsLabel"],
+    ["step_one_placeholder", "stepOnePlaceholder"],
+    ["step_three_placeholder", "stepThreePlaceholder"],
+    ["next_step_button_label", "nextStepButtonLabel"],
+    ["back_button_label", "backButtonLabel"],
+    ["submit_button_label", "submitButtonLabel"],
+    ["submitting_button_label", "submittingButtonLabel"],
+    ["detail_ui", "detailUi"],
+    ["quick_contact_title", "quickContactTitle"],
+    ["quick_contact_subtitle", "quickContactSubtitle"],
+    ["telegram_label", "telegramLabel"],
+    ["telegram_sublabel", "telegramSublabel"],
+    ["call_label", "callLabel"],
+    ["email_label", "emailLabel"],
+    ["quick_phone", "quickPhone"],
+    ["quick_email", "quickEmail"]
+  ]));
+  const germanExportPage = getDefaultExportPage("de");
+  const englishExportPage = getDefaultExportPage("en");
+  await fillSeedColumns(conn, "export_page", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanExportPage, englishExportPage, [
+    ["hero_title", "heroTitle"],
+    ["hero_subtitle", "heroSubtitle"],
+    ["operations_eyebrow", "operationsEyebrow"],
+    ["destination_eyebrow", "destinationEyebrow"],
+    ["map_section_title", "mapSectionTitle"],
+    ["supply_routes", "supplyRoutes"],
+    ["logistics_content", "logisticsContent"],
+    ["packaging_title", "packagingTitle"],
+    ["packaging_methods", "packagingMethods"],
+    ["transportation_title", "transportationTitle"],
+    ["transportation_methods", "transportationMethods"],
+    ["documentation_title", "documentationTitle"],
+    ["documentation_content", "documentationContent"],
+    ["quality_title", "qualityTitle"],
+    ["technical_specs", "technicalSpecs"],
+    ["quality_checks", "qualityChecks"],
+    ["certifications_gallery", "certificationsGallery"]
+  ]));
+  const germanContactsPage = getDefaultContactsPage("de");
+  const englishContactsPage = getDefaultContactsPage("en");
+  await fillSeedColumns(conn, "contacts_page", "id = 1 AND lang = ?", ["de"], buildSeedColumns(germanContactsPage, englishContactsPage, [
+    ["page_title", "pageTitle"],
+    ["intro_text", "introText"],
+    ["direct_contact_eyebrow", "directContactEyebrow"],
+    ["form_destination_email", "formDestinationEmail"],
+    ["contact_form_title", "contactFormTitle"],
+    ["response_label_prefix", "responseLabelPrefix"],
+    ["form_name_label", "formNameLabel"],
+    ["form_company_label", "formCompanyLabel"],
+    ["form_email_label", "formEmailLabel"],
+    ["form_message_label", "formMessageLabel"],
+    ["submit_button_label", "submitButtonLabel"],
+    ["submitting_button_label", "submittingButtonLabel"],
+    ["email", "emailAddress"],
+    ["phone", "phoneNumber"],
+    ["office_address", "officeAddress"],
+    ["working_hours", "workingHours"],
+    ["map_pin_label", "mapPinLabel"],
+    ["info_email_label", "infoEmailLabel"],
+    ["info_phone_label", "infoPhoneLabel"],
+    ["info_address_label", "infoAddressLabel"],
+    ["info_hours_label", "infoHoursLabel"],
+    ["social_section_title", "socialSectionTitle"],
+    ["telegram_url", "telegramUrl"],
+    ["instagram_url", "instagramUrl"],
+    ["whatsapp_url", "whatsappUrl"],
+    ["facebook_url", "facebookUrl"],
+    ["google_maps_url", "googleMapsUrl"]
+  ]));
+  for (const pageId of Object.keys(pageContentTables)) {
+    const tableName = pageContentTables[pageId];
+    const [rows] = await conn.execute(`SELECT lang, content FROM ${tableName} WHERE id = 1 AND lang IN (?, ?)`, ["de", "en"]);
+    const contentRows = Array.isArray(rows) ? rows : [];
+    const germanRow = contentRows.find((candidate) => asString(candidate.lang) === "de");
+    const englishRow = contentRows.find((candidate) => asString(candidate.lang) === "en");
+    const existingContent = safeParseJson(germanRow?.content, {});
+    const legacyContent = safeParseJson(englishRow?.content, {});
+    const nextContent = mergeGermanFlexibleDefaults(pageId, existingContent, legacyContent);
+    if (shouldSeedDbValue(germanRow?.content) || normalizeSeedComparable(nextContent) !== normalizeSeedComparable(existingContent)) {
+      await conn.execute(`UPDATE ${tableName} SET content = ? WHERE id = 1 AND lang = ?`, [JSON.stringify(nextContent), "de"]);
+    }
+  }
+  const germanSeo = getDefaultPageSeoMap("de");
+  const englishSeo = getDefaultPageSeoMap("en");
+  for (const pageId of Object.keys(germanSeo)) {
+    await conn.execute("INSERT IGNORE INTO page_seo (page_id, lang) VALUES (?, ?)", [pageId, "de"]);
+    await fillSeedColumns(conn, "page_seo", "page_id = ? AND lang = ?", [pageId, "de"], {
+      meta_title: { value: germanSeo[pageId].metaTitle, legacy: englishSeo[pageId].metaTitle },
+      meta_description: { value: germanSeo[pageId].metaDescription, legacy: englishSeo[pageId].metaDescription },
+      slug: { value: germanSeo[pageId].slug, legacy: englishSeo[pageId].slug },
+      og_title: { value: germanSeo[pageId].ogTitle, legacy: englishSeo[pageId].ogTitle },
+      image_alt: { value: germanSeo[pageId].imageAlt, legacy: englishSeo[pageId].imageAlt }
+    });
+  }
+  const [englishProductRows] = await conn.execute("SELECT * FROM products WHERE lang = ? ORDER BY COALESCE(display_order, 9999), id", ["en"]);
+  for (const row of Array.isArray(englishProductRows) ? englishProductRows : []) {
+    const productId = asString(row?.id);
+    if (!productId) continue;
+    const germanProduct = getGermanProductSeed(row);
+    await conn.execute(
+      `INSERT IGNORE INTO products (id, lang, name, category_key, category, status, image, image_gallery, short_description, long_description, highlights, content_sections, nutrition, inquiry_subject_line, tonnage_options, seo, display_order, technical_passport) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        productId,
+        "de",
+        germanProduct.name,
+        germanProduct.categoryKey,
+        germanProduct.category,
+        germanProduct.status,
+        germanProduct.image,
+        JSON.stringify(germanProduct.imageGallery),
+        germanProduct.shortDescription,
+        germanProduct.longDescription,
+        JSON.stringify(germanProduct.highlights),
+        JSON.stringify(germanProduct.sections),
+        JSON.stringify(germanProduct.nutrition),
+        germanProduct.inquiry,
+        JSON.stringify(germanProduct.tonnageOptions),
+        JSON.stringify(germanProduct.seo),
+        germanProduct.displayOrder,
+        germanProduct.technicalPassport
+      ]
+    );
+    await fillSeedColumns(conn, "products", "id = ? AND lang = ?", [productId, "de"], {
+      name: { value: germanProduct.name, legacy: row.name },
+      category_key: { value: germanProduct.categoryKey, legacy: row.category_key },
+      category: { value: germanProduct.category, legacy: row.category },
+      short_description: { value: germanProduct.shortDescription, legacy: row.short_description },
+      long_description: { value: germanProduct.longDescription, legacy: row.long_description },
+      highlights: { value: germanProduct.highlights, legacy: row.highlights },
+      content_sections: { value: germanProduct.sections, legacy: row.content_sections },
+      inquiry_subject_line: { value: germanProduct.inquiry, legacy: row.inquiry_subject_line },
+      tonnage_options: { value: germanProduct.tonnageOptions, legacy: row.tonnage_options },
+      seo: { value: germanProduct.seo, legacy: row.seo }
+    });
+  }
+}
+async function seedHomeStatsDefaults(conn) {
+  const [rows] = await conn.execute("SELECT lang, content FROM home_page WHERE id = 1");
+  const homeRows = Array.isArray(rows) ? rows : [];
+  for (const locale of activeLocales) {
+    const row = homeRows.find((candidate) => asString(candidate.lang, "en") === locale);
+    const existingContent = safeParseJson(row?.content, {});
+    const content = isPlainRecord(existingContent) ? { ...existingContent } : {};
+    const nextStatsGrid = normalizeHomeStatsGrid(content.statsGrid, locale);
+    if (normalizeSeedComparable(content.statsGrid) === normalizeSeedComparable(nextStatsGrid)) continue;
+    await conn.execute(
+      "UPDATE home_page SET content = ? WHERE id = 1 AND lang = ?",
+      [JSON.stringify({ ...content, statsGrid: nextStatsGrid }), locale]
+    );
+  }
 }
 function getPathValue(source, pathValue) {
   return pathValue.split(".").reduce((current, segment) => current?.[segment], source);
@@ -137466,6 +138534,7 @@ async function getGlobalSettings(locale = "en") {
   const res = await db.query("SELECT * FROM global_settings WHERE id = 1");
   const targetRow = res.rows.find((row) => asString(row?.lang, "en") === resolvedLocale) || {};
   return mapGlobalSettings({
+    lang: resolvedLocale,
     ...targetRow,
     header_logo: pickSharedMediaField(res.rows, "header_logo", targetRow?.header_logo),
     footer_logo: pickSharedMediaField(res.rows, "footer_logo", targetRow?.footer_logo)
@@ -137473,6 +138542,7 @@ async function getGlobalSettings(locale = "en") {
 }
 async function getPageSeo(locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
+  const fallbackSeo = getDefaultPageSeoMap(resolvedLocale);
   const res = await db.query("SELECT * FROM page_seo WHERE lang = $1", [resolvedLocale]);
   const seoByPage = res.rows.reduce((acc, row) => {
     const pageId = asString(row.page_id);
@@ -137480,7 +138550,7 @@ async function getPageSeo(locale = "en") {
     return acc;
   }, {});
   for (const pageId of Object.keys(defaultPageSeo)) {
-    if (!seoByPage[pageId]) seoByPage[pageId] = defaultPageSeo[pageId];
+    if (!seoByPage[pageId]) seoByPage[pageId] = fallbackSeo[pageId];
   }
   return seoByPage;
 }
@@ -137500,7 +138570,7 @@ async function findProductRowByIdentifier(identifier, locale = "en") {
   return preferredRow ? mergeProductSharedMedia(preferredRow, matches) : null;
 }
 function mapSeoRecord(row, pageId) {
-  const fallback = defaultPageSeo[pageId];
+  const fallback = getDefaultPageSeoMap(asString(row?.lang, "en"))[pageId];
   return {
     metaTitle: asString(row?.meta_title, fallback.metaTitle),
     metaDescription: asString(row?.meta_description, fallback.metaDescription),
@@ -137543,64 +138613,66 @@ function mapProduct(row) {
   };
 }
 function mapGlobalSettings(row) {
+  const fallback = getDefaultGlobalSettings(asString(row?.lang, "en"));
   return {
-    headerLogo: asString(row?.header_logo, defaultGlobalSettings.headerLogo),
-    favicon: asString(row?.favicon, defaultGlobalSettings.favicon),
-    siteName: asString(row?.site_name, defaultGlobalSettings.siteName),
-    navLinks: safeParseJson(row?.nav_links, defaultGlobalSettings.navLinks),
-    ctaText: asString(row?.cta_text, defaultGlobalSettings.ctaText),
-    ctaUrl: asString(row?.cta_url, defaultGlobalSettings.ctaUrl),
-    footerLogo: asString(row?.footer_logo, defaultGlobalSettings.footerLogo),
-    footerDescription: asString(row?.footer_description, defaultGlobalSettings.footerDescription),
-    footerLeadText: asString(row?.footer_lead_text, defaultGlobalSettings.footerLeadText),
-    quickLinks: safeParseJson(row?.quick_links, defaultGlobalSettings.quickLinks),
-    officeAddress: asString(row?.office_address, defaultGlobalSettings.officeAddress),
-    phoneNumber: asString(row?.phone_number, defaultGlobalSettings.phoneNumber),
-    emailAddress: asString(row?.email_address, defaultGlobalSettings.emailAddress),
-    telegramUrl: asString(row?.telegram_url, defaultGlobalSettings.telegramUrl),
-    footerCtaTitle: asString(row?.footer_cta_title, defaultGlobalSettings.footerCtaTitle),
-    footerCtaEmail: asString(row?.footer_cta_email, defaultGlobalSettings.footerCtaEmail),
-    footerCopyrightText: asString(row?.footer_copyright_text, defaultGlobalSettings.footerCopyrightText),
-    uiLabels: { ...defaultGlobalSettings.uiLabels, ...safeParseJson(row?.ui_labels, defaultGlobalSettings.uiLabels) },
-    googleSiteVerificationId: asString(row?.google_site_verification_id, defaultGlobalSettings.googleSiteVerificationId)
+    headerLogo: asString(row?.header_logo, fallback.headerLogo),
+    favicon: asString(row?.favicon, fallback.favicon),
+    siteName: asString(row?.site_name, fallback.siteName),
+    navLinks: safeParseJson(row?.nav_links, fallback.navLinks),
+    ctaText: asString(row?.cta_text, fallback.ctaText),
+    ctaUrl: asString(row?.cta_url, fallback.ctaUrl),
+    footerLogo: asString(row?.footer_logo, fallback.footerLogo),
+    footerDescription: asString(row?.footer_description, fallback.footerDescription),
+    footerLeadText: asString(row?.footer_lead_text, fallback.footerLeadText),
+    quickLinks: safeParseJson(row?.quick_links, fallback.quickLinks),
+    officeAddress: asString(row?.office_address, fallback.officeAddress),
+    phoneNumber: asString(row?.phone_number, fallback.phoneNumber),
+    emailAddress: asString(row?.email_address, fallback.emailAddress),
+    telegramUrl: asString(row?.telegram_url, fallback.telegramUrl),
+    footerCtaTitle: asString(row?.footer_cta_title, fallback.footerCtaTitle),
+    footerCtaEmail: asString(row?.footer_cta_email, fallback.footerCtaEmail),
+    footerCopyrightText: asString(row?.footer_copyright_text, fallback.footerCopyrightText),
+    uiLabels: { ...fallback.uiLabels, ...safeParseJson(row?.ui_labels, fallback.uiLabels) },
+    googleSiteVerificationId: asString(row?.google_site_verification_id, fallback.googleSiteVerificationId)
   };
 }
 function mapProductsPage(row) {
+  const fallback = getDefaultProductsPage(asString(row?.lang, "en"));
   return {
-    pageTitle: asString(row?.page_title, defaultProductsPage.pageTitle),
-    pageSubtitle: asString(row?.page_subtitle, defaultProductsPage.pageSubtitle),
-    heroBgImage: asString(row?.hero_bg_image, defaultProductsPage.heroBgImage),
-    introEyebrow: asString(row?.intro_eyebrow, defaultProductsPage.introEyebrow),
-    introTitle: asString(row?.intro_title, defaultProductsPage.introTitle),
-    introContent: asContentString(row?.intro_content, defaultProductsPage.introContent),
-    introImage: asString(row?.intro_image, defaultProductsPage.introImage),
-    introFacts: safeParseJson(row?.intro_facts, defaultProductsPage.introFacts),
-    catalogEyebrow: asString(row?.catalog_eyebrow, defaultProductsPage.catalogEyebrow),
-    catalogTitle: asString(row?.catalog_title, defaultProductsPage.catalogTitle),
-    orderingBgImage: asString(row?.ordering_bg_image, defaultProductsPage.orderingBgImage),
-    orderingFormTitle: asString(row?.ordering_form_title, defaultProductsPage.orderingFormTitle),
-    orderingFormSubtitle: asString(row?.ordering_form_subtitle, defaultProductsPage.orderingFormSubtitle),
-    stepOneLabel: asString(row?.step_one_label, defaultProductsPage.stepOneLabel),
-    stepTwoLabel: asString(row?.step_two_label, defaultProductsPage.stepTwoLabel),
-    stepThreeLabel: asString(row?.step_three_label, defaultProductsPage.stepThreeLabel),
-    mixedContainerLabel: asString(row?.mixed_container_label, defaultProductsPage.mixedContainerLabel),
-    volumeOptions: safeParseJson(row?.volume_options, defaultProductsPage.volumeOptions),
-    viewSpecsLabel: asString(row?.view_specs_label, defaultProductsPage.viewSpecsLabel),
-    stepOnePlaceholder: asString(row?.step_one_placeholder, defaultProductsPage.stepOnePlaceholder),
-    stepThreePlaceholder: asString(row?.step_three_placeholder, defaultProductsPage.stepThreePlaceholder),
-    nextStepButtonLabel: asString(row?.next_step_button_label, defaultProductsPage.nextStepButtonLabel),
-    backButtonLabel: asString(row?.back_button_label, defaultProductsPage.backButtonLabel),
-    submitButtonLabel: asString(row?.submit_button_label, defaultProductsPage.submitButtonLabel),
-    submittingButtonLabel: asString(row?.submitting_button_label, defaultProductsPage.submittingButtonLabel),
-    detailUi: { ...defaultProductsPage.detailUi, ...safeParseJson(row?.detail_ui, defaultProductsPage.detailUi) },
-    quickContactTitle: asString(row?.quick_contact_title, defaultProductsPage.quickContactTitle),
-    quickContactSubtitle: asString(row?.quick_contact_subtitle, defaultProductsPage.quickContactSubtitle),
-    telegramLabel: asString(row?.telegram_label, defaultProductsPage.telegramLabel),
-    telegramSublabel: asString(row?.telegram_sublabel, defaultProductsPage.telegramSublabel),
-    callLabel: asString(row?.call_label, defaultProductsPage.callLabel),
-    emailLabel: asString(row?.email_label, defaultProductsPage.emailLabel),
-    quickPhone: asString(row?.quick_phone, defaultProductsPage.quickPhone),
-    quickEmail: asString(row?.quick_email, defaultProductsPage.quickEmail)
+    pageTitle: asString(row?.page_title, fallback.pageTitle),
+    pageSubtitle: asString(row?.page_subtitle, fallback.pageSubtitle),
+    heroBgImage: asString(row?.hero_bg_image, fallback.heroBgImage),
+    introEyebrow: asString(row?.intro_eyebrow, fallback.introEyebrow),
+    introTitle: asString(row?.intro_title, fallback.introTitle),
+    introContent: asContentString(row?.intro_content, fallback.introContent),
+    introImage: asString(row?.intro_image, fallback.introImage),
+    introFacts: safeParseJson(row?.intro_facts, fallback.introFacts),
+    catalogEyebrow: asString(row?.catalog_eyebrow, fallback.catalogEyebrow),
+    catalogTitle: asString(row?.catalog_title, fallback.catalogTitle),
+    orderingBgImage: asString(row?.ordering_bg_image, fallback.orderingBgImage),
+    orderingFormTitle: asString(row?.ordering_form_title, fallback.orderingFormTitle),
+    orderingFormSubtitle: asString(row?.ordering_form_subtitle, fallback.orderingFormSubtitle),
+    stepOneLabel: asString(row?.step_one_label, fallback.stepOneLabel),
+    stepTwoLabel: asString(row?.step_two_label, fallback.stepTwoLabel),
+    stepThreeLabel: asString(row?.step_three_label, fallback.stepThreeLabel),
+    mixedContainerLabel: asString(row?.mixed_container_label, fallback.mixedContainerLabel),
+    volumeOptions: safeParseJson(row?.volume_options, fallback.volumeOptions),
+    viewSpecsLabel: asString(row?.view_specs_label, fallback.viewSpecsLabel),
+    stepOnePlaceholder: asString(row?.step_one_placeholder, fallback.stepOnePlaceholder),
+    stepThreePlaceholder: asString(row?.step_three_placeholder, fallback.stepThreePlaceholder),
+    nextStepButtonLabel: asString(row?.next_step_button_label, fallback.nextStepButtonLabel),
+    backButtonLabel: asString(row?.back_button_label, fallback.backButtonLabel),
+    submitButtonLabel: asString(row?.submit_button_label, fallback.submitButtonLabel),
+    submittingButtonLabel: asString(row?.submitting_button_label, fallback.submittingButtonLabel),
+    detailUi: { ...fallback.detailUi, ...safeParseJson(row?.detail_ui, fallback.detailUi) },
+    quickContactTitle: asString(row?.quick_contact_title, fallback.quickContactTitle),
+    quickContactSubtitle: asString(row?.quick_contact_subtitle, fallback.quickContactSubtitle),
+    telegramLabel: asString(row?.telegram_label, fallback.telegramLabel),
+    telegramSublabel: asString(row?.telegram_sublabel, fallback.telegramSublabel),
+    callLabel: asString(row?.call_label, fallback.callLabel),
+    emailLabel: asString(row?.email_label, fallback.emailLabel),
+    quickPhone: asString(row?.quick_phone, fallback.quickPhone),
+    quickEmail: asString(row?.quick_email, fallback.quickEmail)
   };
 }
 function normalizeLegacyExportText(value, fallback, legacyValues) {
@@ -137610,67 +138682,69 @@ function normalizeLegacyExportText(value, fallback, legacyValues) {
 }
 function mapExportPage(row) {
   const locale = normalizeLocale(asString(row?.lang, "en"));
-  const destinationEyebrow = asString(row?.destination_eyebrow, defaultExportPage.destinationEyebrow);
-  const mapSectionTitle = asString(row?.map_section_title, defaultExportPage.mapSectionTitle);
+  const fallback = getDefaultExportPage(locale);
+  const destinationEyebrow = asString(row?.destination_eyebrow, fallback.destinationEyebrow);
+  const mapSectionTitle = asString(row?.map_section_title, fallback.mapSectionTitle);
   return {
-    heroTitle: asString(row?.hero_title, defaultExportPage.heroTitle),
-    heroSubtitle: asString(row?.hero_subtitle, defaultExportPage.heroSubtitle),
-    heroBgImage: asString(row?.hero_bg_image, defaultExportPage.heroBgImage),
-    operationsImage: asString(row?.operations_image, defaultExportPage.operationsImage),
-    operationsEyebrow: asString(row?.operations_eyebrow, defaultExportPage.operationsEyebrow),
-    destinationEyebrow: normalizeLegacyExportText(destinationEyebrow, defaultExportPage.destinationEyebrow, ["Export Geography"]),
-    mapSectionTitle: normalizeLegacyExportText(mapSectionTitle, defaultExportPage.mapSectionTitle, ["Our Global Export Network"]),
-    supplyRoutes: normalizeSupplyRoutes(safeParseJson(row?.supply_routes, defaultExportPage.supplyRoutes), locale),
-    logisticsContent: asContentString(row?.logistics_content, defaultExportPage.logisticsContent),
-    packagingTitle: asContentString(row?.packaging_title, defaultExportPage.packagingTitle),
-    packagingMethods: asContentString(row?.packaging_methods, defaultExportPage.packagingMethods),
-    transportationTitle: asContentString(row?.transportation_title, defaultExportPage.transportationTitle),
-    transportationMethods: asContentString(row?.transportation_methods, defaultExportPage.transportationMethods),
-    documentationTitle: asContentString(row?.documentation_title, defaultExportPage.documentationTitle),
-    documentationContent: asContentString(row?.documentation_content, defaultExportPage.documentationContent),
-    qualityTitle: asContentString(row?.quality_title, defaultExportPage.qualityTitle),
-    technicalSpecs: asContentString(row?.technical_specs, defaultExportPage.technicalSpecs),
-    qualityChecks: safeParseJson(row?.quality_checks, defaultExportPage.qualityChecks),
-    certificationsGallery: safeParseJson(row?.certifications_gallery, defaultExportPage.certificationsGallery)
+    heroTitle: asString(row?.hero_title, fallback.heroTitle),
+    heroSubtitle: asString(row?.hero_subtitle, fallback.heroSubtitle),
+    heroBgImage: asString(row?.hero_bg_image, fallback.heroBgImage),
+    operationsImage: asString(row?.operations_image, fallback.operationsImage),
+    operationsEyebrow: asString(row?.operations_eyebrow, fallback.operationsEyebrow),
+    destinationEyebrow: normalizeLegacyExportText(destinationEyebrow, fallback.destinationEyebrow, ["Export Geography"]),
+    mapSectionTitle: normalizeLegacyExportText(mapSectionTitle, fallback.mapSectionTitle, ["Our Global Export Network"]),
+    supplyRoutes: normalizeSupplyRoutes(safeParseJson(row?.supply_routes, fallback.supplyRoutes), locale),
+    logisticsContent: asContentString(row?.logistics_content, fallback.logisticsContent),
+    packagingTitle: asContentString(row?.packaging_title, fallback.packagingTitle),
+    packagingMethods: asContentString(row?.packaging_methods, fallback.packagingMethods),
+    transportationTitle: asContentString(row?.transportation_title, fallback.transportationTitle),
+    transportationMethods: asContentString(row?.transportation_methods, fallback.transportationMethods),
+    documentationTitle: asContentString(row?.documentation_title, fallback.documentationTitle),
+    documentationContent: asContentString(row?.documentation_content, fallback.documentationContent),
+    qualityTitle: asContentString(row?.quality_title, fallback.qualityTitle),
+    technicalSpecs: asContentString(row?.technical_specs, fallback.technicalSpecs),
+    qualityChecks: safeParseJson(row?.quality_checks, fallback.qualityChecks),
+    certificationsGallery: safeParseJson(row?.certifications_gallery, fallback.certificationsGallery)
   };
 }
 function mapContactsPage(row) {
+  const fallback = getDefaultContactsPage(asString(row?.lang, "en"));
   return {
-    pageTitle: asString(row?.page_title, defaultContactsPage.pageTitle),
-    introText: asString(row?.intro_text, defaultContactsPage.introText),
-    directContactEyebrow: asString(row?.direct_contact_eyebrow, defaultContactsPage.directContactEyebrow),
-    formDestinationEmail: asString(row?.form_destination_email, defaultContactsPage.formDestinationEmail),
-    contactFormTitle: asString(row?.contact_form_title, defaultContactsPage.contactFormTitle),
-    responseLabelPrefix: asString(row?.response_label_prefix, defaultContactsPage.responseLabelPrefix),
-    formNameLabel: asString(row?.form_name_label, defaultContactsPage.formNameLabel),
-    formCompanyLabel: asString(row?.form_company_label, defaultContactsPage.formCompanyLabel),
-    formEmailLabel: asString(row?.form_email_label, defaultContactsPage.formEmailLabel),
-    formMessageLabel: asString(row?.form_message_label, defaultContactsPage.formMessageLabel),
-    submitButtonLabel: asString(row?.submit_button_label, defaultContactsPage.submitButtonLabel),
-    submittingButtonLabel: asString(row?.submitting_button_label, defaultContactsPage.submittingButtonLabel),
-    emailAddress: asString(row?.email, defaultContactsPage.emailAddress),
-    phoneNumber: asString(row?.phone, defaultContactsPage.phoneNumber),
-    officeAddress: asString(row?.office_address, defaultContactsPage.officeAddress),
-    workingHours: asString(row?.working_hours, defaultContactsPage.workingHours),
-    mapPinLabel: asString(row?.map_pin_label, defaultContactsPage.mapPinLabel),
-    infoEmailLabel: asString(row?.info_email_label, defaultContactsPage.infoEmailLabel),
-    infoPhoneLabel: asString(row?.info_phone_label, defaultContactsPage.infoPhoneLabel),
-    infoAddressLabel: asString(row?.info_address_label, defaultContactsPage.infoAddressLabel),
-    infoHoursLabel: asString(row?.info_hours_label, defaultContactsPage.infoHoursLabel),
-    socialSectionTitle: asString(row?.social_section_title, defaultContactsPage.socialSectionTitle),
-    telegramUrl: asString(row?.telegram_url, defaultContactsPage.telegramUrl),
-    instagramUrl: asString(row?.instagram_url, defaultContactsPage.instagramUrl),
-    whatsappUrl: asString(row?.whatsapp_url, defaultContactsPage.whatsappUrl),
-    facebookUrl: asString(row?.facebook_url, defaultContactsPage.facebookUrl),
-    headquartersImage: asString(row?.headquarters_image, defaultContactsPage.headquartersImage),
-    googleMapsUrl: asString(row?.google_maps_url, defaultContactsPage.googleMapsUrl)
+    pageTitle: asString(row?.page_title, fallback.pageTitle),
+    introText: asString(row?.intro_text, fallback.introText),
+    directContactEyebrow: asString(row?.direct_contact_eyebrow, fallback.directContactEyebrow),
+    formDestinationEmail: asString(row?.form_destination_email, fallback.formDestinationEmail),
+    contactFormTitle: asString(row?.contact_form_title, fallback.contactFormTitle),
+    responseLabelPrefix: asString(row?.response_label_prefix, fallback.responseLabelPrefix),
+    formNameLabel: asString(row?.form_name_label, fallback.formNameLabel),
+    formCompanyLabel: asString(row?.form_company_label, fallback.formCompanyLabel),
+    formEmailLabel: asString(row?.form_email_label, fallback.formEmailLabel),
+    formMessageLabel: asString(row?.form_message_label, fallback.formMessageLabel),
+    submitButtonLabel: asString(row?.submit_button_label, fallback.submitButtonLabel),
+    submittingButtonLabel: asString(row?.submitting_button_label, fallback.submittingButtonLabel),
+    emailAddress: asString(row?.email, fallback.emailAddress),
+    phoneNumber: asString(row?.phone, fallback.phoneNumber),
+    officeAddress: asString(row?.office_address, fallback.officeAddress),
+    workingHours: asString(row?.working_hours, fallback.workingHours),
+    mapPinLabel: asString(row?.map_pin_label, fallback.mapPinLabel),
+    infoEmailLabel: asString(row?.info_email_label, fallback.infoEmailLabel),
+    infoPhoneLabel: asString(row?.info_phone_label, fallback.infoPhoneLabel),
+    infoAddressLabel: asString(row?.info_address_label, fallback.infoAddressLabel),
+    infoHoursLabel: asString(row?.info_hours_label, fallback.infoHoursLabel),
+    socialSectionTitle: asString(row?.social_section_title, fallback.socialSectionTitle),
+    telegramUrl: asString(row?.telegram_url, fallback.telegramUrl),
+    instagramUrl: asString(row?.instagram_url, fallback.instagramUrl),
+    whatsappUrl: asString(row?.whatsapp_url, fallback.whatsappUrl),
+    facebookUrl: asString(row?.facebook_url, fallback.facebookUrl),
+    headquartersImage: asString(row?.headquarters_image, fallback.headquartersImage),
+    googleMapsUrl: asString(row?.google_maps_url, fallback.googleMapsUrl)
   };
 }
 async function readContentTable(pageId, locale = "en") {
   const resolvedLocale = normalizeLocale(locale);
   const res = await db.query(`SELECT lang, content FROM ${pageContentTables[pageId]} WHERE id = 1`);
   const row = res.rows.find((candidate) => asString(candidate?.lang, "en") === resolvedLocale);
-  const fallback = pageId === "privacy" || pageId === "terms" ? defaultSimplePages[pageId] : {};
+  const fallback = getDefaultFlexiblePageContent(pageId, resolvedLocale);
   const targetContent = normalizeFlexiblePageContent(pageId, safeParseJson(row?.content, fallback), resolvedLocale);
   const config = sharedMediaConfigs[pageId];
   const contents = res.rows.map((candidate) => ({
@@ -137874,7 +138948,7 @@ async function resolveLocaleProductPath(pathname, pageSeo, fallbackLocale = "en"
 }
 async function validatePageSeoInput(pageId, payload, locale = "en") {
   const currentSeo = await getPageSeo(locale);
-  const fallback = defaultPageSeo[pageId];
+  const fallback = getDefaultPageSeoMap(locale)[pageId];
   const nextSeo = {
     metaTitle: asString(payload.metaTitle, fallback.metaTitle),
     metaDescription: asString(payload.metaDescription, fallback.metaDescription),
@@ -138885,10 +139959,10 @@ if (import_fs.default.existsSync(distDir)) {
       res.setHeader("Pragma", "no-cache");
       res.setHeader("Expires", "0");
       const appHtml = (0, import_server.renderToString)(
-        import_react78.default.createElement(
+        import_react79.default.createElement(
           import_server2.StaticRouter,
           { location: req.originalUrl },
-          import_react78.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
+          import_react79.default.createElement(AppShell, { initialData: meta.bootstrapData ?? null })
         )
       );
       const html = renderHtmlWithSeo(getIndexTemplate(), { ...meta, appHtml });

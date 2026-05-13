@@ -17,7 +17,7 @@ const fs = require("fs");
 const path = require("path");
 const mysql = require("mysql2/promise");
 
-const ACTIVE_LOCALES = ["en", "fr", "nl", "es", "pt"];
+const ACTIVE_LOCALES = ["en", "de", "fr", "nl", "es", "pt"];
 const PRODUCT_IDS = ["sun-dried-apricots", "black-raisins", "pitted-prunes", "mixed-dried-fruits"];
 
 const args = new Set(process.argv.slice(2));
