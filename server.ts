@@ -1515,17 +1515,23 @@ function mergeMixedImageArray(sourceItems: unknown, targetItems: unknown) {
   const existingItems = Array.isArray(targetItems) ? targetItems : [];
   if (!Array.isArray(sourceItems)) return existingItems;
 
-  return existingItems.map((existingItem, index) => {
+  const itemCount = Math.max(existingItems.length, sourceItems.length);
+  return Array.from({ length: itemCount }, (_, index) => {
+    const sourceItem = sourceItems[index];
+    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
+      return existingItems[index];
+    }
+
+    if (index >= existingItems.length) {
+      return { ...(sourceItem as Record<string, unknown>) };
+    }
+
+    const existingItem = existingItems[index];
     if (!existingItem || typeof existingItem !== "object" || Array.isArray(existingItem)) {
       return existingItem;
     }
 
     const base = { ...(existingItem as Record<string, unknown>) };
-    const sourceItem = sourceItems[index];
-    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
-      return base;
-    }
-
     const sharedImage = asString((sourceItem as any).image);
     if (sharedImage) base.image = sharedImage;
     return base;

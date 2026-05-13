@@ -138237,15 +138237,20 @@ function hasSharedMedia(content, config) {
 function mergeMixedImageArray(sourceItems, targetItems) {
   const existingItems = Array.isArray(targetItems) ? targetItems : [];
   if (!Array.isArray(sourceItems)) return existingItems;
-  return existingItems.map((existingItem, index) => {
+  const itemCount = Math.max(existingItems.length, sourceItems.length);
+  return Array.from({ length: itemCount }, (_, index) => {
+    const sourceItem = sourceItems[index];
+    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
+      return existingItems[index];
+    }
+    if (index >= existingItems.length) {
+      return { ...sourceItem };
+    }
+    const existingItem = existingItems[index];
     if (!existingItem || typeof existingItem !== "object" || Array.isArray(existingItem)) {
       return existingItem;
     }
     const base = { ...existingItem };
-    const sourceItem = sourceItems[index];
-    if (!sourceItem || typeof sourceItem !== "object" || Array.isArray(sourceItem)) {
-      return base;
-    }
     const sharedImage = asString(sourceItem.image);
     if (sharedImage) base.image = sharedImage;
     return base;
