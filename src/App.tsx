@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 
 import { FrontPage } from "./pages/FrontPage";
@@ -10,13 +10,6 @@ import { Privacy } from "./pages/Privacy";
 import { Terms } from "./pages/Terms";
 import { LocaleSelectorPage } from "./pages/LocaleSelector";
 import { ProductDetail } from "./pages/ProductDetail";
-import { AdminLayout } from "./components/layout/AdminLayout";
-import { Dashboard } from "./pages/admin/Dashboard";
-import { AdminPages } from "./pages/admin/Pages";
-import { AdminLeads } from "./pages/admin/Leads";
-import { AdminSeoSettings } from "./pages/admin/SeoSettings";
-import { AdminGlobalSettings } from "./pages/admin/GlobalSettings";
-import { AdminMedia } from "./pages/admin/Media";
 import { ProductProvider, useProducts } from "./contexts/ProductContext";
 import { PageProvider, usePages } from "./contexts/PageContext";
 import { MediaProvider } from "./contexts/MediaContext";
@@ -28,6 +21,14 @@ import { Button } from "./components/ui/Button";
 import { Loader2 } from "lucide-react";
 import { getManagedPagePath, normalizePath, parseLocalePath, resolveManagedProductPath, resolveStaticPageByPath } from "./lib/routes";
 import { PublicBootstrapPayload } from "./types/bootstrap";
+
+const AdminLayout = lazy(() => import("./components/layout/AdminLayout").then((module) => ({ default: module.AdminLayout })));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard").then((module) => ({ default: module.Dashboard })));
+const AdminPages = lazy(() => import("./pages/admin/Pages").then((module) => ({ default: module.AdminPages })));
+const AdminLeads = lazy(() => import("./pages/admin/Leads").then((module) => ({ default: module.AdminLeads })));
+const AdminSeoSettings = lazy(() => import("./pages/admin/SeoSettings").then((module) => ({ default: module.AdminSeoSettings })));
+const AdminGlobalSettings = lazy(() => import("./pages/admin/GlobalSettings").then((module) => ({ default: module.AdminGlobalSettings })));
+const AdminMedia = lazy(() => import("./pages/admin/Media").then((module) => ({ default: module.AdminMedia })));
 
 function RouteLoading() {
   const { t } = useLanguage();
@@ -83,6 +84,16 @@ function FaviconUpdater() {
   }, [faviconUrl]);
 
   return null;
+}
+
+function AdminRouteShell() {
+  return (
+    <MediaProvider>
+      <Suspense fallback={<RouteLoading />}>
+        <AdminLayout />
+      </Suspense>
+    </MediaProvider>
+  );
 }
 
 function PublicRouteResolver() {
@@ -143,29 +154,27 @@ export function AppShell({ initialData }: { initialData?: PublicBootstrapPayload
   return (
     <ErrorBoundary>
       <LanguageProvider>
-        <MediaProvider>
-          <PageProvider initialData={initialData}>
-            <ProductProvider initialData={initialData}>
-              <FaviconUpdater />
-              <ScrollToTop />
-              <Routes>
-                <Route path="/control-room" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path="products" element={<Navigate to="/control-room/pages" replace />} />
-                  <Route path="pages" element={<AdminPages />} />
-                  <Route path="leads" element={<AdminLeads />} />
-                  <Route path="media" element={<AdminMedia />} />
-                  <Route path="seo" element={<AdminSeoSettings />} />
-                  <Route path="globals" element={<AdminGlobalSettings />} />
-                </Route>
-                <Route
-                  path="*"
-                  element={<PublicRouteResolver />}
-                />
-              </Routes>
-            </ProductProvider>
-          </PageProvider>
-        </MediaProvider>
+        <PageProvider initialData={initialData}>
+          <ProductProvider initialData={initialData}>
+            <FaviconUpdater />
+            <ScrollToTop />
+            <Routes>
+              <Route path="/control-room" element={<AdminRouteShell />}>
+                <Route index element={<Dashboard />} />
+                <Route path="products" element={<Navigate to="/control-room/pages" replace />} />
+                <Route path="pages" element={<AdminPages />} />
+                <Route path="leads" element={<AdminLeads />} />
+                <Route path="media" element={<AdminMedia />} />
+                <Route path="seo" element={<AdminSeoSettings />} />
+                <Route path="globals" element={<AdminGlobalSettings />} />
+              </Route>
+              <Route
+                path="*"
+                element={<PublicRouteResolver />}
+              />
+            </Routes>
+          </ProductProvider>
+        </PageProvider>
       </LanguageProvider>
     </ErrorBoundary>
   );

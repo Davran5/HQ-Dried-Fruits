@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import compression from "compression";
 import express, { Request } from "express";
 import path from "path";
 import multer from "multer";
@@ -17,6 +18,14 @@ dotenv.config();
 
 const uploadsDir = path.join(process.cwd(), "public", "uploads");
 const distDir = path.join(process.cwd(), "dist");
+const fontStylesheetHref = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap";
+const fontResourceHints = [
+  '<link rel="preconnect" href="https://fonts.googleapis.com" />',
+  '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />',
+  `<link rel="preload" as="style" href="${fontStylesheetHref}" />`,
+  `<link rel="stylesheet" href="${fontStylesheetHref}" media="print" onload="this.media='all'" />`,
+  `<noscript><link rel="stylesheet" href="${fontStylesheetHref}" /></noscript>`,
+];
 
 const parseDbPort = (value?: string) => {
   const port = Number.parseInt(value || "3306", 10);
@@ -1790,6 +1799,7 @@ async function replaceUploadedUrlReferences(oldUrl: string, newUrl: string) {
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 const app = express();
+app.use(compression());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use((req, res, next) => {
@@ -2454,6 +2464,9 @@ function renderHtmlWithSeo(template: string, meta: RenderMeta) {
   }
 
   html = html.replace("</head>", `  ${tags.join("\n  ")}\n</head>`);
+  if (!html.includes(fontStylesheetHref)) {
+    html = html.replace("</head>", `  ${fontResourceHints.join("\n  ")}\n</head>`);
+  }
 
   if (typeof meta.appHtml === "string") {
     html = html.replace('<div id="root"></div>', `<div id="root">${meta.appHtml}</div>`);

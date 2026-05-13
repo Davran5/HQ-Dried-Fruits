@@ -216,6 +216,9 @@ export function FrontPage() {
                         src={content.heroBgImage || "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2000"}
                         alt="Hero Background"
                         className="h-full w-full object-cover"
+                        fetchPriority="high"
+                        loading="eager"
+                        decoding="async"
                         referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-earth-900/80 via-earth-900/40 to-transparent" />
